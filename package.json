@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "PORT=3009 next dev",
+    "build": "PORT=3009 next build",
+    "start": "PORT=3009 next start",
+    "lint": "next lint",
+    "winDev": "SET PORT=3002 && next dev",
+    "winStart": "SET PORT=3002 && next start"
   },
   "dependencies": {
     "react": "^18",
