@@ -3,8 +3,8 @@ export const APP_ENV = (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || 
 
 export const pageType = (pathurl:any) => {
     console.log(">>>",pathurl)
-    if (pathurl.indexOf("mywatchlist") != -1) {
-      return "mywatchlist";
+    if (pathurl.indexOf("watchlist") != -1) {
+      return "watchlist";
     } else {
       return "notfound";
     }

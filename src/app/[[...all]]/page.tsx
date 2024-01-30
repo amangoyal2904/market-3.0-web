@@ -1,7 +1,7 @@
 import { headers, cookies } from 'next/headers';
 import Service from "../../network/service";
 import APIS_CONFIG from "../../network/config.json";
-import MyWatchlist from "../../containers/MyWatchlist"
+import Watchlist from "../../containers/Watchlist"
 import Layout from '../../components/Layout';
 import React, { Suspense } from 'react';
 import { pageType } from '@/utils';
@@ -32,7 +32,7 @@ export default async function Page({ params, searchParams }: {
   console.log("Page???",page);
   return <Layout page={page} dynamicFooterData={dynamicFooterData} menuData={menuData} objVc={versionControl} data={response}>      
     <Suspense fallback={<p>Loading...</p>}>
-        {page == "notfound" ? <NotFound/> : <MyWatchlist {...response} objVc={versionControl} />}
+        {page == "notfound" ? <NotFound/> : <Watchlist {...response} objVc={versionControl} />}
     </Suspense>
   </Layout>
   ;
