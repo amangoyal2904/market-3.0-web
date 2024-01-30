@@ -1,0 +1,36 @@
+.defaultLink{
+  color: #2B74E3;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.loginSpace{
+  width: 50px;
+}
+
+.menuWrap{
+  position: relative;
+  cursor: pointer;
+  .userName{
+    display: inline-block;
+    padding: 5px 0;
+  }
+  .menuListWrap{
+    width: 200px;
+    position: absolute;
+    top: 15px;
+    border: 1px solid;
+    right: 0;
+    display: none;
+    background: #fff;
+    span{
+      display: block;
+      padding: 10px 5px;
+    }
+  }
+  &:hover{
+    .menuListWrap{
+      display: block;
+    }
+  }
+}
