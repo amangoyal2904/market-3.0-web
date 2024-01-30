@@ -1,0 +1,97 @@
+@import "./variables.scss";
+
+// .container {
+//   max-width: 1003px;
+//   margin: 0 auto;
+// }
+
+.hdAdContainer {
+  max-width: 100vw;
+  overflow: auto;
+  text-align: center;
+  margin-top: 10px;
+  min-height: 50px;
+}
+.footerAd {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+  text-align: center;
+  background-color: #fff;
+  max-height: 50px;
+}
+
+.mrecContainer {
+  text-align: center;
+  margin: 20px 0;
+  padding-bottom: 10px;
+  background: #f7f7f7;
+  min-height: 200px;
+  &:before {
+    content: "ADVERTISEMENT";
+    font-size: 11px;
+    font-weight: 300;
+    display: block;
+    padding: 10px 0;
+  }
+  .mrec {
+    display: inline-block;
+  }
+}
+
+.topAdContainer {
+  text-align: center;
+}
+.adContainer {
+  text-align: center;
+  margin: 10px 0;
+
+  > div {
+    display: inline-block;
+    border: 10px solid #f4f4f4;
+  }
+}
+
+#skinleft {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-left: calc((100% - 1003px) / 2 - -1004px);
+}
+
+.layout {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  width: 100%;
+  max-width: 1003px;
+  margin: 0 auto;
+
+  .pageContent {
+    width: 640px;
+  }
+
+  .sidebar {
+    width: 320px;
+  }
+}
+
+.flt{
+  float: left;
+}
+
+.flr{
+  float: right;
+}
+
+.dib{
+  display: inline-block;
+}
+
+.din{
+  display: inline;
+}
+
+.body{font-size: 12px; font-family: $Montserrat-font-family;}
