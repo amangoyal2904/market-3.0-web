@@ -1,0 +1,46 @@
+.tabsWrap{
+    display: flex;
+    border-bottom: solid 1px #CDCDCD;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    .tabsList{
+        margin:0;
+        padding:0;
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        column-gap: 10px;
+        li{
+            font-family: Montserrat;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal; 
+            cursor: pointer;
+        }
+        li.active{
+            font-weight: 700; 
+        }
+    }
+}
+.rightSide{
+    margin:0;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 10px;
+    align-items: center;
+    .btnStock{
+        cursor: pointer;
+    }
+    .roundBtn{
+        cursor: pointer;
+        border-radius: 100px;
+        border: 1px solid #000; 
+        font-family: Montserrat;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600; 
+        padding:5px 10px;
+    }
+}
