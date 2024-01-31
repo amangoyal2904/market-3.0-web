@@ -1,4 +1,3 @@
-
 declare var ssoWidget: any;
 
 export const APP_ENV = (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || "production";
@@ -36,13 +35,14 @@ export const pageType = (pathurl:any) => {
     window?.jsso?.getValidLoggedInUser(function (response: any) {
       if(response.status == 'SUCCESS') {
         console.log("SUCCESS");
-        const verifyLoginSuccess = new Event("verifyLoginSuccess");
-        document.dispatchEvent(verifyLoginSuccess);
         setUserData();
       }else{
         console.log("failure")
         ssoLoginWidget();
       }
+
+      const verifyLoginStatus =  new Event(response.status == 'SUCCESS' ? "verifyLoginSuccess" : "verifyLoginFail");
+      document.dispatchEvent(verifyLoginStatus);
     });
   }
 
@@ -51,12 +51,12 @@ export const pageType = (pathurl:any) => {
       if(response.status == 'SUCCESS') {
         console.log("SUCCESS", response);
         window.objUser = response.data;
-
-        const getUserDetailsSuccess = new Event("getUserDetailsSuccess");
-        document.dispatchEvent(getUserDetailsSuccess);
       }else{
         console.log("failure")
       }
+
+      const getUserDetailsStatus =  new Event(response.status == 'SUCCESS' ? "getUserDetailsSuccess" : "getUserDetailsFail");
+      document.dispatchEvent(getUserDetailsStatus);
     });  
   }
 

@@ -68,7 +68,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
           window.jsso = new JssoCrosswalk('et', 'web');
           const jssoLoaded = new Event("jssoLoaded");
           document.dispatchEvent(jssoLoaded);
-          verifyLogin();
         }}
       />
       <Script id="geoinfo-call">

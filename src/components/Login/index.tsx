@@ -1,38 +1,64 @@
 import { useEffect, useState } from 'react';
 import styles from './Login.module.scss'
 import { APP_ENV, verifyLogin, initSSOWidget, logout } from "../../utils";
-
-interface IUser {
-  firstName?: string;
-  ssoid?: string;
-  primaryEmail?: string;
-}
+import { useStateContext } from "../../store/StateContext";
 
 const Login = () => {
-  const [isLogin, setIsLogin] = useState(false);
   const [ssoReady, setSsoReady] = useState(false);
-  const [userInfo, setUserInfo] = useState<IUser>({});
+  const { state, dispatch } = useStateContext();
+  const { isLogin, userInfo } = state.login;
 
   const verifyLoginSuccessCallback = () => {
-    setIsLogin(true);  
+    dispatch({
+      type: "LOGIN_SUCCESS",
+      payload: {
+        userInfo: window.objUser,
+        isLogin: true
+      }
+    });
   }
 
   const getUserDetailsSuccessCallback = () => {
-    setUserInfo(window.objUser || {});  
+    dispatch({
+      type: "LOGIN_SUCCESS",
+      payload: {
+        userInfo: window.objUser,
+        isLogin: true
+      }
+    });
+  }
+
+  const authFailCallback = () => {
+    dispatch({
+      type: "LOGOUT",
+      payload: {
+        userInfo: window.objUser,
+        isLogin: false,
+      }
+    });
   }
 
   const jssoLoadedCallback = () => {
-    verifyLogin();  
+    verifyLogin();
     setSsoReady(true);
   }
   
   useEffect(() => {
     document.addEventListener("jssoLoaded", jssoLoadedCallback);
+
     document.addEventListener("verifyLoginSuccess", verifyLoginSuccessCallback);
+    document.addEventListener("verifyLoginFail", authFailCallback);
+
     document.addEventListener("getUserDetailsSuccess", getUserDetailsSuccessCallback);
+    document.addEventListener("getUserDetailsFail", authFailCallback);
     return () => {
-      document.removeEventListener("verifyLoginSuccess", verifyLoginSuccessCallback);
-      document.addEventListener("getUserDetailsSuccess", getUserDetailsSuccessCallback);
+      document.removeEventListener("jssoLoaded", jssoLoadedCallback);
+
+      document.removeEventListener("verifyLoginStatus", verifyLoginSuccessCallback);
+      document.removeEventListener("verifyLoginFail", authFailCallback);
+
+      document.removeEventListener("getUserDetailsSuccess", getUserDetailsSuccessCallback);
+      document.removeEventListener("getUserDetailsFail", authFailCallback);
     };
 
   }, []);
@@ -51,7 +77,9 @@ const Login = () => {
       <div className={styles.defaultLink} data-ga-onclick="ET Login#Signin - Sign In - Click#ATF - url" onClick={handleLoginToggle}>Sign In</div>
       :
         <div className={styles.menuWrap}>
-          <span className={styles.userName}>{userInfo?.firstName}</span>
+          <span className={styles.userName}>
+            <img width="34" height="34" src={userInfo?.thumbImageUrl} />
+          </span>
           <div className={styles.menuListWrap}>
             <span onClick={logout}>Logout</span>
           </div>
