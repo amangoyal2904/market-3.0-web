@@ -1,0 +1,122 @@
+.tabsWrap{
+    display: flex;
+    border-bottom: solid 1px #CDCDCD;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    .tabsList{
+        margin:0;
+        padding:0;
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        column-gap: 10px;
+        li{
+            font-family: Montserrat;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 24px;
+            cursor: pointer;
+        }
+        li.active{
+            font-weight: 700; 
+            position: relative;
+            &::after{
+                content: "";
+                position: absolute;
+                left:0;
+                right:0;
+                bottom: -12px;
+                border-bottom: solid 1px #000000;
+            }
+        }
+    }
+}
+.rightSide{
+    margin:0;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 10px;
+    align-items: center;
+    .btnStock{
+        cursor: pointer;
+        color:#2B74E3;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600; 
+    }
+    .roundBtn{
+        cursor: pointer;
+        border-radius: 100px;
+        border: 1px solid #000; 
+        font-family: Montserrat;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600; 
+        padding:5px 10px;
+    }
+    .stockBtn{
+        border-right:solid 1px #000000;
+        padding-right:8px;
+    }
+    .stockModifyBtn{
+        position: relative;
+        padding-left: 14px;
+        &::after{
+            content: "";
+            position: absolute;
+            left: -2px;
+            top: 2px;
+            display: inline-block;
+            vertical-align: top;
+            width:10px;
+            height: 10px;
+            background: url('https://img.etimg.com/photo/msid-107279657,quality-100/editPancel.jpg') no-repeat 0 0;
+        }
+    }
+    .editBtnPencil{
+        position: relative;
+        padding-left: 30px;
+        &::after{
+            content: "";
+            display: inline-block;
+            vertical-align: top;
+            position: absolute;
+            left: 10px;
+            top: 4px;
+            background:url('https://img.etimg.com/photo/msid-107279926,quality-100/tableexit.jpg') no-repeat 0 0;
+            width:16px;
+            height: 16px;
+        }
+    }
+    .exportIcon{
+        position: relative;
+        padding-left: 30px;
+        padding-right: 26px;
+        &::after{
+            content: "";
+            display: inline-block;
+            vertical-align: top;
+            position: absolute;
+            left: 10px;
+            top: 4px;
+            background:url('https://img.etimg.com/photo/msid-107280025,quality-100/export.jpg') no-repeat 0 0;
+            width:16px;
+            height: 16px;
+        }
+        &::before{
+            content: "";
+            display: inline-block;
+            vertical-align: top;
+            position: absolute;
+            right:13px;
+            top:10px;
+            border-left: solid 5px transparent;
+            border-right:solid 5px transparent;
+            border-top:solid 5px #000;
+        }
+    }
+}
+// 

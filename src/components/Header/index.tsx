@@ -3,6 +3,7 @@ import React from 'react'
 import styles from './Header.module.scss'
 import Link from 'next/link';
 import Search from '../Search';
+import Login from '../Login';
 
 const Header = () => {
   return (
@@ -20,7 +21,7 @@ const Header = () => {
         <div className="dflex align-item-center">
           <Link className="default-btn" href="/watchlist">My Watchlist</Link>
           <Link className="default-btn" href="/plans.cms" data-ga-onclick="Subscription Flow#SYFT#ATF - url">Subscribe</Link>
-          <div className={styles.defaultLink} data-ga-onclick="ET Login#Signin - Sign In - Click#ATF - url">Sign In</div>
+          <Login />
         </div>
       </div>
     </header>
