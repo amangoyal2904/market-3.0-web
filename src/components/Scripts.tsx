@@ -4,13 +4,30 @@ import { log } from "console";
 import { useRouter, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { FC, useEffect } from "react";
-import { APP_ENV } from "../utils";
+import { APP_ENV, verifyLogin } from "../utils";
 
 
 interface Props {
   isprimeuser?: number | boolean;
   objVc?: object;
 }
+
+declare global {
+  interface Window {
+    jsso?: {
+      getValidLoggedInUser?: any;
+      getUserDetails?: any;
+      signOutUser?: any;
+    };
+    ssoWidget?: any;
+    verifyLoginSuccess?: any; 
+    objUser?: object;
+  }
+}
+
+declare var JssoCrosswalk: any;
+
+
 const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
 
   console.log({APP_ENV});
@@ -45,6 +62,15 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
           _comscore.push({ c1: "2", c2: "6036484" });
         `}
       </Script>
+      <Script
+        src="https://jssocdnstg.indiatimes.com/crosswalk_sdk/sdk/jsso_crosswalk_0.7.92.js"
+        onLoad={() => {
+          window.jsso = new JssoCrosswalk('et', 'web');
+          const jssoLoaded = new Event("jssoLoaded");
+          document.dispatchEvent(jssoLoaded);
+          verifyLogin();
+        }}
+      />
       <Script id="geoinfo-call">
         {`
         function getGeoInfo() {    

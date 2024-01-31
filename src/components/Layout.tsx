@@ -44,7 +44,10 @@ const Layout:FC<Props> = ({ page, dynamicFooterData, menuData, objVc, data, ispr
         <div className="layout">{children}</div>
         <Scripts objVc={objVc} isprimeuser={isprimeuser} />
         <Footer/>
-        </main>        
+        </main> 
+        <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
+            <div id="ssoLogin" className="ssoLoginElm"/>
+        </div>       
       </>
     );
 }
