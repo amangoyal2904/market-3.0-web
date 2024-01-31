@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React from 'react'
 import styles from './Header.module.scss'
 import Link from 'next/link';
+import Search from '../Search';
 import Login from '../Login';
 
 const Header = () => {
@@ -15,9 +16,7 @@ const Header = () => {
             height={24}
             alt="ET Markets"
             />
-            <div className="dflex" id={styles.searchBar}>
-              <input autoComplete="off" name="ticker_newsearch" className={styles.inputBox} placeholder="Search Stocks, News, Mutual Funds, Crypto etc..." type="text" />
-            </div>
+            <Search/>
         </div>        
         <div className="dflex align-item-center">
           <Link className="default-btn" href="/watchlist">My Watchlist</Link>
