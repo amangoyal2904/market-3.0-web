@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import styles from './Login.module.scss'
 import { APP_ENV, verifyLogin, initSSOWidget, logout } from "../../utils";
@@ -7,7 +9,7 @@ const Login = () => {
   const [ssoReady, setSsoReady] = useState(false);
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo } = state.login;
-
+  
   const verifyLoginSuccessCallback = () => {
     dispatch({
       type: "LOGIN_SUCCESS",
@@ -29,6 +31,7 @@ const Login = () => {
   }
 
   const authFailCallback = () => {
+    console.log("authFailCallback");
     dispatch({
       type: "LOGOUT",
       payload: {
@@ -44,7 +47,12 @@ const Login = () => {
   }
   
   useEffect(() => {
-    document.addEventListener("jssoLoaded", jssoLoadedCallback);
+    if (typeof window.jsso !== "undefined") {
+      jssoLoadedCallback();
+    }else{
+      document.addEventListener("jssoLoaded", jssoLoadedCallback);
+    }
+    
 
     document.addEventListener("verifyLoginSuccess", verifyLoginSuccessCallback);
     document.addEventListener("verifyLoginFail", authFailCallback);
@@ -73,17 +81,16 @@ const Login = () => {
 
   return <>
     {
-      ssoReady ? (!isLogin ? 
-      <div className={styles.defaultLink} data-ga-onclick="ET Login#Signin - Sign In - Click#ATF - url" onClick={handleLoginToggle}>Sign In</div>
-      :
+      ssoReady ? (isLogin ||  typeof window.objUser != "undefined" ? 
         <div className={styles.menuWrap}>
           <span className={styles.userName}>
-            <img width="34" height="34" src={userInfo?.thumbImageUrl} />
+            <img width="34" height="34" src={userInfo?.thumbImageUrl || window?.objUser?.thumbImageUrl} />
           </span>
           <div className={styles.menuListWrap}>
             <span onClick={logout}>Logout</span>
           </div>
         </div>
+      : <div className={styles.defaultLink} data-ga-onclick="ET Login#Signin - Sign In - Click#ATF - url" onClick={handleLoginToggle}>Sign In</div>  
       )
       : <div className={styles.loginSpace} />
     }
