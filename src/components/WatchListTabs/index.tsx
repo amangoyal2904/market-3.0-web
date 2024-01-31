@@ -1,16 +1,21 @@
+"use client";
+import { useState } from 'react';
+
 import styles from './WatchListTabs.module.scss';
 
 
 
 
 const WatchListTabs = ({data}:any) => {
+    const [stockModel, setStockModel] = useState(false);
+    //console.log('data',data)
     return (
       <div className={styles.tabsWrap}>
         <ul className={styles.tabsList}>
             {
                 data.map((item:any)=>{
                     return (
-                        <li key={item.name} className={ item.active ? styles.active : ""}>
+                        <li key={item.id} className={ item.active ? styles.active : ""}>
                             {item.name}
                         </li>
                     )
