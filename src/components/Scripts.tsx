@@ -21,7 +21,9 @@ declare global {
     };
     ssoWidget?: any;
     verifyLoginSuccess?: any; 
-    objUser?: object;
+    objUser?: {
+      thumbImageUrl: any;
+    };
   }
 }
 
