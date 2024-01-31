@@ -18,10 +18,10 @@ const WatchListTabs = ({data}:any) => {
             }
         </ul>
         <div className={styles.rightSide}>
-            <span className={styles.btnStock}>Add Stocks</span>
-            <span className={styles.btnStock}>Edit</span>
-            <span className={styles.roundBtn}>Personalise</span>
-            <span className={styles.roundBtn}>Export</span>
+            <span className={`${styles.btnStock} ${styles.stockBtn}`}>+ Add Stocks</span>
+            <span className={`${styles.btnStock} ${styles.stockModifyBtn}`}>Edit</span>
+            <span className={`${styles.roundBtn} ${styles.editBtnPencil}`}>Personalise</span>
+            <span className={`${styles.roundBtn} ${styles.exportIcon}`}>Export</span>
         </div>
       </div>
     )
