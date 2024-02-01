@@ -3,7 +3,13 @@ import { Reducer } from "react";
 
 interface LoginState {
   isLogin: boolean;
+  isPrime: boolean;
+  ssoReady: boolean;
   userInfo: any | null;
+  ssoid: any | null;
+  ticketId: any | null;
+  accessibleFeatures: any | null;
+  permissions: any | null;
   error: any | null;
 }
 
@@ -12,9 +18,31 @@ type LoginAction = { type: "LOGIN_SUCCESS"; payload: any } | { type: "LOGOUT"; p
 const loginReducer: Reducer<LoginState, LoginAction> = (state, action) => {
   switch (action.type) {
     case "LOGIN_SUCCESS":
-      return { ...state, isLogin: true, userInfo: action.payload.userInfo, error: null };
+      return { 
+        ...state, 
+        ssoReady: action.payload.ssoReady, 
+        isLogin: true,
+        isPrime: action.payload.isPrime,
+        ssoid: action.payload.ssoid, 
+        ticketId: action.payload.ticketId,  
+        userInfo: action.payload.userInfo,
+        accessibleFeatures: action.payload.accessibleFeatures,
+        permissions: action.payload.permissions, 
+        error: null 
+      };
     case "LOGOUT":
-      return { ...state, isLogin: false, userInfo: {}, error: null };
+      return { 
+        ...state, 
+        ssoReady: action.payload.ssoReady, 
+        isLogin: false, 
+        isPrime: false,
+        ssoid: "", 
+        ticketId: "", 
+        userInfo: {}, 
+        accessibleFeatures: [], 
+        permissions: [], 
+        error: null
+      };
     default:
       return state;
   }

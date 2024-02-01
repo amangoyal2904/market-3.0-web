@@ -21,8 +21,16 @@ declare global {
     };
     ssoWidget?: any;
     verifyLoginSuccess?: any; 
-    objUser?: {
-      thumbImageUrl: any;
+    objUser:  {
+      ssoid?: any;
+      ticketId?: any;
+      info?: {
+        thumbImageUrl: any;
+      };
+      isPrime?: any;
+      permissions?: any;
+      accessibleFeatures?:any;
+      primeInfo?: any;
     };
   }
 }

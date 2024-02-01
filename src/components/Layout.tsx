@@ -39,7 +39,7 @@ const Layout:FC<Props> = ({ page, dynamicFooterData, menuData, objVc, data, ispr
 
   return (
       <>
-      <StateProvider>
+      {/* <StateProvider> */}
         <Headers />
           <Header/>
           <main className={`pageHolder container`}>
@@ -50,7 +50,7 @@ const Layout:FC<Props> = ({ page, dynamicFooterData, menuData, objVc, data, ispr
           <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
               <div id="ssoLogin" className="ssoLoginElm"/>
           </div> 
-      </StateProvider>      
+      {/* </StateProvider>       */}
       </>
     );
 }

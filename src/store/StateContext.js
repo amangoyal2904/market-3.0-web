@@ -1,4 +1,6 @@
 // StateContext.js
+"use client";
+
 import React, { createContext, useContext, useReducer } from "react";
 import combineReducers from "./combinedReducers";
 import loginReducer from "../Reducers/loginReducer.ts";
@@ -7,6 +9,8 @@ const initialState = {
   login: {
     isLogin: false,
     userInfo: {},
+    ssoid: "",
+    ticketId: "",
     error: null
   }
 };
