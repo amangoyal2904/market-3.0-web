@@ -1,8 +1,51 @@
-declare var ssoWidget: any;
+import Service from "../network/service";
 
-export const APP_ENV = (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || "production";
+declare global {
+  interface Window {
+    geolocation: any;
+    customDimension: any;
+    geoinfo: any;
+    opera?: string;
+    MSStream?: string;
+  }
+  interface objUser {
+    info: {
+      isLogged: boolean;
+    };
+  }
+}
+  
+  declare var ssoWidget: any;
 
-export const pageType = (pathurl:any) => {
+  export const APP_ENV = (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || "production";
+
+  export const getCookie = (name: string) => {
+    try {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(";");
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    } catch (e) {
+      console.log("getCookie", e);
+    }
+  };
+
+  export const getMobileOS = () => {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera || "";
+    if (/android/i.test(userAgent)) {
+      return "Android";
+    }
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      return "iOS";
+    }
+    return "unknown";
+  };
+
+  export const pageType = (pathurl:any) => {
     console.log(">>>",pathurl)
     if (pathurl.indexOf("watchlist") != -1) {
       return "watchlist";
@@ -35,6 +78,10 @@ export const pageType = (pathurl:any) => {
     window?.jsso?.getValidLoggedInUser(function (response: any) {
       if(response.status == 'SUCCESS') {
         console.log("SUCCESS");
+
+        if(typeof window.objUser == "undefined") window.objUser = {};
+
+        window.objUser.ticketId = response.data.ticketId
         setUserData();
       }else{
         console.log("failure")
@@ -50,7 +97,8 @@ export const pageType = (pathurl:any) => {
     window?.jsso?.getUserDetails(function (response: any) {
       if(response.status == 'SUCCESS') {
         console.log("SUCCESS", response);
-        window.objUser = response.data;
+        window.objUser.info  = response.data
+        window.objUser.ssoid = response.data.ssoid;
       }else{
         console.log("failure")
       }
@@ -80,6 +128,13 @@ export const pageType = (pathurl:any) => {
           document.getElementsByTagName("head")[0].appendChild(sc);
       })(window, "https://jssocdnstg.indiatimes.com/crosswalk/156/widget/main.bundle.js","ssoWidget")
     }
+  }
+
+  export const ssoClose = () => {
+    const ssoWidgetElement = document.getElementById('ssoLoginWrap');
+    ssoWidgetElement?.classList.add('hide');
+    const ssoLoginElm = document.getElementById('ssoLogin') as HTMLDivElement | null;;
+    if(ssoLoginElm) ssoLoginElm.innerHTML = "";  
   }
 
   export const initSSOWidget = () => {
@@ -123,9 +178,7 @@ export const pageType = (pathurl:any) => {
         last_clicked_lob: 'ET',
         signInCallback: function(){
             verifyLogin();
-            setTimeout(function(){
-              window.location.reload();
-            },100);
+            ssoClose();
         },
         signupForm:{
             defaultFirstName: "Guest",
@@ -151,9 +204,7 @@ export const pageType = (pathurl:any) => {
         //defaultSelected:true,
         closeCallBack: function(){
             console.log('Central SSO closeCallBack');
-            ssoWidgetElement?.classList.add('hide');
-            const ssoLoginElm = document.getElementById('ssoLogin') as HTMLDivElement | null;;
-            if(ssoLoginElm) ssoLoginElm.innerHTML = "";
+            ssoClose();
         }
     };
     
@@ -168,4 +219,36 @@ export const pageType = (pathurl:any) => {
         console.log("failure")
       }
     });  
+  }
+
+  export const loadPrimeApi = async () => {
+    try{
+      const url = 'https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=pwa',
+      oauthClientId = "w2a8e883ec676f417520f422068a4741",
+      deviceId = getCookie("_grx"),
+      ticketId = getCookie("TicketId"),
+      userSsoId = window?.objUser?.ssoid || getCookie("ssoid");
+
+      const body = JSON.stringify({grantType: 'refresh_token', "ticketId": ticketId, "deviceDetail": getMobileOS(), "allMerchant" : true});
+      //const body = JSON.stringify({"pageno":1,"pagesize":15,"sort":[],"type":"STOCK","viewId":239,"deviceId":"web"})
+      const headers = {          
+        'Content-Type': "application/json;charset=UTF-8",
+        'X-CLIENT-ID': oauthClientId,
+        'X-DEVICE-ID': deviceId,
+        'x-sso-id': userSsoId,
+        'x-site-app-code': "c21b937c35b0d7cc7c6659d3b57e3d4a"
+      }
+
+      const response = await Service.post({ url, headers, payload: {}, body,  params: {} });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      return response.json();
+      // Handle the successful response data
+      
+    }catch(e){
+      console.log("loadPrimeApi: "+ e);
+    }
   }

@@ -24,16 +24,23 @@ export const get = (config:any) => {
     //   }
     // });
     // console.log({url, config});
-    return {};
+    return fetch(url, config);
   } catch (e) {
     console.log("error in get request", e);
   }
 };
 
-export const post = (config:any) => {
+export const post = async (config:any) => {
   const { payload } = config;
   const url = getApiUrl(config, 0);
-  return {};
+
+  const response = await fetch(url, {
+    method: "POST",
+    data: payload,
+    ...config
+  });
+
+  return response;
 };
 
 export default {
