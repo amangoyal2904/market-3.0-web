@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <script src="https://jssostg.indiatimes.com/staticsso/cdn/crosswalk_sdk/sdk/jsso_crosswalk_legacy_0.7.93.min.js"></script>
+    <script>
+
+        var code = getParameterByName("code") || "";
+        	var type = getParameterByName("type") || "";
+        	var token = getParameterByName("token") || "";
+		    
+		    // debugger;
+		    var hdomain='indiatimes.com';
+			if (document.domain != hdomain)
+			{if ((document.domain.indexOf(hdomain)) != -1)
+			{document.domain = hdomain}}
+			var jsso = new JssoCrosswalk('et', 'web');
+			var socialRU = {
+                fb: ('https://' + window.location.host + '/login_code.cms?type=fb'),
+                google: ('https://' + window.location.host + '/login_code.cms?type=google'),
+                apple: ('https://' + window.location.host + '/login_code.cms?type=apple'),
+                linkedin: ('https://' + window.location.host + '/login_code.cms?type=linkedin')
+            };
+		    try {
+        		var error = '';
+        		if(code == '') {
+        		    error = getParameterByName('error_reason') ? getParameterByName('error_reason') : getParameterByName('error_description');
+        		    error = error ? error : getParameterByName('error');
+        		}
+        		if(type == 'apple') {
+        		    code = token;
+        		}
+        		if(window.opener && window.opener.objUserLogin) {
+            		window.opener.objUserLogin.socialLoginProcess(type, code, error);
+            		winClose();
+        		} else {
+        		    socialLoginProcess(type, code, error);
+        		}
+        		
+        		/*
+        		window.unload(function () {
+        		    window.opener.objLoading.hide();
+        		});
+        		*/
+    		} catch (e) {
+    		   winClose();
+    		}
+    		
+    		function getParameterByName(name) {
+                if (name) {
+                    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+                    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                            results = regex.exec(location.search);
+                    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+                } else {
+                    return '';
+                }
+            }
+
+            function winClose() {
+                window.close();
+            }
+            
+        function socialLoginProcess(type, code, error) {
+            if(!error) {
+                var callback = function (response) {
+                    console.log('login response social', response);
+                    winClose();
+                }
+                
+                switch(type) {
+                    case 'fb' :
+                        jsso.facebookLogin(code, socialRU.fb, callback);
+                    break;
+                    case 'google' :
+                        jsso.googleplusLogin(code, socialRU.google, callback);
+                    break;
+                    case 'apple' :
+                        jsso.appleLogin(code, callback);
+                    break;
+                    case 'linkedin' :
+                        jsso.linkedinLogin(code, socialRU.linkedin, callback);
+                    break;
+                }
+            } else {
+                  objUserLogin.ga(type, 'Failure - ' + error);
+            }
+        }
+    </script>
+  </head>
+  <body></body>
+</html>

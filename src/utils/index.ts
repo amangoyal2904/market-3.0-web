@@ -151,7 +151,7 @@ declare global {
         },
         closeIcon: !0,
         defaultSelected: !0,
-        socialLoginRu: (window.location.protocol + '//' + window.location.host + '/login_code.cms'),
+        socialLoginRu: (window.location.protocol + '//' + window.location.host + '/login_code.html'),
         nonSocialLogin: {
             loginVia: ["email","mobile"],
             loginWith: ["Password", "otp"]
