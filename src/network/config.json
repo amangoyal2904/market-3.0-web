@@ -9,6 +9,14 @@
         "production": ["https://etdev8243.indiatimes.com/"]
       },
       "path": "reactfeed"
+    },
+    "watchListTab":{
+      "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
+      "production": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview"
+    },
+    "watchListTable":{
+      "development": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData",
+      "production": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData"
     }
-  }
+}
   

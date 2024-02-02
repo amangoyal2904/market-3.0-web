@@ -1,0 +1,26 @@
+import APIS_CONFIG from "../network/config.json";
+import { APP_ENV } from "../utils";
+
+export const fetchTabsData = async () => {
+    const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
+    const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?ssoid=${ssoid}`
+    const data = await fetch(apiUrl);
+    const res = await data.json();
+    return res;
+}
+
+export const fetchTableData = async (viewId: any) => {
+    const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
+    const apiUrl = APIS_CONFIG?.watchListTable["development"];
+    const data = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            ssoid: ssoid
+        },
+        body: JSON.stringify({ "pageno": 1, "pagesize": 15, "sort": [], "type": "STOCK", "viewId": viewId, "deviceId": "web" })
+    });
+    const res = await data.json();
+    console.log('tabledata', res)
+    return res;
+}

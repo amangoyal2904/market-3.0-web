@@ -6,6 +6,14 @@ import Layout from '../../components/Layout';
 import React, { Suspense } from 'react';
 import { pageType } from '@/utils';
 import NotFound from '@/containers/NotFound';
+declare global {
+  interface Window {
+    objVc: any;
+    __APP: {
+      env?: string;
+    };
+  }
+}
 
 export default async function Page({ params, searchParams }: {
   params: { all: string[] }
