@@ -1,10 +1,10 @@
-'use client';
 
 import { log } from "console";
 import { useRouter, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { FC, useEffect } from "react";
 import { APP_ENV, verifyLogin } from "../utils";
+import {GLOBAL_CONFIG} from "../network/global_config"
 
 
 interface Props {
@@ -33,6 +33,7 @@ declare global {
       primeInfo?: any;
     };
   }
+  
 }
 
 declare var JssoCrosswalk: any;
@@ -40,7 +41,7 @@ declare var JssoCrosswalk: any;
 
 const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
 
-  console.log({APP_ENV});
+  console.log(APP_ENV);
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -73,7 +74,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
         `}
       </Script>
       <Script
-        src="https://jssocdnstg.indiatimes.com/crosswalk_sdk/sdk/jsso_crosswalk_0.7.92.js"
+        src={GLOBAL_CONFIG["development"]?.jssoSDK}
         onLoad={() => {
           window.jsso = new JssoCrosswalk('et', 'web');
           const jssoLoaded = new Event("jssoLoaded");
