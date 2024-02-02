@@ -7,6 +7,7 @@
     border-bottom: 1px solid #e3e3e3;
     transition: all 0.1s ease-out;
     box-shadow: 0px 1px 4px #0000001a;
+    z-index:9;
     .navbarHeader{
         display: flex;
         justify-content: space-between;

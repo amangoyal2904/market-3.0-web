@@ -9,6 +9,7 @@
         border-radius: 100px;
         border: 1px solid #C1C1C1;
     }
+    .noRecord{padding:10px}
     .searchResult{
         position:absolute;
         top:40px;
@@ -17,13 +18,75 @@
         border: 1px solid #222;
         border-radius: 20px;
         width:100%;
+        min-height: 30px;
+        max-height: 400px;
+        overflow-y: scroll;
+        li.head{color:#b0162f;border-bottom: 0;
+            font-weight:bold;text-transform: uppercase;
+            margin-top:10px;
+            padding-left:20px;
+            font-size:14px;
+        }
         li{
             list-style-type: none;
             padding:2px 10px;
             border-bottom: 1px solid;
+            .st_row {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-pack: center;
+                -ms-flex-pack: center;
+                justify-content: center;
+                -webkit-box-align: center;
+                -ms-flex-align: center;
+                align-items: center;
+                padding: 4px 0;
+            }
+            .st_row>.st_col {
+                -webkit-box-flex: 1;
+                -ms-flex: 1;
+                flex: 1;
+                font-family: Montserrat;
+                font-size: 13px;
+                font-weight: 500;
+                text-align: right;
+                line-height: 1;
+                display: block;
+            }
+            .st_row>.st_col:first-child {
+                -webkit-box-flex: 1;
+                -ms-flex: 1 1 auto;
+                flex: 1 1 auto;
+                text-align: left;
+                width: 46%;
+            }
+            .st_row .st_change {
+                color: #000;
+                font-weight: 600;
+            }
+            .st_row .st_change.green:before {
+                background-position: -327px -9px;
+            }
+            .st_row .st_change.red:before {
+                background-position: -317px -9px;
+            }
+            .st_row .st_change:before {
+                content: '';
+                width: 9px;
+                height: 11px;
+            }
         }
         li:last-child{
             border-bottom: 0;
+        }
+        li:not(.head) a {
+            font-size: 13px;
+            padding: 5px 10px;
+            display: inline-block;
+            width: 395px;
+            line-height: 20px;
+            text-decoration: none;
         }
     }
     .close_search{
@@ -33,4 +96,11 @@
         top:8px;
         font-weight:bold;
     }
+    .green{color:green}
+    .red{color:#da2337}
+    .cSprite, .cSprite_a:after, .cSprite_b:before {
+        background: url(/img/common-sprite.jpg) no-repeat;
+        display: inline-block;
+        background-size: 500px;
+      }
 }
