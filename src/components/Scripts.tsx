@@ -21,7 +21,17 @@ declare global {
     };
     ssoWidget?: any;
     verifyLoginSuccess?: any; 
-    objUser?: object;
+    objUser:  {
+      ssoid?: any;
+      ticketId?: any;
+      info?: {
+        thumbImageUrl: any;
+      };
+      isPrime?: any;
+      permissions?: any;
+      accessibleFeatures?:any;
+      primeInfo?: any;
+    };
   }
 }
 
@@ -68,7 +78,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
           window.jsso = new JssoCrosswalk('et', 'web');
           const jssoLoaded = new Event("jssoLoaded");
           document.dispatchEvent(jssoLoaded);
-          verifyLogin();
         }}
       />
       <Script id="geoinfo-call">

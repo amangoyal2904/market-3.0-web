@@ -1,16 +1,24 @@
+"use client";
+import { useState } from 'react';
+
 import styles from './WatchListTabs.module.scss';
 
 
 
 
-const WatchListTabs = ({data}:any) => {
+const WatchListTabs = ({data, activeViewId, tabsViewIdUpdate}:any) => {
+    const [stockModel, setStockModel] = useState(false);
+    console.log('data',data)
+    const tabClick = (viewId:any)=>{
+        tabsViewIdUpdate(viewId)
+    }
     return (
       <div className={styles.tabsWrap}>
         <ul className={styles.tabsList}>
             {
-                data.map((item:any)=>{
+                data.map((item:any, index:number)=>{
                     return (
-                        <li key={item.name} className={ item.active ? styles.active : ""}>
+                        <li key={item.id} onClick={()=>tabClick(item.viewId)} className={ activeViewId === item.viewId ? styles.active : ""}>
                             {item.name}
                         </li>
                     )
