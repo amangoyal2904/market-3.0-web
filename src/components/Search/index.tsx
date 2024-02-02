@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import styles from './Search.module.scss'
-import SearchData from './SearchData';
+import SearchData1 from './SearchData1';
 
 const debounce = <T extends any[]>(
     func: (...args: T) => void,
@@ -16,6 +16,7 @@ const debounce = <T extends any[]>(
 
 const Search = () => {
     const [data, setData] = useState([]);
+    const [val,setVal] =useState("");
     const [searchEnable,setSearchEnable] = useState(false);
     const ref = useRef<any>(null);
 
@@ -39,7 +40,8 @@ const Search = () => {
         try {
             let API_URL = "";
             if(query){
-                API_URL = "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&dvr=true&idr=true&nonList=true&pagesize=6&outputtype=json&ticker="+query; 
+                //API_URL = "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&dvr=true&idr=true&nonList=true&pagesize=6&outputtype=json&ticker="+query; 
+                API_URL = "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&realstate=true&dvr=true&idr=true&trust=true&mcx=true&mf=true&crypto=true&nps=true&insideet=true&detail=false&forex=false&index=true&mecklai=true&etf=true&nonList=true&pagesize=6&language=&outputtype=json&ticker="+query; 
             }else{
                 API_URL="./popularStock.json";
             }
@@ -47,6 +49,9 @@ const Search = () => {
             .then((response) => response.json())
             .then((res) => {
                 setData(res);
+                if(query){
+                    setVal(query);
+                }
                 setSearchEnable(true);
             })
             .catch((err) => {
@@ -72,7 +77,7 @@ const Search = () => {
         {searchEnable && 
         <>
         <div className={`${styles.right_icon} ${styles.close_search}`} onClick={handleClose}>X</div>
-        <SearchData data={data}/>
+        <SearchData1 data={data} query={val}/>
         </>
         }
         
