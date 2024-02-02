@@ -1,6 +1,5 @@
 import { headers, cookies } from 'next/headers';
 import Service from "../../network/service";
-import APIS_CONFIG from "../../network/config.json";
 import Watchlist from "../../containers/Watchlist"
 import Layout from '../../components/Layout';
 import React, { Suspense } from 'react';
