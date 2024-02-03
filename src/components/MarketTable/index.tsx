@@ -1,10 +1,9 @@
-import React from 'react';
-import styles from './WatchListTable.module.scss';
+import styles from './MarketTable.module.scss';
 
 
 
 
-const WatchListTable = ({data}:any) => {
+const MarketTable = ({data}:any) => {
   const tableDataList = data.dataList;
     return (
       <div className={styles.tableWraper}>
@@ -35,5 +34,5 @@ const WatchListTable = ({data}:any) => {
     )
   }
   
-  export default WatchListTable;
+  export default MarketTable;
 

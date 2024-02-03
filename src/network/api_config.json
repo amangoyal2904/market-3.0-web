@@ -20,6 +20,14 @@
     "AUTH_TOKEN": {
       "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=marketWeb",
       "production": "https://oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=marketWeb"
+    },
+    "watchListTab":{
+      "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
+      "production": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview"
+    },
+    "watchListTable":{
+      "development": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData",
+      "production": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData"
     }
   }
   
