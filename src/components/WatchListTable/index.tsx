@@ -1,38 +1,50 @@
 import styles from './WatchListTable.module.scss';
 
+const onFilterChange = (e: { target: { name: any; value: any; }; }) => {
+  const { name, value } = e.target;
+  console.log("@@@onFilterChange", name, value)
+}
 
-
-
-const WatchListTable = ({data}:any) => {
+const WatchListTable = ({ data }: any) => {
   const tableDataList = data.dataList;
-    return (
-      <div className={styles.tableWraper}>
-          {
-            tableDataList && tableDataList.length > 0 ? <table className={styles.wathcListTable}>
-            <thead>
-          <tr>
-            <th>Stock Name</th>
-            {tableDataList[0].data.map((thead: any) => (
-              <th key={thead.keyText}>{thead.keyText}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {tableDataList.map((item: any) => (
-            <tr key={item.assetId}>
-              <td>{item.assetName}</td>
-              {item.data.map((tdData: any) => (
-                <td key={tdData.keyText}>{tdData.value}</td>
+  console.log("@@--->", tableDataList);
+  return (
+    <div className={styles.tableWrapper}>
+      {
+        tableDataList && tableDataList.length > 0 ? <table className={styles.wathcListTable}>
+          <thead>
+            <tr>
+              <th>Stock Name</th>
+              {tableDataList[0].data.map((thead: any) => (
+                <th key={thead.keyText}>{thead.keyText}</th>
               ))}
             </tr>
-          ))}
-        </tbody>
+          </thead>
+          <tbody>
+            <tr>
+              <td className={styles.inputWrapper}>
+                <input className={`${styles.filterInput} ${styles.filterInputfirst}`} onChange={onFilterChange} placeholder="Search values"></input></td>
+              {tableDataList[0].data.map((tdData: any) => (
+                <td className={styles.inputWrapper}>
+                  <input className={styles.filterInput} type='number' name={tdData.keyId} onChange={onFilterChange} placeholder='> #'></input>
+                </td>
+              ))}
+            </tr>
+            {tableDataList.map((item: any, index: number) => (
+              <tr key={item.assetId}>
+                <td>{item.assetName}</td>
+                {item.data.map((tdData: any) => (
+                  <td key={tdData.keyText}>{tdData.value}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
         </table> : "No Data Found"
-          }
-          
-      </div>
-    )
-  }
-  
-  export default WatchListTable;
+      }
+
+    </div>
+  )
+}
+
+export default WatchListTable;
 
