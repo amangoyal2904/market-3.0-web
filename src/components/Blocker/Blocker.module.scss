@@ -1,0 +1,18 @@
+.blockerContainer {
+    height: 300px;
+    text-align: center;
+    margin-top: 200px;
+
+    p {
+        font-size: 16px;
+        padding: 10px;
+        font-weight: 600;
+    }
+
+    button {
+        padding: 10px 26px;
+        background: red;
+        color: #fff;
+        border-radius: 3px;
+    }
+}

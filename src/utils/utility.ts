@@ -2,7 +2,8 @@ import APIS_CONFIG from "../network/api_config.json";
 import { APP_ENV } from "../utils";
 
 export const fetchTabsData = async () => {
-    const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
+    //const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
+    const ssoid = window.objUser?.ssoid;
     const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?ssoid=${ssoid}`
     const data = await fetch(apiUrl);
     const res = await data.json();
@@ -10,7 +11,8 @@ export const fetchTabsData = async () => {
 }
 
 export const fetchTableData = async (viewId: any) => {
-    const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
+    //const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
+    const ssoid = window.objUser?.ssoid;
     const apiUrl = APIS_CONFIG?.watchListTable["development"];
     const data = await fetch(apiUrl, {
         method: 'POST',
