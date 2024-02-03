@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 import styles from './Watchlist.module.scss';
 import MarketTabs from "../../components/MarketTabs";
 import MarketTable from "../../components/MarketTable";
-import APIS_CONFIG from "../../network/config.json";
-import { APP_ENV } from "../../utils";
 import { fetchTabsData, fetchTableData } from '@/utils/utility';
 
 

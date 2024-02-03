@@ -1,4 +1,4 @@
-import APIS_CONFIG from "../network/config.json";
+import APIS_CONFIG from "../network/api_config.json";
 import { APP_ENV } from "../utils";
 
 export const fetchTabsData = async () => {
