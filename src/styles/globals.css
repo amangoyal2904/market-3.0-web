@@ -63,7 +63,13 @@
   border-radius: 100px;
   margin: 0 5px;
 }
-
+.cSprite, .cSprite_a:after, .cSprite_b:before {
+  background: url(https://img.etimg.com/photo/msid-105560634,quality-100/common-sprite.jpg) no-repeat;
+  display: inline-block;
+  background-size: 500px;
+}
+.green{color:green}
+.red{color:red}
 .hide{display: none;}
 .ssoLoginWrap{position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: 1000;background-color: rgba(0,0,0,.8);overflow: auto;}
 .ssoLoginWrap .ssoLoginElm{position: relative;top: 60px;bottom: 0;left: 0;right: 0;margin: auto;z-index: 230;display: flex;justify-content: center;overflow: auto;}
