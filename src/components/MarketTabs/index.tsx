@@ -1,12 +1,12 @@
 "use client";
 import { useState } from 'react';
 
-import styles from './WatchListTabs.module.scss';
+import styles from './MarketTabs.module.scss';
 
 
 
 
-const WatchListTabs = ({data, activeViewId, tabsViewIdUpdate}:any) => {
+const MarketTabs = ({data, activeViewId, tabsViewIdUpdate}:any) => {
     const [stockModel, setStockModel] = useState(false);
     console.log('data',data)
     const tabClick = (viewId:any)=>{
@@ -35,5 +35,5 @@ const WatchListTabs = ({data, activeViewId, tabsViewIdUpdate}:any) => {
     )
   }
   
-  export default WatchListTabs;
+  export default MarketTabs;
 

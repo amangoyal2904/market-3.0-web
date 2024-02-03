@@ -252,3 +252,37 @@ declare global {
       console.log("loadPrimeApi: "+ e);
     }
   }
+
+export const formatDate = (str:string) => {   
+    // Parse the original date string
+    var originalDate = new Date(str);
+    // Get the components of the original date
+    var originalDay = originalDate.getDate();
+    var originalMonth = originalDate.toLocaleString('default', { month: 'short' });
+    var originalYear = originalDate.getFullYear();
+    var originalHour = originalDate.getHours();
+    var originalMinute = originalDate.getMinutes();
+
+    // Format the date in the desired format (04:02 PM | 30 Jan 2024)
+    var formattedDate = ("0" + originalDay).slice(-2) + " " + originalMonth + " " + originalYear;
+    var formattedTime = ((originalHour + 11) % 12 + 1) + ":" + ("0" + originalMinute).slice(-2) + " " + (originalHour >= 12 ? 'PM' : 'AM');
+
+    // Output the formatted date and time
+    //console.log(formattedTime + " | " + formattedDate);
+    return formattedTime + " | " + formattedDate;
+}
+
+export const filterData = (arr:any,test:string) =>{
+  const filtered = arr.filter((item:any) => item.entityType.toLowerCase() === test.toLowerCase());
+  return filtered;
+}
+export const makeBold = (inputText:string, completeText:string) => {   
+  const matchtext=new RegExp(inputText, "i");
+  if (completeText.toLowerCase().indexOf(inputText.toLowerCase()) >= 0){
+    const matched = completeText.substr(completeText.search(matchtext),inputText.length);
+    return completeText.replace(matchtext,"<b>" + matched + "</b>");
+  }
+  else{
+    return completeText;
+  }
+}

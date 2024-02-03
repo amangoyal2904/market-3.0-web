@@ -1,11 +1,18 @@
 import { headers, cookies } from 'next/headers';
 import Service from "../../network/service";
-import APIS_CONFIG from "../../network/config.json";
 import Watchlist from "../../containers/Watchlist"
 import Layout from '../../components/Layout';
 import React, { Suspense } from 'react';
 import { pageType } from '@/utils';
 import NotFound from '@/containers/NotFound';
+declare global {
+  interface Window {
+    objVc: any;
+    __APP: {
+      env?: string;
+    };
+  }
+}
 
 export default async function Page({ params, searchParams }: {
   params: { all: string[] }
@@ -17,7 +24,7 @@ export default async function Page({ params, searchParams }: {
   const isprimeuser = cookies().get('isprimeuser'),
   { all = [] } = params,
   lastUrlPart: string = all?.slice(-1).toString(),
-  api = APIS_CONFIG.FEED;
+  api = "";
   //REQUEST = APIS_CONFIG.REQUEST;
 
   //console.log({isprimeuser});

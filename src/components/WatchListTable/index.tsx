@@ -1,3 +1,4 @@
+import React from 'react';
 import styles from './WatchListTable.module.scss';
 
 const onFilterChange = (e: { target: { name: any; value: any; }; }) => {
