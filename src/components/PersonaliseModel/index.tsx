@@ -1,0 +1,108 @@
+"use client"
+import styles from './PersonaliseModel.module.scss';
+import {useRef, useEffect, useState} from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
+
+const PersonaliseModel = ({setOpenPersonaliseModal, openPersonaliseModal, data, updateTabsListDataHandler, createNewViewHandler}:any)=>{
+    const dataLis = data && data.length > 0 ? data : [];
+    const [listData, setListData] = useState(dataLis);
+    const popupRef = useRef<HTMLDivElement | null>(null);
+    const handleOnDragEnd = (result:any) => {
+        //console.log('result',result)
+        if (!result.destination) return; // Dropped outside the list
+    
+        const updatedListData = [...listData];
+        const [movedItem] = updatedListData.splice(result.source.index, 1);
+        updatedListData.splice(result.destination.index, 0, movedItem);
+    
+        // Update order IDs
+        updatedListData.forEach((item, index) => {
+          item.order = index + 1;
+        });
+        //console.log(updatedListData);
+        setListData(updatedListData);
+    };
+    const handleClickOutside = (event:any) => {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+          setOpenPersonaliseModal(false);
+        }
+      };
+  
+      const handleEscapeKey = (event:any) => {
+        if (event.key === 'Escape') {
+          setOpenPersonaliseModal(false);
+        }
+      };
+    const saveUserPersonalise = ()=>{
+        updateTabsListDataHandler(listData)
+    }
+    const createNewHandler = ()=>{
+      setOpenPersonaliseModal(false);
+      createNewViewHandler(true);
+    }
+    useEffect(() => {
+        if (openPersonaliseModal) {
+          document.addEventListener('mousedown', handleClickOutside);
+          document.addEventListener('keydown', handleEscapeKey);
+        }
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+          document.removeEventListener('keydown', handleEscapeKey);
+        };
+      }, [openPersonaliseModal]);
+    return (
+        <div className={styles.wraper}>
+            <div className={styles.perWrap} ref={popupRef} >
+                <div className={styles.header}>
+                    Personalise Your View
+                </div>
+                <div className={styles.body}>
+                    <div className={styles.topHeader}>
+                        <span className={styles.leftTxt}>Default Views</span>
+                        <span className={styles.createBtn} onClick={createNewHandler}>Create New View</span>
+                    </div>
+                    <div className={styles.bodySec}>
+                        {
+                            listData.length > 0 ? <DragDropContext onDragEnd={handleOnDragEnd}>
+                            <Droppable droppableId="list" type="group" key={listData.length}>
+                                {(provided:any= {}, snapshot:any = {}) => (
+                                <ul {...provided.droppableProps} ref={provided.innerRef} className="list">
+                                    {listData.map((list:any, index:any) => {
+                                      return (
+                                        <Draggable key={`${list.viewId}-${index}`} draggableId={`${list.viewId}-${index}`}  index={index}>
+                                            {(provided:any) => {
+                                              return (
+                                                <li
+                                                    ref={provided.innerRef} 
+                                                    {...provided.draggableProps} 
+                                                    {...provided.dragHandleProps}
+                                                    >
+                                                    <div className={styles.dragListItem}>
+                                                      <span className={styles.itemTxt}>{list.name}</span>
+                                                      <span className={styles.removeItem}></span>
+                                                    </div>
+                                                </li>
+                                              )
+                                            }}
+                                        </Draggable>
+                                      )
+                                    })}
+                                    {provided.placeholder}
+                                </ul>
+                                )}
+                            </Droppable>
+                        </DragDropContext> : ""
+                        }
+                        
+                    </div>
+                </div>
+                <div className={styles.footer}>
+                    <span className={styles.updateBtn} onClick={saveUserPersonalise}>Save Changes</span>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default PersonaliseModel;

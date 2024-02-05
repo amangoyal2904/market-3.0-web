@@ -73,4 +73,13 @@
 .hide{display: none;}
 .ssoLoginWrap{position: fixed;top: 0;left: 0;right: 0;bottom: 0;z-index: 1000;background-color: rgba(0,0,0,.8);overflow: auto;}
 .ssoLoginWrap .ssoLoginElm{position: relative;top: 60px;bottom: 0;left: 0;right: 0;margin: auto;z-index: 230;display: flex;justify-content: center;overflow: auto;}
-  
+table {
+  td {
+    &.up{
+      color: #0D875C;
+  }
+  &.down {
+      color: #D51131;
+  }
+  }
+}
