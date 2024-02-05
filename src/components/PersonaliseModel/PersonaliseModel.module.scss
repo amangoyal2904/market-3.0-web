@@ -1,0 +1,152 @@
+.wraper{
+    position: fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background: rgba(0,0,0,0.2);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+.perWrap{
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 15px;
+    background: #FFF; 
+    min-width: 335px;
+    text-align: left;
+}
+.header{
+    border-bottom: solid 1px #CDCDCD;
+    padding:20px;
+    color: #000; 
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 900; 
+}
+.body{
+    padding:20px;
+}
+.footer{
+    padding: 20px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.18);
+    text-align: right;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    .updateBtn{
+        border-radius: 5px;
+        border: 1px solid #000; 
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        text-transform: uppercase; 
+        cursor: pointer;
+        padding: 10px 16px;
+    }
+}
+.topHeader{
+    margin:0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .leftTxt{
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        text-transform: uppercase; 
+    }
+    .createBtn{
+        border-radius: 100px;
+        background: #000; 
+        color: #FFF; 
+        font-size: 10px; 
+        font-weight: 600; 
+        position: relative;
+        padding: 8px 14px 8px 25px;
+        cursor: pointer;
+        &::after, &::before{
+            content: "";
+            display: inline-block;
+            vertical-align: top;
+            position: absolute;
+            left: 12px;
+            top: 14px;
+            width: 7px;
+            border-top: solid 1.2px #ffffff;
+        }
+        &::before{
+            border-top:none;
+            width: 1px;
+            height: 7px;
+            border-left: solid 1.2px #ffffff;
+            top: 11px;
+            left: 15px;
+        }
+    }
+}
+.bodySec{
+    margin:0;
+    ul{
+        list-style-type: none;
+        li{
+            .dragListItem{
+                background: #FFF;
+                box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.11); 
+                margin-top: 11px;
+                padding: 10px 10px 10px 35px;
+                cursor: move;
+                position: relative;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 700; 
+                display: flex;
+                justify-content: space-between;
+                &::after{
+                    content: "";
+                    background: url('https://img.etimg.com/photo/msid-107293234,quality-100/moveicon.jpg') no-repeat 0 0;
+                    width: 16px;
+                    height: 16px;
+                    position: absolute;
+                    left: 10px;
+                    top: 10px;
+                    display: inline-block;
+                    vertical-align: top;
+                }
+                .removeItem{
+                    margin:0;
+                    position: relative;
+                    width: 10px;
+                    height: 10px;
+                    cursor: pointer;
+                    &::after{
+                        content: "";
+                        display: inline-block;
+                        vertical-align: top;
+                        position: absolute;
+                        left:0;
+                        top:6px;
+                        right:0;
+                        border-top:solid 1px #B4B4B4;
+                        transform: rotate(45deg);
+                    }
+                    &::before{
+                        content: "";
+                        display: inline-block;
+                        vertical-align: top;
+                        position: absolute;
+                        left:0;
+                        top:6px;
+                        right:0;
+                        border-top:solid 1px #B4B4B4;
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+        }
+    }
+}
