@@ -19,13 +19,13 @@ const MarketTable = ({ data, onFilterChange }: any) => {
           <tbody>
             <tr>
               {tableDataList[0].data.map((tdData: any) => (
-                <td className={styles.inputWrapper}>
+                <td className={styles.inputWrapper} key={tdData.keyId}>
                   <input className={styles.filterInput} type='text' name={tdData.keyId} onChange={onFilterChange} placeholder={tdData.keyId == 'name' ? 'Search Values' : '> #'}></input>
                 </td>
               ))}
             </tr>
             {tableDataList.map((item: any, index: number) => (
-              <tr key={item.keyId}>
+              <tr key={item.assetId}>
                 {item.data.map((tdData: any) => (
                   tdData.keyId == 'name' ? <td key={tdData.keyId}><a href={getStockUrl(item.assetId, item.assetName, item.assetType)} target='_blank' title={tdData.value}>{tdData.value}</a></td> : <td className={tdData.trend} key={tdData.keyId}>{(tdData.value).replaceAll(' ', '')}</td>               
                 ))}
