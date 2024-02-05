@@ -18,12 +18,6 @@ export const get = (config:any) => {
     if (!config.headers) {
       config["headers"] = {};
     }
-    // const instance = axios.create({
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   }
-    // });
-    // console.log({url, config});
     return fetch(url, config);
   } catch (e) {
     console.log("error in get request", e);
@@ -33,13 +27,11 @@ export const get = (config:any) => {
 export const post = async (config:any) => {
   const { payload } = config;
   const url = getApiUrl(config, 0);
-
   const response = await fetch(url, {
     method: "POST",
     data: payload,
     ...config
   });
-
   return response;
 };
 

@@ -20,6 +20,7 @@ const SearchDataLi1:React.FC<Props> = ({item,entity,count,query}) => {
             item.map((item:any,index:number)=>
                 index < count-1 && 
                 <li key={index} className={styles.searchliComp}>
+                    {/* <a href={`/${item.tagSeoName}/`} target="_blank"> */}
                     <a href="#" target="_blank">
                         <div className={styles.st_row} >
                             {entity == "NPS" ? <div className={styles.st_col} dangerouslySetInnerHTML={{ __html: sanitizeData(`${item.tagName} - ${item.SchemeName1} -${item.SchemeName2}`) }}></div>: <div className={styles.st_col} dangerouslySetInnerHTML={{ __html: makeBold(query,item.tagName) }}></div>}
@@ -34,6 +35,19 @@ const SearchDataLi1:React.FC<Props> = ({item,entity,count,query}) => {
                             </div>
                         }
                     </a>
+                    <div className={styles.st_options} data-url="/tata-motors-ltd/stocks/companyid-12934.cms?companytype=dvr">
+                        <span data-scrollsection="stockOverviewOffset">Overview</span>
+                        <span data-scrollsection="technicalInsightsOffset">Technicals</span>
+                        <span data-scrollsection="researchOffset">Analysis</span>
+                        <span data-scrollsection="forecastOffset">Forecast</span>
+                        <span data-scrollsection="recommendationsOffset">Recos</span>
+                        <span data-scrollsection="peerComparisonOffset">Peers</span>
+                        <span data-scrollsection="financialsOffset">Financials</span>
+                        <span data-scrollsection="newsAnalysisOffset">News &amp; Annoucnements</span>
+                        <span data-scrollsection="shareholdingPatternOffset">Shareholding</span>
+                        <span data-scrollsection="corporateActionsOffset">Corp Action</span>
+                        <span data-scrollsection="stocksAboutOffset">About</span>
+                    </div>
                 </li>
             )
         }
