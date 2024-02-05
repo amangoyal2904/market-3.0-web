@@ -13,11 +13,11 @@ interface GlobalConfig {
 export const GLOBAL_CONFIG: GlobalConfig = {
     development: {
         ssoWidget: "https://jssocdnstg.indiatimes.com/crosswalk/156/widget/main.bundle.js",
-        jssoSDK: "https://jssocdnstg.indiatimes.com/crosswalk_sdk/sdk/jsso_crosswalk_0.7.92.js"
+        jssoSDK: "https://jssostg.indiatimes.com/staticsso/cdn/crosswalk_sdk/sdk/jsso_crosswalk_legacy_0.7.93.min.js"
     },
     production: {
         ssoWidget: "https://jssocdnstg.indiatimes.com/crosswalk/156/widget/main.bundle.js",
-        jssoSDK: "https://jssocdnstg.indiatimes.com/crosswalk_sdk/sdk/jsso_crosswalk_0.7.92.js"
+        jssoSDK: "https://jssostg.indiatimes.com/staticsso/cdn/crosswalk_sdk/sdk/jsso_crosswalk_legacy_0.7.93.min.js"
     },
     gaId: "UA-198011-5",
     grxId: "g7af6dd9d",
