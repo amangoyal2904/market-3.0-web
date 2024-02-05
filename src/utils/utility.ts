@@ -26,3 +26,13 @@ export const fetchTableData = async (viewId: any) => {
     console.log('tabledata', res)
     return res;
 }
+
+export const getStockUrl = (id:number, seoName:string, stockType:string) => {
+    if(seoName.indexOf(' ') >= 0) {
+        seoName = (seoName.replaceAll(' ', '-').replaceAll('&', '').replaceAll('.', '')).toLowerCase();
+    }
+    let stockUrl = '/'+seoName+'/stocks/companyid-'+id+'.cms';
+    if (stockType != 'equity' && stockType !== '')
+        stockUrl = stockUrl + '?companytype=' + stockType.toLowerCase()
+    return  stockUrl;
+  }

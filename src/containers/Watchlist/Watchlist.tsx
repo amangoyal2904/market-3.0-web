@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './Watchlist.module.scss';
 import MarketTabs from "../../components/MarketTabs";
 import MarketTable from "../../components/MarketTable";
@@ -35,7 +35,15 @@ const Watchlist = () => {
 
   const fetchWatchListTableAPI = async (viewId: any) => {
     const res = await fetchTableData(viewId);
-    setTableData(res);
+    setTableData(res.dataList);    
+  }
+
+  const filterChangeHandler = (e: { target: { name: string; value: any; }; }) => {
+    const { name, value } = e.target;
+    let filterArr = tableData.filter((item: any)=>{
+        return item && item.data.some((x: { keyId: string; filterFormatValue: number; }) => x.keyId == name && x.filterFormatValue > value)
+    })
+    setTableData(filterArr);
   }
 
   useEffect(() => {
@@ -52,7 +60,7 @@ const Watchlist = () => {
       <h1 className={styles.heading1}>Watchlist</h1>
       {showBlocker ? <Blocker text="Please login here for Watchlist" cta="Login" /> : <>
         <MarketTabs data={wathcListTab} activeViewId={activeViewId} tabsViewIdUpdate={tabsViewIdUpdate} />
-        <MarketTable data={tableData} />
+        <MarketTable data={tableData} onFilterChange={filterChangeHandler} />
       </>
       }
     </div>
