@@ -28,9 +28,9 @@ const SearchDataLi:React.FC<Props> = ({item,entity,count,query}) => {
                             {item.NetChange && <div className={`${styles.st_col} ${Number(item.NetChange) > 0 ? styles.green : styles.red}` }>{item.NetChange}</div>}
                         </div>
                         {item.percentChange &&
-                            <div className={styles.st_row}>
+                            <div className={`${styles.st_row} ${styles.st_last}`}>
                             {item.DateTime && <div className={styles.st_col}>{formatDate(item.DateTime)}</div>}
-                            {item.volume && <div className={styles.st_col}>Vol. {(Number(item.volume)/1000).toFixed(2)}k</div>}
+                            {item.volume && <div className={styles.st_col}>Vol. {parseFloat((Number(item.volume)/1000).toFixed(2))}k</div>}
                             {item.percentChange && <div className={`${styles.st_col} ${Number(item.NetChange) > 0 ? styles.green : styles.red}`}>{item.percentChange}%</div>}       
                             </div>
                         }
