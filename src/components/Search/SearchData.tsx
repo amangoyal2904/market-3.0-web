@@ -3,14 +3,18 @@ import styles from './Search.module.scss'
 import { formatDate,filterData } from '@/utils';
 import SearchDataLi from './SearchDataLi';
 import { getStockUrl } from '@/utils/utility';
+import SearchNews from './SearchNews';
 
-interface Props {
+interface Props { 
     data:any;
+    newsData:any;
+    definitionData:any;
+    reportData:any;
     query:string;
 }
 
 
-const SearchData:React.FC<Props> = ({data,query}) => {
+const SearchData:React.FC<Props> = ({data, newsData, definitionData, reportData , query}) => {
     const [companyListed,setCompanyListed] = useState<any>([]);
     const [companyNonListed,setCompanyNonListed] = useState<any>([]);
     const [mf,setMf] = useState<any>([]);
@@ -31,7 +35,8 @@ const SearchData:React.FC<Props> = ({data,query}) => {
         forexcount : 2,
         indicescount : 2,
         etfcount: 2,
-        nonlistcount:3
+        nonlistcount:3,
+        newscount:6
     }
             	
     useEffect(() => {
@@ -68,6 +73,8 @@ const SearchData:React.FC<Props> = ({data,query}) => {
                             {forex.length > 0 && <SearchDataLi item={forex} entity={"FOREX"} count={records.forexcount} query={query}/>}
                             {commodity.length > 0 && <SearchDataLi item={commodity} entity={"COMMODITY"} count={records.cmdtcount} query={query}/>}
                             {index.length > 0 && <SearchDataLi item={index} entity={"INDEX"} count={records.inetcount} query={query}/>}
+                            {definitionData && definitionData.person && definitionData.person.length > 0 && <SearchNews item={definitionData.person} entity={"PEOPLE"} count={records.newscount} query={query}/>}
+                            {newsData.length> 0 && <SearchNews item={newsData} entity={"NEWS"} count={records.newscount} query={query}/>}
                             {companyListed.length == 0 && companyNonListed.length == 0 && mf.length == 0 && etf.length == 0 && crypto.length == 0 && forex.length == 0 && commodity.length == 0 && index.length == 0 && <p className={styles.noRecord}>No Record Found!!</p>}
                         </>
                     ) : (

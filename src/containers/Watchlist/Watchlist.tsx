@@ -1,14 +1,12 @@
-"use client";
+'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import styles from './Watchlist.module.scss';
-import MarketTabs from "../../components/MarketTabs";
-import MarketTable from "../../components/MarketTable";
+import MarketTabs from '../../components/MarketTabs';
+import MarketTable from '../../components/MarketTable';
 import { fetchTabsData, fetchTableData } from '@/utils/utility';
-import { useStateContext } from "../../store/StateContext";
+import { useStateContext } from '../../store/StateContext';
 import Blocker from '../../components/Blocker';
-
-
 
 const Watchlist = () => {
   const [wathcListTab, setWatchListTab] = useState([]);
@@ -23,29 +21,20 @@ const Watchlist = () => {
       setActiveViewId(viewId);
       fetchWatchListTableAPI(viewId);
     }
-  }
+  };
 
   const fetchWatchListData = async () => {
     const res = await fetchTabsData();
     const viewId = res[0].viewId;
     setActiveViewId(viewId);
-    setWatchListTab(res)
+    setWatchListTab(res);
     fetchWatchListTableAPI(viewId);
-  }
+  };
 
   const fetchWatchListTableAPI = async (viewId: any) => {
     const res = await fetchTableData(viewId);
-    setTableData(res.dataList);    
-  }
-
-  const filterChangeHandler = (e: { target: { name: string; value: any; }; }) => {
-    const { name, value } = e.target;
-    let filterArr = tableData.filter((item: any)=>{
-        return item && item.data.some((x: { keyId: string; filterFormatValue: number; }) => x.keyId == name && x.filterFormatValue > value)
-    })
-    setTableData(filterArr);
-  }
-
+    setTableData(res.dataList);
+  };
   useEffect(() => {
     if (isLogin) {
       fetchWatchListData();
@@ -53,18 +42,25 @@ const Watchlist = () => {
     } else {
       setShowBlocker(true);
     }
-  }, [isLogin])
+  }, [isLogin]);
 
   return (
     <div className={styles.wraper}>
       <h1 className={styles.heading1}>Watchlist</h1>
-      {showBlocker ? <Blocker text="Please login here for Watchlist" cta="Login" /> : <>
-        <MarketTabs data={wathcListTab} activeViewId={activeViewId} tabsViewIdUpdate={tabsViewIdUpdate} />
-        <MarketTable data={tableData} onFilterChange={filterChangeHandler} />
-      </>
-      }
+      {showBlocker ? (
+        <Blocker text="Please login here for Watchlist" cta="Login" />
+      ) : (
+        <>
+          <MarketTabs
+            data={wathcListTab}
+            activeViewId={activeViewId}
+            tabsViewIdUpdate={tabsViewIdUpdate}
+          />
+          <MarketTable data={tableData} />
+        </>
+      )}
     </div>
-  )
-}
+  );
+};
 
 export default Watchlist;

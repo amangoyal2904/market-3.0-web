@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { APP_ENV } from "../../utils";
-import APIS_CONFIG from "../../network/api_config.json"
-import styles from './Search.module.scss'
+import APIS_CONFIG from "../../network/api_config.json";
+import styles from './Search.module.scss';
 import SearchData from './SearchData';
 
 const debounce = <T extends any[]>(
@@ -20,9 +20,9 @@ const Search = () => {
     const [data, setData] = useState([]);
     const [val,setVal] =useState("");
     const [searchEnable,setSearchEnable] = useState(false);
-    const [newsData,setNewsData] = useState([])
-    const [definitionData,setDefinitionData] = useState()
-    const [reportData,setReportData] = useState()
+    const [newsData,setNewsData] = useState<any>();
+    const [definitionData,setDefinitionData] = useState<any>();
+    const [reportData,setReportData] =useState<any>();
     const ref = useRef<any>(null);
 
     const handleFocus = (query:string) => {
@@ -43,7 +43,7 @@ const Search = () => {
         }
     }
     const fetchNameResults = (query:string) => {
-        console.log(">>>",query);
+        //console.log(">>>",query);
         try {
             let requests = [];
             if(query){
@@ -75,13 +75,10 @@ const Search = () => {
                   setData(result);
                 } else if (i === 1) {
                     setNewsData(result);
-                    console.log("NewsData>>",newsData);
                 }else if (i === 2) {
                     setDefinitionData(result);
-                    console.log("definitionData>>",definitionData);
                 }else if (i === 3) {
                     setReportData(result);
-                    console.log("reportData>>",reportData);
                 }
                 if(query){
                     setVal(query);
@@ -136,8 +133,9 @@ const Search = () => {
         
         {searchEnable && 
         <>
-        <div className={`${styles.right_icon} ${styles.close_search}`} onClick={handleClose}>X</div>
-        <SearchData data={data} query={val}/>
+            <div className={styles.background_overlay}></div>
+            <div className={`${styles.right_icon} ${styles.close_search}`} onClick={handleClose}>X</div>
+            <SearchData data={data} newsData={newsData} definitionData={definitionData} reportData={reportData} query={val}/>
         </>
         }
         

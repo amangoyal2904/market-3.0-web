@@ -14,6 +14,7 @@ interface Props {
 
 declare global {
   interface Window {
+    ispopup: any;
     jsso?: {
       getValidLoggedInUser?: any;
       getUserDetails?: any;
@@ -74,7 +75,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
         `}
       </Script>
       <Script
-        src={GLOBAL_CONFIG["development"]?.jssoSDK}
+        src={(GLOBAL_CONFIG as any)[APP_ENV]?.jssoSDK}
         onLoad={() => {
           window.jsso = new JssoCrosswalk('et', 'web');
           const jssoLoaded = new Event("jssoLoaded");

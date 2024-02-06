@@ -34,6 +34,37 @@ declare global {
     }
   };
 
+
+export const setCookieToSpecificTime = (name: string, value: any, days: number, time: string | number, seconds: number) => {
+  try {
+    const domain = document.domain;
+    let cookiestring = "";
+    if (name && value) {
+      cookiestring = name + "=" + encodeURIComponent(value) + "; expires=";
+      if (days) {
+        cookiestring +=
+          new Date(new Date().getTime() + days * 24 * 60 * 60 * 1000).toUTCString() +
+          "; domain=" +
+          domain +
+          "; path=/;";
+      }
+      if (time) {
+        cookiestring +=
+          new Date(new Date().toDateString() + " " + time).toUTCString() + "; domain=" + domain + "; path=/;";
+      }
+      if (seconds) {
+        const exdate = new Date();
+        exdate.setSeconds(exdate.getSeconds() + seconds);
+        cookiestring += exdate.toUTCString() + "; domain=" + domain + "; path=/;";
+      }
+    }
+
+    document.cookie = cookiestring;
+  } catch (e) {
+    console.log("setCookieToSpecificTime", e);
+  }
+};
+
   export const getMobileOS = () => {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera || "";
     if (/android/i.test(userAgent)) {
@@ -286,3 +317,41 @@ export const makeBold = (inputText:string, completeText:string) => {
     return completeText;
   }
 }
+
+// Date format
+export const appendZero = (num: any) => (num >= 0 && num < 10) ? '0' + num : num;
+export const dateFormat = (dt: any, format = '%Y-%M-%d') => {
+  let objD:any = (dt instanceof Date) ? dt : new Date(dt);
+  let shortMonthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  let fullMonthName = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  let shortDaysName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'];
+  let fullDaysName = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  let  newDate = '';
+  if(objD != 'Invalid Date') {
+    let hour = objD.getHours();
+    let dList = {
+      '%ss': objD.getMilliseconds(),
+      '%Y': objD.getFullYear(),
+      '%y': objD.getFullYear().toString().substr(-2),
+      '%MMM': shortMonthName[objD.getMonth()],
+      '%MM': fullMonthName[objD.getMonth()],
+      '%M': objD.getMonth() + 1,
+      '%d': objD.getDate(),
+      '%h': (hour <= 12 ? hour : (hour - 12)),
+      '%H': hour,
+      '%m': objD.getMinutes(),
+      '%s': objD.getSeconds(),
+      '%DD': fullDaysName[objD.getDay() + 1],
+      '%D': shortDaysName[objD.getDay() + 1],
+      '%p': (objD.getHours() > 11 ? 'PM' : 'AM')
+    };
+    newDate = format;
+
+    for(let key in dList) {
+      let regEx = new RegExp(key, 'g');
+      let dListVal = (dList as any)[key];
+      newDate = newDate.replace(regEx, appendZero(dListVal));
+    }
+  }
+  return newDate;
+};
