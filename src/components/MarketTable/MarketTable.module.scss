@@ -1,127 +1,128 @@
-@import "../../styles/variables.scss";
-.tableWrapper{
-    margin-top:20px;
-    display: flex;
-    position: relative;
-    height: 500px;
-    overflow: auto;
-    overflow-y: 'scroll';
-    justify-content: center;
-    font-family: $Montserrat-font-family;
+@import '../../styles/variables.scss';
+.tableWrapper {
+  margin-top: 20px;
+  display: flex;
+  position: relative;
+  height: 500px;
+  overflow: auto;
+  overflow-y: 'scroll';
+  justify-content: center;
+  font-family: $Montserrat-font-family;
 
-    .inputWrapper{
-        text-align: center;
-        padding: 8px 12px;
-        .filterInput{
-            width: 100%;
-            min-width: 55px;
-            max-width: 100px;
-            height: 32px;
-            background-color: $gray_95;
-            border: 0;
-            padding: 8px 16px;
-            border-radius: 3px;
-            font-size: 12px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 16px;
-            color: $gray_30;
-        }
-        .filterInputFirst{
-            max-width: 191px;
-            min-width: 140px;
-        }
+  .inputWrapper {
+    text-align: center;
+    padding: 8px 12px;
+    .filterInput {
+      width: 100%;
+      min-width: 55px;
+      max-width: 100px;
+      height: 32px;
+      background-color: $gray_95;
+      border: 0;
+      padding: 8px 16px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 16px;
+      color: $gray_30;
     }
+    .filterInputFirst {
+      max-width: 191px;
+      min-width: 140px;
+    }
+  }
 }
-.watchListTable{
-    border:solid 1px #ddd;
-    width:100%;
+.watchListTable {
+  border: solid 1px #ddd;
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+  td {
+    padding: 10px 5px;
+    border-right: solid 1px #f4f4f4;
+    border-bottom: solid 1px #bababa;
+    text-align: left;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    height: 40px;
+    color: $black;
+    font-style: normal;
+    line-height: 18px;
+    text-align: center;
+  }
+  th {
+    white-space: nowrap;
+    padding: 16px 8px;
+    background-color: $gray_90;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-color: $gray_80;
+    font-family: $Montserrat-font-family;
+    font-weight: 600;
+    color: $gray_30;
+    font-size: 12px;
+    line-height: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    cursor: pointer;
+  }
+  .firstTh {
+    width: 199px;
+    height: 48px;
+    min-width: 200px;
+  }
+}
+
+.fixedWrapper {
+  overflow: auto;
+  width: 100%;
+  max-width: min-content;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  table {
+    border: solid 1px #ddd;
+    width: 400px;
     border-collapse: collapse;
-    overflow-x: auto;
-    td{
-        padding:10px 5px;
-        border-right:solid 1px #F4F4F4;
-        border-bottom: solid 1px #BABABA;
-        text-align: left;
+    overflow: auto;
+  }
+  .fixedTD {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .fixedTr {
+    td {
+      &:first-child {
+        color: $black;
         font-size: 14px;
         font-style: normal;
-        font-weight: 500; 
-        height: 40px;
-        color: $black;
-        font-style: normal;
+        font-weight: 600;
         line-height: 18px;
-        text-align: center;
+        text-align: left;
+      }
+      &:nth-child(2) {
+        font-weight: 700;
+      }
     }
-    th{
-        white-space: nowrap;
-        padding: 16px 8px;
-        background-color: $gray_90;
-        border-right-width: 1px;
-        border-right-style: solid;
-        border-bottom-width: 1px;
-        border-bottom-style: solid;
-        border-color: $gray_80;
-        font-family: $Montserrat-font-family;
-        font-weight:600;
-        color: $gray_30;
-        font-size: 12px;
-        line-height: 16px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        -webkit-box-orient: vertical;
-    }
-    .firstTh{
-        width: 199px;
-        height: 48px;
-        min-width: 200px;
-    }
+  }
+  // .fixedFirstTD{
+  //    // max-width: 200px;
+  //     overflow: hidden;
+  //     text-overflow: ellipsis;
+  //     white-space: nowrap;
+  // }
 }
 
-.fixedWrapper{
-    overflow: auto;
-    width: 100%;
-    max-width: min-content;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    
-    table{
-        border:solid 1px #ddd;
-        width: 400px;
-        border-collapse: collapse;
-        overflow: auto;
-    }
-    .fixedTD{
-        max-width: 100px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-    .fixedTr{
-        td{
-            &:first-child{
-                color: $black;
-                font-size: 14px;
-                font-style: normal;
-                font-weight: 600;
-                line-height: 18px;
-                text-align: left;
-            }
-            &:nth-child(2){
-                font-weight: 700;
-            } 
-        }
-    }
-    // .fixedFirstTD{
-    //    // max-width: 200px;
-    //     overflow: hidden;
-    //     text-overflow: ellipsis;
-    //     white-space: nowrap;
-    // }
+.fixedWrapper::-webkit-scrollbar {
+  display: none;
 }
-
-.fixedWrapper::-webkit-scrollbar { 
-    display: none;
-}
-.scrollableWrapper{
-    overflow-y: auto;
+.scrollableWrapper {
+  overflow-y: auto;
 }
