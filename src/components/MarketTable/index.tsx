@@ -138,7 +138,7 @@ const MarketTable = ({ data }: any) => {
                 <tr key={item.assetId}>
                   {item.data.map((tdData: any, index: number) => (
                     index <= 2 && (tdData.keyId == 'name' ? (
-                      <td key={tdData.keyId}>
+                      <td key={tdData.keyId} className={styles.fixedTD}>
                         <a
                           href={getStockUrl(
                             item.assetId,
