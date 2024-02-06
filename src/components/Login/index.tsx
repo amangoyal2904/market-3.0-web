@@ -126,7 +126,7 @@ const Login = () => {
       ssoReady ? (isLogin ? 
         <div className={`${styles.menuWrap} ${isPrime ? styles.primeMenu : ""}`}>
           <span className={styles.userProfile}>
-            {!userInfo?.thumbImageUrl ? <img width="34" height="34" src={userInfo?.thumbImageUrl} /> : <span className={styles.userFChar}>{userInfo?.firstName.charAt(0)}</span>}
+            {userInfo?.thumbImageUrl ? <img width="34" height="34" src={userInfo?.thumbImageUrl} /> : <span className={styles.userFChar}>{userInfo?.firstName.charAt(0)}</span>}
           </span>
           <div className={`${styles.menuListWrap}`}>
             <div className={styles.userNameWrap}>
