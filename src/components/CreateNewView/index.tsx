@@ -22,11 +22,39 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
         setViewData(viewDataSet)
     }
     
-    const saveUserPersonalise = ()=>{
+    const saveUserPersonalise = async ()=>{
         console.log('save user view personalize ', selectedView)
-        // post api
-        // https://qcbselivefeeds.indiatimes.com/screener/saveViewName
-        // {"fields":["NetSales_YoY_PerChange","EBITDA_YoY_PerChange","EBIT_YoY_PerChange"],"name":"Deepak","selectedFlag":1,"ssoId":"7zpx19bmnlb9yvh9488uyvv6m","viewType":"USER"}
+        const ssoid = window.objUser?.ssoid;
+        const updatedOrder:any[] = [];
+        selectedView.map((item:any)=>{
+            return (
+                updatedOrder.push(item.sourceFieldName)
+            )
+        })
+        const apiUrl = 'https://qcbselivefeeds.indiatimes.com/screener/saveViewName';
+        const bodyPost = {
+            "fields":updatedOrder,
+            "name":screenerName,
+            "selectedFlag":1,
+            "ssoId":ssoid,
+            "viewType":"USER"
+        }
+        const res = await fetch(`${apiUrl}`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ssoid: ssoid
+            },
+            body: JSON.stringify(bodyPost)
+        })
+        const resData = await res.json();
+        console.log('resdata', resData)
+        if(resData && resData.responseCode === 200){
+            closePopCreateView(false)
+            alert(resData.response)
+        }else{
+            alert("some error please check api or code")
+        }
     }
     const handleTabClick = (index:number) => {
         setActiveTab(index);
@@ -64,7 +92,8 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
             let viewAllDataforSelected:any = [...selectedView];
             const userSelectViewData = {
                 "categoryMasterID":addData.categoryMasterID,
-                 "displayName":addData.displayName
+                 "displayName":addData.displayName,
+                 "sourceFieldName":addData.sourceFieldName
             }
             viewAllDataforSelected.push(userSelectViewData);
             setSelectedView(viewAllDataforSelected)

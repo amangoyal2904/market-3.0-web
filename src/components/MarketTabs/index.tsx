@@ -9,7 +9,7 @@ import CreateNewViewComponent from "../CreateNewView/index";
 
 const MarketTabs = ({data, activeViewId, tabsViewIdUpdate}:any) => {
     const personaliseDataListItem = data && data.length > 0 ? data.filter((item:any)=> item.viewId !== 239) : [];
-    const tabDataFilter = data && data.length > 0 ? data : [];
+    const tabDataFilter = data && data.length > 0 ? data.filter((item:any)=> item.selectedFlag) : [];
     const [openPersonaliseModal, setOpenPersonaliseModal] = useState(false);
     const [openPersonaliseCreateModal, setOpenPersonaliseCreateModal] = useState(false);
     const tabClick = (viewId:any)=>{
@@ -40,6 +40,14 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate}:any) => {
             },
             body: JSON.stringify(bodyPost)
         })
+        const resData = await res.json();
+        console.log('resdata', resData)
+        if(resData && resData.responseCode === 200){
+            setOpenPersonaliseModal(false)
+            alert(resData.response)
+        }else{
+            alert("some error please check api or code")
+        }
     }
     return (
         <>
