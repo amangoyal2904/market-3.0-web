@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './Search.module.scss'
 import { formatDate,filterData } from '@/utils';
 import SearchDataLi1 from './SearchDataLi1';
+import { getStockUrl } from '@/utils/utility';
 
 interface Props {
     data:any;
@@ -70,10 +71,12 @@ const SearchData1:React.FC<Props> = ({data,query}) => {
                             {companyListed.length == 0 && companyNonListed.length == 0 && mf.length == 0 && etf.length == 0 && crypto.length == 0 && forex.length == 0 && commodity.length == 0 && index.length == 0 && <p className={styles.noRecord}>No Record Found!!</p>}
                         </>
                     ) : (
-                       data && data.searchresult && 
-                        data.searchresult.map((item:any,index:number)=>
+                        <>
+                            <li className={styles.head}>MOST POPULAR STOCKS</li> 
+                            {data && data.searchresult && 
+                                data.searchresult.map((item:any,index:number)=>
                             <li key={index} className={styles.searchliMost}>
-                                <a href="#" target="_blank">
+                                <a href={getStockUrl(item.companyid,item.seoname,item.companytype)} target="_blank">
                                     <div className={styles.st_row}>
                                         <div className={styles.st_col}>{item.companyname}</div>
                                         <div className={`${styles.st_col} ${styles.cSprite_b} ${styles.st_change} ${Number(item.absolutechange) > 0 ? styles.green : styles.red}`}>{item.current}</div>
@@ -86,7 +89,8 @@ const SearchData1:React.FC<Props> = ({data,query}) => {
                                     </div>
                                 </a>
                             </li>
-                        )
+                        )}
+                        </>
                     )
                 }
             </ul>

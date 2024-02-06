@@ -27,12 +27,15 @@ export const fetchTableData = async (viewId: any) => {
     return res;
 }
 
-export const getStockUrl = (id:number, seoName:string, stockType:string) => {
+export const getStockUrl = (id:string, seoName:string, stockType:string) => {
     if(seoName.indexOf(' ') >= 0) {
         seoName = (seoName.replaceAll(' ', '-').replaceAll('&', '').replaceAll('.', '')).toLowerCase();
     }
-    let stockUrl = '/'+seoName+'/stocks/companyid-'+id+'.cms';
-    if (stockType != 'equity' && stockType !== '')
+    if((stockType == 'dvr' || stockType == 'pp') && id.includes("1111")){
+        id = id.substring(0,id.length - 4)
+    }
+    let stockUrl = 'https://economictimes.indiatimes.com/'+seoName+'/stocks/companyid-'+id+'.cms';
+    if (stockType != 'equity' && stockType !== '' && stockType !== 'company')
         stockUrl = stockUrl + '?companytype=' + stockType.toLowerCase()
     return  stockUrl;
-  }
+}

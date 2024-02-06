@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styles from './Search.module.scss'
 import { formatDate, makeBold } from '@/utils';
+import { getStockUrl } from '@/utils/utility';
 
 interface Props {
     item:any;
@@ -21,7 +22,7 @@ const SearchDataLi1:React.FC<Props> = ({item,entity,count,query}) => {
                 index < count-1 && 
                 <li key={index} className={styles.searchliComp}>
                     {/* <a href={`/${item.tagSeoName}/`} target="_blank"> */}
-                    <a href="#" target="_blank">
+                    <a href={getStockUrl(item.tagId,item.tagSeoName,item.entityType)} target="_blank">
                         <div className={styles.st_row} >
                             {entity == "NPS" ? <div className={styles.st_col} dangerouslySetInnerHTML={{ __html: sanitizeData(`${item.tagName} - ${item.SchemeName1} -${item.SchemeName2}`) }}></div>: <div className={styles.st_col} dangerouslySetInnerHTML={{ __html: makeBold(query,item.tagName) }}></div>}
                             {item.lastTradedPrice &&  <div className={`${styles.st_col} ${styles.cSprite_b} ${styles.st_change} ${Number(item.NetChange) > 0 ? styles.green : styles.red}`}>{item.lastTradedPrice}</div>}

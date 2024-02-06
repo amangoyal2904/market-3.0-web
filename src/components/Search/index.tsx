@@ -21,12 +21,14 @@ const Search = () => {
     const ref = useRef<any>(null);
 
     const handleFocus = (query:string) => {
-        console.log("???",query);
+        
         if(!query){
             const API_URL="./popularStock.json";
+            //const API_URL="https://json.bselivefeeds.indiatimes.com/ET_Community/multicompanyobject?varname=searchresult&exchange=50&order=true&pagsize=15&companytype=equity&companies=12934,13554,23479,10960,13215";
             fetch(API_URL)
             .then((response) => response.json())
             .then((res) => {
+                console.log("???",res);
                 setData(res);
                 setSearchEnable(true);
             })
@@ -43,6 +45,7 @@ const Search = () => {
                 //API_URL = "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&dvr=true&idr=true&nonList=true&pagesize=6&outputtype=json&ticker="+query; 
                 API_URL = "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&realstate=true&dvr=true&idr=true&trust=true&mcx=true&mf=true&crypto=true&nps=true&insideet=true&detail=false&forex=false&index=true&mecklai=true&etf=true&nonList=true&pagesize=6&language=&outputtype=json&ticker="+query; 
             }else{
+                //API_URL="https://json.bselivefeeds.indiatimes.com/ET_Community/multicompanyobject?varname=searchresult&exchange=50&order=true&pagsize=15&companytype=equity&companies=12934,13554,23479,10960,13215"
                 API_URL="./popularStock.json";
             }
             fetch(API_URL)
