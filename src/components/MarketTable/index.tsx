@@ -4,7 +4,7 @@ import { getStockUrl } from '@/utils/utility';
 
 const MarketTable = ({ data }: any) => {
   const [tableDataList, setTableDataList] = useState(data);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({} as any);
 
   function checkIfValidExpression(value: string) {
     return /^[<>=]\d+$/.test(value);
@@ -98,64 +98,107 @@ const MarketTable = ({ data }: any) => {
     filterTableData();
   }, [filters]);
 
+  const scrollRightPos = () => {
+    const leftScroll:any = document.getElementById("fixedTable");
+    const rightScroll:any = document.getElementById("scrollableTable");
+    const rightScrollPos = rightScroll?.scrollTop;
+    leftScroll.scrollTop = rightScrollPos;
+  }
+  const scrollLeftPos = () => {
+    const leftScroll:any = document.getElementById("fixedTable");
+    const rightScroll:any = document.getElementById("scrollableTable");
+    const leftScrollPos = leftScroll.scrollTop;
+    rightScroll.scrollTop = leftScrollPos;
+  }
+
   console.log('@@--->', tableDataList);
+  const tableHeaderData = tableDataList && tableDataList.length && tableDataList[0] && tableDataList[0].data || [];
   return (
-    <div className={styles.tableWrapper}>
-      {tableDataList && tableDataList?.length > 0 ? (
-        <table className={styles.wathcListTable}>
-          <thead>
-            <tr>
-              {tableDataList[0]?.data?.map((thead: any) => (
-                <th key={thead.keyId}>{thead.keyText}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              {tableDataList[0]?.data?.map((tdData: any) => (
-                <td className={styles.inputWrapper} key={tdData.keyId}>
-                  <input
-                    className={styles.filterInput}
-                    type="text"
-                    name={tdData.keyId}
-                    onChange={handleFilterChange}
-                    placeholder={
-                      tdData.keyId == 'name' ? 'Search Values' : '> #'
-                    }
-                  ></input>
-                </td>
-              ))}
-            </tr>
-            {tableDataList.map((item: any, index: number) => (
-              <tr key={item.assetId}>
-                {item.data.map((tdData: any) =>
-                  tdData.keyId == 'name' ? (
-                    <td key={tdData.keyId}>
-                      <a
-                        href={getStockUrl(
-                          item.assetId,
-                          item.assetName,
-                          item.assetType
-                        )}
-                        target="_blank"
-                        title={tdData.value}
-                      >
-                        {tdData.value}
-                      </a>
-                    </td>
-                  ) : (
-                    <td className={tdData.trend} key={tdData.keyId}>
-                      {tdData.value.replaceAll(' ', '')}
-                    </td>
-                  )
-                )}
+ <div className={styles.tableWrapper}>
+      {tableDataList.length > 0 && tableHeaderData.length > 0 ? 
+      <>
+        <div id="fixedTable" className={styles.fixedWrapper} onScroll={scrollLeftPos}>
+            <table className={styles.watchListTable} >
+            <thead>
+              <tr className={styles.leftThWrapper}>
+                {tableHeaderData.map((thead: any, index :number) => (
+                  index <= 2 && <th key={thead.keyText}>{thead.keyText}</th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        'No Data Found'
-      )}
+            </thead>
+            <tbody>
+              <tr>
+                {tableHeaderData.map((tdData: any, index : number) => (
+                 index <= 2 && <td className={styles.inputWrapper}>
+                      <input className={`${styles.filterInput} ${tdData.keyId == "name" ? styles.filterInputFirst : ""}`} type='text' name={tdData.keyId}  onChange={handleFilterChange} placeholder={tdData.keyId == "name" ? 'Search Value' : '> #'}></input>
+                  </td>
+                ))}
+              </tr>
+              {tableDataList.map((item: any, index: number) => (
+                <tr key={item.assetId}>
+                  {item.data.map((tdData: any, index: number) => (
+                    index <= 2 && (tdData.keyId == 'name' ? (
+                      <td key={tdData.keyId}>
+                        <a
+                          href={getStockUrl(
+                            item.assetId,
+                            item.assetName,
+                            item.assetType
+                          )}
+                          target="_blank"
+                          title={tdData.value}
+                        >
+                          {tdData.value}
+                        </a>
+                      </td>
+                    ) : (
+                      <td className={tdData.trend} key={tdData.keyId}>
+                        {tdData.value.replaceAll(' ', '')}
+                      </td>
+                    )
+                  )
+                    
+                    // <td className={styles.fixedTD} key={tdData.keyText}>{tdData.value}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div id="scrollableTable"  className={styles.scrollableWrapper}  onScroll={scrollRightPos}>
+        <table className={styles.watchListTable} >
+            <thead>
+              <tr>
+                {tableHeaderData.map((thead: any, index :number) => (
+                  index >2 && <th key={thead.keyText}>{thead.keyText}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {tableHeaderData.map((tdData: any, index : number) => (
+                 index > 2 && <td className={styles.inputWrapper}>
+                    <input className={styles.filterInput} type='text' name={tdData.keyId} onChange={handleFilterChange} placeholder='> #'></input>
+                  </td>
+                ))}
+              </tr>
+              {tableDataList.map((item: any, index: number) => (
+                <tr key={item.assetId}>
+                  {item.data.map((tdData: any, index: number) => (
+                    index > 2 &&
+                      <td className={tdData.trend} key={tdData.keyId}>
+                        {tdData.value.replaceAll(' ', '')}
+                      </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        
+      </>
+     : "No Data Found"
+  }
     </div>
   );
 };
