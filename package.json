@@ -7,8 +7,14 @@
     "build": "PORT=3009 next build",
     "start": "PORT=3009 next start",
     "lint": "next lint",
-    "winDev": "SET PORT=3002 && next dev",
-    "winStart": "SET PORT=3002 && next start"
+    "type-check": "tsc",
+    "test": "NODE_ENV=test jest",
+    "winDev": "SET PORT=3009 && next dev",
+    "winStart": "SET PORT=3009 && next start",
+    "prepare": "husky install",
+    "check-format": "prettier --check",
+    "format": "prettier --write",
+    "pretty-quick": "pretty-quick"
   },
   "dependencies": {
     "husky": "^9.0.10",
