@@ -37,6 +37,19 @@ const PersonaliseModel = ({setOpenPersonaliseModal, openPersonaliseModal, data, 
     const saveUserPersonalise = ()=>{
         updateTabsListDataHandler(listData)
     }
+    const handleCheckboxChange = (e:any, itemData:any)=>{
+      const isChecked = e.target.checked;
+      const viewId = itemData.viewId;
+      
+      const updatedListData = listData.map((item: any) => {
+        if (item.viewId === viewId) {
+          item.selectedFlag = isChecked ? 1 : 0; 
+        }
+        return item;
+      });
+      setListData(updatedListData)
+      console.log(updatedListData);
+    }
     const createNewHandler = ()=>{
       setOpenPersonaliseModal(false);
       createNewViewHandler(true);
@@ -80,7 +93,18 @@ const PersonaliseModel = ({setOpenPersonaliseModal, openPersonaliseModal, data, 
                                                     >
                                                     <div className={styles.dragListItem}>
                                                       <span className={styles.itemTxt}>{list.name}</span>
-                                                      <span className={styles.removeItem}></span>
+                                                      <div className={styles.checkBoxWrap}>
+                                                        <div className={styles.checkboxSlider}>
+                                                          <label className={styles.checkboxLabel}>
+                                                            <input
+                                                              type="checkbox"
+                                                              onChange={(e:any)=>handleCheckboxChange(e, list)}
+                                                              checked={list.selectedFlag}
+                                                            />
+                                                            <span className={styles.slider}></span>
+                                                          </label>
+                                                        </div>
+                                                      </div>
                                                     </div>
                                                 </li>
                                               )

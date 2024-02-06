@@ -5,7 +5,12 @@ export const fetchTabsData = async () => {
     //const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
     const ssoid = window.objUser?.ssoid;
     const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?ssoid=${ssoid}`
-    const data = await fetch(apiUrl);
+    const data = await fetch(apiUrl,
+        { cache: 'no-store', 
+        "headers": {
+            'ssoid': ssoid
+        }
+    });
     const res = await data.json();
     return res;
 }

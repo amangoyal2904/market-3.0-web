@@ -1,7 +1,12 @@
 import styles from './CreateNewView.module.scss';
 import { useState, useEffect, useRef } from 'react';
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
+
+
 const CreateNewViewComponent = ({closePopCreateView}:any)=>{
     const [viewData, setViewData]:any = useState([]);
+    const [screenerName, setScreenerName]:any = useState("");
     const [activeTab, setActiveTab] = useState(0);
     const [searchNode, setSearchNode] = useState('');
     const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
@@ -18,13 +23,19 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
     }
     
     const saveUserPersonalise = ()=>{
-        console.log('save user view personalize ')
+        console.log('save user view personalize ', selectedView)
+        // post api
+        // https://qcbselivefeeds.indiatimes.com/screener/saveViewName
+        // {"fields":["NetSales_YoY_PerChange","EBITDA_YoY_PerChange","EBIT_YoY_PerChange"],"name":"Deepak","selectedFlag":1,"ssoId":"7zpx19bmnlb9yvh9488uyvv6m","viewType":"USER"}
     }
     const handleTabClick = (index:number) => {
         setActiveTab(index);
     };
     const handleInputChange = (e:any) => {
         setSearchNode(e.target.value);
+        if(e.target.value === ''){
+            setSearchListItems([]);
+        }
     };
     const FetchDataSearchView = async ()=>{
         const data = await fetch(`https://screener.indiatimes.com/screener/getScreenerDBCategoryFieldMapping?searchtext=${searchNode}`);
@@ -63,6 +74,21 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
             setSelectedView(updatedViewData);
         }
     }
+    const handleOnDragEnd = (result:any) => {
+        //console.log('result',result)
+        if (!result.destination) return; // Dropped outside the list
+    
+        const updatedListData = [...selectedView];
+        const [movedItem] = updatedListData.splice(result.source.index, 1);
+        updatedListData.splice(result.destination.index, 0, movedItem);
+    
+        // Update order IDs
+        updatedListData.forEach((item, index) => {
+          item.order = index + 1;
+        });
+        //console.log(updatedListData);
+        setSelectedView(updatedListData);
+    };
     useEffect(() => {
         
         document.addEventListener('click', handleClickOutside);
@@ -98,14 +124,17 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
         <div className={styles.wraper}>
             <div className={styles.perWrap} ref={viewWraperRef}>
                 <div className={styles.header}>
-                    Create New View
+                    <span>Create New View</span>
+                    <div className={styles.formGroup}>
+                        <input type="text" placeholder="Please enter screener name" value={screenerName} onChange={(e:any)=>setScreenerName(e.target.value)} />
+                    </div>
                 </div>
                 <div className={styles.body}>
                     <div className={styles.bodySec}>
                         <div className={styles.filterSec}>
                             <div className={styles.leftSec}>
                                 <h2>Selected Metrics</h2>
-                                <ul className={styles.viewList}>
+                                {/* <ul className={styles.viewList}>
                                     {
                                         selectedView.length > 0 ? selectedView.map((viewItem:any)=>{
                                             return (
@@ -117,7 +146,37 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
                                             )
                                         }) : ""
                                     }
+                                </ul> */}
+                                {
+                            selectedView.length > 0 ? <DragDropContext onDragEnd={handleOnDragEnd}>
+                            <Droppable droppableId="list" type="group" key={selectedView.length}>
+                                {(provided:any= {}, snapshot:any = {}) => (
+                                <ul {...provided.droppableProps} ref={provided.innerRef} className={styles.viewList}>
+                                    {selectedView.map((list:any, index:any) => {
+                                      return (
+                                        <Draggable key={`${list.categoryMasterID}-${index}`} draggableId={`${list.categoryMasterID}-${index}`}  index={index}>
+                                            {(provided:any) => {
+                                              return (
+                                                <li
+                                                    ref={provided.innerRef} 
+                                                    {...provided.draggableProps} 
+                                                    {...provided.dragHandleProps}
+                                                    >
+                                                    <div className={styles.listItem}>
+                                                      <span className={styles.itemTxt}>{list.displayName}</span>
+                                                    </div>
+                                                </li>
+                                              )
+                                            }}
+                                        </Draggable>
+                                      )
+                                    })}
+                                    {provided.placeholder}
                                 </ul>
+                                )}
+                            </Droppable>
+                        </DragDropContext> : ""
+                        }
                             </div>
                             <div className={styles.rightSec}>
                                 <div className={styles.topSearchSec}>
@@ -129,8 +188,13 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
                                                 return (
                                                     <li key={item.categoryFieldMasterID}>
                                                         <div className={styles.formGroup}>
-                                                            <input type="checkbox" value={item.categoryMasterID} id={item.categoryMasterID} />
-                                                            <label htmlFor={item.categoryMasterID}  dangerouslySetInnerHTML={{ __html: highlightMatch(item.displayName) }}>
+                                                            <input 
+                                                                type="checkbox" 
+                                                                value={item.categoryMasterID} 
+                                                                id={`${item.categoryMasterID}-search`}
+                                                                checked={selectedView.some((viewItem:any) => viewItem.categoryMasterID === item.categoryMasterID)}
+                                                                onChange={(e)=>viewCheckHandler(e, item)} />
+                                                            <label htmlFor={`${item.categoryMasterID}-search`}  dangerouslySetInnerHTML={{ __html: highlightMatch(item.displayName) }}>
                                                             </label>
                                                         </div>
                                                     </li>
@@ -174,7 +238,7 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
                                                                         value={childSubItem.categoryMasterID} 
                                                                         className={styles.checkBoxSec} 
                                                                         onChange={(e)=>viewCheckHandler(e, childSubItem)}
-                                                                        checked={selectedView.includes(childSubItem.categoryMasterID)} />
+                                                                        checked={selectedView.some((item:any) => item.categoryMasterID === childSubItem.categoryMasterID)} />
                                                                         <label htmlFor={childSubItem.categoryMasterID}>{childSubItem.displayName}</label>
                                                                     </div>
                                                                 </li>
