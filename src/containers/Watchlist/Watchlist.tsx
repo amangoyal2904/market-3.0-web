@@ -10,11 +10,9 @@ import Blocker from '../../components/Blocker';
 
 const Watchlist = () => {
   const [wathcListTab, setWatchListTab] = useState([]);
-  const [filters, setFilters] = useState([]);
   const [activeViewId, setActiveViewId] = useState(0);
   const [showBlocker, setShowBlocker] = useState(false);
   const [tableData, setTableData] = useState([]);
-  const [filterTableData, setFilterTableData] = useState([]);
   const { state } = useStateContext();
   const { isLogin, userInfo } = state.login;
 
@@ -36,88 +34,7 @@ const Watchlist = () => {
   const fetchWatchListTableAPI = async (viewId: any) => {
     const res = await fetchTableData(viewId);
     setTableData(res.dataList);
-    setFilterTableData(res.dataList);
   };
-
-  const checkIfValidExpression = (value: string) => {
-    return /^[<>]=?\d+$/.test(value);
-  };
-
-  const filterChangeHandler = (e: { target: { name: string; value: any } }) => {
-    const { name, value } = e.target;
-    if (name != 'name' && checkIfValidExpression(value)) {
-      setFilters({ ...filters, [name]: value });
-    } else if (name === 'name') {
-      setFilters({ ...filters, [name]: value });
-    } else {
-      delete filters[name];
-      setFilters({ ...filters });
-    }
-
-    console.log('@@Filter: ' + JSON.stringify(filters));
-    let filterData = tableData;
-    if (Object.keys(filters).length) {
-      Object.keys(filters).forEach((keyId) => {
-        filterData = filterData.filter((item: any) => {
-          const cellValue = filters[keyId].trim();
-          if (keyId == 'name') {
-            return (
-              item &&
-              item.data.some(
-                (x: { keyId: string; filterFormatValue: string }) =>
-                  x.keyId == keyId && x.filterFormatValue.includes(cellValue)
-              )
-            );
-          } else {
-            const [operator, comparisonValue] = cellValue
-              .match(/([><=]+)(\d+)/)
-              .slice(1);
-            switch (operator) {
-              case '>':
-                return (
-                  item &&
-                  item.data.some(
-                    (x: { keyId: string; filterFormatValue: any }) =>
-                      x.keyId == keyId &&
-                      parseFloat(x.filterFormatValue) >
-                        parseFloat(comparisonValue)
-                  )
-                );
-              case '<':
-                return (
-                  item &&
-                  item.data.some(
-                    (x: { keyId: string; filterFormatValue: any }) =>
-                      x.keyId == keyId &&
-                      parseFloat(x.filterFormatValue) <
-                        parseFloat(comparisonValue)
-                  )
-                );
-              case '=':
-                return (
-                  item &&
-                  item.data.some(
-                    (x: { keyId: string; filterFormatValue: any }) =>
-                      x.keyId == keyId &&
-                      parseFloat(x.filterFormatValue) ==
-                        parseFloat(comparisonValue)
-                  )
-                );
-              default:
-                return true;
-            }
-          }
-        });
-        if (!!filterData) {
-          console.log('@@Filter Data: ' + JSON.stringify(filterData));
-          setFilterTableData(filterData);
-        }
-      });
-    } else {
-      setFilterTableData(tableData);
-    }
-  };
-
   useEffect(() => {
     if (isLogin) {
       fetchWatchListData();
@@ -139,10 +56,7 @@ const Watchlist = () => {
             activeViewId={activeViewId}
             tabsViewIdUpdate={tabsViewIdUpdate}
           />
-          <MarketTable
-            data={filterTableData}
-            onFilterChange={filterChangeHandler}
-          />
+          <MarketTable data={tableData} />
         </>
       )}
     </div>
