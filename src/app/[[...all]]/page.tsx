@@ -1,6 +1,7 @@
 import { headers, cookies } from 'next/headers';
-import Service from "../../network/service";
-import Watchlist from "../../containers/Watchlist"
+import Service from '../../network/service';
+import Watchlist from '../../containers/Watchlist';
+import Eticons from '../../containers/Eticons';
 import Layout from '../../components/Layout';
 import React, { Suspense } from 'react';
 import { pageType } from '@/utils';
@@ -14,33 +15,49 @@ declare global {
   }
 }
 
-export default async function Page({ params, searchParams }: {
-  params: { all: string[] }
-  searchParams: { [key: string]: string | string[] | undefined }
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: { all: string[] };
+  searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const headersList = headers()
+  const headersList = headers();
   console.log({ headersList });
-  
+
   const isprimeuser = cookies().get('isprimeuser'),
-  { all = [] } = params,
-  lastUrlPart: string = all?.slice(-1).toString(),
-  api = "";
+    { all = [] } = params,
+    lastUrlPart: string = all?.slice(-1).toString(),
+    api = '';
   //REQUEST = APIS_CONFIG.REQUEST;
 
   //console.log({isprimeuser});
-  console.log("alll", all);
+  console.log('alll', all);
   let page = pageType(all.join('/')),
-  extraParams: any = {},
-  response: any = {},
-  menuData: any = {},
-  dynamicFooterData: any = {};
-  
+    extraParams: any = {},
+    response: any = {},
+    menuData: any = {},
+    dynamicFooterData: any = {};
+
   const versionControl = {};
-  console.log("Page???",page);
-  return <Layout page={page} dynamicFooterData={dynamicFooterData} menuData={menuData} objVc={versionControl} data={response}>      
-    <Suspense fallback={<p>Loading...</p>}>
-        {page == "notfound" ? <NotFound/> : <Watchlist {...response} objVc={versionControl} />}
-    </Suspense>
-  </Layout>
-  ;
+  console.log('Page???', page);
+  return (
+    <Layout
+      page={page}
+      dynamicFooterData={dynamicFooterData}
+      menuData={menuData}
+      objVc={versionControl}
+      data={response}
+    >
+      <Suspense fallback={<p>Loading...</p>}>
+        {page == 'watchlist' ? (
+          <Watchlist {...response} objVc={versionControl} />
+        ) : page == 'eticons' ? (
+          <Eticons {...response} objVc={versionControl} />
+        ) : (
+          <NotFound />
+        )}
+      </Suspense>
+    </Layout>
+  );
 }
