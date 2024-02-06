@@ -129,7 +129,7 @@ const MarketTable = ({ data }: any) => {
             <tbody>
               <tr>
                 {tableHeaderData.map((tdData: any, index : number) => (
-                 index <= 2 && <td className={styles.inputWrapper}>
+                 index <= 2 && <td key={index} className={styles.inputWrapper}>
                       <input className={`${styles.filterInput} ${tdData.keyId == "name" ? styles.filterInputFirst : ""}`} type='text' name={tdData.keyId}  onChange={handleFilterChange} placeholder={tdData.keyId == "name" ? 'Search Value' : '> #'}></input>
                   </td>
                 ))}
@@ -177,7 +177,7 @@ const MarketTable = ({ data }: any) => {
             <tbody>
               <tr>
                 {tableHeaderData.map((tdData: any, index : number) => (
-                 index > 2 && <td className={styles.inputWrapper}>
+                 index > 2 && <td key={index} className={styles.inputWrapper}>
                     <input className={styles.filterInput} type='text' name={tdData.keyId} onChange={handleFilterChange} placeholder='> #'></input>
                   </td>
                 ))}
