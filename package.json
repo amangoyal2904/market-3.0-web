@@ -7,10 +7,17 @@
     "build": "PORT=3009 next build",
     "start": "PORT=3009 next start",
     "lint": "next lint",
-    "winDev": "SET PORT=3002 && next dev",
-    "winStart": "SET PORT=3002 && next start"
+    "type-check": "tsc",
+    "test": "NODE_ENV=test jest",
+    "winDev": "SET PORT=3009 && next dev",
+    "winStart": "SET PORT=3009 && next start",
+    "prepare": "husky install",
+    "check-format": "prettier --check",
+    "format": "prettier --write",
+    "pretty-quick": "pretty-quick"
   },
   "dependencies": {
+    "husky": "^9.0.10",
     "next": "14.1.0",
     "react": "^18",
     "react-beautiful-dnd": "^13.1.1",
@@ -25,5 +32,13 @@
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
     "typescript": "^5"
+  },
+  "lint-staged": {
+    "src/**/*.(ts|tsx|js|jsx)": [
+      "pretty-quick --staged",
+      "npx eslint ./src",
+      "jest ./src --coverage=false",
+      "next build ./"
+    ]
   }
 }

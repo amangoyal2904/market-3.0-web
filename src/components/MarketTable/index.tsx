@@ -4,7 +4,7 @@ import { getStockUrl } from '@/utils/utility';
 
 const MarketTable = ({ data }: any) => {
   const [tableDataList, setTableDataList] = useState(data);
-  const [filters, setFilters] = useState({} as any);
+  const [filters, setFilters] = useState<any>({});
 
   function checkIfValidExpression(value: string) {
     return /^[<>=]\d+$/.test(value);
