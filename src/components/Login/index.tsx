@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import styles from './Login.module.scss'
 import { APP_ENV, verifyLogin, initSSOWidget, logout, loadPrimeApi } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
-import { GLOBAL_CONFIG } from "../../network/global_config";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 
 const Login = () => {
   const { state, dispatch } = useStateContext();

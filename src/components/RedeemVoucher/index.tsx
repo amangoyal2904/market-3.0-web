@@ -4,7 +4,7 @@ import { dateFormat } from "../../utils";
 import Service from "../../network/service";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV, getCookie, setCookieToSpecificTime } from "../../utils"; // Correct import path
-import { GLOBAL_CONFIG } from "../../network/global_config";
+import GLOBAL_CONFIG  from "../../network/global_config.json";
 // import { grxEvent } from "utils/ga";
 
 interface ResponseData {

@@ -4,7 +4,7 @@ import { APP_ENV } from "../utils";
 export const fetchTabsData = async () => {
     //const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
     const ssoid = window.objUser?.ssoid;
-    const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?ssoid=${ssoid}`
+    const apiUrl = `${(APIS_CONFIG as any)?.watchListTab[APP_ENV]}?ssoid=${ssoid}`
     const data = await fetch(apiUrl);
     const res = await data.json();
     return res;
@@ -13,7 +13,7 @@ export const fetchTabsData = async () => {
 export const fetchTableData = async (viewId: any) => {
     //const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
     const ssoid = window.objUser?.ssoid;
-    const apiUrl = APIS_CONFIG?.watchListTable["development"];
+    const apiUrl = (APIS_CONFIG as any)?.watchListTable["development"];
     const data = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -34,7 +34,7 @@ export const getStockUrl = (id:string, seoName:string, stockType:string) => {
     if((stockType == 'dvr' || stockType == 'pp') && id.includes("1111")){
         id = id.substring(0,id.length - 4)
     }
-    let stockUrl = 'https://economictimes.indiatimes.com/'+seoName+'/stocks/companyid-'+id+'.cms';
+    let stockUrl = (APIS_CONFIG as any)?.DOMAIN[APP_ENV]+seoName+'/stocks/companyid-'+id+'.cms';
     if (stockType != 'equity' && stockType !== '' && stockType !== 'company')
         stockUrl = stockUrl + '?companytype=' + stockType.toLowerCase()
     return  stockUrl;

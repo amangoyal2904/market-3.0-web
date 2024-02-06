@@ -6,7 +6,7 @@ import Search from '../Search';
 import Login from '../Login';
 import { APP_ENV } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
-import { GLOBAL_CONFIG } from "../../network/global_config";
+import GLOBAL_CONFIG  from "../../network/global_config.json"
 
 const Header = () => {
   const { state, dispatch } = useStateContext();
