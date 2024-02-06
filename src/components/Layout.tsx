@@ -6,7 +6,7 @@ import Scripts from './Scripts';
 import Footer from './Footer';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Header from './Header';
-import { StateProvider } from "../store/StateContext";
+import RedeemVoucher from './RedeemVoucher';
 
 interface Props {
   page?: string;
@@ -49,7 +49,8 @@ const Layout:FC<Props> = ({ page, dynamicFooterData, menuData, objVc, data, ispr
           </main> 
           <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
               <div id="ssoLogin" className="ssoLoginElm"/>
-          </div> 
+          </div>
+          <RedeemVoucher /> 
       {/* </StateProvider>       */}
       </>
     );

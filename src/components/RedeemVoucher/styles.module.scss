@@ -1,0 +1,113 @@
+@import "../../styles/variables.scss";
+
+.rdmWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+
+  &:after {
+    content: '';
+    opacity: 0.54;
+    background-color: #000000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .boxWrapper {
+    min-height: 300px;
+    margin: auto;
+    position: absolute;
+    text-align: center;
+    font-family: $Montserrat-font-family;
+    background-color: #fff;
+    z-index: 9;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    width: 456px;
+    box-sizing: border-box;
+    padding: 28px;
+
+    .heading {
+      font-size: 22px;
+      font-weight: 700;
+      margin-top: 15px;
+    }
+
+    .inputBoxWrapper {
+      width: 90%;
+      text-align: center;
+      margin: 25px auto 0;
+      .helperText {
+        font-size: 18px;
+        font-weight: 500;
+      }
+      .inputBox {
+        width: 263px;
+        height: 45px;
+        border-radius: 3px;
+        border: 1px solid #d8d8d8;
+        margin-top: 9px;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+
+    .errorMsg {
+      font-size: 12px;
+      color: #ed193b;
+      margin-top: 5px;
+    }
+
+    .successMsg {
+      font-size: 16px;
+      margin-top: 5px;
+    }
+
+    .submitBtn {
+      width: 263px;
+      height: 47px;
+      border-radius: 3px;
+      background-color: #ed193b;
+      margin: 0 auto;
+      cursor: pointer;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 47px;
+      margin-top: 27px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .close {
+      top: 9px;
+      position: absolute;
+      right: 9px;
+      width: 18px;
+      height: 18px;
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      border-radius: 50%;
+      line-height: 17px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+  }
+
+}
