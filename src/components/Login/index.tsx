@@ -38,7 +38,7 @@ const Login = () => {
         payload: {
           ssoReady: true,
           isLogin: true,
-          isPrime: true,//window.objUser.isPrime,
+          isPrime: window.objUser.isPrime,
           userInfo: window.objUser?.info,
           ssoid: window.objUser?.ssoid,
           ticketId: window.objUser?.ticketId,
@@ -57,7 +57,7 @@ const Login = () => {
       payload: {
         ssoReady: true,
         isLogin: true,
-        isPrime: true, //window.objUser.isPrime,
+        isPrime: window.objUser.isPrime,
         userInfo: window.objUser?.info,
         ssoid: window.objUser?.ssoid,
         ticketId: window.objUser?.ticketId,
