@@ -1,6 +1,8 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { APP_ENV } from "../../utils";
+import APIS_CONFIG from "../../network/api_config.json"
 import styles from './Search.module.scss'
-import SearchData1 from './SearchData1';
+import SearchData from './SearchData';
 
 const debounce = <T extends any[]>(
     func: (...args: T) => void,
@@ -18,6 +20,9 @@ const Search = () => {
     const [data, setData] = useState([]);
     const [val,setVal] =useState("");
     const [searchEnable,setSearchEnable] = useState(false);
+    const [newsData,setNewsData] = useState([])
+    const [definitionData,setDefinitionData] = useState()
+    const [reportData,setReportData] = useState()
     const ref = useRef<any>(null);
 
     const handleFocus = (query:string) => {
@@ -40,26 +45,78 @@ const Search = () => {
     const fetchNameResults = (query:string) => {
         console.log(">>>",query);
         try {
-            let API_URL = "";
+            let requests = [];
             if(query){
-                //API_URL = "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&dvr=true&idr=true&nonList=true&pagesize=6&outputtype=json&ticker="+query; 
-                API_URL = "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&realstate=true&dvr=true&idr=true&trust=true&mcx=true&mf=true&crypto=true&nps=true&insideet=true&detail=false&forex=false&index=true&mecklai=true&etf=true&nonList=true&pagesize=6&language=&outputtype=json&ticker="+query; 
+                const API_URL = (APIS_CONFIG as any)?.SEARCH.main[APP_ENV]+"&ticker="+query; 
+                const NEWS_URL = (APIS_CONFIG as any)?.SEARCH.news["production"]+"?query="+query;
+                const DEFINITION_URL = (APIS_CONFIG as any)?.SEARCH.definition["production"]+"?q="+query;
+                const REPORT_URL = (APIS_CONFIG as any)?.SEARCH.report["production"]+"?keyword="+query;
+                requests = [API_URL, NEWS_URL,DEFINITION_URL,REPORT_URL].map((url) =>
+                    fetch(url, {
+                        method: "GET"
+                    })
+                );
             }else{
-                //API_URL="https://json.bselivefeeds.indiatimes.com/ET_Community/multicompanyobject?varname=searchresult&exchange=50&order=true&pagsize=15&companytype=equity&companies=12934,13554,23479,10960,13215"
-                API_URL="./popularStock.json";
+                const API_URL="./popularStock.json";
+                requests = [API_URL].map((url) =>
+                    fetch(url, {
+                        method: "GET"
+                    })
+                );
             }
-            fetch(API_URL)
-            .then((response) => response.json())
-            .then((res) => {
-                setData(res);
+            
+        Promise.all(requests)
+        .then((responses) =>
+        responses.forEach((response, i) => {
+            response
+              .json()
+              .then((result) => {
+                if (i === 0) {
+                  setData(result);
+                } else if (i === 1) {
+                    setNewsData(result);
+                    console.log("NewsData>>",newsData);
+                }else if (i === 2) {
+                    setDefinitionData(result);
+                    console.log("definitionData>>",definitionData);
+                }else if (i === 3) {
+                    setReportData(result);
+                    console.log("reportData>>",reportData);
+                }
                 if(query){
                     setVal(query);
                 }
                 setSearchEnable(true);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+              })
+              .catch((error) => {
+                console.error(`Data Fetch Error Inner: ${error}`);
+              });
+          })
+          
+        )
+        .catch((error) => {
+          console.error(`Data Fetch Error Outer: ${error}`);
+        })
+        .then(() => {
+          
+        });
+
+
+
+
+
+            // fetch(API_URL)
+            // .then((response) => response.json())
+            // .then((res) => {
+            //     setData(res);
+            //     if(query){
+            //         setVal(query);
+            //     }
+            //     setSearchEnable(true);
+            // })
+            // .catch((err) => {
+            //     console.log(err);
+            // })
         } catch (e) {
             console.error(e);
         }
@@ -80,7 +137,7 @@ const Search = () => {
         {searchEnable && 
         <>
         <div className={`${styles.right_icon} ${styles.close_search}`} onClick={handleClose}>X</div>
-        <SearchData1 data={data} query={val}/>
+        <SearchData data={data} query={val}/>
         </>
         }
         

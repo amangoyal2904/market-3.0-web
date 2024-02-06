@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { FC, useEffect } from "react";
 import { APP_ENV, verifyLogin } from "../utils";
-import {GLOBAL_CONFIG} from "../network/global_config"
+import GLOBAL_CONFIG from "../network/global_config.json"
 
 
 interface Props {
@@ -147,8 +147,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
               m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
               })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-              ga('create', 'UA-198011-5', 'auto');
+              ga('create', '${GLOBAL_CONFIG.gaId}', 'auto');
               const gaLoaded = new Event('gaLoaded');
               document.dispatchEvent(gaLoaded);
               `
@@ -165,7 +164,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
                     g[t] = g[t] || {}, h = r.createElement(o), rx = r.getElementsByTagName(o)[0];
                     h.async = 1;h.src = w;rx.parentNode.insertBefore(h, rx)
                 })(window, document, 'script', 'https://static.growthrx.in/js/v2/web-sdk.js', 'grx');
-                grx('init', 'gc2744074');
+                grx('init', '${GLOBAL_CONFIG.grxId}');
                 window.customDimension = { ...window["customDimension"], url: window.location.href };
                 //grx('track', 'page_view', {url: window.location.href});
                 const grxLoaded = new Event('grxLoaded');
@@ -186,7 +185,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
                 window.dataLayer = window.dataLayer || [];
                 function gtag() { dataLayer.push(arguments); }
                 gtag('js', new Date());
-                gtag('config', 'GTM-WV452H7', { page_path: window.location.pathname });
+                gtag('config', '${GLOBAL_CONFIG.gtmId}', { page_path: window.location.pathname });
               `
             }}
           />

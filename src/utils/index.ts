@@ -17,7 +17,7 @@ declare global {
   
   declare var ssoWidget: any;
 
-  export const APP_ENV = (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || "production";
+  export const APP_ENV:any = (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || "production";
 
   export const getCookie = (name: string) => {
     try {
