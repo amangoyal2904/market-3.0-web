@@ -135,7 +135,7 @@ const MarketTable = ({ data }: any) => {
                 ))}
               </tr>
               {tableDataList.map((item: any, index: number) => (
-                <tr key={item.assetId}>
+                <tr key={item.assetId} className={styles.fixedTr}>
                   {item.data.map((tdData: any, index: number) => (
                     index <= 2 && (tdData.keyId == 'name' ? (
                       <td key={tdData.keyId} className={styles.fixedTD}>

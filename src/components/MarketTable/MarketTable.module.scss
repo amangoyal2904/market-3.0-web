@@ -43,11 +43,14 @@
         border-right:solid 1px #F4F4F4;
         border-bottom: solid 1px #BABABA;
         text-align: left;
-        color: #666; 
         font-size: 14px;
         font-style: normal;
         font-weight: 500; 
         height: 40px;
+        color: $black;
+        font-style: normal;
+        line-height: 18px;
+        text-align: center;
     }
     th{
         white-space: nowrap;
@@ -66,17 +69,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
         -webkit-box-orient: vertical;
-    }
-    td{
-        &:first-child{
-            color: #333;
-            font-family: Montserrat;
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 700;
-            line-height: normal; 
-            height: 40px;
-        }
     }
     .firstTh{
         width: 199px;
@@ -103,6 +95,21 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+    .fixedTr{
+        td{
+            &:first-child{
+                color: $black;
+                font-size: 14px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 18px;
+                text-align: left;
+            }
+            &:nth-child(2){
+                font-weight: 700;
+            } 
+        }
     }
     // .fixedFirstTD{
     //    // max-width: 200px;
