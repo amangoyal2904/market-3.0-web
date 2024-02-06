@@ -122,7 +122,7 @@ const MarketTable = ({ data }: any) => {
             <thead>
               <tr className={styles.leftThWrapper}>
                 {tableHeaderData.map((thead: any, index :number) => (
-                  index <= 2 && <th key={thead.keyText}>{thead.keyText}</th>
+                  index <= 2 && <th className={`${thead.keyId == "name" ? styles.firstTh : ""}`} key={thead.keyText}>{thead.keyText}</th>
                 ))}
               </tr>
             </thead>
@@ -152,7 +152,7 @@ const MarketTable = ({ data }: any) => {
                         </a>
                       </td>
                     ) : (
-                      <td className={tdData.trend} key={tdData.keyId}>
+                      <td className={`${styles.fixedTD} ${tdData.trend}`} key={tdData.keyId}>
                         {tdData.value.replaceAll(' ', '')}
                       </td>
                     )
@@ -170,7 +170,7 @@ const MarketTable = ({ data }: any) => {
             <thead>
               <tr>
                 {tableHeaderData.map((thead: any, index :number) => (
-                  index >2 && <th key={thead.keyText}>{thead.keyText}</th>
+                  index > 2 && <th key={thead.keyText}>{thead.keyText}</th>
                 ))}
               </tr>
             </thead>

@@ -3,7 +3,7 @@
     margin-top:20px;
     display: flex;
     position: relative;
-    height: 300px;
+    height: 500px;
     overflow: auto;
     overflow-y: 'scroll';
     justify-content: center;
@@ -15,6 +15,7 @@
         .filterInput{
             width: 100%;
             min-width: 55px;
+            max-width: 100px;
             height: 32px;
             background-color: $gray_95;
             border: 0;
@@ -27,7 +28,8 @@
             color: $gray_30;
         }
         .filterInputFirst{
-            width: 191px;
+            max-width: 191px;
+            min-width: 140px;
         }
     }
 }
@@ -46,7 +48,6 @@
         font-style: normal;
         font-weight: 500; 
         height: 40px;
-        text-overflow: ellipsis;
     }
     th{
         white-space: nowrap;
@@ -77,9 +78,10 @@
             height: 40px;
         }
     }
-    th:first-child {
+    .firstTh{
         width: 199px;
         height: 48px;
+        min-width: 200px;
     }
 }
 
@@ -102,6 +104,12 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+    // .fixedFirstTD{
+    //    // max-width: 200px;
+    //     overflow: hidden;
+    //     text-overflow: ellipsis;
+    //     white-space: nowrap;
+    // }
 }
 
 .fixedWrapper::-webkit-scrollbar { 
