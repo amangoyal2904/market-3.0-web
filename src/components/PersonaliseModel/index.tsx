@@ -4,7 +4,7 @@ import {useRef, useEffect, useState} from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 
-const PersonaliseModel = ({setOpenPersonaliseModal, openPersonaliseModal, data, updateTabsListDataHandler, createNewViewHandler}:any)=>{
+const PersonaliseModel = ({setOpenPersonaliseModal, openPersonaliseModal, data, updateTabsListDataHandler, createNewViewHandler, editmode}:any)=>{
     const dataLis = data && data.length > 0 ? data : [];
     const [listData, setListData] = useState(dataLis);
     const popupRef = useRef<HTMLDivElement | null>(null);
@@ -37,7 +37,33 @@ const PersonaliseModel = ({setOpenPersonaliseModal, openPersonaliseModal, data, 
     const saveUserPersonalise = ()=>{
         updateTabsListDataHandler(listData)
     }
+    const handleCheckboxChange = (e:any, itemData:any)=>{
+      const isChecked = e.target.checked;
+      const viewId = itemData.viewId;
+      
+      const updatedListData = listData.map((item: any) => {
+        if (item.viewId === viewId) {
+          item.selectedFlag = isChecked ? 1 : 0; 
+        }
+        return item;
+      });
+      setListData(updatedListData)
+      console.log(updatedListData);
+    }
+    const editModeHandler = (viewId:any)=>{
+      console.log('click to edit mode')
+      editmode({
+        mode:true,
+        viewId:viewId
+      })
+      setOpenPersonaliseModal(false);
+      createNewViewHandler(true);
+    }
     const createNewHandler = ()=>{
+      editmode({
+        mode:false,
+        viewId:""
+      })
       setOpenPersonaliseModal(false);
       createNewViewHandler(true);
     }
@@ -80,7 +106,23 @@ const PersonaliseModel = ({setOpenPersonaliseModal, openPersonaliseModal, data, 
                                                     >
                                                     <div className={styles.dragListItem}>
                                                       <span className={styles.itemTxt}>{list.name}</span>
-                                                      <span className={styles.removeItem}></span>
+                                                      {
+                                                        list.viewType && list.viewType === "USER" ? <div className={styles.editMode}>
+                                                        <span onClick={()=>editModeHandler(list.viewId)}>Edit Mode</span>
+                                                      </div> : null
+                                                      }
+                                                      <div className={styles.checkBoxWrap}>
+                                                        <div className={styles.checkboxSlider}>
+                                                          <label className={styles.checkboxLabel}>
+                                                            <input
+                                                              type="checkbox"
+                                                              onChange={(e:any)=>handleCheckboxChange(e, list)}
+                                                              checked={list.selectedFlag}
+                                                            />
+                                                            <span className={styles.slider}></span>
+                                                          </label>
+                                                        </div>
+                                                      </div>
                                                     </div>
                                                 </li>
                                               )

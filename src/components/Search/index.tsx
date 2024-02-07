@@ -24,16 +24,21 @@ const Search = () => {
     const [definitionData,setDefinitionData] = useState<any>();
     const [reportData,setReportData] =useState<any>();
     const ref = useRef<any>(null);
-
-    const handleFocus = (query:string) => {
-        
+    const popupRef = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        if (searchEnable) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [searchEnable]);
+    const handleFocus = (query:string) => {  
         if(!query){
             const API_URL="./popularStock.json";
-            //const API_URL="https://json.bselivefeeds.indiatimes.com/ET_Community/multicompanyobject?varname=searchresult&exchange=50&order=true&pagsize=15&companytype=equity&companies=12934,13554,23479,10960,13215";
             fetch(API_URL)
             .then((response) => response.json())
             .then((res) => {
-                console.log("???",res);
                 setData(res);
                 setSearchEnable(true);
             })
@@ -42,8 +47,13 @@ const Search = () => {
             })
         }
     }
+    const handleClickOutside = (event:any) => {
+        if (popupRef.current && !popupRef.current.contains(event.target)) {
+            ref.current.value='';
+            setSearchEnable(false);
+        }
+    };
     const fetchNameResults = (query:string) => {
-        //console.log(">>>",query);
         try {
             let requests = [];
             if(query){
@@ -94,14 +104,6 @@ const Search = () => {
         .catch((error) => {
           console.error(`Data Fetch Error Outer: ${error}`);
         })
-        .then(() => {
-          
-        });
-
-
-
-
-
             // fetch(API_URL)
             // .then((response) => response.json())
             // .then((res) => {
@@ -123,23 +125,26 @@ const Search = () => {
         ref.current.value='';
         setSearchEnable(false);
     }
+    
   return (
-    <div className="dflex" id={styles.searchBar}>
-        <input autoComplete="off" name="ticker_newsearch" className={styles.inputBox} placeholder="Search Stocks, News, Mutual Funds, Crypto etc..." type="text" 
-        onChange={(e) => handleSearch(e.target.value)} 
-        onFocus={(e)=> {handleFocus(e.target.value)}}
-        ref={ref}
-        />
-        
-        {searchEnable && 
-        <>
-            <div className={styles.background_overlay}></div>
-            <div className={`${styles.right_icon} ${styles.close_search}`} onClick={handleClose}>X</div>
-            <SearchData data={data} newsData={newsData} definitionData={definitionData} reportData={reportData} query={val}/>
-        </>
-        }
-        
-    </div>
+    <>
+        {searchEnable && <div className={styles.background_overlay}></div>}
+        <div className="dflex" id={styles.searchBar} ref={popupRef}>
+            <input autoComplete="off" name="ticker_newsearch" className={styles.inputBox} placeholder="Search Stocks, News, Mutual Funds, Crypto etc..." type="text" 
+            onChange={(e) => handleSearch(e.target.value)} 
+            onFocus={(e)=> {handleFocus(e.target.value)}}
+            ref={ref}
+            />
+            {searchEnable && 
+            <>
+                <div className={`${styles.right_icon} ${styles.close_search}`} onClick={handleClose}>X</div>
+                <SearchData data={data} newsData={newsData} definitionData={definitionData} reportData={reportData} query={val}/>
+            </>
+            }
+            
+        </div>
+    </>
+    
   )
 }
 export default Search;

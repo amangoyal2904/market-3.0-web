@@ -18,11 +18,11 @@ const MarketTable = ({ data }: any) => {
 
   function handleFilterChange(e: any) {
     const { name, value } = e.target;
-    if (name != 'name' && checkIfValidExpression(value.replaceAll(' ', ''))) {
-      setFilters({ ...filters, [name]: value.replaceAll(' ', '') });
-    } else if (name === 'name') {
+    if (name != "name" && checkIfValidExpression(value.replaceAll(" ", ""))) {
+      setFilters({ ...filters, [name]: value.replaceAll(" ", "") });
+    } else if (name === "name") {
       setFilters({ ...filters, [name]: value });
-    } else if (value == '') {
+    } else if (value == "") {
       delete filters[name];
       setFilters({ ...filters });
     }
@@ -30,13 +30,13 @@ const MarketTable = ({ data }: any) => {
 
   function handleSort(key: any) {
     if (Object.keys(sortData).includes(key)) {
-      if (sortData[key] == 'asc') {
-        setSortData({ ...sortData, [key]: 'desc' });
+      if (sortData[key] == "asc") {
+        setSortData({ ...sortData, [key]: "desc" });
       } else {
-        setSortData({ ...sortData, [key]: 'asc' });
+        setSortData({ ...sortData, [key]: "asc" });
       }
     } else {
-      setSortData({ ...sortData, [key]: 'desc' });
+      setSortData({ ...sortData, [key]: "desc" });
     }
   }
 
@@ -46,7 +46,7 @@ const MarketTable = ({ data }: any) => {
       Object.keys(filters).forEach((keyId) => {
         filterData = filterData.filter((item: any) => {
           const cellValue = filters[keyId];
-          if (keyId == 'name') {
+          if (keyId == "name") {
             return (
               item &&
               item.data.some(
@@ -54,7 +54,7 @@ const MarketTable = ({ data }: any) => {
                   x.keyId == keyId &&
                   x.filterFormatValue
                     .toLowerCase()
-                    .includes(cellValue.toLowerCase())
+                    .includes(cellValue.toLowerCase()),
               )
             );
           } else {
@@ -62,34 +62,34 @@ const MarketTable = ({ data }: any) => {
               .match(/([><=]+)(\d+)/)
               .slice(1);
             switch (operator) {
-              case '>':
+              case ">":
                 return (
                   item &&
                   item.data.some(
                     (x: { keyId: string; filterFormatValue: any }) =>
                       x.keyId == keyId &&
                       parseFloat(x.filterFormatValue) >
-                      parseFloat(comparisonValue)
+                        parseFloat(comparisonValue),
                   )
                 );
-              case '<':
+              case "<":
                 return (
                   item &&
                   item.data.some(
                     (x: { keyId: string; filterFormatValue: any }) =>
                       x.keyId == keyId &&
                       parseFloat(x.filterFormatValue) <
-                      parseFloat(comparisonValue)
+                        parseFloat(comparisonValue),
                   )
                 );
-              case '=':
+              case "=":
                 return (
                   item &&
                   item.data.some(
                     (x: { keyId: string; filterFormatValue: any }) =>
                       x.keyId == keyId &&
                       parseFloat(x.filterFormatValue) ==
-                      parseFloat(comparisonValue)
+                        parseFloat(comparisonValue),
                   )
                 );
               default:
@@ -98,7 +98,7 @@ const MarketTable = ({ data }: any) => {
           }
         });
         if (!!filterData) {
-          console.log('@@Filter Data: ' + JSON.stringify(filterData));
+          console.log("@@Filter Data: " + JSON.stringify(filterData));
           setTableDataList(filterData);
         }
       });
@@ -122,15 +122,15 @@ const MarketTable = ({ data }: any) => {
             return item.keyId == keyId;
           }).filterFormatValue;
 
-          if (keyId != 'name') {
+          if (keyId != "name") {
             valueA = parseFloat(valueA);
             valueB = parseFloat(valueB);
           }
 
-          if (sortData[keyId] === 'asc') {
+          if (sortData[keyId] === "asc") {
             if (valueA < valueB) return -1;
             if (valueA > valueB) return 1;
-          } else if (sortData[keyId] === 'desc') {
+          } else if (sortData[keyId] === "desc") {
             if (valueA > valueB) return -1;
             if (valueA < valueB) return 1;
           }
@@ -168,19 +168,19 @@ const MarketTable = ({ data }: any) => {
     }
   }
   const scrollRightPos = () => {
-    const leftScroll: any = document.getElementById('fixedTable');
-    const rightScroll: any = document.getElementById('scrollableTable');
+    const leftScroll: any = document.getElementById("fixedTable");
+    const rightScroll: any = document.getElementById("scrollableTable");
     const rightScrollPos = rightScroll?.scrollTop;
     leftScroll.scrollTop = rightScrollPos;
   };
   const scrollLeftPos = () => {
-    const leftScroll: any = document.getElementById('fixedTable');
-    const rightScroll: any = document.getElementById('scrollableTable');
+    const leftScroll: any = document.getElementById("fixedTable");
+    const rightScroll: any = document.getElementById("scrollableTable");
     const leftScrollPos = leftScroll.scrollTop;
     rightScroll.scrollTop = leftScrollPos;
   };
 
-  console.log('@@--->', tableDataList);
+  console.log("@@--->", tableDataList);
   const tableHeaderData =
     (tableDataList &&
       tableDataList.length &&
