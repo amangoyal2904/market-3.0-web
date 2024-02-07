@@ -45,7 +45,9 @@ const Watchlist = () => {
     })
     setTableData(filterArr);
   }
-
+  const tabsAndTableDataChangeHandler = (tabIdActive:any)=>{
+    fetchWatchListData()
+  }
   useEffect(() => {
     if (isLogin) {
       fetchWatchListData();
@@ -59,7 +61,7 @@ const Watchlist = () => {
     <div className={styles.wraper}>
       <h1 className={styles.heading1}>Watchlist</h1>
       {showBlocker ? <Blocker text="Please login here for Watchlist" cta="Login" /> : <>
-        <MarketTabs data={wathcListTab} activeViewId={activeViewId} tabsViewIdUpdate={tabsViewIdUpdate} />
+        <MarketTabs data={wathcListTab} activeViewId={activeViewId} tabsViewIdUpdate={tabsViewIdUpdate} tabsUpdateHandler={tabsAndTableDataChangeHandler} />
         <MarketTable data={tableData} onFilterChange={filterChangeHandler} />
       </>
       }

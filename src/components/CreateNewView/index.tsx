@@ -4,7 +4,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 
 
-const CreateNewViewComponent = ({closePopCreateView}:any)=>{
+const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler}:any)=>{
     const [viewData, setViewData]:any = useState([]);
     const [screenerName, setScreenerName]:any = useState("");
     const [activeTab, setActiveTab] = useState(0);
@@ -14,7 +14,7 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
     const [selectedView, setSelectedView]:any = useState([]);
     const searchRef = useRef<HTMLDivElement>(null);
     const viewWraperRef = useRef<HTMLDivElement>(null);
-    //console.log('searchNode', searchNode)
+    console.log('editmode', editmode)
     const ViewDataAPICall = async ()=>{
         const data = await fetch(`https://screener.indiatimes.com//screener/getScreenerSelectCategoryFieldMapping`)
         const resData = await data.json();
@@ -24,6 +24,12 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
     
     const saveUserPersonalise = async ()=>{
         console.log('save user view personalize ', selectedView)
+
+        // let userConfirmBox = false;
+        // if(editmode && editmode.mode && editmode.viewId !== ""){
+        //      userConfirmBox = confirm("Are you sure you want to be update this screener");
+        // }
+        
         const ssoid = window.objUser?.ssoid;
         const updatedOrder:any[] = [];
         selectedView.map((item:any)=>{
@@ -32,12 +38,15 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
             )
         })
         const apiUrl = 'https://qcbselivefeeds.indiatimes.com/screener/saveViewName';
-        const bodyPost = {
+        const bodyPost:any = {
             "fields":updatedOrder,
             "name":screenerName,
             "selectedFlag":1,
             "ssoId":ssoid,
             "viewType":"USER"
+        }
+        if(editmode && editmode.mode && editmode.viewId !== ""){
+            bodyPost.viewId = editmode.viewId
         }
         const res = await fetch(`${apiUrl}`,{
             method: 'POST',
@@ -52,6 +61,7 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
         if(resData && resData.responseCode === 200){
             closePopCreateView(false)
             alert(resData.response)
+            tabsUpdateHandler()
         }else{
             alert("some error please check api or code")
         }
@@ -91,7 +101,6 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
         if(isChecked){
             let viewAllDataforSelected:any = [...selectedView];
             const userSelectViewData = {
-                "categoryMasterID":addData.categoryMasterID,
                  "displayName":addData.displayName,
                  "sourceFieldName":addData.sourceFieldName
             }
@@ -99,7 +108,7 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
             setSelectedView(viewAllDataforSelected)
         }else{
             let viewAllDataforSelected:any = [...selectedView];
-            let updatedViewData = viewAllDataforSelected.filter((item:any) => item.categoryMasterID !== addData.categoryMasterID);
+            let updatedViewData = viewAllDataforSelected.filter((item:any) => item.sourceFieldName !== addData.sourceFieldName);
             setSelectedView(updatedViewData);
         }
     }
@@ -118,6 +127,56 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
         //console.log(updatedListData);
         setSelectedView(updatedListData);
     };
+    const removeUserPersonalise = ()=>{
+        const userConfirm = confirm("Are you sure you want to remove to this scrneer?");
+        if(userConfirm && editmode && editmode.mode && editmode.viewId !== ""){
+            removeByViewID(editmode.viewId);
+        }
+    }
+    const fetchByViewID = async (viewId:any)=>{
+        const ssoid = window.objUser?.ssoid;
+        const apiUrl = `https://qcbselivefeeds.indiatimes.com/screener/getViewById?viewid=${viewId}`
+        const data = await fetch(apiUrl,
+        { cache: 'no-store', 
+            "headers": {
+            'ssoid': ssoid
+        }})
+        const resData = await data.json();
+        console.log('resdata', resData)
+        if(resData && resData[0] && resData[0].filedNames && resData[0].filedNames.length > 0){
+            const createViewData:any[] = [];
+            resData[0].filedNames.map((item:any)=>{
+                const userSelectViewData = {
+                     "displayName":item.name,
+                     "sourceFieldName":item.fieldId
+                }
+                return (
+                    createViewData.push(userSelectViewData)
+                )
+            })
+           setScreenerName(resData[0].name)
+           setSelectedView(createViewData)
+        }
+        
+    }
+    const removeByViewID = async (viewId:any)=>{
+        const ssoid = window.objUser?.ssoid;
+        const apiUrl = `https://qcbselivefeeds.indiatimes.com/screener/removeviewbyid?viewid=${viewId}`;
+        const data = await fetch(apiUrl,
+            { cache: 'no-store', 
+                "headers": {
+                'ssoid': ssoid
+            }})
+        const resData = await data.json();
+        console.log('resdata', resData)
+        if(resData && resData.responseCode === 200){
+            closePopCreateView(false)
+            alert(resData.response)
+            tabsUpdateHandler()
+        }else{
+            alert("some error please check api or code")
+        }
+    }
     useEffect(() => {
         
         document.addEventListener('click', handleClickOutside);
@@ -133,7 +192,10 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
         };
     }, [viewWraperRef]);
     useEffect(()=>{
-        ViewDataAPICall()
+        ViewDataAPICall();
+        if(editmode && editmode.mode && editmode.viewId !== ""){
+            fetchByViewID(editmode.viewId);
+        }
     },[])
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
@@ -221,7 +283,7 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
                                                                 type="checkbox" 
                                                                 value={item.categoryMasterID} 
                                                                 id={`${item.categoryMasterID}-search`}
-                                                                checked={selectedView.some((viewItem:any) => viewItem.categoryMasterID === item.categoryMasterID)}
+                                                                checked={selectedView.some((viewItem:any) => viewItem.sourceFieldName === item.sourceFieldName)}
                                                                 onChange={(e)=>viewCheckHandler(e, item)} />
                                                             <label htmlFor={`${item.categoryMasterID}-search`}  dangerouslySetInnerHTML={{ __html: highlightMatch(item.displayName) }}>
                                                             </label>
@@ -267,7 +329,7 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
                                                                         value={childSubItem.categoryMasterID} 
                                                                         className={styles.checkBoxSec} 
                                                                         onChange={(e)=>viewCheckHandler(e, childSubItem)}
-                                                                        checked={selectedView.some((item:any) => item.categoryMasterID === childSubItem.categoryMasterID)} />
+                                                                        checked={selectedView.some((item:any) => item.sourceFieldName === childSubItem.sourceFieldName)} />
                                                                         <label htmlFor={childSubItem.categoryMasterID}>{childSubItem.displayName}</label>
                                                                     </div>
                                                                 </li>
@@ -287,7 +349,14 @@ const CreateNewViewComponent = ({closePopCreateView}:any)=>{
                     </div>
                 </div>
                 <div className={styles.footer}>
-                    <span className={styles.updateBtn} onClick={saveUserPersonalise}>Save Changes</span>
+                    {
+                        editmode && editmode.mode && editmode.viewId !== "" ? <span className={`${styles.updateBtn} ${styles.removeBtn}`} onClick={removeUserPersonalise}>Remove</span> : null
+                    }
+                    <span className={styles.updateBtn} onClick={saveUserPersonalise}>
+                        {
+                            editmode && editmode.mode && editmode.viewId !== "" ? "Update Changes" : "Save Changes"
+                        }
+                    </span>
                 </div>
             </div>
         </div>

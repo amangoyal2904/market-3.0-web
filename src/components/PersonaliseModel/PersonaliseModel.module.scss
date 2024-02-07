@@ -169,3 +169,16 @@
         transform: translateX(30px); 
     }
 }
+.editMode{
+    margin:0;
+    span{
+        font-size:10px;
+        font-weight: normal;
+        display: inline-block;
+        vertical-align: top;
+        cursor: pointer;
+        border:solid 1px gray;
+        border-radius: 5px;
+        padding:4px;
+    }
+}

@@ -4,7 +4,7 @@ import {useRef, useEffect, useState} from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 
-const PersonaliseModel = ({setOpenPersonaliseModal, openPersonaliseModal, data, updateTabsListDataHandler, createNewViewHandler}:any)=>{
+const PersonaliseModel = ({setOpenPersonaliseModal, openPersonaliseModal, data, updateTabsListDataHandler, createNewViewHandler, editmode}:any)=>{
     const dataLis = data && data.length > 0 ? data : [];
     const [listData, setListData] = useState(dataLis);
     const popupRef = useRef<HTMLDivElement | null>(null);
@@ -50,7 +50,20 @@ const PersonaliseModel = ({setOpenPersonaliseModal, openPersonaliseModal, data, 
       setListData(updatedListData)
       console.log(updatedListData);
     }
+    const editModeHandler = (viewId:any)=>{
+      console.log('click to edit mode')
+      editmode({
+        mode:true,
+        viewId:viewId
+      })
+      setOpenPersonaliseModal(false);
+      createNewViewHandler(true);
+    }
     const createNewHandler = ()=>{
+      editmode({
+        mode:false,
+        viewId:""
+      })
       setOpenPersonaliseModal(false);
       createNewViewHandler(true);
     }
@@ -93,6 +106,11 @@ const PersonaliseModel = ({setOpenPersonaliseModal, openPersonaliseModal, data, 
                                                     >
                                                     <div className={styles.dragListItem}>
                                                       <span className={styles.itemTxt}>{list.name}</span>
+                                                      {
+                                                        list.viewType && list.viewType === "USER" ? <div className={styles.editMode}>
+                                                        <span onClick={()=>editModeHandler(list.viewId)}>Edit Mode</span>
+                                                      </div> : null
+                                                      }
                                                       <div className={styles.checkBoxWrap}>
                                                         <div className={styles.checkboxSlider}>
                                                           <label className={styles.checkboxLabel}>

@@ -7,11 +7,12 @@ import PersonaliseModel from "../PersonaliseModel/index";
 import CreateNewViewComponent from "../CreateNewView/index";
 
 
-const MarketTabs = ({data, activeViewId, tabsViewIdUpdate}:any) => {
+const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:any) => {
     const personaliseDataListItem = data && data.length > 0 ? data.filter((item:any)=> item.viewId !== 239) : [];
     const tabDataFilter = data && data.length > 0 ? data.filter((item:any)=> item.selectedFlag) : [];
     const [openPersonaliseModal, setOpenPersonaliseModal] = useState(false);
     const [openPersonaliseCreateModal, setOpenPersonaliseCreateModal] = useState(false);
+    const [editMode, setEditMode] = useState({mode:false,viewId:""});
     const tabClick = (viewId:any)=>{
         tabsViewIdUpdate(viewId)
     }
@@ -44,7 +45,8 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate}:any) => {
         console.log('resdata', resData)
         if(resData && resData.responseCode === 200){
             setOpenPersonaliseModal(false)
-            alert(resData.response)
+            alert(resData.response);
+            tabsUpdateHandler()
         }else{
             alert("some error please check api or code")
         }
@@ -71,10 +73,10 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate}:any) => {
             </div> 
         </div>
         {
-            openPersonaliseModal ? <PersonaliseModel  openPersonaliseModal={openPersonaliseModal} data={personaliseDataListItem} setOpenPersonaliseModal={setOpenPersonaliseModal} updateTabsListDataHandler={updateTabsListDataHandler} createNewViewHandler={setOpenPersonaliseCreateModal}/> : ""
+            openPersonaliseModal ? <PersonaliseModel editmode={setEditMode} openPersonaliseModal={openPersonaliseModal} data={personaliseDataListItem} setOpenPersonaliseModal={setOpenPersonaliseModal} updateTabsListDataHandler={updateTabsListDataHandler} createNewViewHandler={setOpenPersonaliseCreateModal}/> : ""
         }
         {
-            openPersonaliseCreateModal ? <CreateNewViewComponent closePopCreateView={setOpenPersonaliseCreateModal} /> : ""
+            openPersonaliseCreateModal ? <CreateNewViewComponent closePopCreateView={setOpenPersonaliseCreateModal} tabsUpdateHandler={tabsUpdateHandler} editmode={editMode} /> : ""
         }
       </>
     )
