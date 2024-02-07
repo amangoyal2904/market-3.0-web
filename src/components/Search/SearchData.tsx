@@ -81,7 +81,7 @@ const SearchData:React.FC<Props> = ({data, newsData, definitionData, reportData 
                             {newsPrime.length> 0 && <SearchNewsPrime item={newsPrime} entity={"PRIME NEWS"} count={records.newscount} query={query}/>}
                             {newsData.length> 0 && <SearchNews item={newsData} entity={"NEWS"} count={records.newscount} query={query}/>}
                             {reportData.length> 0 && <SearchNews item={reportData} entity={"REPORTER"} count={records.newscount} query={query}/>}
-                            {companyListed.length == 0 && companyNonListed.length == 0 && mf.length == 0 && etf.length == 0 && crypto.length == 0 && forex.length == 0 && commodity.length == 0 && index.length == 0 && newsPrime.length> 0 && newsData.length> 0 && reportData.length> 0 && <p className={styles.noRecord}>No Record Found!!</p>}
+                            {companyListed.length == 0 && companyNonListed.length == 0 && mf.length == 0 && etf.length == 0 && crypto.length == 0 && forex.length == 0 && commodity.length == 0 && index.length == 0 && newsPrime.length ==  0 && newsData.length == 0 && reportData.length == 0 && <p className={styles.noRecord}>No Record Found!!</p>}
                         </>
                     ) : (
                         <>
