@@ -1,5 +1,6 @@
 import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
+import APIS_CONFIG from "../network/api_config.json";
 
 declare global {
   interface Window {
@@ -282,9 +283,34 @@ export const initSSOWidget = () => {
   ssoWidget("init", centralSSOObj);
 };
 
-export const logout = () => {
-  window?.jsso?.signOutUser(function (response: any) {
+export const logout = async () => {
+  window?.jsso?.signOutUser(async function (response: any) {
     if (response.status == "SUCCESS") {
+      const url = (APIS_CONFIG as any)["LOGOUT_AUTH_TOKEN"][APP_ENV],
+        oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],
+        deviceId = getCookie("_grx"),
+        userSsoId = window?.objUser?.ssoid || getCookie("ssoid"),
+        ticketId = getCookie("TicketId");
+
+      const headers = {
+        "Content-Type": "application/json;charset=UTF-8",
+        "X-CLIENT-ID": oauthClientId,
+        "X-DEVICE-ID": deviceId,
+        "x-sso-id": userSsoId,
+        "x-site-app-code": (GLOBAL_CONFIG as any)[APP_ENV]["X_SITE_CODE"],
+      };
+
+      const body = JSON.stringify({ ticketId: ticketId });
+
+      const response = await Service.post({
+        url,
+        headers,
+        payload: {},
+        body,
+        params: {},
+      });
+
+      const logoutSuccess = await response?.json();
       window.location.reload();
     } else {
       console.log("failure");
@@ -294,9 +320,8 @@ export const logout = () => {
 
 export const loadPrimeApi = async () => {
   try {
-    const url =
-        "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=pwa",
-      oauthClientId = "w2a8e883ec676f417520f422068a4741",
+    const url = (APIS_CONFIG as any)["AUTH_TOKEN"][APP_ENV],
+      oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],
       deviceId = getCookie("_grx"),
       ticketId = getCookie("TicketId"),
       userSsoId = window?.objUser?.ssoid || getCookie("ssoid");
@@ -324,11 +349,7 @@ export const loadPrimeApi = async () => {
       params: {},
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    return response.json();
+    return response?.json();
     // Handle the successful response data
   } catch (e) {
     console.log("loadPrimeApi: " + e);

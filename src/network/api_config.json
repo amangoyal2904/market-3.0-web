@@ -1,45 +1,64 @@
 {
-    "DOMAIN": {
-      "development": "https://etdev8243.indiatimes.com/",
-      "production": "https://economictimes.indiatimes.com/"
+  "DOMAIN": {
+    "development": "https://etdev8243.indiatimes.com/",
+    "production": "https://economictimes.indiatimes.com/"
+  },
+  "SEARCH": {
+    "main": {
+      "development": [
+        "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&realstate=true&dvr=true&idr=true&trust=true&mcx=true&mf=true&crypto=true&nps=true&insideet=true&detail=false&forex=false&index=true&mecklai=true&etf=true&nonList=true&pagesize=6&language=&outputtype=json"
+      ],
+      "production": [
+        "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&realstate=true&dvr=true&idr=true&trust=true&mcx=true&mf=true&crypto=true&nps=true&insideet=true&detail=false&forex=false&index=true&mecklai=true&etf=true&nonList=true&pagesize=6&language=&outputtype=json"
+      ]
     },
-    "SEARCH": {
-      "main": {
-        "development": ["https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&realstate=true&dvr=true&idr=true&trust=true&mcx=true&mf=true&crypto=true&nps=true&insideet=true&detail=false&forex=false&index=true&mecklai=true&etf=true&nonList=true&pagesize=6&language=&outputtype=json"],
-        "production": ["https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&realstate=true&dvr=true&idr=true&trust=true&mcx=true&mf=true&crypto=true&nps=true&insideet=true&detail=false&forex=false&index=true&mecklai=true&etf=true&nonList=true&pagesize=6&language=&outputtype=json"]
-      },
-      "mostPopular":{
-        "development": ["https://json.bselivefeeds.indiatimes.com/ET_Community/multicompanyobject?varname=searchresult&exchange=50&order=true&pagsize=15&companytype=equity&companies=12934,13554,23479,10960,13215"],
-        "production": ["https://json.bselivefeeds.indiatimes.com/ET_Community/multicompanyobject?varname=searchresult&exchange=50&order=true&pagsize=15&companytype=equity&companies=12934,13554,23479,10960,13215"]
-      },
-      "news": {
-        "development": ["https://etdev8243.indiatimes.com/json_newssearch.cms"],
-        "production": ["https://economictimes.indiatimes.com/json_newssearch.cms"]
-      },
-      "definition": {
-        "development": ["https://etdev8243.indiatimes.com/json_definitionsearch.cms"],
-        "production": ["https://economictimes.indiatimes.com/json_definitionsearch.cms"]
-      },
-      "report": {
-        "development": ["https://etdev8243.indiatimes.com/json_reportersearch.cms"],
-        "production": ["https://economictimes.indiatimes.com/json_reportersearch.cms"]
-      }
+    "mostPopular": {
+      "development": [
+        "https://json.bselivefeeds.indiatimes.com/ET_Community/multicompanyobject?varname=searchresult&exchange=50&order=true&pagsize=15&companytype=equity&companies=12934,13554,23479,10960,13215"
+      ],
+      "production": [
+        "https://json.bselivefeeds.indiatimes.com/ET_Community/multicompanyobject?varname=searchresult&exchange=50&order=true&pagsize=15&companytype=equity&companies=12934,13554,23479,10960,13215"
+      ]
     },
-    "AUTH_TOKEN": {
-      "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=marketWeb",
-      "production": "https://oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=marketWeb"
+    "news": {
+      "development": ["https://etdev8243.indiatimes.com/json_newssearch.cms"],
+      "production": ["https://economictimes.indiatimes.com/json_newssearch.cms"]
     },
-    "watchListTab":{
-      "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
-      "production": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview"
+    "definition": {
+      "development": [
+        "https://etdev8243.indiatimes.com/json_definitionsearch.cms"
+      ],
+      "production": [
+        "https://economictimes.indiatimes.com/json_definitionsearch.cms"
+      ]
     },
-    "watchListTable":{
-      "development": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData",
-      "production": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData"
-    },
-    "redeemVoucher": {
-      "development": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher",
-      "production": "https://subscriptions.economictimes.indiatimes.com/api/subscription/redeemVoucher"
+    "report": {
+      "development": [
+        "https://etdev8243.indiatimes.com/json_reportersearch.cms"
+      ],
+      "production": [
+        "https://economictimes.indiatimes.com/json_reportersearch.cms"
+      ]
     }
+  },
+  "AUTH_TOKEN": {
+    "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web",
+    "production": "https://oauth2.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web"
+  },
+  "LOGOUT_AUTH_TOKEN": {
+    "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout",
+    "production": "https://oauth2.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout"
+  },
+  "watchListTab": {
+    "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
+    "production": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview"
+  },
+  "watchListTable": {
+    "development": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData",
+    "production": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData"
+  },
+  "redeemVoucher": {
+    "development": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher",
+    "production": "https://subscriptions.economictimes.indiatimes.com/api/subscription/redeemVoucher"
   }
-  
+}
