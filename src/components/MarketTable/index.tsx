@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import styles from './MarketTable.module.scss';
-import { getStockUrl } from '@/utils/utility';
+import React, { useEffect, useState } from "react";
+import styles from "./MarketTable.module.scss";
+import { getStockUrl } from "@/utils/utility";
 
 const MarketTable = ({ data }: any) => {
   const [tableDataList, setTableDataList] = useState(data);
@@ -13,11 +13,11 @@ const MarketTable = ({ data }: any) => {
 
   function handleFilterChange(e: any) {
     const { name, value } = e.target;
-    if (name != 'name' && checkIfValidExpression(value.replaceAll(' ', ''))) {
-      setFilters({ ...filters, [name]: value.replaceAll(' ', '') });
-    } else if (name === 'name') {
+    if (name != "name" && checkIfValidExpression(value.replaceAll(" ", ""))) {
+      setFilters({ ...filters, [name]: value.replaceAll(" ", "") });
+    } else if (name === "name") {
       setFilters({ ...filters, [name]: value });
-    } else if (value == '') {
+    } else if (value == "") {
       delete filters[name];
       setFilters({ ...filters });
     }
@@ -25,13 +25,13 @@ const MarketTable = ({ data }: any) => {
 
   function handleSort(key: any) {
     if (Object.keys(sortData).includes(key)) {
-      if (sortData[key] == 'asc') {
-        setSortData({ ...sortData, [key]: 'desc' });
+      if (sortData[key] == "asc") {
+        setSortData({ ...sortData, [key]: "desc" });
       } else {
-        setSortData({ ...sortData, [key]: 'asc' });
+        setSortData({ ...sortData, [key]: "asc" });
       }
     } else {
-      setSortData({ ...sortData, [key]: 'desc' });
+      setSortData({ ...sortData, [key]: "desc" });
     }
   }
 
@@ -41,7 +41,7 @@ const MarketTable = ({ data }: any) => {
       Object.keys(filters).forEach((keyId) => {
         filterData = filterData.filter((item: any) => {
           const cellValue = filters[keyId];
-          if (keyId == 'name') {
+          if (keyId == "name") {
             return (
               item &&
               item.data.some(
@@ -49,7 +49,7 @@ const MarketTable = ({ data }: any) => {
                   x.keyId == keyId &&
                   x.filterFormatValue
                     .toLowerCase()
-                    .includes(cellValue.toLowerCase())
+                    .includes(cellValue.toLowerCase()),
               )
             );
           } else {
@@ -57,34 +57,34 @@ const MarketTable = ({ data }: any) => {
               .match(/([><=]+)(\d+)/)
               .slice(1);
             switch (operator) {
-              case '>':
+              case ">":
                 return (
                   item &&
                   item.data.some(
                     (x: { keyId: string; filterFormatValue: any }) =>
                       x.keyId == keyId &&
                       parseFloat(x.filterFormatValue) >
-                        parseFloat(comparisonValue)
+                        parseFloat(comparisonValue),
                   )
                 );
-              case '<':
+              case "<":
                 return (
                   item &&
                   item.data.some(
                     (x: { keyId: string; filterFormatValue: any }) =>
                       x.keyId == keyId &&
                       parseFloat(x.filterFormatValue) <
-                        parseFloat(comparisonValue)
+                        parseFloat(comparisonValue),
                   )
                 );
-              case '=':
+              case "=":
                 return (
                   item &&
                   item.data.some(
                     (x: { keyId: string; filterFormatValue: any }) =>
                       x.keyId == keyId &&
                       parseFloat(x.filterFormatValue) ==
-                        parseFloat(comparisonValue)
+                        parseFloat(comparisonValue),
                   )
                 );
               default:
@@ -93,7 +93,7 @@ const MarketTable = ({ data }: any) => {
           }
         });
         if (!!filterData) {
-          console.log('@@Filter Data: ' + JSON.stringify(filterData));
+          console.log("@@Filter Data: " + JSON.stringify(filterData));
           setTableDataList(filterData);
         }
       });
@@ -117,15 +117,15 @@ const MarketTable = ({ data }: any) => {
             return item.keyId == keyId;
           }).filterFormatValue;
 
-          if (keyId != 'name') {
+          if (keyId != "name") {
             valueA = parseFloat(valueA);
             valueB = parseFloat(valueB);
           }
 
-          if (sortData[keyId] === 'asc') {
+          if (sortData[keyId] === "asc") {
             if (valueA < valueB) return -1;
             if (valueA > valueB) return 1;
-          } else if (sortData[keyId] === 'desc') {
+          } else if (sortData[keyId] === "desc") {
             if (valueA > valueB) return -1;
             if (valueA < valueB) return 1;
           }
@@ -141,7 +141,7 @@ const MarketTable = ({ data }: any) => {
 
   useEffect(() => {
     setTableDataList(data);
-  }, [data, tableDataList]);
+  }, [data]);
 
   useEffect(() => {
     console.log({ sortData });
@@ -154,19 +154,19 @@ const MarketTable = ({ data }: any) => {
   }, [filters]);
 
   const scrollRightPos = () => {
-    const leftScroll: any = document.getElementById('fixedTable');
-    const rightScroll: any = document.getElementById('scrollableTable');
+    const leftScroll: any = document.getElementById("fixedTable");
+    const rightScroll: any = document.getElementById("scrollableTable");
     const rightScrollPos = rightScroll?.scrollTop;
     leftScroll.scrollTop = rightScrollPos;
   };
   const scrollLeftPos = () => {
-    const leftScroll: any = document.getElementById('fixedTable');
-    const rightScroll: any = document.getElementById('scrollableTable');
+    const leftScroll: any = document.getElementById("fixedTable");
+    const rightScroll: any = document.getElementById("scrollableTable");
     const leftScrollPos = leftScroll.scrollTop;
     rightScroll.scrollTop = leftScrollPos;
   };
 
-  console.log('@@--->', tableDataList);
+  console.log("@@--->", tableDataList);
   const tableHeaderData =
     (tableDataList &&
       tableDataList.length &&
@@ -193,13 +193,13 @@ const MarketTable = ({ data }: any) => {
                             handleSort(thead.keyId);
                           }}
                           className={`${
-                            thead.keyId == 'name' ? styles.firstTh : ''
+                            thead.keyId == "name" ? styles.firstTh : ""
                           }`}
                           key={thead.keyText}
                         >
                           {thead.keyText}
                         </th>
-                      )
+                      ),
                   )}
                 </tr>
               </thead>
@@ -211,19 +211,19 @@ const MarketTable = ({ data }: any) => {
                         <td key={index} className={styles.inputWrapper}>
                           <input
                             className={`${styles.filterInput} ${
-                              tdData.keyId == 'name'
+                              tdData.keyId == "name"
                                 ? styles.filterInputFirst
-                                : ''
+                                : ""
                             }`}
                             type="text"
                             name={tdData.keyId}
                             onChange={handleFilterChange}
                             placeholder={
-                              tdData.keyId == 'name' ? 'Search Value' : '> #'
+                              tdData.keyId == "name" ? "Search Value" : "> #"
                             }
                           ></input>
                         </td>
-                      )
+                      ),
                   )}
                 </tr>
                 {tableDataList.map((item: any, index: number) => (
@@ -231,13 +231,13 @@ const MarketTable = ({ data }: any) => {
                     {item.data.map(
                       (tdData: any, index: number) =>
                         index <= 2 &&
-                        (tdData.keyId == 'name' ? (
+                        (tdData.keyId == "name" ? (
                           <td key={tdData.keyId} className={styles.fixedTD}>
                             <a
                               href={getStockUrl(
                                 item.assetId,
                                 item.assetName,
-                                item.assetType
+                                item.assetType,
                               )}
                               target="_blank"
                               title={tdData.value}
@@ -250,9 +250,9 @@ const MarketTable = ({ data }: any) => {
                             className={`${styles.fixedTD} ${tdData.trend}`}
                             key={tdData.keyId}
                           >
-                            {tdData.value.replaceAll(' ', '')}
+                            {tdData.value.replaceAll(" ", "")}
                           </td>
-                        ))
+                        )),
 
                       // <td className={styles.fixedTD} key={tdData.keyText}>{tdData.value}</td>
                     )}
@@ -280,7 +280,7 @@ const MarketTable = ({ data }: any) => {
                         >
                           {thead.keyText}
                         </th>
-                      )
+                      ),
                   )}
                 </tr>
               </thead>
@@ -298,7 +298,7 @@ const MarketTable = ({ data }: any) => {
                             placeholder="> #"
                           ></input>
                         </td>
-                      )
+                      ),
                   )}
                 </tr>
                 {tableDataList.map((item: any, index: number) => (
@@ -307,9 +307,9 @@ const MarketTable = ({ data }: any) => {
                       (tdData: any, index: number) =>
                         index > 2 && (
                           <td className={tdData.trend} key={tdData.keyId}>
-                            {tdData.value.replaceAll(' ', '')}
+                            {tdData.value.replaceAll(" ", "")}
                           </td>
-                        )
+                        ),
                     )}
                   </tr>
                 ))}
@@ -318,7 +318,7 @@ const MarketTable = ({ data }: any) => {
           </div>
         </>
       ) : (
-        'No Data Found'
+        "No Data Found"
       )}
     </div>
   );
