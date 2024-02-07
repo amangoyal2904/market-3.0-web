@@ -1,7 +1,7 @@
 @font-face {
-  font-family: 'Montserrat';
-  src: url('/fonts/Montserrat-VariableFont_wght.woff2')
-    format('woff2-variations');
+  font-family: "Montserrat";
+  src: url("/fonts/Montserrat-VariableFont_wght.woff2")
+    format("woff2-variations");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -9,29 +9,30 @@
 }
 
 @font-face {
-  font-family: 'Faustina';
-  src: url('/fonts/Faustina-VariableFont_wght.woff2') format('woff2-variations');
+  font-family: "Faustina";
+  src: url("/fonts/Faustina-VariableFont_wght.woff2") format("woff2-variations");
   font-weight: 300 800;
   font-display: swap;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'eticons';
-  src: url('/fonts/eticons.eot?ulbvy2');
-  src: url('/fonts/eticons.eot?ulbvy2#iefix') format('embedded-opentype'),
-    url('/fonts/eticons.ttf?ulbvy2') format('truetype'),
-    url('/fonts/eticons.woff?ulbvy2') format('woff'),
-    url('/fonts/eticons.svg?ulbvy2#eticons') format('svg');
+  font-family: "eticons";
+  src: url("/fonts/eticons.eot?ulbvy2");
+  src:
+    url("/fonts/eticons.eot?ulbvy2#iefix") format("embedded-opentype"),
+    url("/fonts/eticons.ttf?ulbvy2") format("truetype"),
+    url("/fonts/eticons.woff?ulbvy2") format("woff"),
+    url("/fonts/eticons.svg?ulbvy2#eticons") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
 }
 
-[class^='eticon_'],
-[class*=' eticon_'] {
+[class^="eticon_"],
+[class*=" eticon_"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'eticons' !important;
+  font-family: "eticons" !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -44,96 +45,119 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.eticon_ic_caret_down:before {
-  content: '\e900';
+.eticon_add:before {
+  content: "\e900";
 }
-.eticon_ic_caret_up:before {
-  content: '\e901';
+.eticon_benefits:before {
+  content: "\e901";
 }
-.eticon_ic_green_arrow:before {
-  content: '\e902';
-  color: #0d875c;
+.eticon_big_bull:before {
+  content: "\e902";
 }
-.eticon_ic_prime_square .path1:before {
-  content: '\e903';
-  color: rgb(255, 255, 255);
+.eticon_bookmark:before {
+  content: "\e903";
 }
-.eticon_ic_prime_square .path2:before {
-  content: '\e904';
-  margin-left: -1em;
-  color: rgb(237, 28, 36);
+.eticon_caret_down:before {
+  content: "\e904";
 }
-.eticon_ic_prime_square .path3:before {
-  content: '\e905';
-  margin-left: -1em;
-  color: rgb(237, 28, 36);
+.eticon_caret_left:before {
+  content: "\e905";
 }
-.eticon_ic_red_arrow:before {
-  content: '\e906';
-  color: #d51131;
+.eticon_caret_right:before {
+  content: "\e906";
 }
-.eticon_ic_search:before {
-  content: '\e907';
+.eticon_caret_up:before {
+  content: "\e907";
 }
-.eticon_ic_sidebar_arrow_left:before {
-  content: '\e908';
+.eticon_chart_view:before {
+  content: "\e908";
 }
-.eticon_ic_sidebar_arrow_right:before {
-  content: '\e909';
+.eticon_cross:before {
+  content: "\e90c";
 }
-.eticon_ic_sidebar_big_bull:before {
-  content: '\e90a';
+.eticon_edit:before {
+  content: "\e90d";
 }
-.eticon_ic_sidebar_epaper:before {
-  content: '\e90b';
+.eticon_epaper_icon:before {
+  content: "\e90e";
 }
-.eticon_ic_sidebar_investment_ideas:before {
-  content: '\e90c';
+.eticon_export_line:before {
+  content: "\e90f";
 }
-.eticon_ic_sidebar_market_mood:before {
-  content: '\e90d';
+.eticon_filter:before {
+  content: "\e910";
 }
-.eticon_ic_sidebar_markets:before {
-  content: '\e90e';
+.eticon_grid_view:before {
+  content: "\e911";
 }
-.eticon_ic_sidebar_news:before {
-  content: '\e90f';
+.eticon_ideas:before {
+  content: "\e914";
 }
-.eticon_ic_sidebar_reccos:before {
-  content: '\e910';
+.eticon_list_view:before {
+  content: "\e915";
 }
-.eticon_ic_sidebar_screener:before {
-  content: '\e911';
+.eticon_logout:before {
+  content: "\e916";
 }
-.eticon_ic_sidebar_sr:before {
-  content: '\e912';
+.eticon_market:before {
+  content: "\e917";
 }
-.eticon_ic_sidebar_wealth_edition:before {
-  content: '\e913';
+.eticon_marketmood:before {
+  content: "\e918";
 }
-.eticon_ic_sorting .path1:before {
-  content: '\e914';
-  color: rgb(0, 0, 0);
+.eticon_move:before {
+  content: "\e919";
 }
-.eticon_ic_sorting .path2:before {
-  content: '\e915';
-  margin-left: -1em;
-  color: rgb(153, 153, 153);
+.eticon_news:before {
+  content: "\e91a";
 }
-.eticon_icons_tables_add:before {
-  content: '\e916';
+.eticon_newsletters:before {
+  content: "\e91b";
 }
-.eticon_icons_tables_caret_down:before {
-  content: '\e917';
+.eticon_next:before {
+  content: "\e91c";
 }
-.eticon_icons_tables_caret_down_2:before {
-  content: '\e918';
+.eticon_personalise:before {
+  content: "\e921";
 }
-.eticon_icons_tables_edit:before {
-  content: '\e919';
+.eticon_preferences:before {
+  content: "\e922";
 }
-.eticon_mdi_caret_right:before {
-  content: '\e91a';
+.eticon_prev:before {
+  content: "\e923";
+}
+.eticon_recos:before {
+  content: "\e92b";
+}
+.eticon_up_arrow:before {
+  content: "\e92c";
+}
+.eticon_down_arrow:before {
+  content: "\e92d";
+}
+.eticon_redeem_benefits:before {
+  content: "\e92e";
+}
+.eticon_screeners:before {
+  content: "\e92f";
+}
+.eticon_search:before {
+  content: "\e930";
+}
+.eticon_srplus:before {
+  content: "\e931";
+}
+.eticon_subscription:before {
+  content: "\e932";
+}
+.eticon_table_view:before {
+  content: "\e933";
+}
+.eticon_watchlist:before {
+  content: "\e934";
+}
+.eticon_wealth:before {
+  content: "\e935";
 }
 
 /*, sub, sup removed from reset class*/
