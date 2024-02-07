@@ -4,6 +4,7 @@ import { formatDate,filterData } from '@/utils';
 import SearchDataLi from './SearchDataLi';
 import { getStockUrl } from '@/utils/utility';
 import SearchNews from './SearchNews';
+import SearchNewsPrime from './SearchNewsPrime';
 
 interface Props { 
     data:any;
@@ -24,6 +25,7 @@ const SearchData:React.FC<Props> = ({data, newsData, definitionData, reportData 
     const [forex,setForex] = useState<any>([]);
     const [commodity,setCommodity] = useState<any>([]);
     const [index,setIndex] = useState<any>([]);
+    const [newsPrime,setNewsPrime] = useState<any>([]);
     const records = {
         compcount : 6,
         coincount: 2,
@@ -41,11 +43,13 @@ const SearchData:React.FC<Props> = ({data, newsData, definitionData, reportData 
             	
     useEffect(() => {
         if(data && Array.isArray(data)){
-            const filteredListed = data.filter(item => (item.entityType.toLowerCase() === "company" && item?.subType != "NonList") || item.entityType == "dvr" || item.entityType == "pp" || item.entityType == "idr" || item.entityType == "dvr" );
+            const filteredListed = data.filter(item => (item.entityType.toLowerCase() === "company" && item?.subType !== "NonList") || item.entityType === "dvr" || item.entityType === "pp" || item.entityType === "idr" || item.entityType === "dvr" );
             setCompanyListed(filteredListed);
-            console.log("Companies",filteredListed);
             const filteredNonListed = data.filter(item => item.entityType.toLowerCase() === "company" && item.subType && item.subType.toLowerCase() === "nonlist");
             setCompanyNonListed(filteredNonListed);
+            const filterPrimeData = newsData.filter((item:any) => (item.link).includes("/prime/"))
+            setNewsPrime(filterPrimeData);
+            console.log("filterPrimeData",filterPrimeData);
             setMf(filterData(data,"MutualFund"));
             setNps(filterData(data,"NPS"));
             setEtf(filterData(data,"ETF"));
@@ -54,7 +58,7 @@ const SearchData:React.FC<Props> = ({data, newsData, definitionData, reportData 
             setCommodity(filterData(data,"commodity"));
             setIndex(filterData(data,"index"));
         }
-    }, [data])
+    }, [data,newsData])
     
 
   return (
@@ -74,8 +78,10 @@ const SearchData:React.FC<Props> = ({data, newsData, definitionData, reportData 
                             {commodity.length > 0 && <SearchDataLi item={commodity} entity={"COMMODITY"} count={records.cmdtcount} query={query}/>}
                             {index.length > 0 && <SearchDataLi item={index} entity={"INDEX"} count={records.inetcount} query={query}/>}
                             {definitionData && definitionData.person && definitionData.person.length > 0 && <SearchNews item={definitionData.person} entity={"PEOPLE"} count={records.newscount} query={query}/>}
+                            {newsPrime.length> 0 && <SearchNewsPrime item={newsPrime} entity={"PRIME NEWS"} count={records.newscount} query={query}/>}
                             {newsData.length> 0 && <SearchNews item={newsData} entity={"NEWS"} count={records.newscount} query={query}/>}
-                            {companyListed.length == 0 && companyNonListed.length == 0 && mf.length == 0 && etf.length == 0 && crypto.length == 0 && forex.length == 0 && commodity.length == 0 && index.length == 0 && <p className={styles.noRecord}>No Record Found!!</p>}
+                            {reportData.length> 0 && <SearchNews item={reportData} entity={"REPORTER"} count={records.newscount} query={query}/>}
+                            {companyListed.length == 0 && companyNonListed.length == 0 && mf.length == 0 && etf.length == 0 && crypto.length == 0 && forex.length == 0 && commodity.length == 0 && index.length == 0 && newsPrime.length> 0 && newsData.length> 0 && reportData.length> 0 && <p className={styles.noRecord}>No Record Found!!</p>}
                         </>
                     ) : (
                         <>
@@ -86,12 +92,12 @@ const SearchData:React.FC<Props> = ({data, newsData, definitionData, reportData 
                                     <a href={getStockUrl(item.companyid,item.seoname,item.companytype)} target="_blank">
                                         <div className={styles.st_row}>
                                             <div className={styles.st_col}>{item.companyname}</div>
-                                            <div className={`${styles.st_col} ${styles.cSprite_b} ${styles.st_change} ${Number(item.absolutechange) > 0 ? styles.green : styles.red}`}>{item.current}</div>
+                                            <div className={`${styles.st_col} ${styles.cSprite_b} ${styles.st_change} ${Number(item.absolutechange) > 0 ? styles.green : styles.red} ${styles.st_mid_col}`}>{item.current}</div>
                                             <div className={`${styles.st_col} ${Number(item.absolutechange) > 0 ? styles.green : styles.red}` }>{item.absolutechange}</div>
                                         </div>
                                         <div className={`${styles.st_row} ${styles.st_last}`}>
                                             <div className={styles.st_col}>{item.updateddatetime}</div>
-                                            <div className={styles.st_col}>Vol. {item.volumeInThousand}k</div>
+                                            <div className={`${styles.st_col} ${styles.st_mid_col}`}>Vol. {item.volumeInThousand}k</div>
                                             <div className={`${styles.st_col} ${Number(item.absolutechange) > 0 ? styles.green : styles.red}`}>{item.percentagechange}%</div>
                                         </div>
                                     </a>
