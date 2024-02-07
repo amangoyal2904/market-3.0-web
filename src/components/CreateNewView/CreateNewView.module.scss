@@ -26,6 +26,19 @@
     font-size: 16px;
     font-style: normal;
     font-weight: 900; 
+    display: flex;
+    align-items: center;
+    .formGroup{
+        padding-left:10px;
+        input{
+            color: #888888;
+            font-size: 14px;
+            font-weight: normal;
+            padding: 5px 15px;
+            box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.2);
+            width: 300px;
+        }
+    }
 }
 .footer{
     padding: 20px;
@@ -44,6 +57,9 @@
         cursor: pointer;
         padding: 10px 16px;
     }
+    .removeBtn{
+        margin-right:20px;
+    }
 }
 
 .bodySec{
@@ -53,7 +69,7 @@
     display: flex;
     padding:0 20px;
     .leftSec{
-        padding:20px 20px 20px 0;
+        padding:10px 10px 10px 0;
     }
     .rightSec{
         padding:20px 0 20px 20px;
@@ -186,6 +202,9 @@
 }
 .viewList{
     list-style-type: none;
+    max-height: 300px;
+    overflow-y: scroll;
+    padding:10px;
     li{
         .listItem{
             background: #FFF;

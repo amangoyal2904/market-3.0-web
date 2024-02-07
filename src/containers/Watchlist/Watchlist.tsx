@@ -33,8 +33,19 @@ const Watchlist = () => {
 
   const fetchWatchListTableAPI = async (viewId: any) => {
     const res = await fetchTableData(viewId);
-    setTableData(res.dataList);
-  };
+    setTableData(res.dataList);    
+  }
+
+  const filterChangeHandler = (e: { target: { name: string; value: any; }; }) => {
+    const { name, value } = e.target;
+    let filterArr = tableData.filter((item: any)=>{
+        return item && item.data.some((x: { keyId: string; filterFormatValue: number; }) => x.keyId == name && x.filterFormatValue > value)
+    })
+    setTableData(filterArr);
+  }
+  const tabsAndTableDataChangeHandler = (tabIdActive:any)=>{
+    fetchWatchListData()
+  }
   useEffect(() => {
     if (isLogin) {
       fetchWatchListData();
@@ -47,18 +58,11 @@ const Watchlist = () => {
   return (
     <div className={styles.wraper}>
       <h1 className={styles.heading1}>Watchlist</h1>
-      {showBlocker ? (
-        <Blocker text="Please login here for Watchlist" cta="Login" />
-      ) : (
-        <>
-          <MarketTabs
-            data={wathcListTab}
-            activeViewId={activeViewId}
-            tabsViewIdUpdate={tabsViewIdUpdate}
-          />
-          <MarketTable data={tableData} />
-        </>
-      )}
+      {showBlocker ? <Blocker text="Please login here for Watchlist" cta="Login" /> : <>
+        <MarketTabs data={wathcListTab} activeViewId={activeViewId} tabsViewIdUpdate={tabsViewIdUpdate} tabsUpdateHandler={tabsAndTableDataChangeHandler} />
+        <MarketTable data={tableData} onFilterChange={filterChangeHandler} />
+      </>
+      }
     </div>
   );
 };

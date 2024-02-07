@@ -7,27 +7,56 @@ import PersonaliseModel from "../PersonaliseModel/index";
 import CreateNewViewComponent from "../CreateNewView/index";
 
 
-const MarketTabs = ({data, activeViewId, tabsViewIdUpdate}:any) => {
+const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:any) => {
     const personaliseDataListItem = data && data.length > 0 ? data.filter((item:any)=> item.viewId !== 239) : [];
+    const tabDataFilter = data && data.length > 0 ? data.filter((item:any)=> item.selectedFlag) : [];
     const [openPersonaliseModal, setOpenPersonaliseModal] = useState(false);
     const [openPersonaliseCreateModal, setOpenPersonaliseCreateModal] = useState(false);
-    const [tabsListData, setTabsListData] = useState(data)
-    //console.log('data',data)
+    const [editMode, setEditMode] = useState({mode:false,viewId:""});
     const tabClick = (viewId:any)=>{
         tabsViewIdUpdate(viewId)
     }
     const userPersonaliseHandle = ()=>{
         setOpenPersonaliseModal(true)
     }
-    const updateTabsListDataHandler = (updateData:any)=>{
-        console.log('update data', updateData)
+    const updateTabsListDataHandler = async (updateData:any)=>{
+        //console.log('update data', updateData);
+        const updatedOrder:any[] = [];
+        updateData.map((item:any)=>{
+            return (
+                updatedOrder.push({"selectedFlag":item.selectedFlag, "viewId":item.viewId})
+            )
+        })
+        const ssoid = window.objUser?.ssoid;
+        const apiUrl = 'https://qcbselivefeeds.indiatimes.com/screener/saveOrderViewWatch';
+        const bodyPost = {
+            "ssoId":ssoid,
+            "views":updatedOrder
+        }
+        const res = await fetch(`${apiUrl}`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ssoid: ssoid
+            },
+            body: JSON.stringify(bodyPost)
+        })
+        const resData = await res.json();
+        console.log('resdata', resData)
+        if(resData && resData.responseCode === 200){
+            setOpenPersonaliseModal(false)
+            alert(resData.response);
+            tabsUpdateHandler()
+        }else{
+            alert("some error please check api or code")
+        }
     }
     return (
         <>
         <div className={styles.tabsWrap}>
             <ul className={styles.tabsList}>
                 {
-                    data.map((item:any, index:number)=>{
+                    tabDataFilter.map((item:any, index:number)=>{
                         return (
                             <li key={item.id} onClick={()=>tabClick(item.viewId)} className={ activeViewId === item.viewId ? styles.active : ""}>
                                 {item.name}
@@ -44,10 +73,10 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate}:any) => {
             </div> 
         </div>
         {
-            openPersonaliseModal ? <PersonaliseModel  openPersonaliseModal={openPersonaliseModal} data={personaliseDataListItem} setOpenPersonaliseModal={setOpenPersonaliseModal} updateTabsListDataHandler={updateTabsListDataHandler} createNewViewHandler={setOpenPersonaliseCreateModal}/> : ""
+            openPersonaliseModal ? <PersonaliseModel editmode={setEditMode} openPersonaliseModal={openPersonaliseModal} data={personaliseDataListItem} setOpenPersonaliseModal={setOpenPersonaliseModal} updateTabsListDataHandler={updateTabsListDataHandler} createNewViewHandler={setOpenPersonaliseCreateModal}/> : ""
         }
         {
-            openPersonaliseCreateModal ? <CreateNewViewComponent closePopCreateView={setOpenPersonaliseCreateModal} /> : ""
+            openPersonaliseCreateModal ? <CreateNewViewComponent closePopCreateView={setOpenPersonaliseCreateModal} tabsUpdateHandler={tabsUpdateHandler} editmode={editMode} /> : ""
         }
       </>
     )
