@@ -4,7 +4,7 @@ import { dateFormat } from "../../utils";
 import Service from "../../network/service";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV, getCookie, setCookieToSpecificTime } from "../../utils"; // Correct import path
-import GLOBAL_CONFIG  from "../../network/global_config.json";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 // import { grxEvent } from "utils/ga";
 
 interface ResponseData {
@@ -66,19 +66,66 @@ const RedeemVoucher = () => {
       case 3002:
         return "Voucher already redeemed. Please enter a new voucher code";
       case 3003:
-        return "Voucher code has expired on " + dateFormat(response.expiryDate, '%d-%M-%Y') + ". Please enter valid code";
+        return (
+          "Voucher code has expired on " +
+          dateFormat(response.expiryDate, "%d-%M-%Y") +
+          ". Please enter valid code"
+        );
       case 3004:
-        return "You are currently enjoying a " + response.trialDays + "-days free trial plan. Please cancel your membership by " + dateFormat(response.cancelDate, '%d-%M-%Y') + ". After cancellation, you can re-apply this voucher code";
+        return (
+          "You are currently enjoying a " +
+          response.trialDays +
+          "-days free trial plan. Please cancel your membership by " +
+          dateFormat(response.cancelDate, "%d-%M-%Y") +
+          ". After cancellation, you can re-apply this voucher code"
+        );
       case 3005:
-        return "Voucher applied successfully! Your current " + response.trialDays + "-days free trial will expire on " + dateFormat(response.trialEndDate, '%d-%M-%Y') + ". Your new " + response.planType + " plan will be automatically activated from " + dateFormat(response.voucherActivationDate, '%d-%M-%Y');
+        return (
+          "Voucher applied successfully! Your current " +
+          response.trialDays +
+          "-days free trial will expire on " +
+          dateFormat(response.trialEndDate, "%d-%M-%Y") +
+          ". Your new " +
+          response.planType +
+          " plan will be automatically activated from " +
+          dateFormat(response.voucherActivationDate, "%d-%M-%Y")
+        );
       case 3006:
-        return "Voucher applied successfully! Your current plan will expire on " + dateFormat(response.planEndDate, '%d-%M-%Y') + ". Your new " + response.planType + " plan will be automatically activated from " + dateFormat(response.voucherActivationDate, '%d-%M-%Y') + ".";
+        return (
+          "Voucher applied successfully! Your current plan will expire on " +
+          dateFormat(response.planEndDate, "%d-%M-%Y") +
+          ". Your new " +
+          response.planType +
+          " plan will be automatically activated from " +
+          dateFormat(response.voucherActivationDate, "%d-%M-%Y") +
+          "."
+        );
       case 3007:
-        return "Please cancel your existing membership by " + dateFormat(response.cancelDate, '%d-%M-%Y') + ". After cancellation, you can re-apply this voucher code.";
+        return (
+          "Please cancel your existing membership by " +
+          dateFormat(response.cancelDate, "%d-%M-%Y") +
+          ". After cancellation, you can re-apply this voucher code."
+        );
       case 3008:
-        return "Voucher applied successfully! Your current plan will expire on " + dateFormat(response.planEndDate, '%d-%M-%Y') + ". Your new " + response.planType + " plan will be automatically activated from " + dateFormat(response.voucherActivationDate, '%d-%M-%Y') + ".";
+        return (
+          "Voucher applied successfully! Your current plan will expire on " +
+          dateFormat(response.planEndDate, "%d-%M-%Y") +
+          ". Your new " +
+          response.planType +
+          " plan will be automatically activated from " +
+          dateFormat(response.voucherActivationDate, "%d-%M-%Y") +
+          "."
+        );
       case 3009:
-        return "Voucher applied successfully! Your current plan will expire on " + dateFormat(response.planEndDate, '%d-%M-%Y') + ". Your new " + response.planType + " plan will be automatically activated from " + dateFormat(response.voucherActivationDate, '%d-%M-%Y') + ".";
+        return (
+          "Voucher applied successfully! Your current plan will expire on " +
+          dateFormat(response.planEndDate, "%d-%M-%Y") +
+          ". Your new " +
+          response.planType +
+          " plan will be automatically activated from " +
+          dateFormat(response.voucherActivationDate, "%d-%M-%Y") +
+          "."
+        );
       default:
         return response.message;
     }
@@ -96,8 +143,14 @@ const RedeemVoucher = () => {
   };
 
   const continueReading = () => {
-    if (typeof window.ga != 'undefined') {
-      window.ga('send', 'event', 'Voucher Redemption', 'Continue Reading', window.location.href);
+    if (typeof window.ga != "undefined") {
+      window.ga(
+        "send",
+        "event",
+        "Voucher Redemption",
+        "Continue Reading",
+        window.location.href,
+      );
     }
     if (isParams) {
       window.location.replace(window.location.pathname);
@@ -120,17 +173,28 @@ const RedeemVoucher = () => {
         };
 
         try {
-          const headers = {          
+          const headers = {
             "X-TOKEN": otr,
             "X-CLIENT-ID": (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],
             "Content-type": "application/x-www-form-urlencoded",
-          }
-          let params = Object.keys(payload).map(function(k) {
-            return encodeURIComponent(k) + '=' + encodeURIComponent((payload as any)[k])
-          }).join('&');
-          const res = await Service.post({ url, headers, data:params, params: {} });
-          setLoading(false);  
-          if (res.status === 200) {
+          };
+          let params = Object.keys(payload)
+            .map(function (k) {
+              return (
+                encodeURIComponent(k) +
+                "=" +
+                encodeURIComponent((payload as any)[k])
+              );
+            })
+            .join("&");
+          const res = await Service.post({
+            url,
+            headers,
+            data: params,
+            params: {},
+          });
+          setLoading(false);
+          if (res?.status === 200) {
             const data: ResponseData = await (res as any)?.data;
             if (data.code && data.status === "SUCCESS") {
               sessionStorage.setItem("isVouchedOpened", "true");
@@ -149,10 +213,10 @@ const RedeemVoucher = () => {
         }
       } else {
         setMessage("Invalid voucher code");
-        setLoading(false);  
+        setLoading(false);
       }
     } else {
-      setLoading(false);  
+      setLoading(false);
     }
   };
 
@@ -168,8 +232,8 @@ const RedeemVoucher = () => {
           <img
             src={
               success
-                ? (GLOBAL_CONFIG as any).ET_IMG_DOMAIN +"/photo/76811257.cms"
-                : (GLOBAL_CONFIG as any).ET_IMG_DOMAIN +"/photo/76647778.cms"
+                ? (GLOBAL_CONFIG as any).ET_IMG_DOMAIN + "/photo/76811257.cms"
+                : (GLOBAL_CONFIG as any).ET_IMG_DOMAIN + "/photo/76647778.cms"
             }
             alt={success ? "Success" : "Coupon"}
           />
