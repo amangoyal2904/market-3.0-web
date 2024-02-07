@@ -43,11 +43,11 @@
   },
   "AUTH_TOKEN": {
     "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web",
-    "production": "https://oauth2.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web"
+    "production": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web"
   },
   "LOGOUT_AUTH_TOKEN": {
     "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout",
-    "production": "https://oauth2.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout"
+    "production": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout"
   },
   "watchListTab": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
@@ -59,6 +59,6 @@
   },
   "redeemVoucher": {
     "development": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher",
-    "production": "https://subscriptions.economictimes.indiatimes.com/api/subscription/redeemVoucher"
+    "production": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher"
   }
 }
