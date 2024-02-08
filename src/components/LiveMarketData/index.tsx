@@ -38,12 +38,12 @@ const LiveMarketData = () => {
                 <div className={styles.marketIndex}>
                     <div className={styles.indexName}>SENSEX: </div>
                     <div className={styles.indexValue}>{marketData[0]?.sensex.CurrentIndexValue}</div>
-                    <div className={`${styles.indexChange} ${Number(marketData[0]?.sensex.NetChange) > 0 ? "eticon_up_arrow green" : "eticon_down_arrow red"}`}>{marketData[0]?.sensex.PercentChange}</div>
+                    <div className={`${styles.indexChange} ${Number(marketData[0]?.sensex.NetChange) > 0 ? "eticon_up_arrow green" : "eticon_down_arrow red"}`}>{marketData[0]?.sensex.PercentChange}%</div>
                 </div>
                 <div className={styles.marketIndex}>
                     <div className={styles.indexName}>NIFTY:</div>
                     <div className={styles.indexValue}>{marketData[0]?.nifty.CurrentIndexValue}</div>
-                    <div className={`${styles.indexChange} ${Number(marketData[0]?.nifty.NetChange) > 0 ? "eticon_up_arrow green" : "eticon_down_arrow red"}`}>{marketData[0]?.nifty.PercentChange}</div>
+                    <div className={`${styles.indexChange} ${Number(marketData[0]?.nifty.NetChange) > 0 ? "eticon_up_arrow green" : "eticon_down_arrow red"}`}>{marketData[0]?.nifty.PercentChange}%</div>
                 </div>
             </>
         }
