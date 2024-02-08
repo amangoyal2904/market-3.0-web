@@ -1,0 +1,12 @@
+.navWrap {
+  background-color: #ffe2da;
+  width: 56px;
+  position: sticky;
+  top: 56px;
+  left: 0;
+  height: calc(100vh - 56px);
+  transition: width 0.3s ease;
+  &.expanded {
+    width: 200px;
+  }
+}

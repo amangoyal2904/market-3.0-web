@@ -60,5 +60,9 @@
   "redeemVoucher": {
     "development": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher",
     "production": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher"
+  },
+  "LEFT_NAV": {
+    "development": "https://etapipre.indiatimes.com/api/nav",
+    "production": "https://etapipre.indiatimes.com/api/nav"
   }
 }

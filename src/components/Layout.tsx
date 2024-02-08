@@ -1,12 +1,13 @@
-'use client';
+"use client";
 
-import React, {FC, ReactElement, useEffect } from 'react';
-import Headers from './Head';
-import Scripts from './Scripts';
-import Footer from './Footer';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import Header from './Header';
-import RedeemVoucher from './RedeemVoucher';
+import React, { FC, ReactElement, useEffect } from "react";
+import Headers from "./Head";
+import Scripts from "./Scripts";
+import Footer from "./Footer";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Header from "./Header";
+import RedeemVoucher from "./RedeemVoucher";
+import LeftNav from "./LeftNav";
 
 interface Props {
   page?: string;
@@ -15,6 +16,7 @@ interface Props {
   objVc?: any;
   isprimeuser?: boolean | number;
   data: any;
+  leftNavResult: any;
   children?: ReactElement;
 }
 
@@ -24,36 +26,43 @@ interface ChildProps {
   data: any;
 }
 
-const Layout:FC<Props> = ({ page, dynamicFooterData, menuData, objVc, data, isprimeuser, children }) => { 
-  
+const Layout: FC<Props> = ({
+  page,
+  dynamicFooterData,
+  menuData,
+  objVc,
+  data,
+  isprimeuser,
+  leftNavResult,
+  children,
+}) => {
   if (!data?.seo?.subsecnames || !data?.seo?.sectionDetail) {
     data.seo = {};
     data.seo.subsecnames = {};
     //throw new Error('Invalid data passed to Layout component');
   }
 
- 
-
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   return (
-      <>
+    <>
       {/* <StateProvider> */}
-        <Headers />
-          <Header/>
-          <main className={`pageHolder container`}>
-          <div className="layout">{children}</div>
-          <Scripts objVc={objVc} isprimeuser={isprimeuser} />
-          <Footer/>
-          </main> 
-          <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
-              <div id="ssoLogin" className="ssoLoginElm"/>
-          </div>
-          <RedeemVoucher /> 
+      <Headers />
+      <Header />
+      <main className={`pageHolder container`}>
+        <LeftNav leftNavResult={leftNavResult} />
+        <div className="layout">{children}</div>
+        <Scripts objVc={objVc} isprimeuser={isprimeuser} />
+        {/* <Footer/> */}
+      </main>
+      <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
+        <div id="ssoLogin" className="ssoLoginElm" />
+      </div>
+      <RedeemVoucher />
       {/* </StateProvider>       */}
-      </>
-    );
-}
+    </>
+  );
+};
 
 export default Layout;

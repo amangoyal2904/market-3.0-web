@@ -354,3 +354,9 @@ table {
     }
   }
 }
+.layout {
+  flex-grow: 1;
+}
+.pageHolder {
+  display: flex;
+}
