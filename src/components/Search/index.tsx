@@ -35,7 +35,7 @@ const Search = () => {
     }, [searchEnable]);
     const handleFocus = (query:string) => {  
         if(!query){
-            const API_URL="./popularStock.json";
+            const API_URL=(APIS_CONFIG as any)?.SEARCH.mostPopular[APP_ENV];
             fetch(API_URL)
             .then((response) => response.json())
             .then((res) => {
@@ -67,7 +67,7 @@ const Search = () => {
                     })
                 );
             }else{
-                const API_URL="./popularStock.json";
+                const API_URL=(APIS_CONFIG as any)?.SEARCH.mostPopular[APP_ENV];
                 requests = [API_URL].map((url) =>
                     fetch(url, {
                         method: "GET"

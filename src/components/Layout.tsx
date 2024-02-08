@@ -41,16 +41,16 @@ const Layout:FC<Props> = ({ page, dynamicFooterData, menuData, objVc, data, ispr
       <>
       {/* <StateProvider> */}
         <Headers />
-          <Header/>
-          <main className={`pageHolder container`}>
-          <div className="layout">{children}</div>
-          <Scripts objVc={objVc} isprimeuser={isprimeuser} />
-          <Footer/>
-          </main> 
-          <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
-              <div id="ssoLogin" className="ssoLoginElm"/>
-          </div>
-          <RedeemVoucher /> 
+        <Header/>
+        <main className={`pageHolder container`}>
+        <div className="layout">{children}</div>
+        <Scripts objVc={objVc} isprimeuser={isprimeuser} />
+        <Footer/>
+        </main> 
+        <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
+            <div id="ssoLogin" className="ssoLoginElm"/>
+        </div>
+        <RedeemVoucher /> 
       {/* </StateProvider>       */}
       </>
     );
