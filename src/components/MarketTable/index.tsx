@@ -200,10 +200,11 @@ const MarketTable = ({ data }: any) => {
               <table className={styles.watchListTable}>
                 <thead
                   style={{
-                    transform: `translateY(${headerSticky > topScrollHeight
-                      ? headerSticky - topScrollHeight
-                      : 0
-                      }px)`,
+                    transform: `translateY(${
+                      headerSticky > topScrollHeight
+                        ? headerSticky - topScrollHeight
+                        : 0
+                    }px)`,
                   }}
                 >
                   <tr className={styles.leftThWrapper}>
@@ -214,17 +215,18 @@ const MarketTable = ({ data }: any) => {
                             onClick={() => {
                               handleSort(thead.keyId);
                             }}
-                            className={`${thead.keyId == "name" ? styles.firstTh : ""
-                              }`}
+                            className={`${
+                              thead.keyId == "name" ? styles.firstTh : ""
+                            }`}
                             key={thead.keyText}
                           >
                             {thead.keyText}
                             {thead.allowSort && (
                               <span
-                                className={`${styles.sortIcons} eticon_ic_sorting`}
+                                className={`${styles.sortIcons}`}
                               >
-                                <span className="path1"></span>
-                                <span className="path2"></span>
+                                <span className={`${sortData.name == "asc" ? styles.asc :""} eticon_up_arrow`}></span>
+                                <span className={`${sortData.name == "desc" ? styles.desc :""} eticon_down_arrow`}></span>
                               </span>
                             )}
                           </th>
@@ -238,10 +240,11 @@ const MarketTable = ({ data }: any) => {
                       <tr
                         className={styles.stickyRow}
                         style={{
-                          transform: `translateY(${headerSticky > topScrollHeight
-                            ? headerSticky - (topScrollHeight + 1)
-                            : 0
-                            }px)`,
+                          transform: `translateY(${
+                            headerSticky > topScrollHeight
+                              ? headerSticky - (topScrollHeight + 1)
+                              : 0
+                          }px)`,
                         }}
                       >
                         {tableHeaderData.map(
@@ -249,16 +252,24 @@ const MarketTable = ({ data }: any) => {
                             index <= 2 && (
                               <td key={index} className={styles.inputWrapper}>
                                 <span className={styles.searchWrapper}>
-                                  <input className={`${styles.filterInput} ${tdData.keyId == "name"
-                                      ? styles.filterInputFirst
-                                      : ""
-                                      }`}
+                                  <input
+                                    className={`${styles.filterInput} ${
+                                      tdData.keyId == "name"
+                                        ? styles.filterInputFirst
+                                        : ""
+                                    }`}
                                     type="text"
                                     name={tdData.keyId}
                                     onChange={handleFilterChange}
-                                    placeholder={tdData.keyId == "name" ? "Search Value" : "> #"}
-                                    ></input>
-                                  {tdData.keyId == "name" && <span className="eticon_ic_search"></span>}
+                                    placeholder={
+                                      tdData.keyId == "name"
+                                        ? "Search Value"
+                                        : "> #"
+                                    }
+                                  ></input>
+                                  {tdData.keyId == "name" && (
+                                    <span className="eticon_ic_search"></span>
+                                  )}
                                 </span>
                               </td>
                             )
@@ -294,12 +305,13 @@ const MarketTable = ({ data }: any) => {
                                   {tdData.value.replaceAll(" ", "")}
                                   {tdData.trend && (
                                     <span
-                                      className={`${styles.arrowIcons} ${tdData.trend == "up"
-                                        ? "eticon_ic_green_arrow"
-                                        : tdData.trend == "down"
-                                          ? "eticon_ic_red_arrow"
+                                      className={`${styles.arrowIcons} ${
+                                        tdData.trend == "up"
+                                          ? "eticon_up_arrow"
+                                          : tdData.trend == "down"
+                                          ? "eticon_down_arrow"
                                           : ""
-                                        }`}
+                                      }`}
                                     />
                                   )}
                                 </td>
@@ -324,10 +336,11 @@ const MarketTable = ({ data }: any) => {
               <table className={styles.watchListTable}>
                 <thead
                   style={{
-                    transform: `translateY(${headerSticky > topScrollHeight
-                      ? headerSticky - topScrollHeight
-                      : 0
-                      }px)`,
+                    transform: `translateY(${
+                      headerSticky > topScrollHeight
+                        ? headerSticky - topScrollHeight
+                        : 0
+                    }px)`,
                   }}
                 >
                   <tr>
@@ -358,10 +371,11 @@ const MarketTable = ({ data }: any) => {
                   <tbody>
                     <tr
                       style={{
-                        transform: `translateY(${headerSticky > topScrollHeight
-                          ? headerSticky - (topScrollHeight + 1)
-                          : 0
-                          }px)`,
+                        transform: `translateY(${
+                          headerSticky > topScrollHeight
+                            ? headerSticky - (topScrollHeight + 1)
+                            : 0
+                        }px)`,
                       }}
                     >
                       {tableHeaderData.map(
@@ -388,12 +402,13 @@ const MarketTable = ({ data }: any) => {
                                 {tdData.value.replaceAll(" ", "")}
                                 {tdData.trend && (
                                   <span
-                                    className={`${styles.arrowIcons} ${tdData.trend == "up"
-                                      ? "eticon_ic_green_arrow"
-                                      : tdData.trend == "down"
-                                        ? "eticon_ic_red_arrow"
+                                    className={`${styles.arrowIcons} ${
+                                      tdData.trend == "up"
+                                        ? "eticon_up_arrow"
+                                        : tdData.trend == "down"
+                                        ? "eticon_down_arrow"
                                         : ""
-                                      }`}
+                                    }`}
                                   />
                                 )}
                               </td>
