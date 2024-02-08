@@ -3,6 +3,10 @@
     "development": "https://etdev8243.indiatimes.com/",
     "production": "https://economictimes.indiatimes.com/"
   },
+  "LIVE_MARKET_DATA":{
+    "development": "https://bselivefeeds.indiatimes.com/homepagedatanew.json",
+    "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
+  },
   "SEARCH": {
     "main": {
       "development": [
@@ -14,7 +18,7 @@
     },
     "mostPopular": {
       "development": [
-        "https://json.bselivefeeds.indiatimes.com/ET_Community/multicompanyobject?varname=searchresult&exchange=50&order=true&pagsize=15&companytype=equity&companies=12934,13554,23479,10960,13215"
+        "https://bselivefeeds.indiatimes.com/ET_Community/multicompanyobject?varname=searchresult&exchange=50&order=true&pagsize=15&companytype=equity&companies=12934,13554,23479,10960,13215"
       ],
       "production": [
         "https://json.bselivefeeds.indiatimes.com/ET_Community/multicompanyobject?varname=searchresult&exchange=50&order=true&pagsize=15&companytype=equity&companies=12934,13554,23479,10960,13215"

@@ -7,6 +7,7 @@ import Login from '../Login';
 import { APP_ENV } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG  from "../../network/global_config.json"
+import LiveMarketData from '../LiveMarketData';
 
 const Header = () => {
   const { state, dispatch } = useStateContext();
@@ -25,7 +26,9 @@ const Header = () => {
               />
           </Link>
           <Search/>
-        </div>        
+          
+        </div>     
+        <LiveMarketData/>   
         <div className="dflex align-item-center">
           <Link className="default-btn" href="/watchlist">My Watchlist</Link>
           {
