@@ -71,9 +71,10 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
         const resData = await res.json();
         console.log('resdata', resData)
         if(resData && resData.responseCode === 200){
+            const viewId:any = resData.viewId || "";
             closePopCreateView(false)
             alert(resData.response)
-            tabsUpdateHandler()
+            tabsUpdateHandler(viewId)
         }else{
             alert("some error please check api or code")
         }
@@ -242,7 +243,11 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
         <div className={styles.wraper}>
             <div className={styles.perWrap} ref={viewWraperRef}>
                 <div className={styles.header}>
-                    <span>Create New View</span>
+                    <span>
+                        {
+                            editmode && editmode.mode && editmode.viewId !== "" ? "Edit" : "Create New View"
+                        }
+                        </span>
                     <div className={styles.formGroup}>
                         <input type="text" placeholder="Please enter screener name" value={screenerName} onChange={(e:any)=>setScreenerName(e.target.value)} />
                     </div>
@@ -268,8 +273,9 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
                                                                     {...provided.dragHandleProps}
                                                                     >
                                                                     <div className={styles.listItem}>
-                                                                    <span className={styles.itemTxt}>{list.displayName}</span>
-                                                                    <span className={`refRemoveList ${styles.itemRemoveTag}`} onClick={(e)=>removeItemList(list, e)}>
+                                                                        <span className={`${styles.moveSec} eticon_move`}></span>
+                                                                        <span className={styles.itemTxt}>{list.displayName}</span>
+                                                                        <span className={`refRemoveList ${styles.itemRemoveTag} eticon_cross`} onClick={(e)=>removeItemList(list, e)}>
                                                                     </span>
                                                                     </div>
                                                                 </li>
@@ -284,28 +290,13 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
                                             </Droppable>
                                         </DragDropContext> : ""
                                 }
-                        {/* {
-                            <ul className={styles.viewList}>
-                            {selectedView.map((list:any, index:any) => {
-                              return (
-                                <li key={`${list.displayName}-${index}`}
-                                    >
-                                    <div className={styles.listItem}>
-                                      <span className={styles.itemTxt}>{list.displayName}</span>
-                                      <span className={styles.itemRemoveTag} onClick={(e)=>removeItemList(list, e)}>
-                                      </span>
-                                    </div>
-                                </li>
-                              )
-                            })}
-                        </ul>
-                        } */}
+                        
                             </div>
                             <div className={styles.rightSec}>
                                 <div className={styles.topSearchSec}>
                                     <div className={styles.formGorup} ref={searchRef}>
-                                        <span className={styles.searchIcon}></span>
-                                        <input type="text" placeholder='Search for a Metrics...' className={styles.serchInput} value={searchNode} onChange={handleInputChange} />
+                                        <span className={`eticon_search ${styles.searchBtn}`}></span>
+                                        <input type="text" placeholder='Search for a metrics...' className={styles.serchInput} value={searchNode} onChange={handleInputChange} />
                                         {
                                             searchListItems.length > 0 ? <ul className={styles.searchItemList}>{searchListItems.map((item:any)=>{
                                                 return (
@@ -317,6 +308,7 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
                                                                 id={`${item.categoryMasterID}-search`}
                                                                 checked={selectedView.some((viewItem:any) => viewItem.sourceFieldName === item.sourceFieldName)}
                                                                 onChange={(e)=>viewCheckHandler(e, item)} />
+                                                            <span className={styles.checkBoxStyle}></span>
                                                             <label htmlFor={`${item.categoryMasterID}-search`}  dangerouslySetInnerHTML={{ __html: highlightMatch(item.displayName) }}>
                                                             </label>
                                                         </div>
@@ -362,6 +354,7 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
                                                                         className={styles.checkBoxSec} 
                                                                         onChange={(e)=>viewCheckHandler(e, childSubItem)}
                                                                         checked={selectedView.some((item:any) => item.sourceFieldName === childSubItem.sourceFieldName)} />
+                                                                        <span className={styles.checkBoxStyle}></span>
                                                                         <label htmlFor={childSubItem.categoryMasterID}>{childSubItem.displayName}</label>
                                                                     </div>
                                                                 </li>
@@ -382,7 +375,7 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
                 </div>
                 <div className={styles.footer}>
                     {
-                        editmode && editmode.mode && editmode.viewId !== "" ? <span className={`${styles.updateBtn} ${styles.removeBtn}`} onClick={removeUserPersonalise}>Remove</span> : null
+                        editmode && editmode.mode && editmode.viewId !== "" ? <span className={`${styles.updateBtn} ${styles.removeBtn}`} onClick={removeUserPersonalise}>DELETE VIEW</span> : null
                     }
                     <span className={styles.updateBtn} onClick={saveUserPersonalise}>
                         {
