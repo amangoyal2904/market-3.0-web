@@ -51,10 +51,12 @@ const Layout: FC<Props> = ({
       <Headers />
       <Header />
       <main className={`pageHolder container`}>
-        <LeftNav leftNavResult={leftNavResult} />
-        <div className="layout">{children}</div>
+        <div className="layout">
+          {<LeftNav leftNavResult={leftNavResult} />}
+          {children}
+        </div>
         <Scripts objVc={objVc} isprimeuser={isprimeuser} />
-        {/* <Footer/> */}
+        <Footer />
       </main>
       <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
         <div id="ssoLogin" className="ssoLoginElm" />
