@@ -1,0 +1,30 @@
+.liveMarkets {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .marketIndex {
+    display: flex;
+    padding: 0 25px 0 10px;
+    .indexName {
+      font-weight: bold;
+    }
+    .indexChange {
+      position: relative;
+    }
+    .indexChange::before {
+      font-size: 11px;
+      position: absolute;
+      right: -16px;
+      top: 2px;
+    }
+  }
+  .marketIndex > div {
+    margin-right: 5px;
+  }
+  .marketIndex > div:last-child {
+    margin-right: 0;
+  }
+  .marketIndex:first-child {
+    border-right: 1px solid;
+  }
+}
