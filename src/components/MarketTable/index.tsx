@@ -9,16 +9,10 @@ interface propsType {
   data: any[];
   apiSuccess: boolean;
   tableHeaders: any[];
-  onFilterChange: any;
 }
 
 const MarketTable = (props: propsType) => {
-  const {
-    data,
-    apiSuccess = false,
-    tableHeaders = [],
-    onFilterChange,
-  } = props || {};
+  const { data, apiSuccess = false, tableHeaders = [] } = props || {};
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
