@@ -1,7 +1,8 @@
 import styles from './CreateNewView.module.scss';
 import { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import APIS_CONFIG from "../../network/api_config.json";
+import { APP_ENV } from "../../utils/index";
 
 
 const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler}:any)=>{
@@ -14,15 +15,26 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
     const [selectedView, setSelectedView]:any = useState([]);
     const searchRef = useRef<HTMLDivElement>(null);
     const viewWraperRef = useRef<HTMLDivElement>(null);
-    console.log('editmode', editmode)
+    const [sateUpdate, setSateUpdate] = useState(true);
+    //console.log('editmode', editmode)
     const ViewDataAPICall = async ()=>{
-        const data = await fetch(`https://screener.indiatimes.com//screener/getScreenerSelectCategoryFieldMapping`)
+        const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.AllScreenerCategory[APP_ENV];
+        const data = await fetch(API_URL)
         const resData = await data.json();
         const viewDataSet = resData && resData.datainfo && resData.datainfo.screenerCategoryLevelZero && resData.datainfo.screenerCategoryLevelZero.screenerCategoryLevelOne ? resData.datainfo.screenerCategoryLevelZero.screenerCategoryLevelOne : [];
         setViewData(viewDataSet)
     }
     
-    const saveUserPersonalise = async ()=>{
+    const saveUserPersonalise = ()=>{
+        if(screenerName === ""){
+            alert("Please enter your screener name")
+        }else if(!selectedView.length){
+            alert("Please select at least one view")
+        }else{
+            saveUserPersonaliseAPICall()
+        }
+    }
+    const saveUserPersonaliseAPICall = async ()=>{
         console.log('save user view personalize ', selectedView)
 
         // let userConfirmBox = false;
@@ -37,7 +49,7 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
                 updatedOrder.push(item.sourceFieldName)
             )
         })
-        const apiUrl = 'https://qcbselivefeeds.indiatimes.com/screener/saveViewName';
+        const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.saveViewName[APP_ENV];
         const bodyPost:any = {
             "fields":updatedOrder,
             "name":screenerName,
@@ -48,7 +60,7 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
         if(editmode && editmode.mode && editmode.viewId !== ""){
             bodyPost.viewId = editmode.viewId
         }
-        const res = await fetch(`${apiUrl}`,{
+        const res = await fetch(API_URL,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,7 +88,8 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
         }
     };
     const FetchDataSearchView = async ()=>{
-        const data = await fetch(`https://screener.indiatimes.com/screener/getScreenerDBCategoryFieldMapping?searchtext=${searchNode}`);
+        const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.getScreenerMapping[APP_ENV];
+        const data = await fetch(`${API_URL}${searchNode}`);
         const res = await data.json();
         const searchlistItemData = res && res.datainfo && res.datainfo.screenerDBCategoryFieldsList && res.datainfo.screenerDBCategoryFieldsList.length > 0 ? res.datainfo.screenerDBCategoryFieldsList : []
         setSearchListItems(searchlistItemData);
@@ -91,11 +104,7 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
             setSearchNode("")
         }
     };
-    const handleClickOutsidePopup = (e:any) => {
-        if (viewWraperRef.current && !viewWraperRef.current.contains(e.target)) {
-            closePopCreateView(false)
-        }
-    };
+    
     const viewCheckHandler = (e:any, addData:any)=>{
         const isChecked = e.target.checked;
         if(isChecked){
@@ -135,8 +144,8 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
     }
     const fetchByViewID = async (viewId:any)=>{
         const ssoid = window.objUser?.ssoid;
-        const apiUrl = `https://qcbselivefeeds.indiatimes.com/screener/getViewById?viewid=${viewId}`
-        const data = await fetch(apiUrl,
+        const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.screenerViewById[APP_ENV];
+        const data = await fetch(`${API_URL}${viewId}`,
         { cache: 'no-store', 
             "headers": {
             'ssoid': ssoid
@@ -161,8 +170,8 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
     }
     const removeByViewID = async (viewId:any)=>{
         const ssoid = window.objUser?.ssoid;
-        const apiUrl = `https://qcbselivefeeds.indiatimes.com/screener/removeviewbyid?viewid=${viewId}`;
-        const data = await fetch(apiUrl,
+        const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.screenerRemoveviewbyid[APP_ENV];
+        const data = await fetch(`${API_URL}${viewId}`,
             { cache: 'no-store', 
                 "headers": {
                 'ssoid': ssoid
@@ -177,6 +186,17 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
             alert("some error please check api or code")
         }
     }
+    const removeItemList =  (itemList:any, e:any)=>{
+        //e.stopPropagation()
+       // e.preventDefault();
+        const fieldName =  itemList.sourceFieldName;
+        let viewAllDataforSelected:any[] =  [...selectedView];
+        let __updatedViewData =  viewAllDataforSelected.filter((view:any) => view.sourceFieldName !== fieldName);
+        //console.log('itemList',itemList, selectedView, __updatedViewData, 'sateUpdate',sateUpdate)
+        setSelectedView(__updatedViewData);
+    }
+    
+    //console.log('whatis', selectedView)
     useEffect(() => {
         
         document.addEventListener('click', handleClickOutside);
@@ -184,13 +204,20 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
           document.removeEventListener('click', handleClickOutside);
         };
     }, [searchRef]);
+    
     useEffect(() => {
-        
+        const handleClickOutsidePopup = (e:any) => {
+            //console.log('___________')
+            if (viewWraperRef.current && !viewWraperRef.current.contains(e.target) && e.target.classList[0] !== 'refRemoveList') {
+                //console.log('___________++++++++',viewWraperRef.current, !viewWraperRef.current.contains(e.target), "sateUpdate",sateUpdate)
+                closePopCreateView(false)
+            }
+        };
         document.addEventListener('click', handleClickOutsidePopup);
         return () => {
           document.removeEventListener('click', handleClickOutsidePopup);
         };
-    }, [viewWraperRef]);
+    }, [viewWraperRef, closePopCreateView]);
     useEffect(()=>{
         ViewDataAPICall();
         if(editmode && editmode.mode && editmode.viewId !== ""){
@@ -225,49 +252,54 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
                         <div className={styles.filterSec}>
                             <div className={styles.leftSec}>
                                 <h2>Selected Metrics</h2>
-                                {/* <ul className={styles.viewList}>
-                                    {
-                                        selectedView.length > 0 ? selectedView.map((viewItem:any)=>{
-                                            return (
-                                                <li key={viewItem.categoryMasterID}>
-                                                    <div className={styles.listItem}>
-                                                        <span>{viewItem.displayName}</span>
-                                                    </div>
-                                                </li>
-                                            )
-                                        }) : ""
-                                    }
-                                </ul> */}
                                 {
-                            selectedView.length > 0 ? <DragDropContext onDragEnd={handleOnDragEnd}>
-                            <Droppable droppableId="list" type="group" key={selectedView.length}>
-                                {(provided:any= {}, snapshot:any = {}) => (
-                                <ul {...provided.droppableProps} ref={provided.innerRef} className={styles.viewList}>
-                                    {selectedView.map((list:any, index:any) => {
-                                      return (
-                                        <Draggable key={`${list.categoryMasterID}-${index}`} draggableId={`${list.categoryMasterID}-${index}`}  index={index}>
-                                            {(provided:any) => {
-                                              return (
-                                                <li
-                                                    ref={provided.innerRef} 
-                                                    {...provided.draggableProps} 
-                                                    {...provided.dragHandleProps}
-                                                    >
-                                                    <div className={styles.listItem}>
-                                                      <span className={styles.itemTxt}>{list.displayName}</span>
-                                                    </div>
-                                                </li>
-                                              )
-                                            }}
-                                        </Draggable>
-                                      )
-                                    })}
-                                    {provided.placeholder}
-                                </ul>
-                                )}
-                            </Droppable>
-                        </DragDropContext> : ""
-                        }
+                                    selectedView.length > 0 ? <DragDropContext onDragEnd={handleOnDragEnd}>
+                                        <Droppable droppableId="list" type="group" key={selectedView.length}>
+                                                {(provided:any= {}, snapshot:any = {}) => (
+                                                <ul {...provided.droppableProps} ref={provided.innerRef} className={styles.viewList}>
+                                                    {selectedView.map((list:any, index:any) => {
+                                                    return (
+                                                        <Draggable key={`${list.categoryMasterID}-${index}`} draggableId={`${list.categoryMasterID}-${index}`}  index={index}>
+                                                            {(provided:any) => {
+                                                            return (
+                                                                <li
+                                                                    ref={provided.innerRef} 
+                                                                    {...provided.draggableProps} 
+                                                                    {...provided.dragHandleProps}
+                                                                    >
+                                                                    <div className={styles.listItem}>
+                                                                    <span className={styles.itemTxt}>{list.displayName}</span>
+                                                                    <span className={`refRemoveList ${styles.itemRemoveTag}`} onClick={(e)=>removeItemList(list, e)}>
+                                                                    </span>
+                                                                    </div>
+                                                                </li>
+                                                            )
+                                                            }}
+                                                        </Draggable>
+                                                    )
+                                                    })}
+                                                    {provided.placeholder}
+                                                </ul>
+                                                )}
+                                            </Droppable>
+                                        </DragDropContext> : ""
+                                }
+                        {/* {
+                            <ul className={styles.viewList}>
+                            {selectedView.map((list:any, index:any) => {
+                              return (
+                                <li key={`${list.displayName}-${index}`}
+                                    >
+                                    <div className={styles.listItem}>
+                                      <span className={styles.itemTxt}>{list.displayName}</span>
+                                      <span className={styles.itemRemoveTag} onClick={(e)=>removeItemList(list, e)}>
+                                      </span>
+                                    </div>
+                                </li>
+                              )
+                            })}
+                        </ul>
+                        } */}
                             </div>
                             <div className={styles.rightSec}>
                                 <div className={styles.topSearchSec}>
@@ -277,7 +309,7 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
                                         {
                                             searchListItems.length > 0 ? <ul className={styles.searchItemList}>{searchListItems.map((item:any)=>{
                                                 return (
-                                                    <li key={item.categoryFieldMasterID}>
+                                                    <li key={`${item.categoryFieldMasterID}-${item.sourceFieldName}`}>
                                                         <div className={styles.formGroup}>
                                                             <input 
                                                                 type="checkbox" 
