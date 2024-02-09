@@ -12,6 +12,7 @@ const FixedTable = (props: any) => {
     sortData,
     tableDataList,
     handleFilterChange,
+    hideThead = false
   } = props || {};
 
   return (
@@ -27,8 +28,10 @@ const FixedTable = (props: any) => {
               headerSticky > topScrollHeight
                 ? headerSticky - topScrollHeight
                 : 0
-            }px)`,
+            }px)`
           }}
+          className={hideThead ? styles.hideThead : ""}
+          id="thead"
         >
           <tr className={styles.leftThWrapper}>
             {tableHeaderData.map(
@@ -60,46 +63,35 @@ const FixedTable = (props: any) => {
                 )
             )}
           </tr>
+          <tr>
+            {tableHeaderData.map(
+              (tdData: any, index: number) =>
+                index <= 2 && (
+                  <td key={index} className={styles.inputWrapper}>
+                    <span className={styles.searchWrapper}>
+                      <input
+                        className={`${styles.filterInput} ${
+                          tdData.keyId == "name" ? styles.filterInputFirst : ""
+                        }`}
+                        type="text"
+                        name={tdData.keyId}
+                        onChange={handleFilterChange}
+                        placeholder={
+                          tdData.keyId == "name" ? "Search Value" : "> #"
+                        }
+                      ></input>
+                      {tdData.keyId == "name" && (
+                        <span className="eticon_search"></span>
+                      )}
+                    </span>
+                  </td>
+                )
+            )}
+          </tr>
         </thead>
         {tableDataList.length > 0 ? (
           <tbody>
             <>
-              <tr
-                className={styles.stickyRow}
-                style={{
-                  transform: `translateY(${
-                    headerSticky > topScrollHeight
-                      ? headerSticky - (topScrollHeight + 1)
-                      : 0
-                  }px)`,
-                }}
-              >
-                {tableHeaderData.map(
-                  (tdData: any, index: number) =>
-                    index <= 2 && (
-                      <td key={index} className={styles.inputWrapper}>
-                        <span className={styles.searchWrapper}>
-                          <input
-                            className={`${styles.filterInput} ${
-                              tdData.keyId == "name"
-                                ? styles.filterInputFirst
-                                : ""
-                            }`}
-                            type="text"
-                            name={tdData.keyId}
-                            onChange={handleFilterChange}
-                            placeholder={
-                              tdData.keyId == "name" ? "Search Value" : "> #"
-                            }
-                          ></input>
-                          {tdData.keyId == "name" && (
-                            <span className="eticon_search"></span>
-                          )}
-                        </span>
-                      </td>
-                    )
-                )}
-              </tr>
               {tableDataList.map((item: any, index: number) => (
                 <tr key={item.assetId} className={styles.fixedTr}>
                   {item.data.map(
@@ -121,7 +113,9 @@ const FixedTable = (props: any) => {
                         </td>
                       ) : (
                         <td
-                          className={`${styles.fixedTD} ${tdData.trend} ${tdData.allowSort ? "numberFonts" : ""}`}
+                          className={`${styles.fixedTD} ${tdData.trend} ${
+                            tdData.allowSort ? "numberFonts" : ""
+                          }`}
                           key={tdData.keyId}
                         >
                           {tdData.value.replaceAll(" ", "")}

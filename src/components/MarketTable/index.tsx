@@ -1,20 +1,28 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './MarketTable.module.scss';
-import { useIsInViewport } from '@/hooks/useInViewPort';
 import FixedTable from './FixedTable';
 import ScrollableTable from './ScrollableTable';
 import Blocker from '../../components/Blocker';
 import Loader from '../Loader';
 
-const MarketTable = (props: any) => {
-  const { data , apiSuccess = false} = props || {};
+interface propsType{
+  data:any[];
+  apiSuccess:boolean;
+  tableHeaders:any[];
+  onFilterChange:any;
+}
+
+const MarketTable = (props: propsType) => {
+  const { data , apiSuccess = false, tableHeaders = [], onFilterChange} = props || {};
   const [tableDataList, setTableDataList] = useState(data);
+  const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
   const [sortData, setSortData] = useState<any>({});
   const [headerSticky, setHeaderSticky] = useState(0);
   const [topScrollHeight, setTopScrollHeight] = useState(162);
   const [loaderOff, setLoaderOff] = useState(false);
   const [isPrime, setPrime] = useState(false);
+  const [hideThead, setHideThead] = useState(false);
   function checkIfValidExpression(value: string) {
     return /^[<>=]\d+$/.test(value);
   }
@@ -150,6 +158,7 @@ const MarketTable = (props: any) => {
   useEffect(() => {
     if(data.length || apiSuccess){
       setTableDataList(data);
+      setTableHeaderData(tableHeaders);
       setLoaderOff(true);
     }
   }, [data]);
@@ -171,10 +180,15 @@ const MarketTable = (props: any) => {
   }, [])
 
   const handleScroll = () => {
-    const eleHeader:any = document.getElementById('header');
-    const eleTable:any = document.getElementById('table');
+    const eleHeader: any = document.getElementById('header');
+    const eleTable: any = document.getElementById('table');
     const heightDifference = (eleTable.offsetTop - eleHeader.offsetTop) - eleHeader.offsetHeight;
+    const theadBottom: any = document.getElementById('thead')?.getBoundingClientRect().bottom;
+    const tableBottom: any = document.getElementById('table')?.getBoundingClientRect().bottom;
+    const heightDiff = tableBottom - theadBottom;
+
     setTopScrollHeight(heightDifference)
+    setHideThead(heightDiff < 10);
     if (window.scrollY) {
       setHeaderSticky(window.scrollY);
     }
@@ -192,13 +206,6 @@ const MarketTable = (props: any) => {
     rightScroll.scrollTop = leftScrollPos;
   };
 
-  console.log("@@--->", tableDataList);
-  const tableHeaderData =
-    (tableDataList &&
-      tableDataList.length &&
-      tableDataList[0] &&
-      tableDataList[0]?.data) ||
-    [];
   return (
     <>
       <div className={styles.tableWrapper} id="table">
@@ -213,6 +220,7 @@ const MarketTable = (props: any) => {
               handleSort={handleSort}
               sortData={sortData}
               handleFilterChange={handleFilterChange}
+              hideThead={hideThead}
             />
             <ScrollableTable
               tableHeaderData={tableHeaderData}
@@ -224,6 +232,7 @@ const MarketTable = (props: any) => {
               sortData={sortData}
               handleFilterChange={handleFilterChange}
               isPrime={isPrime}
+              hideThead={hideThead}
             />
           </>
         )}

@@ -14,7 +14,7 @@ const Watchlist = () => {
   const [activeViewId, setActiveViewId] = useState(0);
   const [showBlocker, setShowBlocker] = useState(false);
   const [apiSuccess, setAPISuccess] = useState(false);
-  const [tableData, setTableData] = useState([]);
+  const [tableData, setTableData] = useState<any>([]);
   const { state } = useStateContext();
   const { isLogin, userInfo } = state.login;
 
@@ -61,13 +61,18 @@ const Watchlist = () => {
       setShowBlocker(true);
     }
   }, [isLogin]);
-
+  const tableHeaderData =
+    (tableData &&
+      tableData.length &&
+      tableData[0] &&
+      tableData[0]?.data) ||
+    [];
   return (
     <div className={styles.wraper}>
       <h1 className={styles.heading1}>Watchlist</h1>
       {showBlocker ? <Blocker type="loginBlocker"/> : <>
         <MarketTabs data={wathcListTab} activeViewId={activeViewId} tabsViewIdUpdate={tabsViewIdUpdate} tabsUpdateHandler={tabsAndTableDataChangeHandler} />
-        <MarketTable data={tableData} apiSuccess={apiSuccess} onFilterChange={filterChangeHandler} />
+        <MarketTable data={tableData} tableHeaders={tableHeaderData} apiSuccess={apiSuccess} onFilterChange={filterChangeHandler} />
       </>
       }
     </div>

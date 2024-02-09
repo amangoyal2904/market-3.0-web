@@ -14,7 +14,8 @@ const ScrollableTable = (props: any) => {
     sortData,
     tableDataList,
     handleFilterChange,
-    isPrime = false
+    isPrime = false,
+    hideThead = false,
   } = props || {};
 
   return (
@@ -32,6 +33,7 @@ const ScrollableTable = (props: any) => {
                 : 0
             }px)`,
           }}
+          className={hideThead ? styles.hideThead : ""}
         >
           <tr>
             {tableHeaderData.map(
@@ -62,33 +64,25 @@ const ScrollableTable = (props: any) => {
                 )
             )}
           </tr>
+          <tr>
+            {tableHeaderData.map(
+              (tdData: any, index: number) =>
+                index > 2 && (
+                  <td key={index} className={styles.inputWrapper}>
+                    <input
+                      className={styles.filterInput}
+                      type="text"
+                      name={tdData.keyId}
+                      onChange={handleFilterChange}
+                      placeholder="> #"
+                    ></input>
+                  </td>
+                )
+            )}
+          </tr>
         </thead>
         {tableDataList.length > 0 ? (
           <tbody>
-            <tr
-              style={{
-                transform: `translateY(${
-                  headerSticky > topScrollHeight
-                    ? headerSticky - (topScrollHeight + 1)
-                    : 0
-                }px)`,
-              }}
-            >
-              {tableHeaderData.map(
-                (tdData: any, index: number) =>
-                  index > 2 && (
-                    <td key={index} className={styles.inputWrapper}>
-                      <input
-                        className={styles.filterInput}
-                        type="text"
-                        name={tdData.keyId}
-                        onChange={handleFilterChange}
-                        placeholder="> #"
-                      ></input>
-                    </td>
-                  )
-              )}
-            </tr>
             {tableDataList.map((item: any, index: number) => (
               <tr key={item.assetId}>
                 {item.data.map(
@@ -96,12 +90,23 @@ const ScrollableTable = (props: any) => {
                     index > 2 && (
                       <td
                         className={`${!tdData.primeFlag ? tdData.trend : ""} ${
-                          (tdData.allowSort && !tdData.primeFlag ) ? "numberFonts" : tdData.primeFlag ? styles.primeTd : ""
+                          tdData.allowSort && !tdData.primeFlag
+                            ? "numberFonts"
+                            : tdData.primeFlag
+                            ? styles.primeTd
+                            : ""
                         }`}
                         key={tdData.keyId}
                       >
-                        {(!isPrime && tdData.primeFlag) ? (
-                            <Link href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`} data-ga-onclick="Subscription Flow#Upgrade to Prime#table - url">Upgrade to Prime</Link>
+                        {!isPrime && tdData.primeFlag ? (
+                          <Link
+                            href={`${
+                              (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]
+                            }`}
+                            data-ga-onclick="Subscription Flow#Upgrade to Prime#table - url"
+                          >
+                            Upgrade to Prime
+                          </Link>
                         ) : (
                           <>
                             {tdData.value.replaceAll(" ", "")}
