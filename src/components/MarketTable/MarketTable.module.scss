@@ -34,7 +34,7 @@
       min-width: 140px;
     }
   }
-  .primeTd{
+  .primeTd {
     color: $blue_secondary_60;
     text-align: center;
     text-overflow: ellipsis;
@@ -73,7 +73,7 @@
     white-space: nowrap;
     padding: 16px 8px;
     background-color: $gray_90;
-    border-right: $gray_80;
+    border-right: 1px solid $gray_80;
     border-bottom: 1px solid $gray_80;
     border-right-style: solid;
     font-family: $Montserrat-font-family;
@@ -96,7 +96,7 @@
   tr {
     background-color: $color-white;
   }
-  .hideThead{
+  .hideThead {
     visibility: hidden;
   }
 }

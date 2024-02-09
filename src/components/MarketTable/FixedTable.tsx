@@ -12,7 +12,7 @@ const FixedTable = (props: any) => {
     sortData,
     tableDataList,
     handleFilterChange,
-    hideThead = false
+    hideThead = false,
   } = props || {};
 
   return (
@@ -28,9 +28,9 @@ const FixedTable = (props: any) => {
               headerSticky > topScrollHeight
                 ? headerSticky - topScrollHeight
                 : 0
-            }px)`
+            }px)`,
           }}
-          className={(hideThead && tableDataList.length) ? styles.hideThead : ""}
+          className={hideThead && tableDataList.length ? styles.hideThead : ""}
           id="thead"
         >
           <tr className={styles.leftThWrapper}>
@@ -45,7 +45,7 @@ const FixedTable = (props: any) => {
                     key={thead.keyText}
                   >
                     {thead.keyText}
-                    {thead.allowSort && (
+                    {thead.keyId && (
                       <span className={`${styles.sortIcons}`}>
                         <span
                           className={`${
@@ -60,7 +60,7 @@ const FixedTable = (props: any) => {
                       </span>
                     )}
                   </th>
-                )
+                ),
             )}
           </tr>
           <tr>
@@ -85,7 +85,7 @@ const FixedTable = (props: any) => {
                       )}
                     </span>
                   </td>
-                )
+                ),
             )}
           </tr>
         </thead>
@@ -103,7 +103,7 @@ const FixedTable = (props: any) => {
                             href={getStockUrl(
                               item.assetId,
                               item.assetName,
-                              item.assetType
+                              item.assetType,
                             )}
                             target="_blank"
                             title={tdData.value}
@@ -125,13 +125,13 @@ const FixedTable = (props: any) => {
                                 tdData.trend == "up"
                                   ? "eticon_up_arrow"
                                   : tdData.trend == "down"
-                                  ? "eticon_down_arrow"
-                                  : ""
+                                    ? "eticon_down_arrow"
+                                    : ""
                               }`}
                             />
                           )}
                         </td>
-                      ))
+                      )),
                   )}
                 </tr>
               ))}{" "}

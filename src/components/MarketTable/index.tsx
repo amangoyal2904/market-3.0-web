@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import styles from './MarketTable.module.scss';
-import FixedTable from './FixedTable';
-import ScrollableTable from './ScrollableTable';
-import Blocker from '../../components/Blocker';
-import Loader from '../Loader';
+import React, { useEffect, useState } from "react";
+import styles from "./MarketTable.module.scss";
+import FixedTable from "./FixedTable";
+import ScrollableTable from "./ScrollableTable";
+import Blocker from "../../components/Blocker";
+import Loader from "../Loader";
 
-interface propsType{
-  data:any[];
-  apiSuccess:boolean;
-  tableHeaders:any[];
-  onFilterChange:any;
+interface propsType {
+  data: any[];
+  apiSuccess: boolean;
+  tableHeaders: any[];
+  onFilterChange: any;
 }
 
 const MarketTable = (props: propsType) => {
-  const { data , apiSuccess = false, tableHeaders = [], onFilterChange} = props || {};
+  const {
+    data,
+    apiSuccess = false,
+    tableHeaders = [],
+    onFilterChange,
+  } = props || {};
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
@@ -23,11 +28,11 @@ const MarketTable = (props: propsType) => {
   const [loaderOff, setLoaderOff] = useState(false);
   const [isPrime, setPrime] = useState(false);
   const [hideThead, setHideThead] = useState(false);
-  function checkIfValidExpression(value: string) {
+  const checkIfValidExpression = (value: string) => {
     return /^[<>=]\d+$/.test(value);
-  }
+  };
 
-  function handleFilterChange(e: any) {
+  const handleFilterChange = (e: any) => {
     const { name, value } = e.target;
     if (name != "name" && checkIfValidExpression(value.replaceAll(" ", ""))) {
       setFilters({ ...filters, [name]: value.replaceAll(" ", "") });
@@ -37,22 +42,23 @@ const MarketTable = (props: propsType) => {
       delete filters[name];
       setFilters({ ...filters });
     }
-  }
+  };
 
-  function handleSort(key: any) {
+  const handleSort = (key: any) => {
     if (Object.keys(sortData).includes(key)) {
       if (sortData[key] == "asc") {
+        delete sortData[key];
         setSortData({ ...sortData, [key]: "desc" });
       } else {
+        delete sortData[key];
         setSortData({ ...sortData, [key]: "asc" });
       }
     } else {
       setSortData({ ...sortData, [key]: "desc" });
     }
-  }
+  };
 
-  function filterTableData() {
-    let filterData = data;
+  const filterTableData = (filterData: any) => {
     if (Object.keys(filters).length) {
       Object.keys(filters).forEach((keyId) => {
         filterData = filterData.filter((item: any) => {
@@ -108,21 +114,12 @@ const MarketTable = (props: propsType) => {
             }
           }
         });
-        if (!!filterData) {
-          console.log("@@Filter Data: " + JSON.stringify(filterData));
-          setTableDataList(filterData);
-        }
       });
-    } else {
-      setTableDataList(data);
     }
-  }
+    return filterData;
+  };
 
-  function sortTableData() {
-    let tableData = data;
-    if (Object.keys(filters).length) {
-      tableData = tableDataList;
-    }
+  const sortTableData = (tableData: any) => {
     if (Object.keys(sortData).length) {
       Object.keys(sortData).forEach((keyId) => {
         tableData = tableData.sort((a: any, b: any) => {
@@ -150,49 +147,28 @@ const MarketTable = (props: propsType) => {
         });
       });
     }
-    if (!Object.keys(filters).length) {
-      setTableDataList(tableData);
-    }
-  }
-
-  useEffect(() => {
-    if(data.length || apiSuccess){
-      setTableDataList(data);
-      setTableHeaderData(tableHeaders);
-      setLoaderOff(true);
-      const isPrime = typeof window !="undefined" &&  window.objUser && window.objUser.permissions && window.objUser.permissions.indexOf('subscribed') != -1; 
-      setPrime(isPrime);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    console.log({ sortData });
-    sortTableData();
-  }, [sortData]);
-
-  useEffect(() => {
-    console.log({ filters });
-    filterTableData();
-  }, [filters]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
-  }, [])
+    return tableData;
+  };
 
   const handleScroll = () => {
-    const eleHeader: any = document.getElementById('header');
-    const eleTable: any = document.getElementById('table');
-    const heightDifference = (eleTable.offsetTop - eleHeader.offsetTop) - eleHeader.offsetHeight;
-    const theadBottom: any = document.getElementById('thead')?.getBoundingClientRect().bottom;
-    const tableBottom: any = document.getElementById('table')?.getBoundingClientRect().bottom;
+    const eleHeader: any = document.getElementById("header");
+    const eleTable: any = document.getElementById("table");
+    const heightDifference =
+      eleTable.offsetTop - eleHeader.offsetTop - eleHeader.offsetHeight;
+    const theadBottom: any = document
+      .getElementById("thead")
+      ?.getBoundingClientRect().bottom;
+    const tableBottom: any = document
+      .getElementById("table")
+      ?.getBoundingClientRect().bottom;
     const heightDiff = tableBottom - theadBottom;
 
-    setTopScrollHeight(heightDifference)
+    setTopScrollHeight(heightDifference);
     setHideThead(heightDiff < 25);
     if (window.scrollY) {
       setHeaderSticky(window.scrollY);
     }
-  }
+  };
   const scrollRightPos = () => {
     const leftScroll: any = document.getElementById("fixedTable");
     const rightScroll: any = document.getElementById("scrollableTable");
@@ -206,39 +182,69 @@ const MarketTable = (props: propsType) => {
     rightScroll.scrollTop = leftScrollPos;
   };
 
+  useEffect(() => {
+    if (data.length || apiSuccess) {
+      const filteredData = filterTableData(data);
+      const sortedData = sortTableData(filteredData);
+      setTableDataList(sortedData);
+      setTableHeaderData(tableHeaders);
+      if (!loaderOff) setLoaderOff(true);
+    }
+  }, [apiSuccess, data, sortData, filters, loaderOff]);
+
+  useEffect(() => {
+    const isPrime =
+      typeof window != "undefined" &&
+      window.objUser &&
+      window.objUser.permissions &&
+      window.objUser.permissions.indexOf("subscribed") != -1;
+    setPrime(isPrime);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+  }, []);
+
   return (
     <>
       <div className={styles.tableWrapper} id="table">
-        {!loaderOff ? <Loader/> : tableHeaderData.length > 0 && (
-          <>
-            <FixedTable
-              tableHeaderData={tableHeaderData}
-              tableDataList={tableDataList}
-              scrollLeftPos={scrollLeftPos}
-              headerSticky={headerSticky}
-              topScrollHeight={topScrollHeight}
-              handleSort={handleSort}
-              sortData={sortData}
-              handleFilterChange={handleFilterChange}
-              hideThead={hideThead}
-            />
-            <ScrollableTable
-              tableHeaderData={tableHeaderData}
-              tableDataList={tableDataList}
-              scrollRightPos={scrollRightPos}
-              headerSticky={headerSticky}
-              topScrollHeight={topScrollHeight}
-              handleSort={handleSort}
-              sortData={sortData}
-              handleFilterChange={handleFilterChange}
-              isPrime={isPrime}
-              hideThead={hideThead}
-            />
-          </>
+        {!loaderOff ? (
+          <Loader />
+        ) : (
+          tableHeaderData.length > 0 && (
+            <>
+              <FixedTable
+                tableHeaderData={tableHeaderData}
+                tableDataList={tableDataList}
+                scrollLeftPos={scrollLeftPos}
+                headerSticky={headerSticky}
+                topScrollHeight={topScrollHeight}
+                handleSort={handleSort}
+                sortData={sortData}
+                handleFilterChange={handleFilterChange}
+                hideThead={hideThead}
+              />
+              <ScrollableTable
+                tableHeaderData={tableHeaderData}
+                tableDataList={tableDataList}
+                scrollRightPos={scrollRightPos}
+                headerSticky={headerSticky}
+                topScrollHeight={topScrollHeight}
+                handleSort={handleSort}
+                sortData={sortData}
+                handleFilterChange={handleFilterChange}
+                isPrime={isPrime}
+                hideThead={hideThead}
+              />
+            </>
+          )
         )}
       </div>
       {tableDataList.length == 0 || tableHeaderData.length == 0 ? (
-        <Blocker type={tableDataList.length == 0 && tableHeaderData.length == 0 ? "noStocks" :"noDataFound"} />
+        <Blocker
+          type={
+            tableDataList.length == 0 && tableHeaderData.length == 0
+              ? "noStocks"
+              : "noDataFound"
+          }
+        />
       ) : (
         ""
       )}
