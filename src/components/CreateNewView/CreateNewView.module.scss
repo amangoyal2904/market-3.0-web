@@ -357,3 +357,32 @@
     left: 11px;
     top: 10px;
 }
+
+.wraperSmall{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9;
+    .perWrap{
+        width:400px;
+    }
+}
+.createFormGoup{
+    margin:20px;
+    input{
+        background: rgb(244, 244, 244);
+        border-radius: 3px;
+        width: 100%;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        padding:10px;
+    }
+}

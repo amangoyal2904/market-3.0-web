@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
+import NameViewComponent from "./createmodule";
 
 
 const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler}:any)=>{
@@ -15,6 +16,7 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
     const [selectedView, setSelectedView]:any = useState([]);
     const searchRef = useRef<HTMLDivElement>(null);
     const viewWraperRef = useRef<HTMLDivElement>(null);
+    const [viewNameModule, setViewNameModule] = useState(false);
     const [sateUpdate, setSateUpdate] = useState(true);
     //console.log('editmode', editmode)
     const ViewDataAPICall = async ()=>{
@@ -26,13 +28,14 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
     }
     
     const saveUserPersonalise = ()=>{
-        if(screenerName === ""){
-            alert("Please enter your screener name")
-        }else if(!selectedView.length){
+        if(!selectedView.length){
             alert("Please select at least one view")
+        }else if(screenerName === ""){
+            setViewNameModule(true)
         }else{
             saveUserPersonaliseAPICall()
         }
+        
     }
     const saveUserPersonaliseAPICall = async ()=>{
         console.log('save user view personalize ', selectedView)
@@ -196,7 +199,13 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
         //console.log('itemList',itemList, selectedView, __updatedViewData, 'sateUpdate',sateUpdate)
         setSelectedView(__updatedViewData);
     }
-    
+    const viewNameHandlerFun = (viewName:string)=>{
+        console.log('__viewName_',viewName)
+        if(viewName !== ""){
+            setViewNameModule(false);
+            saveUserPersonalise();
+        }
+    }
     //console.log('whatis', selectedView)
     useEffect(() => {
         
@@ -240,151 +249,160 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
         }
       }, [debouncedSearchTerm]);
     return (
-        <div className={styles.wraper}>
-            <div className={styles.perWrap} ref={viewWraperRef}>
-                <div className={styles.header}>
-                    <span>
-                        {
-                            editmode && editmode.mode && editmode.viewId !== "" ? "Edit" : "Create New View"
-                        }
-                        </span>
-                    <div className={styles.formGroup}>
-                        <input type="text" placeholder="Please enter screener name" value={screenerName} onChange={(e:any)=>setScreenerName(e.target.value)} />
+        <>
+            <div className={`${styles.wraper}`}>
+                <div className={styles.perWrap} ref={viewWraperRef}>
+                    <div className={styles.header}>
+                        <span>
+                            {
+                                editmode && editmode.mode && editmode.viewId !== "" ? "Edit" : "Create New View"
+                            }
+                            </span>
+                        {/* <div className={styles.formGroup}>
+                            <input type="text" placeholder="Please enter screener name" value={screenerName} onChange={(e:any)=>setScreenerName(e.target.value)} />
+                        </div> */}
                     </div>
-                </div>
-                <div className={styles.body}>
-                    <div className={styles.bodySec}>
-                        <div className={styles.filterSec}>
-                            <div className={styles.leftSec}>
-                                <h2>Selected Metrics</h2>
-                                {
-                                    selectedView.length > 0 ? <DragDropContext onDragEnd={handleOnDragEnd}>
-                                        <Droppable droppableId="list" type="group" key={selectedView.length}>
-                                                {(provided:any= {}, snapshot:any = {}) => (
-                                                <ul {...provided.droppableProps} ref={provided.innerRef} className={styles.viewList}>
-                                                    {selectedView.map((list:any, index:any) => {
-                                                    return (
-                                                        <Draggable key={`${list.categoryMasterID}-${index}`} draggableId={`${list.categoryMasterID}-${index}`}  index={index}>
-                                                            {(provided:any) => {
-                                                            return (
-                                                                <li
-                                                                    ref={provided.innerRef} 
-                                                                    {...provided.draggableProps} 
-                                                                    {...provided.dragHandleProps}
-                                                                    >
-                                                                    <div className={styles.listItem}>
-                                                                        <span className={`${styles.moveSec} eticon_move`}></span>
-                                                                        <span className={styles.itemTxt}>{list.displayName}</span>
-                                                                        <span className={`refRemoveList ${styles.itemRemoveTag} eticon_cross`} onClick={(e)=>removeItemList(list, e)}>
-                                                                    </span>
-                                                                    </div>
-                                                                </li>
-                                                            )
-                                                            }}
-                                                        </Draggable>
-                                                    )
-                                                    })}
-                                                    {provided.placeholder}
-                                                </ul>
-                                                )}
-                                            </Droppable>
-                                        </DragDropContext> : ""
-                                }
-                        
-                            </div>
-                            <div className={styles.rightSec}>
-                                <div className={styles.topSearchSec}>
-                                    <div className={styles.formGorup} ref={searchRef}>
-                                        <span className={`eticon_search ${styles.searchBtn}`}></span>
-                                        <input type="text" placeholder='Search for a metrics...' className={styles.serchInput} value={searchNode} onChange={handleInputChange} />
-                                        {
-                                            searchListItems.length > 0 ? <ul className={styles.searchItemList}>{searchListItems.map((item:any)=>{
-                                                return (
-                                                    <li key={`${item.categoryFieldMasterID}-${item.sourceFieldName}`}>
-                                                        <div className={styles.formGroup}>
-                                                            <input 
-                                                                type="checkbox" 
-                                                                value={item.categoryMasterID} 
-                                                                id={`${item.categoryMasterID}-search`}
-                                                                checked={selectedView.some((viewItem:any) => viewItem.sourceFieldName === item.sourceFieldName)}
-                                                                onChange={(e)=>viewCheckHandler(e, item)} />
-                                                            <span className={styles.checkBoxStyle}></span>
-                                                            <label htmlFor={`${item.categoryMasterID}-search`}  dangerouslySetInnerHTML={{ __html: highlightMatch(item.displayName) }}>
-                                                            </label>
-                                                        </div>
-                                                    </li>
-                                                )
-                                            })}</ul> : ""
-                                        }
-                                    </div>
-                                </div>
-                                <div className={styles.resultSec}>
-                                <ul className={styles.topLevelList}>
-                                    {viewData.length > 0 ? (
-                                        viewData.map((item: any, index: number) => (
-                                            <li key={item.categoryMappingID} className={index === activeTab ? styles.active : ""}  onClick={() => handleTabClick(index)}>
-                                                <div className={styles.catHead}>{item.displayName}</div>
-                                            </li>
-                                        ))
-                                    ) : (
-                                        <div>No data found</div>
-                                    )}
-                                </ul>
-
-                                {viewData.length > 0 && (
-                                    <ul className={`${styles.innerListContainer} ${
-                                        activeTab < viewData.length &&
-                                        viewData[activeTab].screenerCategoryLevelTwo &&
-                                        viewData[activeTab].screenerCategoryLevelTwo.length > 0
-                                            ? styles.active
-                                            : ''
-                                    }`}>
-                                        {activeTab < viewData.length && viewData[activeTab].screenerCategoryLevelTwo && viewData[activeTab].screenerCategoryLevelTwo.length > 0 ? (
-                                            viewData[activeTab].screenerCategoryLevelTwo.map((subItem: any) => (
-                                                <li key={subItem.categoryFieldMasterID}>
-                                                    <div className={styles.subHeadName}>{subItem.displayName}</div>
-                                                    {subItem.screenerCategoryFields && subItem.screenerCategoryFields.length > 0 && (
-                                                        <ul className={styles.innerList}>
-                                                            {subItem.screenerCategoryFields.map((childSubItem: any) => (
-                                                                <li key={childSubItem.categoryFieldMasterID}>
-                                                                    <div className={styles.forGroup}>
-                                                                        <input type="checkbox" 
-                                                                        id={childSubItem.categoryMasterID} 
-                                                                        value={childSubItem.categoryMasterID} 
-                                                                        className={styles.checkBoxSec} 
-                                                                        onChange={(e)=>viewCheckHandler(e, childSubItem)}
-                                                                        checked={selectedView.some((item:any) => item.sourceFieldName === childSubItem.sourceFieldName)} />
-                                                                        <span className={styles.checkBoxStyle}></span>
-                                                                        <label htmlFor={childSubItem.categoryMasterID}>{childSubItem.displayName}</label>
-                                                                    </div>
-                                                                </li>
-                                                            ))}
-                                                        </ul>
+                    <div className={styles.body}>
+                        <div className={styles.bodySec}>
+                            <div className={styles.filterSec}>
+                                <div className={styles.leftSec}>
+                                    <h2>Selected Metrics</h2>
+                                    {
+                                        selectedView.length > 0 ? <DragDropContext onDragEnd={handleOnDragEnd}>
+                                            <Droppable droppableId="list" type="group" key={selectedView.length}>
+                                                    {(provided:any= {}, snapshot:any = {}) => (
+                                                    <ul {...provided.droppableProps} ref={provided.innerRef} className={styles.viewList}>
+                                                        {selectedView.map((list:any, index:any) => {
+                                                        return (
+                                                            <Draggable key={`${list.categoryMasterID}-${index}`} draggableId={`${list.categoryMasterID}-${index}`}  index={index}>
+                                                                {(provided:any) => {
+                                                                return (
+                                                                    <li
+                                                                        ref={provided.innerRef} 
+                                                                        {...provided.draggableProps} 
+                                                                        {...provided.dragHandleProps}
+                                                                        >
+                                                                        <div className={styles.listItem}>
+                                                                            <span className={`${styles.moveSec} eticon_move`}></span>
+                                                                            <span className={styles.itemTxt}>{list.displayName}</span>
+                                                                            <span className={`refRemoveList ${styles.itemRemoveTag} eticon_cross`} onClick={(e)=>removeItemList(list, e)}>
+                                                                        </span>
+                                                                        </div>
+                                                                    </li>
+                                                                )
+                                                                }}
+                                                            </Draggable>
+                                                        )
+                                                        })}
+                                                        {provided.placeholder}
+                                                    </ul>
                                                     )}
+                                                </Droppable>
+                                            </DragDropContext> : ""
+                                    }
+                            
+                                </div>
+                                <div className={styles.rightSec}>
+                                    <div className={styles.topSearchSec}>
+                                        <div className={styles.formGorup} ref={searchRef}>
+                                            <span className={`eticon_search ${styles.searchBtn}`}></span>
+                                            <input type="text" placeholder='Search for a metrics...' className={styles.serchInput} value={searchNode} onChange={handleInputChange} />
+                                            {
+                                                searchListItems.length > 0 ? <ul className={styles.searchItemList}>{searchListItems.map((item:any)=>{
+                                                    return (
+                                                        <li key={`${item.categoryFieldMasterID}-${item.sourceFieldName}`}>
+                                                            <div className={styles.formGroup}>
+                                                                <input 
+                                                                    type="checkbox" 
+                                                                    value={item.categoryMasterID} 
+                                                                    id={`${item.categoryMasterID}-search`}
+                                                                    checked={selectedView.some((viewItem:any) => viewItem.sourceFieldName === item.sourceFieldName)}
+                                                                    onChange={(e)=>viewCheckHandler(e, item)} />
+                                                                <span className={styles.checkBoxStyle}></span>
+                                                                <label htmlFor={`${item.categoryMasterID}-search`}  dangerouslySetInnerHTML={{ __html: highlightMatch(item.displayName) }}>
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                })}</ul> : ""
+                                            }
+                                        </div>
+                                    </div>
+                                    <div className={styles.resultSec}>
+                                    <ul className={styles.topLevelList}>
+                                        {viewData.length > 0 ? (
+                                            viewData.map((item: any, index: number) => (
+                                                <li key={item.categoryMappingID} className={index === activeTab ? styles.active : ""}  onClick={() => handleTabClick(index)}>
+                                                    <div className={styles.catHead}>{item.displayName}</div>
                                                 </li>
                                             ))
                                         ) : (
-                                            <div>No inner data found</div>
+                                            <div>No data found</div>
                                         )}
                                     </ul>
-                                )}
+
+                                    {viewData.length > 0 && (
+                                        <ul className={`${styles.innerListContainer} ${
+                                            activeTab < viewData.length &&
+                                            viewData[activeTab].screenerCategoryLevelTwo &&
+                                            viewData[activeTab].screenerCategoryLevelTwo.length > 0
+                                                ? styles.active
+                                                : ''
+                                        }`}>
+                                            {activeTab < viewData.length && viewData[activeTab].screenerCategoryLevelTwo && viewData[activeTab].screenerCategoryLevelTwo.length > 0 ? (
+                                                viewData[activeTab].screenerCategoryLevelTwo.map((subItem: any) => (
+                                                    <li key={subItem.categoryFieldMasterID}>
+                                                        <div className={styles.subHeadName}>{subItem.displayName}</div>
+                                                        {subItem.screenerCategoryFields && subItem.screenerCategoryFields.length > 0 && (
+                                                            <ul className={styles.innerList}>
+                                                                {subItem.screenerCategoryFields.map((childSubItem: any) => (
+                                                                    <li key={childSubItem.categoryFieldMasterID}>
+                                                                        <div className={styles.forGroup}>
+                                                                            <input type="checkbox" 
+                                                                            id={childSubItem.categoryMasterID} 
+                                                                            value={childSubItem.categoryMasterID} 
+                                                                            className={styles.checkBoxSec} 
+                                                                            onChange={(e)=>viewCheckHandler(e, childSubItem)}
+                                                                            checked={selectedView.some((item:any) => item.sourceFieldName === childSubItem.sourceFieldName)} />
+                                                                            <span className={styles.checkBoxStyle}></span>
+                                                                            <label htmlFor={childSubItem.categoryMasterID}>{childSubItem.displayName}</label>
+                                                                        </div>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        )}
+                                                    </li>
+                                                ))
+                                            ) : (
+                                                <div>No inner data found</div>
+                                            )}
+                                        </ul>
+                                    )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className={styles.footer}>
-                    {
-                        editmode && editmode.mode && editmode.viewId !== "" ? <span className={`${styles.updateBtn} ${styles.removeBtn}`} onClick={removeUserPersonalise}>DELETE VIEW</span> : null
-                    }
-                    <span className={styles.updateBtn} onClick={saveUserPersonalise}>
+                    <div className={styles.footer}>
                         {
-                            editmode && editmode.mode && editmode.viewId !== "" ? "Update Changes" : "Save Changes"
+                            editmode && editmode.mode && editmode.viewId !== "" ? <span className={`${styles.updateBtn} ${styles.removeBtn}`} onClick={removeUserPersonalise}>DELETE VIEW</span> : null
                         }
-                    </span>
+                        <span className={styles.updateBtn} onClick={saveUserPersonalise}>
+                            {
+                                editmode && editmode.mode && editmode.viewId !== "" ? "Update Changes" : "Save Changes"
+                            }
+                        </span>
+                    </div>
+                    {
+                        viewNameModule ? <NameViewComponent 
+                                            createViewNameHandler={viewNameHandlerFun}
+                                            screenerName={screenerName} 
+                                            setScreenerName={setScreenerName}/> : null
+                    }
                 </div>
             </div>
-        </div>
+            
+        </>
     )
 }
 
