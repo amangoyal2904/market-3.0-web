@@ -160,6 +160,8 @@ const MarketTable = (props: propsType) => {
       setTableDataList(data);
       setTableHeaderData(tableHeaders);
       setLoaderOff(true);
+      const isPrime = typeof window !="undefined" &&  window.objUser && window.objUser.permissions && window.objUser.permissions.indexOf('subscribed') != -1; 
+      setPrime(isPrime);
     }
   }, [data]);
 
@@ -174,8 +176,6 @@ const MarketTable = (props: propsType) => {
   }, [filters]);
 
   useEffect(() => {
-   const isPrime = typeof window !="undefined" &&  window.objUser && window.objUser.permissions && window.objUser.permissions.indexOf('subscribed') != -1; 
-    setPrime(isPrime);
     window.addEventListener("scroll", handleScroll, { passive: true });
   }, [])
 
