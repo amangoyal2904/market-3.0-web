@@ -354,3 +354,6 @@ table {
     }
   }
 }
+.layout {
+  display: flex;
+}

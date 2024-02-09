@@ -180,7 +180,8 @@ const Login = () => {
                 <div className={styles.userId}>{userInfo?.loginId}</div>
               </div>
               <ul className={styles.ddListWrap}>
-                <li className={styles.ddList}>
+                {/* <li className={styles.ddList}>
+                  <span className=""></span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}userprofile.cms`}
                     rel="noreferrer"
@@ -188,8 +189,9 @@ const Login = () => {
                   >
                     Edit Profile
                   </a>
-                </li>
+                </li> */}
                 <li className={styles.ddList}>
+                  <span className="eticon_subscription"></span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV]["MY_SUBS"]}`}
                     rel="nofollow noreferrer"
@@ -199,6 +201,7 @@ const Login = () => {
                   </a>
                 </li>
                 <li className={styles.ddList}>
+                  <span className="eticon_preferences"></span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}prime_preferences.cms`}
                     rel="nofollow noreferrer"
@@ -208,6 +211,7 @@ const Login = () => {
                   </a>
                 </li>
                 <li className={styles.ddList}>
+                  <span className="eticon_benefits"></span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}et_benefits.cms`}
                     rel="nofollow noreferrer"
@@ -217,6 +221,7 @@ const Login = () => {
                   </a>
                 </li>
                 <li className={styles.ddList}>
+                  <span className="eticon_newsletters"></span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}subscription`}
                     rel="nofollow noreferrer"
@@ -226,6 +231,7 @@ const Login = () => {
                   </a>
                 </li>
                 <li className={styles.ddList}>
+                  <span className="eticon_watchlist"></span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}marketstats/pageno-1,pid-501.cms`}
                     rel="nofollow noreferrer"
@@ -235,6 +241,7 @@ const Login = () => {
                   </a>
                 </li>
                 <li className={styles.ddList}>
+                  <span className="eticon_bookmark"></span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}bookmarkslist`}
                     rel="nofollow noreferrer"
@@ -243,9 +250,11 @@ const Login = () => {
                   </a>
                 </li>
                 <li className={styles.ddList}>
+                  <span className="eticon_redeem_benefits"></span>
                   <span onClick={handleRedeemVoucher}>Redeem Voucher</span>
                 </li>
                 <li className={styles.ddList}>
+                  <span className="eticon_recos"></span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}contactus.cms`}
                     rel="nofollow noreferrer"
@@ -255,6 +264,7 @@ const Login = () => {
                   </a>
                 </li>
                 <li className={styles.ddList}>
+                  <span className="eticon_logout"></span>
                   <span onClick={logout}>Logout</span>
                 </li>
               </ul>

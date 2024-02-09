@@ -14,7 +14,9 @@ const getApiUrl = (config: any, index: any) => {
 
 export const get = async (config: any) => {
   try {
+    console.log("config----", config);
     const url = getApiUrl(config, 0);
+    console.log("url------", url);
     if (!config.headers) {
       config["headers"] = {};
     }

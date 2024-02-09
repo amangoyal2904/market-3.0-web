@@ -3,7 +3,7 @@
     "development": "https://etdev8243.indiatimes.com/",
     "production": "https://economictimes.indiatimes.com/"
   },
-  "LIVE_MARKET_DATA":{
+  "LIVE_MARKET_DATA": {
     "development": "https://bselivefeeds.indiatimes.com/homepagedatanew.json",
     "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
   },
@@ -64,5 +64,9 @@
   "redeemVoucher": {
     "development": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher",
     "production": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher"
+  },
+  "LEFT_NAV": {
+    "development": "https://etapipre.indiatimes.com/api/nav",
+    "production": "https://etapipre.indiatimes.com/api/nav"
   }
 }
