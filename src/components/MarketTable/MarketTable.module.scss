@@ -34,6 +34,15 @@
       min-width: 140px;
     }
   }
+  .primeTd{
+    color: $blue_secondary_60;
+    text-align: center;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    cursor: pointer;
+  }
 }
 
 .watchListTable {
@@ -87,21 +96,22 @@
   tr {
     background-color: $color-white;
   }
+  .hideThead{
+    visibility: hidden;
+  }
 }
 
 .fixedWrapper {
   overflow: auto;
   width: 100%;
-  min-width: 473px;
-  max-width: min-content;
+  min-width: max-content;
+  max-width: max-content;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  //border: 1px solid $gray_95;
   box-shadow: 1px 0px 12px 0px rgba(0, 0, 0, 0.06);
   z-index: 1;
 
   table {
-    // border: solid 1px #ddd;
     width: 400px;
     border-collapse: collapse;
     overflow: auto;
@@ -140,25 +150,19 @@
   scrollbar-width: none;
 }
 
-.noDataWrapper {
-  height: 100px;
-  font-size: 14px;
-  text-align: center;
-  padding: 40px;
-}
-
 .sortIcons {
-  font-size: 16px;
-  vertical-align: middle;
   margin-left: 4px;
-  color: $color-black;
-  .asc{
+  span {
+    font-size: 12px;
+    margin-right: -5px;
     color: $gray_60;
   }
-  .desc{
-    color: $gray_60;
+  .asc {
+    color: $color-black;
   }
-
+  .desc {
+    color: $color-black;
+  }
 }
 
 .arrowIcons {
@@ -167,11 +171,11 @@
   // float: right;
   // margin-right: 5px;
 }
-.searchWrapper{
+.searchWrapper {
   position: relative;
-    span{
-      position: absolute;
-      top: 3px;
-      right: 15px;
-    }
+  span {
+    position: absolute;
+    top: 3px;
+    right: 15px;
+  }
 }

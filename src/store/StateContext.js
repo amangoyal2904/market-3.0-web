@@ -7,7 +7,7 @@ import loginReducer from "../Reducers/loginReducer.ts";
 
 const initialState = {
   login: {
-    isLogin: false,
+    isLogin: "",
     userInfo: {},
     ssoid: "",
     ticketId: "",

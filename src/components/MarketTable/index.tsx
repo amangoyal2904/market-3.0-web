@@ -1,17 +1,28 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './MarketTable.module.scss';
-import { getStockUrl } from '@/utils/utility';
-import { useIsInViewport } from '@/hooks/useInViewPort';
-import NoDataFound from './NoDataFound';
+import FixedTable from './FixedTable';
+import ScrollableTable from './ScrollableTable';
+import Blocker from '../../components/Blocker';
+import Loader from '../Loader';
 
-const MarketTable = ({ data }: any) => {
+interface propsType{
+  data:any[];
+  apiSuccess:boolean;
+  tableHeaders:any[];
+  onFilterChange:any;
+}
+
+const MarketTable = (props: propsType) => {
+  const { data , apiSuccess = false, tableHeaders = [], onFilterChange} = props || {};
   const [tableDataList, setTableDataList] = useState(data);
+  const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
   const [sortData, setSortData] = useState<any>({});
   const [headerSticky, setHeaderSticky] = useState(0);
-  const ref = useRef(null);
-  const isInViewport = useIsInViewport(ref);
-  const topScrollHeight = 163;
+  const [topScrollHeight, setTopScrollHeight] = useState(162);
+  const [loaderOff, setLoaderOff] = useState(false);
+  const [isPrime, setPrime] = useState(false);
+  const [hideThead, setHideThead] = useState(false);
   function checkIfValidExpression(value: string) {
     return /^[<>=]\d+$/.test(value);
   }
@@ -145,7 +156,11 @@ const MarketTable = ({ data }: any) => {
   }
 
   useEffect(() => {
-    setTableDataList(data);
+    if(data.length || apiSuccess){
+      setTableDataList(data);
+      setTableHeaderData(tableHeaders);
+      setLoaderOff(true);
+    }
   }, [data]);
 
   useEffect(() => {
@@ -159,10 +174,21 @@ const MarketTable = ({ data }: any) => {
   }, [filters]);
 
   useEffect(() => {
+   const isPrime = typeof window !="undefined" &&  window.objUser && window.objUser.permissions && window.objUser.permissions.indexOf('subscribed') != -1; 
+    setPrime(isPrime);
     window.addEventListener("scroll", handleScroll, { passive: true });
   }, [])
 
   const handleScroll = () => {
+    const eleHeader: any = document.getElementById('header');
+    const eleTable: any = document.getElementById('table');
+    const heightDifference = (eleTable.offsetTop - eleHeader.offsetTop) - eleHeader.offsetHeight;
+    const theadBottom: any = document.getElementById('thead')?.getBoundingClientRect().bottom;
+    const tableBottom: any = document.getElementById('table')?.getBoundingClientRect().bottom;
+    const heightDiff = tableBottom - theadBottom;
+
+    setTopScrollHeight(heightDifference)
+    setHideThead(heightDiff < 10);
     if (window.scrollY) {
       setHeaderSticky(window.scrollY);
     }
@@ -180,255 +206,39 @@ const MarketTable = ({ data }: any) => {
     rightScroll.scrollTop = leftScrollPos;
   };
 
-  console.log("@@--->", tableDataList);
-  const tableHeaderData =
-    (tableDataList &&
-      tableDataList.length &&
-      tableDataList[0] &&
-      tableDataList[0]?.data) ||
-    [];
   return (
     <>
-      <div className={styles.tableWrapper} ref={ref}>
-        {tableHeaderData.length > 0 ? (
+      <div className={styles.tableWrapper} id="table">
+        {!loaderOff ? <Loader/> : tableHeaderData.length > 0 && (
           <>
-            <div
-              id="fixedTable"
-              className={styles.fixedWrapper}
-              onScroll={scrollLeftPos}
-            >
-              <table className={styles.watchListTable}>
-                <thead
-                  style={{
-                    transform: `translateY(${
-                      headerSticky > topScrollHeight
-                        ? headerSticky - topScrollHeight
-                        : 0
-                    }px)`,
-                  }}
-                >
-                  <tr className={styles.leftThWrapper}>
-                    {tableHeaderData.map(
-                      (thead: any, index: number) =>
-                        index <= 2 && (
-                          <th
-                            onClick={() => {
-                              handleSort(thead.keyId);
-                            }}
-                            className={`${
-                              thead.keyId == "name" ? styles.firstTh : ""
-                            }`}
-                            key={thead.keyText}
-                          >
-                            {thead.keyText}
-                            {thead.allowSort && (
-                              <span
-                                className={`${styles.sortIcons}`}
-                              >
-                                <span className={`${sortData.name == "asc" ? styles.asc :""} eticon_up_arrow`}></span>
-                                <span className={`${sortData.name == "desc" ? styles.desc :""} eticon_down_arrow`}></span>
-                              </span>
-                            )}
-                          </th>
-                        )
-                    )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {tableDataList.length > 0 ? (
-                    <>
-                      <tr
-                        className={styles.stickyRow}
-                        style={{
-                          transform: `translateY(${
-                            headerSticky > topScrollHeight
-                              ? headerSticky - (topScrollHeight + 1)
-                              : 0
-                          }px)`,
-                        }}
-                      >
-                        {tableHeaderData.map(
-                          (tdData: any, index: number) =>
-                            index <= 2 && (
-                              <td key={index} className={styles.inputWrapper}>
-                                <span className={styles.searchWrapper}>
-                                  <input
-                                    className={`${styles.filterInput} ${
-                                      tdData.keyId == "name"
-                                        ? styles.filterInputFirst
-                                        : ""
-                                    }`}
-                                    type="text"
-                                    name={tdData.keyId}
-                                    onChange={handleFilterChange}
-                                    placeholder={
-                                      tdData.keyId == "name"
-                                        ? "Search Value"
-                                        : "> #"
-                                    }
-                                  ></input>
-                                  {tdData.keyId == "name" && (
-                                    <span className="eticon_ic_search"></span>
-                                  )}
-                                </span>
-                              </td>
-                            )
-                        )}
-                      </tr>
-                      {tableDataList.map((item: any, index: number) => (
-                        <tr key={item.assetId} className={styles.fixedTr}>
-                          {item.data.map(
-                            (tdData: any, index: number) =>
-                              index <= 2 &&
-                              (tdData.keyId == "name" ? (
-                                <td
-                                  key={tdData.keyId}
-                                  className={styles.fixedTD}
-                                >
-                                  <a
-                                    href={getStockUrl(
-                                      item.assetId,
-                                      item.assetName,
-                                      item.assetType
-                                    )}
-                                    target="_blank"
-                                    title={tdData.value}
-                                  >
-                                    {tdData.value}
-                                  </a>
-                                </td>
-                              ) : (
-                                <td
-                                  className={`${styles.fixedTD} ${tdData.trend}`}
-                                  key={tdData.keyId}
-                                >
-                                  {tdData.value.replaceAll(" ", "")}
-                                  {tdData.trend && (
-                                    <span
-                                      className={`${styles.arrowIcons} ${
-                                        tdData.trend == "up"
-                                          ? "eticon_up_arrow"
-                                          : tdData.trend == "down"
-                                          ? "eticon_down_arrow"
-                                          : ""
-                                      }`}
-                                    />
-                                  )}
-                                </td>
-                              ))
-
-                            // <td className={styles.fixedTD} key={tdData.keyText}>{tdData.value}</td>
-                          )}
-                        </tr>
-                      ))}{" "}
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </tbody>
-              </table>
-            </div>
-            <div
-              id="scrollableTable"
-              className={styles.scrollableWrapper}
-              onScroll={scrollRightPos}
-            >
-              <table className={styles.watchListTable}>
-                <thead
-                  style={{
-                    transform: `translateY(${
-                      headerSticky > topScrollHeight
-                        ? headerSticky - topScrollHeight
-                        : 0
-                    }px)`,
-                  }}
-                >
-                  <tr>
-                    {tableHeaderData.map(
-                      (thead: any, index: number) =>
-                        index > 2 && (
-                          <th
-                            onClick={() => {
-                              handleSort(thead.keyId);
-                            }}
-                            key={thead.keyText}
-                          >
-                            {thead.keyText}
-                            {thead.allowSort && (
-                              <span
-                                className={`${styles.sortIcons} eticon_ic_sorting`}
-                              >
-                                <span className="path1"></span>
-                                <span className="path2"></span>
-                              </span>
-                            )}
-                          </th>
-                        )
-                    )}
-                  </tr>
-                </thead>
-                {tableDataList.length > 0 ? (
-                  <tbody>
-                    <tr
-                      style={{
-                        transform: `translateY(${
-                          headerSticky > topScrollHeight
-                            ? headerSticky - (topScrollHeight + 1)
-                            : 0
-                        }px)`,
-                      }}
-                    >
-                      {tableHeaderData.map(
-                        (tdData: any, index: number) =>
-                          index > 2 && (
-                            <td key={index} className={styles.inputWrapper}>
-                              <input
-                                className={styles.filterInput}
-                                type="text"
-                                name={tdData.keyId}
-                                onChange={handleFilterChange}
-                                placeholder="> #"
-                              ></input>
-                            </td>
-                          )
-                      )}
-                    </tr>
-                    {tableDataList.map((item: any, index: number) => (
-                      <tr key={item.assetId}>
-                        {item.data.map(
-                          (tdData: any, index: number) =>
-                            index > 2 && (
-                              <td className={tdData.trend} key={tdData.keyId}>
-                                {tdData.value.replaceAll(" ", "")}
-                                {tdData.trend && (
-                                  <span
-                                    className={`${styles.arrowIcons} ${
-                                      tdData.trend == "up"
-                                        ? "eticon_up_arrow"
-                                        : tdData.trend == "down"
-                                        ? "eticon_down_arrow"
-                                        : ""
-                                    }`}
-                                  />
-                                )}
-                              </td>
-                            )
-                        )}
-                      </tr>
-                    ))}
-                  </tbody>
-                ) : (
-                  ""
-                )}
-              </table>
-            </div>
+            <FixedTable
+              tableHeaderData={tableHeaderData}
+              tableDataList={tableDataList}
+              scrollLeftPos={scrollLeftPos}
+              headerSticky={headerSticky}
+              topScrollHeight={topScrollHeight}
+              handleSort={handleSort}
+              sortData={sortData}
+              handleFilterChange={handleFilterChange}
+              hideThead={hideThead}
+            />
+            <ScrollableTable
+              tableHeaderData={tableHeaderData}
+              tableDataList={tableDataList}
+              scrollRightPos={scrollRightPos}
+              headerSticky={headerSticky}
+              topScrollHeight={topScrollHeight}
+              handleSort={handleSort}
+              sortData={sortData}
+              handleFilterChange={handleFilterChange}
+              isPrime={isPrime}
+              hideThead={hideThead}
+            />
           </>
-        ) : (
-          ""
         )}
       </div>
       {tableDataList.length == 0 || tableHeaderData.length == 0 ? (
-        <NoDataFound message="No Data Found.." />
+        <Blocker type={tableDataList.length == 0 && tableHeaderData.length == 0 ? "noStocks" :"noDataFound"} />
       ) : (
         ""
       )}

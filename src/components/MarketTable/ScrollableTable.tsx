@@ -1,0 +1,139 @@
+import React from "react";
+import styles from "./MarketTable.module.scss";
+import Link from 'next/link';
+import GLOBAL_CONFIG  from "../../network/global_config.json"
+import { APP_ENV } from "../../utils";
+
+const ScrollableTable = (props: any) => {
+  const {
+    tableHeaderData,
+    scrollRightPos,
+    headerSticky,
+    topScrollHeight,
+    handleSort,
+    sortData,
+    tableDataList,
+    handleFilterChange,
+    isPrime = false,
+    hideThead = false,
+  } = props || {};
+
+  return (
+    <div
+      id="scrollableTable"
+      className={styles.scrollableWrapper}
+      onScroll={scrollRightPos}
+    >
+      <table className={styles.watchListTable}>
+        <thead
+          style={{
+            transform: `translateY(${
+              headerSticky > topScrollHeight
+                ? headerSticky - topScrollHeight
+                : 0
+            }px)`,
+          }}
+          className={hideThead ? styles.hideThead : ""}
+        >
+          <tr>
+            {tableHeaderData.map(
+              (thead: any, index: number) =>
+                index > 2 && (
+                  <th
+                    onClick={() => {
+                      handleSort(thead.keyId);
+                    }}
+                    key={thead.keyText}
+                  >
+                    {thead.keyText}
+                    {thead.allowSort && (
+                      <span className={`${styles.sortIcons}`}>
+                        <span
+                          className={`${
+                            sortData[thead.keyId] == "asc" ? styles.asc : ""
+                          } eticon_up_arrow`}
+                        ></span>
+                        <span
+                          className={`${
+                            sortData[thead.keyId] == "desc" ? styles.desc : ""
+                          } eticon_down_arrow`}
+                        ></span>
+                      </span>
+                    )}
+                  </th>
+                )
+            )}
+          </tr>
+          <tr>
+            {tableHeaderData.map(
+              (tdData: any, index: number) =>
+                index > 2 && (
+                  <td key={index} className={styles.inputWrapper}>
+                    <input
+                      className={styles.filterInput}
+                      type="text"
+                      name={tdData.keyId}
+                      onChange={handleFilterChange}
+                      placeholder="> #"
+                    ></input>
+                  </td>
+                )
+            )}
+          </tr>
+        </thead>
+        {tableDataList.length > 0 ? (
+          <tbody>
+            {tableDataList.map((item: any, index: number) => (
+              <tr key={item.assetId}>
+                {item.data.map(
+                  (tdData: any, index: number) =>
+                    index > 2 && (
+                      <td
+                        className={`${!tdData.primeFlag ? tdData.trend : ""} ${
+                          tdData.allowSort && !tdData.primeFlag
+                            ? "numberFonts"
+                            : tdData.primeFlag
+                            ? styles.primeTd
+                            : ""
+                        }`}
+                        key={tdData.keyId}
+                      >
+                        {!isPrime && tdData.primeFlag ? (
+                          <Link
+                            href={`${
+                              (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]
+                            }`}
+                            data-ga-onclick="Subscription Flow#Upgrade to Prime#table - url"
+                          >
+                            Upgrade to Prime
+                          </Link>
+                        ) : (
+                          <>
+                            {tdData.value.replaceAll(" ", "")}
+                            {tdData.trend && (
+                              <span
+                                className={`${styles.arrowIcons} ${
+                                  tdData.trend == "up"
+                                    ? "eticon_up_arrow"
+                                    : tdData.trend == "down"
+                                    ? "eticon_down_arrow"
+                                    : ""
+                                }`}
+                              />
+                            )}
+                          </>
+                        )}
+                      </td>
+                    )
+                )}
+              </tr>
+            ))}
+          </tbody>
+        ) : (
+          ""
+        )}
+      </table>
+    </div>
+  );
+};
+export default ScrollableTable;
