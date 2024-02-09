@@ -233,7 +233,8 @@ export const initSSOWidget = () => {
         type: "Google",
         logoUrl: "",
         label: "",
-        clientId: "936221589938.apps.googleusercontent.com",
+        clientId:
+          "891351984915-kodsh6b9vik3h6ue008fh8jgfstageh6.apps.googleusercontent.com",
       },
       {
         type: "Facebook",

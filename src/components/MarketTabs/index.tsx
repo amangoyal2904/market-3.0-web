@@ -5,7 +5,8 @@ import styles from './MarketTabs.module.scss';
 
 import PersonaliseModel from "../PersonaliseModel/index";
 import CreateNewViewComponent from "../CreateNewView/index";
-
+import APIS_CONFIG from "../../network/api_config.json";
+import { APP_ENV } from "../../utils/index";
 
 const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:any) => {
     const personaliseDataListItem = data && data.length > 0 ? data.filter((item:any)=> item.viewId !== 239) : [];
@@ -28,12 +29,13 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:an
             )
         })
         const ssoid = window.objUser?.ssoid;
-        const apiUrl = 'https://qcbselivefeeds.indiatimes.com/screener/saveOrderViewWatch';
+        const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.updateTabs[APP_ENV];
+       // const apiUrl = 'https://qcbselivefeeds.indiatimes.com/screener/saveOrderViewWatch';
         const bodyPost = {
             "ssoId":ssoid,
             "views":updatedOrder
         }
-        const res = await fetch(`${apiUrl}`,{
+        const res = await fetch(`${API_URL}`,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

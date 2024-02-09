@@ -365,3 +365,6 @@ table {
 .numberFonts {
   font-family: Lato,sans-serif;
 }
+.layout {
+  display: flex;
+}
