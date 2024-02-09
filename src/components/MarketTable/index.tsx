@@ -180,7 +180,7 @@ const MarketTable = (props: propsType) => {
     if (data.length || apiSuccess) {
       const filteredData = filterTableData(data);
       const sortedData = sortTableData(filteredData);
-      setTableDataList(sortedData);
+      setTableDataList((tableDataList) => [...sortedData]);
       setTableHeaderData(tableHeaders);
       if (!loaderOff) setLoaderOff(true);
     }
