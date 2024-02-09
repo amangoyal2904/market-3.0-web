@@ -89,8 +89,8 @@ const ScrollableTable = (props: any) => {
                   (tdData: any, index: number) =>
                     index > 2 && (
                       <td
-                        className={`${!tdData.primeFlag ? tdData.trend : ""} ${
-                          tdData.allowSort && !tdData.primeFlag
+                        className={`${(!tdData.primeFlag || isPrime) ? tdData.trend : ""} ${
+                          tdData.allowSort && (!tdData.primeFlag || isPrime)
                             ? "numberFonts"
                             : tdData.primeFlag
                             ? styles.primeTd
