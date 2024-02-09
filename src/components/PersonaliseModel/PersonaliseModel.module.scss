@@ -120,7 +120,7 @@
                 background: #FFF;
                 box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.11); 
                 margin-top: 11px;
-                padding: 4px 10px 4px 35px;
+                padding: 4px 10px 4px 10px;
                 cursor: move;
                 position: relative;
                 font-size: 14px;
@@ -129,16 +129,18 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                &::after{
-                    content: "";
-                    background: url('https://img.etimg.com/photo/msid-107293234,quality-100/moveicon.jpg') no-repeat 0 0;
-                    width: 16px;
-                    height: 16px;
-                    position: absolute;
-                    left: 10px;
-                    top: 10px;
+                .moveSec{
                     display: inline-block;
                     vertical-align: top;
+                    position: absolute;
+                    left: 10px;
+                    top: 14px;
+                }
+                .itemTxt{
+                    margin-left:20px;
+                    line-height: 34px;
+                    font-size:14px;
+                    font-weight: 600;
                 }
             }
         }
@@ -193,14 +195,16 @@
 }
 .editMode{
     margin:0;
-    span{
-        font-size:10px;
+    position: relative;
+    .editBtn{
+        font-size:20px;
         font-weight: normal;
         display: inline-block;
         vertical-align: top;
         cursor: pointer;
-        border:solid 1px gray;
-        border-radius: 5px;
-        padding:4px;
+        position: absolute;
+        right:0;
+        top:-10px;
+        color:rgba(153, 153, 153, 1);
     }
 }

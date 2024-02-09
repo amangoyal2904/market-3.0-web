@@ -105,13 +105,12 @@ const PersonaliseModel = ({setOpenPersonaliseModal, openPersonaliseModal, data, 
                                                     {...provided.dragHandleProps}
                                                     >
                                                     <div className={styles.dragListItem}>
+                                                      <span className={`${styles.moveSec} eticon_move`}></span>
                                                       <span className={styles.itemTxt}>{list.name}</span>
                                                       {
                                                         list.viewType && list.viewType === "USER" ? <div className={styles.editMode}>
-                                                        <span onClick={()=>editModeHandler(list.viewId)}>Edit Mode</span>
-                                                      </div> : null
-                                                      }
-                                                      <div className={styles.checkBoxWrap}>
+                                                        <span onClick={()=>editModeHandler(list.viewId)} className={`eticon_edit ${styles.editBtn}`}></span>
+                                                      </div> : <div className={styles.checkBoxWrap}>
                                                         <div className={styles.checkboxSlider}>
                                                           <label className={styles.checkboxLabel}>
                                                             <input
@@ -123,6 +122,8 @@ const PersonaliseModel = ({setOpenPersonaliseModal, openPersonaliseModal, data, 
                                                           </label>
                                                         </div>
                                                       </div>
+                                                      }
+                                                      
                                                     </div>
                                                 </li>
                                               )

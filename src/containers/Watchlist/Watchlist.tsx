@@ -23,9 +23,9 @@ const Watchlist = () => {
     }
   };
 
-  const fetchWatchListData = async () => {
+  const fetchWatchListData = async (activeViewId:any = "") => {
     const res = await fetchTabsData();
-    const viewId = res[0].viewId;
+    const viewId = activeViewId || res[0].viewId;
     setActiveViewId(viewId);
     setWatchListTab(res);
     fetchWatchListTableAPI(viewId);
@@ -44,7 +44,7 @@ const Watchlist = () => {
     setTableData(filterArr);
   }
   const tabsAndTableDataChangeHandler = (tabIdActive:any)=>{
-    fetchWatchListData()
+    fetchWatchListData(tabIdActive)
   }
   useEffect(() => {
     if (isLogin) {
