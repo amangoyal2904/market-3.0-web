@@ -7,11 +7,13 @@ import MarketTable from '../../components/MarketTable';
 import { fetchTabsData, fetchTableData } from '@/utils/utility';
 import { useStateContext } from '../../store/StateContext';
 import Blocker from '../../components/Blocker';
+import Loader from '@/components/Loader';
 
 const Watchlist = () => {
   const [wathcListTab, setWatchListTab] = useState([]);
   const [activeViewId, setActiveViewId] = useState(0);
   const [showBlocker, setShowBlocker] = useState(false);
+  const [apiSuccess, setAPISuccess] = useState(false);
   const [tableData, setTableData] = useState([]);
   const { state } = useStateContext();
   const { isLogin, userInfo } = state.login;
@@ -27,13 +29,18 @@ const Watchlist = () => {
     const res = await fetchTabsData();
     const viewId = res[0].viewId;
     setActiveViewId(viewId);
-    setWatchListTab(res);
+    if(res.length){
+      setWatchListTab(res);
+    }
     fetchWatchListTableAPI(viewId);
   };
 
   const fetchWatchListTableAPI = async (viewId: any) => {
     const res = await fetchTableData(viewId);
-    setTableData(res.dataList);    
+    if(res.message == "success"){
+      setTableData(res.dataList);   
+      setAPISuccess(true);
+    } 
   }
 
   const filterChangeHandler = (e: { target: { name: string; value: any; }; }) => {
@@ -47,10 +54,10 @@ const Watchlist = () => {
     fetchWatchListData()
   }
   useEffect(() => {
-    if (isLogin) {
+    if (isLogin === true) {
       fetchWatchListData();
       setShowBlocker(false);
-    } else {
+    }else if(isLogin === false){
       setShowBlocker(true);
     }
   }, [isLogin]);
@@ -58,9 +65,9 @@ const Watchlist = () => {
   return (
     <div className={styles.wraper}>
       <h1 className={styles.heading1}>Watchlist</h1>
-      {showBlocker ? <Blocker text="Please login here for Watchlist" cta="Login" /> : <>
+      {showBlocker ? <Blocker type="loginBlocker"/> : <>
         <MarketTabs data={wathcListTab} activeViewId={activeViewId} tabsViewIdUpdate={tabsViewIdUpdate} tabsUpdateHandler={tabsAndTableDataChangeHandler} />
-        <MarketTable data={tableData} onFilterChange={filterChangeHandler} />
+        <MarketTable data={tableData} apiSuccess={apiSuccess} onFilterChange={filterChangeHandler} />
       </>
       }
     </div>

@@ -14,7 +14,7 @@ const Header = () => {
 
   return (
     <header id={styles.pageTopbar}>
-      <div className={styles.navbarHeader}>
+      <div className={styles.navbarHeader} id="header">
         <div className="dflex align-item-center">
           <Link href="/">
             <Image 
