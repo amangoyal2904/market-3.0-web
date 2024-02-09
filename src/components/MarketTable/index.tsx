@@ -188,7 +188,7 @@ const MarketTable = (props: propsType) => {
     const heightDiff = tableBottom - theadBottom;
 
     setTopScrollHeight(heightDifference)
-    setHideThead(heightDiff < 10);
+    setHideThead(heightDiff < 25);
     if (window.scrollY) {
       setHeaderSticky(window.scrollY);
     }

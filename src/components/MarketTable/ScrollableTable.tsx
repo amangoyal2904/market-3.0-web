@@ -33,7 +33,7 @@ const ScrollableTable = (props: any) => {
                 : 0
             }px)`,
           }}
-          className={hideThead ? styles.hideThead : ""}
+          className={(hideThead && tableDataList.length) ? styles.hideThead : ""}
         >
           <tr>
             {tableHeaderData.map(
