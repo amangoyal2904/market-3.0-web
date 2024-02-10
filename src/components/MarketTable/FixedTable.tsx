@@ -10,6 +10,7 @@ const FixedTable = (props: any) => {
     topScrollHeight,
     handleSort,
     sortData,
+    filters,
     tableDataList,
     handleFilterChange,
     hideThead = false,
@@ -75,7 +76,9 @@ const FixedTable = (props: any) => {
                         }`}
                         type="text"
                         name={tdData.keyId}
+                        value={filters[tdData.keyId] || ""}
                         onChange={handleFilterChange}
+                        maxLength={20}
                         placeholder={
                           tdData.keyId == "name" ? "Search Value" : "> #"
                         }

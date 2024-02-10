@@ -9,10 +9,16 @@ interface propsType {
   data: any[];
   apiSuccess: boolean;
   tableHeaders: any[];
+  tabsViewIdUpdate: any;
 }
 
 const MarketTable = (props: propsType) => {
-  const { data, apiSuccess = false, tableHeaders = [] } = props || {};
+  const {
+    data,
+    apiSuccess = false,
+    tableHeaders = [],
+    tabsViewIdUpdate,
+  } = props || {};
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
@@ -22,20 +28,26 @@ const MarketTable = (props: propsType) => {
   const [loaderOff, setLoaderOff] = useState(false);
   const [isPrime, setPrime] = useState(false);
   const [hideThead, setHideThead] = useState(false);
-  const checkIfValidExpression = (value: string) => {
-    return /^[<>=]\d+$/.test(value);
-  };
 
   const handleFilterChange = (e: any) => {
     const { name, value } = e.target;
-    if (name != "name" && checkIfValidExpression(value.replaceAll(" ", ""))) {
-      setFilters({ ...filters, [name]: value.replaceAll(" ", "") });
-    } else if (name === "name") {
+    const textAlphanumericRegex = /^(?:[a-zA-Z0-9]+(?:\s|$))+$/;
+    const numericExpressionRegex = /^[><]?=?\s*\d*$/;
+    if (
+      name != "name" &&
+      (numericExpressionRegex.test(value) || value === "")
+    ) {
+      setFilters({ ...filters, [name]: value });
+    } else if (
+      name === "name" &&
+      (textAlphanumericRegex.test(value) || value === "")
+    ) {
       setFilters({ ...filters, [name]: value });
     } else if (value == "") {
       delete filters[name];
       setFilters({ ...filters });
     }
+    console.log({ filters });
   };
 
   const handleSort = (key: any) => {
@@ -56,6 +68,7 @@ const MarketTable = (props: propsType) => {
     if (Object.keys(filters).length) {
       Object.keys(filters).forEach((keyId) => {
         filterData = filterData.filter((item: any) => {
+          const validExpression = /^[><=]\d+$/;
           const cellValue = filters[keyId];
           if (keyId == "name") {
             return (
@@ -68,8 +81,9 @@ const MarketTable = (props: propsType) => {
                     .includes(cellValue.toLowerCase()),
               )
             );
-          } else {
+          } else if (validExpression.test(cellValue.replaceAll(" ", ""))) {
             const [operator, comparisonValue] = cellValue
+              .replaceAll(" ", "")
               .match(/([><=]+)(\d+)/)
               .slice(1);
             switch (operator) {
@@ -107,6 +121,7 @@ const MarketTable = (props: propsType) => {
                 return true;
             }
           }
+          return true;
         });
       });
     }
@@ -177,6 +192,11 @@ const MarketTable = (props: propsType) => {
   };
 
   useEffect(() => {
+    setFilters({});
+    setSortData({});
+  }, [tabsViewIdUpdate]);
+
+  useEffect(() => {
     if (data.length || apiSuccess) {
       const filteredData = filterTableData(data);
       const sortedData = sortTableData(filteredData);
@@ -212,6 +232,7 @@ const MarketTable = (props: propsType) => {
                 topScrollHeight={topScrollHeight}
                 handleSort={handleSort}
                 sortData={sortData}
+                filters={filters}
                 handleFilterChange={handleFilterChange}
                 hideThead={hideThead}
               />
@@ -223,6 +244,7 @@ const MarketTable = (props: propsType) => {
                 topScrollHeight={topScrollHeight}
                 handleSort={handleSort}
                 sortData={sortData}
+                filters={filters}
                 handleFilterChange={handleFilterChange}
                 isPrime={isPrime}
                 hideThead={hideThead}
