@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./MarketTable.module.scss";
-import Link from 'next/link';
-import GLOBAL_CONFIG  from "../../network/global_config.json"
+import Link from "next/link";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 import { APP_ENV } from "../../utils";
 
 const ScrollableTable = (props: any) => {
@@ -12,6 +12,7 @@ const ScrollableTable = (props: any) => {
     topScrollHeight,
     handleSort,
     sortData,
+    filters,
     tableDataList,
     handleFilterChange,
     isPrime = false,
@@ -33,7 +34,7 @@ const ScrollableTable = (props: any) => {
                 : 0
             }px)`,
           }}
-          className={(hideThead && tableDataList.length) ? styles.hideThead : ""}
+          className={hideThead && tableDataList.length ? styles.hideThead : ""}
         >
           <tr>
             {tableHeaderData.map(
@@ -61,7 +62,7 @@ const ScrollableTable = (props: any) => {
                       </span>
                     )}
                   </th>
-                )
+                ),
             )}
           </tr>
           <tr>
@@ -73,11 +74,12 @@ const ScrollableTable = (props: any) => {
                       className={styles.filterInput}
                       type="text"
                       name={tdData.keyId}
+                      value={filters[tdData.keyId] || ""}
                       onChange={handleFilterChange}
                       placeholder="> #"
                     ></input>
                   </td>
-                )
+                ),
             )}
           </tr>
         </thead>
@@ -89,12 +91,12 @@ const ScrollableTable = (props: any) => {
                   (tdData: any, index: number) =>
                     index > 2 && (
                       <td
-                        className={`${(!tdData.primeFlag || isPrime) ? tdData.trend : ""} ${
+                        className={`${!tdData.primeFlag || isPrime ? tdData.trend : ""} ${
                           tdData.allowSort && (!tdData.primeFlag || isPrime)
                             ? "numberFonts"
                             : tdData.primeFlag
-                            ? styles.primeTd
-                            : ""
+                              ? styles.primeTd
+                              : ""
                         }`}
                         key={tdData.keyId}
                       >
@@ -116,15 +118,15 @@ const ScrollableTable = (props: any) => {
                                   tdData.trend == "up"
                                     ? "eticon_up_arrow"
                                     : tdData.trend == "down"
-                                    ? "eticon_down_arrow"
-                                    : ""
+                                      ? "eticon_down_arrow"
+                                      : ""
                                 }`}
                               />
                             )}
                           </>
                         )}
                       </td>
-                    )
+                    ),
                 )}
               </tr>
             ))}
