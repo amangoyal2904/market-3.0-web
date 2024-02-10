@@ -51,7 +51,7 @@ const ScrollableTable = (props: any) => {
                         ? handleSort(thead.keyId)
                         : null;
                     }}
-                    key={thead.keyText}
+                    key={thead.keyId}
                   >
                     {thead.keyText}
                     {(!thead.primeFlag || (isPrime && thead.primeFlag)) && (
@@ -95,7 +95,7 @@ const ScrollableTable = (props: any) => {
         {tableDataList.length > 0 ? (
           <tbody>
             {tableDataList.map((item: any, index: number) => (
-              <tr key={item.assetId}>
+              <tr key={index}>
                 {item.data.map(
                   (tdData: any, index: number) =>
                     index > 2 && (
@@ -107,7 +107,7 @@ const ScrollableTable = (props: any) => {
                               ? styles.primeTd
                               : ""
                         }`}
-                        key={tdData.keyId}
+                        key={index}
                       >
                         {!isPrime && tdData.primeFlag ? (
                           <Link
