@@ -9,10 +9,16 @@ interface propsType {
   data: any[];
   apiSuccess: boolean;
   tableHeaders: any[];
+  tabsViewIdUpdate: any;
 }
 
 const MarketTable = (props: propsType) => {
-  const { data, apiSuccess = false, tableHeaders = [] } = props || {};
+  const {
+    data,
+    apiSuccess = false,
+    tableHeaders = [],
+    tabsViewIdUpdate,
+  } = props || {};
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
@@ -184,6 +190,11 @@ const MarketTable = (props: propsType) => {
     const leftScrollPos = leftScroll.scrollTop;
     rightScroll.scrollTop = leftScrollPos;
   };
+
+  useEffect(() => {
+    setFilters({});
+    setSortData({});
+  }, [tabsViewIdUpdate]);
 
   useEffect(() => {
     if (data.length || apiSuccess) {

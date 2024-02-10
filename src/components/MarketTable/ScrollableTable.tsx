@@ -76,6 +76,7 @@ const ScrollableTable = (props: any) => {
                       name={tdData.keyId}
                       value={filters[tdData.keyId] || ""}
                       onChange={handleFilterChange}
+                      maxLength={20}
                       placeholder="> #"
                     ></input>
                   </td>

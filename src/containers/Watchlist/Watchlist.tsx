@@ -71,6 +71,7 @@ const Watchlist = () => {
           <MarketTable
             data={tableData}
             tableHeaders={tableHeaderData}
+            tabsViewIdUpdate={tabsViewIdUpdate}
             apiSuccess={apiSuccess}
           />
         </>

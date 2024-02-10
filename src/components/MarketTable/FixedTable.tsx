@@ -78,6 +78,7 @@ const FixedTable = (props: any) => {
                         name={tdData.keyId}
                         value={filters[tdData.keyId] || ""}
                         onChange={handleFilterChange}
+                        maxLength={20}
                         placeholder={
                           tdData.keyId == "name" ? "Search Value" : "> #"
                         }
