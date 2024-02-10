@@ -42,7 +42,7 @@ const FixedTable = (props: any) => {
                     onClick={() => {
                       handleSort(thead.keyId);
                     }}
-                    className={`${thead.keyId == "name" ? styles.firstTh : ""}`}
+                    className={`${thead.keyId == "name" ? styles.firstTh : styles.enableSort}`}
                     key={thead.keyText}
                   >
                     {thead.keyText}
@@ -105,13 +105,17 @@ const FixedTable = (props: any) => {
                           <a
                             href={getStockUrl(
                               item.assetId,
-                              item.assetName,
+                              item.assetSeoName,
                               item.assetType,
                             )}
                             target="_blank"
                             title={tdData.value}
                           >
-                            {tdData.value}
+                            {tdData.value}{" "}
+                            {item.assetType != "" &&
+                            item.assetType.toLowerCase() != "equity"
+                              ? `(${item.assetType.toUpperCase()})`
+                              : null}
                           </a>
                         </td>
                       ) : (

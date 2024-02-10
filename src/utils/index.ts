@@ -335,7 +335,6 @@ export const loadPrimeApi = async () => {
       deviceDetail: getMobileOS(),
       allMerchant: true,
     });
-    //const body = JSON.stringify({"pageno":1,"pagesize":15,"sort":[],"type":"STOCK","viewId":239,"deviceId":"web"})
     const headers = {
       "Content-Type": "application/json;charset=UTF-8",
       "X-CLIENT-ID": oauthClientId,

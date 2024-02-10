@@ -41,13 +41,20 @@ const ScrollableTable = (props: any) => {
               (thead: any, index: number) =>
                 index > 2 && (
                   <th
+                    className={
+                      !thead.primeFlag || (isPrime && thead.primeFlag)
+                        ? styles.enableSort
+                        : ""
+                    }
                     onClick={() => {
-                      handleSort(thead.keyId);
+                      !thead.primeFlag || (isPrime && thead.primeFlag)
+                        ? handleSort(thead.keyId)
+                        : null;
                     }}
                     key={thead.keyText}
                   >
                     {thead.keyText}
-                    {thead.allowSort && (
+                    {(!thead.primeFlag || (isPrime && thead.primeFlag)) && (
                       <span className={`${styles.sortIcons}`}>
                         <span
                           className={`${
@@ -78,6 +85,7 @@ const ScrollableTable = (props: any) => {
                       onChange={handleFilterChange}
                       maxLength={20}
                       placeholder="> #"
+                      disabled={!isPrime && tdData.primeFlag}
                     ></input>
                   </td>
                 ),
