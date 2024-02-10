@@ -43,7 +43,7 @@ const FixedTable = (props: any) => {
                       handleSort(thead.keyId);
                     }}
                     className={`${thead.keyId == "name" ? styles.firstTh : styles.enableSort}`}
-                    key={thead.keyText}
+                    key={thead.keyId}
                   >
                     {thead.keyText}
                     {thead.keyId && (
@@ -96,12 +96,12 @@ const FixedTable = (props: any) => {
           <tbody>
             <>
               {tableDataList.map((item: any, index: number) => (
-                <tr key={item.assetId} className={styles.fixedTr}>
+                <tr key={index} className={styles.fixedTr}>
                   {item.data.map(
                     (tdData: any, index: number) =>
                       index <= 2 &&
                       (tdData.keyId == "name" ? (
-                        <td key={tdData.keyId} className={styles.fixedTD}>
+                        <td key={index} className={styles.fixedTD}>
                           <a
                             href={getStockUrl(
                               item.assetId,
@@ -123,7 +123,7 @@ const FixedTable = (props: any) => {
                           className={`${styles.fixedTD} ${tdData.trend} ${
                             tdData.allowSort ? "numberFonts" : ""
                           }`}
-                          key={tdData.keyId}
+                          key={index}
                         >
                           {tdData.value.replaceAll(" ", "")}
                           {tdData.trend && (
