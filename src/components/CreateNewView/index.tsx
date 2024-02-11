@@ -265,7 +265,7 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
                             }
                             </span>
                             {
-                                editmode && editmode.mode && editmode.viewId !== "" ? <span className={styles.editViewName}>'{screenerName}' <span onClick={editViewNameHandler} className={`eticon_edit ${styles.editIconView}`}></span></span> : null
+                                editmode && editmode.mode && editmode.viewId != "" ? <span className={styles.editViewName}>{screenerName} <span onClick={editViewNameHandler} className={`eticon_edit ${styles.editIconView}`}></span></span> : ""
                             }
                         {/* <div className={styles.formGroup}>
                             <input type="text" placeholder="Please enter screener name" value={screenerName} onChange={(e:any)=>setScreenerName(e.target.value)} />

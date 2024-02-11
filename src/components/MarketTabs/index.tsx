@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState,useRef, useEffect } from 'react';
 
 import styles from './MarketTabs.module.scss';
 
@@ -14,6 +14,9 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:an
     const [openPersonaliseModal, setOpenPersonaliseModal] = useState(false);
     const [openPersonaliseCreateModal, setOpenPersonaliseCreateModal] = useState(false);
     const [editMode, setEditMode] = useState({mode:false,viewId:""});
+    const tabsListRef = useRef<HTMLUListElement>(null);
+    const [visibleTabs, setVisibleTabs] = useState<any[]>([]);
+    const [hiddenTabs, setHiddenTabs] = useState<any[]>([]);
     const tabClick = (viewId:any)=>{
         tabsViewIdUpdate(viewId)
     }
@@ -53,12 +56,56 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:an
             alert("some error please check api or code")
         }
     }
+    
+    useEffect(() => {
+        const handleResize = () => {
+            const tabsListWidth = tabsListRef.current?.offsetWidth;
+            if (tabsListWidth != null) {
+                const actualTabListWith = tabsListWidth-400;
+                //console.log('actualTabListWith',actualTabListWith)
+                const visibleTabsWidth = visibleTabs.reduce((totalWidth, tab) => {
+                    return totalWidth + tab.offsetWidth;
+                }, 0);
+                const hiddenTabsWidth = hiddenTabs.reduce((totalWidth, tab) => {
+                    return totalWidth + tab.offsetWidth;
+                }, 0);
+                
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [visibleTabs, hiddenTabs]);
+    useEffect(() => {
+        const tabsListWidth = tabsListRef.current?.offsetWidth;
+        if (tabsListWidth != null) {
+            let currentWidth = 0;
+            const newVisibleTabs: any[] = [];
+            const newHiddenTabs: any[] = [];
+            for (const tab of data) {
+                const tabWidth = tab.name.length * 10; // Adjust the width calculation as per your requirement
+                if (currentWidth + tabWidth < tabsListWidth) {
+                    newVisibleTabs.push(tab);
+                    currentWidth += tabWidth;
+                } else {
+                    newHiddenTabs.push(tab);
+                }
+            }
+            setVisibleTabs(newVisibleTabs);
+            setHiddenTabs(newHiddenTabs);
+        }
+    }, [data]);
+    console.log('visibleTabs',visibleTabs)
+    console.log('hiddenTabs',hiddenTabs)
     return (
         <>
         <div className={styles.tabsWrap}>
-            <ul className={styles.tabsList}>
+            <ul className={styles.tabsList} ref={tabsListRef}>
                 {
-                    tabDataFilter.map((item:any, index:number)=>{
+                    visibleTabs.map((item:any, index:number)=>{
                         return (
                             <li key={item.id} onClick={()=>tabClick(item.viewId)} className={ activeViewId === item.viewId ? styles.active : ""}>
                                 {item.name}
@@ -66,6 +113,22 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:an
                         )
                     })
                 }
+                {hiddenTabs && hiddenTabs.length > 0 ? <li className={styles.moreTabsListData}>
+                    <div className={styles.moreTabWrap}>
+                        <div className={styles.moreSec}>More <span className={`eticon_caret_down ${styles.moreCaretDown}`}></span></div>
+                        <ul className={styles.moreListItem}>
+                            {
+                                hiddenTabs.map((item:any, index:number)=>{
+                                    return (
+                                        <li key={item.id} onClick={()=>tabClick(item.viewId)} className={ activeViewId === item.viewId ? styles.active : ""}>
+                                            {item.name}
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
+                    </div>
+                </li> : null}
             </ul>
             <div className={styles.rightSide}>
                 <span className={`${styles.btnStock} ${styles.stockBtn}`}>+ Add Stocks</span>
