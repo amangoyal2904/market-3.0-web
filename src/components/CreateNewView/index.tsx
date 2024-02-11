@@ -206,6 +206,12 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
             saveUserPersonalise();
         }
     }
+    const updateViewNameHandler = ()=>{
+        setViewNameModule(false);
+    }
+    const editViewNameHandler = ()=>{
+        setViewNameModule(true);
+    }
     //console.log('whatis', selectedView)
     useEffect(() => {
         
@@ -258,6 +264,9 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
                                 editmode && editmode.mode && editmode.viewId !== "" ? "Edit" : "Create New View"
                             }
                             </span>
+                            {
+                                editmode && editmode.mode && editmode.viewId !== "" ? <span className={styles.editViewName}>'{screenerName}' <span onClick={editViewNameHandler} className={`eticon_edit ${styles.editIconView}`}></span></span> : null
+                            }
                         {/* <div className={styles.formGroup}>
                             <input type="text" placeholder="Please enter screener name" value={screenerName} onChange={(e:any)=>setScreenerName(e.target.value)} />
                         </div> */}
@@ -318,8 +327,10 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
                                                                     id={`${item.categoryMasterID}-search`}
                                                                     checked={selectedView.some((viewItem:any) => viewItem.sourceFieldName === item.sourceFieldName)}
                                                                     onChange={(e)=>viewCheckHandler(e, item)} />
+                                                               
+                                                                <label htmlFor={`${item.categoryMasterID}-search`} >
                                                                 <span className={styles.checkBoxStyle}></span>
-                                                                <label htmlFor={`${item.categoryMasterID}-search`}  dangerouslySetInnerHTML={{ __html: highlightMatch(item.displayName) }}>
+                                                                <span dangerouslySetInnerHTML={{ __html: highlightMatch(item.displayName) }}></span>
                                                                 </label>
                                                             </div>
                                                         </li>
@@ -364,8 +375,10 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
                                                                             className={styles.checkBoxSec} 
                                                                             onChange={(e)=>viewCheckHandler(e, childSubItem)}
                                                                             checked={selectedView.some((item:any) => item.sourceFieldName === childSubItem.sourceFieldName)} />
-                                                                            <span className={styles.checkBoxStyle}></span>
-                                                                            <label htmlFor={childSubItem.categoryMasterID}>{childSubItem.displayName}</label>
+                                                                            
+                                                                            <label htmlFor={childSubItem.categoryMasterID}><span className={styles.checkBoxStyle}></span>
+                                                                            <span>{childSubItem.displayName}</span>
+                                                                            </label>
                                                                         </div>
                                                                     </li>
                                                                 ))}
@@ -397,6 +410,8 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
                         viewNameModule ? <NameViewComponent 
                                             createViewNameHandler={viewNameHandlerFun}
                                             screenerName={screenerName} 
+                                            editMode={editmode.viewId}
+                                            updateViewNameHandler={updateViewNameHandler}
                                             setScreenerName={setScreenerName}/> : null
                     }
                 </div>
