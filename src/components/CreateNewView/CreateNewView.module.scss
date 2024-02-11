@@ -185,13 +185,8 @@
             margin-top: 2px;
             display: none;
         }
-        .checkBoxStyle{
-            width:16px;
-            height:16px;
-            border:solid 0.8px rgba(204, 204, 204, 1);
-            border-radius: 2px;
-        }
-        input:checked ~ .checkBoxStyle{
+        
+        input:checked ~ label .checkBoxStyle{
             border-color: rgba(43, 116, 227, 1);
             background: rgba(43, 116, 227, 1);
             position: relative;
@@ -225,6 +220,15 @@
             font-size: 14px;
             font-weight: 400;
             margin: 0px 0 0 5px;
+            .checkBoxStyle{
+                width:16px;
+                height:16px;
+                border:solid 0.8px rgba(204, 204, 204, 1);
+                border-radius: 2px;
+                display: inline-block;
+                vertical-align: top;
+                margin-right: 8px;
+            }
         }
     }
 }
@@ -254,17 +258,12 @@
         color: #000;
         .formGroup{
             display: flex;
-            .checkBoxStyle{
-                width:16px;
-                height:16px;
-                border:solid 0.8px rgba(204, 204, 204, 1);
-                border-radius: 2px;
-            }
+            
             input{
                 width:20px;
                 display: none;
             }
-            input:checked ~ .checkBoxStyle{
+            input:checked ~ label .checkBoxStyle{
                 border-color: rgba(43, 116, 227, 1);
                 background: rgba(43, 116, 227, 1);
                 position: relative;
@@ -295,6 +294,15 @@
             label{
                 padding-left:5px;
                 cursor: pointer;
+                .checkBoxStyle{
+                    width:16px;
+                    height:16px;
+                    border:solid 0.8px rgba(204, 204, 204, 1);
+                    border-radius: 2px;
+                    display: inline-block;
+                    vertical-align: top;
+                    margin-right:8px;
+                }
             }
         }
     }
@@ -384,5 +392,17 @@
         font-weight: 400;
         line-height: 16px;
         padding:10px;
+    }
+}
+.editViewName{
+    display: inline-block;
+    vertical-align: top;
+    margin-left:5px;
+    .editIconView{
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 12px;
+        cursor: pointer;
+        font-size: 22px;
     }
 }

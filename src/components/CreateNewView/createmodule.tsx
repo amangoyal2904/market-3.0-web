@@ -1,9 +1,16 @@
 import styles from './CreateNewView.module.scss';
 
-const NameViewComponent = ({createViewNameHandler,screenerName,setScreenerName}:any)=>{
+const NameViewComponent = ({createViewNameHandler,screenerName,setScreenerName, editMode, updateViewNameHandler}:any)=>{
     const  createViewHandler = ()=>{
         if(screenerName && screenerName !== ''){
             createViewNameHandler(screenerName.trim())
+        }else{
+            alert('Plase fill your screener name');
+        }
+    }
+    const updateViewHandler = () =>{
+        if(screenerName && screenerName !== ''){
+            updateViewNameHandler(screenerName.trim())
         }else{
             alert('Plase fill your screener name');
         }
@@ -21,9 +28,14 @@ const NameViewComponent = ({createViewNameHandler,screenerName,setScreenerName}:
                         </div>
                     </div>
                     <div className={styles.footer}>
-                        <span className={`refRemoveList ${styles.updateBtn}`} onClick={createViewHandler}>
+                        {
+                            editMode && editMode !== "" ? <span className={`refRemoveList ${styles.updateBtn}`} onClick={updateViewHandler}>
+                            Update view
+                        </span> : <span className={`refRemoveList ${styles.updateBtn}`} onClick={createViewHandler}>
                             Create view
                         </span>
+                        }
+                        
                     </div>
                 </div>
             </div>
