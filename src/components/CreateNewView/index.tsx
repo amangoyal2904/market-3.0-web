@@ -76,7 +76,7 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
         if(resData && resData.responseCode === 200){
             const viewId:any = resData.viewId || "";
             closePopCreateView(false)
-            alert(resData.response)
+            //alert(resData.response)
             tabsUpdateHandler(viewId)
         }else{
             alert("some error please check api or code")
@@ -184,7 +184,7 @@ const CreateNewViewComponent = ({closePopCreateView, editmode, tabsUpdateHandler
         console.log('resdata', resData)
         if(resData && resData.responseCode === 200){
             closePopCreateView(false)
-            alert(resData.response)
+            //alert(resData.response)
             tabsUpdateHandler()
         }else{
             alert("some error please check api or code")

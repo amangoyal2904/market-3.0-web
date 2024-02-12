@@ -50,42 +50,20 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:an
         console.log('resdata', resData)
         if(resData && resData.responseCode === 200){
             setOpenPersonaliseModal(false)
-            alert(resData.response);
+            //alert(resData.response);
             tabsUpdateHandler()
         }else{
             alert("some error please check api or code")
         }
     }
-    
-    useEffect(() => {
-        const handleResize = () => {
-            const tabsListWidth = tabsListRef.current?.offsetWidth;
-            if (tabsListWidth != null) {
-                const actualTabListWith = tabsListWidth-400;
-                //console.log('actualTabListWith',actualTabListWith)
-                const visibleTabsWidth = visibleTabs.reduce((totalWidth, tab) => {
-                    return totalWidth + tab.offsetWidth;
-                }, 0);
-                const hiddenTabsWidth = hiddenTabs.reduce((totalWidth, tab) => {
-                    return totalWidth + tab.offsetWidth;
-                }, 0);
-                
-            }
-        };
-        window.addEventListener('resize', handleResize);
-        handleResize();
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [visibleTabs, hiddenTabs]);
-    useEffect(() => {
+    const tabDataFitlerBaseOnWidth = ()=>{
         const tabsListWidth = tabsListRef.current?.offsetWidth;
         if (tabsListWidth != null) {
             let currentWidth = 0;
+            const filterData = data.length > 0 ?  data.filter((item:any)=> item.selectedFlag) : [];
             const newVisibleTabs: any[] = [];
             const newHiddenTabs: any[] = [];
-            for (const tab of data) {
+            for (const tab of filterData) {
                 const tabWidth = tab.name.length * 10; // Adjust the width calculation as per your requirement
                 if (currentWidth + tabWidth < tabsListWidth) {
                     newVisibleTabs.push(tab);
@@ -97,6 +75,29 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:an
             setVisibleTabs(newVisibleTabs);
             setHiddenTabs(newHiddenTabs);
         }
+    }
+    useEffect(() => {
+        const handleResize = () => {
+            const tabsListWidth = tabsListRef.current?.offsetWidth;
+            if (tabsListWidth != null) {
+                const actualTabListWith = tabsListWidth-400;
+                const visibleTabsWidth = visibleTabs.reduce((totalWidth, tab) => {
+                    return totalWidth + tab.offsetWidth;
+                }, 0);
+                const hiddenTabsWidth = hiddenTabs.reduce((totalWidth, tab) => {
+                    return totalWidth + tab.offsetWidth;
+                }, 0);
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [visibleTabs, hiddenTabs]);
+    useEffect(() => {
+        tabDataFitlerBaseOnWidth()
     }, [data]);
     console.log('visibleTabs',visibleTabs)
     console.log('hiddenTabs',hiddenTabs)
