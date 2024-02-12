@@ -15,7 +15,7 @@ const ScrollableTable = (props: any) => {
     filters,
     tableDataList,
     handleFilterChange,
-    isPrime = true,
+    isPrime = false,
     hideThead = false,
   } = props || {};
 
