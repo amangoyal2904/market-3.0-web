@@ -76,6 +76,7 @@ const FixedTable = (props: any) => {
                         }`}
                         type="text"
                         name={tdData.keyId}
+                        data-type={tdData.valueType}
                         value={filters[tdData.keyId] || ""}
                         onChange={handleFilterChange}
                         maxLength={20}
@@ -121,7 +122,7 @@ const FixedTable = (props: any) => {
                       ) : (
                         <td
                           className={`${styles.fixedTD} ${tdData.trend} ${
-                            tdData.allowSort ? "numberFonts" : ""
+                            tdData.valueType == "number" ? "numberFonts" : ""
                           }`}
                           key={index}
                         >
