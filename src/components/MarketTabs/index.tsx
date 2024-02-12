@@ -7,11 +7,13 @@ import PersonaliseModel from "../PersonaliseModel/index";
 import CreateNewViewComponent from "../CreateNewView/index";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
+import AddStockComponent from "../../components/StockAdd/index";
 
 const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:any) => {
     const personaliseDataListItem = data && data.length > 0 ? data.filter((item:any)=> item.viewId !== 239) : [];
     const tabDataFilter = data && data.length > 0 ? data.filter((item:any)=> item.selectedFlag) : [];
     const [openPersonaliseModal, setOpenPersonaliseModal] = useState(false);
+    const [addStockShow, setAddStockShow] = useState(false);
     const [openPersonaliseCreateModal, setOpenPersonaliseCreateModal] = useState(false);
     const [editMode, setEditMode] = useState({mode:false,viewId:""});
     const tabsListRef = useRef<HTMLUListElement>(null);
@@ -76,6 +78,9 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:an
             setHiddenTabs(newHiddenTabs);
         }
     }
+    const addStockHandler = ()=>{
+        setAddStockShow(true)
+    }
     useEffect(() => {
         const handleResize = () => {
             const tabsListWidth = tabsListRef.current?.offsetWidth;
@@ -132,7 +137,7 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:an
                 </li> : null}
             </ul>
             <div className={styles.rightSide}>
-                <span className={`${styles.btnStock} ${styles.stockBtn}`}>+ Add Stocks</span>
+                <span className={`${styles.btnStock} ${styles.stockBtn}`} onClick={addStockHandler}>+ Add Stocks</span>
                 <span className={`${styles.btnStock} ${styles.stockModifyBtn}`}>Edit</span>
                 <span className={`${styles.roundBtn} ${styles.editBtnPencil}`} onClick={()=>userPersonaliseHandle()}>Personalise</span>
                 <span className={`${styles.roundBtn} ${styles.exportIcon}`}>Export</span>
@@ -143,6 +148,9 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:an
         }
         {
             openPersonaliseCreateModal ? <CreateNewViewComponent closePopCreateView={setOpenPersonaliseCreateModal} tabsUpdateHandler={tabsUpdateHandler} editmode={editMode} /> : ""
+        }
+        {
+            addStockShow ? <AddStockComponent moduelClose={setAddStockShow} /> : null
         }
       </>
     )
