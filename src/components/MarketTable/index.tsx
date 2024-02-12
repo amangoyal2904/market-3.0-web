@@ -31,15 +31,16 @@ const MarketTable = (props: propsType) => {
 
   const handleFilterChange = (e: any) => {
     const { name, value } = e.target;
+    const inputType = e.target.dataset["type"];
     const textAlphanumericRegex = /^(?:[a-zA-Z0-9]+(?:\s|$))+$/;
     const numericExpressionRegex = /^[><]?=?\s*\d*$/;
     if (
-      name != "name" &&
+      inputType == "number" &&
       (numericExpressionRegex.test(value) || value === "")
     ) {
       setFilters({ ...filters, [name]: value });
     } else if (
-      name === "name" &&
+      inputType === "text" &&
       (textAlphanumericRegex.test(value) || value === "")
     ) {
       setFilters({ ...filters, [name]: value });
@@ -70,7 +71,10 @@ const MarketTable = (props: propsType) => {
         filterData = filterData.filter((item: any) => {
           const validExpression = /^[><=]\d+$/;
           const cellValue = filters[keyId];
-          if (keyId == "name") {
+          const inputType = item.data.find(
+            (element: any) => element.keyId == keyId,
+          ).valueType;
+          if (inputType == "text") {
             return (
               item &&
               item.data.some(
@@ -132,6 +136,10 @@ const MarketTable = (props: propsType) => {
     if (Object.keys(sortData).length) {
       Object.keys(sortData).forEach((keyId) => {
         tableData = tableData.sort((a: any, b: any) => {
+          const inputType = tableData.data.find(
+            (element: any) => element.keyId == keyId,
+          ).valueType;
+
           let valueA = a.data.find((item: any) => {
             return item.keyId == keyId;
           }).filterFormatValue;
@@ -139,7 +147,7 @@ const MarketTable = (props: propsType) => {
             return item.keyId == keyId;
           }).filterFormatValue;
 
-          if (keyId != "name") {
+          if (inputType != "text") {
             valueA = parseFloat(valueA);
             valueB = parseFloat(valueB);
           }
@@ -204,15 +212,16 @@ const MarketTable = (props: propsType) => {
       setTableHeaderData(tableHeaders);
       if (!loaderOff) setLoaderOff(true);
     }
-  }, [apiSuccess, data, sortData, filters, loaderOff]);
 
-  useEffect(() => {
     const isPrime =
       typeof window != "undefined" &&
       window.objUser &&
       window.objUser.permissions &&
       window.objUser.permissions.indexOf("subscribed") != -1;
     setPrime(isPrime);
+  }, [apiSuccess, data, sortData, filters, loaderOff]);
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
   }, []);
 

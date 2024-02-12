@@ -15,7 +15,7 @@ const ScrollableTable = (props: any) => {
     filters,
     tableDataList,
     handleFilterChange,
-    isPrime = false,
+    isPrime = true,
     hideThead = false,
   } = props || {};
 
@@ -81,6 +81,7 @@ const ScrollableTable = (props: any) => {
                       className={styles.filterInput}
                       type="text"
                       name={tdData.keyId}
+                      data-type={tdData.valueType}
                       value={filters[tdData.keyId] || ""}
                       onChange={handleFilterChange}
                       maxLength={20}
@@ -101,7 +102,8 @@ const ScrollableTable = (props: any) => {
                     index > 2 && (
                       <td
                         className={`${!tdData.primeFlag || isPrime ? tdData.trend : ""} ${
-                          tdData.allowSort && (!tdData.primeFlag || isPrime)
+                          tdData.valueType == "number" &&
+                          (!tdData.primeFlag || isPrime)
                             ? "numberFonts"
                             : tdData.primeFlag
                               ? styles.primeTd
