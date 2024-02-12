@@ -136,7 +136,7 @@ const MarketTable = (props: propsType) => {
     if (Object.keys(sortData).length) {
       Object.keys(sortData).forEach((keyId) => {
         tableData = tableData.sort((a: any, b: any) => {
-          const inputType = tableData.data.find(
+          const inputType = tableData[0].data.find(
             (element: any) => element.keyId == keyId,
           ).valueType;
 
