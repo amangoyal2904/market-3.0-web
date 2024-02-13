@@ -69,7 +69,7 @@ const MarketTable = (props: propsType) => {
     if (Object.keys(filters).length) {
       Object.keys(filters).forEach((keyId) => {
         filterData = filterData.filter((item: any) => {
-          const validExpression = /^[><=]?\d*\.?\d+$/;
+          const validExpression = /^[><=]\d*\.?\d+$/;
           const cellValue = filters[keyId];
           const inputType = item.data.find(
             (element: any) => element.keyId == keyId,
