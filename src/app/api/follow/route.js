@@ -74,7 +74,7 @@ export const POST = async (req, res) => {
   try {
     const { followData, _authorization } = await req.json();
     const resData = await saveWatchlist(followData, _authorization);
-    console.log('resData', resData);
+    //console.log('resData', resData);
     return NextResponse.json(
       {
         nextjsSuccess: 'ok',

@@ -26,7 +26,6 @@
     "react-dom": "^18",
     "sass": "^1.70.0"
   },
-  "proxy":"https://etusersqc2.economictimes.indiatimes.com/",
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
