@@ -100,7 +100,7 @@ export const saveStockInWatchList = async (followData:any)=>{
   const apiUrl = isLocalhost
     ? `${(APIS_CONFIG as any)?.WATCHLISTAPI.addWatchListNextJsAPI[APP_ENV]}`
     : `${(APIS_CONFIG as any)?.WATCHLISTAPI.addWatchList[APP_ENV]}`;
-    const headers = new Headers({ 'Authorization': authorization });
+    const headers = new Headers({ 'Authorization': authorization ,"Content-Type": "application/json"});
     const options:any = {
       method: 'POST',
       cache: 'no-store',
