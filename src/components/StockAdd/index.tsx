@@ -134,6 +134,8 @@ const AddStockComponent = ({moduelClose}:any)=>{
         const data = await fetchAllWatchListData('Follow',11)
         if(data?.resData?.length > 0){
             setWatchlistStock(data.resData)
+        }else if(data?.length > 0){
+            setWatchlistStock(data)
         }
     }
     useEffect(() => {
