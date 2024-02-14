@@ -104,8 +104,8 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler}:an
     useEffect(() => {
         tabDataFitlerBaseOnWidth()
     }, [data]);
-    console.log('visibleTabs',visibleTabs)
-    console.log('hiddenTabs',hiddenTabs)
+    //console.log('visibleTabs',visibleTabs)
+    //console.log('hiddenTabs',hiddenTabs)
     return (
         <>
         <div className={styles.tabsWrap}>

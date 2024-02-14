@@ -106,5 +106,47 @@
     "production": [
       "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&realstate=true&dvr=true&idr=true&trust=true&mcx=false&mf=false&crypto=false&nps=false&insideet=false&detail=false&forex=false&index=false&mecklai=false&etf=false&nonList=false&pagesize=10&outputtype=json&ticker="
     ]
+  },
+  "WATCHLISTAPI":{
+    "getAllWatchlist":{
+      "development": [
+        "https://etusersqc2.economictimes.indiatimes.com/et/getpref"
+      ],
+      "production": [
+        "https://etup.economictimes.indiatimes.com/et/getpref"
+      ]
+    },
+    "getAllWatchlistNextJsAPI":{
+      "development": [
+        "http://localhost:3009/api/follow"
+      ],
+      "production": [
+        "https://etup.economictimes.indiatimes.com/et/getpref"
+      ]
+    },
+    "addWatchList":{
+      "development": [
+        "https://etusersqc2.economictimes.indiatimes.com/et/savesettings/json"
+      ],
+      "production": [
+        "https://etup.economictimes.indiatimes.com/et/savesettings/json"
+      ]
+    },
+    "addWatchListNextJsAPI":{
+      "development": [
+        "http://localhost:3009/api/follow"
+      ],
+      "production": [
+        "https://etup.economictimes.indiatimes.com/et/savesettings/json"
+      ]
+    }
+  },
+  "GETCompanyShortData":{
+    "development": [
+      "https://marketservices.indiatimes.com/marketservices/companyshortdata"
+    ],
+    "production": [
+      "https://marketservices.indiatimes.com/marketservices/companyshortdata"
+    ]
   }
 }

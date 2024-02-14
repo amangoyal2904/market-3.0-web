@@ -14,9 +14,9 @@ const getApiUrl = (config: any, index: any) => {
 
 export const get = async (config: any) => {
   try {
-    console.log("config----", config);
+    //console.log("config----", config);
     const url = getApiUrl(config, 0);
-    console.log("url------", url);
+    //console.log("url------", url);
     if (!config.headers) {
       config["headers"] = {};
     }
@@ -28,7 +28,7 @@ export const get = async (config: any) => {
 
     return response;
   } catch (e) {
-    console.log("error in get request", e);
+    //console.log("error in get request", e);
   }
 };
 
@@ -48,7 +48,7 @@ export const post = async (config: any) => {
 
     return response;
   } catch (e) {
-    console.log("error in post request", e);
+    //console.log("error in post request", e);
   }
 };
 
