@@ -6,7 +6,7 @@ import MarketTabs from "../../components/MarketTabs";
 import MarketTable from "../../components/MarketTable";
 import { fetchTabsData, fetchTableData } from "@/utils/utility";
 import { useStateContext } from "../../store/StateContext";
-import {removeMultipleStockInWatchList} from "../../utils/utility";
+import { removeMultipleStockInWatchList } from "../../utils/utility";
 import Blocker from "../../components/Blocker";
 import Loader from "@/components/Loader";
 
@@ -48,41 +48,56 @@ const Watchlist = () => {
   const tabsAndTableDataChangeHandler = (tabIdActive: any) => {
     fetchWatchListData(tabIdActive);
   };
-  const removeMultipleStockInWathclist = async ()=>{
-    console.log('data you click to remove Button of wathlist ');
-    const userConfirm = confirm("Are you sure you want to remove those stock list in your watchlist?");
-    const followData = {
-      source:"1",
-      userSettings:[...unFollowStocksList]
-    }
-    if(userConfirm){
-      const removeAllStock = await removeMultipleStockInWatchList(followData);
-      console.log('removeAllStock',removeAllStock)
-      if(removeAllStock && removeAllStock.nextJsResponse && removeAllStock.nextJsResponse.length > 0){
-        setShowTableCheckBox(false)
-      }else if(removeAllStock.length > 0){
-        setShowTableCheckBox(false)
-      }else{
-        alert('Some api error plesae check now')
+  const removeMultipleStockInWathclist = async () => {
+    if (unFollowStocksList.length > 0) {
+      const userConfirm = confirm(
+        "Are you sure you want to remove those stock list in your watchlist?",
+      );
+      const followData = {
+        source: "1",
+        userSettings: [...unFollowStocksList],
+      };
+      if (userConfirm) {
+        const removeAllStock = await removeMultipleStockInWatchList(followData);
+        console.log("removeAllStock", removeAllStock);
+        if (
+          removeAllStock &&
+          removeAllStock.nextJsResponse &&
+          removeAllStock.nextJsResponse.length > 0
+        ) {
+          setShowTableCheckBox(false);
+          setUnFollowStocksList([]);
+          fetchWatchListTableAPI(activeViewId);
+        } else if (removeAllStock.length > 0) {
+          setShowTableCheckBox(false);
+          setUnFollowStocksList([]);
+          fetchWatchListTableAPI(activeViewId);
+        } else {
+          alert("Some api error plesae check now");
+        }
       }
+    } else {
+      alert("please selected at least one stock");
     }
-  }
-  const multipleStockCollect = (e:any,companyId:any,assetType:any)=>{
+  };
+  const multipleStockCollect = (e: any, companyId: any, assetType: any) => {
     const checkInput = e.target.checked;
     const data = {
-      "action": checkInput ? 0 : 1, // If checked, action is 0 (add), else 1 (remove)
-      "userSettingSubType": 11,
-      "msid":companyId,
-      "companytype":assetType,
-      "stype": 2
-    }
+      action: checkInput ? 0 : 1, // If checked, action is 0 (add), else 1 (remove)
+      userSettingSubType: 11,
+      msid: companyId,
+      companytype: assetType,
+      stype: 2,
+    };
     if (checkInput) {
-        setUnFollowStocksList((prevList):any => [...prevList, data]);
+      setUnFollowStocksList((prevList): any => [...prevList, data]);
     } else {
-        setUnFollowStocksList((prevList):any => prevList.filter((item:any) => item.msid !== companyId));
+      setUnFollowStocksList((prevList): any =>
+        prevList.filter((item: any) => item.msid !== companyId),
+      );
     }
-  }
-  console.log('____UnFollowStocksList',unFollowStocksList)
+  };
+  console.log("____UnFollowStocksList", unFollowStocksList);
   useEffect(() => {
     if (isLogin === true) {
       fetchWatchListData();
