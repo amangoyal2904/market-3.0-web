@@ -170,5 +170,9 @@
     "production": [
       "https://marketservices.indiatimes.com/marketservices/companyshortdata"
     ]
+  },
+  "MARKET_STATS_NAV": {
+    "development": "https://etapipre.indiatimes.com/api/marketstatsnav",
+    "production": "https://etapipre.indiatimes.com/api/marketstatsnav"
   }
 }
