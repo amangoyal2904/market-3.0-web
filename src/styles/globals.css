@@ -17,6 +17,14 @@
 }
 
 @font-face {
+  font-family: "Lato";
+  src: url("/fonts/lato-regular.woff2") format("woff2-variations");
+  font-weight: 400 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
   font-family: "eticons";
   src: url("/fonts/eticons.eot?ulbvy2");
   src:
@@ -353,4 +361,10 @@ table {
       color: #d51131;
     }
   }
+}
+.numberFonts {
+  font-family: Lato,sans-serif;
+}
+.layout {
+  display: flex;
 }

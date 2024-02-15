@@ -1,20 +1,43 @@
 import React from 'react'
 import styles from './Blocker.module.scss'
 import { initSSOWidget } from "../../utils";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 
 interface propsType {
-    text: any; cta: any;
+    type: any;
 }
+
 const handleLoginToggle = (): void => {
     initSSOWidget();
 };
-
+const blockerList: any = {
+    loginBlocker: {
+        message: "To access watchlist data please login here",
+        cta: "Login",
+        action: handleLoginToggle,
+        icon: 107522568
+    },
+    noDataFound: {
+        message: "No record found for search criteria, please check our other stats!",
+        cta: "",
+        action: "",
+        icon: 107522565
+    },
+    noStocks: {
+        message: "You have not added any Stocks to your Watchlist",
+        cta: "Add Stocks",
+        action: "",
+        icon: 107522570
+    }
+}
 const Blocker = (props: propsType) => {
-    const { text, cta } = props;
+    const { type } = props;
+    const { message, cta, action, icon } = blockerList[type] || {};
     return (
         <div className={styles.blockerContainer}>
-            <p>{text}</p>
-            <button onClick={handleLoginToggle}>{cta}</button>
+            {icon && <img width={150} height={150} src={(GLOBAL_CONFIG as any).ET_IMG_DOMAIN + `/photo/${icon}.cms`} />}
+            {message && <p>{message}</p>}
+            {cta && <button onClick={action}>{cta}</button>}
         </div>
     )
 }

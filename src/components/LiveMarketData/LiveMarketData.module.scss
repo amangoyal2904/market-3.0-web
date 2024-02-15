@@ -1,26 +1,34 @@
-.liveMarkets{
+@import "../../styles/variables.scss";
+.liveMarkets {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .marketIndex {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    .marketIndex{
-        display: flex;
-        padding:0 25px 0 10px;
-        .indexName{
-            font-weight:bold;
-        }
-        .indexChange{
-            position: relative;
-        }
-        .indexChange::before{
-            font-size: 11px;
-            position: absolute;
-            right: -16px;
-            top: 2px;
-        }
+    padding: 0 25px 0 10px;
+    .indexName {
+      font-weight: bold;
     }
-    .marketIndex>div{margin-right: 5px;}
-    .marketIndex>div:last-child{margin-right: 0;}
-    .marketIndex:first-child{
-        border-right:1px solid
+    .indexValue{font-family: $Lato-font-family;}
+    .indexChange {
+      position: relative;
+      font-family: $Lato-font-family !important;
     }
+    .indexChange::before {
+        font-family: "eticons" !important;
+      font-size: 11px;
+      position: absolute;
+      right: -16px;
+      top: 0;
+    }
+  }
+  .marketIndex > div {
+    margin-right: 5px;
+  }
+  .marketIndex > div:last-child {
+    margin-right: 0;
+  }
+  .marketIndex:first-child {
+    border-right: 1px solid;
+  }
 }
