@@ -1,6 +1,7 @@
-import MarketTabs from "@/components/MarketTabs";
 import APIS_CONFIG from "../../../network/api_config.json";
 import styles from "../Marketstats.module.css";
+import MarketTabs from "@/components/MarketTabs";
+import MarketTable from "@/components/MarketTable";
 
 const fetchTabsData = async (statstype: string) => {
   const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?statstype=${statstype}`;
@@ -31,15 +32,15 @@ const fetchTableData = async (viewId: any) => {
   });
   const res = await data.json();
   console.log("tabledata", res);
-  return res;
+  return res.dataList ? res.dataList : res;
 };
 
 const Intraday = async () => {
   const tabData = await fetchTabsData("gainers");
   let activeViewId = tabData[0].viewId;
-  // let tableData = await fetchTableData(activeViewId);
-  // const tableHeaderData =
-  //   (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
+  let tableData = await fetchTableData(activeViewId);
+  const tableHeaderData =
+    (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
 
   return (
     <div className={styles.wraper}>
@@ -48,6 +49,7 @@ const Intraday = async () => {
         <div className="lhs"></div>
         <div className="rhs">
           <MarketTabs data={tabData} activeViewId={activeViewId} />
+          <MarketTable data={tableData} tableHeaders={tableHeaderData} />
         </div>
       </div>
     </div>

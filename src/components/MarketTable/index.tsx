@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import styles from "./MarketTable.module.scss";
 import FixedTable from "./FixedTable";
@@ -7,11 +8,11 @@ import Loader from "../Loader";
 
 interface propsType {
   data: any[];
-  apiSuccess: boolean;
+  apiSuccess?: boolean;
   tableHeaders: any[];
-  tabsViewIdUpdate: any;
-  showTableCheckBox:boolean;
-  multipleStockCollect:any;
+  tabsViewIdUpdate?: any;
+  showTableCheckBox?: boolean;
+  multipleStockCollect?: any;
 }
 
 const MarketTable = (props: propsType) => {
@@ -20,8 +21,8 @@ const MarketTable = (props: propsType) => {
     apiSuccess = false,
     tableHeaders = [],
     tabsViewIdUpdate,
-    showTableCheckBox,
-    multipleStockCollect
+    showTableCheckBox = false,
+    multipleStockCollect,
   } = props || {};
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
@@ -201,9 +202,9 @@ const MarketTable = (props: propsType) => {
     const leftScrollPos = leftScroll.scrollTop;
     rightScroll.scrollTop = leftScrollPos;
   };
-  const removeCheckBoxHandleFun = (e:any, companyId:any, assetType:any)=>{
-    multipleStockCollect(e,companyId,assetType)
-  }
+  const removeCheckBoxHandleFun = (e: any, companyId: any, assetType: any) => {
+    multipleStockCollect(e, companyId, assetType);
+  };
   useEffect(() => {
     setFilters({});
     setSortData({});
