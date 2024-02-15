@@ -19,6 +19,7 @@
     "pretty-quick": "pretty-quick"
   },
   "dependencies": {
+    "fingerprintjs2": "^2.1.4",
     "husky": "^9.0.10",
     "next": "14.1.0",
     "react": "^18",
