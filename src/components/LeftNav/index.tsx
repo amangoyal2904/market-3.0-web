@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import Service from "../../network/service";

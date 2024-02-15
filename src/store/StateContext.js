@@ -1,4 +1,3 @@
-// StateContext.js
 "use client";
 
 import React, { createContext, useContext, useReducer } from "react";
@@ -11,8 +10,8 @@ const initialState = {
     userInfo: {},
     ssoid: "",
     ticketId: "",
-    error: null
-  }
+    error: null,
+  },
 };
 
 const StateContext = createContext();
@@ -20,12 +19,16 @@ const StateContext = createContext();
 export function StateProvider({ children }) {
   const [state, dispatch] = useReducer(
     combineReducers({
-      login: loginReducer
+      login: loginReducer,
     }),
-    initialState
+    initialState,
   );
 
-  return <StateContext.Provider value={{ state, dispatch }}>{children}</StateContext.Provider>;
+  return (
+    <StateContext.Provider value={{ state, dispatch }}>
+      {children}
+    </StateContext.Provider>
+  );
 }
 
 export function useStateContext() {
