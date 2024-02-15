@@ -10,6 +10,7 @@ interface propsType {
   apiSuccess: boolean;
   tableHeaders: any[];
   tabsViewIdUpdate: any;
+  showTableCheckBox:boolean;
 }
 
 const MarketTable = (props: propsType) => {
@@ -18,6 +19,7 @@ const MarketTable = (props: propsType) => {
     apiSuccess = false,
     tableHeaders = [],
     tabsViewIdUpdate,
+    showTableCheckBox,
   } = props || {};
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
@@ -198,7 +200,10 @@ const MarketTable = (props: propsType) => {
     const leftScrollPos = leftScroll.scrollTop;
     rightScroll.scrollTop = leftScrollPos;
   };
-
+  const removeCheckBoxHandleFun = (e:any, companyId:any)=>{
+    const cehckInput = e.target.checked
+    console.log('yes check box check ', cehckInput, companyId)
+  }
   useEffect(() => {
     setFilters({});
     setSortData({});
@@ -244,6 +249,8 @@ const MarketTable = (props: propsType) => {
                 filters={filters}
                 handleFilterChange={handleFilterChange}
                 hideThead={hideThead}
+                showRemoveCheckbox={showTableCheckBox}
+                removeCheckBoxHandle={removeCheckBoxHandleFun}
               />
               <ScrollableTable
                 tableHeaderData={tableHeaderData}
