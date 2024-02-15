@@ -61,6 +61,10 @@
     "development": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData",
     "production": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData"
   },
+  "marketStatsIntraday": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"
+  },
   "redeemVoucher": {
     "development": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher",
     "production": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher"
@@ -69,8 +73,8 @@
     "development": "https://etapipre.indiatimes.com/api/nav",
     "production": "https://etapipre.indiatimes.com/api/nav"
   },
-  "PERSONALISE_VIEW":{
-    "updateTabs":{
+  "PERSONALISE_VIEW": {
+    "updateTabs": {
       "development": [
         "https://qcbselivefeeds.indiatimes.com/screener/saveOrderViewWatch"
       ],
@@ -79,25 +83,49 @@
       ]
     },
     "AllScreenerCategory": {
-      "development":["https://screener.indiatimes.com//screener/getScreenerSelectCategoryFieldMapping"],
-      "production":["https://screener.indiatimes.com//screener/getScreenerSelectCategoryFieldMapping"]
+      "development": [
+        "https://screener.indiatimes.com//screener/getScreenerSelectCategoryFieldMapping"
+      ],
+      "production": [
+        "https://screener.indiatimes.com//screener/getScreenerSelectCategoryFieldMapping"
+      ]
     },
-    "saveViewName":{
-      "development":["https://qcbselivefeeds.indiatimes.com/screener/saveViewName"],
-      "production":["https://qcbselivefeeds.indiatimes.com/screener/saveViewName"]
+    "saveViewName": {
+      "development": [
+        "https://qcbselivefeeds.indiatimes.com/screener/saveViewName"
+      ],
+      "production": [
+        "https://qcbselivefeeds.indiatimes.com/screener/saveViewName"
+      ]
     },
-    "getScreenerMapping":{
-      "development":["https://screener.indiatimes.com/screener/getScreenerDBCategoryFieldMapping?searchtext="],
-      "production":["https://screener.indiatimes.com/screener/getScreenerDBCategoryFieldMapping?searchtext="]
+    "getScreenerMapping": {
+      "development": [
+        "https://screener.indiatimes.com/screener/getScreenerDBCategoryFieldMapping?searchtext="
+      ],
+      "production": [
+        "https://screener.indiatimes.com/screener/getScreenerDBCategoryFieldMapping?searchtext="
+      ]
     },
-    "screenerViewById":{
-      "development":["https://qcbselivefeeds.indiatimes.com/screener/getViewById?viewid="],
-      "production":["https://qcbselivefeeds.indiatimes.com/screener/getViewById?viewid="]
+    "screenerViewById": {
+      "development": [
+        "https://qcbselivefeeds.indiatimes.com/screener/getViewById?viewid="
+      ],
+      "production": [
+        "https://qcbselivefeeds.indiatimes.com/screener/getViewById?viewid="
+      ]
     },
-    "screenerRemoveviewbyid":{
-      "development":["https://qcbselivefeeds.indiatimes.com/screener/removeviewbyid?viewid="],
-      "production":["https://qcbselivefeeds.indiatimes.com/screener/removeviewbyid?viewid="]
+    "screenerRemoveviewbyid": {
+      "development": [
+        "https://qcbselivefeeds.indiatimes.com/screener/removeviewbyid?viewid="
+      ],
+      "production": [
+        "https://qcbselivefeeds.indiatimes.com/screener/removeviewbyid?viewid="
+      ]
     }
+  },
+  "PERSONALISATION": {
+    "development": ["https://etua-stg.economictimes.indiatimes.com/users/api/"],
+    "production": ["https://idm.economictimes.com/personalisation/"]
   },
   "stockSearch": {
     "development": [
@@ -107,8 +135,8 @@
       "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&realstate=true&dvr=true&idr=true&trust=true&mcx=false&mf=false&crypto=false&nps=false&insideet=false&detail=false&forex=false&index=false&mecklai=false&etf=false&nonList=false&pagesize=10&outputtype=json&ticker="
     ]
   },
-  "WATCHLISTAPI":{
-    "getAllWatchlist":{
+  "WATCHLISTAPI": {
+    "getAllWatchlist": {
       "development": [
         "https://etusersqc2.economictimes.indiatimes.com/et/getpref"
       ],
@@ -116,15 +144,11 @@
         "https://etusersqc2.economictimes.indiatimes.com/et/getpref"
       ]
     },
-    "getAllWatchlistNextJsAPI":{
-      "development": [
-        "http://localhost:3009/api/follow"
-      ],
-      "production": [
-        "https://etup.economictimes.indiatimes.com/et/getpref"
-      ]
+    "getAllWatchlistNextJsAPI": {
+      "development": ["http://localhost:3009/api/follow"],
+      "production": ["https://etup.economictimes.indiatimes.com/et/getpref"]
     },
-    "addWatchList":{
+    "addWatchList": {
       "development": [
         "https://etusersqc2.economictimes.indiatimes.com/et/savesettings/json"
       ],
@@ -132,16 +156,14 @@
         "https://etusersqc2.economictimes.indiatimes.com/et/savesettings/json"
       ]
     },
-    "addWatchListNextJsAPI":{
-      "development": [
-        "http://localhost:3009/api/follow"
-      ],
+    "addWatchListNextJsAPI": {
+      "development": ["http://localhost:3009/api/follow"],
       "production": [
         "https://etup.economictimes.indiatimes.com/et/savesettings/json"
       ]
     }
   },
-  "GETCompanyShortData":{
+  "GETCompanyShortData": {
     "development": [
       "https://marketservices.indiatimes.com/marketservices/companyshortdata"
     ],
