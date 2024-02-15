@@ -1,5 +1,5 @@
 import APIS_CONFIG from "../../../network/api_config.json";
-import styles from "../Marketstats.module.css";
+import styles from "../Marketstats.module.scss";
 import MarketTabs from "@/components/MarketTabs";
 import MarketTable from "@/components/MarketTable";
 import { APP_ENV } from "@/utils";
@@ -53,20 +53,18 @@ const Intraday = async () => {
     (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
 
   return (
-    <div className={styles.wraper}>
-      <h1 className={styles.heading1}>Top Gainers</h1>
-      <div className={`${styles.container} ${styles.marketstatsContainer}`}>
-        <aside className="lhs">
-          <div className={styles.navContainer}>
-            <MarketStatsNav leftNavResult={leftNavResult} />
-          </div>
+    <>
+      <h1 className="heading">Top Gainers</h1>
+      <div className={styles.marketstatsContainer}>
+        <aside className={styles.lhs}>
+          <MarketStatsNav leftNavResult={leftNavResult} />
         </aside>
-        <div className="rhs">
+        <div className={styles.rhs}>
           <MarketTabs data={tabData} activeViewId={activeViewId} />
           <MarketTable data={tableData} tableHeaders={tableHeaderData} />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
