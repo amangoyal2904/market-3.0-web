@@ -15,6 +15,7 @@ const Watchlist = () => {
   const [showBlocker, setShowBlocker] = useState(false);
   const [apiSuccess, setAPISuccess] = useState(false);
   const [tableData, setTableData] = useState<any>([]);
+  const [showTableCheckBox, setShowTableCheckBox] = useState(false);
   const { state } = useStateContext();
   const { isLogin, userInfo } = state.login;
 
@@ -67,12 +68,15 @@ const Watchlist = () => {
             activeViewId={activeViewId}
             tabsViewIdUpdate={tabsViewIdUpdate}
             tabsUpdateHandler={tabsAndTableDataChangeHandler}
+            setShowTableCheckBox={setShowTableCheckBox}
+            showTableCheckBox={showTableCheckBox}
           />
           <MarketTable
             data={tableData}
             tableHeaders={tableHeaderData}
             tabsViewIdUpdate={tabsViewIdUpdate}
             apiSuccess={apiSuccess}
+            showTableCheckBox={showTableCheckBox}
           />
         </>
       )}
