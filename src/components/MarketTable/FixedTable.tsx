@@ -109,7 +109,7 @@ const FixedTable = (props: any) => {
                             {
                               showRemoveCheckbox ? <div className={styles.formGroup}>
                               <label>
-                                <input type="checkbox" onChange={(e)=>removeCheckBoxHandle(e, item.assetId)}/>
+                                <input type="checkbox" onChange={(e)=>removeCheckBoxHandle(e, item.assetId, item.assetType)}/>
                               </label>
                             </div> : ""
                             }

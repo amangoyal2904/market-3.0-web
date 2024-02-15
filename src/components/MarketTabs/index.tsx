@@ -9,7 +9,7 @@ import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import AddStockComponent from "../../components/StockAdd/index";
 
-const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler,setShowTableCheckBox,showTableCheckBox}:any) => {
+const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler,setShowTableCheckBox,showTableCheckBox,removeMultipleStockInWathclist}:any) => {
     const personaliseDataListItem = data && data.length > 0 ? data.filter((item:any)=> item.viewId !== 239) : [];
     const tabDataFilter = data && data.length > 0 ? data.filter((item:any)=> item.selectedFlag) : [];
     const [openPersonaliseModal, setOpenPersonaliseModal] = useState(false);
@@ -140,7 +140,7 @@ const MarketTabs = ({data, activeViewId, tabsViewIdUpdate, tabsUpdateHandler,set
                 <span className={`${styles.btnStock} ${styles.stockBtn}`} onClick={addStockHandler}>+ Add Stocks</span>
                 
                 {
-                    showTableCheckBox ?  <span className={`${styles.btnStock} ${styles.stockModifyBtn}`} onClick={()=>setShowTableCheckBox(false)}>Remove</span> : <span className={`${styles.btnStock} ${styles.stockModifyBtn}`} onClick={()=>setShowTableCheckBox(true)}>Edit</span>
+                    showTableCheckBox ?  <span className={`${styles.btnStock} ${styles.stockModifyBtn}`} onClick={removeMultipleStockInWathclist}>Remove</span> : <span className={`${styles.btnStock} ${styles.stockModifyBtn}`} onClick={()=>setShowTableCheckBox(true)}>Edit</span>
                 }
                 
                 <span className={`${styles.roundBtn} ${styles.editBtnPencil}`} onClick={()=>userPersonaliseHandle()}>Personalise</span>

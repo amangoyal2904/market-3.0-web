@@ -139,6 +139,22 @@
       "production": [
         "https://etup.economictimes.indiatimes.com/et/savesettings/json"
       ]
+    },
+    "multipleWatchList":{
+      "development": [
+        "https://etusersqc2.economictimes.indiatimes.com/et/v3/savesettings/json"
+      ],
+      "production": [
+        "https://etusersqc2.economictimes.indiatimes.com/et/v3/savesettings/json"
+      ]
+    },
+    "multipleWatchListNextJsAPI":{
+      "development": [
+        "http://localhost:3009/api/followmultiple"
+      ],
+      "production": [
+        "https://etusersqc2.economictimes.indiatimes.com/et/v3/savesettings/json"
+      ]
     }
   },
   "GETCompanyShortData":{

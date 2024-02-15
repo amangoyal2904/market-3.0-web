@@ -11,6 +11,7 @@ interface propsType {
   tableHeaders: any[];
   tabsViewIdUpdate: any;
   showTableCheckBox:boolean;
+  multipleStockCollect:any;
 }
 
 const MarketTable = (props: propsType) => {
@@ -20,6 +21,7 @@ const MarketTable = (props: propsType) => {
     tableHeaders = [],
     tabsViewIdUpdate,
     showTableCheckBox,
+    multipleStockCollect
   } = props || {};
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
@@ -30,7 +32,6 @@ const MarketTable = (props: propsType) => {
   const [loaderOff, setLoaderOff] = useState(false);
   const [isPrime, setPrime] = useState(false);
   const [hideThead, setHideThead] = useState(false);
-
   const handleFilterChange = (e: any) => {
     const { name, value } = e.target;
     const inputType = e.target.dataset["type"];
@@ -200,9 +201,8 @@ const MarketTable = (props: propsType) => {
     const leftScrollPos = leftScroll.scrollTop;
     rightScroll.scrollTop = leftScrollPos;
   };
-  const removeCheckBoxHandleFun = (e:any, companyId:any)=>{
-    const cehckInput = e.target.checked
-    console.log('yes check box check ', cehckInput, companyId)
+  const removeCheckBoxHandleFun = (e:any, companyId:any, assetType:any)=>{
+    multipleStockCollect(e,companyId,assetType)
   }
   useEffect(() => {
     setFilters({});
