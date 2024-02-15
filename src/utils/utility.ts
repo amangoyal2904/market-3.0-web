@@ -1,7 +1,7 @@
 import APIS_CONFIG from "../network/api_config.json";
 import { APP_ENV } from "../utils/index";
 import { getCookie } from "../utils/index";
-
+import Fingerprint2 from "fingerprintjs2";
 import { setCookies } from "./index";
 import Service from "../network/service";
 
@@ -135,6 +135,14 @@ export const saveStockInWatchList = async (followData: any) => {
   }
 };
 
+export const generateFpid = (isLogin: any) => {
+  new (Fingerprint2 as any).get((components: any[]) => {
+    var values = components.map((component: { value: any }) => component.value);
+    var murmur = Fingerprint2.x64hash128(values.join(""), 31); // an array of components: {key: ..., value: ...}
+    processFingerprint(murmur, isLogin);
+  });
+};
+
 export const processFingerprint = (data: any, isLogin: any) => {
   setCookies("fpid", data);
   if (isLogin) {
@@ -187,4 +195,43 @@ export const createPeuuid = (fpid: any) => {
       }
     })
     .catch((e: any) => console.log("error in createPeuuid", e));
+};
+export const removeMultipleStockInWatchList = async (followData: any) => {
+  const authorization: any = getCookie("peuuid")
+    ? getCookie("peuuid")
+    : "1135320605";
+  const isLocalhost = window.location.origin.includes("localhost");
+  let postBodyData = {};
+  if (isLocalhost) {
+    postBodyData = {
+      _authorization: authorization,
+      followData,
+    };
+  } else {
+    postBodyData = followData;
+  }
+  const apiUrl = isLocalhost
+    ? `${(APIS_CONFIG as any)?.WATCHLISTAPI.multipleWatchListNextJsAPI[APP_ENV]}`
+    : `${(APIS_CONFIG as any)?.WATCHLISTAPI.multipleWatchList[APP_ENV]}`;
+  const headers = new Headers({
+    Authorization: authorization,
+    "Content-Type": "application/json",
+  });
+  const options: any = {
+    method: "POST",
+    cache: "no-store",
+    headers: headers,
+    body: JSON.stringify(postBodyData),
+  };
+  try {
+    const response = await fetch(apiUrl, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error saving stock in watchlist:", error);
+    throw error;
+  }
 };
