@@ -1,15 +1,15 @@
-import { NextResponse } from 'next/server';
-import APIS_CONFIG from '../../../network/api_config.json';
-import { APP_ENV } from '../../../utils/index';
+import { NextResponse } from "next/server";
+import APIS_CONFIG from "../../../network/api_config.json";
+import { APP_ENV } from "../../../utils/index";
 
 const saveWatchlist = async (followData, _authorization) => {
   const API_URL = APIS_CONFIG?.WATCHLISTAPI?.multipleWatchList[APP_ENV];
   const apiRes = await fetch(API_URL, {
-    method: 'POST',
+    method: "POST",
     headers: {
       Authorization: _authorization,
-      'Content-Type': 'application/json',
-      mode: 'cors',
+      "Content-Type": "application/json",
+      mode: "cors",
     },
     body: JSON.stringify(followData),
   });
@@ -23,22 +23,22 @@ export const POST = async (req, res) => {
     const resData = await saveWatchlist(followData, _authorization);
     return NextResponse.json(
       {
-        nextjsSuccess: 'ok',
+        nextjsSuccess: "ok",
         nextJsResponse: resData,
       },
       {
         status: 201,
-      }
+      },
     );
   } catch (error) {
     return NextResponse.json(
       {
-        message: 'Error',
+        message: "Error",
         error,
       },
       {
         status: 500,
-      }
+      },
     );
   }
 };

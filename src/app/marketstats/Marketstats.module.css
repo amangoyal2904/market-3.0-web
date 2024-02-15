@@ -11,3 +11,6 @@
   line-height: normal;
   margin-bottom: 22px;
 }
+.marketstatsContainer {
+  display: flex;
+}

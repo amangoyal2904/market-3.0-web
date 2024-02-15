@@ -162,7 +162,7 @@
         "https://etup.economictimes.indiatimes.com/et/savesettings/json"
       ]
     },
-    "multipleWatchList":{
+    "multipleWatchList": {
       "development": [
         "https://etusersqc2.economictimes.indiatimes.com/et/v3/savesettings/json"
       ],
@@ -170,10 +170,8 @@
         "https://etusersqc2.economictimes.indiatimes.com/et/v3/savesettings/json"
       ]
     },
-    "multipleWatchListNextJsAPI":{
-      "development": [
-        "http://localhost:3009/api/followmultiple"
-      ],
+    "multipleWatchListNextJsAPI": {
+      "development": ["http://localhost:3009/api/followmultiple"],
       "production": [
         "https://etusersqc2.economictimes.indiatimes.com/et/v3/savesettings/json"
       ]
@@ -186,5 +184,9 @@
     "production": [
       "https://marketservices.indiatimes.com/marketservices/companyshortdata"
     ]
+  },
+  "MARKET_STATS_NAV": {
+    "development": "https://etapipre.indiatimes.com/api/marketstatsnav",
+    "production": "https://etapipre.indiatimes.com/api/marketstatsnav"
   }
 }

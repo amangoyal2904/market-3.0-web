@@ -2,6 +2,9 @@ import APIS_CONFIG from "../../../network/api_config.json";
 import styles from "../Marketstats.module.css";
 import MarketTabs from "@/components/MarketTabs";
 import MarketTable from "@/components/MarketTable";
+import { APP_ENV } from "@/utils";
+import service from "@/network/service";
+import MarketStatsNav from "@/components/MarketStatsNav";
 
 const fetchTabsData = async (statstype: string) => {
   const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?statstype=${statstype}`;
@@ -36,6 +39,13 @@ const fetchTableData = async (viewId: any) => {
 };
 
 const Intraday = async () => {
+  const leftNavApi = (APIS_CONFIG as any)["MARKET_STATS_NAV"][APP_ENV];
+  const leftNavPromise = await service.get({
+    url: leftNavApi,
+    params: {},
+  });
+  const leftNavResult = await leftNavPromise?.json();
+
   const tabData = await fetchTabsData("gainers");
   let activeViewId = tabData[0].viewId;
   let tableData = await fetchTableData(activeViewId);
@@ -45,8 +55,12 @@ const Intraday = async () => {
   return (
     <div className={styles.wraper}>
       <h1 className={styles.heading1}>Top Gainers</h1>
-      <div className="container">
-        <div className="lhs"></div>
+      <div className={`${styles.container} ${styles.marketstatsContainer}`}>
+        <aside className="lhs">
+          <div className={styles.navContainer}>
+            <MarketStatsNav leftNavResult={leftNavResult} />
+          </div>
+        </aside>
         <div className="rhs">
           <MarketTabs data={tabData} activeViewId={activeViewId} />
           <MarketTable data={tableData} tableHeaders={tableHeaderData} />

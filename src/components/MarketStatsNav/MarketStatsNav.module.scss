@@ -1,0 +1,59 @@
+@import "../../styles/variables.scss";
+.navWrap {
+  width: 180px;
+  transition: width 0.1s ease;
+  box-sizing: border-box;
+  div.navWrapLi {
+    list-style-type: none;
+    padding: 7px 15px 7px 0;
+    cursor: pointer;
+    font-size: 14px;
+    .navWrapDiv {
+      position: relative;
+    }
+    .caret_up {
+      margin-right: 10px;
+      transition: transform 0.1s ease;
+    }
+  }
+  ul.subNavWrap {
+    padding-right: 15px;
+    .subNavWrapLi {
+      position: relative;
+    }
+  }
+  ul.subNavWrap li {
+    list-style-type: none;
+    padding: 2px 15px 2px 4px;
+    margin-left: 22px;
+    font-size: 12px;
+    margin-bottom: 3px;
+  }
+  // .collapsed {
+  //     .subNavWrap {
+  //       display: none;
+  //     }
+
+  // }
+  // .expanded {
+  //     .subNavWrap {
+  //         display: block;
+  //         li.active{
+  //             background-color: $salmon_secondary_50;
+  //         }
+  //     }
+  //     .caret_up:before {
+  //       rotate: -90deg;
+  //     }
+  // }
+
+  .collapsed + .subNavWrap {
+    display: none;
+  }
+  .expanded + .subNavWrap {
+    display: block;
+    li.active {
+      background-color: $salmon_secondary_50;
+    }
+  }
+}

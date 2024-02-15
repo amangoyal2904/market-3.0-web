@@ -1,3 +1,4 @@
+@import "../../styles/variables.scss";
 .liveMarkets {
   display: flex;
   align-items: center;
@@ -8,14 +9,17 @@
     .indexName {
       font-weight: bold;
     }
+    .indexValue{font-family: $Lato-font-family;}
     .indexChange {
       position: relative;
+      font-family: $Lato-font-family !important;
     }
     .indexChange::before {
+        font-family: "eticons" !important;
       font-size: 11px;
       position: absolute;
       right: -16px;
-      top: 2px;
+      top: 0;
     }
   }
   .marketIndex > div {
