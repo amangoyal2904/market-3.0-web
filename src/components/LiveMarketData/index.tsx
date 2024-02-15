@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import Service from "../../network/service";
 import styles from "./LiveMarketData.module.scss";

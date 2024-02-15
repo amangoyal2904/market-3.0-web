@@ -1,3 +1,4 @@
+"use client";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { APP_ENV } from "../../utils";
 import APIS_CONFIG from "../../network/api_config.json";

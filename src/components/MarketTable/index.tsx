@@ -10,6 +10,7 @@ interface propsType {
   apiSuccess: boolean;
   tableHeaders: any[];
   tabsViewIdUpdate: any;
+  showTableCheckBox:boolean;
 }
 
 const MarketTable = (props: propsType) => {
@@ -18,6 +19,7 @@ const MarketTable = (props: propsType) => {
     apiSuccess = false,
     tableHeaders = [],
     tabsViewIdUpdate,
+    showTableCheckBox,
   } = props || {};
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
@@ -69,7 +71,7 @@ const MarketTable = (props: propsType) => {
     if (Object.keys(filters).length) {
       Object.keys(filters).forEach((keyId) => {
         filterData = filterData.filter((item: any) => {
-          const validExpression = /^[><=]?\d*\.?\d+$/;
+          const validExpression = /^[><=]\d*\.?\d+$/;
           const cellValue = filters[keyId];
           const inputType = item.data.find(
             (element: any) => element.keyId == keyId,
@@ -136,7 +138,7 @@ const MarketTable = (props: propsType) => {
     if (Object.keys(sortData).length) {
       Object.keys(sortData).forEach((keyId) => {
         tableData = tableData.sort((a: any, b: any) => {
-          const inputType = tableData.data.find(
+          const inputType = tableData[0].data.find(
             (element: any) => element.keyId == keyId,
           ).valueType;
 
@@ -198,7 +200,10 @@ const MarketTable = (props: propsType) => {
     const leftScrollPos = leftScroll.scrollTop;
     rightScroll.scrollTop = leftScrollPos;
   };
-
+  const removeCheckBoxHandleFun = (e:any, companyId:any)=>{
+    const cehckInput = e.target.checked
+    console.log('yes check box check ', cehckInput, companyId)
+  }
   useEffect(() => {
     setFilters({});
     setSortData({});
@@ -244,6 +249,8 @@ const MarketTable = (props: propsType) => {
                 filters={filters}
                 handleFilterChange={handleFilterChange}
                 hideThead={hideThead}
+                showRemoveCheckbox={showTableCheckBox}
+                removeCheckBoxHandle={removeCheckBoxHandleFun}
               />
               <ScrollableTable
                 tableHeaderData={tableHeaderData}

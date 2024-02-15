@@ -1,11 +1,10 @@
-
+"use client";
 import { log } from "console";
 import { useRouter, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { FC, useEffect } from "react";
 import { APP_ENV, verifyLogin } from "../utils";
-import GLOBAL_CONFIG from "../network/global_config.json"
-
+import GLOBAL_CONFIG from "../network/global_config.json";
 
 interface Props {
   isprimeuser?: number | boolean;
@@ -21,8 +20,8 @@ declare global {
       signOutUser?: any;
     };
     ssoWidget?: any;
-    verifyLoginSuccess?: any; 
-    objUser:  {
+    verifyLoginSuccess?: any;
+    objUser: {
       ssoid?: any;
       ticketId?: any;
       info?: {
@@ -30,31 +29,26 @@ declare global {
       };
       isPrime?: any;
       permissions?: any;
-      accessibleFeatures?:any;
+      accessibleFeatures?: any;
       primeInfo?: any;
     };
   }
-  
 }
 
 declare var JssoCrosswalk: any;
 
-
 const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
-
   console.log(APP_ENV);
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  console.log({searchParams});
+  console.log({ searchParams });
 
   const minifyJS = APP_ENV === "development" ? 0 : 1;
   const jsDomain = "https://etdev8243.indiatimes.com"; //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
   const jsIntsURL = `${jsDomain}/js_ints_web.cms`;
 
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -77,7 +71,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
       <Script
         src={(GLOBAL_CONFIG as any)[APP_ENV]?.jssoSDK}
         onLoad={() => {
-          window.jsso = new JssoCrosswalk('et', 'web');
+          window.jsso = new JssoCrosswalk("et", "web");
           const jssoLoaded = new Event("jssoLoaded");
           document.dispatchEvent(jssoLoaded);
         }}
@@ -138,7 +132,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
         }}
       /> */}
 
-      {!searchParams?.get('opt') && (
+      {!searchParams?.get("opt") && (
         <>
           <Script
             id="google-analytics"
@@ -151,7 +145,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               ga('create', '${GLOBAL_CONFIG.gaId}', 'auto');
               const gaLoaded = new Event('gaLoaded');
               document.dispatchEvent(gaLoaded);
-              `
+              `,
             }}
           />
           <Script
@@ -170,7 +164,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
                 //grx('track', 'page_view', {url: window.location.href});
                 const grxLoaded = new Event('grxLoaded');
                 document.dispatchEvent(grxLoaded);                
-              `
+              `,
             }}
           />
           <Script
@@ -187,10 +181,9 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
                 function gtag() { dataLayer.push(arguments); }
                 gtag('js', new Date());
                 gtag('config', '${GLOBAL_CONFIG.gtmId}', { page_path: window.location.pathname });
-              `
+              `,
             }}
           />
-            
         </>
       )}
     </>
