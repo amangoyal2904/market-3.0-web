@@ -98,5 +98,9 @@
       "development":["https://qcbselivefeeds.indiatimes.com/screener/removeviewbyid?viewid="],
       "production":["https://qcbselivefeeds.indiatimes.com/screener/removeviewbyid?viewid="]
     }
+  },
+  "PERSONALISATION": {
+    "development": ["https://etua-stg.economictimes.indiatimes.com/users/api/"],
+    "production": ["https://idm.economictimes.com/personalisation/"]
   }
 }
