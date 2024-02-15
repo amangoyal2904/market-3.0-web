@@ -1,14 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import styles from "./Watchlist.module.scss";
+import { useState, useEffect } from "react";
 import MarketTabs from "../../components/MarketTabs";
 import MarketTable from "../../components/MarketTable";
 import { fetchTabsData, fetchTableData } from "@/utils/utility";
 import { useStateContext } from "../../store/StateContext";
 import { removeMultipleStockInWatchList } from "../../utils/utility";
 import Blocker from "../../components/Blocker";
-import Loader from "@/components/Loader";
 
 const Watchlist = () => {
   const [wathcListTab, setWatchListTab] = useState([]);
@@ -109,8 +107,8 @@ const Watchlist = () => {
   const tableHeaderData =
     (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
   return (
-    <div className={styles.wraper}>
-      <h1 className={styles.heading1}>Watchlist</h1>
+    <>
+      <h1 className="heading">Watchlist</h1>
       {showBlocker ? (
         <Blocker type="loginBlocker" />
       ) : (
@@ -134,7 +132,7 @@ const Watchlist = () => {
           />
         </>
       )}
-    </div>
+    </>
   );
 };
 

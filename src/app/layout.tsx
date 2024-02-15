@@ -5,7 +5,6 @@ import Header from "@/components/Header";
 import Scripts from "@/components/Scripts";
 import LeftNav from "@/components/LeftNav";
 import { cookies } from "next/headers";
-import Footer from "@/components/Footer";
 import RedeemVoucher from "@/components/RedeemVoucher";
 import APIS_CONFIG from "../network/api_config.json";
 import { APP_ENV } from "@/utils";
@@ -50,20 +49,19 @@ export default async function RootLayout({
       <body className="h-full">
         <StateProvider>
           <Suspense fallback={<p>Loading...</p>}>
-            <Headers />
-            <Header />
-            <main className={`pageHolder container`}>
-              <div className="layout">
+            <main>
+              <Headers />
+              <Header />
+              <div className="container">
                 {<LeftNav leftNavResult={leftNavResult} />}
-                {children}
+                <div className="main_container">{children}</div>
               </div>
               <Scripts objVc={versionControl} isprimeuser={isprimeuser} />
-              <Footer />
+              <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
+                <div id="ssoLogin" className="ssoLoginElm" />
+              </div>
+              <RedeemVoucher />
             </main>
-            <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
-              <div id="ssoLogin" className="ssoLoginElm" />
-            </div>
-            <RedeemVoucher />
           </Suspense>
         </StateProvider>
       </body>
