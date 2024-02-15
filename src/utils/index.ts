@@ -95,8 +95,6 @@ export const pageType = (pathurl: any) => {
   console.log(">>>", pathurl);
   if (pathurl.indexOf("watchlist") != -1) {
     return "watchlist";
-  } else if (pathurl.indexOf("eticons") != -1) {
-    return "eticons";
   } else {
     return "notfound";
   }

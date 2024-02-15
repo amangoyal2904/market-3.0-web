@@ -1,7 +1,5 @@
 import { headers, cookies } from "next/headers";
 import Service from "../../network/service";
-import Watchlist from "../../containers/Watchlist";
-import Eticons from "../../containers/Eticons";
 import Layout from "../../components/Layout";
 import React, { Suspense } from "react";
 import { pageType, APP_ENV } from "@/utils";
@@ -61,13 +59,7 @@ export default async function Page({
       leftNavResult={leftNavResult}
     >
       <Suspense fallback={<p>Loading...</p>}>
-        {page == "watchlist" ? (
-          <Watchlist {...response} objVc={versionControl} />
-        ) : page == "eticons" ? (
-          <Eticons {...response} objVc={versionControl} />
-        ) : (
-          <NotFound />
-        )}
+        <NotFound />
       </Suspense>
     </Layout>
   );
