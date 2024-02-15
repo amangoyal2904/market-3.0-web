@@ -15,7 +15,7 @@ const FixedTable = (props: any) => {
     handleFilterChange,
     hideThead = false,
     showRemoveCheckbox = false,
-    removeCheckBoxHandle
+    removeCheckBoxHandle,
   } = props || {};
 
   return (
@@ -106,17 +106,30 @@ const FixedTable = (props: any) => {
                       (tdData.keyId == "name" ? (
                         <td key={index} className={styles.fixedTD}>
                           <div className={styles.tdColWrap}>
-                            {
-                              showRemoveCheckbox ? <div className={styles.formGroup}>
-                              <label>
-                                <input type="checkbox" onChange={(e)=>removeCheckBoxHandle(e, item.assetId, item.assetType)}/>
-                              </label>
-                            </div> : ""
-                            }
+                            {showRemoveCheckbox ? (
+                              <div className={styles.formGroup}>
+                                <label>
+                                  <input
+                                    type="checkbox"
+                                    onChange={(e) =>
+                                      removeCheckBoxHandle(
+                                        e,
+                                        item.assetId,
+                                        item.assetType,
+                                      )
+                                    }
+                                  />
+                                </label>
+                              </div>
+                            ) : (
+                              ""
+                            )}
                             <a
                               href={getStockUrl(
                                 item.assetId,
-                                item.assetSeoName,
+                                !!item.assetSeoName
+                                  ? item.assetSeoName
+                                  : item.assetName,
                                 item.assetType,
                               )}
                               target="_blank"
