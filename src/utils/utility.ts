@@ -186,3 +186,37 @@ export const createPeuuid = (fpid: any) => {
     })
     .catch((e: any) => console.log("error in createPeuuid", e));
 };
+export const removeMultipleStockInWatchList = async (followData:any)=>{
+  const authorization:any = getCookie('peuuid') ? getCookie('peuuid') : '1135320605';
+  const isLocalhost = window.location.origin.includes('localhost');
+  let postBodyData = {};
+  if(isLocalhost){
+    postBodyData = {
+      _authorization:authorization,
+      followData
+    }
+  }else {
+    postBodyData = followData
+  }
+  const apiUrl = isLocalhost
+    ? `${(APIS_CONFIG as any)?.WATCHLISTAPI.multipleWatchListNextJsAPI[APP_ENV]}`
+    : `${(APIS_CONFIG as any)?.WATCHLISTAPI.multipleWatchList[APP_ENV]}`;
+    const headers = new Headers({ 'Authorization': authorization ,"Content-Type": "application/json"});
+    const options:any = {
+      method: 'POST',
+      cache: 'no-store',
+      headers: headers,
+      body: JSON.stringify(postBodyData)
+    };
+    try {
+      const response = await fetch(apiUrl, options);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const responseData = await response.json();
+      return responseData;
+    } catch (error) {
+      console.error('Error saving stock in watchlist:', error);
+      throw error;
+    }
+}
