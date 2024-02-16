@@ -162,36 +162,28 @@ export const createPfuuid = async (fpid: any) => {
   let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
   url = url + `?type=7&source=${API_SOURCE}`;
   console.log("@@@@@-->inpfuuid",url);
-  Service.get({ url, headers, withCredentials: true })
-    .then((res: any) => {
+  const res:any = await Service.get({ url, params: {}, headers, withCredentials: true });
       if (res && res.data && res.data.id != 0) {
         console.log("@@@@--->>>>>", res);
         var pfuuid = res.data.id;
         setCookies("pfuuid", pfuuid);
       }
-      // if (res && res.data && res.data.newUser) {
-      //   grxEvent('event', {'event_category': 'New_User_Registration', 'event_action': 'New_User', 'event_label': 'New_User'});
-      // }
-    })
-    .catch((e: any) => console.log("error in createPfuuid", e));
 };
 
-export const createPeuuid = (fpid: any) => {
+export const createPeuuid = async (fpid: any) => {
   let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
   url = url + `?type=0&source=${API_SOURCE}`;
   console.log("@@@@@-->inpfuuid",url);
   const headers = {
     "Content-type": "application/json",
   };
-  Service.get({ url, headers, withCredentials: true })
-    .then((res: any) => {
+  const res:any = await Service.get({ url, params: {}, headers, withCredentials: true });
+      console.log("res")
       if (res && res.data && res.data.id != 0) {
         const peuuid: any = res.data.id;
         console.log("@@@@--->>>>>2", res);
         setCookies("peuuid", peuuid);
       }
-    })
-    .catch((e: any) => console.log("error in createPeuuid", e));
 };
 export const removeMultipleStockInWatchList = async (followData: any) => {
   const authorization: any = getCookie("peuuid")
