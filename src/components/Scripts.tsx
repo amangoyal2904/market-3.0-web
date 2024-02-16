@@ -42,7 +42,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  console.log({ searchParams });
+  //console.log({ searchParams });
 
   const minifyJS = APP_ENV === "development" ? 0 : 1;
   const jsDomain = "https://etdev8243.indiatimes.com"; //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";

@@ -7,14 +7,14 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const LeftNav = (props: any) => {
-  console.log("props-----", props.leftNavResult);
+  //console.log("props-----", props.leftNavResult);
   const { leftNavResult } = props;
   const { markets, markets_pro } = leftNavResult;
   const [isExpanded, setIsExpanded] = useState(true);
   const [isL2Expanded, setIsL2Expanded] = useState(false);
   const pathname = usePathname();
 
-  console.log("pathname---", pathname);
+  //console.log("pathname---", pathname);
 
   const toggleMenu = () => {
     setIsExpanded(!isExpanded);
@@ -96,20 +96,21 @@ const LeftNav = (props: any) => {
                         ></span>
                       )}
                     </div>
-                    <ul className={styles.l2ListWrap}>
+                    <ul
+                      className={styles.l2ListWrap}
+                      key={`market_nav___${index}`}
+                    >
                       <li className={`${styles.l2ListWrapName}`}>
                         {value.label}
                       </li>
                       {value?.sec.map((sec: any, index: number) => {
                         return (
-                          <>
-                            <li
-                              className={`${styles.l2List} ${pathname == sec.link ? styles.active : ""}`}
-                              key={`l2_label_${index}`}
-                            >
-                              <Link href={sec.link}>{sec.label}</Link>
-                            </li>
-                          </>
+                          <li
+                            className={`${styles.l2List} ${pathname == sec.link ? styles.active : ""}`}
+                            key={`l2_label_${index}`}
+                          >
+                            <Link href={sec.link}>{sec.label}</Link>
+                          </li>
                         );
                       })}
                     </ul>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import styles from "./MarketStatsNav.module.scss";
 import Link from "next/link";
 import MarketStatsSubNav from "./MarketStatsSubNav";
@@ -69,9 +69,8 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
         {leftNavResult &&
           leftNavResult.nav.map((item: any, index: number) => {
             return (
-              <>
+              <Fragment key={item.id}>
                 <div
-                  key={item.id}
                   className={`${styles.navWrapLi} ${index == 0 ? styles.expanded : styles.collapsed}`}
                   onClick={(e) => {
                     item.sub_nav && toggleL2Menu(e);
@@ -105,7 +104,7 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
                     ))}
                   </ul>
                 )}
-              </>
+              </Fragment>
             );
           })}
       </div>

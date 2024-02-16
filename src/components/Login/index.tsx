@@ -17,7 +17,7 @@ const Login = () => {
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
 
-  console.log(state.login);
+  //console.log(state.login);
 
   const verifyLoginSuccessCallback = async () => {
     try {
@@ -86,7 +86,7 @@ const Login = () => {
   };
 
   const authFailCallback = () => {
-    console.log("authFailCallback");
+    //console.log("authFailCallback");
     dispatch({
       type: "LOGOUT",
       payload: {
