@@ -160,7 +160,7 @@ export const createPfuuid = async (fpid: any) => {
   };
 
   let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
-  url = url`?type=7&source=${API_SOURCE}`;
+  url = url + `?type=7&source=${API_SOURCE}`;
   console.log("@@@@@-->inpfuuid",url);
   Service.get({ url, headers, withCredentials: true })
     .then((res: any) => {
@@ -178,8 +178,8 @@ export const createPfuuid = async (fpid: any) => {
 
 export const createPeuuid = (fpid: any) => {
   let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
-  url = url`?type=0&source=${API_SOURCE}`;
-  console.log("@@@@@-->inpeuuid",url);
+  url = url + `?type=0&source=${API_SOURCE}`;
+  console.log("@@@@@-->inpfuuid",url);
   const headers = {
     "Content-type": "application/json",
   };
