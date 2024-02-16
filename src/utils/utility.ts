@@ -163,6 +163,7 @@ export const createPfuuid = async (fpid: any) => {
   url = url + `?type=7&source=${API_SOURCE}`;
   console.log("@@@@@-->inpfuuid",url);
   const res:any = await Service.get({ url, params: {}, headers, withCredentials: true });
+  console.log("res",res)
       if (res && res.data && res.data.id != 0) {
         console.log("@@@@--->>>>>", res);
         var pfuuid = res.data.id;
@@ -178,7 +179,7 @@ export const createPeuuid = async (fpid: any) => {
     "Content-type": "application/json",
   };
   const res:any = await Service.get({ url, params: {}, headers, withCredentials: true });
-      console.log("res")
+      console.log("res",res);
       if (res && res.data && res.data.id != 0) {
         const peuuid: any = res.data.id;
         console.log("@@@@--->>>>>2", res);
