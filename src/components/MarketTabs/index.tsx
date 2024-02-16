@@ -9,6 +9,7 @@ import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import AddStockComponent from "../../components/StockAdd/index";
 import { useStateContext } from "../../store/StateContext";
+import Login from "../Login/index";
 
 const MarketTabs = ({
   data,
