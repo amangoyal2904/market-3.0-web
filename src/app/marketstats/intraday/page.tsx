@@ -60,7 +60,12 @@ const Intraday = async () => {
           <MarketStatsNav leftNavResult={leftNavResult} />
         </aside>
         <div className={styles.rhs}>
-          <MarketTabs data={tabData} activeViewId={activeViewId} />
+          <MarketTabs
+            data={tabData}
+            activeViewId={activeViewId}
+            showAddStock={false}
+            showEditStock={false}
+          />
           <MarketTable data={tableData} tableHeaders={tableHeaderData} />
         </div>
       </div>

@@ -8,6 +8,7 @@ import CreateNewViewComponent from "../CreateNewView/index";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import AddStockComponent from "../../components/StockAdd/index";
+import { useStateContext } from "../../store/StateContext";
 
 const MarketTabs = ({
   data,
@@ -17,6 +18,8 @@ const MarketTabs = ({
   setShowTableCheckBox,
   showTableCheckBox,
   removeMultipleStockInWathclist,
+  showAddStock = true,
+  showEditStock = true,
 }: any) => {
   const personaliseDataListItem =
     data && data.length > 0
@@ -34,11 +37,17 @@ const MarketTabs = ({
   const tabsListRef = useRef<HTMLUListElement>(null);
   const [visibleTabs, setVisibleTabs] = useState<any[]>([]);
   const [hiddenTabs, setHiddenTabs] = useState<any[]>([]);
+  const { state } = useStateContext();
+  const { isLogin } = state.login;
   const tabClick = (viewId: any) => {
     tabsViewIdUpdate(viewId);
   };
   const userPersonaliseHandle = () => {
-    setOpenPersonaliseModal(true);
+    if (isLogin) {
+      setOpenPersonaliseModal(true);
+    } else {
+      alert("Please login to first");
+    }
   };
   const updateTabsListDataHandler = async (updateData: any) => {
     //console.log('update data', updateData);
@@ -167,27 +176,37 @@ const MarketTabs = ({
           ) : null}
         </ul>
         <div className={styles.rightSide}>
-          <span
-            className={`${styles.btnStock} ${styles.stockBtn}`}
-            onClick={addStockHandler}
-          >
-            + Add Stocks
-          </span>
-
-          {showTableCheckBox ? (
+          {showAddStock ? (
             <span
-              className={`${styles.btnStock} ${styles.stockModifyBtn}`}
-              onClick={removeMultipleStockInWathclist}
+              className={`${styles.btnStock} ${styles.stockBtn}`}
+              onClick={addStockHandler}
             >
-              Remove
+              + Add Stocks
             </span>
           ) : (
-            <span
-              className={`${styles.btnStock} ${styles.stockModifyBtn}`}
-              onClick={() => setShowTableCheckBox(true)}
-            >
-              Edit
-            </span>
+            ""
+          )}
+
+          {showEditStock ? (
+            <>
+              {showTableCheckBox ? (
+                <span
+                  className={`${styles.btnStock} ${styles.stockModifyBtn}`}
+                  onClick={removeMultipleStockInWathclist}
+                >
+                  Remove
+                </span>
+              ) : (
+                <span
+                  className={`${styles.btnStock} ${styles.stockModifyBtn}`}
+                  onClick={() => setShowTableCheckBox(true)}
+                >
+                  Edit
+                </span>
+              )}
+            </>
+          ) : (
+            ""
           )}
 
           <span
