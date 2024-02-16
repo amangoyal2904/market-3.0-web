@@ -65,65 +65,75 @@ export const getStockUrl = (id: string, seoName: string, stockType: string) => {
   return stockUrl;
 };
 
-export const fetchAllWatchListData = async (type:any,usersettingsubType:any)=>{
-  const authorization:any = getCookie('peuuid') ? getCookie('peuuid') : '1135320605';
-  const isLocalhost = window.location.origin.includes('localhost');
-  
+export const fetchAllWatchListData = async (
+  type: any,
+  usersettingsubType: any,
+) => {
+  const authorization: any = getCookie("peuuid")
+    ? getCookie("peuuid")
+    : "1135320605";
+  const isLocalhost = window.location.origin.includes("localhost");
+
   const apiUrl = isLocalhost
     ? `${(APIS_CONFIG as any)?.WATCHLISTAPI.getAllWatchlistNextJsAPI[APP_ENV]}?type=${type}&usersettingsubType=${usersettingsubType}&authorization=${authorization}`
     : `${(APIS_CONFIG as any)?.WATCHLISTAPI.getAllWatchlist[APP_ENV]}?type=${type}&usersettingsubType=${usersettingsubType}`;
-    const headers = new Headers({ 'Authorization': authorization });
-    const options:any = {
-      cache: 'no-store',
-      headers: headers
-    };
-    try {
-      const response = await fetch(apiUrl, options);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const responseData = await response.json();
-      return responseData;
-    } catch (error) {
-      console.error('Error fetching watchlist data:', error);
-      throw error;
+  const headers = new Headers({ Authorization: authorization });
+  const options: any = {
+    cache: "no-store",
+    headers: headers,
+  };
+  try {
+    const response = await fetch(apiUrl, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-}
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error fetching watchlist data:", error);
+    throw error;
+  }
+};
 
-export const saveStockInWatchList = async (followData:any)=>{
-  const authorization:any = getCookie('peuuid') ? getCookie('peuuid') : '1135320605';
-  const isLocalhost = window.location.origin.includes('localhost');
+export const saveStockInWatchList = async (followData: any) => {
+  const authorization: any = getCookie("peuuid")
+    ? getCookie("peuuid")
+    : "1135320605";
+  const isLocalhost = window.location.origin.includes("localhost");
   let postBodyData = {};
-  if(isLocalhost){
+  if (isLocalhost) {
     postBodyData = {
-      _authorization:authorization,
-      followData
-    }
-  }else {
-    postBodyData = followData
+      _authorization: authorization,
+      followData,
+    };
+  } else {
+    postBodyData = followData;
   }
   const apiUrl = isLocalhost
     ? `${(APIS_CONFIG as any)?.WATCHLISTAPI.addWatchListNextJsAPI[APP_ENV]}`
     : `${(APIS_CONFIG as any)?.WATCHLISTAPI.addWatchList[APP_ENV]}`;
-    const headers = new Headers({ 'Authorization': authorization ,"Content-Type": "application/json"});
-    const options:any = {
-      method: 'POST',
-      cache: 'no-store',
-      headers: headers,
-      body: JSON.stringify(postBodyData)
-    };
-    try {
-      const response = await fetch(apiUrl, options);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const responseData = await response.json();
-      return responseData;
-    } catch (error) {
-      console.error('Error saving stock in watchlist:', error);
-      throw error;
+  const headers = new Headers({
+    Authorization: authorization,
+    "Content-Type": "application/json",
+  });
+  const options: any = {
+    method: "POST",
+    cache: "no-store",
+    headers: headers,
+    body: JSON.stringify(postBodyData),
+  };
+  try {
+    const response = await fetch(apiUrl, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-}
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error saving stock in watchlist:", error);
+    throw error;
+  }
+};
 
 export const generateFpid = (isLogin: any) => {
   new (Fingerprint2 as any).get((components: any[]) => {
@@ -188,4 +198,43 @@ export const createPeuuid = (fpid: any) => {
       }
     })
     .catch((e: any) => console.log("error in createPeuuid", e));
+};
+export const removeMultipleStockInWatchList = async (followData: any) => {
+  const authorization: any = getCookie("peuuid")
+    ? getCookie("peuuid")
+    : "1135320605";
+  const isLocalhost = window.location.origin.includes("localhost");
+  let postBodyData = {};
+  if (isLocalhost) {
+    postBodyData = {
+      _authorization: authorization,
+      followData,
+    };
+  } else {
+    postBodyData = followData;
+  }
+  const apiUrl = isLocalhost
+    ? `${(APIS_CONFIG as any)?.WATCHLISTAPI.multipleWatchListNextJsAPI[APP_ENV]}`
+    : `${(APIS_CONFIG as any)?.WATCHLISTAPI.multipleWatchList[APP_ENV]}`;
+  const headers = new Headers({
+    Authorization: authorization,
+    "Content-Type": "application/json",
+  });
+  const options: any = {
+    method: "POST",
+    cache: "no-store",
+    headers: headers,
+    body: JSON.stringify(postBodyData),
+  };
+  try {
+    const response = await fetch(apiUrl, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("Error saving stock in watchlist:", error);
+    throw error;
+  }
 };

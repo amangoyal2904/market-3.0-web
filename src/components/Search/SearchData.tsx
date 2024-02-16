@@ -59,7 +59,6 @@ const SearchData:React.FC<Props> = ({data, newsData, definitionData, reportData 
             setIndex(filterData(data,"index"));
         }
     }, [data,newsData])
-    
 
   return (
     <div className = {styles.searchResult}>
@@ -86,22 +85,22 @@ const SearchData:React.FC<Props> = ({data, newsData, definitionData, reportData 
                     ) : (
                         <>
                             <li className={styles.head}>MOST POPULAR STOCKS</li> 
-                                {data && data.searchresult && 
-                                    data.searchresult.map((item:any,index:number)=>
-                                <li key={index} className={styles.searchliMost}>
-                                    <a href={getStockUrl(item.companyid,item.seoname,item.companytype)} target="_blank">
-                                        <div className={styles.st_row}>
-                                            <div className={styles.st_col}>{item.companyname}</div>
-                                            <div className={`${styles.st_col} ${styles.cSprite_b} ${styles.st_change} ${Number(item.absolutechange) > 0 ? styles.green : styles.red} ${styles.st_mid_col}`}>{item.current}</div>
-                                            <div className={`${styles.st_col} ${Number(item.absolutechange) > 0 ? styles.green : styles.red}` }>{item.absolutechange}</div>
-                                        </div>
-                                        <div className={`${styles.st_row} ${styles.st_last}`}>
-                                            <div className={styles.st_col}>{item.updateddatetime}</div>
-                                            <div className={`${styles.st_col} ${styles.st_mid_col}`}>Vol. {item.volumeInThousand}k</div>
-                                            <div className={`${styles.st_col} ${Number(item.absolutechange) > 0 ? styles.green : styles.red}`}>{item.percentagechange}%</div>
-                                        </div>
-                                    </a>
-                                </li>
+                            {data && data.searchresult && 
+                                data.searchresult.map((item:any,index:number)=>
+                                    <li key={index} className={styles.searchliMost}>
+                                        <a href={getStockUrl(item.companyid,item.seoname,item.companytype)} target="_blank">
+                                            <div className={styles.st_row}>
+                                                <div className={styles.st_col}>{item.companyname}</div>
+                                                <div className={`${styles.st_col} ${styles.st_change} ${styles.st_mid_col}`}><span className={`${Number(item.absolutechange) > 0 ? "eticon_up_arrow green" : "eticon_down_arrow red"}`}>{item.current}</span></div>
+                                                <div className={`${styles.st_col} ${Number(item.absolutechange) > 0 ? "green" : "red"}` }>{item.absolutechange}</div>
+                                            </div>
+                                            <div className={`${styles.st_row} ${styles.st_last}`}>
+                                                <div className={styles.st_col}>{item.updateddatetime}</div>
+                                                <div className={`${styles.st_col} ${styles.st_mid_col}`}>Vol. <span>{item.volumeInThousand}</span>k</div>
+                                                <div className={`${styles.st_col} ${Number(item.absolutechange) > 0 ? "green" : "red"}`}>{item.percentagechange}%</div>
+                                            </div>
+                                        </a>
+                                    </li>
                             )}
                         </>
                     )
@@ -109,7 +108,7 @@ const SearchData:React.FC<Props> = ({data, newsData, definitionData, reportData 
             </ul>
         </div>
     </div>
-  )
+    )
 }
 
 export default SearchData;

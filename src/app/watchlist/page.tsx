@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import styles from "./Watchlist.module.scss";
+import { useState, useEffect } from "react";
 import MarketTabs from "../../components/MarketTabs";
 import MarketTable from "../../components/MarketTable";
 import { fetchTabsData, fetchTableData } from "@/utils/utility";
 import { useStateContext } from "../../store/StateContext";
+import { removeMultipleStockInWatchList } from "../../utils/utility";
 import Blocker from "../../components/Blocker";
-import Loader from "@/components/Loader";
 
 const Watchlist = () => {
   const [wathcListTab, setWatchListTab] = useState([]);
@@ -16,6 +15,7 @@ const Watchlist = () => {
   const [apiSuccess, setAPISuccess] = useState(false);
   const [tableData, setTableData] = useState<any>([]);
   const [showTableCheckBox, setShowTableCheckBox] = useState(false);
+  const [unFollowStocksList, setUnFollowStocksList] = useState([]);
   const { state } = useStateContext();
   const { isLogin, userInfo } = state.login;
 
@@ -46,6 +46,56 @@ const Watchlist = () => {
   const tabsAndTableDataChangeHandler = (tabIdActive: any) => {
     fetchWatchListData(tabIdActive);
   };
+  const removeMultipleStockInWathclist = async () => {
+    if (unFollowStocksList.length > 0) {
+      const userConfirm = confirm(
+        "Are you sure you want to remove those stock list in your watchlist?",
+      );
+      const followData = {
+        source: "1",
+        userSettings: [...unFollowStocksList],
+      };
+      if (userConfirm) {
+        const removeAllStock = await removeMultipleStockInWatchList(followData);
+        console.log("removeAllStock", removeAllStock);
+        if (
+          removeAllStock &&
+          removeAllStock.nextJsResponse &&
+          removeAllStock.nextJsResponse.length > 0
+        ) {
+          setShowTableCheckBox(false);
+          setUnFollowStocksList([]);
+          fetchWatchListTableAPI(activeViewId);
+        } else if (removeAllStock.length > 0) {
+          setShowTableCheckBox(false);
+          setUnFollowStocksList([]);
+          fetchWatchListTableAPI(activeViewId);
+        } else {
+          alert("Some api error plesae check now");
+        }
+      }
+    } else {
+      alert("please selected at least one stock");
+    }
+  };
+  const multipleStockCollect = (e: any, companyId: any, assetType: any) => {
+    const checkInput = e.target.checked;
+    const data = {
+      action: checkInput ? 0 : 1, // If checked, action is 0 (add), else 1 (remove)
+      userSettingSubType: 11,
+      msid: companyId,
+      companytype: assetType,
+      stype: 2,
+    };
+    if (checkInput) {
+      setUnFollowStocksList((prevList): any => [...prevList, data]);
+    } else {
+      setUnFollowStocksList((prevList): any =>
+        prevList.filter((item: any) => item.msid !== companyId),
+      );
+    }
+  };
+  console.log("____UnFollowStocksList", unFollowStocksList);
   useEffect(() => {
     if (isLogin === true) {
       fetchWatchListData();
@@ -57,8 +107,8 @@ const Watchlist = () => {
   const tableHeaderData =
     (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
   return (
-    <div className={styles.wraper}>
-      <h1 className={styles.heading1}>Watchlist</h1>
+    <>
+      <h1 className="heading">Watchlist</h1>
       {showBlocker ? (
         <Blocker type="loginBlocker" />
       ) : (
@@ -70,6 +120,7 @@ const Watchlist = () => {
             tabsUpdateHandler={tabsAndTableDataChangeHandler}
             setShowTableCheckBox={setShowTableCheckBox}
             showTableCheckBox={showTableCheckBox}
+            removeMultipleStockInWathclist={removeMultipleStockInWathclist}
           />
           <MarketTable
             data={tableData}
@@ -77,10 +128,11 @@ const Watchlist = () => {
             tabsViewIdUpdate={tabsViewIdUpdate}
             apiSuccess={apiSuccess}
             showTableCheckBox={showTableCheckBox}
+            multipleStockCollect={multipleStockCollect}
           />
         </>
       )}
-    </div>
+    </>
   );
 };
 
