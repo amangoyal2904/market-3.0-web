@@ -10,6 +10,145 @@
   transition: width 0.1s ease;
   box-shadow: 1px 0px 4px 0px #0000001a;
   box-sizing: border-box;
+  z-index: 9;
+
+  .marketNavWrap {
+    max-height: calc(100vh - 400px);
+    // overflow: auto;
+  }
+
+  .marketProWrap {
+    margin-top: 20px;
+    background-color: $salmon_secondary_60;
+    padding-bottom: 10px;
+
+    .proHeading {
+      padding: 20px 18px 10px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      cursor: default;
+    }
+    .l1LabelName {
+      font-weight: 700;
+    }
+  }
+
+  .navListWrap {
+    list-style: none;
+    position: relative;
+
+    &:has(.active) {
+      .mainTabWrap {
+        background-color: $salmon_secondary_10;
+        font-weight: 700;
+      }
+    }
+
+    &.l2Expanded {
+      .l2ListWrap {
+        display: block;
+      }
+
+      .caret_right {
+        rotate: -90deg;
+        margin-top: -7px;
+      }
+
+      .mainTabWrap {
+        background-color: $salmon_secondary_10;
+        font-weight: 700;
+      }
+    }
+
+    &.l2Collapsed {
+      .l2ListWrap {
+        display: none;
+      }
+      &:hover {
+        .l2ListWrap {
+          display: block;
+          position: absolute;
+          background-color: $salmon_secondary_30;
+          top: 0;
+          max-height: fit-content;
+          width: 160px;
+          transform: translate(100%, 0);
+          right: 0;
+          .l2List {
+            padding: 8px 16px;
+          }
+        }
+      }
+    }
+
+    .mainTabWrap {
+      display: flex;
+      align-items: center;
+      padding: 8px 0;
+      position: relative;
+
+      .l1LabelName {
+        font-size: 12px;
+        line-height: 16px;
+        white-space: nowrap;
+      }
+      .caret_right {
+        position: absolute;
+        right: 2px;
+        transform: translate(0, -50%);
+        top: 50%;
+        font-size: 14px;
+        transition: transform 0.1s ease;
+      }
+      .navIcon {
+        font-size: 20px;
+        padding: 0 18px;
+      }
+    }
+
+    .l2ListWrap {
+      margin-left: 56px;
+      list-style: none;
+      max-height: 18vh;
+      overflow: auto;
+      border-radius: 0 8px 8px 0;
+
+      .l2ListWrapName {
+        padding: 10px 16px;
+        background-color: $salmon_secondary_10;
+        font-weight: 700;
+        border-bottom: 1px solid $salmon_secondary_60;
+        cursor: default;
+      }
+
+      .l2List {
+        padding: 4px 16px;
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 400;
+        cursor: pointer;
+        &:hover {
+          background-color: $salmon_secondary_10;
+        }
+        &.active {
+          background-color: $salmon_secondary_10;
+        }
+      }
+    }
+
+    &:hover .mainTabWrap {
+      background-color: $salmon_secondary_10;
+      cursor: pointer;
+    }
+  }
+
+  .marketProWrap {
+    .navListWrap {
+      &:hover .mainTabWrap {
+        background-color: $salmon_secondary_40;
+      }
+    }
+  }
 
   .hide {
     display: none;
@@ -35,60 +174,36 @@
       padding: 0 8px;
       border-radius: 24px;
     }
-  }
 
-  .marketProWrap {
-    margin-top: 20px;
-    background-color: $salmon_secondary_60;
-    padding-bottom: 10px;
-
-    .proHeading {
-      padding: 20px 18px 10px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      cursor: default;
-    }
-    .l1LabelName {
-      font-weight: 700;
+    .l2ListWrapName {
+      display: none;
     }
   }
 
-  .navListWrap {
-    list-style: none;
-    position: relative;
-
-    .mainTabWrap {
-      display: flex;
-      align-items: center;
-      padding: 8px 0;
-      .l1LabelName {
-        font-size: 12px;
-        line-height: 16px;
-        white-space: nowrap;
-      }
-      .caret_right {
-        position: absolute;
-        right: 2px;
-        transform: translate(0, -50%);
-        top: 50%;
-        font-size: 14px;
-      }
-      .navIcon {
-        font-size: 20px;
-        padding: 0 18px;
-      }
-    }
-
-    &:hover .mainTabWrap {
-      background-color: $salmon_secondary_10;
-      cursor: pointer;
-    }
-  }
-
-  .marketProWrap {
+  &.collapsed {
     .navListWrap {
-      &:hover .mainTabWrap {
-        background-color: $salmon_secondary_40;
+      .caret_right {
+        rotate: none;
+        margin-top: auto;
+      }
+      .l2ListWrap {
+        display: none;
+      }
+
+      &:hover {
+        .l2ListWrap {
+          display: block;
+          position: absolute;
+          background-color: $salmon_secondary_30;
+          top: 0;
+          max-height: fit-content;
+          width: 160px;
+          right: 0;
+          transform: translate(100%, 0);
+          .l2List {
+            padding: 8px 16px;
+          }
+        }
       }
     }
   }

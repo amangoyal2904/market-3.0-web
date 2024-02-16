@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import styles from "./MarketTable.module.scss";
 import FixedTable from "./FixedTable";
@@ -7,9 +8,11 @@ import Loader from "../Loader";
 
 interface propsType {
   data: any[];
-  apiSuccess: boolean;
+  apiSuccess?: boolean;
   tableHeaders: any[];
-  tabsViewIdUpdate: any;
+  tabsViewIdUpdate?: any;
+  showTableCheckBox?: boolean;
+  multipleStockCollect?: any;
 }
 
 const MarketTable = (props: propsType) => {
@@ -18,6 +21,8 @@ const MarketTable = (props: propsType) => {
     apiSuccess = false,
     tableHeaders = [],
     tabsViewIdUpdate,
+    showTableCheckBox = false,
+    multipleStockCollect,
   } = props || {};
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
@@ -28,7 +33,6 @@ const MarketTable = (props: propsType) => {
   const [loaderOff, setLoaderOff] = useState(false);
   const [isPrime, setPrime] = useState(false);
   const [hideThead, setHideThead] = useState(false);
-
   const handleFilterChange = (e: any) => {
     const { name, value } = e.target;
     const inputType = e.target.dataset["type"];
@@ -69,7 +73,7 @@ const MarketTable = (props: propsType) => {
     if (Object.keys(filters).length) {
       Object.keys(filters).forEach((keyId) => {
         filterData = filterData.filter((item: any) => {
-          const validExpression = /^[><=]?\d*\.?\d+$/;
+          const validExpression = /^[><=]\d*\.?\d+$/;
           const cellValue = filters[keyId];
           const inputType = item.data.find(
             (element: any) => element.keyId == keyId,
@@ -136,7 +140,7 @@ const MarketTable = (props: propsType) => {
     if (Object.keys(sortData).length) {
       Object.keys(sortData).forEach((keyId) => {
         tableData = tableData.sort((a: any, b: any) => {
-          const inputType = tableData.data.find(
+          const inputType = tableData[0].data.find(
             (element: any) => element.keyId == keyId,
           ).valueType;
 
@@ -198,7 +202,9 @@ const MarketTable = (props: propsType) => {
     const leftScrollPos = leftScroll.scrollTop;
     rightScroll.scrollTop = leftScrollPos;
   };
-
+  const removeCheckBoxHandleFun = (e: any, companyId: any, assetType: any) => {
+    multipleStockCollect(e, companyId, assetType);
+  };
   useEffect(() => {
     setFilters({});
     setSortData({});
@@ -244,6 +250,8 @@ const MarketTable = (props: propsType) => {
                 filters={filters}
                 handleFilterChange={handleFilterChange}
                 hideThead={hideThead}
+                showRemoveCheckbox={showTableCheckBox}
+                removeCheckBoxHandle={removeCheckBoxHandleFun}
               />
               <ScrollableTable
                 tableHeaderData={tableHeaderData}

@@ -1,6 +1,7 @@
 import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
+import { generateFpid } from "./utility";
 
 declare global {
   interface Window {
@@ -95,10 +96,6 @@ export const pageType = (pathurl: any) => {
   console.log(">>>", pathurl);
   if (pathurl.indexOf("watchlist") != -1) {
     return "watchlist";
-  } else if (pathurl.indexOf("eticons") != -1) {
-    return "eticons";
-  } else if (pathurl.indexOf("marketdata") != -1) {
-    return "marketdata";
   } else {
     return "notfound";
   }
@@ -134,11 +131,12 @@ export const verifyLogin = () => {
       console.log("SUCCESS");
 
       if (typeof window.objUser == "undefined") window.objUser = {};
-
+      generateFpid(true);
       window.objUser.ticketId = response.data.ticketId;
       setUserData();
     } else {
       console.log("failure");
+      generateFpid(false);
       ssoLoginWidget();
     }
 
@@ -479,4 +477,16 @@ export const dateFormat = (dt: any, format = "%Y-%M-%d") => {
     }
   }
   return newDate;
+};
+export const setCookies = (
+  name: string,
+  value: string,
+  seconds: number = 0,
+) => {
+  let dt, expires;
+  dt = new Date();
+  dt.setTime(dt.getTime() + seconds * 1000);
+  expires = "; expires=" + dt.toString();
+  document.cookie =
+    name + "=" + value + expires + `; domain=${window.location.host}; path=/;`;
 };

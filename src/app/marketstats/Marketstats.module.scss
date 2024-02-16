@@ -1,0 +1,9 @@
+.marketstatsContainer {
+  display: flex;
+  .lhs {
+    width: 180px;
+  }
+  .rhs {
+    width: calc(100% - 180px);
+  }
+}

@@ -14,6 +14,8 @@ const FixedTable = (props: any) => {
     tableDataList,
     handleFilterChange,
     hideThead = false,
+    showRemoveCheckbox = false,
+    removeCheckBoxHandle,
   } = props || {};
 
   return (
@@ -103,21 +105,43 @@ const FixedTable = (props: any) => {
                       index <= 2 &&
                       (tdData.keyId == "name" ? (
                         <td key={index} className={styles.fixedTD}>
-                          <a
-                            href={getStockUrl(
-                              item.assetId,
-                              item.assetSeoName,
-                              item.assetType,
+                          <div className={styles.tdColWrap}>
+                            {showRemoveCheckbox ? (
+                              <div className={styles.formGroup}>
+                                <label>
+                                  <input
+                                    type="checkbox"
+                                    onChange={(e) =>
+                                      removeCheckBoxHandle(
+                                        e,
+                                        item.assetId,
+                                        item.assetType,
+                                      )
+                                    }
+                                  />
+                                </label>
+                              </div>
+                            ) : (
+                              ""
                             )}
-                            target="_blank"
-                            title={tdData.value}
-                          >
-                            {tdData.value}{" "}
-                            {item.assetType != "" &&
-                            item.assetType.toLowerCase() != "equity"
-                              ? `(${item.assetType.toUpperCase()})`
-                              : null}
-                          </a>
+                            <a
+                              href={getStockUrl(
+                                item.assetId,
+                                !!item.assetSeoName
+                                  ? item.assetSeoName
+                                  : item.assetName,
+                                item.assetType,
+                              )}
+                              target="_blank"
+                              title={tdData.value}
+                            >
+                              {tdData.value}{" "}
+                              {item.assetType != "" &&
+                              item.assetType.toLowerCase() != "equity"
+                                ? `(${item.assetType.toUpperCase()})`
+                                : null}
+                            </a>
+                          </div>
                         </td>
                       ) : (
                         <td

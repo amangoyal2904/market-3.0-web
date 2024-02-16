@@ -299,6 +299,9 @@ a {
 .dflex {
   display: flex;
 }
+.p20 {
+  padding: 20px;
+}
 
 .align-item-center {
   align-items: center;
@@ -335,6 +338,10 @@ a {
 .hide {
   display: none;
 }
+.center {
+  text-align: center;
+  justify-content: center;
+}
 .ssoLoginWrap {
   position: fixed;
   top: 0;
@@ -370,6 +377,21 @@ table {
 .numberFonts {
   font-family: Lato, sans-serif;
 }
-.layout {
+.container {
   display: flex;
+}
+
+.main_container {
+  padding: 15px 0 15px 10px;
+  flex-grow: 1;
+  width: calc(100vw - 200px);
+}
+
+.heading {
+  font-family: Faustina;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  margin-bottom: 22px;
 }
