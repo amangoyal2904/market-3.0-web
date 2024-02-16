@@ -11,7 +11,7 @@
     .navWrapDiv {
       position: relative;
     }
-    .caret_up {
+    .caret {
       margin-right: 10px;
       transition: transform 0.1s ease;
     }
@@ -28,6 +28,9 @@
     margin-left: 22px;
     font-size: 12px;
     margin-bottom: 3px;
+  }
+  ul.subNavWrap li a:hover {
+    color: red;
   }
   // .collapsed {
   //     .subNavWrap {
