@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import styles from "./MarketStatsNav.module.scss";
 import Link from "next/link";
 import MarketStatsSubNav from "./MarketStatsSubNav";
@@ -9,7 +9,7 @@ interface PageProps {
 
 const MarketStatsNav: React.FC<PageProps> = (props) => {
   const { leftNavResult } = props;
-  console.log("leftNavResult", leftNavResult.nav);
+  // console.log("leftNavResult", leftNavResult.nav);
   const [expandedItems, setExpandedItems] = useState<number[]>([0]);
 
   // Function to toggle the expansion of submenu for a given index
@@ -78,7 +78,7 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
         {leftNavResult &&
           leftNavResult.nav.map((item: any, index: number) => {
             return (
-              <>
+              <Fragment key={item.id}>
                 <div
                   key={item.id}
                   id={item.id}
@@ -109,7 +109,7 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
                     ))}
                   </ul>
                 )}
-              </>
+              </Fragment>
             );
           })}
       </div>

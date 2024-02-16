@@ -1,5 +1,5 @@
 import APIS_CONFIG from "../../../network/api_config.json";
-import styles from "../Marketstats.module.css";
+import styles from "../Marketstats.module.scss";
 import MarketTabs from "@/components/MarketTabs";
 import MarketTable from "@/components/MarketTable";
 import { APP_ENV } from "@/utils";
@@ -15,30 +15,41 @@ const fetchTabsData = async (statstype: string) => {
   return res;
 };
 
-const fetchTableData = async (viewId: any) => {
+const fetchTableData = async (
+  type: any,
+  duration: any,
+  filter: any,
+  activeViewId: any,
+) => {
   const apiUrl = (APIS_CONFIG as any)?.marketStatsIntraday["development"];
+  const bodyParams = {
+    viewId: activeViewId,
+    apiType: type,
+    duration: duration,
+    filterType: "index",
+    filterValue: [filter],
+    sort: [{ field: "R1MonthReturn", order: "DESC" }],
+    pagesize: 100,
+    pageno: 1,
+  };
+  //console.log(bodyParams)
   const data = await fetch(apiUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      viewId: viewId,
-      apiType: "gainers",
-      duration: "1M",
-      filterType: "index",
-      filterValue: [2369],
-      sort: [{ field: "R1MonthReturn", order: "DESC" }],
-      pagesize: 100,
-      pageno: 1,
-    }),
+    body: JSON.stringify(bodyParams),
   });
   const res = await data.json();
-  console.log("tabledata", res);
+  //console.log("tabledata", res);
   return res.dataList ? res.dataList : res;
 };
 
-const Intraday = async () => {
+const Intraday = async ({ searchParams }: any) => {
+  const type = searchParams?.type;
+  const duration = searchParams?.duration;
+  const filter = searchParams?.filter;
+
   const leftNavApi = (APIS_CONFIG as any)["MARKET_STATS_NAV"][APP_ENV];
   console.log("Left Nav APi", leftNavApi);
   const leftNavPromise = await service.get({
@@ -47,27 +58,30 @@ const Intraday = async () => {
   });
   const leftNavResult = await leftNavPromise?.json();
 
-  const tabData = await fetchTabsData("gainers");
+  const tabData = await fetchTabsData(type);
   let activeViewId = tabData[0].viewId;
-  let tableData = await fetchTableData(activeViewId);
+  let tableData = await fetchTableData(type, duration, filter, activeViewId);
   const tableHeaderData =
     (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
 
   return (
-    <div className={styles.wraper}>
-      <h1 className={styles.heading1}>Top Gainers</h1>
-      <div className={`${styles.container} ${styles.marketstatsContainer}`}>
-        <aside className="lhs">
-          <div className={styles.navContainer}>
-            <MarketStatsNav leftNavResult={leftNavResult} />
-          </div>
+    <>
+      <h1 className="heading">Top Gainers</h1>
+      <div className={styles.marketstatsContainer}>
+        <aside className={styles.lhs}>
+          <MarketStatsNav leftNavResult={leftNavResult} />
         </aside>
-        <div className="rhs">
-          <MarketTabs data={tabData} activeViewId={activeViewId} />
+        <div className={styles.rhs}>
+          <MarketTabs
+            data={tabData}
+            activeViewId={activeViewId}
+            showAddStock={false}
+            showEditStock={false}
+          />
           <MarketTable data={tableData} tableHeaders={tableHeaderData} />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

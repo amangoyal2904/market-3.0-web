@@ -3,6 +3,8 @@
   width: 180px;
   transition: width 0.1s ease;
   box-sizing: border-box;
+  position: sticky;
+  top: 60px;
   div.navWrapLi {
     list-style-type: none;
     padding: 7px 15px 7px 0;
