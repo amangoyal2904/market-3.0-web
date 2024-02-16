@@ -1,0 +1,207 @@
+.wraper {
+  padding: 20px;
+  flex-grow: 1;
+  width: 100vh;
+  .heading1 {
+    font-family: Faustina;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    margin-bottom: 22px;
+  }
+  .tabMainBox {
+    .tabs {
+      position: relative;
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+      border-bottom: solid 1px #cdcdcd;
+      padding-bottom: 10px;
+      .tab {
+        position: relative;
+        font-family: Montserrat;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 24px;
+        white-space: nowrap;
+        list-style: none;
+        cursor: pointer;
+        &.active {
+          font-weight: 700;
+          &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -12px;
+            border-bottom: solid 1px #000000;
+          }
+        }
+      }
+    }
+    .tabContentWraper {
+      padding: 20px 0;
+      .tabContentBox {
+        display: none;
+        &.active {
+          display: block;
+        }
+      }
+    }
+  }
+}
+.stocksMain {
+  position: relative;
+  display: flex;
+  min-width: 380px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  margin-right: 20px;
+  margin-bottom: 40px;
+  border-radius: 8px;
+  border: 1px solid #b3b3b3;
+  background: #ffffff;
+  // Apply red color if stocksMain has class sellStock
+  &.sellStock {
+    .buySellTitle {
+      color: #d51131;
+    }
+    .potensialBox {
+      background-color: #fef1f3;
+      h4 {
+        color: #d51131;
+      }
+    }
+  }
+
+  // Apply green color if stocksMain has class buyStock
+  &.buyStock {
+    .buySellTitle {
+      color: #147014;
+    }
+    .potensialBox {
+      background-color: #e9fbe9;
+      h4 {
+        color: #147014;
+      }
+    }
+  }
+  .stocksBox {
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    align-self: stretch;
+    .stocksCallDates {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      align-self: stretch;
+      .buySellTitle {
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 18px;
+      }
+
+      .callDateBox {
+        display: flex;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 18px;
+        gap: 8px;
+      }
+    }
+    .stocksTitle {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: normal;
+    }
+    .updownTargetBox {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      align-self: stretch;
+      .potensialBox {
+        display: flex;
+        min-width: 108px;
+        max-width: 120px;
+        padding: 12px 16px;
+        flex-direction: column;
+        gap: 16px;
+        h3 {
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 18px;
+          color: #666666;
+        }
+        h4 {
+          font-size: 24px;
+          font-weight: 600;
+          line-height: normal;
+        }
+      }
+      .targetBox {
+        display: block !important;
+        list-style: none;
+        width: 100%;
+        li {
+          display: flex;
+          padding: 8px 0px;
+          justify-content: space-between;
+          align-items: center;
+          align-self: stretch;
+          border-bottom: 1px solid #b3b3b3;
+          span:first-child {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 18px;
+          }
+          span:last-child {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: normal;
+          }
+        }
+      }
+    }
+  }
+  .viewReportBox {
+    position: absolute;
+    right: 20px;
+    bottom: 40px;
+    border-radius: 2px;
+    border: 0.5px solid #000000;
+    padding: 2px 7px 2px 32px;
+    background: #fff3f0;
+    .pdfIcon {
+      position: absolute;
+      left: 4px;
+      bottom: 3px;
+      font-size: 20px;
+      font-weight: 600;
+      color: #d51131;
+    }
+    .viewReport {
+      font-size: 10px;
+      font-weight: 500;
+      line-height: normal;
+    }
+  }
+  .brokerageBox {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    padding: 5px 12px;
+    gap: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #f4f4f4;
+  }
+}

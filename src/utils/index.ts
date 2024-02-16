@@ -97,6 +97,8 @@ export const pageType = (pathurl: any) => {
     return "watchlist";
   } else if (pathurl.indexOf("eticons") != -1) {
     return "eticons";
+  } else if (pathurl.indexOf("marketdata") != -1) {
+    return "marketdata";
   } else {
     return "notfound";
   }

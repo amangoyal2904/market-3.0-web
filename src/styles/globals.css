@@ -303,7 +303,12 @@ a {
 .align-item-center {
   align-items: center;
 }
-
+.stockSliderIcons .custom-slick-dots .slick-dots .slick-active {
+  background-color: #d51131;
+}
+.stockSliderIcons .custom-slick-dots .slick-dots li button:before {
+  content: none;
+}
 .default-btn {
   font-size: 12px;
   font-style: normal;
@@ -363,7 +368,7 @@ table {
   }
 }
 .numberFonts {
-  font-family: Lato,sans-serif;
+  font-family: Lato, sans-serif;
 }
 .layout {
   display: flex;

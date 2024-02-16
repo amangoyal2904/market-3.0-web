@@ -7,6 +7,7 @@ import React, { Suspense } from "react";
 import { pageType, APP_ENV } from "@/utils";
 import NotFound from "@/containers/NotFound";
 import APIS_CONFIG from "../../network/api_config.json";
+import MarketData from "@/containers/MarketData";
 declare global {
   interface Window {
     objVc: any;
@@ -65,6 +66,8 @@ export default async function Page({
           <Watchlist {...response} objVc={versionControl} />
         ) : page == "eticons" ? (
           <Eticons {...response} objVc={versionControl} />
+        ) : page == "marketdata" ? (
+          <MarketData {...response} objVc={versionControl} />
         ) : (
           <NotFound />
         )}
