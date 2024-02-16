@@ -34,7 +34,7 @@ const fetchTableData = async (viewId: any) => {
     }),
   });
   const res = await data.json();
-  console.log("tabledata", res);
+  //console.log("tabledata", res);
   return res.dataList ? res.dataList : res;
 };
 

@@ -57,7 +57,7 @@ const Watchlist = () => {
       };
       if (userConfirm) {
         const removeAllStock = await removeMultipleStockInWatchList(followData);
-        console.log("removeAllStock", removeAllStock);
+        //console.log("removeAllStock", removeAllStock);
         if (
           removeAllStock &&
           removeAllStock.nextJsResponse &&
@@ -95,7 +95,7 @@ const Watchlist = () => {
       );
     }
   };
-  console.log("____UnFollowStocksList", unFollowStocksList);
+  //console.log("____UnFollowStocksList", unFollowStocksList);
   useEffect(() => {
     if (isLogin === true) {
       fetchWatchListData();

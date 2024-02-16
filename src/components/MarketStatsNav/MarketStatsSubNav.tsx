@@ -13,32 +13,30 @@ const MarketStatsSubNav: React.FC<PageProps> = ({
   toggleItem,
 }) => {
   return (
-    <>
-      <li
-        key={item.id}
-        className={`${styles.navWrapLi} ${item.open ? styles.open : ""}`}
-        onClick={(e) => {
-          item.sub_nav && toggleItem(e);
-        }}
-      >
-        {item.sub_nav && item.sub_nav.length > 0 && (
-          <span className={`eticon_caret_up ${styles.caret_up}`}></span>
-        )}
-        <span className={styles.labelName}>{item.label}</span>
-        {item.sub_nav && (
-          <ul className={styles.subNavWrap}>
-            {item.sub_nav.map((subItem: any, index: any) => (
-              <li
-                key={subItem.id}
-                className={`${index == 0 ? styles.active : ""}`}
-              >
-                <Link href={subItem.link}>{subItem.label}</Link>
-              </li>
-            ))}
-          </ul>
-        )}
-      </li>
-    </>
+    <li
+      key={`${item.id}-${index}`}
+      className={`${styles.navWrapLi} ${item.open ? styles.open : ""}`}
+      onClick={(e) => {
+        item.sub_nav && toggleItem(e);
+      }}
+    >
+      {item.sub_nav && item.sub_nav.length > 0 && (
+        <span className={`eticon_caret_up ${styles.caret_up}`}></span>
+      )}
+      <span className={styles.labelName}>{item.label}</span>
+      {item.sub_nav && (
+        <ul className={styles.subNavWrap}>
+          {item.sub_nav.map((subItem: any, index: any) => (
+            <li
+              key={subItem.id}
+              className={`${index == 0 ? styles.active : ""}`}
+            >
+              <Link href={subItem.link}>{subItem.label}</Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
   );
 };
 

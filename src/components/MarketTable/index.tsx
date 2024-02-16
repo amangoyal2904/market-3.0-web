@@ -30,7 +30,7 @@ const MarketTable = (props: propsType) => {
   const [sortData, setSortData] = useState<any>({});
   const [headerSticky, setHeaderSticky] = useState(0);
   const [topScrollHeight, setTopScrollHeight] = useState(162);
-  const [loaderOff, setLoaderOff] = useState(false);
+  const [loaderOff, setLoaderOff] = useState(true);
   const [isPrime, setPrime] = useState(false);
   const [hideThead, setHideThead] = useState(false);
   const handleFilterChange = (e: any) => {
@@ -52,7 +52,7 @@ const MarketTable = (props: propsType) => {
       delete filters[name];
       setFilters({ ...filters });
     }
-    console.log({ filters });
+    //console.log({ filters });
   };
 
   const handleSort = (key: any) => {
