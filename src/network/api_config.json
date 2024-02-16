@@ -124,8 +124,8 @@
     }
   },
   "PERSONALISATION": {
-    "development": ["https://etua-stg.economictimes.indiatimes.com/users/api/"],
-    "production": ["https://etua-stg.economictimes.indiatimes.com/users/api/"]
+    "development": ["https://etua-stg.economictimes.indiatimes.com/users/api/logdata/uuid/resolve"],
+    "production": ["https://etua-stg.economictimes.indiatimes.com/users/api/logdata/uuid/resolve"]
   },
   "stockSearch": {
     "development": [
