@@ -156,18 +156,15 @@ export const processFingerprint = (data: any, isLogin: any) => {
 };
 
 export const createPfuuid = async (fpid: any) => {
-  const params = {
-    type: 7,
-    source: API_SOURCE,
-  };
   const headers = {
     "Content-type": "application/json",
     Authorization: fpid,
   };
 
-  const url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
-  console.log("@@@@@-->inpfuuid", url);
-  Service.get({ url, headers, params: params, withCredentials: true })
+  let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
+  url = url + `?type=7&source=${API_SOURCE}`;
+  console.log("@@@@@-->inpfuuid",url);
+  Service.get({ url, headers, withCredentials: true })
     .then((res: any) => {
       if (res && res.data && res.data.id != 0) {
         //console.log("@@@@--->>>>>", res);
@@ -182,16 +179,13 @@ export const createPfuuid = async (fpid: any) => {
 };
 
 export const createPeuuid = (fpid: any) => {
-  const params = {
-    type: 0,
-    source: API_SOURCE,
-  };
-  const url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
-  console.log("@@@@@-->inpeuuid", url);
+  let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
+  url = url + `?type=0&source=${API_SOURCE}`;
+  console.log("@@@@@-->inpfuuid",url);
   const headers = {
     "Content-type": "application/json",
   };
-  Service.get({ url, headers, params: params, withCredentials: true })
+  Service.get({ url, headers, withCredentials: true })
     .then((res: any) => {
       if (res && res.data && res.data.id != 0) {
         const peuuid: any = res.data.id;
