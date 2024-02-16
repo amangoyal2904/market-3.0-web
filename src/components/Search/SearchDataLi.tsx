@@ -15,7 +15,7 @@ const SearchDataLi: React.FC<Props> = ({ item, entity, count, query }) => {
     return makeBold(query, str);
   };
   const handleScrollClick = (scrollOffSet: string, url: string) => {
-    console.log("scrollOffSet", scrollOffSet, url);
+    //console.log("scrollOffSet",scrollOffSet,url)
     window.localStorage.setItem("windowScrollId", scrollOffSet);
     window.open(url, "_blank");
   };

@@ -23,7 +23,7 @@ const LiveMarketData = () => {
     const jsonStartIndex = data.indexOf("[");
     const jsonEndIndex = data.lastIndexOf("]");
     const jsonString = data.substring(jsonStartIndex, jsonEndIndex + 1);
-    console.log("live Data", JSON.parse(jsonString));
+    //console.log("live Data", JSON.parse(jsonString));
     setMarketData(JSON.parse(jsonString));
     if (
       marketData &&

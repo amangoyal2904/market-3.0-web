@@ -69,7 +69,7 @@ const SearchData: React.FC<Props> = ({
         item.link.includes("/prime/"),
       );
       setNewsPrime(filterPrimeData);
-      console.log("filterPrimeData", filterPrimeData);
+      //console.log("filterPrimeData",filterPrimeData);
       setMf(filterData(data, "MutualFund"));
       setNps(filterData(data, "NPS"));
       setEtf(filterData(data, "ETF"));

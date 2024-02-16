@@ -43,7 +43,7 @@ const AddStockComponent = ({ moduelClose }: any) => {
           });
 
           setViewStocks(addFollowFlag);
-          console.log("followData", addFollowFlag);
+          //console.log('followData',addFollowFlag)
         })
         .catch((err) => {
           console.log(err);
@@ -52,7 +52,7 @@ const AddStockComponent = ({ moduelClose }: any) => {
   };
   const addStockInWatchlistHandler = (companyData: any, action: any) => {
     // ===
-    console.log("companyData", companyData);
+    //console.log('companyData',companyData)
     const companytType =
       companyData.entityType === "company" && !companyData.subType
         ? "equity"
@@ -98,7 +98,7 @@ const AddStockComponent = ({ moduelClose }: any) => {
       }
       data.ltp = ltp;
       data.exchange = exch;
-      console.log("jsonRes", jsonRes, data);
+      //console.log('jsonRes',jsonRes, data)
       saveStockInWathListHanlder(action, data, type);
     } else {
       saveStockInWathListHanlder(action, data, type);

@@ -39,7 +39,7 @@ export const fetchTableData = async (viewId: any) => {
     }),
   });
   const res = await data.json();
-  console.log("tabledata", res);
+  //console.log("tabledata", res);
   return res;
 };
 
@@ -170,7 +170,7 @@ export const createPfuuid = async (fpid: any) => {
   Service.get({ url, headers, params: params, withCredentials: true })
     .then((res: any) => {
       if (res && res.data && res.data.id != 0) {
-        console.log("@@@@--->>>>>", res);
+        //console.log("@@@@--->>>>>", res);
         var pfuuid = res.data.id;
         setCookies("pfuuid", pfuuid);
       }
@@ -195,7 +195,7 @@ export const createPeuuid = (fpid: any) => {
     .then((res: any) => {
       if (res && res.data && res.data.id != 0) {
         const peuuid: any = res.data.id;
-        console.log("@@@@--->>>>>2", res);
+        //console.log("@@@@--->>>>>2", res);
         setCookies("peuuid", peuuid);
       }
     })
