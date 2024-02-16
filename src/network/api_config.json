@@ -7,6 +7,10 @@
     "development": "https://bselivefeeds.indiatimes.com/homepagedatanew.json",
     "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
   },
+  "LIVE_MARKET_DATA_NEXTJS": {
+    "development": "http://localhost:3009/api/bselivefeeds",
+    "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
+  },
   "SEARCH": {
     "main": {
       "development": [

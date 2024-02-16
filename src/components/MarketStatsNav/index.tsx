@@ -9,7 +9,7 @@ interface PageProps {
 
 const MarketStatsNav: React.FC<PageProps> = (props) => {
   const { leftNavResult } = props;
-  console.log("leftNavResult", leftNavResult.nav);
+  // console.log("leftNavResult", leftNavResult.nav);
   const [expandedItems, setExpandedItems] = useState<number[]>([0]);
 
   // Function to toggle the expansion of submenu for a given index
