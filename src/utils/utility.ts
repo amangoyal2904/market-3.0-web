@@ -183,7 +183,7 @@ export const createPeuuid = (fpid: any) => {
   const headers = {
     "Content-type": "application/json",
   };
-  Service.get({ url, headers, params: params, withCredentials: true })
+  Service.get({ url, headers, withCredentials: true })
     .then((res: any) => {
       if (res && res.data && res.data.id != 0) {
         const peuuid: any = res.data.id;
