@@ -9,13 +9,15 @@
     .indexName {
       font-weight: bold;
     }
-    .indexValue{font-family: $Lato-font-family;}
+    .indexValue {
+      font-family: $Lato-font-family;
+    }
     .indexChange {
       position: relative;
       font-family: $Lato-font-family !important;
     }
     .indexChange::before {
-        font-family: "eticons" !important;
+      font-family: "eticons" !important;
       font-size: 11px;
       position: absolute;
       right: -16px;

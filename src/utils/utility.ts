@@ -137,9 +137,11 @@ export const saveStockInWatchList = async (followData: any) => {
 
 export const generateFpid = (isLogin: any) => {
   new (Fingerprint2 as any).get((components: any[]) => {
-    const values = components.map((component: { value: any }) => component.value);
+    const values = components.map(
+      (component: { value: any }) => component.value,
+    );
     const murmur = Fingerprint2.x64hash128(values.join(""), 31); // an array of components: {key: ..., value: ...}
-    console.log("@@@@@-->",isLogin, murmur);
+    console.log("@@@@@-->", isLogin, murmur);
     processFingerprint(murmur, isLogin);
   });
 };
