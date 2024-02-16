@@ -10,6 +10,6 @@ export default async function Page({
 }) {
   const { all = [] } = params;
   let page = pageType(all.join("/"));
-  console.log("Page???", page);
+  //console.log("Page???", page);
   return <NotFound />;
 }

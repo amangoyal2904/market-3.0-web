@@ -39,7 +39,7 @@ export const fetchTableData = async (viewId: any) => {
     }),
   });
   const res = await data.json();
-  console.log("tabledata", res);
+  //console.log("tabledata", res);
   return res;
 };
 
@@ -137,9 +137,11 @@ export const saveStockInWatchList = async (followData: any) => {
 
 export const generateFpid = (isLogin: any) => {
   new (Fingerprint2 as any).get((components: any[]) => {
-    const values = components.map((component: { value: any }) => component.value);
+    const values = components.map(
+      (component: { value: any }) => component.value,
+    );
     const murmur = Fingerprint2.x64hash128(values.join(""), 31); // an array of components: {key: ..., value: ...}
-    console.log("@@@@@-->",isLogin, murmur);
+    console.log("@@@@@-->", isLogin, murmur);
     processFingerprint(murmur, isLogin);
   });
 };
@@ -175,7 +177,7 @@ export const createPfuuid = async (fpid: any) => {
 export const createPeuuid = async (fpid: any) => {
   let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
   url = url + `?type=0&source=${API_SOURCE}`;
-  console.log("@@@@@-->inpfuuid",url);
+  console.log("@@@@@-->inpfuuid", url);
   const headers = {
     "Content-type": "application/json",
   };

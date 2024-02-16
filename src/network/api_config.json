@@ -7,6 +7,10 @@
     "development": "https://bselivefeeds.indiatimes.com/homepagedatanew.json",
     "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
   },
+  "LIVE_MARKET_DATA_NEXTJS": {
+    "development": "http://localhost:3009/api/bselivefeeds",
+    "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
+  },
   "SEARCH": {
     "main": {
       "development": [
@@ -124,8 +128,12 @@
     }
   },
   "PERSONALISATION": {
-    "development": ["https://etua-stg.economictimes.indiatimes.com/users/api/logdata/uuid/resolve"],
-    "production": ["https://etua-stg.economictimes.indiatimes.com/users/api/logdata/uuid/resolve"]
+    "development": [
+      "https://etua-stg.economictimes.indiatimes.com/users/api/logdata/uuid/resolve"
+    ],
+    "production": [
+      "https://etua-stg.economictimes.indiatimes.com/users/api/logdata/uuid/resolve"
+    ]
   },
   "stockSearch": {
     "development": [

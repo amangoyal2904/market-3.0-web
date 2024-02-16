@@ -93,7 +93,7 @@ export const getMobileOS = () => {
 };
 
 export const pageType = (pathurl: any) => {
-  console.log(">>>", pathurl);
+  //console.log(">>>", pathurl);
   if (pathurl.indexOf("watchlist") != -1) {
     return "watchlist";
   } else {
@@ -128,7 +128,7 @@ export const isBotAgent = () => {
 export const verifyLogin = () => {
   window?.jsso?.getValidLoggedInUser(function (response: any) {
     if (response.status == "SUCCESS") {
-      console.log("SUCCESS");
+      //console.log("SUCCESS");
 
       if (typeof window.objUser == "undefined") window.objUser = {};
       generateFpid(true);
@@ -150,7 +150,7 @@ export const verifyLogin = () => {
 export const setUserData = () => {
   window?.jsso?.getUserDetails(function (response: any) {
     if (response.status == "SUCCESS") {
-      console.log("SUCCESS", response);
+      //console.log("SUCCESS", response);
       window.objUser.info = response.data;
       window.objUser.ssoid = response.data.ssoid;
     } else {
@@ -206,7 +206,7 @@ export const ssoClose = () => {
 };
 
 export const initSSOWidget = () => {
-  console.log("Central SSO initSSOWidget");
+  //console.log("Central SSO initSSOWidget");
   const ssoWidgetElement = document.getElementById("ssoLoginWrap");
   ssoWidgetElement?.classList.remove("hide");
   var centralSSOObj = {
@@ -276,7 +276,7 @@ export const initSSOWidget = () => {
     privacyPolicyLink: "/privacypolicy.cms",
     //defaultSelected:true,
     closeCallBack: function () {
-      console.log("Central SSO closeCallBack");
+      //console.log("Central SSO closeCallBack");
       ssoClose();
     },
   };
