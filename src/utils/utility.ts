@@ -163,19 +163,15 @@ export const createPfuuid = async (fpid: any) => {
 
   let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
   url = url + `?type=7&source=${API_SOURCE}`;
-  console.log("@@@@@-->inpfuuid", url);
-  const res: any = await Service.get({
-    url,
-    params: {},
-    headers,
-    withCredentials: true,
-  });
-  console.log("res", res, await res.json());
-  if (res && res.data && res.data.id != 0) {
-    //console.log("@@@@--->>>>>", res);
-    var pfuuid = res.data.id;
-    setCookies("pfuuid", pfuuid);
-  }
+  console.log("@@@@@-->inpfuuid",url);
+  const res:any = await Service.get({ url, params: {}, headers, withCredentials: true });
+  const data = await res.json();
+  console.log("res",res, data)
+      if (data && data.id != 0) {
+        console.log("@@@@--->>>>>", data);
+        var pfuuid = data.id;
+        setCookies("pfuuid", pfuuid);
+      }
 };
 
 export const createPeuuid = async (fpid: any) => {
@@ -185,18 +181,14 @@ export const createPeuuid = async (fpid: any) => {
   const headers = {
     "Content-type": "application/json",
   };
-  const res: any = await Service.get({
-    url,
-    params: {},
-    headers,
-    withCredentials: true,
-  });
-  console.log("res", res, await res.json());
-  if (res && res.data && res.data.id != 0) {
-    const peuuid: any = res.data.id;
-    //console.log("@@@@--->>>>>2", res);
-    setCookies("peuuid", peuuid);
-  }
+  const res:any = await Service.get({ url, params: {}, headers, withCredentials: true });
+  const data = await res.json();
+  console.log("res",res,data) 
+ if (data && data.id != 0) {
+        const peuuid: any = data.id;
+        console.log("@@@@--->>>>>2", data);
+        setCookies("peuuid", peuuid);
+      }
 };
 export const removeMultipleStockInWatchList = async (followData: any) => {
   const authorization: any = getCookie("peuuid")
