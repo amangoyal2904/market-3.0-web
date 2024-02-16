@@ -126,7 +126,6 @@
   "PERSONALISATION": {
     "development": ["https://etua-stg.economictimes.indiatimes.com/users/api/"],
     "production": ["https://etua-stg.economictimes.indiatimes.com/users/api/"]
-    //"production": ["https://idm.economictimes.com/personalisation/"]
   },
   "stockSearch": {
     "development": [
