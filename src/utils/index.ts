@@ -1,6 +1,7 @@
 import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
+import { generateFpid } from "./utility";
 
 declare global {
   interface Window {
@@ -130,12 +131,12 @@ export const verifyLogin = () => {
       console.log("SUCCESS");
 
       if (typeof window.objUser == "undefined") window.objUser = {};
-      //generateFpid(true);
+      generateFpid(true);
       window.objUser.ticketId = response.data.ticketId;
       setUserData();
     } else {
       console.log("failure");
-      //generateFpid(false);
+      generateFpid(false);
       ssoLoginWidget();
     }
 
