@@ -15,30 +15,41 @@ const fetchTabsData = async (statstype: string) => {
   return res;
 };
 
-const fetchTableData = async (viewId: any) => {
+const fetchTableData = async (
+  type: any,
+  duration: any,
+  filter: any,
+  activeViewId: any,
+) => {
   const apiUrl = (APIS_CONFIG as any)?.marketStatsIntraday["development"];
+  const bodyParams = {
+    viewId: activeViewId,
+    apiType: type,
+    duration: duration,
+    filterType: "index",
+    filterValue: [filter],
+    sort: [{ field: "R1MonthReturn", order: "DESC" }],
+    pagesize: 100,
+    pageno: 1,
+  };
+  //console.log(bodyParams)
   const data = await fetch(apiUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      viewId: viewId,
-      apiType: "gainers",
-      duration: "1M",
-      filterType: "index",
-      filterValue: [2369],
-      sort: [{ field: "R1MonthReturn", order: "DESC" }],
-      pagesize: 100,
-      pageno: 1,
-    }),
+    body: JSON.stringify(bodyParams),
   });
   const res = await data.json();
   //console.log("tabledata", res);
   return res.dataList ? res.dataList : res;
 };
 
-const Intraday = async () => {
+const Intraday = async ({ searchParams }: any) => {
+  const type = searchParams?.type;
+  const duration = searchParams?.duration;
+  const filter = searchParams?.filter;
+
   const leftNavApi = (APIS_CONFIG as any)["MARKET_STATS_NAV"][APP_ENV];
   const leftNavPromise = await service.get({
     url: leftNavApi,
@@ -46,9 +57,9 @@ const Intraday = async () => {
   });
   const leftNavResult = await leftNavPromise?.json();
 
-  const tabData = await fetchTabsData("gainers");
+  const tabData = await fetchTabsData(type);
   let activeViewId = tabData[0].viewId;
-  let tableData = await fetchTableData(activeViewId);
+  let tableData = await fetchTableData(type, duration, filter, activeViewId);
   const tableHeaderData =
     (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
 

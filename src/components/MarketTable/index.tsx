@@ -30,7 +30,7 @@ const MarketTable = (props: propsType) => {
   const [sortData, setSortData] = useState<any>({});
   const [headerSticky, setHeaderSticky] = useState(0);
   const [topScrollHeight, setTopScrollHeight] = useState(162);
-  const [loaderOff, setLoaderOff] = useState(true);
+  const [loaderOff, setLoaderOff] = useState(false);
   const [isPrime, setPrime] = useState(false);
   const [hideThead, setHideThead] = useState(false);
   const handleFilterChange = (e: any) => {
@@ -234,40 +234,36 @@ const MarketTable = (props: propsType) => {
   return (
     <>
       <div className={styles.tableWrapper} id="table">
-        {!loaderOff ? (
-          <Loader />
-        ) : (
-          tableHeaderData.length > 0 && (
-            <>
-              <FixedTable
-                tableHeaderData={tableHeaderData}
-                tableDataList={tableDataList}
-                scrollLeftPos={scrollLeftPos}
-                headerSticky={headerSticky}
-                topScrollHeight={topScrollHeight}
-                handleSort={handleSort}
-                sortData={sortData}
-                filters={filters}
-                handleFilterChange={handleFilterChange}
-                hideThead={hideThead}
-                showRemoveCheckbox={showTableCheckBox}
-                removeCheckBoxHandle={removeCheckBoxHandleFun}
-              />
-              <ScrollableTable
-                tableHeaderData={tableHeaderData}
-                tableDataList={tableDataList}
-                scrollRightPos={scrollRightPos}
-                headerSticky={headerSticky}
-                topScrollHeight={topScrollHeight}
-                handleSort={handleSort}
-                sortData={sortData}
-                filters={filters}
-                handleFilterChange={handleFilterChange}
-                isPrime={isPrime}
-                hideThead={hideThead}
-              />
-            </>
-          )
+        {tableHeaderData.length > 0 && (
+          <>
+            <FixedTable
+              tableHeaderData={tableHeaderData}
+              tableDataList={tableDataList}
+              scrollLeftPos={scrollLeftPos}
+              headerSticky={headerSticky}
+              topScrollHeight={topScrollHeight}
+              handleSort={handleSort}
+              sortData={sortData}
+              filters={filters}
+              handleFilterChange={handleFilterChange}
+              hideThead={hideThead}
+              showRemoveCheckbox={showTableCheckBox}
+              removeCheckBoxHandle={removeCheckBoxHandleFun}
+            />
+            <ScrollableTable
+              tableHeaderData={tableHeaderData}
+              tableDataList={tableDataList}
+              scrollRightPos={scrollRightPos}
+              headerSticky={headerSticky}
+              topScrollHeight={topScrollHeight}
+              handleSort={handleSort}
+              sortData={sortData}
+              filters={filters}
+              handleFilterChange={handleFilterChange}
+              isPrime={isPrime}
+              hideThead={hideThead}
+            />
+          </>
         )}
       </div>
       {tableDataList.length == 0 || tableHeaderData.length == 0 ? (
