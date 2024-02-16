@@ -1,12 +1,12 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import styles from "./Market.module.scss";
-import SlickSlider from "../../components/SlickSlider";
+import SlickSlider from "../SlickSlider";
 
 interface Slide {
   content: JSX.Element;
 }
-const MarketData = () => {
+const StockRecommendations = () => {
   const [activeTab, setActiveTab] = useState("tab1");
 
   const handleTabClick = (tab: string) => {
@@ -426,4 +426,4 @@ const MarketData = () => {
   );
 };
 
-export default MarketData;
+export default StockRecommendations;
