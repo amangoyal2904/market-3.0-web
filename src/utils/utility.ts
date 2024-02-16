@@ -170,7 +170,7 @@ export const createPfuuid = async (fpid: any) => {
     headers,
     withCredentials: true,
   });
-  console.log("res", res);
+  console.log("res", res, await res.json());
   if (res && res.data && res.data.id != 0) {
     //console.log("@@@@--->>>>>", res);
     var pfuuid = res.data.id;
@@ -191,7 +191,7 @@ export const createPeuuid = async (fpid: any) => {
     headers,
     withCredentials: true,
   });
-  console.log("res", res);
+  console.log("res", res, await res.json());
   if (res && res.data && res.data.id != 0) {
     const peuuid: any = res.data.id;
     //console.log("@@@@--->>>>>2", res);
