@@ -2,6 +2,7 @@
 import MarketTabs from "../../components/MarketTabs/index";
 import MarketTable from "../../components/MarketTable/index";
 import APIS_CONFIG from "../../network/api_config.json";
+import { APP_ENV } from "../../utils/index";
 import { getParameterByName } from "../../utils/index";
 import { useState } from "react";
 const MarketStatsIntraDay = ({ tabsData, tableData }: any) => {
@@ -24,9 +25,13 @@ const MarketStatsIntraDay = ({ tabsData, tableData }: any) => {
   ) => {
     // marketStatsIntradayNextJs
     // marketStatsIntraday
-    const apiUrl = (APIS_CONFIG as any)?.marketStatsIntradayNextJs[
-      "development"
-    ];
+    // const apiUrl = (APIS_CONFIG as any)?.marketStatsIntradayNextJs[
+    //   "development"
+    // ];
+    const isLocalhost = window.location.origin.includes("localhost");
+    const apiUrl = isLocalhost
+      ? `${(APIS_CONFIG as any)?.marketStatsIntradayNextJs[APP_ENV]}`
+      : `${(APIS_CONFIG as any)?.marketStatsIntraday[APP_ENV]}`;
     const bodyParams = {
       viewId: activeViewId,
       apiType: type,
@@ -37,13 +42,22 @@ const MarketStatsIntraDay = ({ tabsData, tableData }: any) => {
       pagesize: 100,
       pageno: 1,
     };
+    let sendBodyDataParams = {};
+    if (isLocalhost) {
+      sendBodyDataParams = {
+        bodyParams,
+        _authorization: "",
+      };
+    } else {
+      sendBodyDataParams = { ...bodyParams };
+    }
     console.log(bodyParams, apiUrl);
     const data = await fetch(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ bodyParams, _authorization: "" }),
+      body: JSON.stringify(sendBodyDataParams),
     });
     const res = await data.json();
     return res.dataList ? res.dataList : res;
@@ -66,7 +80,9 @@ const MarketStatsIntraDay = ({ tabsData, tableData }: any) => {
       tableData.resNextJsData.dataList &&
       tableData.resNextJsData.dataList.length > 0
         ? tableData.resNextJsData.dataList
-        : [];
+        : tableData && tableData.dataList && tableData.dataList.length > 0
+          ? tableData.dataList
+          : [];
     const tableHeaderData =
       filterTableData &&
       filterTableData.length &&
