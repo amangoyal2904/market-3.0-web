@@ -69,6 +69,10 @@
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats",
     "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"
   },
+  "marketStatsIntradayNextJs": {
+    "development": "http://localhost:3009/api/intradaystats",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"
+  },
   "redeemVoucher": {
     "development": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher",
     "production": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher"
