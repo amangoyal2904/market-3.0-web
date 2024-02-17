@@ -9,7 +9,6 @@ import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import AddStockComponent from "../../components/StockAdd/index";
 import { useStateContext } from "../../store/StateContext";
-import Login from "../Login/index";
 
 const MarketTabs = ({
   data,
@@ -21,6 +20,7 @@ const MarketTabs = ({
   removeMultipleStockInWathclist,
   showAddStock = true,
   showEditStock = true,
+  showNiftyFilter = false,
 }: any) => {
   const personaliseDataListItem =
     data && data.length > 0
@@ -177,6 +177,16 @@ const MarketTabs = ({
           ) : null}
         </ul>
         <div className={styles.rightSide}>
+          {showNiftyFilter ? (
+            <span
+              className={`${styles.roundBtn} ${styles.filterNseBse}`}
+              onClick={() => console.log("Click to nfity filter")}
+            >
+              Nift50
+            </span>
+          ) : (
+            ""
+          )}
           {showAddStock ? (
             <span
               className={`${styles.btnStock} ${styles.stockBtn}`}

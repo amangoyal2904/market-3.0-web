@@ -12,6 +12,7 @@ const fetchTabsData = async (statstype: string) => {
     cache: "no-store",
   });
   const res = await data.json();
+  //console.log('res',res)
   return res;
 };
 
@@ -27,12 +28,12 @@ const fetchTableData = async (
     apiType: type,
     duration: duration,
     filterType: "index",
-    filterValue: [filter],
+    filterValue: [parseFloat(filter)],
     sort: [{ field: "R1MonthReturn", order: "DESC" }],
     pagesize: 100,
     pageno: 1,
   };
-  //console.log(bodyParams)
+  //console.log(bodyParams, apiUrl)
   const data = await fetch(apiUrl, {
     method: "POST",
     headers: {
@@ -40,8 +41,9 @@ const fetchTableData = async (
     },
     body: JSON.stringify(bodyParams),
   });
+  //console.log("data", bodyParams);
   const res = await data.json();
-  //console.log("tabledata", res);
+
   return res.dataList ? res.dataList : res;
 };
 
@@ -49,20 +51,26 @@ const Intraday = async ({ searchParams }: any) => {
   const type = searchParams?.type;
   const duration = searchParams?.duration;
   const filter = searchParams?.filter;
-
   const leftNavApi = (APIS_CONFIG as any)["MARKET_STATS_NAV"][APP_ENV];
   const leftNavPromise = await service.get({
     url: leftNavApi,
     params: {},
   });
   const leftNavResult = await leftNavPromise?.json();
-
+  const tabsViewIdUpdateFun = (viewId: any) => {
+    console.log("_______", viewId);
+    if (viewId != activeViewId) {
+      //setActiveViewId(viewId);
+      //fetchWatchListTableAPI(viewId);
+    }
+  };
   const tabData = await fetchTabsData(type);
   let activeViewId = tabData[0].viewId;
   let tableData = await fetchTableData(type, duration, filter, activeViewId);
   const tableHeaderData =
-    (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
-
+    tableData && tableData.length && tableData[0] && tableData[0]?.data
+      ? tableData[0]?.data
+      : [];
   return (
     <>
       <h1 className="heading">Top Gainers</h1>
@@ -76,6 +84,7 @@ const Intraday = async ({ searchParams }: any) => {
             activeViewId={activeViewId}
             showAddStock={false}
             showEditStock={false}
+            showNiftyFilter={true}
           />
           <MarketTable data={tableData} tableHeaders={tableHeaderData} />
         </div>
