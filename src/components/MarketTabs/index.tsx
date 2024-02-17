@@ -9,6 +9,7 @@ import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import AddStockComponent from "../../components/StockAdd/index";
 import { useStateContext } from "../../store/StateContext";
+import StockFilterNifty from "../StockFilterNifty/index";
 
 const MarketTabs = ({
   data,
@@ -21,6 +22,10 @@ const MarketTabs = ({
   showAddStock = true,
   showEditStock = true,
   showNiftyFilter = false,
+  showDayFilter = false,
+  defaultFiterName = "nifty50",
+  defaultFilerId = 2350,
+  slectedTab = "nse",
 }: any) => {
   const personaliseDataListItem =
     data && data.length > 0
@@ -30,6 +35,11 @@ const MarketTabs = ({
     data && data.length > 0
       ? data.filter((item: any) => item.selectedFlag)
       : [];
+  const defaultFilterMenuTxt = {
+    name: defaultFiterName,
+    id: defaultFilerId,
+    slectedTab: slectedTab,
+  };
   const [openPersonaliseModal, setOpenPersonaliseModal] = useState(false);
   const [addStockShow, setAddStockShow] = useState(false);
   const [openPersonaliseCreateModal, setOpenPersonaliseCreateModal] =
@@ -38,6 +48,10 @@ const MarketTabs = ({
   const tabsListRef = useRef<HTMLUListElement>(null);
   const [visibleTabs, setVisibleTabs] = useState<any[]>([]);
   const [hiddenTabs, setHiddenTabs] = useState<any[]>([]);
+  const [showFilter, setShowFilter] = useState(false);
+  const [filterMenuData, setFilterMenuData]: any = useState("");
+  const [filterMenuTxtShow, setFilterMenuTxtShow] =
+    useState(defaultFilterMenuTxt);
   const { state } = useStateContext();
   const { isLogin } = state.login;
   const tabClick = (viewId: any) => {
@@ -108,6 +122,49 @@ const MarketTabs = ({
   const addStockHandler = () => {
     setAddStockShow(true);
   };
+  const dayFilterHandler = () => {
+    console.log("you write here you filer rule");
+    alert("ABhi Filter ka kam start nahi hua hai");
+  };
+  // ====  Here only Filter tabs code start here
+  const showFilterMenu = (value: boolean) => {
+    setShowFilter(value);
+  };
+  const handleChagneData = (id: any, name: string, slectedTab: string) => {
+    setShowFilter(false);
+    sessionStorage.setItem("sr_filtervalue", id);
+    sessionStorage.setItem("sr_filtername", name);
+    sessionStorage.setItem("sr_filtertab", slectedTab);
+    setFilterMenuTxtShow({ name: name, id: id, slectedTab: slectedTab });
+  };
+  const filterApiCall = () => {
+    try {
+      fetch(
+        "https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson",
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            console.log("error filer data is not fetch");
+          }
+        })
+        .then((data) => {
+          setFilterMenuData(data);
+        })
+        .catch((err) => {
+          console.log("get error", err);
+        });
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+  useEffect(() => {
+    if (showNiftyFilter) {
+      filterApiCall();
+    }
+  }, []);
+  // ====  Here only Filter tabs code end  here
   useEffect(() => {
     const handleResize = () => {
       const tabsListWidth = tabsListRef.current?.offsetWidth;
@@ -180,9 +237,19 @@ const MarketTabs = ({
           {showNiftyFilter ? (
             <span
               className={`${styles.roundBtn} ${styles.filterNseBse}`}
-              onClick={() => console.log("Click to nfity filter")}
+              onClick={() => showFilterMenu(true)}
             >
               Nift50
+            </span>
+          ) : (
+            ""
+          )}
+          {showDayFilter ? (
+            <span
+              className={`${styles.roundBtn} ${styles.fitlerDay}`}
+              onClick={() => dayFilterHandler()}
+            >
+              1Day
             </span>
           ) : (
             ""
@@ -255,6 +322,16 @@ const MarketTabs = ({
       {addStockShow ? (
         <AddStockComponent moduelClose={setAddStockShow} />
       ) : null}
+      {showFilter && (
+        <StockFilterNifty
+          data={filterMenuData}
+          onclick={showFilterMenu}
+          showFilter={showFilter}
+          valuechange={handleChagneData}
+          selectTab={filterMenuTxtShow.slectedTab}
+          childMenuTabAcive={filterMenuTxtShow.id}
+        />
+      )}
     </>
   );
 };
