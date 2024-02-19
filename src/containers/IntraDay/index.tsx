@@ -84,8 +84,8 @@ const MarketStatsIntraDay = ({ tabsData, tableData }: any) => {
       tableData.resNextJsData.dataList &&
       tableData.resNextJsData.dataList.length > 0
         ? tableData.resNextJsData.dataList
-        : tableData && tableData.dataList && tableData.dataList.length > 0
-          ? tableData.dataList
+        : tableData && tableData.length > 0
+          ? tableData
           : [];
     const tableHeaderData =
       filterTableData &&
