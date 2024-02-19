@@ -10,6 +10,7 @@ import { APP_ENV } from "../../utils/index";
 import AddStockComponent from "../../components/StockAdd/index";
 import { useStateContext } from "../../store/StateContext";
 import StockFilterNifty from "../StockFilterNifty/index";
+import DayFitler from "../DayFilter/index";
 
 const MarketTabs = ({
   data,
@@ -23,9 +24,8 @@ const MarketTabs = ({
   showEditStock = true,
   showNiftyFilter = false,
   showDayFilter = false,
-  defaultFiterName = "nifty50",
-  defaultFilerId = 2350,
-  slectedTab = "nse",
+  niftyFilterData = {},
+  filterDataChange,
 }: any) => {
   const personaliseDataListItem =
     data && data.length > 0
@@ -35,11 +35,6 @@ const MarketTabs = ({
     data && data.length > 0
       ? data.filter((item: any) => item.selectedFlag)
       : [];
-  const defaultFilterMenuTxt = {
-    name: defaultFiterName,
-    id: defaultFilerId,
-    slectedTab: slectedTab,
-  };
   const [openPersonaliseModal, setOpenPersonaliseModal] = useState(false);
   const [addStockShow, setAddStockShow] = useState(false);
   const [openPersonaliseCreateModal, setOpenPersonaliseCreateModal] =
@@ -49,9 +44,12 @@ const MarketTabs = ({
   const [visibleTabs, setVisibleTabs] = useState<any[]>([]);
   const [hiddenTabs, setHiddenTabs] = useState<any[]>([]);
   const [showFilter, setShowFilter] = useState(false);
+  const [dayFilterShow, setDayFilterShow] = useState(false);
+  const [dayFilterValueset, setDayFilterValueset] = useState({
+    value: "1day",
+    label: "1 Day",
+  });
   const [filterMenuData, setFilterMenuData]: any = useState("");
-  const [filterMenuTxtShow, setFilterMenuTxtShow] =
-    useState(defaultFilterMenuTxt);
   const { state } = useStateContext();
   const { isLogin } = state.login;
   const tabClick = (viewId: any) => {
@@ -124,7 +122,7 @@ const MarketTabs = ({
   };
   const dayFilterHandler = () => {
     console.log("you write here you filer rule");
-    alert("ABhi Filter ka kam start nahi hua hai");
+    setDayFilterShow(true);
   };
   // ====  Here only Filter tabs code start here
   const showFilterMenu = (value: boolean) => {
@@ -135,7 +133,8 @@ const MarketTabs = ({
     sessionStorage.setItem("sr_filtervalue", id);
     sessionStorage.setItem("sr_filtername", name);
     sessionStorage.setItem("sr_filtertab", slectedTab);
-    setFilterMenuTxtShow({ name: name, id: id, slectedTab: slectedTab });
+    //setFilterMenuTxtShow({ name: name, id: id, slectedTab: slectedTab });
+    filterDataChange(id, name, slectedTab);
   };
   const filterApiCall = () => {
     try {
@@ -239,18 +238,18 @@ const MarketTabs = ({
               className={`${styles.roundBtn} ${styles.filterNseBse}`}
               onClick={() => showFilterMenu(true)}
             >
-              Nift50
+              {niftyFilterData?.name}
             </span>
           ) : (
             ""
           )}
           {showDayFilter ? (
-            <span
+            <div
               className={`${styles.roundBtn} ${styles.fitlerDay}`}
               onClick={() => dayFilterHandler()}
             >
-              1Day
-            </span>
+              {dayFilterValueset.label}
+            </div>
           ) : (
             ""
           )}
@@ -328,9 +327,18 @@ const MarketTabs = ({
           onclick={showFilterMenu}
           showFilter={showFilter}
           valuechange={handleChagneData}
-          selectTab={filterMenuTxtShow.slectedTab}
-          childMenuTabAcive={filterMenuTxtShow.id}
+          selectTab={niftyFilterData.slectedTab}
+          childMenuTabAcive={niftyFilterData.id}
         />
+      )}
+      {dayFilterShow ? (
+        <DayFitler
+          setDayFilterShow={setDayFilterShow}
+          selectedDay={dayFilterValueset}
+          setDayFilterValueset={setDayFilterValueset}
+        />
+      ) : (
+        ""
       )}
     </>
   );
