@@ -1,4 +1,5 @@
 "use client";
+
 import MarketTabs from "../../components/MarketTabs/index";
 import MarketTable from "../../components/MarketTable/index";
 import APIS_CONFIG from "../../network/api_config.json";
@@ -16,6 +17,11 @@ const MarketStatsIntraDay = ({ tabsData, tableData }: any) => {
   const tableHeaderData = table_data.tableHeaders;
   const _tableData = table_data.data;
   const showDayFilter = tabs_data.showDayFilter;
+  const [niftyFilterData, setNiftyFilterData] = useState({
+    name: "nifty50",
+    id: 2350,
+    slectedTab: "nse",
+  });
 
   const fetchTableData = async (
     type: any,
@@ -23,24 +29,20 @@ const MarketStatsIntraDay = ({ tabsData, tableData }: any) => {
     filter: any,
     activeViewId: any,
   ) => {
-    // marketStatsIntradayNextJs
-    // marketStatsIntraday
-    // const apiUrl = (APIS_CONFIG as any)?.marketStatsIntradayNextJs[
-    //   "development"
-    // ];
     const isLocalhost = window.location.origin.includes("localhost");
     const apiUrl = isLocalhost
       ? `${(APIS_CONFIG as any)?.marketStatsIntradayNextJs[APP_ENV]}`
       : `${(APIS_CONFIG as any)?.marketStatsIntraday[APP_ENV]}`;
+    const fitlerArrayValue = filter ? [parseFloat(filter)] : [];
     const bodyParams = {
       viewId: activeViewId,
       apiType: type,
       duration: duration,
       filterType: "index",
-      filterValue: [parseFloat(filter)],
-      sort: [{ field: "R1MonthReturn", order: "DESC" }],
-      pagesize: 100,
-      pageno: 1,
+      filterValue: fitlerArrayValue,
+      // sort: [{ field: "R1MonthReturn", order: "DESC" }],
+      // pagesize: 100,
+      // pageno: 1,
     };
     let sendBodyDataParams = {};
     if (isLocalhost) {
@@ -73,7 +75,9 @@ const MarketStatsIntraDay = ({ tabsData, tableData }: any) => {
       filter,
       activeViewId,
     );
-
+    tableTabDataSethandler(tableData, viewId);
+  };
+  const tableTabDataSethandler = async (tableData: any, viewId: any) => {
     const filterTableData =
       tableData &&
       tableData.resNextJsData &&
@@ -94,12 +98,37 @@ const MarketStatsIntraDay = ({ tabsData, tableData }: any) => {
       data: filterTableData,
       tableHeaders: tableHeaderData,
     };
-
+    //console.log('fullTableData ',fullTableData)
     setTable_data(fullTableData);
     // tabs data here
     setTabs_data({ ...tabs_data, activeViewId: viewId });
   };
-  //console.log('_____TabsData',tabs_data)
+  const filterDataChangeHander = async (
+    id: any,
+    name: any,
+    slectedTab: any,
+  ) => {
+    const type = getParameterByName("type");
+    const duration = getParameterByName("duration");
+    const filter = id;
+    const tableData = await fetchTableData(
+      type,
+      duration,
+      filter,
+      activeViewId,
+    );
+    tableTabDataSethandler(tableData, activeViewId);
+    setNiftyFilterData({
+      name,
+      id,
+      slectedTab,
+    });
+    const pathname = window.location.pathname;
+    const search = window.location.search;
+    let modifiedSearchString = search.replace(/(filter=)\d+/, `$1${id}`);
+    history.pushState({}, "", modifiedSearchString);
+  };
+  //console.log('___setTable_data',_tableData)
   return (
     <>
       <MarketTabs
@@ -110,6 +139,8 @@ const MarketStatsIntraDay = ({ tabsData, tableData }: any) => {
         showNiftyFilter={showNiftyFilter}
         tabsViewIdUpdate={tabsViewIdUpdateFun}
         showDayFilter={showDayFilter}
+        filterDataChange={filterDataChangeHander}
+        niftyFilterData={niftyFilterData}
       />
       <MarketTable data={_tableData} tableHeaders={tableHeaderData} />
     </>

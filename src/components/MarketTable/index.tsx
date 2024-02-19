@@ -217,6 +217,8 @@ const MarketTable = (props: propsType) => {
       setTableDataList((tableDataList) => [...sortedData]);
       setTableHeaderData(tableHeaders);
       if (!loaderOff) setLoaderOff(true);
+    } else if (data.length === 0) {
+      setTableDataList([]);
     }
 
     const isPrime =
@@ -230,7 +232,6 @@ const MarketTable = (props: propsType) => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
   }, []);
-
   return (
     <>
       <div className={styles.tableWrapper} id="table">
