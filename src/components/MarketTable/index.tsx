@@ -219,6 +219,7 @@ const MarketTable = (props: propsType) => {
       const sortedData = sortTableData(filteredData);
       setTableDataList((tableDataList) => [...sortedData]);
       setTableHeaderData(tableHeaders);
+      setIvKeyPhrase(ivKey);
       if (!loaderOff) setLoaderOff(true);
     } else if (data.length === 0) {
       setTableDataList([]);
