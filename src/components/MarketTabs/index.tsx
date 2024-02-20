@@ -26,6 +26,7 @@ const MarketTabs = ({
   showDayFilter = false,
   niftyFilterData = {},
   filterDataChange,
+  dayFitlerHanlderChange,
 }: any) => {
   const personaliseDataListItem =
     data && data.length > 0
@@ -46,12 +47,13 @@ const MarketTabs = ({
   const [showFilter, setShowFilter] = useState(false);
   const [dayFilterShow, setDayFilterShow] = useState(false);
   const [dayFilterValueset, setDayFilterValueset] = useState({
-    value: "1day",
+    value: "1d",
     label: "1 Day",
   });
   const [filterMenuData, setFilterMenuData]: any = useState("");
   const { state } = useStateContext();
   const { isLogin } = state.login;
+
   const tabClick = (viewId: any) => {
     tabsViewIdUpdate(viewId);
   };
@@ -123,6 +125,17 @@ const MarketTabs = ({
   const dayFilterHandler = () => {
     console.log("you write here you filer rule");
     setDayFilterShow(true);
+  };
+  const filterChangeHandler = (value: any, label: any) => {
+    const filterDataSet = { value, label };
+    setDayFilterValueset(filterDataSet);
+    dayFitlerHanlderChange(value, label);
+    setDayFilterShow(false);
+    // const url = `${pathname}?${searchParams}`
+    // const newDuration = value.toLowerCase();
+    // const newUrl = url.replace(/duration=[^&]*/, "duration=" + newDuration);
+
+    // router.push(newUrl,{scroll: false})
   };
   // ====  Here only Filter tabs code start here
   const showFilterMenu = (value: boolean) => {
@@ -335,7 +348,7 @@ const MarketTabs = ({
         <DayFitler
           setDayFilterShow={setDayFilterShow}
           selectedDay={dayFilterValueset}
-          setDayFilterValueset={setDayFilterValueset}
+          filterHandler={filterChangeHandler}
         />
       ) : (
         ""

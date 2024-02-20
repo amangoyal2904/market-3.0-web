@@ -1,18 +1,14 @@
 import styles from "./DayFilter.module.scss";
 import { useRef, useEffect, useState } from "react";
 
-const DayFitler = ({
-  selectedDay,
-  setDayFilterShow,
-  setDayFilterValueset,
-}: any) => {
+const DayFitler = ({ selectedDay, setDayFilterShow, filterHandler }: any) => {
   const FilterRadioData = [
-    { label: "1 Day", value: "1day", id: 1 },
-    { label: "1 Week", value: "1week", id: 2 },
-    { label: "1 Month", value: "1month", id: 3 },
-    { label: "3 Months", value: "3months", id: 4 },
-    { label: "6 Months", value: "6months", id: 5 },
-    { label: "1 Year", value: "1year", id: 6 },
+    { label: "1 Day", value: "1d", id: 1 },
+    { label: "1 Week", value: "1w", id: 2 },
+    { label: "1 Month", value: "1m", id: 3 },
+    { label: "3 Months", value: "3m", id: 4 },
+    { label: "6 Months", value: "6m", id: 5 },
+    { label: "1 Year", value: "1y", id: 6 },
   ];
   const popupRef = useRef<HTMLDivElement | null>(null);
   const handleClickOutside = (event: any) => {
@@ -27,7 +23,7 @@ const DayFitler = ({
     }
   };
   const dayOnChangeHandler = (value: any, label: any) => {
-    setDayFilterValueset({ value, label });
+    filterHandler(value, label);
   };
   useEffect(() => {
     if (setDayFilterShow) {
