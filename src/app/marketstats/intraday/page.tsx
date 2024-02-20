@@ -34,7 +34,7 @@ const fetchTableData = async (
   if (!!filter && filter.length) {
     bodyParams.filterType = "index";
   }
-
+  console.log("___bodyParams", bodyParams);
   const response = await Service.post({
     url: apiUrl,
     headers: {
@@ -50,7 +50,7 @@ const fetchTableData = async (
 const Intraday = async ({ searchParams }: any) => {
   const type = searchParams?.type;
   const duration = searchParams.duration ? searchParams.duration : "1D";
-  const filter = searchParams.filter ? [searchParams.filter] : [];
+  const filter = searchParams.filter ? [parseInt(searchParams.filter)] : [];
   const leftNavApi = (APIS_CONFIG as any)["MARKET_STATS_NAV"][APP_ENV];
   const leftNavPromise = await Service.get({
     url: leftNavApi,

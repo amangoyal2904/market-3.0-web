@@ -5,8 +5,14 @@ import MarketTable from "../../components/MarketTable/index";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import { getParameterByName } from "../../utils/index";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import Service from "@/network/service";
+
 const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [table_data, setTable_data] = useState(tableData);
   const [tabs_data, setTabs_data] = useState(tabsData);
   const tabData = tabs_data.data;
@@ -40,9 +46,6 @@ const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
       duration: duration,
       filterType: "index",
       filterValue: fitlerArrayValue,
-      // sort: [{ field: "R1MonthReturn", order: "DESC" }],
-      // pagesize: 100,
-      // pageno: 1,
     };
     let sendBodyDataParams = {};
     if (isLocalhost) {
@@ -53,7 +56,6 @@ const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
     } else {
       sendBodyDataParams = { ...bodyParams };
     }
-    console.log(bodyParams, apiUrl);
     const data = await fetch(apiUrl, {
       method: "POST",
       headers: {
@@ -61,6 +63,19 @@ const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
       },
       body: JSON.stringify(sendBodyDataParams),
     });
+    // const data:any = await Service.post({
+    //   url: apiUrl,
+    //   params: {},
+    //   payload:{
+    //     body:sendBodyDataParams,
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     cache: "no-store",
+    //   },
+
+    // });
+
     const res = await data.json();
     return res.dataList ? res.dataList : res;
   };
@@ -108,27 +123,33 @@ const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
     name: any,
     slectedTab: any,
   ) => {
-    const type = getParameterByName("type");
-    const duration = getParameterByName("duration");
-    const filter = id;
-    const tableData = await fetchTableData(
-      type,
-      duration,
-      filter,
-      activeViewId,
-    );
-    tableTabDataSethandler(tableData, activeViewId);
     setNiftyFilterData({
       name,
       id,
       slectedTab,
     });
-    const pathname = window.location.pathname;
-    const search = window.location.search;
-    let modifiedSearchString = search.replace(/(filter=)\d+/, `$1${id}`);
-    history.pushState({}, "", modifiedSearchString);
+
+    const url = `${pathname}?${searchParams}`;
+    let newUrl = "";
+    if (id !== 0) {
+      const newDuration = id.toLowerCase();
+      newUrl = url.replace(/filter=[^&]*/, "filter=" + newDuration);
+    } else {
+      newUrl = url.replace(/filter=[^&]*/, "filter=" + 0);
+      //newUrl = url.replace(/&?filter=[^&]*/, '');
+    }
+    router.push(newUrl, { scroll: false });
+  };
+  const dayFitlerHanlderChange = (value: any, label: any) => {
+    const url = `${pathname}?${searchParams}`;
+    const newDuration = value.toLowerCase();
+    const newUrl = url.replace(/duration=[^&]*/, "duration=" + newDuration);
+    router.push(newUrl, { scroll: false });
   };
   //console.log('___setTable_data',_tableData)
+  useEffect(() => {
+    tabsViewIdUpdateFun(activeViewId);
+  }, [searchParams]);
   return (
     <>
       <MarketTabs
@@ -141,6 +162,7 @@ const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
         showDayFilter={showDayFilter}
         filterDataChange={filterDataChangeHander}
         niftyFilterData={niftyFilterData}
+        dayFitlerHanlderChange={dayFitlerHanlderChange}
       />
       <MarketTable
         data={_tableData}

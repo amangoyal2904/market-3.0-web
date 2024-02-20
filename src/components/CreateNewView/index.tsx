@@ -290,8 +290,8 @@ const CreateNewViewComponent = ({
   }, [debouncedSearchTerm]);
   return (
     <>
-      <div className={`${styles.wraper}`}>
-        <div className={styles.perWrap} ref={viewWraperRef}>
+      <div className={`customeModule ${styles.wraper}`}>
+        <div className={`moduleWrap ${styles.perWrap}`} ref={viewWraperRef}>
           <div className={styles.header}>
             <span>
               {editmode && editmode.mode && editmode.viewId !== ""
@@ -313,7 +313,7 @@ const CreateNewViewComponent = ({
                             <input type="text" placeholder="Please enter screener name" value={screenerName} onChange={(e:any)=>setScreenerName(e.target.value)} />
                         </div> */}
           </div>
-          <div className={styles.body}>
+          <div className={`moduleBody ${styles.body}`}>
             <div className={styles.bodySec}>
               <div className={styles.filterSec}>
                 <div className={styles.leftSec}>
