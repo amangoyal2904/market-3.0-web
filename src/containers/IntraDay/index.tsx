@@ -6,7 +6,7 @@ import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import { getParameterByName } from "../../utils/index";
 import { useState } from "react";
-const MarketStatsIntraDay = ({ tabsData, tableData }: any) => {
+const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
   const [table_data, setTable_data] = useState(tableData);
   const [tabs_data, setTabs_data] = useState(tabsData);
   const tabData = tabs_data.data;
@@ -142,7 +142,11 @@ const MarketStatsIntraDay = ({ tabsData, tableData }: any) => {
         filterDataChange={filterDataChangeHander}
         niftyFilterData={niftyFilterData}
       />
-      <MarketTable data={_tableData} tableHeaders={tableHeaderData} />
+      <MarketTable
+        data={_tableData}
+        tableHeaders={tableHeaderData}
+        ivKey={ivKey}
+      />
     </>
   );
 };

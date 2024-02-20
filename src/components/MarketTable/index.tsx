@@ -13,6 +13,7 @@ interface propsType {
   tabsViewIdUpdate?: any;
   showTableCheckBox?: boolean;
   multipleStockCollect?: any;
+  ivKey: any;
 }
 
 const MarketTable = (props: propsType) => {
@@ -23,7 +24,9 @@ const MarketTable = (props: propsType) => {
     tabsViewIdUpdate,
     showTableCheckBox = false,
     multipleStockCollect,
+    ivKey,
   } = props || {};
+  const [ivKeyPhrase, setIvKeyPhrase] = useState(ivKey);
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
@@ -263,6 +266,7 @@ const MarketTable = (props: propsType) => {
               handleFilterChange={handleFilterChange}
               isPrime={isPrime}
               hideThead={hideThead}
+              ivKeyPhrase={ivKeyPhrase}
             />
           </>
         )}

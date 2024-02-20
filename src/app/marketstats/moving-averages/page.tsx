@@ -7,10 +7,11 @@ import MarketTabs from "@/components/MarketTabs";
 import MarketTable from "@/components/MarketTable";
 
 const fetchTabsData = async (statstype: string) => {
-  const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?statstype=${statstype}`;
+  const apiUrl = `${(APIS_CONFIG as any)?.["watchListTab"][APP_ENV]}?statstype=${statstype}`;
   const response = await Service.get({
     url: apiUrl,
     params: {},
+    cache: "no-store",
   });
   return response?.json();
 };
@@ -22,22 +23,25 @@ const fetchTableData = async (
   filter: any,
   activeViewId: any,
 ) => {
-  const apiUrl =
-    "https://qcbselivefeeds.indiatimes.com/et-screener/moving-averages";
-  const bodyParams = {
-    filterType: "index",
+  const apiUrl = (APIS_CONFIG as any)?.["movingAverages"][APP_ENV];
+  const bodyParams: any = {
     filterValue: filter,
     viewId: activeViewId,
     firstOperand: firstOperand,
     operationType: operationType,
     secondOperand: secondOperand,
   };
+
+  if (!!filter && filter.length) {
+    bodyParams.filterType = "index";
+  }
+
   const response = await Service.post({
     url: apiUrl,
     headers: {
       "Content-Type": "application/json",
     },
-    payload: {},
+    cache: "no-store",
     body: JSON.stringify(bodyParams),
     params: {},
   });
@@ -54,6 +58,7 @@ const MovingAverages = async ({ searchParams }: any) => {
   const leftNavPromise = await Service.get({
     url: leftNavApi,
     params: {},
+    cache: "no-store",
   });
   const leftNavResult = await leftNavPromise?.json();
   const tabData = await fetchTabsData(type);
@@ -65,6 +70,9 @@ const MovingAverages = async ({ searchParams }: any) => {
     filter,
     activeViewId,
   );
+
+  const ivKey = responseData?.iv;
+
   const tableData = responseData?.dataList
     ? responseData.dataList
     : responseData;
@@ -107,6 +115,7 @@ const MovingAverages = async ({ searchParams }: any) => {
           <MarketTable
             data={TableData.data}
             tableHeaders={TableData.tableHeaders}
+            ivKey={ivKey}
           />
         </div>
       </div>
