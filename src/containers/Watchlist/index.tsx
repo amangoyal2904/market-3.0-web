@@ -16,6 +16,7 @@ const Watchlist = () => {
   const [tableData, setTableData] = useState<any>([]);
   const [showTableCheckBox, setShowTableCheckBox] = useState(false);
   const [unFollowStocksList, setUnFollowStocksList] = useState([]);
+  const [ivKey, setIvKey] = useState(false);
   const { state } = useStateContext();
   const { isLogin, userInfo } = state.login;
 
@@ -40,6 +41,7 @@ const Watchlist = () => {
     const res = await fetchTableData(viewId);
     if (res.message == "success") {
       setTableData(res.dataList);
+      setIvKey(res?.iv);
       setAPISuccess(true);
     }
   };
@@ -128,6 +130,7 @@ const Watchlist = () => {
             apiSuccess={apiSuccess}
             showTableCheckBox={showTableCheckBox}
             multipleStockCollect={multipleStockCollect}
+            ivKey={ivKey}
           />
         </>
       )}

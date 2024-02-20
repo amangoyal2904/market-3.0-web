@@ -65,6 +65,10 @@
     "development": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData",
     "production": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData"
   },
+  "movingAverages": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/moving-averages",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/moving-averages"
+  },
   "marketStatsIntraday": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats",
     "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"
