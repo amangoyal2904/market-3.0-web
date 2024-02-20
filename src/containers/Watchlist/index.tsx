@@ -77,7 +77,8 @@ const Watchlist = () => {
         }
       }
     } else {
-      alert("please selected at least one stock");
+      setShowTableCheckBox(false);
+      //alert("please selected at least one stock");
     }
   };
   const multipleStockCollect = (e: any, companyId: any, assetType: any) => {
