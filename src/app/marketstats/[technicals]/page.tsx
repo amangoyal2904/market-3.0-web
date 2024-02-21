@@ -1,23 +1,21 @@
 import styles from "../Marketstats.module.scss";
 import useMarketStatsNav from "../useMarketStatsNav";
 import useTechnicalTab from "../useTechnicalTab";
-import Marketstats from "../marketstats";
 import useTechnicalTable from "../useTechnicalTable";
+import Marketstats from "../marketstats";
 
-const Intraday = async ({ searchParams }: any) => {
+const MovingAverages = async ({ searchParams }: any) => {
   const type = searchParams?.type;
-  const duration = searchParams.duration ? searchParams.duration : "1D";
   const filter = searchParams.filter ? [parseInt(searchParams.filter)] : [];
 
   const { l3Nav, metaData } = await useMarketStatsNav({
     type,
     filter,
-    duration,
   });
   const { tabData, activeViewId } = await useTechnicalTab({
     type,
   });
-  const pageType = "intraday";
+  const pageType = "techcnials";
   const { tableHeaderData, tableData, ivKey } = await useTechnicalTable({
     activeViewId,
     pageType,
@@ -40,4 +38,4 @@ const Intraday = async ({ searchParams }: any) => {
   );
 };
 
-export default Intraday;
+export default MovingAverages;
