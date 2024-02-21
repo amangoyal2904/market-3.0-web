@@ -47,41 +47,22 @@ const LeftNav = (props: any) => {
     <div
       className={`${styles.navWrap} ${isExpanded ? styles.expanded : styles.collapsed}`}
     >
-      <div className={styles.toggleMenuWrap} onClick={toggleMenu}>
-        <span
-          className={`${styles.toggleMenu} ${isExpanded ? "eticon_prev" : "eticon_next"}`}
-        ></span>
-      </div>
-      <div>
-        <ul className={styles.marketNavWrap}>
-          {markets?.nav.map((value: any, index: any) => {
-            return (
-              <li
-                className={`${styles.navListWrap} ${styles.l2Collapsed}`}
-                key={`market_nav_${index}`}
-              >
-                {value.link ? (
-                  <Link href={value.link} className={styles.mainTabWrap}>
-                    <span className={`${value.icon} ${styles.navIcon}`}></span>
-                    <span
-                      className={`${!isExpanded ? styles.hide : ""} ${styles.l1LabelName}`}
-                    >
-                      {value.label}
-                    </span>
-                    {value.sec && (
-                      <span
-                        className={`eticon_caret_right ${styles.caret_right}`}
-                      ></span>
-                    )}
-                  </Link>
-                ) : (
-                  <>
-                    <div
-                      className={styles.mainTabWrap}
-                      onClick={(e) => {
-                        value.sec && toggleL2Menu(e);
-                      }}
-                    >
+      <div className={styles.navInnerWrap}>
+        <div className={styles.toggleMenuWrap} onClick={toggleMenu}>
+          <span
+            className={`${styles.toggleMenu} ${isExpanded ? "eticon_prev" : "eticon_next"}`}
+          ></span>
+        </div>
+        <div>
+          <ul className={styles.marketNavWrap}>
+            {markets?.nav.map((value: any, index: any) => {
+              return (
+                <li
+                  className={`${styles.navListWrap} ${!isExpanded ? styles.l2Collapsed : ""}`}
+                  key={`market_nav_${index}`}
+                >
+                  {value.link ? (
+                    <Link href={value.link} className={styles.mainTabWrap}>
                       <span
                         className={`${value.icon} ${styles.navIcon}`}
                       ></span>
@@ -95,54 +76,78 @@ const LeftNav = (props: any) => {
                           className={`eticon_caret_right ${styles.caret_right}`}
                         ></span>
                       )}
-                    </div>
-                    <ul
-                      className={styles.l2ListWrap}
-                      key={`market_nav___${index}`}
-                    >
-                      <li className={`${styles.l2ListWrapName}`}>
-                        {value.label}
-                      </li>
-                      {value?.sec.map((sec: any, index: number) => {
-                        return (
-                          <li
-                            className={`${styles.l2List} ${pathname == sec.link ? styles.active : ""}`}
-                            key={`l2_label_${index}`}
-                          >
-                            <Link href={sec.link}>{sec.label}</Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-        <div className={styles.marketProWrap}>
-          <h3 className={styles.proHeading}>
-            {isExpanded ? markets_pro.heading : "PRO"}
-          </h3>
-          <ul>
-            {markets_pro?.nav.map((value: any, index: any) => {
-              return (
-                <li
-                  className={styles.navListWrap}
-                  key={`market_pro_nav_${index}`}
-                >
-                  <Link href={value.link} className={styles.mainTabWrap}>
-                    <span className={`${value.icon} ${styles.navIcon}`}></span>
-                    <span
-                      className={`${!isExpanded ? styles.hide : ""} ${styles.l1LabelName}`}
-                    >
-                      {value.label}
-                    </span>
-                  </Link>
+                    </Link>
+                  ) : (
+                    <>
+                      <div
+                        className={styles.mainTabWrap}
+                        onClick={(e) => {
+                          value.sec && toggleL2Menu(e);
+                        }}
+                      >
+                        <span
+                          className={`${value.icon} ${styles.navIcon}`}
+                        ></span>
+                        <span
+                          className={`${!isExpanded ? styles.hide : ""} ${styles.l1LabelName}`}
+                        >
+                          {value.label}
+                        </span>
+                        {value.sec && (
+                          <span
+                            className={`eticon_caret_right ${styles.caret_right}`}
+                          ></span>
+                        )}
+                      </div>
+                      <ul
+                        className={styles.l2ListWrap}
+                        key={`market_nav___${index}`}
+                      >
+                        {value?.sec.map((sec: any, index: number) => {
+                          return (
+                            <li
+                              className={`${styles.l2List} ${pathname == sec.link ? styles.active : ""}`}
+                              key={`l2_label_${index}`}
+                            >
+                              <Link href={sec.link}>{sec.label}</Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </>
+                  )}
                 </li>
               );
             })}
           </ul>
+          <div className={styles.marketProWrap}>
+            <h3 className={styles.proHeading}>
+              <span className={styles.expandTitle}>{markets_pro.heading}</span>
+              <span className={styles.collapsedTitle}>PRO</span>
+              {/* {isExpanded ?  : } */}
+            </h3>
+            <ul>
+              {markets_pro?.nav.map((value: any, index: any) => {
+                return (
+                  <li
+                    className={styles.navListWrap}
+                    key={`market_pro_nav_${index}`}
+                  >
+                    <Link href={value.link} className={styles.mainTabWrap}>
+                      <span
+                        className={`${value.icon} ${styles.navIcon}`}
+                      ></span>
+                      <span
+                        className={`${!isExpanded ? styles.hide : ""} ${styles.l1LabelName}`}
+                      >
+                        {value.label}
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
