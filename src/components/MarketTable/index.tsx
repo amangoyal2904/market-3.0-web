@@ -182,7 +182,7 @@ const MarketTable = (props: propsType) => {
     const eleHeader: any = document.getElementById("header");
     const eleTable: any = document.getElementById("table");
     const heightDifference =
-      eleTable.offsetTop - eleHeader.offsetTop - eleHeader.offsetHeight;
+      eleTable?.offsetTop - eleHeader?.offsetTop - eleHeader?.offsetHeight;
     const theadBottom: any = document
       .getElementById("thead")
       ?.getBoundingClientRect().bottom;
