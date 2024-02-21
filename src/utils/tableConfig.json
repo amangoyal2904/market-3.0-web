@@ -10,15 +10,15 @@
   "watchList": {
     "tabs": true,
     "loader": true,
-    "showshowFilterInput": true,
+    "showFilterInput": true,
     "isSorting": true,
     "isHeaderSticky": true,
     "loaderType": "global"
   },
   "marketStats": {
     "tabs": true,
-    "loader": true,
-    "showshowFilterInput": true,
+    "loader": false,
+    "showFilterInput": false,
     "isSorting": true,
     "isHeaderSticky": true,
     "loaderType": "inner"
