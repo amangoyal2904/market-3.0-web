@@ -13,6 +13,8 @@ interface propsType {
   tabsViewIdUpdate?: any;
   showTableCheckBox?: boolean;
   multipleStockCollect?: any;
+  loader?: boolean;
+  tableConfig?: any;
 }
 
 const MarketTable = (props: propsType) => {
@@ -23,7 +25,9 @@ const MarketTable = (props: propsType) => {
     tabsViewIdUpdate,
     showTableCheckBox = false,
     multipleStockCollect,
+    tableConfig = {},
   } = props || {};
+  const { loader = false, loaderType } = tableConfig || {};
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
@@ -230,7 +234,9 @@ const MarketTable = (props: propsType) => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
   }, []);
-
+  if (!loaderOff && loader) {
+    return <Loader loaderType={loaderType} />;
+  }
   return (
     <>
       <div className={styles.tableWrapper} id="table">
@@ -249,6 +255,7 @@ const MarketTable = (props: propsType) => {
               hideThead={hideThead}
               showRemoveCheckbox={showTableCheckBox}
               removeCheckBoxHandle={removeCheckBoxHandleFun}
+              tableConfig={tableConfig}
             />
             <ScrollableTable
               tableHeaderData={tableHeaderData}
@@ -262,6 +269,7 @@ const MarketTable = (props: propsType) => {
               handleFilterChange={handleFilterChange}
               isPrime={isPrime}
               hideThead={hideThead}
+              tableConfig={tableConfig}
             />
           </>
         )}

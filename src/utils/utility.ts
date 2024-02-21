@@ -8,7 +8,6 @@ import Service from "../network/service";
 const API_SOURCE = 18;
 
 export const fetchTabsData = async () => {
-  //const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
   const ssoid = window.objUser?.ssoid;
   const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?ssoid=${ssoid}`;
   const data = await fetch(apiUrl, {
@@ -21,12 +20,12 @@ export const fetchTabsData = async () => {
   return res;
 };
 
-export const fetchTableData = async (viewId: any) => {
-  //const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
+export const fetchTableData = async (viewId: any, params?: any) => {
   const ssoid = window.objUser?.ssoid;
   const apiUrl = (APIS_CONFIG as any)?.watchListTable["development"];
   const data = await fetch(apiUrl, {
     method: "POST",
+    cache: "no-store",
     headers: {
       "Content-Type": "application/json",
       ssoid: ssoid,
@@ -36,6 +35,7 @@ export const fetchTableData = async (viewId: any) => {
       type: "STOCK",
       viewId: viewId,
       deviceId: "web",
+      ...params,
     }),
   });
   const res = await data.json();
@@ -163,17 +163,13 @@ export const createPfuuid = async (fpid: any) => {
 
   let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
   url = url + `?type=7&source=${API_SOURCE}`;
-  console.log("@@@@@-->inpfuuid",url);
+  console.log("@@@@@-->inpfuuid", url);
   Service.get({ url, headers, withCredentials: true })
     .then((res: any) => {
       if (res && res.data && res.data.id != 0) {
-        //console.log("@@@@--->>>>>", res);
         var pfuuid = res.data.id;
         setCookies("pfuuid", pfuuid);
       }
-      // if (res && res.data && res.data.newUser) {
-      //   grxEvent('event', {'event_category': 'New_User_Registration', 'event_action': 'New_User', 'event_label': 'New_User'});
-      // }
     })
     .catch((e: any) => console.log("error in createPfuuid", e));
 };
@@ -181,7 +177,7 @@ export const createPfuuid = async (fpid: any) => {
 export const createPeuuid = (fpid: any) => {
   let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
   url = url + `?type=0&source=${API_SOURCE}`;
-  console.log("@@@@@-->inpfuuid",url);
+  console.log("@@@@@-->inpfuuid", url);
   const headers = {
     "Content-type": "application/json",
   };

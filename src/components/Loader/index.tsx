@@ -1,9 +1,16 @@
 import styles from "./styles.module.scss";
 
-const Loader = () => {
+const Loader = ({ loaderType }: any) => {
   return (
     <>
-      <div className={styles.loading_layer} id="loading_layer">
+      <div
+        className={
+          loaderType == "inner"
+            ? styles.innerLoading_layer
+            : styles.loading_layer
+        }
+        id="loading_layer"
+      >
         <div className={styles.spinner}>
           <div></div>
           <div></div>
@@ -13,5 +20,5 @@ const Loader = () => {
       </div>
     </>
   );
-}
+};
 export default Loader;
