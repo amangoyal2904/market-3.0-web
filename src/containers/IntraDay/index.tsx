@@ -1,5 +1,4 @@
 "use client";
-
 import MarketTabs from "../../components/MarketTabs/index";
 import MarketTable from "../../components/MarketTable/index";
 import APIS_CONFIG from "../../network/api_config.json";
@@ -7,7 +6,6 @@ import { APP_ENV } from "../../utils/index";
 import { getParameterByName } from "../../utils/index";
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import Service from "@/network/service";
 
 const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
   const pathname = usePathname();
@@ -79,6 +77,7 @@ const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
     const res = await data.json();
     return res.dataList ? res.dataList : res;
   };
+
   const tabsViewIdUpdateFun = async (viewId: any) => {
     const type = getParameterByName("type");
     const duration = getParameterByName("duration");
@@ -92,6 +91,7 @@ const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
     );
     tableTabDataSethandler(tableData, viewId);
   };
+
   const tableTabDataSethandler = async (tableData: any, viewId: any) => {
     const filterTableData =
       tableData &&
@@ -146,7 +146,6 @@ const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
     const newUrl = url.replace(/duration=[^&]*/, "duration=" + newDuration);
     router.push(newUrl, { scroll: false });
   };
-  //console.log('___setTable_data',_tableData)
   useEffect(() => {
     tabsViewIdUpdateFun(activeViewId);
   }, [searchParams]);
