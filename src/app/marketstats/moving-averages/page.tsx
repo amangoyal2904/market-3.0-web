@@ -3,7 +3,8 @@ import styles from "../Marketstats.module.scss";
 import { APP_ENV } from "@/utils";
 import Service from "@/network/service";
 import MarketStatsNav from "@/components/MarketStatsNav";
-import MarketStatsIntraDay from "../../../containers/IntraDay/index";
+import MarketTabs from "@/components/MarketTabs";
+import MarketTable from "@/components/MarketTable";
 
 const fetchTabsData = async (statstype: string) => {
   const apiUrl = `${(APIS_CONFIG as any)?.["watchListTab"][APP_ENV]}?statstype=${statstype}`;
@@ -12,29 +13,29 @@ const fetchTabsData = async (statstype: string) => {
     params: {},
     cache: "no-store",
   });
-
   return response?.json();
 };
 
 const fetchTableData = async (
-  type: any,
-  duration: any,
+  firstOperand: any,
+  secondOperand: any,
+  operationType: any,
   filter: any,
   activeViewId: any,
 ) => {
-  const apiUrl = (APIS_CONFIG as any)?.["marketStatsIntraday"][APP_ENV];
+  const apiUrl = (APIS_CONFIG as any)?.["movingAverages"][APP_ENV];
   const bodyParams: any = {
-    viewId: activeViewId,
-    apiType: type.toLowerCase(),
-    duration: duration.toUpperCase(),
     filterValue: filter,
-    sort: [],
+    viewId: activeViewId,
+    firstOperand: firstOperand,
+    operationType: operationType,
+    secondOperand: secondOperand,
   };
 
   if (!!filter && filter.length) {
     bodyParams.filterType = "index";
   }
-  console.log("___bodyParams", bodyParams);
+
   const response = await Service.post({
     url: apiUrl,
     headers: {
@@ -47,22 +48,25 @@ const fetchTableData = async (
   return response?.json();
 };
 
-const Intraday = async ({ searchParams }: any) => {
+const MovingAverages = async ({ searchParams }: any) => {
   const type = searchParams?.type;
-  const duration = searchParams.duration ? searchParams.duration : "1D";
   const filter = searchParams.filter ? [parseInt(searchParams.filter)] : [];
+  const firstOperand = searchParams?.firstoperand;
+  const operationType = searchParams?.operationtype;
+  const secondOperand = searchParams?.secondoperand;
   const leftNavApi = (APIS_CONFIG as any)["MARKET_STATS_NAV"][APP_ENV];
   const leftNavPromise = await Service.get({
     url: leftNavApi,
-    cache: "no-store",
     params: {},
+    cache: "no-store",
   });
   const leftNavResult = await leftNavPromise?.json();
   const tabData = await fetchTabsData(type);
   const activeViewId = tabData[0].viewId;
   const responseData = await fetchTableData(
-    type,
-    duration,
+    firstOperand,
+    secondOperand,
+    operationType,
     filter,
     activeViewId,
   );
@@ -72,33 +76,45 @@ const Intraday = async ({ searchParams }: any) => {
   const tableData = responseData?.dataList
     ? responseData.dataList
     : responseData;
+
   const tableHeaderData =
     tableData && tableData.length && tableData[0] && tableData[0]?.data
       ? tableData[0]?.data
       : [];
+
   const TabsData: any = {
     data: tabData,
     activeViewId: activeViewId,
     showAddStock: false,
     showEditStock: false,
-    showNiftyFilter: true,
-    showDayFilter: true,
+    showNiftyFilter: false,
+    showDayFilter: false,
   };
+
   const TableData: any = {
     data: tableData,
     tableHeaders: tableHeaderData,
   };
   return (
     <>
-      <h1 className="heading">Top Gainers</h1>
+      <h1 className="heading">Moving Averages</h1>
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
           <MarketStatsNav leftNavResult={leftNavResult} />
         </aside>
         <div className={styles.rhs}>
-          <MarketStatsIntraDay
-            tabsData={TabsData}
-            tableData={TableData}
+          <MarketTabs
+            data={TabsData.data}
+            activeViewId={TabsData.activeViewId}
+            showAddStock={TabsData.showAddStock}
+            showEditStock={TabsData.showEditStock}
+            showNiftyFilter={TabsData.showNiftyFilter}
+            tabsViewIdUpdate={TabsData.tabsViewIdUpdateFun}
+            showDayFilter={TabsData.showDayFilter}
+          />
+          <MarketTable
+            data={TableData.data}
+            tableHeaders={TableData.tableHeaders}
             ivKey={ivKey}
           />
         </div>
@@ -107,4 +123,4 @@ const Intraday = async ({ searchParams }: any) => {
   );
 };
 
-export default Intraday;
+export default MovingAverages;

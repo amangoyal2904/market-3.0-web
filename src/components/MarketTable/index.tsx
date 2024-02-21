@@ -15,6 +15,7 @@ interface propsType {
   multipleStockCollect?: any;
   loader?: boolean;
   tableConfig?: any;
+  ivKey?: any;
 }
 
 const MarketTable = (props: propsType) => {
@@ -26,8 +27,10 @@ const MarketTable = (props: propsType) => {
     showTableCheckBox = false,
     multipleStockCollect,
     tableConfig = {},
+    ivKey,
   } = props || {};
   const { loader = false, loaderType } = tableConfig || {};
+  const [ivKeyPhrase, setIvKeyPhrase] = useState(ivKey);
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
@@ -220,7 +223,10 @@ const MarketTable = (props: propsType) => {
       const sortedData = sortTableData(filteredData);
       setTableDataList((tableDataList) => [...sortedData]);
       setTableHeaderData(tableHeaders);
+      setIvKeyPhrase(ivKey);
       if (!loaderOff) setLoaderOff(true);
+    } else if (data.length === 0) {
+      setTableDataList([]);
     }
 
     const isPrime =
@@ -270,6 +276,7 @@ const MarketTable = (props: propsType) => {
               isPrime={isPrime}
               hideThead={hideThead}
               tableConfig={tableConfig}
+              ivKeyPhrase={ivKeyPhrase}
             />
           </>
         )}
