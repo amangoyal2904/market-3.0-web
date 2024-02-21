@@ -10,6 +10,7 @@ import APIS_CONFIG from "../network/api_config.json";
 import { APP_ENV } from "@/utils";
 import service from "@/network/service";
 import { StateProvider } from "@/store/StateContext";
+import NextTopLoader from "nextjs-toploader";
 
 declare global {
   interface Window {
@@ -47,6 +48,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className="h-full bg-gray-50">
       <body className="h-full">
+        <NextTopLoader />
         <StateProvider>
           <main>
             <Headers />

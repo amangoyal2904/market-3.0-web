@@ -9,7 +9,6 @@ import CryptoJS from "crypto-js";
 const API_SOURCE = 18;
 
 export const fetchTabsData = async () => {
-  //const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
   const ssoid = window.objUser?.ssoid;
   const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?ssoid=${ssoid}`;
   const data = await fetch(apiUrl, {
@@ -22,12 +21,12 @@ export const fetchTabsData = async () => {
   return res;
 };
 
-export const fetchTableData = async (viewId: any) => {
-  //const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
+export const fetchTableData = async (viewId: any, params?: any) => {
   const ssoid = window.objUser?.ssoid;
   const apiUrl = (APIS_CONFIG as any)?.watchListTable["development"];
   const data = await fetch(apiUrl, {
     method: "POST",
+    cache: "no-store",
     headers: {
       "Content-Type": "application/json",
       ssoid: ssoid,
@@ -37,6 +36,7 @@ export const fetchTableData = async (viewId: any) => {
       type: "STOCK",
       viewId: viewId,
       deviceId: "web",
+      ...params,
     }),
   });
   const res = await data.json();

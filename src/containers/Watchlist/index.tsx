@@ -7,6 +7,7 @@ import { fetchTabsData, fetchTableData } from "@/utils/utility";
 import { useStateContext } from "../../store/StateContext";
 import { removeMultipleStockInWatchList } from "../../utils/utility";
 import Blocker from "../../components/Blocker";
+import tableConfig from "../../utils/tableConfig.json";
 
 const Watchlist = () => {
   const [wathcListTab, setWatchListTab] = useState([]);
@@ -19,6 +20,7 @@ const Watchlist = () => {
   const [ivKey, setIvKey] = useState(false);
   const { state } = useStateContext();
   const { isLogin, userInfo } = state.login;
+  const config = tableConfig["watchList"];
 
   const tabsViewIdUpdate = (viewId: any) => {
     if (viewId != activeViewId) {
@@ -132,6 +134,7 @@ const Watchlist = () => {
             showTableCheckBox={showTableCheckBox}
             multipleStockCollect={multipleStockCollect}
             ivKey={ivKey}
+            tableConfig={config}
           />
         </>
       )}

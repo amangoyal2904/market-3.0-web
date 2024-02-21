@@ -18,9 +18,14 @@ const ScrollableTable = (props: any) => {
     handleFilterChange,
     isPrime = false,
     hideThead = false,
+    tableConfig = {},
     ivKeyPhrase,
   } = props || {};
-
+  const {
+    showFilterInput = true,
+    isSorting = true,
+    isHeaderSticky = true,
+  } = tableConfig || {};
   return (
     <div
       id="scrollableTable"
@@ -30,13 +35,13 @@ const ScrollableTable = (props: any) => {
       <table className={styles.watchListTable}>
         <thead
           style={{
-            transform: `translateY(${
-              headerSticky > topScrollHeight
-                ? headerSticky - topScrollHeight
-                : 0
-            }px)`,
+            transform: `translateY(${isHeaderSticky ? (headerSticky > topScrollHeight ? headerSticky - topScrollHeight : 0) : 0}px)`,
           }}
-          className={hideThead && tableDataList.length ? styles.hideThead : ""}
+          className={
+            isHeaderSticky && hideThead && tableDataList.length
+              ? styles.hideThead
+              : ""
+          }
         >
           <tr>
             {tableHeaderData.map(
@@ -44,56 +49,61 @@ const ScrollableTable = (props: any) => {
                 index > 2 && (
                   <th
                     className={
-                      !thead.primeFlag || (isPrime && thead.primeFlag)
+                      isSorting &&
+                      (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? styles.enableSort
                         : ""
                     }
                     onClick={() => {
-                      !thead.primeFlag || (isPrime && thead.primeFlag)
+                      isSorting &&
+                      (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? handleSort(thead.keyId)
                         : null;
                     }}
                     key={thead.keyId}
                   >
                     {thead.keyText}
-                    {(!thead.primeFlag || (isPrime && thead.primeFlag)) && (
-                      <span className={`${styles.sortIcons}`}>
-                        <span
-                          className={`${
-                            sortData[thead.keyId] == "asc" ? styles.asc : ""
-                          } eticon_up_arrow`}
-                        ></span>
-                        <span
-                          className={`${
-                            sortData[thead.keyId] == "desc" ? styles.desc : ""
-                          } eticon_down_arrow`}
-                        ></span>
-                      </span>
-                    )}
+                    {isSorting &&
+                      (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
+                        <span className={`${styles.sortIcons}`}>
+                          <span
+                            className={`${
+                              sortData[thead.keyId] == "asc" ? styles.asc : ""
+                            } eticon_up_arrow`}
+                          ></span>
+                          <span
+                            className={`${
+                              sortData[thead.keyId] == "desc" ? styles.desc : ""
+                            } eticon_down_arrow`}
+                          ></span>
+                        </span>
+                      )}
                   </th>
                 ),
             )}
           </tr>
-          <tr>
-            {tableHeaderData.map(
-              (tdData: any, index: number) =>
-                index > 2 && (
-                  <td key={index} className={styles.inputWrapper}>
-                    <input
-                      className={styles.filterInput}
-                      type="text"
-                      name={tdData.keyId}
-                      data-type={tdData.valueType}
-                      value={filters[tdData.keyId] || ""}
-                      onChange={handleFilterChange}
-                      maxLength={20}
-                      placeholder="> #"
-                      disabled={!isPrime && tdData.primeFlag}
-                    ></input>
-                  </td>
-                ),
-            )}
-          </tr>
+          {showFilterInput && (
+            <tr>
+              {tableHeaderData.map(
+                (tdData: any, index: number) =>
+                  index > 2 && (
+                    <td key={index} className={styles.inputWrapper}>
+                      <input
+                        className={styles.filterInput}
+                        type="text"
+                        name={tdData.keyId}
+                        data-type={tdData.valueType}
+                        value={filters[tdData.keyId] || ""}
+                        onChange={handleFilterChange}
+                        maxLength={20}
+                        placeholder="> #"
+                        disabled={!isPrime && tdData.primeFlag}
+                      ></input>
+                    </td>
+                  ),
+              )}
+            </tr>
+          )}
         </thead>
         {tableDataList.length > 0 ? (
           <tbody>
