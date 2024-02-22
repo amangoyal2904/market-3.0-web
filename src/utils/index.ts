@@ -183,7 +183,7 @@ export const ssoLoginWidget = () => {
         };
       sc.type = "text/javascript";
       if (sessionStorage.getItem("openLogin_popup") == "true") {
-        //sc.onload = objUser.initSSOWidget();
+        (sc as any).onload = initSSOWidget();
         sessionStorage.removeItem("openLogin_popup");
       }
       sc.src = s;
