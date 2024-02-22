@@ -25,6 +25,7 @@ const Marketstats = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const l3NavType = searchParams.get("type");
 
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
@@ -152,7 +153,7 @@ const Marketstats = ({
       <p className={styles.desc}>{_metaData.desc}</p>
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
-          <MarketStatsNav leftNavResult={_l3Nav} />
+          <MarketStatsNav leftNavResult={_l3Nav} type={l3NavType} />
         </aside>
         <div className={styles.rhs}>
           <MarketTabs

@@ -43,6 +43,7 @@ const MovingAverages = async ({ searchParams }: any) => {
         tableHeaderData={tableHeaderData}
         tableData={tableData}
         ivKey={ivKey}
+        selectedFilter={selectedFilter}
         tableConfig={tableConfig["marketStatsTechnical"]}
         tabConfig={tabConfig["marketStatsTechnical"]}
       />
