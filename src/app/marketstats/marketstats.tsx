@@ -8,6 +8,83 @@ import { getParameterByName } from "@/utils";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import useTechnicalTab from "./useTechnicalTab";
 import { useStateContext } from "@/store/StateContext";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils";
+import Service from "@/network/service";
+
+const fetchTechnicalTable = async ({
+  activeViewId,
+  filter,
+  firstOperand,
+  operationType,
+  secondOperand,
+  sort,
+  pagesize,
+  pageno,
+}: any) => {
+  const apiUrl = (APIS_CONFIG as any)?.["movingAverages"][APP_ENV];
+  const bodyParams: any = {
+    viewId: activeViewId,
+    firstOperand: firstOperand,
+    operationType: operationType,
+    secondOperand: secondOperand,
+    filterValue: filter,
+    sort: sort,
+    pagesize: pagesize,
+    pageno: pageno,
+  };
+
+  if (!!filter && filter.length) {
+    bodyParams.filterType = "index";
+  }
+
+  const response = await Service.post({
+    url: apiUrl,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    cache: "no-store",
+    body: JSON.stringify(bodyParams),
+    params: {},
+  });
+  return response?.json();
+};
+
+const fetchIntradayTable = async ({
+  activeViewId,
+  type,
+  duration,
+  filter,
+  sort,
+  pagesize,
+  pageno,
+}: any) => {
+  const apiUrl = (APIS_CONFIG as any)?.["marketStatsIntraday"][APP_ENV];
+  const bodyParams: any = {
+    viewId: activeViewId,
+    apiType: type,
+    duration: duration,
+    filterValue: filter,
+    sort: sort,
+    pagesize: pagesize,
+    pageno: pageno,
+  };
+
+  if (!!filter && filter.length) {
+    bodyParams.filterType = "index";
+  }
+
+  const response = await Service.post({
+    url: apiUrl,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    cache: "no-store",
+    body: JSON.stringify(bodyParams),
+    params: {},
+  });
+  return response?.json();
+};
 
 const Marketstats = ({
   l3Nav,
@@ -39,10 +116,58 @@ const Marketstats = ({
     slectedTab: "nse",
   });
 
-  const onTabViewUpdate = async (viewId: any) => {
-    const activeViewId = viewId;
+  const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
     setMetaData(metaData);
+    setActiveViewId(activeViewId);
+    setTableData(tableData);
+    setTableHeaderData(tableHeaderData);
+    setIvKey(ivKey);
+  };
+
+  const onTabViewUpdate = async (viewId: any) => {
+    const type = searchParams.get("type");
+    const duration = searchParams.get("duration");
+    const intFilter = searchParams.get("filter");
+    const filter = !!intFilter ? [intFilter] : [];
+    const firstOperand = searchParams.get("firstoperand");
+    const operationType = searchParams.get("operationtype");
+    const secondOperand = searchParams.get("secondoperand");
+    const pagesize = 100;
+    const pageno = 1;
+    const sort: any = [];
+    const activeViewId = viewId;
+    const responseData = pathname.includes("intraday")
+      ? await fetchIntradayTable({
+          activeViewId,
+          type,
+          duration,
+          filter,
+          sort,
+          pagesize,
+          pageno,
+        })
+      : await fetchTechnicalTable({
+          activeViewId,
+          filter,
+          firstOperand,
+          operationType,
+          secondOperand,
+          sort,
+          pagesize,
+          pageno,
+        });
+
+    const ivKey = responseData.iv;
+    const tableData = responseData?.dataList
+      ? responseData.dataList
+      : responseData;
+
+    const tableHeaderData =
+      tableData && tableData.length && tableData[0] && tableData[0]?.data
+        ? tableData[0]?.data
+        : [];
+
     setActiveViewId(activeViewId);
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
@@ -87,7 +212,7 @@ const Marketstats = ({
   };
 
   useEffect(() => {
-    onTabViewUpdate(activeViewId);
+    onSearchParamChange();
   }, [searchParams]);
 
   return (
