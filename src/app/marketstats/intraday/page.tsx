@@ -5,6 +5,7 @@ import useIntradayTable from "../useIntradayTable";
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
 import { Metadata } from "next";
+import useSelectedFilter from "../useSelectedFilter";
 
 export const metadata: Metadata = {
   title: "Intraday",
@@ -38,6 +39,8 @@ const Intraday = async ({ searchParams }: any) => {
     pageno,
   });
 
+  const selectedFilter = await useSelectedFilter(intFilter);
+
   return (
     <>
       <Marketstats
@@ -48,6 +51,7 @@ const Intraday = async ({ searchParams }: any) => {
         tableHeaderData={tableHeaderData}
         tableData={tableData}
         ivKey={ivKey}
+        selectedFilter={selectedFilter}
         tableConfig={tableConfig["marketStatsIntrday"]}
         tabConfig={tabConfig["marketStatsIntrday"]}
       />

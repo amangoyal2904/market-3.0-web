@@ -4,6 +4,7 @@ import useTechnicalTable from "../useTechnicalTable";
 import Marketstats from "../marketstats";
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
+import useSelectedFilter from "../useSelectedFilter";
 
 const MovingAverages = async ({ searchParams }: any) => {
   const type = searchParams?.type;
@@ -29,6 +30,8 @@ const MovingAverages = async ({ searchParams }: any) => {
     pagesize,
     pageno,
   });
+
+  const selectedFilter = await useSelectedFilter(intFilter);
 
   return (
     <>

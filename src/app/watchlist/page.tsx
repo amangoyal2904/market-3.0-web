@@ -3,11 +3,7 @@
 import { useState, useEffect } from "react";
 import MarketTabs from "@/components/MarketTabs";
 import MarketTable from "@/components/MarketTable";
-import {
-  fetchTabsData,
-  fetchTableData,
-  generateMetaData,
-} from "@/utils/utility";
+import { fetchTabsData, fetchTableData } from "@/utils/utility";
 import { useStateContext } from "@/store/StateContext";
 import { removeMultipleStockInWatchList } from "@/utils/utility";
 import Blocker from "@/components/Blocker";
