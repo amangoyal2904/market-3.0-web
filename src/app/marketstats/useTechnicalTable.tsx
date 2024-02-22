@@ -1,44 +1,5 @@
-import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV } from "@/utils";
-import Service from "@/network/service";
+import { fetchTechnicalTable } from "@/utils/utility";
 
-const fetchTableData = async ({
-  activeViewId,
-  filter,
-  firstOperand,
-  operationType,
-  secondOperand,
-  sort,
-  pagesize,
-  pageno,
-}: any) => {
-  const apiUrl = (APIS_CONFIG as any)?.["movingAverages"][APP_ENV];
-  const bodyParams: any = {
-    viewId: activeViewId,
-    firstOperand: firstOperand,
-    operationType: operationType,
-    secondOperand: secondOperand,
-    filterValue: filter,
-    sort: sort,
-    pagesize: pagesize,
-    pageno: pageno,
-  };
-
-  if (!!filter && filter.length) {
-    bodyParams.filterType = "index";
-  }
-
-  const response = await Service.post({
-    url: apiUrl,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    cache: "no-store",
-    body: JSON.stringify(bodyParams),
-    params: {},
-  });
-  return response?.json();
-};
 const useTechnicalTable = async ({
   activeViewId,
   filter,
@@ -49,7 +10,7 @@ const useTechnicalTable = async ({
   pagesize,
   pageno,
 }: any) => {
-  const responseData = await fetchTableData({
+  const responseData = await fetchTechnicalTable({
     activeViewId,
     filter,
     firstOperand,

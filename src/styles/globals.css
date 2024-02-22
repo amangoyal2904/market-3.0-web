@@ -407,7 +407,7 @@ table {
 .main_container {
   padding: 20px;
   flex-grow: 1;
-  width: calc(100vw - 200px);
+  width: calc(100vw - 210px);
 }
 
 .heading {

@@ -256,6 +256,7 @@ const MarketTabs = ({
               className={`${styles.roundBtn} ${styles.filterNseBse}`}
               onClick={() => showFilterMenu(true)}
             >
+              <i className={`eticon_filter ${styles.mr}`}></i>{" "}
               {niftyFilterData?.name}
             </span>
           ) : (
@@ -266,7 +267,7 @@ const MarketTabs = ({
               className={`${styles.roundBtn} ${styles.fitlerDay}`}
               onClick={() => dayFilterHandler()}
             >
-              {dayFilterValueset.label}
+              {dayFilterValueset.label} <i className="eticon_caret_down"></i>
             </div>
           ) : (
             ""
@@ -312,8 +313,8 @@ const MarketTabs = ({
             </span>
           ) : null}
           {showExport ? (
-            <span className={`${styles.roundBtn} ${styles.exportIcon}`}>
-              Export
+            <span className={styles.roundBtn}>
+              Export <i className={`eticon_caret_down ${styles.ml}`}></i>
             </span>
           ) : null}
         </div>
