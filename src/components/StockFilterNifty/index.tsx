@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 interface StockSRFilterProps {
   data: { keyIndices: any; sectoralIndices: any; otherIndices: any; all: any };
   onclick: (value: boolean) => void;
-  valuechange: (id: string, name: string, slectedTab: string) => void;
+  valuechange: (id: string, name: string, selectedTab: string) => void;
   selectTab: string;
   childMenuTabAcive?: string;
   showFilter: boolean;
@@ -65,8 +65,8 @@ export default function StockFilterNifty({
     setActiveItem(index);
   };
   const clickFilterMenu = (name: any, indexid: any) => {
-    const slectedTab = nseBseMenuSelect;
-    valuechange(indexid, name, slectedTab);
+    const selectedTab = nseBseMenuSelect;
+    valuechange(indexid, name, selectedTab);
   };
   useEffect(() => {
     if (showFilter) {

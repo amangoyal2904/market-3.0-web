@@ -9,7 +9,7 @@ import Service from "@/network/service";
 
 const API_SOURCE = 18;
 
-export const generateMetaData = (meta?: any) => {
+export const fnGenerateMetaData = (meta?: any) => {
   return {
     title: `${meta?.title} | ET Markets`,
     generator: "ET Markets",
@@ -57,6 +57,16 @@ export const generateMetaData = (meta?: any) => {
     },
     manifest: "/manifest.cms",
   };
+};
+
+export const fetchFilters = async () => {
+  const apiUrl =
+    "https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson";
+  const response = await Service.get({
+    url: apiUrl,
+    params: {},
+  });
+  return response?.json();
 };
 
 export const fetchTabsData = async () => {

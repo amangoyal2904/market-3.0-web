@@ -24,7 +24,7 @@ const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
   const [niftyFilterData, setNiftyFilterData] = useState({
     name: "nifty50",
     id: 2350,
-    slectedTab: "nse",
+    selectedTab: "nse",
   });
 
   const fetchTableData = async (
@@ -121,12 +121,12 @@ const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
   const filterDataChangeHander = async (
     id: any,
     name: any,
-    slectedTab: any,
+    selectedTab: any,
   ) => {
     setNiftyFilterData({
       name,
       id,
-      slectedTab,
+      selectedTab,
     });
 
     const url = `${pathname}?${searchParams}`;

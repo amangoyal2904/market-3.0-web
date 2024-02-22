@@ -18,6 +18,7 @@ const Marketstats = ({
   tableHeaderData,
   tableData,
   ivKey,
+  selectedFilter,
   tableConfig,
   tabConfig,
 }: any) => {
@@ -34,11 +35,7 @@ const Marketstats = ({
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
   const [_ivKey, setIvKey] = useState(ivKey);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
-  const [niftyFilterData, setNiftyFilterData] = useState({
-    name: "Nifty 50",
-    id: 2350,
-    slectedTab: "nse",
-  });
+  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
 
   const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
@@ -47,6 +44,7 @@ const Marketstats = ({
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
     setIvKey(ivKey);
+    setNiftyFilterData(selectedFilter);
   };
 
   const onTabViewUpdate = async (viewId: any) => {
@@ -98,24 +96,33 @@ const Marketstats = ({
     setIvKey(ivKey);
   };
 
+  const updateOrAddParamToPath = (pathname: any, param: any, value: any) => {
+    const url = new URL(window.location.origin + pathname);
+    const searchParams = url.searchParams;
+
+    if (value === 0) {
+      searchParams.delete(param);
+    } else if (searchParams.has(param)) {
+      searchParams.set(param, value);
+    } else {
+      searchParams.append(param, value);
+    }
+
+    return url.pathname + "?" + searchParams.toString();
+  };
+
   const filterDataChangeHander = async (
     id: any,
     name: any,
-    slectedTab: any,
+    selectedTab: any,
   ) => {
     setNiftyFilterData({
       name,
       id,
-      slectedTab,
+      selectedTab,
     });
     const url = `${pathname}?${searchParams}`;
-    let newUrl = "";
-    if (id !== 0) {
-      const newFilter = id.toLowerCase();
-      newUrl = url.replace(/filter=[^&]*/, "filter=" + newFilter);
-    } else {
-      newUrl = url.replace(/filter=[^&]*/, "filter=" + 0);
-    }
+    const newUrl = updateOrAddParamToPath(url, "filter", id);
     router.push(newUrl, { scroll: false });
   };
 

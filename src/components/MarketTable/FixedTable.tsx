@@ -182,7 +182,7 @@ const FixedTable = (props: any) => {
                       )),
                   )}
                 </tr>
-              ))}{" "}
+              ))}
             </>
           </tbody>
         ) : (

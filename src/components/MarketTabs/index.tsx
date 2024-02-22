@@ -146,13 +146,13 @@ const MarketTabs = ({
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);
   };
-  const handleChagneData = (id: any, name: string, slectedTab: string) => {
+  const handleChagneData = (id: any, name: string, selectedTab: string) => {
     setShowFilter(false);
     sessionStorage.setItem("sr_filtervalue", id);
     sessionStorage.setItem("sr_filtername", name);
-    sessionStorage.setItem("sr_filtertab", slectedTab);
-    //setFilterMenuTxtShow({ name: name, id: id, slectedTab: slectedTab });
-    filterDataChange(id, name, slectedTab);
+    sessionStorage.setItem("sr_filtertab", selectedTab);
+    //setFilterMenuTxtShow({ name: name, id: id, selectedTab: selectedTab });
+    filterDataChange(id, name, selectedTab);
   };
   const filterApiCall = () => {
     try {
@@ -349,7 +349,7 @@ const MarketTabs = ({
           onclick={showFilterMenu}
           showFilter={showFilter}
           valuechange={handleChagneData}
-          selectTab={niftyFilterData.slectedTab}
+          selectTab={niftyFilterData.selectedTab}
           childMenuTabAcive={niftyFilterData.id}
         />
       )}
