@@ -20,14 +20,19 @@ const MarketTabs = ({
   setShowTableCheckBox,
   showTableCheckBox,
   removeMultipleStockInWathclist,
-  showAddStock = true,
-  showEditStock = true,
-  showNiftyFilter = false,
-  showDayFilter = false,
   niftyFilterData = {},
   filterDataChange,
   dayFitlerHanlderChange,
+  tabConfig,
 }: any) => {
+  const {
+    showAddStock,
+    showEditStock,
+    showIndexFilter,
+    showDuration,
+    showPersonalize,
+    showExport,
+  } = tabConfig;
   const personaliseDataListItem =
     data && data.length > 0
       ? data.filter((item: any) => item.viewId !== 239)
@@ -172,7 +177,7 @@ const MarketTabs = ({
     }
   };
   useEffect(() => {
-    if (showNiftyFilter) {
+    if (showIndexFilter) {
       filterApiCall();
     }
   }, []);
@@ -246,7 +251,7 @@ const MarketTabs = ({
           ) : null}
         </ul>
         <div className={styles.rightSide}>
-          {showNiftyFilter ? (
+          {showIndexFilter ? (
             <span
               className={`${styles.roundBtn} ${styles.filterNseBse}`}
               onClick={() => showFilterMenu(true)}
@@ -256,7 +261,7 @@ const MarketTabs = ({
           ) : (
             ""
           )}
-          {showDayFilter ? (
+          {showDuration ? (
             <div
               className={`${styles.roundBtn} ${styles.fitlerDay}`}
               onClick={() => dayFilterHandler()}
@@ -298,16 +303,19 @@ const MarketTabs = ({
           ) : (
             ""
           )}
-
-          <span
-            className={`${styles.roundBtn} ${styles.editBtnPencil}`}
-            onClick={() => userPersonaliseHandle()}
-          >
-            Personalise
-          </span>
-          <span className={`${styles.roundBtn} ${styles.exportIcon}`}>
-            Export
-          </span>
+          {showPersonalize ? (
+            <span
+              className={`${styles.roundBtn} ${styles.editBtnPencil}`}
+              onClick={() => userPersonaliseHandle()}
+            >
+              Personalise
+            </span>
+          ) : null}
+          {showExport ? (
+            <span className={`${styles.roundBtn} ${styles.exportIcon}`}>
+              Export
+            </span>
+          ) : null}
         </div>
       </div>
       {openPersonaliseModal ? (

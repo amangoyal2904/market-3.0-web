@@ -1,40 +1,48 @@
-import styles from "../Marketstats.module.scss";
 import useMarketStatsNav from "../useMarketStatsNav";
 import useTechnicalTab from "../useTechnicalTab";
 import Marketstats from "../marketstats";
-import useTechnicalTable from "../useTechnicalTable";
+import useIntradayTable from "../useIntradayTable";
+import tableConfig from "@/utils/tableConfig.json";
+import tabConfig from "@/utils/tabConfig.json";
 
 const Intraday = async ({ searchParams }: any) => {
   const type = searchParams?.type;
   const duration = searchParams.duration ? searchParams.duration : "1D";
-  const filter = searchParams.filter ? [parseInt(searchParams.filter)] : [];
-
+  const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
+  const filter = !!intFilter ? [intFilter] : [];
+  const pagesize = 100;
+  const pageno = 1;
+  const sort: any = [];
   const { l3Nav, metaData } = await useMarketStatsNav({
     type,
-    filter,
+    intFilter,
     duration,
   });
-  const { tabData, activeViewId } = await useTechnicalTab({
-    type,
-  });
-  const pageType = "intraday";
-  const { tableHeaderData, tableData, ivKey } = await useTechnicalTable({
+
+  const { tabData, activeViewId } = await useTechnicalTab({ type });
+
+  const { tableHeaderData, tableData, ivKey } = await useIntradayTable({
     activeViewId,
-    pageType,
-    searchParams,
+    type,
+    duration,
+    filter,
+    sort,
+    pagesize,
+    pageno,
   });
 
   return (
     <>
-      <h1 className={styles.heading}>{metaData[0].title}</h1>
-      <p className={styles.desc}>{metaData[0].desc}</p>
       <Marketstats
         l3Nav={l3Nav}
+        metaData={metaData[0]}
         tabData={tabData}
         activeViewId={activeViewId}
         tableHeaderData={tableHeaderData}
         tableData={tableData}
         ivKey={ivKey}
+        tableConfig={tableConfig["marketStatsIntrday"]}
+        tabConfig={tabConfig["marketStatsIntrday"]}
       />
     </>
   );

@@ -4,20 +4,18 @@ import Service from "@/network/service";
 
 const fetchTableData = async ({
   activeViewId,
+  type,
+  duration,
   filter,
-  firstOperand,
-  operationType,
-  secondOperand,
   sort,
   pagesize,
   pageno,
 }: any) => {
-  const apiUrl = (APIS_CONFIG as any)?.["movingAverages"][APP_ENV];
+  const apiUrl = (APIS_CONFIG as any)?.["marketStatsIntraday"][APP_ENV];
   const bodyParams: any = {
     viewId: activeViewId,
-    firstOperand: firstOperand,
-    operationType: operationType,
-    secondOperand: secondOperand,
+    apiType: type,
+    duration: duration,
     filterValue: filter,
     sort: sort,
     pagesize: pagesize,
@@ -39,22 +37,21 @@ const fetchTableData = async ({
   });
   return response?.json();
 };
-const useTechnicalTable = async ({
+
+const useIntradayTable = async ({
   activeViewId,
+  type,
+  duration,
   filter,
-  firstOperand,
-  operationType,
-  secondOperand,
   sort,
   pagesize,
   pageno,
 }: any) => {
   const responseData = await fetchTableData({
     activeViewId,
+    type,
+    duration,
     filter,
-    firstOperand,
-    operationType,
-    secondOperand,
     sort,
     pagesize,
     pageno,
@@ -75,4 +72,4 @@ const useTechnicalTable = async ({
   };
 };
 
-export default useTechnicalTable;
+export default useIntradayTable;

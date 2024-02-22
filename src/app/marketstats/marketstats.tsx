@@ -4,26 +4,31 @@ import MarketTable from "@/components/MarketTable";
 import MarketTabs from "@/components/MarketTabs";
 import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
-import useTechnicalTable from "./useTechnicalTable";
 import { getParameterByName } from "@/utils";
-import tableConfig from "@/utils/tableConfig.json";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import useTechnicalTab from "./useTechnicalTab";
+import { useStateContext } from "@/store/StateContext";
 
 const Marketstats = ({
   l3Nav,
+  metaData,
   tabData,
   activeViewId,
   tableHeaderData,
   tableData,
   ivKey,
+  tableConfig,
+  tabConfig,
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const config = tableConfig["marketStats"];
+
+  const { state, dispatch } = useStateContext();
+  const { isLogin, userInfo, ssoReady, isPrime } = state.login;
   const [_tabData, setTabData] = useState(tabData);
   const [_l3Nav, setL3Nav] = useState(l3Nav);
+  const [_metaData, setMetaData] = useState(metaData);
   const [_tableData, setTableData] = useState(tableData);
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
   const [_ivKey, setIvKey] = useState(ivKey);
@@ -34,13 +39,10 @@ const Marketstats = ({
     slectedTab: "nse",
   });
 
-  const TabsViewIdUpdateFun = async (viewId: any) => {
+  const onTabViewUpdate = async (viewId: any) => {
     const activeViewId = viewId;
-    const { tableHeaderData, tableData, ivKey } = await useTechnicalTable({
-      activeViewId,
-      pathname,
-      searchParams,
-    });
+    setL3Nav(l3Nav);
+    setMetaData(metaData);
     setActiveViewId(activeViewId);
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
@@ -67,6 +69,7 @@ const Marketstats = ({
     }
     router.push(newUrl, { scroll: false });
   };
+
   const dayFitlerHanlderChange = async (value: any, label: any) => {
     const url = `${pathname}?${searchParams}`;
     const newDuration = value.toUpperCase();
@@ -84,11 +87,13 @@ const Marketstats = ({
   };
 
   useEffect(() => {
-    TabsViewIdUpdateFun(activeViewId);
+    onTabViewUpdate(activeViewId);
   }, [searchParams]);
 
   return (
     <>
+      <h1 className={styles.heading}>{_metaData.title}</h1>
+      <p className={styles.desc}>{_metaData.desc}</p>
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
           <MarketStatsNav leftNavResult={_l3Nav} />
@@ -97,21 +102,18 @@ const Marketstats = ({
           <MarketTabs
             data={_tabData}
             activeViewId={_activeViewId}
-            showAddStock={false}
-            showEditStock={false}
-            showNiftyFilter={true}
-            tabsViewIdUpdate={TabsViewIdUpdateFun}
-            showDayFilter={false}
+            tabsViewIdUpdate={onTabViewUpdate}
             filterDataChange={filterDataChangeHander}
             niftyFilterData={niftyFilterData}
             dayFitlerHanlderChange={dayFitlerHanlderChange}
             tabsUpdateHandler={TabsAndTableDataChangeHandler}
+            tabConfig={tabConfig}
           />
           <MarketTable
             data={_tableData}
             tableHeaders={_tableHeaderData}
             ivKey={_ivKey}
-            tableConfig={config}
+            tableConfig={tableConfig}
           />
         </div>
       </div>

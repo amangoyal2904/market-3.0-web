@@ -14,11 +14,10 @@ const fetchTitleAndDesc = async (navData: any, subNavType: any) => {
   });
   return results;
 };
-const fetchL3Nav = async ({ duration, filter }: any) => {
-  filter = !!filter ? filter : 0;
+const fetchL3Nav = async ({ duration, intFilter }: any) => {
+  intFilter = !!intFilter ? intFilter : 0;
   duration = !!duration ? duration.toUpperCase() : "";
-  const apiUrl = `${(APIS_CONFIG as any)?.["MARKET_STATS_NAV"][APP_ENV]}?duration=${duration}&filter=${filter}`;
-
+  const apiUrl = `${(APIS_CONFIG as any)?.["MARKET_STATS_NAV"][APP_ENV]}?filter=${intFilter}&duration=${duration}`;
   const response = await Service.get({
     url: apiUrl,
     params: {},
@@ -27,8 +26,8 @@ const fetchL3Nav = async ({ duration, filter }: any) => {
   return response?.json();
 };
 
-const useMarketStatsNav = async ({ type, filter, duration }: any) => {
-  const l3Nav = await fetchL3Nav({ duration, filter });
+const useMarketStatsNav = async ({ type, intFilter, duration }: any) => {
+  const l3Nav = await fetchL3Nav({ duration, intFilter });
   const metaData = await fetchTitleAndDesc(l3Nav.nav, type);
   return {
     l3Nav,

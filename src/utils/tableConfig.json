@@ -15,7 +15,15 @@
     "isHeaderSticky": true,
     "loaderType": "global"
   },
-  "marketStats": {
+  "marketStatsIntrday": {
+    "tabs": true,
+    "loader": false,
+    "showFilterInput": false,
+    "isSorting": true,
+    "isHeaderSticky": true,
+    "loaderType": "inner"
+  },
+  "marketStatsTechnical": {
     "tabs": true,
     "loader": false,
     "showFilterInput": false,
