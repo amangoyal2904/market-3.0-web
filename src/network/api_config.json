@@ -7,6 +7,10 @@
     "development": "https://bselivefeeds.indiatimes.com/homepagedatanew.json",
     "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
   },
+  "LIVE_MARKET_DATA_NEXTJS": {
+    "development": "http://localhost:3009/api/bselivefeeds",
+    "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
+  },
   "SEARCH": {
     "main": {
       "development": [
@@ -61,8 +65,16 @@
     "development": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData",
     "production": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData"
   },
+  "movingAverages": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/moving-averages",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/moving-averages"
+  },
   "marketStatsIntraday": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"
+  },
+  "marketStatsIntradayNextJs": {
+    "development": "http://localhost:3009/api/intradaystats",
     "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"
   },
   "redeemVoucher": {
@@ -124,8 +136,12 @@
     }
   },
   "PERSONALISATION": {
-    "development": ["https://etua-stg.economictimes.indiatimes.com/users/api/"],
-    "production": ["https://etua-stg.economictimes.indiatimes.com/users/api/"]
+    "development": [
+      "https://etua-stg.economictimes.indiatimes.com/users/api/logdata/uuid/resolve"
+    ],
+    "production": [
+      "https://etua-stg.economictimes.indiatimes.com/users/api/logdata/uuid/resolve"
+    ]
   },
   "stockSearch": {
     "development": [

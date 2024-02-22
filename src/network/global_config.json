@@ -22,5 +22,6 @@
   "gaId": "UA-198011-5",
   "grxId": "g7af6dd9d",
   "gtmId": "GTM-566NCXC",
-  "ET_IMG_DOMAIN": "https://img.etimg.com/"
+  "ET_IMG_DOMAIN": "https://img.etimg.com/",
+  "securityKey": "ETMarkets@TimesInternetLimited!$"
 }

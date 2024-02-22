@@ -13,8 +13,8 @@
   z-index: 9;
 
   .marketNavWrap {
-    max-height: calc(100vh - 400px);
-    // overflow: auto;
+    max-height: calc(100vh - 348px);
+    overflow: auto;
   }
 
   .marketProWrap {
@@ -41,6 +41,7 @@
       .mainTabWrap {
         background-color: $salmon_secondary_10;
         font-weight: 700;
+        border-radius: 4px;
       }
     }
 
@@ -65,19 +66,19 @@
         display: none;
       }
       &:hover {
-        .l2ListWrap {
-          display: block;
-          position: absolute;
-          background-color: $salmon_secondary_30;
-          top: 0;
-          max-height: fit-content;
-          width: 160px;
-          transform: translate(100%, 0);
-          right: 0;
-          .l2List {
-            padding: 8px 16px;
-          }
-        }
+        // .l2ListWrap {
+        //   display: block;
+        //   position: absolute;
+        //   background-color: $salmon_secondary_30;
+        //   top: 0;
+        //   max-height: fit-content;
+        //   width: 160px;
+        //   transform: translate(100%, 0);
+        //   right: 0;
+        //   .l2List {
+        //     padding: 8px 16px;
+        //   }
+        // }
       }
     }
 
@@ -86,6 +87,7 @@
       align-items: center;
       padding: 8px 0;
       position: relative;
+      margin: 0 4px;
 
       .l1LabelName {
         font-size: 12px;
@@ -102,16 +104,17 @@
       }
       .navIcon {
         font-size: 20px;
-        padding: 0 18px;
+        padding: 0 18px 0 13px;
       }
     }
 
     .l2ListWrap {
-      margin-left: 56px;
+      margin-left: 35px;
       list-style: none;
-      max-height: 18vh;
+      max-height: calc(100vh - 538px);
       overflow: auto;
       border-radius: 0 8px 8px 0;
+      padding: 8px 4px;
 
       .l2ListWrapName {
         padding: 10px 16px;
@@ -129,16 +132,24 @@
         cursor: pointer;
         &:hover {
           background-color: $salmon_secondary_10;
+          border-radius: 4px;
+          font-weight: 700;
         }
         &.active {
           background-color: $salmon_secondary_10;
+          border-radius: 4px;
+          font-weight: 700;
         }
       }
     }
 
-    &:hover .mainTabWrap {
-      background-color: $salmon_secondary_10;
-      cursor: pointer;
+    &:hover {
+      .mainTabWrap {
+        background-color: $salmon_secondary_10;
+        cursor: pointer;
+
+        border-radius: 4px;
+      }
     }
   }
 
@@ -170,6 +181,21 @@
   &.expanded {
     width: 200px;
 
+    .navInnerWrap {
+      width: 100%;
+      background-color: $salmon_secondary_50;
+      height: 100%;
+    }
+
+    .marketProWrap {
+      .collapsedTitle {
+        display: none;
+      }
+      .expandTitle {
+        display: block;
+      }
+    }
+
     .toggleMenu {
       padding: 0 8px;
       border-radius: 24px;
@@ -181,13 +207,39 @@
   }
 
   &.collapsed {
-    .navListWrap {
-      .caret_right {
-        rotate: none;
-        margin-top: auto;
+    .navInnerWrap {
+      width: 100%;
+      background-color: $salmon_secondary_50;
+      height: 100%;
+      .marketNavWrap {
+        overflow: unset;
+        .l2Expanded {
+          .l2ListWrap {
+            // display: none;
+          }
+        }
       }
-      .l2ListWrap {
+    }
+    .marketProWrap {
+      .collapsedTitle {
+        display: block;
+      }
+      .expandTitle {
         display: none;
+      }
+    }
+
+    .navListWrap {
+      .mainTabWrap {
+        // justify-content: center;
+        .caret_right {
+          rotate: none;
+          margin-top: auto;
+          display: none;
+        }
+        .l2ListWrap {
+          display: none;
+        }
       }
 
       &:hover {
@@ -203,6 +255,33 @@
           .l2List {
             padding: 8px 16px;
           }
+        }
+      }
+    }
+
+    &:hover {
+      // width: 56px;
+      .navInnerWrap {
+        width: 200px;
+      }
+      .marketProWrap {
+        .collapsedTitle {
+          display: none;
+        }
+        .expandTitle {
+          display: block;
+        }
+      }
+
+      .mainTabWrap {
+        // justify-content: normal;
+        .l1LabelName {
+          &.hide {
+            display: block;
+          }
+        }
+        .caret_right {
+          display: block;
         }
       }
     }

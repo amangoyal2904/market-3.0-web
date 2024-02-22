@@ -1,14 +1,14 @@
-import APIS_CONFIG from "../network/api_config.json";
-import { APP_ENV } from "../utils/index";
-import { getCookie } from "../utils/index";
+import APIS_CONFIG from "@/network/api_config.json";
+import GLOBAL_CONFIG from "@/network/global_config.json";
+import { APP_ENV } from "@/utils/index";
+import { getCookie } from "@/utils/index";
 import Fingerprint2 from "fingerprintjs2";
 import { setCookies } from "./index";
-import Service from "../network/service";
+import CryptoJS from "crypto-js";
 
 const API_SOURCE = 18;
 
 export const fetchTabsData = async () => {
-  //const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
   const ssoid = window.objUser?.ssoid;
   const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?ssoid=${ssoid}`;
   const data = await fetch(apiUrl, {
@@ -21,12 +21,12 @@ export const fetchTabsData = async () => {
   return res;
 };
 
-export const fetchTableData = async (viewId: any) => {
-  //const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
+export const fetchTableData = async (viewId: any, params?: any) => {
   const ssoid = window.objUser?.ssoid;
   const apiUrl = (APIS_CONFIG as any)?.watchListTable["development"];
   const data = await fetch(apiUrl, {
     method: "POST",
+    cache: "no-store",
     headers: {
       "Content-Type": "application/json",
       ssoid: ssoid,
@@ -36,11 +36,26 @@ export const fetchTableData = async (viewId: any) => {
       type: "STOCK",
       viewId: viewId,
       deviceId: "web",
+      ...params,
     }),
   });
   const res = await data.json();
   //console.log("tabledata", res);
   return res;
+};
+
+export const decryptPrimeData = (ivKey: string, encrytedTxt: string) => {
+  debugger;
+  const secretkey = GLOBAL_CONFIG.securityKey;
+  const key = CryptoJS.enc.Utf8.parse(secretkey);
+  const iv = CryptoJS.enc.Utf8.parse(ivKey);
+
+  const decrypted = CryptoJS.AES.decrypt(encrytedTxt, key, {
+    iv: iv,
+    mode: CryptoJS.mode.CBC,
+    padding: CryptoJS.pad.Pkcs7,
+  });
+  return decrypted.toString(CryptoJS.enc.Utf8);
 };
 
 export const getStockUrl = (id: string, seoName: string, stockType: string) => {
@@ -156,50 +171,44 @@ export const processFingerprint = (data: any, isLogin: any) => {
 };
 
 export const createPfuuid = async (fpid: any) => {
-  const params = {
-    type: 7,
-    source: API_SOURCE,
-  };
-  const headers = {
-    "Content-type": "application/json",
-    Authorization: fpid,
-  };
-
-  const url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
+  let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
+  url = url + `?type=7&source=${API_SOURCE}`;
   console.log("@@@@@-->inpfuuid", url);
-  Service.get({ url, headers, params: params, withCredentials: true })
-    .then((res: any) => {
-      if (res && res.data && res.data.id != 0) {
-        //console.log("@@@@--->>>>>", res);
-        var pfuuid = res.data.id;
-        setCookies("pfuuid", pfuuid);
-      }
-      // if (res && res.data && res.data.newUser) {
-      //   grxEvent('event', {'event_category': 'New_User_Registration', 'event_action': 'New_User', 'event_label': 'New_User'});
-      // }
-    })
-    .catch((e: any) => console.log("error in createPfuuid", e));
+  const res: any = await fetch(url, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: fpid,
+    },
+  });
+  const data = await res.json();
+  console.log("res", res, data);
+  if (data && data.id != 0) {
+    console.log("@@@@--->>>>>", data);
+    var pfuuid = data.id;
+    setCookies("pfuuid", pfuuid);
+  }
 };
 
-export const createPeuuid = (fpid: any) => {
-  const params = {
-    type: 0,
-    source: API_SOURCE,
-  };
-  const url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
-  console.log("@@@@@-->inpeuuid", url);
-  const headers = {
-    "Content-type": "application/json",
-  };
-  Service.get({ url, headers, params: params, withCredentials: true })
-    .then((res: any) => {
-      if (res && res.data && res.data.id != 0) {
-        const peuuid: any = res.data.id;
-        //console.log("@@@@--->>>>>2", res);
-        setCookies("peuuid", peuuid);
-      }
-    })
-    .catch((e: any) => console.log("error in createPeuuid", e));
+export const createPeuuid = async (fpid: any) => {
+  let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
+  url = url + `?type=0&source=${API_SOURCE}`;
+  console.log("@@@@@-->inpfuuid", url);
+  const res: any = await fetch(url, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+  const data = await res.json();
+  console.log("res", res, data);
+  if (data && data.id != 0) {
+    const peuuid: any = data.id;
+    console.log("@@@@--->>>>>2", data);
+    setCookies("peuuid", peuuid);
+  }
 };
 export const removeMultipleStockInWatchList = async (followData: any) => {
   const authorization: any = getCookie("peuuid")
