@@ -9,6 +9,25 @@ import Service from "@/network/service";
 
 const API_SOURCE = 18;
 
+export const updateOrAddParamToPath = (
+  pathname: any,
+  param: any,
+  value: any,
+) => {
+  const url = new URL(window.location.origin + pathname);
+  const searchParams = url.searchParams;
+
+  if (value === 0) {
+    searchParams.delete(param);
+  } else if (searchParams.has(param)) {
+    searchParams.set(param, value);
+  } else {
+    searchParams.append(param, value);
+  }
+
+  return url.pathname + "?" + searchParams.toString();
+};
+
 export const fnGenerateMetaData = (meta?: any) => {
   return {
     title: `${meta?.title} | ET Markets`,
@@ -112,12 +131,10 @@ export const fetchViewTable = async (
     headers["ssoid"] = ssoid;
     headers["isprimeuser"] = isprimeuser;
   }
+  headers["Content-Type"] = "application/json";
   const response = await Service.post({
     url: apiUrl,
-    headers: {
-      ...headers,
-      "Content-Type": "application/json",
-    },
+    headers: headers,
     cache: "no-store",
     body: JSON.stringify({ ...requestObj }),
     params: {},
