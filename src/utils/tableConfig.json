@@ -52,5 +52,14 @@
     "isHeaderSticky": false,
     "pagination": false,
     "loaderType": "inner"
+  },
+  "stocksScreener": {
+    "tabs": true,
+    "loader": false,
+    "showFilterInput": false,
+    "isSorting": true,
+    "isHeaderSticky": true,
+    "pagination": true,
+    "loaderType": "inner"
   }
 }
