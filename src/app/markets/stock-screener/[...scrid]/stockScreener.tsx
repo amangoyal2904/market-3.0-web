@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { getParameterByName } from "@/utils";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import useScreenerTab from "./useScreenerTab";
-import { useStateContext } from "@/store/StateContext";
 import AsideNavComponets from "./asideNav";
 import QueryComponets from "./queryComponents";
 
@@ -27,10 +26,6 @@ const StocksScreener = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const l3NavType = searchParams.get("type");
-
-  const { state, dispatch } = useStateContext();
-  const { isLogin, userInfo, ssoReady, isPrime } = state.login;
   const [_tabData, setTabData] = useState(tabData);
   const [_l3Nav, setL3Nav] = useState(l3Nav);
   const [_metaData, setMetaData] = useState(metaData);
@@ -39,6 +34,7 @@ const StocksScreener = ({
   const [_ivKey, setIvKey] = useState(ivKey);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
+
   const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
     setMetaData(metaData);
@@ -66,16 +62,7 @@ const StocksScreener = ({
     return url.pathname + "?" + searchParams.toString();
   };
 
-  const filterDataChangeHander = async (
-    id: any,
-    name: any,
-    selectedTab: any,
-  ) => {
-    setNiftyFilterData({
-      name,
-      id,
-      selectedTab,
-    });
+  const filterDataChangeHander = async (id: any) => {
     const url = `${pathname}?${searchParams}`;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
     router.push(newUrl, { scroll: false });
@@ -83,10 +70,10 @@ const StocksScreener = ({
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
     const url = `${pathname}?${searchParams}`;
-    const newDuration = value.toUpperCase();
-    const newUrl = url.replace(/duration=[^&]*/, "duration=" + newDuration);
+    const newUrl = updateOrAddParamToPath(url, label, value);
     router.push(newUrl, { scroll: false });
   };
+
   const runQueryHandlerFun = async (query: any) => {
     // const API_URL = `${(APIS_CONFIG as any)?.SCREENER?.getScreenerByScreenerId[APP_ENV]}`;
     const API_URL = `https://screener.indiatimes.com/screener/getScreenerByScreenerId`;

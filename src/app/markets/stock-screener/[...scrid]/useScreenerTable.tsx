@@ -20,13 +20,6 @@ const fetchTableData = async (scrid: any) => {
 };
 
 const useScreenerTable = async ({ scrid, sort, pagesize, pageno }: any) => {
-  // const responseData = await fetchIntradayTable({
-  //   scrid,
-  //   sort,
-  //   pagesize,
-  //   pageno,
-  // });
-
   const responseData = await fetchTableData(scrid);
   const ivKey = responseData?.iv || [];
   const tableData = responseData?.dataList

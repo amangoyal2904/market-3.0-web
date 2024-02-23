@@ -25,6 +25,7 @@ const Marketstats = ({
   tableConfig,
   tabConfig,
   payload,
+  ssoid,
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -114,7 +115,9 @@ const Marketstats = ({
 
   return (
     <>
-      <h1 className={styles.heading}>{_metaData.title}</h1>
+      <h1 data-ssoid={ssoid} className={styles.heading}>
+        {_metaData.title}
+      </h1>
       <p className={styles.desc}>{_metaData.desc}</p>
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>

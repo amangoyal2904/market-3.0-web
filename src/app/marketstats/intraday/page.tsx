@@ -72,6 +72,7 @@ const Intraday = async ({ searchParams }: any) => {
         tableConfig={tableConfig["marketStatsIntrday"]}
         tabConfig={tabConfig["marketStatsIntrday"]}
         payload={payload}
+        ssoid={ssoid}
       />
     </>
   );
