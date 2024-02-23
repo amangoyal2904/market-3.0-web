@@ -10,7 +10,9 @@ import { cookies } from "next/headers";
 
 const MovingAverages = async ({ searchParams, params }: any) => {
   const cookieStore = cookies();
-  const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
+  const isprimeuser = cookieStore.get("isprimeuser")
+    ? cookieStore.get("isprimeuser")?.value
+    : false;
   const ssoid = cookieStore.get("ssoid")?.value;
   const type = searchParams?.type;
   const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
