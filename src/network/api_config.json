@@ -204,5 +204,29 @@
   "MARKET_STATS_NAV": {
     "development": "https://etapipre.indiatimes.com/api/marketstatsnav",
     "production": "https://etapipre.indiatimes.com/api/marketstatsnav"
+  },
+  "SCREENER": {
+    "getAllScreenerlist": {
+      "development": [
+        "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
+      ],
+      "production": [
+        "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
+      ]
+    },
+    "getAllScreenerNextJsAPI": {
+      "development": ["http://localhost:3009/api/screener"],
+      "production": [
+        "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
+      ]
+    },
+    "getScreenerByScreenerId": {
+      "development": [
+        "https://screener.indiatimes.com/screener/getScreenerByScreenerId"
+      ],
+      "production": [
+        "https://screener.indiatimes.com/screener/getScreenerByScreenerId"
+      ]
+    }
   }
 }

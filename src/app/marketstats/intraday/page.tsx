@@ -34,7 +34,6 @@ const fetchTableData = async (
   if (!!filter && filter.length) {
     bodyParams.filterType = "index";
   }
-  console.log("___bodyParams", bodyParams);
   const response = await Service.post({
     url: apiUrl,
     headers: {
