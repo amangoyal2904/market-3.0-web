@@ -1,14 +1,19 @@
 import { cookies } from "next/headers";
 
-const Page = () => {
+const CookiePage = () => {
   const cookieStore = cookies();
-  return cookieStore.getAll().map((cookie) => (
-    <div key={cookie.name}>
-      <p>Name: {cookie.name}</p>
-      <p>Value: {cookie.value}</p>
-      <hr />
-    </div>
-  ));
+  return (
+    <>
+      <h1>Cookies Page</h1>
+      {cookieStore.getAll().map((cookie) => (
+        <div key={cookie.name}>
+          <p>Name: {cookie.name}</p>
+          <p>Value: {cookie.value}</p>
+          <hr />
+        </div>
+      ))}
+    </>
+  );
 };
 
-export default Page;
+export default CookiePage;
