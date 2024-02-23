@@ -59,6 +59,27 @@ export const fnGenerateMetaData = (meta?: any) => {
   };
 };
 
+export const fetchTechnicalCategory = async (
+  params: any,
+  searchParams: any,
+) => {
+  let category = params.technicals[0];
+  if (category == "moving-averages") {
+    category =
+      searchParams.type == "ema-ema-crossovers"
+        ? "ema-ema-crossovers"
+        : "sma-sma-crossovers";
+  }
+  const apiUrl =
+    "https://qcbselivefeeds.indiatimes.com/et-screener/operands-data?category=" +
+    category;
+  const response = await Service.get({
+    url: apiUrl,
+    params: {},
+  });
+  return response?.json();
+};
+
 export const fetchFilters = async () => {
   const apiUrl =
     "https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson";

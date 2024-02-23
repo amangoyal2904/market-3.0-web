@@ -20,6 +20,20 @@ const useTechnicalTable = async ({
     pagesize,
     pageno,
   });
+  const payload: any = {
+    viewId: activeViewId,
+    firstOperand: firstOperand,
+    operationType: operationType,
+    secondOperand: secondOperand,
+    filterValue: filter,
+    filterType: null,
+    sort: sort,
+    pagesize: pagesize,
+    pageno: pageno,
+  };
+  if (!!filter && filter.length) {
+    payload.filterType = "index";
+  }
   const ivKey = responseData.iv;
   const tableData = responseData?.dataList
     ? responseData.dataList
@@ -33,6 +47,7 @@ const useTechnicalTable = async ({
     tableHeaderData,
     tableData,
     ivKey,
+    payload,
   };
 };
 

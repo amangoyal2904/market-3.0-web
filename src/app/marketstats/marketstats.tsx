@@ -9,6 +9,7 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import useTechnicalTab from "./useTechnicalTab";
 import { useStateContext } from "@/store/StateContext";
 import { fetchIntradayTable, fetchTechnicalTable } from "@/utils/utility";
+import TechnicalFilters from "./technicalFilters";
 
 const Marketstats = ({
   l3Nav,
@@ -19,8 +20,11 @@ const Marketstats = ({
   tableData,
   ivKey,
   selectedFilter,
+  isTechnical,
+  technicalCategory,
   tableConfig,
   tabConfig,
+  payload,
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -29,11 +33,14 @@ const Marketstats = ({
 
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
+  const [_payload, setPayload] = useState(payload);
   const [_tabData, setTabData] = useState(tabData);
   const [_l3Nav, setL3Nav] = useState(l3Nav);
   const [_metaData, setMetaData] = useState(metaData);
   const [_tableData, setTableData] = useState(tableData);
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
+  const [_technicalCategory, setTechnicalCategory] =
+    useState(technicalCategory);
   const [_ivKey, setIvKey] = useState(ivKey);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
@@ -44,6 +51,7 @@ const Marketstats = ({
     setActiveViewId(activeViewId);
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
+    setTechnicalCategory(technicalCategory);
     setIvKey(ivKey);
     setNiftyFilterData(selectedFilter);
   };
@@ -146,7 +154,6 @@ const Marketstats = ({
   useEffect(() => {
     onSearchParamChange();
   }, [searchParams]);
-
   return (
     <>
       <h1 className={styles.heading}>{_metaData.title}</h1>
@@ -156,6 +163,9 @@ const Marketstats = ({
           <MarketStatsNav leftNavResult={_l3Nav} type={l3NavType} />
         </aside>
         <div className={styles.rhs}>
+          {isTechnical && (
+            <TechnicalFilters technicalCategory={technicalCategory} />
+          )}
           <MarketTabs
             data={_tabData}
             activeViewId={_activeViewId}
