@@ -48,8 +48,8 @@ const Marketstats = ({
     const responseData: any = await fetchViewTable(
       { ..._payload },
       isTechnical ? "movingAverages" : "marketStatsIntraday",
-      getCookie("ssoid"),
       getCookie("isprimeuser") ? true : false,
+      getCookie("ssoid"),
     );
     const _ivKey = responseData.iv;
     const _tableData = responseData?.dataList
