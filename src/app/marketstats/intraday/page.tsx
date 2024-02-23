@@ -29,15 +29,17 @@ const Intraday = async ({ searchParams }: any) => {
 
   const { tabData, activeViewId } = await useTechnicalTab({ type });
 
-  const { tableHeaderData, tableData, ivKey } = await useIntradayTable({
-    activeViewId,
-    type,
-    duration,
-    filter,
-    sort,
-    pagesize,
-    pageno,
-  });
+  const { tableHeaderData, tableData, ivKey, payload } = await useIntradayTable(
+    {
+      activeViewId,
+      type,
+      duration,
+      filter,
+      sort,
+      pagesize,
+      pageno,
+    },
+  );
 
   const selectedFilter = await useSelectedFilter(intFilter);
 
@@ -52,8 +54,11 @@ const Intraday = async ({ searchParams }: any) => {
         tableData={tableData}
         ivKey={ivKey}
         selectedFilter={selectedFilter}
+        isTechnical={false}
+        technicalCategory={null}
         tableConfig={tableConfig["marketStatsIntrday"]}
         tabConfig={tabConfig["marketStatsIntrday"]}
+        payload={payload}
       />
     </>
   );

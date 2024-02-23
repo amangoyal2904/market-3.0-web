@@ -18,6 +18,18 @@ const useIntradayTable = async ({
     pagesize,
     pageno,
   });
+  const payload: any = {
+    viewId: activeViewId,
+    apiType: type,
+    duration: duration,
+    filterValue: filter,
+    sort: sort,
+    pagesize: pagesize,
+    pageno: pageno,
+  };
+  if (!!filter && filter.length) {
+    payload.filterType = "index";
+  }
   const ivKey = responseData.iv;
   const tableData = responseData?.dataList
     ? responseData.dataList
@@ -31,6 +43,7 @@ const useIntradayTable = async ({
     tableHeaderData,
     tableData,
     ivKey,
+    payload,
   };
 };
 

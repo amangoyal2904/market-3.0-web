@@ -5,8 +5,9 @@ import Marketstats from "../marketstats";
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
 import useSelectedFilter from "../useSelectedFilter";
+import { fetchTechnicalCategory } from "@/utils/utility";
 
-const MovingAverages = async ({ searchParams }: any) => {
+const MovingAverages = async ({ searchParams, params }: any) => {
   const type = searchParams?.type;
   const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
   const filter = !!intFilter ? [intFilter] : [];
@@ -20,19 +21,20 @@ const MovingAverages = async ({ searchParams }: any) => {
   const { l3Nav, metaData } = await useMarketStatsNav({ type, intFilter });
 
   const { tabData, activeViewId } = await useTechnicalTab({ type });
-  const { tableHeaderData, tableData, ivKey } = await useTechnicalTable({
-    activeViewId,
-    filter,
-    firstOperand,
-    operationType,
-    secondOperand,
-    sort,
-    pagesize,
-    pageno,
-  });
+  const { tableHeaderData, tableData, ivKey, payload } =
+    await useTechnicalTable({
+      activeViewId,
+      filter,
+      firstOperand,
+      operationType,
+      secondOperand,
+      sort,
+      pagesize,
+      pageno,
+    });
 
   const selectedFilter = await useSelectedFilter(intFilter);
-
+  const technicalCategory = await fetchTechnicalCategory(params, searchParams);
   return (
     <>
       <Marketstats
@@ -44,8 +46,11 @@ const MovingAverages = async ({ searchParams }: any) => {
         tableData={tableData}
         ivKey={ivKey}
         selectedFilter={selectedFilter}
+        isTechnical={true}
+        technicalCategory={technicalCategory}
         tableConfig={tableConfig["marketStatsTechnical"]}
         tabConfig={tabConfig["marketStatsTechnical"]}
+        payload={payload}
       />
     </>
   );
