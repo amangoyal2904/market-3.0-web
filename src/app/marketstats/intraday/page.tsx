@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 const Intraday = async ({ searchParams }: any) => {
   const cookieStore = cookies();
   const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
-  const ssoid = cookieStore.get("ssoid");
+  const ssoid = cookieStore.get("ssoid")?.value;
   const type = searchParams?.type;
   const duration = searchParams.duration
     ? searchParams.duration.toUpperCase()

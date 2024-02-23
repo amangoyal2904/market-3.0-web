@@ -36,6 +36,7 @@ const Login = () => {
           primeRes.data.accessibleFeatures || [];
         window.objUser.primeInfo = primeRes.data;
         window.objUser.isPrime = isPrime;
+        setCookieToSpecificTime("isprimeuser", isPrime, 30, "", 0);
 
         if (primeRes && primeRes.token) {
           setCookieToSpecificTime("OTR", primeRes.token, 30, "", 0);
@@ -45,6 +46,7 @@ const Login = () => {
         window.objUser.accessibleFeatures = [];
         window.objUser.primeInfo = {};
         window.objUser.isPrime = false;
+        setCookieToSpecificTime("isprimeuser", false, 0, 0, 0);
 
         if (primeRes && primeRes.token) {
           setCookieToSpecificTime("OTR", "", 0, 0, 0);

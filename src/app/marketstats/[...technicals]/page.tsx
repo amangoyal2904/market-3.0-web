@@ -11,7 +11,7 @@ import { cookies } from "next/headers";
 const MovingAverages = async ({ searchParams, params }: any) => {
   const cookieStore = cookies();
   const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
-  const ssoid = cookieStore.get("ssoid");
+  const ssoid = cookieStore.get("ssoid")?.value;
   const type = searchParams?.type;
   const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
   const filter = !!intFilter ? [intFilter] : [];
@@ -68,7 +68,6 @@ const MovingAverages = async ({ searchParams, params }: any) => {
         tableConfig={tableConfig["marketStatsTechnical"]}
         tabConfig={tabConfig["marketStatsTechnical"]}
         payload={payload}
-        ssoid={ssoid}
       />
     </>
   );
