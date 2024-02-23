@@ -7,8 +7,12 @@ import tabConfig from "@/utils/tabConfig.json";
 import useSelectedFilter from "../useSelectedFilter";
 import { fetchTechnicalCategory } from "@/utils/utility";
 import useTechnicalFilters from "../useTechnicalFilters";
+import { cookies } from "next/headers";
 
 const MovingAverages = async ({ searchParams, params }: any) => {
+  const cookieStore = cookies();
+  const isprimeuser = cookies().get("isprimeuser") ? true : false;
+  const ssoid = cookies().get("ssoid");
   const type = searchParams?.type;
   const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
   const filter = !!intFilter ? [intFilter] : [];
@@ -21,7 +25,12 @@ const MovingAverages = async ({ searchParams, params }: any) => {
 
   const { l3Nav, metaData } = await useMarketStatsNav({ type, intFilter });
 
-  const { tabData, activeViewId } = await useTechnicalTab({ type });
+  const { tabData, activeViewId } = await useTechnicalTab({
+    type,
+    isprimeuser,
+    ssoid,
+  });
+
   const { tableHeaderData, tableData, ivKey, payload } =
     await useTechnicalTable({
       activeViewId,
@@ -32,6 +41,8 @@ const MovingAverages = async ({ searchParams, params }: any) => {
       sort,
       pagesize,
       pageno,
+      isprimeuser,
+      ssoid,
     });
 
   const selectedFilter = await useSelectedFilter(intFilter);

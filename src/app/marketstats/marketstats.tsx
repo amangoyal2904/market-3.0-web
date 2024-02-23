@@ -4,12 +4,12 @@ import MarketTable from "@/components/MarketTable";
 import MarketTabs from "@/components/MarketTabs";
 import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
-import { getParameterByName } from "@/utils";
+import { getCookie, getParameterByName } from "@/utils";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import useTechnicalTab from "./useTechnicalTab";
 import { useStateContext } from "@/store/StateContext";
-import { fetchIntradayTable, fetchTechnicalTable } from "@/utils/utility";
 import TechnicalFilters from "./technicalFilters";
+import { fetchViewTable } from "@/utils/utility";
 
 const Marketstats = ({
   l3Nav,
@@ -44,65 +44,46 @@ const Marketstats = ({
   const [_ivKey, setIvKey] = useState(ivKey);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
+  const updateTableData = async () => {
+    const responseData: any = await fetchViewTable(
+      { ..._payload },
+      isTechnical ? "movingAverages" : "marketStatsIntraday",
+      getCookie("ssoid"),
+      getCookie("isprimeuser") ? true : false,
+    );
+    const _ivKey = responseData.iv;
+    const _tableData = responseData?.dataList
+      ? responseData.dataList
+      : responseData;
+
+    const _tableHeaderData =
+      tableData && tableData.length && tableData[0] && tableData[0]?.data
+        ? tableData[0]?.data
+        : [];
+    setTableData(_tableData);
+    setTableHeaderData(_tableHeaderData);
+    setIvKey(_ivKey);
+  };
 
   const onSearchParamChange = async () => {
+    setPayload(payload);
+    setTabData(tabData);
     setL3Nav(l3Nav);
     setMetaData(metaData);
-    setActiveViewId(activeViewId);
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
     setTechnicalCategory(technicalCategory);
+    setActiveViewId(activeViewId);
     setIvKey(ivKey);
     setNiftyFilterData(selectedFilter);
   };
 
   const onTabViewUpdate = async (viewId: any) => {
-    const type = searchParams.get("type");
-    const duration = searchParams.get("duration");
-    const intFilter = searchParams.get("filter");
-    const filter = !!intFilter ? [intFilter] : [];
-    const firstOperand = searchParams.get("firstoperand");
-    const operationType = searchParams.get("operationtype");
-    const secondOperand = searchParams.get("secondoperand");
-    const pagesize = 100;
-    const pageno = 1;
-    const sort: any = [];
-    const activeViewId = viewId;
-    const responseData = pathname.includes("intraday")
-      ? await fetchIntradayTable({
-          activeViewId,
-          type,
-          duration,
-          filter,
-          sort,
-          pagesize,
-          pageno,
-        })
-      : await fetchTechnicalTable({
-          activeViewId,
-          filter,
-          firstOperand,
-          operationType,
-          secondOperand,
-          sort,
-          pagesize,
-          pageno,
-        });
-
-    const ivKey = responseData.iv;
-    const tableData = responseData?.dataList
-      ? responseData.dataList
-      : responseData;
-
-    const tableHeaderData =
-      tableData && tableData.length && tableData[0] && tableData[0]?.data
-        ? tableData[0]?.data
-        : [];
-
-    setActiveViewId(activeViewId);
-    setTableData(tableData);
-    setTableHeaderData(tableHeaderData);
-    setIvKey(ivKey);
+    const requestObj = _payload;
+    requestObj.viewId = viewId;
+    setActiveViewId(viewId);
+    setPayload(requestObj);
+    updateTableData();
   };
 
   const updateOrAddParamToPath = (pathname: any, param: any, value: any) => {
@@ -144,16 +125,17 @@ const Marketstats = ({
 
   const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
     const type = getParameterByName("type");
-    const { tabData, activeViewId } = await useTechnicalTab({
+    const { tabData } = await useTechnicalTab({
       type,
     });
     setTabData(tabData);
-    setActiveViewId(activeViewId);
+    setActiveViewId(tabIdActive);
   };
 
   useEffect(() => {
     onSearchParamChange();
   }, [searchParams]);
+
   return (
     <>
       <h1 className={styles.heading}>{_metaData.title}</h1>

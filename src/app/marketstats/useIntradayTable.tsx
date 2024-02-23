@@ -1,4 +1,4 @@
-import { fetchIntradayTable } from "@/utils/utility";
+import { fetchViewTable } from "@/utils/utility";
 
 const useIntradayTable = async ({
   activeViewId,
@@ -8,16 +8,24 @@ const useIntradayTable = async ({
   sort,
   pagesize,
   pageno,
+  isprimeuser,
+  ssoid,
 }: any) => {
-  const responseData = await fetchIntradayTable({
-    activeViewId,
-    type,
-    duration,
-    filter,
-    sort,
-    pagesize,
-    pageno,
-  });
+  const responseData = await fetchViewTable(
+    {
+      viewId: activeViewId,
+      apiType: type,
+      filterValue: filter,
+      filterType: !!filter ? "index" : null,
+      duration,
+      sort,
+      pagesize,
+      pageno,
+    },
+    "marketStatsIntraday",
+    isprimeuser,
+    ssoid,
+  );
   const payload: any = {
     viewId: activeViewId,
     apiType: type,

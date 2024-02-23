@@ -6,6 +6,7 @@ import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
 import { Metadata } from "next";
 import useSelectedFilter from "../useSelectedFilter";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Intraday",
@@ -14,20 +15,30 @@ export const metadata: Metadata = {
 };
 
 const Intraday = async ({ searchParams }: any) => {
+  const cookieStore = cookies();
+  const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
+  const ssoid = cookieStore.get("ssoid");
   const type = searchParams?.type;
-  const duration = searchParams.duration ? searchParams.duration : "1D";
+  const duration = searchParams.duration
+    ? searchParams.duration.toUpperCase()
+    : "1D";
   const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
   const filter = !!intFilter ? [intFilter] : [];
   const pagesize = 100;
   const pageno = 1;
   const sort: any = [];
+
   const { l3Nav, metaData } = await useMarketStatsNav({
     type,
     intFilter,
     duration,
   });
 
-  const { tabData, activeViewId } = await useTechnicalTab({ type });
+  const { tabData, activeViewId } = await useTechnicalTab({
+    type,
+    isprimeuser,
+    ssoid,
+  });
 
   const { tableHeaderData, tableData, ivKey, payload } = await useIntradayTable(
     {
@@ -38,6 +49,8 @@ const Intraday = async ({ searchParams }: any) => {
       sort,
       pagesize,
       pageno,
+      isprimeuser,
+      ssoid,
     },
   );
 

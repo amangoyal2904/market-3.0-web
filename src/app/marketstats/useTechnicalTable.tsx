@@ -1,4 +1,4 @@
-import { fetchTechnicalTable } from "@/utils/utility";
+import { fetchViewTable } from "@/utils/utility";
 
 const useTechnicalTable = async ({
   activeViewId,
@@ -9,17 +9,25 @@ const useTechnicalTable = async ({
   sort,
   pagesize,
   pageno,
+  isprimeuser,
+  ssoid,
 }: any) => {
-  const responseData = await fetchTechnicalTable({
-    activeViewId,
-    filter,
-    firstOperand,
-    operationType,
-    secondOperand,
-    sort,
-    pagesize,
-    pageno,
-  });
+  const responseData = await fetchViewTable(
+    {
+      viewId: activeViewId,
+      filterValue: filter,
+      filterType: !!filter ? "index" : null,
+      firstOperand,
+      operationType,
+      secondOperand,
+      sort,
+      pagesize,
+      pageno,
+    },
+    "movingAverages",
+    isprimeuser,
+    ssoid,
+  );
   const payload: any = {
     viewId: activeViewId,
     firstOperand: firstOperand,
