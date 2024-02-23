@@ -278,20 +278,24 @@ export const createPfuuid = async (fpid: any) => {
   let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
   url = url + `?type=7&source=${API_SOURCE}`;
   console.log("@@@@@-->inpfuuid", url);
-  const res: any = await fetch(url, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-type": "application/json",
-      Authorization: fpid,
-    },
-  });
-  const data = await res.json();
-  console.log("res", res, data);
-  if (data && data.id != 0) {
-    console.log("@@@@--->>>>>", data);
-    var pfuuid = data.id;
-    setCookies("pfuuid", pfuuid);
+  try {
+    const res: any = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: fpid,
+      },
+    });
+    const data = await res.json();
+    console.log("res", res, data);
+    if (data && data.id != 0) {
+      console.log("@@@@--->>>>>", data);
+      var pfuuid = data.id;
+      setCookies("pfuuid", pfuuid);
+    }
+  } catch (e) {
+    console.log("error in pfuuid api", e);
   }
 };
 
