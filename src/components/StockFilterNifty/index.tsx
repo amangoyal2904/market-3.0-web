@@ -6,7 +6,7 @@ interface StockSRFilterProps {
   onclick: (value: boolean) => void;
   valuechange: (id: string, name: string, slectedTab: string) => void;
   selectTab: string;
-  childMenuTabAcive?: string;
+  childMenuTabActive?: string;
   showFilter: boolean;
 }
 
@@ -15,7 +15,7 @@ export default function StockFilterNifty({
   onclick,
   valuechange,
   selectTab,
-  childMenuTabAcive,
+  childMenuTabActive,
   showFilter,
 }: StockSRFilterProps) {
   const activeFilterValue = sessionStorage.sr_filtervalue;
@@ -44,7 +44,7 @@ export default function StockFilterNifty({
   const [nseBseMenuSelect, setNseBseMenuSelect] = useState(selectTab);
   const [activeItem, setActiveItem] = useState<number | null>(activeIndex);
   const childTabMenuActive =
-    childMenuTabAcive && childMenuTabAcive !== "" ? childMenuTabAcive : "";
+    childMenuTabActive && childMenuTabActive !== "" ? childMenuTabActive : "";
   const popupRef = useRef<HTMLDivElement | null>(null);
   const handleClickOutside = (event: any) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {

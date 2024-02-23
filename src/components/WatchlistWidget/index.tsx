@@ -11,6 +11,7 @@ const WatchlistWidget = () => {
   const [apiSuccess, setAPISuccess] = useState(false);
   const [tableData, setTableData] = useState<any>([]);
   const { state } = useStateContext();
+  const [ivKey, setIvKey] = useState(false);
   const { isLogin, userInfo } = state.login;
   const config = tableConfig["watchListWidget"];
 
@@ -28,6 +29,7 @@ const WatchlistWidget = () => {
     const res = await fetchTableData(viewId, params);
     if (res.message == "success") {
       setTableData(res.dataList);
+      setIvKey(res?.iv);
       setAPISuccess(true);
     }
   };
@@ -54,6 +56,7 @@ const WatchlistWidget = () => {
           tableHeaders={tableHeaderData}
           apiSuccess={apiSuccess}
           tableConfig={config}
+          ivKey={ivKey}
         />
       )}
     </>
