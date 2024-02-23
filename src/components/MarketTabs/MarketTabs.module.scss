@@ -116,6 +116,15 @@
   .fitlerDay {
     position: relative;
   }
+  .filterScreener {
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+  }
 }
 //
 .moreTabWrap {

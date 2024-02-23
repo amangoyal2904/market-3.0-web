@@ -56,7 +56,10 @@ const RightSideTabTableComponent = ({ data, tabData }: any) => {
           niftyFilterData={niftyFilterData}
         />
       </div>
-      <div>Here Table show</div>
+      <div>
+        Here <br /> Table <br />
+        show
+      </div>
       <QueryComponets data={TableScreenerDetail} />
     </>
   );

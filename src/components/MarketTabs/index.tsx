@@ -11,6 +11,7 @@ import AddStockComponent from "../../components/StockAdd/index";
 import { useStateContext } from "../../store/StateContext";
 import StockFilterNifty from "../StockFilterNifty/index";
 import DayFitler from "../DayFilter/index";
+import CreateScreenerModule from "../CreateScreenerModule/CreateScreener";
 
 const MarketTabs = ({
   data,
@@ -24,6 +25,7 @@ const MarketTabs = ({
   filterDataChange,
   dayFitlerHanlderChange,
   tabConfig,
+  runQueryhandler,
 }: any) => {
   const {
     showAddStock,
@@ -32,6 +34,7 @@ const MarketTabs = ({
     showDuration,
     showPersonalize,
     showExport,
+    showCreateScreener,
   } = tabConfig;
   const personaliseDataListItem =
     data && data.length > 0
@@ -56,9 +59,16 @@ const MarketTabs = ({
     label: "1 Day",
   });
   const [filterMenuData, setFilterMenuData]: any = useState("");
+  const [createModuleScreener, setCreateModuleScreener] = useState(false);
+  const [screenerEditMode, setScreenerEditMode] = useState({
+    mode: false,
+    viewId: "",
+  });
   const { state } = useStateContext();
   const { isLogin } = state.login;
-
+  const closeModuleScreerHandler = () => {
+    setCreateModuleScreener(false);
+  };
   const tabClick = (viewId: any) => {
     tabsViewIdUpdate(viewId);
   };
@@ -176,6 +186,7 @@ const MarketTabs = ({
       console.log("error", error);
     }
   };
+
   useEffect(() => {
     if (showIndexFilter) {
       filterApiCall();
@@ -251,6 +262,16 @@ const MarketTabs = ({
           ) : null}
         </ul>
         <div className={styles.rightSide}>
+          {showCreateScreener ? (
+            <span
+              className={`${styles.filterScreener}`}
+              onClick={() => setCreateModuleScreener(true)}
+            >
+              + Create Screeners
+            </span>
+          ) : (
+            ""
+          )}
           {showIndexFilter ? (
             <span
               className={`${styles.roundBtn} ${styles.filterNseBse}`}
@@ -304,6 +325,7 @@ const MarketTabs = ({
           ) : (
             ""
           )}
+
           {showPersonalize ? (
             <span
               className={`${styles.roundBtn} ${styles.editBtnPencil}`}
@@ -358,6 +380,15 @@ const MarketTabs = ({
           setDayFilterShow={setDayFilterShow}
           selectedDay={dayFilterValueset}
           filterHandler={filterChangeHandler}
+        />
+      ) : (
+        ""
+      )}
+      {createModuleScreener ? (
+        <CreateScreenerModule
+          closeModuleScreenerNew={closeModuleScreerHandler}
+          runQueryhandler={runQueryhandler}
+          editmode={screenerEditMode}
         />
       ) : (
         ""

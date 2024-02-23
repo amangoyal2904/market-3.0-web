@@ -1,96 +1,70 @@
-import styles from "./scid.module.scss";
-import APIS_CONFIG from "../../../../network/api_config.json";
-import Service from "@/network/service";
-import { APP_ENV } from "../../../../utils/index";
-import AsideNavComponets from "./ClientComponets/AsideNav";
-import RightSideTabTableComponent from "./ClientComponets/RightSide";
-import { cookies } from "next/headers";
+import useScreenerNav from "./useScreenerNav";
+import useScreenerTab from "./useScreenerTab";
+import StocksScreener from "./stockScreener";
+import useScreenerTable from "./useScreenerTable";
+import tableConfig from "@/utils/tableConfig.json";
+import tabConfig from "@/utils/tabConfig.json";
+import { Metadata } from "next";
+import useSelectedFilter from "./useSelectedFilter";
 
-const fetchData = async () => {
-  const bodyParams = `?collectiontypeid=5&screenercount=40`;
-  const API_URL = `${(APIS_CONFIG as any)?.SCREENER?.getAllScreenerlist[APP_ENV]}${bodyParams}`;
-  const response = await Service.get({
-    url: API_URL,
-    params: {},
-    cache: "no-store",
-  });
-  return response?.json();
+export const metadata: Metadata = {
+  title: "Stock Screener !!",
+  description:
+    "Share Market Today | Share Market Live updates: Get all the Latest Share Market News and Updates on The Economic Times. Share Market Live Charts, News, Analysis, IPO News and more.",
 };
 
-const fetchTableData = async (scrid: any) => {
-  const API_URL = `${(APIS_CONFIG as any)?.SCREENER?.getScreenerByScreenerId[APP_ENV]}`;
-  const bodyparams = {
-    pageno: 1,
-    pagesize: 25,
-    screenerId: scrid,
-    deviceId: "web",
-  };
-  const data = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(bodyparams),
+const ScreenerIneerpage = async ({ params, searchParams }: any) => {
+  const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
+  const filter = !!intFilter ? [intFilter] : [];
+
+  const scrParams = await params.scrid;
+  const scridValue = scrParams.find((item: any) => item.startsWith("scrid-"));
+  const scrid = scridValue ? scridValue.split("-")[1] : "";
+  const pagesize = 100;
+  const pageno = 1;
+  const sort: any = [];
+  const { l3Nav, metaData } = await useScreenerNav({
+    scrid,
   });
-  return data.json();
-};
-const fetchTabsData = async (statstype: string) => {
-  const apiUrl = `${(APIS_CONFIG as any)?.["watchListTab"][APP_ENV]}?statstype=${statstype}`;
-  const response = await Service.get({
-    url: apiUrl,
-    params: {},
-    cache: "no-store",
+  const type = "gainer";
+  const { tabData, activeViewId } = await useScreenerTab({ type });
+
+  const {
+    tableHeaderData,
+    tableData,
+    ivKey,
+    screenerDetail,
+    pageSummary,
+    allowSortFields,
+  } = await useScreenerTable({
+    scrid,
+    sort,
+    pagesize,
+    pageno,
   });
 
-  return response?.json();
-};
-const ScreenerIneerpages = async ({ params }: any) => {
-  const cookieStore = cookies();
-  //console.log('cookieStore',cookieStore)
-  const asideNavData = await fetchData();
-  const asideFitlerData: any =
-    asideNavData &&
-    asideNavData.datainfo &&
-    asideNavData.datainfo.screenerCollectionMasterInfo &&
-    asideNavData.datainfo.screenerCollectionMasterInfo
-      .listScreenerCollectionMasterDataInfo &&
-    asideNavData.datainfo.screenerCollectionMasterInfo
-      .listScreenerCollectionMasterDataInfo.length > 0
-      ? asideNavData.datainfo.screenerCollectionMasterInfo
-          .listScreenerCollectionMasterDataInfo
-      : [];
-  const scrid = await params.scrid;
-  const scridValue = scrid.find((item: any) => item.startsWith("scrid-"));
-  const activeId = scridValue ? scridValue.split("-")[1] : "";
-  const allTableData = await fetchTableData(activeId);
+  const selectedFilter = await useSelectedFilter(intFilter);
 
-  const tabData = await fetchTabsData("gainer");
   return (
     <>
-      <h1 className="heading">Inner page</h1>
-      <div className={styles.container}>
-        <aside className={styles.lhs}>
-          <AsideNavComponets data={asideFitlerData} activeId={activeId} />
-        </aside>
-        <div className={styles.rhs}>
-          <RightSideTabTableComponent data={allTableData} tabData={tabData} />
-          {/* <pre>{JSON.stringify(TableRequestObj, null, 2)}</pre>
-                    <pre>{JSON.stringify(TableScreenerDetail, null, 2)}</pre>
-                    <pre>{JSON.stringify(TableDataList, null, 2)}</pre> */}
-          <pre>{JSON.stringify(scrid, null, 2)}</pre>
-          {cookieStore.getAll().map((cookie: any) => {
-            return (
-              <div key={cookie.name}>
-                <p>Name: {cookie.name}</p>
-                <p>Value: {cookie.value}</p>
-                <hr />
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <StocksScreener
+        l3Nav={l3Nav}
+        metaData={metaData[0]}
+        tabData={tabData}
+        activeViewId={activeViewId}
+        tableHeaderData={tableHeaderData}
+        tableData={tableData}
+        ivKey={ivKey}
+        screenerDetail={screenerDetail}
+        pageSummary={pageSummary}
+        allowSortFields={allowSortFields}
+        selectedFilter={selectedFilter}
+        tableConfig={tableConfig["stocksScreener"]}
+        tabConfig={tabConfig["stocksScreener"]}
+        scrid={scrid}
+      />
     </>
   );
 };
 
-export default ScreenerIneerpages;
+export default ScreenerIneerpage;
