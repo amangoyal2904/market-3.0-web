@@ -6,6 +6,7 @@ import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
 import useSelectedFilter from "../useSelectedFilter";
 import { fetchTechnicalCategory } from "@/utils/utility";
+import useTechnicalFilters from "../useTechnicalFilters";
 
 const MovingAverages = async ({ searchParams, params }: any) => {
   const type = searchParams?.type;
@@ -34,7 +35,13 @@ const MovingAverages = async ({ searchParams, params }: any) => {
     });
 
   const selectedFilter = await useSelectedFilter(intFilter);
-  const technicalCategory = await fetchTechnicalCategory(params, searchParams);
+  const technicalCategory = await useTechnicalFilters(
+    params,
+    type,
+    firstOperand,
+    operationType,
+    secondOperand,
+  );
   return (
     <>
       <Marketstats

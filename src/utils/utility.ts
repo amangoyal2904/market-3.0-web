@@ -59,14 +59,11 @@ export const fnGenerateMetaData = (meta?: any) => {
   };
 };
 
-export const fetchTechnicalCategory = async (
-  params: any,
-  searchParams: any,
-) => {
+export const fetchTechnicalCategory = async (params: any, type: any) => {
   let category = params.technicals[0];
   if (category == "moving-averages") {
     category =
-      searchParams.type == "ema-ema-crossovers"
+      type == "ema-ema-crossovers"
         ? "ema-ema-crossovers"
         : "sma-sma-crossovers";
   }
