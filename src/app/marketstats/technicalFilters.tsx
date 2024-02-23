@@ -1,6 +1,13 @@
+"use client";
 import { useState } from "react";
 import styles from "./Marketstats.module.scss";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { updateOrAddParamToPath } from "@/utils/utility";
+
 const TechnicalFilters = ({ technicalCategory }: any) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [firstOperand, setFirstOperand] = useState(
     technicalCategory.selectedFilter.firstOperand,
   );
@@ -21,6 +28,18 @@ const TechnicalFilters = ({ technicalCategory }: any) => {
 
   const handleSecondOperandChange = (event: any) => {
     setSecondOperand(event.target.value);
+  };
+
+  const onSumbitHandler = () => {
+    const url = `${pathname}?${searchParams}`;
+    let fnewUrl = updateOrAddParamToPath(url, "firstoperand", firstOperand),
+      snewUrl = updateOrAddParamToPath(fnewUrl, "secondoperand", secondOperand),
+      finalUrl = updateOrAddParamToPath(
+        snewUrl,
+        "operationtype",
+        operationType,
+      );
+    router.push(finalUrl, { scroll: false });
   };
 
   return (
@@ -63,7 +82,9 @@ const TechnicalFilters = ({ technicalCategory }: any) => {
           value={secondOperand}
         />
       )}
-      <div className={styles.blackCTA}>Submit</div>
+      <div className={styles.blackCTA} onClick={onSumbitHandler}>
+        Submit
+      </div>
     </div>
   );
 };

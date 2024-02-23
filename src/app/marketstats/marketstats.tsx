@@ -9,7 +9,7 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import useTechnicalTab from "./useTechnicalTab";
 import { useStateContext } from "@/store/StateContext";
 import TechnicalFilters from "./technicalFilters";
-import { fetchViewTable } from "@/utils/utility";
+import { fetchViewTable, updateOrAddParamToPath } from "@/utils/utility";
 
 const Marketstats = ({
   l3Nav,
@@ -86,31 +86,7 @@ const Marketstats = ({
     updateTableData();
   };
 
-  const updateOrAddParamToPath = (pathname: any, param: any, value: any) => {
-    const url = new URL(window.location.origin + pathname);
-    const searchParams = url.searchParams;
-
-    if (value === 0) {
-      searchParams.delete(param);
-    } else if (searchParams.has(param)) {
-      searchParams.set(param, value);
-    } else {
-      searchParams.append(param, value);
-    }
-
-    return url.pathname + "?" + searchParams.toString();
-  };
-
-  const filterDataChangeHander = async (
-    id: any,
-    name: any,
-    selectedTab: any,
-  ) => {
-    setNiftyFilterData({
-      name,
-      id,
-      selectedTab,
-    });
+  const filterDataChangeHander = async (id: any) => {
     const url = `${pathname}?${searchParams}`;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
     router.push(newUrl, { scroll: false });
@@ -119,7 +95,7 @@ const Marketstats = ({
   const dayFitlerHanlderChange = async (value: any, label: any) => {
     const url = `${pathname}?${searchParams}`;
     const newDuration = value.toUpperCase();
-    const newUrl = url.replace(/duration=[^&]*/, "duration=" + newDuration);
+    const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
     router.push(newUrl, { scroll: false });
   };
 
