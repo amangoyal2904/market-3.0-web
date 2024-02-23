@@ -63,7 +63,7 @@ export const fetchTechnicalCategory = async (params: any, type: any) => {
   let category = params.technicals[0];
   if (category == "moving-averages") {
     category =
-      type == "ema-ema-crossovers"
+      type == "ema-ema-crossovers" || type == "price-ema-crossovers"
         ? "ema-ema-crossovers"
         : "sma-sma-crossovers";
   }
@@ -100,75 +100,26 @@ export const fetchTabsData = async () => {
   return res;
 };
 
-export const fetchTechnicalTable = async ({
-  activeViewId,
-  filter,
-  firstOperand,
-  operationType,
-  secondOperand,
-  sort,
-  pagesize,
-  pageno,
-}: any) => {
-  const apiUrl = (APIS_CONFIG as any)?.["movingAverages"][APP_ENV];
-  const bodyParams: any = {
-    viewId: activeViewId,
-    firstOperand: firstOperand,
-    operationType: operationType,
-    secondOperand: secondOperand,
-    filterValue: filter,
-    sort: sort,
-    pagesize: pagesize,
-    pageno: pageno,
-  };
-
-  if (!!filter && filter.length) {
-    bodyParams.filterType = "index";
+export const fetchViewTable = async (
+  requestObj: any,
+  apiType: string,
+  isprimeuser: any,
+  ssoid: any,
+) => {
+  const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
+  const headers: any = {};
+  if (!!ssoid) {
+    headers["ssoid"] = ssoid;
+    headers["isprimeuser"] = isprimeuser;
   }
-
   const response = await Service.post({
     url: apiUrl,
     headers: {
+      ...headers,
       "Content-Type": "application/json",
     },
     cache: "no-store",
-    body: JSON.stringify(bodyParams),
-    params: {},
-  });
-  return response?.json();
-};
-
-export const fetchIntradayTable = async ({
-  activeViewId,
-  type,
-  duration,
-  filter,
-  sort,
-  pagesize,
-  pageno,
-}: any) => {
-  const apiUrl = (APIS_CONFIG as any)?.["marketStatsIntraday"][APP_ENV];
-  const bodyParams: any = {
-    viewId: activeViewId,
-    apiType: type,
-    duration: duration,
-    filterValue: filter,
-    sort: sort,
-    pagesize: pagesize,
-    pageno: pageno,
-  };
-
-  if (!!filter && filter.length) {
-    bodyParams.filterType = "index";
-  }
-
-  const response = await Service.post({
-    url: apiUrl,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    cache: "no-store",
-    body: JSON.stringify(bodyParams),
+    body: JSON.stringify({ ...requestObj }),
     params: {},
   });
   return response?.json();

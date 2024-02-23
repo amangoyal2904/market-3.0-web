@@ -141,6 +141,7 @@ const FixedTable = (props: any) => {
                               ""
                             )}
                             <a
+                              className={styles.ellipses}
                               href={getStockUrl(
                                 item.assetId,
                                 !!item.assetSeoName
@@ -149,7 +150,11 @@ const FixedTable = (props: any) => {
                                 item.assetType,
                               )}
                               target="_blank"
-                              title={tdData.value}
+                              title={`${tdData.value} ${
+                                item.assetType.toLowerCase() != "equity"
+                                  ? `(${item.assetType.toUpperCase()})`
+                                  : null
+                              }`}
                             >
                               {tdData.value}{" "}
                               {item.assetType != "" &&
