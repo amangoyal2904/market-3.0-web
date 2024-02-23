@@ -1,4 +1,3 @@
-import { fetchIntradayTable } from "@/utils/utility";
 import APIS_CONFIG from "../../../../network/api_config.json";
 import { APP_ENV } from "../../../../utils/index";
 

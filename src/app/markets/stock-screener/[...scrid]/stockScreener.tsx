@@ -7,7 +7,6 @@ import { getParameterByName } from "@/utils";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import useScreenerTab from "./useScreenerTab";
 import { useStateContext } from "@/store/StateContext";
-import { fetchIntradayTable, fetchTechnicalTable } from "@/utils/utility";
 import AsideNavComponets from "./asideNav";
 import QueryComponets from "./queryComponents";
 
@@ -50,54 +49,7 @@ const StocksScreener = ({
     setNiftyFilterData(selectedFilter);
   };
 
-  const onTabViewUpdate = async (viewId: any) => {
-    const type = searchParams.get("type");
-    const duration = searchParams.get("duration");
-    const intFilter = searchParams.get("filter");
-    const filter = !!intFilter ? [intFilter] : [];
-    const firstOperand = searchParams.get("firstoperand");
-    const operationType = searchParams.get("operationtype");
-    const secondOperand = searchParams.get("secondoperand");
-    const pagesize = 100;
-    const pageno = 1;
-    const sort: any = [];
-    const activeViewId = viewId;
-    const responseData = pathname.includes("intraday")
-      ? await fetchIntradayTable({
-          activeViewId,
-          type,
-          duration,
-          filter,
-          sort,
-          pagesize,
-          pageno,
-        })
-      : await fetchTechnicalTable({
-          activeViewId,
-          filter,
-          firstOperand,
-          operationType,
-          secondOperand,
-          sort,
-          pagesize,
-          pageno,
-        });
-
-    const ivKey = responseData.iv;
-    const tableData = responseData?.dataList
-      ? responseData.dataList
-      : responseData;
-
-    const tableHeaderData =
-      tableData && tableData.length && tableData[0] && tableData[0]?.data
-        ? tableData[0]?.data
-        : [];
-
-    setActiveViewId(activeViewId);
-    setTableData(tableData);
-    setTableHeaderData(tableHeaderData);
-    setIvKey(ivKey);
-  };
+  const onTabViewUpdate = async (viewId: any) => {};
 
   const updateOrAddParamToPath = (pathname: any, param: any, value: any) => {
     const url = new URL(window.location.origin + pathname);
