@@ -1,0 +1,61 @@
+.tabsList {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  column-gap: 10px;
+  width: calc(100% - 400px);
+  li {
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  li.active {
+    font-weight: 700;
+    position: relative;
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -12px;
+      border-bottom: solid 1px #000000;
+    }
+  }
+}
+
+.subChild {
+  .tabsList {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    column-gap: 10px;
+    width: calc(100% - 400px);
+    li {
+      font-family: Montserrat;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    li.active {
+      font-weight: 700;
+      position: relative;
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -12px;
+        border-bottom: solid 1px #000000;
+      }
+    }
+  }
+}

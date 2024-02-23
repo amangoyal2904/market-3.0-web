@@ -20,14 +20,19 @@ const MarketTabs = ({
   setShowTableCheckBox,
   showTableCheckBox,
   removeMultipleStockInWathclist,
-  showAddStock = true,
-  showEditStock = true,
-  showNiftyFilter = false,
-  showDayFilter = false,
   niftyFilterData = {},
   filterDataChange,
   dayFitlerHanlderChange,
+  tabConfig,
 }: any) => {
+  const {
+    showAddStock,
+    showEditStock,
+    showIndexFilter,
+    showDuration,
+    showPersonalize,
+    showExport,
+  } = tabConfig;
   const personaliseDataListItem =
     data && data.length > 0
       ? data.filter((item: any) => item.viewId !== 239)
@@ -141,13 +146,13 @@ const MarketTabs = ({
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);
   };
-  const handleChagneData = (id: any, name: string, slectedTab: string) => {
+  const handleChagneData = (id: any, name: string, selectedTab: string) => {
     setShowFilter(false);
     sessionStorage.setItem("sr_filtervalue", id);
     sessionStorage.setItem("sr_filtername", name);
-    sessionStorage.setItem("sr_filtertab", slectedTab);
-    //setFilterMenuTxtShow({ name: name, id: id, slectedTab: slectedTab });
-    filterDataChange(id, name, slectedTab);
+    sessionStorage.setItem("sr_filtertab", selectedTab);
+    //setFilterMenuTxtShow({ name: name, id: id, selectedTab: selectedTab });
+    filterDataChange(id, name, selectedTab);
   };
   const filterApiCall = () => {
     try {
@@ -172,7 +177,7 @@ const MarketTabs = ({
     }
   };
   useEffect(() => {
-    if (showNiftyFilter) {
+    if (showIndexFilter) {
       filterApiCall();
     }
   }, []);
@@ -246,22 +251,23 @@ const MarketTabs = ({
           ) : null}
         </ul>
         <div className={styles.rightSide}>
-          {showNiftyFilter ? (
+          {showIndexFilter ? (
             <span
               className={`${styles.roundBtn} ${styles.filterNseBse}`}
               onClick={() => showFilterMenu(true)}
             >
+              <i className={`eticon_filter ${styles.mr}`}></i>{" "}
               {niftyFilterData?.name}
             </span>
           ) : (
             ""
           )}
-          {showDayFilter ? (
+          {showDuration ? (
             <div
               className={`${styles.roundBtn} ${styles.fitlerDay}`}
               onClick={() => dayFilterHandler()}
             >
-              {dayFilterValueset.label}
+              {dayFilterValueset.label} <i className="eticon_caret_down"></i>
             </div>
           ) : (
             ""
@@ -298,16 +304,19 @@ const MarketTabs = ({
           ) : (
             ""
           )}
-
-          <span
-            className={`${styles.roundBtn} ${styles.editBtnPencil}`}
-            onClick={() => userPersonaliseHandle()}
-          >
-            Personalise
-          </span>
-          <span className={`${styles.roundBtn} ${styles.exportIcon}`}>
-            Export
-          </span>
+          {showPersonalize ? (
+            <span
+              className={`${styles.roundBtn} ${styles.editBtnPencil}`}
+              onClick={() => userPersonaliseHandle()}
+            >
+              Personalise
+            </span>
+          ) : null}
+          {showExport ? (
+            <span className={styles.roundBtn}>
+              Export <i className={`eticon_caret_down ${styles.ml}`}></i>
+            </span>
+          ) : null}
         </div>
       </div>
       {openPersonaliseModal ? (
@@ -340,7 +349,7 @@ const MarketTabs = ({
           onclick={showFilterMenu}
           showFilter={showFilter}
           valuechange={handleChagneData}
-          selectTab={niftyFilterData.slectedTab}
+          selectTab={niftyFilterData.selectedTab}
           childMenuTabActive={niftyFilterData.id}
         />
       )}

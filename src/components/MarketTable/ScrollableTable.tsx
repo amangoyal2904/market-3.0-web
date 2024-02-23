@@ -159,9 +159,7 @@ const ScrollableTable = (props: any) => {
               </tr>
             ))}
           </tbody>
-        ) : (
-          ""
-        )}
+        ) : null}
       </table>
     </div>
   );

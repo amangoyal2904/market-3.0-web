@@ -1,0 +1,26 @@
+{
+  "watchList": {
+    "showAddStock": true,
+    "showEditStock": true,
+    "showIndexFilter": false,
+    "showDuration": false,
+    "showPersonalize": true,
+    "showExport": false
+  },
+  "marketStatsIntrday": {
+    "showAddStock": false,
+    "showEditStock": false,
+    "showIndexFilter": true,
+    "showDuration": true,
+    "showPersonalize": true,
+    "showExport": false
+  },
+  "marketStatsTechnical": {
+    "showAddStock": false,
+    "showEditStock": false,
+    "showIndexFilter": true,
+    "showDuration": false,
+    "showPersonalize": true,
+    "showExport": false
+  }
+}
