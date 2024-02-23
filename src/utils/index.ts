@@ -288,7 +288,7 @@ export const logout = async () => {
   window?.jsso?.signOutUser(async function (response: any) {
     if (response.status == "SUCCESS") {
       setCookieToSpecificTime("OTR", "", 0, 0, 0);
-      setCookieToSpecificTime("isprimeuser", false, 0, 0, 0);
+      setCookieToSpecificTime("isprimeuser", "", 0, 0, 0);
 
       const url = (APIS_CONFIG as any)["LOGOUT_AUTH_TOKEN"][APP_ENV],
         oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],

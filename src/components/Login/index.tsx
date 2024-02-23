@@ -46,7 +46,7 @@ const Login = () => {
         window.objUser.accessibleFeatures = [];
         window.objUser.primeInfo = {};
         window.objUser.isPrime = false;
-        setCookieToSpecificTime("isprimeuser", false, 0, 0, 0);
+        setCookieToSpecificTime("isprimeuser", "", 0, 0, 0);
 
         if (primeRes && primeRes.token) {
           setCookieToSpecificTime("OTR", "", 0, 0, 0);

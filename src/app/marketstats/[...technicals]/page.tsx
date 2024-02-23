@@ -28,7 +28,6 @@ const MovingAverages = async ({ searchParams, params }: any) => {
 
   const { tabData, activeViewId } = await useTechnicalTab({
     type,
-    isprimeuser,
     ssoid,
   });
 

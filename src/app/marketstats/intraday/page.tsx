@@ -38,7 +38,6 @@ const Intraday = async ({ searchParams }: any) => {
 
   const { tabData, activeViewId } = await useTechnicalTab({
     type,
-    isprimeuser,
     ssoid,
   });
 
