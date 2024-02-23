@@ -5,14 +5,13 @@ import Marketstats from "../marketstats";
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
 import useSelectedFilter from "../useSelectedFilter";
-import { fetchTechnicalCategory } from "@/utils/utility";
 import useTechnicalFilters from "../useTechnicalFilters";
 import { cookies } from "next/headers";
 
 const MovingAverages = async ({ searchParams, params }: any) => {
   const cookieStore = cookies();
-  const isprimeuser = cookies().get("isprimeuser") ? true : false;
-  const ssoid = cookies().get("ssoid");
+  const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
+  const ssoid = cookieStore.get("ssoid");
   const type = searchParams?.type;
   const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
   const filter = !!intFilter ? [intFilter] : [];
