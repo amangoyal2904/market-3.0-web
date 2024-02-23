@@ -68,6 +68,7 @@ const MovingAverages = async ({ searchParams, params }: any) => {
         tableConfig={tableConfig["marketStatsTechnical"]}
         tabConfig={tabConfig["marketStatsTechnical"]}
         payload={payload}
+        ssoid={ssoid}
       />
     </>
   );
