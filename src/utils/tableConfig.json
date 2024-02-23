@@ -1,0 +1,56 @@
+{
+  "watchListWidget": {
+    "tabs": false,
+    "loader": true,
+    "showFilterInput": false,
+    "isSorting": false,
+    "isHeaderSticky": false,
+    "pagination": false,
+    "loaderType": "inner"
+  },
+  "watchList": {
+    "tabs": true,
+    "loader": true,
+    "showFilterInput": true,
+    "isSorting": true,
+    "isHeaderSticky": true,
+    "pagination": false,
+    "loaderType": "global"
+  },
+  "marketStatsIntrday": {
+    "tabs": true,
+    "loader": false,
+    "showFilterInput": false,
+    "isSorting": true,
+    "isHeaderSticky": true,
+    "pagination": true,
+    "loaderType": "inner"
+  },
+  "marketStatsTechnical": {
+    "tabs": true,
+    "loader": false,
+    "showFilterInput": false,
+    "isSorting": true,
+    "isHeaderSticky": true,
+    "pagination": true,
+    "loaderType": "inner"
+  },
+  "buySell": {
+    "tabs": true,
+    "loader": false,
+    "showFilterInput": false,
+    "isSorting": false,
+    "isHeaderSticky": false,
+    "pagination": false,
+    "loaderType": "inner"
+  },
+  "marketDashboard": {
+    "tabs": true,
+    "loader": false,
+    "showFilterInput": false,
+    "isSorting": false,
+    "isHeaderSticky": false,
+    "pagination": false,
+    "loaderType": "inner"
+  }
+}

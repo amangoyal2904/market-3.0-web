@@ -51,15 +51,27 @@
     font-weight: 600;
   }
   .roundBtn {
+    display: flex;
     cursor: pointer;
     border-radius: 100px;
     border: 1px solid #000;
     font-family: Montserrat;
     font-size: 12px;
+    line-height: 18px;
     font-style: normal;
     font-weight: 600;
-    padding: 5px 10px;
+    padding: 3px 10px;
     white-space: nowrap;
+    align-items: center;
+    i {
+      font-size: 18px;
+      &.ml {
+        margin-left: 4px;
+      }
+      &.mr {
+        margin-right: 4px;
+      }
+    }
   }
   .stockBtn {
     border-right: solid 1px #000000;
@@ -103,34 +115,6 @@
   }
   .fitlerDay {
     position: relative;
-  }
-  .exportIcon {
-    position: relative;
-    padding-left: 30px;
-    padding-right: 26px;
-    &::after {
-      content: "";
-      display: inline-block;
-      vertical-align: top;
-      position: absolute;
-      left: 10px;
-      top: 4px;
-      background: url("https://img.etimg.com/photo/msid-107280025,quality-100/export.jpg")
-        no-repeat 0 0;
-      width: 16px;
-      height: 16px;
-    }
-    &::before {
-      content: "";
-      display: inline-block;
-      vertical-align: top;
-      position: absolute;
-      right: 13px;
-      top: 10px;
-      border-left: solid 5px transparent;
-      border-right: solid 5px transparent;
-      border-top: solid 5px #000;
-    }
   }
 }
 //

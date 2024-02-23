@@ -5,11 +5,71 @@ import { getCookie } from "@/utils/index";
 import Fingerprint2 from "fingerprintjs2";
 import { setCookies } from "./index";
 import CryptoJS from "crypto-js";
+import Service from "@/network/service";
 
 const API_SOURCE = 18;
 
+export const fnGenerateMetaData = (meta?: any) => {
+  return {
+    title: `${meta?.title} | ET Markets`,
+    generator: "ET Markets",
+    applicationName: "ET Markets",
+    keywords: meta?.meta_keywords?.split(","),
+    metadataBase: new URL("https://economictimes.indiatimes.com/"),
+    alternates: {
+      canonical: "/",
+      languages: {
+        "en-IN": "/en-IN",
+      },
+    },
+    openGraph: {
+      title: meta?.title,
+      description: meta?.desc,
+      url: "https://economictimes.indiatimes.com/",
+      siteName: "ET Markets",
+      images: [
+        {
+          url: "https://img.etimg.com/photo/msid-65498029/et-logo.jpg",
+          width: 1200,
+          height: 628,
+        },
+      ],
+      locale: "en-IN",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta?.title,
+      description: meta?.desc,
+      creator: "@etmarkets",
+      images: ["https://img.etimg.com/photo/msid-65498029/et-logo.jpg"],
+    },
+    robots: {
+      index: meta?.index,
+      follow: meta?.index,
+      googleBot: {
+        index: meta?.index,
+        follow: meta?.index,
+      },
+    },
+    icons: {
+      icon: "/etfavicon.ico",
+    },
+    manifest: "/manifest.cms",
+  };
+};
+
+export const fetchFilters = async () => {
+  const apiUrl =
+    "https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson";
+  const response = await Service.get({
+    url: apiUrl,
+    params: {},
+  });
+  return response?.json();
+};
+
 export const fetchTabsData = async () => {
-  //const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
   const ssoid = window.objUser?.ssoid;
   const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?ssoid=${ssoid}`;
   const data = await fetch(apiUrl, {
@@ -22,12 +82,86 @@ export const fetchTabsData = async () => {
   return res;
 };
 
-export const fetchTableData = async (viewId: any) => {
-  //const ssoid = "a9s3kgugi5gkscfupjzhxxx2y"
+export const fetchTechnicalTable = async ({
+  activeViewId,
+  filter,
+  firstOperand,
+  operationType,
+  secondOperand,
+  sort,
+  pagesize,
+  pageno,
+}: any) => {
+  const apiUrl = (APIS_CONFIG as any)?.["movingAverages"][APP_ENV];
+  const bodyParams: any = {
+    viewId: activeViewId,
+    firstOperand: firstOperand,
+    operationType: operationType,
+    secondOperand: secondOperand,
+    filterValue: filter,
+    sort: sort,
+    pagesize: pagesize,
+    pageno: pageno,
+  };
+
+  if (!!filter && filter.length) {
+    bodyParams.filterType = "index";
+  }
+
+  const response = await Service.post({
+    url: apiUrl,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    cache: "no-store",
+    body: JSON.stringify(bodyParams),
+    params: {},
+  });
+  return response?.json();
+};
+
+export const fetchIntradayTable = async ({
+  activeViewId,
+  type,
+  duration,
+  filter,
+  sort,
+  pagesize,
+  pageno,
+}: any) => {
+  const apiUrl = (APIS_CONFIG as any)?.["marketStatsIntraday"][APP_ENV];
+  const bodyParams: any = {
+    viewId: activeViewId,
+    apiType: type,
+    duration: duration,
+    filterValue: filter,
+    sort: sort,
+    pagesize: pagesize,
+    pageno: pageno,
+  };
+
+  if (!!filter && filter.length) {
+    bodyParams.filterType = "index";
+  }
+
+  const response = await Service.post({
+    url: apiUrl,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    cache: "no-store",
+    body: JSON.stringify(bodyParams),
+    params: {},
+  });
+  return response?.json();
+};
+
+export const fetchTableData = async (viewId: any, params?: any) => {
   const ssoid = window.objUser?.ssoid;
   const apiUrl = (APIS_CONFIG as any)?.watchListTable["development"];
   const data = await fetch(apiUrl, {
     method: "POST",
+    cache: "no-store",
     headers: {
       "Content-Type": "application/json",
       ssoid: ssoid,
@@ -37,6 +171,7 @@ export const fetchTableData = async (viewId: any) => {
       type: "STOCK",
       viewId: viewId,
       deviceId: "web",
+      ...params,
     }),
   });
   const res = await data.json();

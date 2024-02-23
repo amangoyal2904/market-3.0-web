@@ -1,39 +1,31 @@
 import useMarketStatsNav from "../useMarketStatsNav";
 import useTechnicalTab from "../useTechnicalTab";
+import useTechnicalTable from "../useTechnicalTable";
 import Marketstats from "../marketstats";
-import useIntradayTable from "../useIntradayTable";
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
-import { Metadata } from "next";
 import useSelectedFilter from "../useSelectedFilter";
 
-export const metadata: Metadata = {
-  title: "Intraday",
-  description:
-    "Share Market Today | Share Market Live updates: Get all the Latest Share Market News and Updates on The Economic Times. Share Market Live Charts, News, Analysis, IPO News and more.",
-};
-
-const Intraday = async ({ searchParams }: any) => {
+const MovingAverages = async ({ searchParams }: any) => {
   const type = searchParams?.type;
-  const duration = searchParams.duration ? searchParams.duration : "1D";
   const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
   const filter = !!intFilter ? [intFilter] : [];
+  const firstOperand = searchParams?.firstoperand;
+  const operationType = searchParams?.operationtype;
+  const secondOperand = searchParams?.secondoperand;
   const pagesize = 100;
   const pageno = 1;
   const sort: any = [];
-  const { l3Nav, metaData } = await useMarketStatsNav({
-    type,
-    intFilter,
-    duration,
-  });
+
+  const { l3Nav, metaData } = await useMarketStatsNav({ type, intFilter });
 
   const { tabData, activeViewId } = await useTechnicalTab({ type });
-
-  const { tableHeaderData, tableData, ivKey } = await useIntradayTable({
+  const { tableHeaderData, tableData, ivKey } = await useTechnicalTable({
     activeViewId,
-    type,
-    duration,
     filter,
+    firstOperand,
+    operationType,
+    secondOperand,
     sort,
     pagesize,
     pageno,
@@ -52,11 +44,11 @@ const Intraday = async ({ searchParams }: any) => {
         tableData={tableData}
         ivKey={ivKey}
         selectedFilter={selectedFilter}
-        tableConfig={tableConfig["marketStatsIntrday"]}
-        tabConfig={tabConfig["marketStatsIntrday"]}
+        tableConfig={tableConfig["marketStatsTechnical"]}
+        tabConfig={tabConfig["marketStatsTechnical"]}
       />
     </>
   );
 };
 
-export default Intraday;
+export default MovingAverages;

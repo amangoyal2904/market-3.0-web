@@ -134,7 +134,7 @@ const Login = () => {
     };
   }, []);
 
-  const handleLoginToggle = (): void => {
+  const handleLoginToggle = () => {
     if (isLogin) {
       //setLogout();
     } else {
@@ -142,7 +142,7 @@ const Login = () => {
     }
   };
 
-  const handleRedeemVoucher = (): void => {
+  const handleRedeemVoucher = () => {
     const voucherClicked = new Event("voucherClicked");
     document.dispatchEvent(voucherClicked);
   };

@@ -10,6 +10,8 @@ import APIS_CONFIG from "../network/api_config.json";
 import { APP_ENV } from "@/utils";
 import service from "@/network/service";
 import { StateProvider } from "@/store/StateContext";
+import NextTopLoader from "nextjs-toploader";
+import { Metadata } from "next";
 
 declare global {
   interface Window {
@@ -20,7 +22,7 @@ declare global {
   }
 }
 
-export const metadata = {
+export const metadata: Metadata = {
   title:
     "Share Market Live, Share Market Today: Latest Share Market News, Share Market Live Updates on The Economic Times",
   description:
@@ -47,6 +49,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className="h-full bg-gray-50">
       <body className="h-full">
+        <NextTopLoader />
         <StateProvider>
           <main>
             <Headers />
