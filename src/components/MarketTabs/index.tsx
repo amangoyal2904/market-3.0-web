@@ -350,7 +350,7 @@ const MarketTabs = ({
           showFilter={showFilter}
           valuechange={handleChagneData}
           selectTab={niftyFilterData.selectedTab}
-          childMenuTabAcive={niftyFilterData.id}
+          childMenuTabActive={niftyFilterData.id}
         />
       )}
       {dayFilterShow ? (
