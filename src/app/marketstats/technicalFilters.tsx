@@ -31,15 +31,15 @@ const TechnicalFilters = ({ technicalCategory }: any) => {
   };
 
   const onSumbitHandler = () => {
-    const url = `${pathname}?${searchParams}`;
-    let fnewUrl = updateOrAddParamToPath(url, "firstoperand", firstOperand),
-      snewUrl = updateOrAddParamToPath(fnewUrl, "secondoperand", secondOperand),
-      finalUrl = updateOrAddParamToPath(
-        snewUrl,
-        "operationtype",
-        operationType,
-      );
-    router.push(finalUrl, { scroll: false });
+    let url = `${pathname}?${searchParams}`;
+    const type = searchParams.get("type");
+    if (type == "golden-cross" || type == "death-cross") {
+      url = updateOrAddParamToPath(url, "type", "sma-sma-crossovers");
+    }
+    (url = updateOrAddParamToPath(url, "firstoperand", firstOperand)),
+      (url = updateOrAddParamToPath(url, "secondoperand", secondOperand)),
+      (url = updateOrAddParamToPath(url, "operationtype", operationType));
+    router.push(url, { scroll: false });
   };
 
   return (

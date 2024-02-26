@@ -227,6 +227,8 @@ const MarketTable = (props: propsType) => {
       if (!loaderOff) setLoaderOff(true);
     } else if (data.length === 0) {
       setTableDataList([]);
+      setTableHeaderData([]);
+      setIvKeyPhrase([]);
     }
 
     const isPrime =
@@ -284,7 +286,9 @@ const MarketTable = (props: propsType) => {
       {tableDataList.length == 0 || tableHeaderData.length == 0 ? (
         <Blocker
           type={
-            tableDataList.length == 0 && tableHeaderData.length == 0
+            tableDataList.length == 0 &&
+            tableHeaderData.length == 0 &&
+            tableConfig.name == "watchList"
               ? "noStocks"
               : "noDataFound"
           }
