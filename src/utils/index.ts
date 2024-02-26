@@ -40,43 +40,39 @@ export const getCookie = (name: string) => {
 
 export const setCookieToSpecificTime = (
   name: string,
-  value: any,
-  days: number,
-  time: string | number,
-  seconds: number,
+  value: string | number | boolean,
+  days = 0,
+  time = 0,
+  seconds = 0,
+  domain = ".indiatimes.com",
 ) => {
   try {
-    const domain = ".indiatimes.com";
-    let cookiestring = "";
-    if (name && value) {
-      cookiestring = name + "=" + encodeURIComponent(value) + "; expires=";
-      if (days) {
-        cookiestring +=
-          new Date(
-            new Date().getTime() + days * 24 * 60 * 60 * 1000,
-          ).toUTCString() +
-          "; domain=" +
-          domain +
-          "; path=/;";
-      }
-      if (time) {
-        cookiestring +=
-          new Date(new Date().toDateString() + " " + time).toUTCString() +
-          "; domain=" +
-          domain +
-          "; path=/;";
-      }
-      if (seconds) {
-        const exdate = new Date();
-        exdate.setSeconds(exdate.getSeconds() + seconds);
-        cookiestring +=
-          exdate.toUTCString() + "; domain=" + domain + "; path=/;";
-      }
+    let cookiestring = `${name}=${encodeURIComponent(value)};`;
+    const options = { domain: domain, path: "/" };
+
+    if (days) {
+      const expirationDate = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+      cookiestring += `expires=${expirationDate.toUTCString()};`;
     }
+
+    if (time) {
+      const date = new Date();
+      const [hours, minutes] = (time as any).split(":");
+      date.setHours(hours);
+      date.setMinutes(minutes);
+      cookiestring += `expires=${date.toUTCString()};`;
+    }
+
+    if (seconds) {
+      const expirationDate = new Date(Date.now() + seconds * 1000);
+      cookiestring += `expires=${expirationDate.toUTCString()};`;
+    }
+
+    cookiestring += `domain=${options.domain}; path=${options.path};`;
 
     document.cookie = cookiestring;
   } catch (e) {
-    console.log("setCookieToSpecificTime", e);
+    console.log("setCookieToSpecificTime Error:", e);
   }
 };
 
