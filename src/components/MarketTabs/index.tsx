@@ -26,6 +26,7 @@ const MarketTabs = ({
   dayFitlerHanlderChange,
   tabConfig,
   runQueryhandler,
+  updateTableHander,
 }: any) => {
   const {
     showAddStock,
@@ -363,7 +364,10 @@ const MarketTabs = ({
         ""
       )}
       {addStockShow ? (
-        <AddStockComponent moduelClose={setAddStockShow} />
+        <AddStockComponent
+          moduelClose={setAddStockShow}
+          updateTableHander={updateTableHander}
+        />
       ) : null}
       {showFilter && (
         <StockFilterNifty

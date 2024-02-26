@@ -103,6 +103,10 @@ const WatchList = () => {
     }
   };
   //console.log("____UnFollowStocksList", unFollowStocksList);
+  const updateTableHanderFun = () => {
+    // here tableUpdatefunction call logic
+    fetchWatchListTableAPI(activeViewId);
+  };
   useEffect(() => {
     if (isLogin === true) {
       fetchWatchListData();
@@ -136,6 +140,7 @@ const WatchList = () => {
               showTableCheckBox={showTableCheckBox}
               removeMultipleStockInWathclist={removeMultipleStockInWathclist}
               tabConfig={tabConfig["watchList"]}
+              updateTableHander={updateTableHanderFun}
             />
             <MarketTable
               data={tableData}
