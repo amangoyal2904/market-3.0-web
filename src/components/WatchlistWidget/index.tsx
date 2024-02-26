@@ -5,7 +5,6 @@ import { fetchTabsData, fetchTableData } from "@/utils/utility";
 import { useStateContext } from "../../store/StateContext";
 import tableConfig from "../../utils/tableConfig.json";
 import Blocker from "../Blocker";
-import Link from "next/link";
 import ViewAllLink from "../ViewAllLink";
 
 const WatchlistWidget = () => {
@@ -13,7 +12,7 @@ const WatchlistWidget = () => {
   const [apiSuccess, setAPISuccess] = useState(false);
   const [tableData, setTableData] = useState<any>([]);
   const { state } = useStateContext();
-  const [ivKey, setIvKey] = useState(false);
+  const [pageSummary, setPageSummary] = useState(false);
   const { isLogin, userInfo } = state.login;
   const config = tableConfig["watchListWidget"];
 
@@ -31,7 +30,7 @@ const WatchlistWidget = () => {
     const res = await fetchTableData(viewId, params);
     if (res.message == "success") {
       setTableData(res.dataList);
-      setIvKey(res?.iv);
+      setPageSummary(res?.pageSummary);
       setAPISuccess(true);
     }
   };
@@ -59,7 +58,7 @@ const WatchlistWidget = () => {
             tableHeaders={tableHeaderData}
             apiSuccess={apiSuccess}
             tableConfig={config}
-            ivKey={ivKey}
+            pageSummary={pageSummary}
           />
           <ViewAllLink text="View All Stocks" link="/watchlist" />
         </>

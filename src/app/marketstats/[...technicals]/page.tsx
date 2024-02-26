@@ -31,7 +31,7 @@ const MovingAverages = async ({ searchParams, params }: any) => {
     ssoid,
   });
 
-  const { tableHeaderData, tableData, ivKey, payload } =
+  const { tableHeaderData, tableData, pageSummary, payload } =
     await useTechnicalTable({
       activeViewId,
       filter,
@@ -62,7 +62,7 @@ const MovingAverages = async ({ searchParams, params }: any) => {
         activeViewId={activeViewId}
         tableHeaderData={tableHeaderData}
         tableData={tableData}
-        ivKey={ivKey}
+        pageSummary={pageSummary}
         selectedFilter={selectedFilter}
         isTechnical={true}
         technicalCategory={technicalCategory}

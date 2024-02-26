@@ -1,5 +1,5 @@
-import APIS_CONFIG from "../../../../network/api_config.json";
-import { APP_ENV } from "../../../../utils/index";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils/index";
 
 const fetchTableData = async (scrid: any) => {
   const API_URL = `${(APIS_CONFIG as any)?.SCREENER?.getScreenerByScreenerId[APP_ENV]}`;
@@ -21,7 +21,6 @@ const fetchTableData = async (scrid: any) => {
 
 const useScreenerTable = async ({ scrid, sort, pagesize, pageno }: any) => {
   const responseData = await fetchTableData(scrid);
-  const ivKey = responseData?.iv || [];
   const tableData = responseData?.dataList
     ? responseData.dataList
     : responseData;
@@ -40,7 +39,6 @@ const useScreenerTable = async ({ scrid, sort, pagesize, pageno }: any) => {
   return {
     tableHeaderData,
     tableData,
-    ivKey,
     screenerDetail,
     pageSummary,
     allowSortFields,

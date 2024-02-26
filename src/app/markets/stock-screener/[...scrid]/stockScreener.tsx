@@ -16,7 +16,7 @@ const StocksScreener = ({
   activeViewId,
   tableHeaderData = [],
   tableData = [],
-  ivKey = [],
+  pageSummary = [],
   selectedFilter,
   tableConfig,
   tabConfig,
@@ -31,7 +31,7 @@ const StocksScreener = ({
   const [_metaData, setMetaData] = useState(metaData);
   const [_tableData, setTableData] = useState(tableData);
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
-  const [_ivKey, setIvKey] = useState(ivKey);
+  const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
 
@@ -41,7 +41,7 @@ const StocksScreener = ({
     setActiveViewId(activeViewId);
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
-    setIvKey(ivKey);
+    setPageSummary(pageSummary);
     setNiftyFilterData(selectedFilter);
   };
 
@@ -139,7 +139,7 @@ const StocksScreener = ({
           <MarketTable
             data={_tableData}
             tableHeaders={_tableHeaderData}
-            ivKey={_ivKey}
+            pageSummary={_pageSummary}
             tableConfig={tableConfig}
           />
           <div className="">

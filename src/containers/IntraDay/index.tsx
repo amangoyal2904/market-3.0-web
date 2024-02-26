@@ -7,7 +7,7 @@ import { getParameterByName } from "../../utils/index";
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
-const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
+const MarketStatsIntraDay = ({ tabsData, tableData, pageSummary }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -166,7 +166,7 @@ const MarketStatsIntraDay = ({ tabsData, tableData, ivKey }: any) => {
       <MarketTable
         data={_tableData}
         tableHeaders={tableHeaderData}
-        ivKey={ivKey}
+        pageSummary={pageSummary}
       />
     </>
   );

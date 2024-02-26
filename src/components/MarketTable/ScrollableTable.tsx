@@ -19,7 +19,7 @@ const ScrollableTable = (props: any) => {
     isPrime = false,
     hideThead = false,
     tableConfig = {},
-    ivKeyPhrase,
+    pageSummaryPhrase,
   } = props || {};
   const {
     showFilterInput = true,
@@ -136,7 +136,7 @@ const ScrollableTable = (props: any) => {
                           <>
                             {isPrime && tdData.primeFlag
                               ? decryptPrimeData(
-                                  ivKeyPhrase,
+                                  pageSummaryPhrase,
                                   tdData.value.replaceAll(" ", ""),
                                 )
                               : tdData.value.replaceAll(" ", "")}

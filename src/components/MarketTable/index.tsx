@@ -15,7 +15,7 @@ interface propsType {
   multipleStockCollect?: any;
   loader?: boolean;
   tableConfig?: any;
-  ivKey?: any;
+  pageSummary?: any;
 }
 
 const MarketTable = (props: propsType) => {
@@ -27,10 +27,10 @@ const MarketTable = (props: propsType) => {
     showTableCheckBox = false,
     multipleStockCollect,
     tableConfig = {},
-    ivKey,
+    pageSummary,
   } = props || {};
   const { loader = false, loaderType } = tableConfig || {};
-  const [ivKeyPhrase, setIvKeyPhrase] = useState(ivKey);
+  const [pageSummaryPhrase, setPageSummaryPhrase] = useState(pageSummary);
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
@@ -223,12 +223,12 @@ const MarketTable = (props: propsType) => {
       const sortedData = sortTableData(filteredData);
       setTableDataList((tableDataList) => [...sortedData]);
       setTableHeaderData(tableHeaders);
-      setIvKeyPhrase(ivKey);
+      setPageSummaryPhrase(pageSummary);
       if (!loaderOff) setLoaderOff(true);
     } else if (data && data.length === 0) {
       setTableDataList([]);
       setTableHeaderData([]);
-      setIvKeyPhrase([]);
+      setPageSummaryPhrase([]);
     }
 
     const isPrime =
@@ -278,7 +278,7 @@ const MarketTable = (props: propsType) => {
               isPrime={isPrime}
               hideThead={hideThead}
               tableConfig={tableConfig}
-              ivKeyPhrase={ivKeyPhrase}
+              pageSummaryPhrase={pageSummaryPhrase}
             />
           </>
         )}
