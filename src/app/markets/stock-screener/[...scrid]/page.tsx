@@ -26,8 +26,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
   const { l3Nav, metaData } = await useScreenerNav({
     scrid,
   });
-  const type = "gainer";
-  const { tabData, activeViewId } = await useScreenerTab({ type });
+  const { tabData, activeViewId } = await useScreenerTab();
 
   const {
     tableHeaderData,
@@ -41,6 +40,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
     sort,
     pagesize,
     pageno,
+    activeViewId,
   });
 
   const selectedFilter = await useSelectedFilter(intFilter);

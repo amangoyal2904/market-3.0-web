@@ -39,7 +39,7 @@ const MarketTabs = ({
   } = tabConfig;
   const personaliseDataListItem =
     data && data.length > 0
-      ? data.filter((item: any) => item.viewId !== 239)
+      ? data.filter((item: any, index: number) => index !== 0)
       : [];
   const tabDataFilter =
     data && data.length > 0
@@ -81,7 +81,7 @@ const MarketTabs = ({
     }
   };
   const updateTabsListDataHandler = async (updateData: any) => {
-    //console.log('update data', updateData);
+    console.log("______update data", updateData);
     const updatedOrder: any[] = [];
     updateData.map((item: any) => {
       return updatedOrder.push({

@@ -1,14 +1,16 @@
 import APIS_CONFIG from "../../../../network/api_config.json";
 import { APP_ENV } from "../../../../utils/index";
 
-const fetchTableData = async (scrid: any) => {
+const fetchTableData = async (scrid: any, viewId: any) => {
   const API_URL = `${(APIS_CONFIG as any)?.SCREENER?.getScreenerByScreenerId[APP_ENV]}`;
   const bodyparams = {
     pageno: 1,
     pagesize: 25,
     screenerId: scrid,
     deviceId: "web",
+    viewId: parseInt(viewId),
   };
+  console.log("bodyparams", bodyparams);
   const data = await fetch(API_URL, {
     method: "POST",
     headers: {
@@ -19,8 +21,14 @@ const fetchTableData = async (scrid: any) => {
   return data.json();
 };
 
-const useScreenerTable = async ({ scrid, sort, pagesize, pageno }: any) => {
-  const responseData = await fetchTableData(scrid);
+const useScreenerTable = async ({
+  scrid,
+  sort,
+  pagesize,
+  pageno,
+  activeViewId,
+}: any) => {
+  const responseData = await fetchTableData(scrid, activeViewId);
   const ivKey = responseData?.iv || [];
   const tableData = responseData?.dataList
     ? responseData.dataList

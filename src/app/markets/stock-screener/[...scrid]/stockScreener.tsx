@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getParameterByName } from "@/utils";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import useScreenerTab from "./useScreenerTab";
+import useScreenerTable from "./useScreenerTable";
 import AsideNavComponets from "./asideNav";
 import QueryComponets from "./queryComponents";
 
@@ -45,7 +46,32 @@ const StocksScreener = ({
     setNiftyFilterData(selectedFilter);
   };
 
-  const onTabViewUpdate = async (viewId: any) => {};
+  const onTabViewUpdate = async (viewId: any) => {
+    console.log("viewId", viewId);
+    // const pagesize = 100;
+    // const pageno = 1;
+    // const sort: any = [];
+    // const activeViewId = viewId;
+    // const {
+    //   tableHeaderData,
+    //   tableData,
+    //   ivKey,
+    //   screenerDetail,
+    //   pageSummary,
+    //   allowSortFields,
+    // } = await useScreenerTable({
+    //   scrid,
+    //   sort,
+    //   pagesize,
+    //   pageno,
+    //   activeViewId
+    // });
+    // console.log('___tableDataivKey',ivKey)
+    // setActiveViewId(activeViewId);
+    // setTableData(tableData);
+    // setTableHeaderData(tableHeaderData);
+    // setIvKey(ivKey);
+  };
 
   const updateOrAddParamToPath = (pathname: any, param: any, value: any) => {
     const url = new URL(window.location.origin + pathname);
@@ -104,10 +130,7 @@ const StocksScreener = ({
     }
   };
   const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
-    const type = getParameterByName("type");
-    const { tabData, activeViewId } = await useScreenerTab({
-      type,
-    });
+    const { tabData, activeViewId } = await useScreenerTab();
     setTabData(tabData);
     setActiveViewId(activeViewId);
   };
