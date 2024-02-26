@@ -3,7 +3,6 @@ import styles from "./MarketTable.module.scss";
 import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 import { APP_ENV } from "@/utils";
-import { decryptPrimeData } from "@/utils/utility";
 
 const ScrollableTable = (props: any) => {
   const {

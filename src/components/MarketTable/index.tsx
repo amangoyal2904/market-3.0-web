@@ -261,6 +261,7 @@ const MarketTable = (props: propsType) => {
               sortData={sortData}
               filters={filters}
               handleFilterChange={handleFilterChange}
+              isPrime={isPrime}
               hideThead={hideThead}
               showRemoveCheckbox={showTableCheckBox}
               removeCheckBoxHandle={removeCheckBoxHandleFun}

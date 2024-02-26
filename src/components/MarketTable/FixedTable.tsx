@@ -1,6 +1,9 @@
 import React from "react";
 import styles from "./MarketTable.module.scss";
 import { getStockUrl } from "@/utils/utility";
+import Link from "next/link";
+import GLOBAL_CONFIG from "@/network/global_config.json";
+import { APP_ENV } from "@/utils";
 
 const FixedTable = (props: any) => {
   const {
@@ -14,6 +17,7 @@ const FixedTable = (props: any) => {
     tableDataList,
     handleFilterChange,
     hideThead = false,
+    isPrime = false,
     showRemoveCheckbox = false,
     removeCheckBoxHandle,
     tableConfig = {},
@@ -166,22 +170,40 @@ const FixedTable = (props: any) => {
                         </td>
                       ) : (
                         <td
-                          className={`${styles.fixedTD} ${tdData.trend} ${
-                            tdData.valueType == "number" ? "numberFonts" : ""
+                          className={`${!tdData.primeFlag || isPrime ? tdData.trend : ""} ${
+                            tdData.valueType == "number" &&
+                            (!tdData.primeFlag || isPrime)
+                              ? "numberFonts"
+                              : tdData.primeFlag
+                                ? styles.primeTd
+                                : ""
                           }`}
                           key={index}
                         >
-                          {tdData.value.replaceAll(" ", "")}
-                          {tdData.trend && (
-                            <span
-                              className={`${styles.arrowIcons} ${
-                                tdData.trend == "up"
-                                  ? "eticon_up_arrow"
-                                  : tdData.trend == "down"
-                                    ? "eticon_down_arrow"
-                                    : ""
+                          {!isPrime && tdData.primeFlag ? (
+                            <Link
+                              href={`${
+                                (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]
                               }`}
-                            />
+                              data-ga-onclick="Subscription Flow#Upgrade to Prime#table - url"
+                            >
+                              Upgrade to Prime
+                            </Link>
+                          ) : (
+                            <>
+                              {tdData.value.replaceAll(" ", "")}
+                              {tdData.trend && (
+                                <span
+                                  className={`${styles.arrowIcons} ${
+                                    tdData.trend == "up"
+                                      ? "eticon_up_arrow"
+                                      : tdData.trend == "down"
+                                        ? "eticon_down_arrow"
+                                        : ""
+                                  }`}
+                                />
+                              )}
+                            </>
                           )}
                         </td>
                       )),

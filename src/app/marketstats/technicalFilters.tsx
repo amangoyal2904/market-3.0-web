@@ -60,8 +60,11 @@ const TechnicalFilters = ({ technicalCategory }: any) => {
         value={operationType}
         onChange={handleOperationTypeChange}
       >
-        <option value="ABOVE">Above</option>
-        <option value="BELOW">Below</option>
+        {technicalCategory.operationType.map((item: any, index: number) => (
+          <option value={item.fieldName} key={index}>
+            {item.displayName}
+          </option>
+        ))}
       </select>
       {technicalCategory.secondOperands.length ? (
         <select
