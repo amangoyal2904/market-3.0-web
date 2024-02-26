@@ -46,7 +46,7 @@ export const setCookieToSpecificTime = (
   seconds: number,
 ) => {
   try {
-    const domain = document.domain;
+    const domain = ".indiatimes.com";
     let cookiestring = "";
     if (name && value) {
       cookiestring = name + "=" + encodeURIComponent(value) + "; expires=";
@@ -261,6 +261,7 @@ export const initSSOWidget = () => {
     signInCallback: function () {
       verifyLogin();
       ssoClose();
+      window.location.reload();
     },
     signupForm: {
       defaultFirstName: "Guest",
