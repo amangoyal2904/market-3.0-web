@@ -37,10 +37,10 @@ const Login = () => {
           primeRes.data.accessibleFeatures || [];
         window.objUser.primeInfo = primeRes.data;
         window.objUser.isPrime = isPrime;
-        setCookieToSpecificTime("isprimeuser", isPrime, 30, "", 0);
+        setCookieToSpecificTime("isprimeuser", isPrime, 30, 0, 0, "");
 
         if (primeRes && primeRes.token) {
-          setCookieToSpecificTime("OTR", primeRes.token, 30, "", 0);
+          setCookieToSpecificTime("OTR", primeRes.token, 30, 0, 0, "");
         }
       } else {
         window.objUser.permissions = [];
