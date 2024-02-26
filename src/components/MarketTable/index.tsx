@@ -5,6 +5,7 @@ import FixedTable from "./FixedTable";
 import ScrollableTable from "./ScrollableTable";
 import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
+import PaginationTable from "./PaginationTable";
 
 interface propsType {
   data: any[];
@@ -27,10 +28,10 @@ const MarketTable = (props: propsType) => {
     showTableCheckBox = false,
     multipleStockCollect,
     tableConfig = {},
-    pageSummary,
+    pageSummary = {},
   } = props || {};
   const { loader = false, loaderType } = tableConfig || {};
-  const [pageSummaryPhrase, setPageSummaryPhrase] = useState(pageSummary);
+  const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
@@ -223,12 +224,12 @@ const MarketTable = (props: propsType) => {
       const sortedData = sortTableData(filteredData);
       setTableDataList((tableDataList) => [...sortedData]);
       setTableHeaderData(tableHeaders);
-      setPageSummaryPhrase(pageSummary);
+      setPageSummary(pageSummary);
       if (!loaderOff) setLoaderOff(true);
     } else if (data && data.length === 0) {
       setTableDataList([]);
       setTableHeaderData([]);
-      setPageSummaryPhrase([]);
+      setPageSummary(null);
     }
 
     const isPrime =
@@ -237,7 +238,7 @@ const MarketTable = (props: propsType) => {
       window.objUser.permissions &&
       window.objUser.permissions.indexOf("subscribed") != -1;
     setPrime(isPrime);
-  }, [apiSuccess, data, sortData, filters, loaderOff]);
+  }, [apiSuccess, data, pageSummary, sortData, filters, loaderOff]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -278,7 +279,6 @@ const MarketTable = (props: propsType) => {
               isPrime={isPrime}
               hideThead={hideThead}
               tableConfig={tableConfig}
-              pageSummaryPhrase={pageSummaryPhrase}
             />
           </>
         )}
@@ -294,7 +294,10 @@ const MarketTable = (props: propsType) => {
           }
         />
       ) : (
-        ""
+        _pageSummary &&
+        _pageSummary.totalpages > 1 && (
+          <PaginationTable pageSummary={_pageSummary} />
+        )
       )}
     </>
   );

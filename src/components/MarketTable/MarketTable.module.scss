@@ -202,3 +202,25 @@
     }
   }
 }
+
+.m20 {
+  margin: 20px auto;
+}
+
+#tablePagination {
+  p {
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .pageList {
+    background: #fff;
+    color: #000;
+    display: inline-block;
+    padding: 5px 8px;
+    cursor: pointer;
+    &.active {
+      background: #000;
+      color: #fff;
+    }
+  }
+}

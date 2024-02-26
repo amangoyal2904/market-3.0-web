@@ -19,7 +19,6 @@ const ScrollableTable = (props: any) => {
     isPrime = false,
     hideThead = false,
     tableConfig = {},
-    pageSummaryPhrase,
   } = props || {};
   const {
     showFilterInput = true,
@@ -134,12 +133,7 @@ const ScrollableTable = (props: any) => {
                           </Link>
                         ) : (
                           <>
-                            {isPrime && tdData.primeFlag
-                              ? decryptPrimeData(
-                                  pageSummaryPhrase,
-                                  tdData.value.replaceAll(" ", ""),
-                                )
-                              : tdData.value.replaceAll(" ", "")}
+                            {tdData.value.replaceAll(" ", "")}
                             {tdData.trend && (
                               <span
                                 className={`${styles.arrowIcons} ${
