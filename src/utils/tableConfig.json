@@ -1,5 +1,6 @@
 {
   "watchListWidget": {
+    "name": "watchListWidget",
     "tabs": false,
     "loader": true,
     "showFilterInput": false,
@@ -9,6 +10,7 @@
     "loaderType": "inner"
   },
   "watchList": {
+    "name": "watchList",
     "tabs": true,
     "loader": true,
     "showFilterInput": true,
@@ -18,6 +20,7 @@
     "loaderType": "global"
   },
   "marketStatsIntrday": {
+    "name": "marketStatsIntrday",
     "tabs": true,
     "loader": false,
     "showFilterInput": false,
@@ -27,6 +30,7 @@
     "loaderType": "inner"
   },
   "marketStatsTechnical": {
+    "name": "marketStatsTechnical",
     "tabs": true,
     "loader": false,
     "showFilterInput": false,
@@ -36,6 +40,7 @@
     "loaderType": "inner"
   },
   "buySell": {
+    "name": "buySell",
     "tabs": true,
     "loader": false,
     "showFilterInput": false,
@@ -45,6 +50,7 @@
     "loaderType": "inner"
   },
   "marketDashboard": {
+    "name": "marketDashboard",
     "tabs": true,
     "loader": false,
     "showFilterInput": false,
@@ -54,6 +60,7 @@
     "loaderType": "inner"
   },
   "stocksScreener": {
+    "name": "stocksScreener",
     "tabs": true,
     "loader": false,
     "showFilterInput": false,
