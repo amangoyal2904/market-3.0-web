@@ -23,6 +23,7 @@ const StocksScreener = ({
   tabConfig,
   scrid,
   screenerDetail,
+  payload,
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -35,7 +36,7 @@ const StocksScreener = ({
   const [_ivKey, setIvKey] = useState(ivKey);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
-
+  const [_payload, setPayload] = useState(payload);
   const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
     setMetaData(metaData);

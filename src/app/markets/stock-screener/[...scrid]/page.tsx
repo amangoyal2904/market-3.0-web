@@ -35,6 +35,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
     screenerDetail,
     pageSummary,
     allowSortFields,
+    payload,
   } = await useScreenerTable({
     scrid,
     sort,
@@ -62,6 +63,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
         tableConfig={tableConfig["stocksScreener"]}
         tabConfig={tabConfig["stocksScreener"]}
         scrid={scrid}
+        payload={payload}
       />
     </>
   );

@@ -45,6 +45,7 @@ const useScreenerTable = async ({
   const allowSortFields = responseData?.allowSortFields
     ? responseData.allowSortFields
     : {};
+  const payload = {};
   return {
     tableHeaderData,
     tableData,
@@ -52,6 +53,7 @@ const useScreenerTable = async ({
     screenerDetail,
     pageSummary,
     allowSortFields,
+    payload,
   };
 };
 

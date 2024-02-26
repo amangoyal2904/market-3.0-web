@@ -215,8 +215,8 @@
       ]
     },
     "screenerListTab": {
-      "development": "https://qcbselivefeeds.indiatimes.com/screener/getViewBySsoId",
-      "production": "https://qcbselivefeeds.indiatimes.com/screener/getViewBySsoId"
+      "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
+      "production": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview"
     },
     "getAllScreenerNextJsAPI": {
       "development": ["http://localhost:3009/api/screener"],

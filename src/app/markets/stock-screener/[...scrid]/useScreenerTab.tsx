@@ -3,6 +3,7 @@ import { APP_ENV } from "@/utils";
 import Service from "@/network/service";
 
 const fetchTabsData = async () => {
+  //const ssoid = window.objUser?.ssoid;
   const apiUrl = `${(APIS_CONFIG as any)?.["SCREENER"]?.["screenerListTab"][APP_ENV]}`;
   const response = await Service.get({
     url: apiUrl,
