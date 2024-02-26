@@ -21,6 +21,7 @@ const MarketsDashboardWidget = async ({ searchParams }: any) => {
         tableData={tableData}
         activeViewId={activeViewId}
         type={type}
+        linkClass={styles.seeAll}
       />
     </div>
   );

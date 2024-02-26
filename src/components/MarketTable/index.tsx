@@ -218,14 +218,14 @@ const MarketTable = (props: propsType) => {
   }, [tabsViewIdUpdate]);
 
   useEffect(() => {
-    if (data.length || apiSuccess) {
+    if ((data && data.length) || apiSuccess) {
       const filteredData = filterTableData(data);
       const sortedData = sortTableData(filteredData);
       setTableDataList((tableDataList) => [...sortedData]);
       setTableHeaderData(tableHeaders);
       setIvKeyPhrase(ivKey);
       if (!loaderOff) setLoaderOff(true);
-    } else if (data.length === 0) {
+    } else if (data && data.length === 0) {
       setTableDataList([]);
       setTableHeaderData([]);
       setIvKeyPhrase([]);

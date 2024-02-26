@@ -12,12 +12,20 @@ interface SlickSliderProps {
   slides: Slide[];
   sliderId: string;
   dotsNum: any;
+  slidesToShow?: number;
+  slidesToScroll?: number;
+  rows?: number;
+  topSpaceClass?: string;
 }
 
 const SlickSlider: React.FC<SlickSliderProps> = ({
   slides = [],
   sliderId,
   dotsNum,
+  slidesToShow,
+  slidesToScroll,
+  rows,
+  topSpaceClass,
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef<Slider>(null);
@@ -29,12 +37,14 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     focusOnSelect: true,
     swipe: true,
     swipeToSlide: true,
-    slidesToShow: 5,
-    slidesToScroll: 5,
-    rows: 2,
+    slidesToShow: slidesToShow || 5,
+    slidesToScroll: slidesToScroll || 5,
+    rows: rows || 2,
     appendDots: (dots) => (
       <div>
-        <div className={`stockSliderIcons ${styles.SliderCommonIcons}`}>
+        <div
+          className={`stockSliderIcons ${styles.SliderCommonIcons} ${styles[`${topSpaceClass}`]}`}
+        >
           <div
             className={`slick-prev slick-arrow ${styles.arrowIcon}`}
             onClick={prevSlide}

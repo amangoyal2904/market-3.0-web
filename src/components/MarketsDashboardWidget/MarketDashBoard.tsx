@@ -3,15 +3,23 @@ import BasicTabs from "../BasicTabs";
 import MarketTable from "../MarketTable";
 import tableConfig from "@/utils/tableConfig.json";
 import { fetchTableData } from "./ApiCalls";
+import ViewAllLink from "../ViewAllLink";
 
 interface propsType {
   tabsData: any[];
   tableData: any[];
   activeViewId: any;
   type: string;
+  linkClass: string;
 }
 function MarketDashBoard(props: propsType) {
-  const { tabsData, tableData, activeViewId, type } = props || {};
+  const {
+    tabsData = [],
+    tableData = [],
+    activeViewId,
+    type,
+    linkClass,
+  } = props || {};
   const [dashBoardTableData, setDashBoardTableData] = useState(tableData || []);
   const [duration, setDuration] = useState("1M");
   const [activeViewID, setActiveViewID] = useState(activeViewId);
@@ -32,7 +40,7 @@ function MarketDashBoard(props: propsType) {
       selectedTab,
     });
     const tableData = await fetchTableData(apiType, duration, id, activeViewID);
-    setDashBoardTableData(tableData);
+    setDashBoardTableData(tableData || []);
   };
   const dayFilterHandlerChange = async (value: any, label: any) => {
     const newDuration = value.toUpperCase();
@@ -61,7 +69,7 @@ function MarketDashBoard(props: propsType) {
   const tableHeaderData =
     (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
   return (
-    <div>
+    <>
       <BasicTabs
         data={tabsData}
         activeViewId={activeViewId}
@@ -78,7 +86,12 @@ function MarketDashBoard(props: propsType) {
         tableHeaders={tableHeaderData}
         tableConfig={config}
       />
-    </div>
+      {dashBoardTableData.length ? (
+        <ViewAllLink text="View All Stocks" link="/watchlist" />
+      ) : (
+        ""
+      )}
+    </>
   );
 }
 
