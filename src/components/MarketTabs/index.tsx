@@ -225,7 +225,7 @@ const MarketTabs = ({
           {visibleTabs.map((item: any, index: number) => {
             return (
               <li
-                key={item.id}
+                key={item.id + index}
                 onClick={() => tabClick(item.viewId)}
                 className={activeViewId === item.viewId ? styles.active : ""}
               >
@@ -246,7 +246,7 @@ const MarketTabs = ({
                   {hiddenTabs.map((item: any, index: number) => {
                     return (
                       <li
-                        key={item.id}
+                        key={item.id + index}
                         onClick={() => tabClick(item.viewId)}
                         className={
                           activeViewId === item.viewId ? styles.active : ""

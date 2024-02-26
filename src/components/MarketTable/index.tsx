@@ -5,6 +5,7 @@ import FixedTable from "./FixedTable";
 import ScrollableTable from "./ScrollableTable";
 import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
+import PaginationTable from "./PaginationTable";
 
 interface propsType {
   data: any[];
@@ -15,7 +16,7 @@ interface propsType {
   multipleStockCollect?: any;
   loader?: boolean;
   tableConfig?: any;
-  ivKey?: any;
+  pageSummary?: any;
 }
 
 const MarketTable = (props: propsType) => {
@@ -27,10 +28,10 @@ const MarketTable = (props: propsType) => {
     showTableCheckBox = false,
     multipleStockCollect,
     tableConfig = {},
-    ivKey,
+    pageSummary = {},
   } = props || {};
   const { loader = false, loaderType } = tableConfig || {};
-  const [ivKeyPhrase, setIvKeyPhrase] = useState(ivKey);
+  const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
@@ -223,12 +224,12 @@ const MarketTable = (props: propsType) => {
       const sortedData = sortTableData(filteredData);
       setTableDataList((tableDataList) => [...sortedData]);
       setTableHeaderData(tableHeaders);
-      setIvKeyPhrase(ivKey);
+      setPageSummary(pageSummary);
       if (!loaderOff) setLoaderOff(true);
     } else if (data && data.length === 0) {
       setTableDataList([]);
       setTableHeaderData([]);
-      setIvKeyPhrase([]);
+      setPageSummary(null);
     }
 
     const isPrime =
@@ -237,7 +238,7 @@ const MarketTable = (props: propsType) => {
       window.objUser.permissions &&
       window.objUser.permissions.indexOf("subscribed") != -1;
     setPrime(isPrime);
-  }, [apiSuccess, data, sortData, filters, loaderOff]);
+  }, [apiSuccess, data, pageSummary, sortData, filters, loaderOff]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -260,6 +261,7 @@ const MarketTable = (props: propsType) => {
               sortData={sortData}
               filters={filters}
               handleFilterChange={handleFilterChange}
+              isPrime={isPrime}
               hideThead={hideThead}
               showRemoveCheckbox={showTableCheckBox}
               removeCheckBoxHandle={removeCheckBoxHandleFun}
@@ -278,7 +280,6 @@ const MarketTable = (props: propsType) => {
               isPrime={isPrime}
               hideThead={hideThead}
               tableConfig={tableConfig}
-              ivKeyPhrase={ivKeyPhrase}
             />
           </>
         )}
@@ -294,7 +295,10 @@ const MarketTable = (props: propsType) => {
           }
         />
       ) : (
-        ""
+        _pageSummary &&
+        _pageSummary.totalpages > 1 && (
+          <PaginationTable pageSummary={_pageSummary} />
+        )
       )}
     </>
   );

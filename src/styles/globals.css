@@ -306,6 +306,11 @@ a {
 .align-item-center {
   align-items: center;
 }
+
+.space-between {
+  justify-content: space-between;
+}
+
 .slick-dots {
   top: 0;
   right: 0;

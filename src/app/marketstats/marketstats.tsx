@@ -18,7 +18,7 @@ const Marketstats = ({
   activeViewId,
   tableHeaderData,
   tableData,
-  ivKey,
+  pageSummary,
   selectedFilter,
   isTechnical,
   technicalCategory,
@@ -43,7 +43,7 @@ const Marketstats = ({
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
   const [_technicalCategory, setTechnicalCategory] =
     useState(technicalCategory);
-  const [_ivKey, setIvKey] = useState(ivKey);
+  const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const updateTableData = async () => {
@@ -53,7 +53,7 @@ const Marketstats = ({
       getCookie("isprimeuser") ? true : false,
       getCookie("ssoid"),
     );
-    const _ivKey = responseData.iv;
+    const _pageSummary = responseData.pageSummary;
     const _tableData = responseData?.dataList
       ? responseData.dataList
       : responseData;
@@ -64,7 +64,7 @@ const Marketstats = ({
         : [];
     setTableData(_tableData);
     setTableHeaderData(_tableHeaderData);
-    setIvKey(_ivKey);
+    setPageSummary(_pageSummary);
   };
 
   const onSearchParamChange = async () => {
@@ -76,7 +76,7 @@ const Marketstats = ({
     setTableHeaderData(tableHeaderData);
     setTechnicalCategory(technicalCategory);
     setActiveViewId(activeViewId);
-    setIvKey(ivKey);
+    setPageSummary(pageSummary);
     setNiftyFilterData(selectedFilter);
   };
 
@@ -145,7 +145,7 @@ const Marketstats = ({
           <MarketTable
             data={_tableData}
             tableHeaders={_tableHeaderData}
-            ivKey={_ivKey}
+            pageSummary={_pageSummary}
             tableConfig={tableConfig}
           />
         </div>

@@ -41,8 +41,8 @@ const Intraday = async ({ searchParams }: any) => {
     ssoid,
   });
 
-  const { tableHeaderData, tableData, ivKey, payload } = await useIntradayTable(
-    {
+  const { tableHeaderData, tableData, pageSummary, payload } =
+    await useIntradayTable({
       activeViewId,
       type,
       duration,
@@ -52,8 +52,7 @@ const Intraday = async ({ searchParams }: any) => {
       pageno,
       isprimeuser,
       ssoid,
-    },
-  );
+    });
 
   const selectedFilter = await useSelectedFilter(intFilter);
 
@@ -66,7 +65,7 @@ const Intraday = async ({ searchParams }: any) => {
         activeViewId={activeViewId}
         tableHeaderData={tableHeaderData}
         tableData={tableData}
-        ivKey={ivKey}
+        pageSummary={pageSummary}
         selectedFilter={selectedFilter}
         isTechnical={false}
         technicalCategory={null}

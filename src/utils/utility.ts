@@ -131,7 +131,7 @@ export const fetchViewTable = async (
     headers: {
       "Content-Type": "application/json",
       ssoid: ssoid,
-      isprimeuser: isprimeuser,
+      isprime: isprimeuser,
     },
     cache: "no-store",
     body: JSON.stringify({ ...requestObj }),
@@ -142,14 +142,20 @@ export const fetchViewTable = async (
 
 export const fetchTableData = async (viewId: any, params?: any) => {
   const ssoid = window.objUser?.ssoid;
+  const isprimeuser =
+    typeof window != "undefined" &&
+    window.objUser &&
+    window.objUser.permissions &&
+    window.objUser.permissions.indexOf("subscribed") != -1;
   const apiUrl = (APIS_CONFIG as any)?.watchListTable["development"];
-  const data = await fetch(apiUrl, {
-    method: "POST",
-    cache: "no-store",
+  const response = await Service.post({
+    url: apiUrl,
     headers: {
       "Content-Type": "application/json",
       ssoid: ssoid,
+      isprime: isprimeuser ? isprimeuser : false,
     },
+    cache: "no-store",
     body: JSON.stringify({
       sort: [],
       type: "STOCK",
@@ -157,17 +163,16 @@ export const fetchTableData = async (viewId: any, params?: any) => {
       deviceId: "web",
       ...params,
     }),
+    params: {},
   });
-  const res = await data.json();
-  //console.log("tabledata", res);
-  return res;
+
+  return response?.json();
 };
 
-export const decryptPrimeData = (ivKey: string, encrytedTxt: string) => {
-  debugger;
+export const decryptPrimeData = (pageSummary: string, encrytedTxt: string) => {
   const secretkey = GLOBAL_CONFIG.securityKey;
   const key = CryptoJS.enc.Utf8.parse(secretkey);
-  const iv = CryptoJS.enc.Utf8.parse(ivKey);
+  const iv = CryptoJS.enc.Utf8.parse(pageSummary);
 
   const decrypted = CryptoJS.AES.decrypt(encrytedTxt, key, {
     iv: iv,

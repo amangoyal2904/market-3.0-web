@@ -38,7 +38,7 @@ const useIntradayTable = async ({
   if (!!filter && filter.length) {
     payload.filterType = "index";
   }
-  const ivKey = responseData.iv;
+  const pageSummary = responseData.pageSummary;
   const tableData = responseData?.dataList
     ? responseData.dataList
     : responseData;
@@ -50,7 +50,7 @@ const useIntradayTable = async ({
   return {
     tableHeaderData,
     tableData,
-    ivKey,
+    pageSummary,
     payload,
   };
 };

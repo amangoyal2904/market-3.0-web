@@ -3,7 +3,6 @@ import styles from "./MarketTable.module.scss";
 import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 import { APP_ENV } from "@/utils";
-import { decryptPrimeData } from "@/utils/utility";
 
 const ScrollableTable = (props: any) => {
   const {
@@ -19,7 +18,6 @@ const ScrollableTable = (props: any) => {
     isPrime = false,
     hideThead = false,
     tableConfig = {},
-    ivKeyPhrase,
   } = props || {};
   const {
     showFilterInput = true,
@@ -134,12 +132,7 @@ const ScrollableTable = (props: any) => {
                           </Link>
                         ) : (
                           <>
-                            {isPrime && tdData.primeFlag
-                              ? decryptPrimeData(
-                                  ivKeyPhrase,
-                                  tdData.value.replaceAll(" ", ""),
-                                )
-                              : tdData.value.replaceAll(" ", "")}
+                            {tdData.value.replaceAll(" ", "")}
                             {tdData.trend && (
                               <span
                                 className={`${styles.arrowIcons} ${

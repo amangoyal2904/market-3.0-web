@@ -32,7 +32,6 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
   const {
     tableHeaderData,
     tableData,
-    ivKey,
     screenerDetail,
     pageSummary,
     allowSortFields,
@@ -54,7 +53,6 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
         activeViewId={activeViewId}
         tableHeaderData={tableHeaderData}
         tableData={tableData}
-        ivKey={ivKey}
         screenerDetail={screenerDetail}
         pageSummary={pageSummary}
         allowSortFields={allowSortFields}

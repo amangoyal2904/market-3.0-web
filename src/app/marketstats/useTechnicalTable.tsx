@@ -42,7 +42,7 @@ const useTechnicalTable = async ({
   if (!!filter && filter.length) {
     payload.filterType = "index";
   }
-  const ivKey = responseData.iv;
+  const pageSummary = responseData.pageSummary;
   const tableData = responseData?.dataList
     ? responseData.dataList
     : responseData;
@@ -54,7 +54,7 @@ const useTechnicalTable = async ({
   return {
     tableHeaderData,
     tableData,
-    ivKey,
+    pageSummary,
     payload,
   };
 };
