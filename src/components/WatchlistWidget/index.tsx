@@ -5,9 +5,11 @@ import { fetchTabsData, fetchTableData } from "@/utils/utility";
 import { useStateContext } from "../../store/StateContext";
 import tableConfig from "../../utils/tableConfig.json";
 import Blocker from "../Blocker";
+import Link from "next/link";
+import ViewAllLink from "../ViewAllLink";
 
 const WatchlistWidget = () => {
-  const [showBlocker, setShowBlocker] = useState(false);
+  const [showBlocker, setShowBlocker] = useState(true);
   const [apiSuccess, setAPISuccess] = useState(false);
   const [tableData, setTableData] = useState<any>([]);
   const { state } = useStateContext();
@@ -51,13 +53,16 @@ const WatchlistWidget = () => {
       {showBlocker ? (
         <Blocker type="loginBlocker" />
       ) : (
-        <MarketTable
-          data={tableData}
-          tableHeaders={tableHeaderData}
-          apiSuccess={apiSuccess}
-          tableConfig={config}
-          ivKey={ivKey}
-        />
+        <>
+          <MarketTable
+            data={tableData}
+            tableHeaders={tableHeaderData}
+            apiSuccess={apiSuccess}
+            tableConfig={config}
+            ivKey={ivKey}
+          />
+          <ViewAllLink text="View All Stocks" link="/watchlist" />
+        </>
       )}
     </>
   );

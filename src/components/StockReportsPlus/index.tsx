@@ -249,8 +249,8 @@ const StockReportsPlus: React.FC = () => {
     // alert(a);
   };
   useEffect(() => {
-    setActiveSlides(tabData[activeTab] || []);
-  }, [activeTab, tabData]);
+    setActiveSlides(tabData[activeTab]);
+  }, [activeTab]);
 
   return (
     <div className={styles.wraper}>
