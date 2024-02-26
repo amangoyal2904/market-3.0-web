@@ -80,6 +80,15 @@ export const setCookieToSpecificTime = (
   }
 };
 
+export const delete_cookie = (name: any) => {
+  try {
+    document.cookie =
+      name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+  } catch (err) {
+    console.log("delete_cookie Error: ", err);
+  }
+};
+
 export const getMobileOS = () => {
   const userAgent =
     navigator.userAgent || navigator.vendor || window.opera || "";
@@ -287,7 +296,8 @@ export const initSSOWidget = () => {
 export const logout = async () => {
   window?.jsso?.signOutUser(async function (response: any) {
     if (response.status == "SUCCESS") {
-      setCookieToSpecificTime("OTR", "", 0, 0, 0);
+      delete_cookie("OTR");
+      delete_cookie("isprimeuser");
 
       const url = (APIS_CONFIG as any)["LOGOUT_AUTH_TOKEN"][APP_ENV],
         oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],

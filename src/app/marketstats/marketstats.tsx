@@ -26,6 +26,7 @@ const Marketstats = ({
   tabConfig,
   payload,
   ssoid,
+  isprimeuser,
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -115,7 +116,11 @@ const Marketstats = ({
 
   return (
     <>
-      <h1 data-ssoid={ssoid} className={styles.heading}>
+      <h1
+        data-ssoid={ssoid}
+        data-prime={isprimeuser}
+        className={styles.heading}
+      >
         {_metaData.title}
       </h1>
       <p className={styles.desc}>{_metaData.desc}</p>

@@ -121,20 +121,18 @@ export const fetchTabsData = async () => {
 
 export const fetchViewTable = async (
   requestObj: any,
-  apiType: string,
+  apiType: any,
   isprimeuser: any,
   ssoid: any,
 ) => {
   const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
-  const headers: any = {};
-  if (!!ssoid) {
-    headers["ssoid"] = ssoid;
-    headers["isprimeuser"] = isprimeuser;
-  }
-  headers["Content-Type"] = "application/json";
   const response = await Service.post({
     url: apiUrl,
-    headers: headers,
+    headers: {
+      "Content-Type": "application/json",
+      ssoid: ssoid,
+      isprimeuser: isprimeuser,
+    },
     cache: "no-store",
     body: JSON.stringify({ ...requestObj }),
     params: {},

@@ -16,8 +16,10 @@ export const metadata: Metadata = {
 
 const Intraday = async ({ searchParams }: any) => {
   const cookieStore = cookies();
-  const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
-  const ssoid = cookieStore.get("ssoid");
+  const isprimeuser = cookieStore.get("isprimeuser")
+    ? cookieStore.get("isprimeuser")?.value
+    : false;
+  const ssoid = cookieStore.get("ssoid")?.value;
   const type = searchParams?.type;
   const duration = searchParams.duration
     ? searchParams.duration.toUpperCase()
@@ -36,7 +38,6 @@ const Intraday = async ({ searchParams }: any) => {
 
   const { tabData, activeViewId } = await useTechnicalTab({
     type,
-    isprimeuser,
     ssoid,
   });
 
@@ -73,6 +74,7 @@ const Intraday = async ({ searchParams }: any) => {
         tabConfig={tabConfig["marketStatsIntrday"]}
         payload={payload}
         ssoid={ssoid}
+        isprimeuser={isprimeuser}
       />
     </>
   );
