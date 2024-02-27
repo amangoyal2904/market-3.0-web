@@ -20,6 +20,12 @@ const NotFound = () => {
         >
           Marketstats Intraday
         </Link>
+        <Link className="default-btn" href="/markets">
+          Markets
+        </Link>
+        <Link className="default-btn" href="/markets/stock-screener">
+          Stock Screener
+        </Link>
       </div>
     </>
   );
