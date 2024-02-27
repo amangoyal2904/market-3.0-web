@@ -17,6 +17,7 @@ interface propsType {
   loader?: boolean;
   tableConfig?: any;
   pageSummary?: any;
+  handleSortServerSide?: any;
 }
 
 const MarketTable = (props: propsType) => {
@@ -29,6 +30,7 @@ const MarketTable = (props: propsType) => {
     multipleStockCollect,
     tableConfig = {},
     pageSummary = {},
+    handleSortServerSide,
   } = props || {};
   const { loader = false, loaderType } = tableConfig || {};
   const [_pageSummary, setPageSummary] = useState(pageSummary);
@@ -63,7 +65,7 @@ const MarketTable = (props: propsType) => {
     //console.log({ filters });
   };
 
-  const handleSort = (key: any) => {
+  const handleClientSideSort = (key: any) => {
     if (Object.keys(sortData).includes(key)) {
       if (sortData[key] == "asc") {
         delete sortData[key];
@@ -257,7 +259,11 @@ const MarketTable = (props: propsType) => {
               scrollLeftPos={scrollLeftPos}
               headerSticky={headerSticky}
               topScrollHeight={topScrollHeight}
-              handleSort={handleSort}
+              handleSort={
+                tableConfig.serverSideSort
+                  ? handleSortServerSide
+                  : handleClientSideSort
+              }
               sortData={sortData}
               filters={filters}
               handleFilterChange={handleFilterChange}
@@ -273,7 +279,11 @@ const MarketTable = (props: propsType) => {
               scrollRightPos={scrollRightPos}
               headerSticky={headerSticky}
               topScrollHeight={topScrollHeight}
-              handleSort={handleSort}
+              handleSort={
+                tableConfig.serverSideSort
+                  ? handleSortServerSide
+                  : handleClientSideSort
+              }
               sortData={sortData}
               filters={filters}
               handleFilterChange={handleFilterChange}
