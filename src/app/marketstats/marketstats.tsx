@@ -46,6 +46,7 @@ const Marketstats = ({
   const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
+
   const updateTableData = async () => {
     const responseData: any = await fetchViewTable(
       { ..._payload },
@@ -80,12 +81,28 @@ const Marketstats = ({
     setNiftyFilterData(selectedFilter);
   };
 
+  const onServerSideSort = async (field: any) => {
+    let sortConfig = _payload.sort;
+    const isFieldSorted = sortConfig.find(
+      (config: any) => config.field === field,
+    );
+    let newSortConfig;
+
+    if (isFieldSorted) {
+      newSortConfig = sortConfig.map((config: any) =>
+        config.field === field
+          ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
+          : config,
+      );
+    } else {
+      newSortConfig = [...sortConfig, { field, order: "DESC" }];
+    }
+    setPayload({ ..._payload, sort: newSortConfig });
+  };
+
   const onTabViewUpdate = async (viewId: any) => {
-    const requestObj = _payload;
-    requestObj.viewId = viewId;
     setActiveViewId(viewId);
-    setPayload(requestObj);
-    updateTableData();
+    setPayload({ ..._payload, viewId: viewId });
   };
 
   const filterDataChangeHander = async (id: any) => {
@@ -113,6 +130,10 @@ const Marketstats = ({
   useEffect(() => {
     onSearchParamChange();
   }, [searchParams]);
+
+  useEffect(() => {
+    updateTableData();
+  }, [_payload]);
 
   return (
     <>
@@ -147,6 +168,7 @@ const Marketstats = ({
             tableHeaders={_tableHeaderData}
             pageSummary={_pageSummary}
             tableConfig={tableConfig}
+            handleSortServerSide={onServerSideSort}
           />
         </div>
       </div>
