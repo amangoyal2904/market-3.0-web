@@ -55,6 +55,7 @@ const MarketTabs = ({
   const [hiddenTabs, setHiddenTabs] = useState<any[]>([]);
   const [showFilter, setShowFilter] = useState(false);
   const [dayFilterShow, setDayFilterShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [dayFilterValueset, setDayFilterValueset] = useState({
     value: "1d",
     label: "1 Day",
@@ -96,6 +97,7 @@ const MarketTabs = ({
       ssoId: ssoid,
       views: updatedOrder,
     };
+    setLoading(true);
     const res = await fetch(`${API_URL}`, {
       method: "POST",
       headers: {
@@ -104,6 +106,7 @@ const MarketTabs = ({
       },
       body: JSON.stringify(bodyPost),
     });
+    setLoading(false);
     const resData = await res.json();
     console.log("resdata", resData);
     if (resData && resData.responseCode === 200) {
@@ -350,6 +353,8 @@ const MarketTabs = ({
           setOpenPersonaliseModal={setOpenPersonaliseModal}
           updateTabsListDataHandler={updateTabsListDataHandler}
           createNewViewHandler={setOpenPersonaliseCreateModal}
+          loading={loading}
+          setloading={setLoading}
         />
       ) : (
         ""
