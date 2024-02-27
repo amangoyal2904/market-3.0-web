@@ -27,7 +27,9 @@ const MovingAverages = async ({ searchParams, params }: any) => {
   const { l3Nav, metaData } = await useMarketStatsNav({ type, intFilter });
 
   const { tabData, activeViewId } = await useTechnicalTab({
-    type,
+    firstOperand,
+    operationType,
+    secondOperand,
     ssoid,
   });
 

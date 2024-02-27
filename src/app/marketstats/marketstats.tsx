@@ -12,21 +12,21 @@ import TechnicalFilters from "./technicalFilters";
 import { fetchViewTable, updateOrAddParamToPath } from "@/utils/utility";
 
 const Marketstats = ({
-  l3Nav,
-  metaData,
-  tabData,
-  activeViewId,
-  tableHeaderData,
-  tableData,
-  pageSummary,
-  selectedFilter,
-  isTechnical,
+  l3Nav = [],
+  metaData = {},
+  tabData = [],
+  activeViewId = null,
+  tableHeaderData = [],
+  tableData = [],
+  pageSummary = {},
+  selectedFilter = {},
+  isTechnical = false,
   technicalCategory,
-  tableConfig,
-  tabConfig,
-  payload,
-  ssoid,
-  isprimeuser,
+  tableConfig = {},
+  tabConfig = {},
+  payload = {},
+  ssoid = null,
+  isprimeuser = false,
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -53,7 +53,9 @@ const Marketstats = ({
       getCookie("isprimeuser") ? true : false,
       getCookie("ssoid"),
     );
-    const _pageSummary = responseData.pageSummary;
+    const _pageSummary = !!responseData.pageSummary
+      ? responseData.pageSummary
+      : {};
     const _tableData = responseData?.dataList
       ? responseData.dataList
       : responseData;
