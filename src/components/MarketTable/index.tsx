@@ -229,9 +229,9 @@ const MarketTable = (props: propsType) => {
     } else if (data && data.length === 0) {
       setTableDataList([]);
       setTableHeaderData([]);
-      setPageSummary(null);
+      setPageSummary({});
     }
-
+    setHeaderSticky(0);
     const isPrime =
       typeof window != "undefined" &&
       window.objUser &&

@@ -15,7 +15,34 @@ const fetchTabsData = async ({ type, ssoid }: any) => {
   });
   return response?.json();
 };
-const useTechnicalTab = async ({ type, ssoid }: any) => {
+
+const concatenateAndLowerCase = (
+  param1: string,
+  param2: string,
+  param3: any,
+): string => {
+  let concatenatedString: string = `${param1}-${param2}-${param3}`;
+  concatenatedString = concatenatedString.toLowerCase();
+  if (!isNaN(param3)) {
+    concatenatedString = concatenatedString.replace(
+      param3.toString(),
+      "number",
+    );
+  }
+  return concatenatedString;
+};
+
+const useTechnicalTab = async ({
+  firstOperand,
+  operationType,
+  secondOperand,
+  ssoid,
+}: any) => {
+  const type = concatenateAndLowerCase(
+    firstOperand,
+    operationType,
+    secondOperand,
+  );
   const tabData = await fetchTabsData({ type, ssoid });
   const activeViewId = tabData[0].viewId;
   return {
