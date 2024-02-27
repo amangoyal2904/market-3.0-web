@@ -6,8 +6,9 @@ import {
   fetchAllWatchListData,
   saveStockInWatchList,
 } from "../../utils/utility";
-const AddStockComponent = ({ moduelClose }: any) => {
+const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
   const [viewStocks, setViewStocks]: any = useState([]);
+  const [loading, setLoading] = useState(false);
   const [searchNode, setSearchNode] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [watchlistStock, setWatchlistStock] = useState([]);
@@ -145,8 +146,10 @@ const AddStockComponent = ({ moduelClose }: any) => {
         },
       ];
     }
+    setLoading(true);
     const addWathlistResAPI = await saveStockInWatchList(followData);
     //console.log('---save addWathlistResAPI',addWathlistResAPI, data.companyId)
+    setLoading(false);
     if (addWathlistResAPI?.status === "success") {
       //alert(addWathlistResAPI.meessage);
     } else if (addWathlistResAPI?.status === "failure") {
@@ -168,6 +171,7 @@ const AddStockComponent = ({ moduelClose }: any) => {
       });
       setViewStocks(addFollowFlag);
     }
+    updateTableHander();
   };
   const fetchWatchListStocks = async () => {
     const data = await fetchAllWatchListData("Follow", 11);
@@ -254,6 +258,13 @@ const AddStockComponent = ({ moduelClose }: any) => {
               </div>
             )}
           </div>
+          {loading ? (
+            <div className={styles.loading}>
+              <div className={styles.loader}></div>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>

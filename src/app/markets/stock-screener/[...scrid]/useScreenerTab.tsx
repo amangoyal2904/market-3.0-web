@@ -2,8 +2,9 @@ import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import Service from "@/network/service";
 
-const fetchTabsData = async ({ type }: any) => {
-  const apiUrl = `${(APIS_CONFIG as any)?.["watchListTab"][APP_ENV]}?statstype=${type.toLowerCase()}`;
+const fetchTabsData = async () => {
+  //const ssoid = window.objUser?.ssoid;
+  const apiUrl = `${(APIS_CONFIG as any)?.["SCREENER"]?.["screenerListTab"][APP_ENV]}`;
   const response = await Service.get({
     url: apiUrl,
     params: {},
@@ -11,9 +12,9 @@ const fetchTabsData = async ({ type }: any) => {
   });
   return response?.json();
 };
-const useScreenerTab = async ({ type }: any) => {
-  const tabData = await fetchTabsData({ type });
-  const activeViewId = tabData[0].viewId;
+const useScreenerTab = async () => {
+  const tabData = await fetchTabsData();
+  const activeViewId = tabData[0]?.viewId;
   return {
     tabData,
     activeViewId,

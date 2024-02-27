@@ -214,6 +214,10 @@
         "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
       ]
     },
+    "screenerListTab": {
+      "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
+      "production": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview"
+    },
     "getAllScreenerNextJsAPI": {
       "development": ["http://localhost:3009/api/screener"],
       "production": [
@@ -222,10 +226,10 @@
     },
     "getScreenerByScreenerId": {
       "development": [
-        "https://screener.indiatimes.com/screener/getScreenerByScreenerId"
+        "https://qcbselivefeeds.indiatimes.com/screener/getScreenerByScreenerId"
       ],
       "production": [
-        "https://screener.indiatimes.com/screener/getScreenerByScreenerId"
+        "https://qcbselivefeeds.indiatimes.com/screener/getScreenerByScreenerId"
       ]
     }
   }

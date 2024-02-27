@@ -26,8 +26,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
   const { l3Nav, metaData } = await useScreenerNav({
     scrid,
   });
-  const type = "gainer";
-  const { tabData, activeViewId } = await useScreenerTab({ type });
+  const { tabData, activeViewId } = await useScreenerTab();
 
   const {
     tableHeaderData,
@@ -35,11 +34,13 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
     screenerDetail,
     pageSummary,
     allowSortFields,
+    payload,
   } = await useScreenerTable({
     scrid,
     sort,
     pagesize,
     pageno,
+    activeViewId,
   });
 
   const selectedFilter = await useSelectedFilter(intFilter);
@@ -60,6 +61,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
         tableConfig={tableConfig["stocksScreener"]}
         tabConfig={tabConfig["stocksScreener"]}
         scrid={scrid}
+        payload={payload}
       />
     </>
   );
