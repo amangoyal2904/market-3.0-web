@@ -10,6 +10,7 @@ const PersonaliseModel = ({
   updateTabsListDataHandler,
   createNewViewHandler,
   editmode,
+  loading = false,
 }: any) => {
   const dataLis = data && data.length > 0 ? data : [];
   const [listData, setListData] = useState(dataLis);
@@ -183,6 +184,13 @@ const PersonaliseModel = ({
             Save Changes
           </span>
         </div>
+        {loading ? (
+          <div className={styles.loading}>
+            <div className={styles.loader}></div>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
