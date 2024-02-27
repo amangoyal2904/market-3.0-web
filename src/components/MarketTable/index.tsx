@@ -284,7 +284,7 @@ const MarketTable = (props: propsType) => {
           </>
         )}
       </div>
-      {tableDataList.length == 0 || tableHeaderData.length == 0 ? (
+      {tableHeaderData.length == 0 ? (
         <Blocker
           type={
             tableDataList.length == 0 &&

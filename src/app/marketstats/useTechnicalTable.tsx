@@ -16,7 +16,7 @@ const useTechnicalTable = async ({
     {
       viewId: activeViewId,
       filterValue: filter,
-      filterType: !!filter ? "index" : null,
+      filterType: !!filter && filter.length ? "index" : null,
       firstOperand,
       operationType,
       secondOperand,

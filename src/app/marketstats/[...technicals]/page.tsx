@@ -8,6 +8,36 @@ import useSelectedFilter from "../useSelectedFilter";
 import useTechnicalFilters from "../useTechnicalFilters";
 import { cookies } from "next/headers";
 
+// export async function generateMetadata(
+//   { searchParams, params }: any,
+//   parent: ResolvingMetadata
+// ): Promise<Metadata> {
+//   const type = searchParams?.type;
+//   const firstOperand = searchParams?.firstoperand;
+//   const operationType = searchParams?.operationtype;
+//   const secondOperand = searchParams?.secondoperand;
+//   const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
+
+//   const { metaData } = await useMarketStatsNav({ type, intFilter });
+
+//   const technicalCategory = await useTechnicalFilters(
+//     params,
+//     type,
+//     firstOperand,
+//     operationType,
+//     secondOperand
+//   );
+//   const title = metaData[0]?.title;
+//   const desc = `Discover the stocks in the Indian stock market with ${technicalCategory?.selectedFilterLabel?.firstOperand} ${technicalCategory?.selectedFilterLabel?.operationType} ${technicalCategory?.selectedFilterLabel?.secondOperand} exclusively on The Economic Times`;
+//   const meta = {
+//     title: title,
+//     desc: desc,
+//     keywords: `et, etmarkets, economictimes, ${params}, ${type}, ${firstOperand}, ${operationType}, ${secondOperand}`,
+//     index: false,
+//   };
+//   return fnGenerateMetaData(meta);
+// }
+
 const MovingAverages = async ({ searchParams, params }: any) => {
   const cookieStore = cookies();
   const isprimeuser = cookieStore.get("isprimeuser")
@@ -55,11 +85,19 @@ const MovingAverages = async ({ searchParams, params }: any) => {
     operationType,
     secondOperand,
   );
+
+  const title = metaData[0]?.title;
+  const desc = `Discover the stocks in the Indian stock market with ${technicalCategory?.selectedFilterLabel?.firstOperand} ${technicalCategory?.selectedFilterLabel?.operationType} ${technicalCategory?.selectedFilterLabel?.secondOperand} exclusively on The Economic Times`;
+  const meta = {
+    title: title,
+    desc: desc,
+  };
+
   return (
     <>
       <Marketstats
         l3Nav={l3Nav}
-        metaData={metaData[0]}
+        metaData={meta}
         tabData={tabData}
         activeViewId={activeViewId}
         tableHeaderData={tableHeaderData}

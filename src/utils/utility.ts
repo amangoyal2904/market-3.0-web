@@ -31,6 +31,7 @@ export const updateOrAddParamToPath = (
 export const fnGenerateMetaData = (meta?: any) => {
   return {
     title: `${meta?.title} | ET Markets`,
+    description: meta?.desc,
     generator: "ET Markets",
     applicationName: "ET Markets",
     keywords: meta?.meta_keywords?.split(","),
@@ -74,7 +75,6 @@ export const fnGenerateMetaData = (meta?: any) => {
     icons: {
       icon: "/etfavicon.ico",
     },
-    manifest: "/manifest.cms",
   };
 };
 

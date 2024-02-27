@@ -16,7 +16,7 @@ const useIntradayTable = async ({
       viewId: activeViewId,
       apiType: type,
       filterValue: filter,
-      filterType: !!filter ? "index" : null,
+      filterType: !!filter && filter.length ? "index" : null,
       duration,
       sort,
       pagesize,

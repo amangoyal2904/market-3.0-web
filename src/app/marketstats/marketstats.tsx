@@ -56,13 +56,11 @@ const Marketstats = ({
     const _pageSummary = !!responseData.pageSummary
       ? responseData.pageSummary
       : {};
-    const _tableData = responseData?.dataList
-      ? responseData.dataList
-      : responseData;
+    const _tableData = responseData?.dataList ? responseData.dataList : [];
 
     const _tableHeaderData =
-      tableData && tableData.length && tableData[0] && tableData[0]?.data
-        ? tableData[0]?.data
+      _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
+        ? _tableData[0]?.data
         : [];
     setTableData(_tableData);
     setTableHeaderData(_tableHeaderData);
