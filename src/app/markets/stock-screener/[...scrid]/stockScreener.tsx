@@ -3,27 +3,25 @@ import MarketTable from "@/components/MarketTable";
 import MarketTabs from "@/components/MarketTabs";
 import styles from "./stockScreener.module.scss";
 import { useEffect, useState } from "react";
-import { getParameterByName } from "@/utils";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import useScreenerTab from "./useScreenerTab";
-import useScreenerTable from "./useScreenerTable";
 import AsideNavComponets from "./asideNav";
 import QueryComponets from "./queryComponents";
 
 const StocksScreener = ({
-  l3Nav,
-  metaData,
-  tabData,
-  activeViewId,
+  l3Nav = [],
+  metaData = {},
+  tabData = [],
+  activeViewId = null,
   tableHeaderData = [],
   tableData = [],
-  pageSummary = [],
-  selectedFilter,
-  tableConfig,
-  tabConfig,
+  pageSummary = {},
+  selectedFilter = {},
+  tableConfig = {},
+  tabConfig = {},
   scrid,
   screenerDetail,
-  payload,
+  payload = {},
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -37,6 +35,7 @@ const StocksScreener = ({
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [_payload, setPayload] = useState(payload);
+
   const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
     setMetaData(metaData);

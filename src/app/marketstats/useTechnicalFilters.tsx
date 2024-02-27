@@ -16,6 +16,20 @@ const useTechnicalFilters = async (
       operationType: operationType,
       secondOperand: secondOperand,
     },
+    selectedFilterLabel: {
+      firstOperand: response?.firstOperands.find(
+        (operand: any) => operand.fieldName === firstOperand,
+      )?.displayName,
+      operationType: response?.operationType.find(
+        (operand: any) => operand.fieldName === operationType,
+      )?.displayName,
+      secondOperand: !isNaN(secondOperand)
+        ? secondOperand
+        : response?.secondOperands.find(
+            (operand: any) => operand.fieldName === secondOperand,
+          )?.displayName,
+    },
+    category: params,
   };
 };
 
