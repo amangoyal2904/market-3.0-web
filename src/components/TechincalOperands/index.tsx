@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import styles from "./Marketstats.module.scss";
+import styles from "./TechnicalOperands.module.scss";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { updateOrAddParamToPath } from "@/utils/utility";
 
-const TechnicalFilters = ({ technicalCategory }: any) => {
+const TechincalOperands = ({ technicalCategory }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -92,4 +92,4 @@ const TechnicalFilters = ({ technicalCategory }: any) => {
   );
 };
 
-export default TechnicalFilters;
+export default TechincalOperands;

@@ -57,7 +57,7 @@ const MarketTabs = ({
   const [dayFilterShow, setDayFilterShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [dayFilterValueset, setDayFilterValueset] = useState({
-    value: "1d",
+    value: "1D",
     label: "1 Day",
   });
   const [filterMenuData, setFilterMenuData]: any = useState("");

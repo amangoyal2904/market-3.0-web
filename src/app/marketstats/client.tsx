@@ -6,12 +6,12 @@ import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
 import { getCookie, getParameterByName } from "@/utils";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import useTechnicalTab from "./useTechnicalTab";
 import { useStateContext } from "@/store/StateContext";
-import TechnicalFilters from "./technicalFilters";
 import { fetchViewTable, updateOrAddParamToPath } from "@/utils/utility";
+import { getCustomViewsTab } from "@/utils/customViewAndTables";
+import TechincalOperands from "@/components/TechincalOperands";
 
-const Marketstats = ({
+const MarketStats = ({
   l3Nav = [],
   metaData = {},
   tabData = [],
@@ -120,7 +120,7 @@ const Marketstats = ({
 
   const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
     const type = getParameterByName("type");
-    const { tabData } = await useTechnicalTab({
+    const { tabData } = await getCustomViewsTab({
       type,
     });
     setTabData(tabData);
@@ -151,7 +151,7 @@ const Marketstats = ({
         </aside>
         <div className={styles.rhs}>
           {isTechnical && (
-            <TechnicalFilters technicalCategory={technicalCategory} />
+            <TechincalOperands technicalCategory={technicalCategory} />
           )}
           <MarketTabs
             data={_tabData}
@@ -176,4 +176,4 @@ const Marketstats = ({
   );
 };
 
-export default Marketstats;
+export default MarketStats;

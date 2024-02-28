@@ -1,44 +1,45 @@
-import useMarketStatsNav from "../useMarketStatsNav";
-import useTechnicalTab from "../useTechnicalTab";
-import Marketstats from "../marketstats";
-import useIntradayTable from "../useIntradayTable";
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
-import useSelectedFilter from "../useSelectedFilter";
 import { cookies } from "next/headers";
+import { fnGenerateMetaData, getSelectedFilter } from "@/utils/utility";
+import { Metadata, ResolvingMetadata } from "next";
+import { getMarketStatsNav } from "@/utils/marketstats";
+import {
+  getCustomViewTable,
+  getCustomViewsTab,
+} from "@/utils/customViewAndTables";
+import MarketStats from "../client";
 
-// export async function generateMetadata(
-//   { searchParams }: any,
-//   parent: ResolvingMetadata
-// ): Promise<Metadata> {
-//   const type = searchParams?.type;
-//   const duration = searchParams.duration
-//     ? searchParams.duration.toUpperCase()
-//     : "1D";
-//   const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
+export async function generateMetadata(
+  { searchParams }: any,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const type = searchParams?.type;
+  const duration = searchParams.duration
+    ? searchParams.duration.toUpperCase()
+    : "1D";
+  const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
 
-//   const { metaData } = await useMarketStatsNav({
-//     type,
-//     intFilter,
-//     duration,
-//   });
+  const { metaData } = await getMarketStatsNav({
+    type,
+    intFilter,
+    duration,
+  });
 
-//   const meta = {
-//     title: metaData[0]?.title,
-//     desc: metaData[0]?.desc,
-//     keywords: `et, etmarkets, economictimes, ${type}, ${duration}`,
-//     index: false,
-//   };
-//   return fnGenerateMetaData(meta);
-// }
+  const meta = {
+    title: metaData[0]?.title,
+    desc: metaData[0]?.desc,
+    keywords: `et, etmarkets, economictimes, ${type}, ${duration}`,
+    index: false,
+  };
+  return fnGenerateMetaData(meta);
+}
 
 const Intraday = async ({ searchParams }: any) => {
   const cookieStore = cookies();
-  const isprimeuser = cookieStore.get("isprimeuser")
-    ? cookieStore.get("isprimeuser")?.value
-    : false;
+  const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
   const ssoid = cookieStore.get("ssoid")?.value;
-  const type = searchParams?.type;
+  const type = searchParams?.type?.toLowerCase();
   const duration = searchParams.duration
     ? searchParams.duration.toUpperCase()
     : "1D";
@@ -48,35 +49,41 @@ const Intraday = async ({ searchParams }: any) => {
   const pageno = 1;
   const sort: any = [];
 
-  const { l3Nav, metaData } = await useMarketStatsNav({
+  const { l3Nav, metaData } = await getMarketStatsNav({
     type,
     intFilter,
     duration,
   });
 
-  const { tabData, activeViewId } = await useTechnicalTab({
+  const { tabData, activeViewId } = await getCustomViewsTab({
     type,
     ssoid,
   });
 
+  const bodyParams = {
+    viewId: activeViewId,
+    apiType: type,
+    duration,
+    filterValue: filter,
+    filterType: !!filter && filter.length ? "index" : null,
+    sort,
+    pagesize,
+    pageno,
+  };
+
   const { tableHeaderData, tableData, pageSummary, payload } =
-    await useIntradayTable({
-      activeViewId,
-      type,
-      duration,
-      filter,
-      sort,
-      pagesize,
-      pageno,
+    await getCustomViewTable(
+      bodyParams,
       isprimeuser,
       ssoid,
-    });
+      "marketStatsIntraday",
+    );
 
-  const selectedFilter = await useSelectedFilter(intFilter);
+  const selectedFilter = await getSelectedFilter(intFilter);
 
   return (
     <>
-      <Marketstats
+      <MarketStats
         l3Nav={l3Nav}
         metaData={metaData[0]}
         tabData={tabData}
