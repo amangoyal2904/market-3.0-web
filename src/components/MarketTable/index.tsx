@@ -5,7 +5,7 @@ import FixedTable from "./FixedTable";
 import ScrollableTable from "./ScrollableTable";
 import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
-import PaginationTable from "./PaginationTable";
+import Pagination from "./Pagination";
 
 interface propsType {
   data: any[];
@@ -300,7 +300,12 @@ const MarketTable = (props: propsType) => {
       ) : (
         _pageSummary &&
         _pageSummary.totalpages > 1 && (
-          <PaginationTable pageSummary={_pageSummary} />
+          <Pagination
+            pageSummary={_pageSummary}
+            onPageChange={function (pageNumber: number): void {
+              throw new Error("Function not implemented.");
+            }}
+          />
         )
       )}
     </>
