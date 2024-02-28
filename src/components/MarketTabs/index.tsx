@@ -27,6 +27,7 @@ const MarketTabs = ({
   tabConfig,
   runQueryhandler,
   updateTableHander,
+  onPersonalizeHandler,
 }: any) => {
   const {
     showAddStock,
@@ -112,7 +113,7 @@ const MarketTabs = ({
     if (resData && resData.responseCode === 200) {
       setOpenPersonaliseModal(false);
       //alert(resData.response);
-      tabsUpdateHandler();
+      onPersonalizeHandler();
     } else {
       alert("some error please check api or code");
     }
@@ -362,7 +363,7 @@ const MarketTabs = ({
       {openPersonaliseCreateModal ? (
         <CreateNewViewComponent
           closePopCreateView={setOpenPersonaliseCreateModal}
-          tabsUpdateHandler={tabsUpdateHandler}
+          onPersonalizeHandler={onPersonalizeHandler}
           editmode={editMode}
         />
       ) : (
