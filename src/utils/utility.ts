@@ -78,24 +78,6 @@ export const fnGenerateMetaData = (meta?: any) => {
   };
 };
 
-export const fetchTechnicalCategory = async (params: any, type: any) => {
-  let category = params.technicals[0];
-  if (category == "moving-averages") {
-    category =
-      type == "ema-ema-crossovers" || type == "price-ema-crossovers"
-        ? "ema-ema-crossovers"
-        : "sma-sma-crossovers";
-  }
-  const apiUrl =
-    "https://qcbselivefeeds.indiatimes.com/et-screener/operands-data?category=" +
-    category;
-  const response = await Service.get({
-    url: apiUrl,
-    params: {},
-  });
-  return response?.json();
-};
-
 export const fetchFilters = async () => {
   const apiUrl =
     "https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson";
@@ -338,6 +320,7 @@ export const createPeuuid = async (fpid: any) => {
     setCookies("peuuid", peuuid);
   }
 };
+
 export const removeMultipleStockInWatchList = async (followData: any) => {
   const authorization: any = getCookie("peuuid")
     ? getCookie("peuuid")
@@ -376,4 +359,66 @@ export const removeMultipleStockInWatchList = async (followData: any) => {
     console.error("Error saving stock in watchlist:", error);
     throw error;
   }
+};
+
+const fetchSelectedFilter = async (data: any, desiredIndexId: any) => {
+  let filterData;
+  if (data.keyIndices.nse.some((obj: any) => obj.indexId == desiredIndexId)) {
+    filterData = data.keyIndices.nse.find(
+      (obj: any) => obj.indexId == desiredIndexId,
+    );
+    filterData.selectedTab = "nse";
+  } else if (
+    data.keyIndices.bse.some((obj: any) => obj.indexId == desiredIndexId)
+  ) {
+    filterData = data.keyIndices.bse.find(
+      (obj: any) => obj.indexId == desiredIndexId,
+    );
+    filterData.selectedTab = "bse";
+  } else if (
+    data.sectoralIndices.nse.some((obj: any) => obj.indexId == desiredIndexId)
+  ) {
+    filterData = data.sectoralIndices.nse.find(
+      (obj: any) => obj.indexId == desiredIndexId,
+    );
+    filterData.selectedTab = "nse";
+  } else if (
+    data.sectoralIndices.bse.some((obj: any) => obj.indexId == desiredIndexId)
+  ) {
+    filterData = data.sectoralIndices.bse.find(
+      (obj: any) => obj.indexId == desiredIndexId,
+    );
+    filterData.selectedTab = "bse";
+  } else if (
+    data.otherIndices.nse.some((obj: any) => obj.indexId == desiredIndexId)
+  ) {
+    filterData = data.otherIndices.nse.find(
+      (obj: any) => obj.indexId == desiredIndexId,
+    );
+    filterData.selectedTab = "nse";
+  } else if (
+    data.otherIndices.bse.some((obj: any) => obj.indexId == desiredIndexId)
+  ) {
+    filterData = data.otherIndices.bse.find(
+      (obj: any) => obj.indexId == desiredIndexId,
+    );
+    filterData.selectedTab = "bse";
+  }
+  return filterData;
+};
+
+export const getSelectedFilter = async (filter: any) => {
+  let selectedFilter;
+  const filters = await fetchFilters();
+  if (!!filter) {
+    selectedFilter = await fetchSelectedFilter(filters, filter);
+  } else {
+    selectedFilter = { name: "All Stocks", indexId: 0, selectedTab: "nse" };
+  }
+
+  return {
+    name: selectedFilter.name,
+    id: selectedFilter.indexId,
+    selectedTab: selectedFilter.selectedTab,
+  };
 };

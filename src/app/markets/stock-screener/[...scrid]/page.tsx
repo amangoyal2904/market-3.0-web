@@ -5,7 +5,7 @@ import useScreenerTable from "./useScreenerTable";
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
 import { Metadata } from "next";
-import useSelectedFilter from "./useSelectedFilter";
+import { getSelectedFilter } from "@/utils/utility";
 
 export const metadata: Metadata = {
   title: "Stock Screener !!",
@@ -43,7 +43,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
     activeViewId,
   });
 
-  const selectedFilter = await useSelectedFilter(intFilter);
+  const selectedFilter = await getSelectedFilter(intFilter);
 
   return (
     <>
