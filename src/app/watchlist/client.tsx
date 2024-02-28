@@ -31,7 +31,7 @@ const WatchListClient = () => {
   const config = tableConfig["watchList"];
   const pageSummary = {};
   const onTabViewUpdate = async (viewId: any) => {
-    if (viewId && viewId != activeViewId) {
+    if (viewId && viewId != "") {
       setAPISuccess(false);
       setActiveViewId(viewId);
       setPayload({ ..._payload, viewId: viewId });
