@@ -1,6 +1,10 @@
+import StockRecosListing from "@/components/StockRecosListing";
 import styles from "./styles.module.scss";
+import APIS_CONFIG from "../../../network/api_config.json";
+import { APP_ENV } from "@/utils";
+import service from "@/network/service";
 
-export default function stocksrecos({
+export default async function stocksrecos({
   params,
 }: {
   params: {
@@ -8,6 +12,46 @@ export default function stocksrecos({
   };
 }) {
   console.log("params.slug", params.slug);
+
+  const { slug } = params || [];
+
+  // =====  Get Left Nav Data =======
+  const RECOS_NAV_Link = (APIS_CONFIG as any)["STOCK_RECOS_NAV"][APP_ENV];
+  const recosNavPromise = await service.get({
+    url: RECOS_NAV_Link,
+    params: {},
+  });
+
+  const recosNavResult = await recosNavPromise?.json();
+
+  //console.log("recosNavResult--", recosNavResult);
+
+  // =====  Get Left Nav Data =======
+  const STOCK_RECOS_DETAIL_Link = (APIS_CONFIG as any)["STOCK_RECOS_DETAIL"][
+    APP_ENV
+  ];
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  const payload = {
+    apiType: slug?.[0] || "overview",
+    filterType: "",
+    filterValue: [],
+    recoType: slug?.[1] || "all",
+    pageSize: 30,
+    pageNumber: 1,
+  };
+  const recosDetailPromise = await service.post({
+    url: STOCK_RECOS_DETAIL_Link,
+    headers: headers,
+    body: JSON.stringify(payload),
+    params: {},
+  });
+
+  const recosDetailResult = await recosDetailPromise?.json();
+
+  console.log("recosNavResult--", recosDetailResult);
+
   return (
     <>
       <div className={styles.recosPageWrap}>
@@ -20,6 +64,10 @@ export default function stocksrecos({
             stocks.
           </p>
         </div>
+        <StockRecosListing
+          recosNavResult={recosNavResult}
+          recosDetailResult={recosDetailResult}
+        />
       </div>
     </>
   );

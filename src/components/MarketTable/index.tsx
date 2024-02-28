@@ -218,14 +218,14 @@ const MarketTable = (props: propsType) => {
   }, [tabsViewIdUpdate]);
 
   useEffect(() => {
-    if (data.length || apiSuccess) {
+    if (data?.length || apiSuccess) {
       const filteredData = filterTableData(data);
       const sortedData = sortTableData(filteredData);
       setTableDataList((tableDataList) => [...sortedData]);
       setTableHeaderData(tableHeaders);
       setIvKeyPhrase(ivKey);
       if (!loaderOff) setLoaderOff(true);
-    } else if (data.length === 0) {
+    } else if (data?.length === 0) {
       setTableDataList([]);
     }
 
@@ -281,10 +281,10 @@ const MarketTable = (props: propsType) => {
           </>
         )}
       </div>
-      {tableDataList.length == 0 || tableHeaderData.length == 0 ? (
+      {tableDataList?.length == 0 || tableHeaderData?.length == 0 ? (
         <Blocker
           type={
-            tableDataList.length == 0 && tableHeaderData.length == 0
+            tableDataList?.length == 0 && tableHeaderData?.length == 0
               ? "noStocks"
               : "noDataFound"
           }

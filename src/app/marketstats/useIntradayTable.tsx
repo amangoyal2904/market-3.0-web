@@ -56,7 +56,7 @@ const useIntradayTable = async ({
     pagesize,
     pageno,
   });
-  const ivKey = responseData.iv;
+  const ivKey = responseData?.iv;
   const tableData = responseData?.dataList
     ? responseData.dataList
     : responseData;
