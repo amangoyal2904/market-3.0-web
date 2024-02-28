@@ -37,7 +37,8 @@ const MarketTable = (props: propsType) => {
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
-  const [sortData, setSortData] = useState<any>({});
+  const [sortData, setSortData] = useState({ field: null, order: "desc" });
+  const [_sortData, _setSortData] = useState({ field: null, order: "desc" });
   const [headerSticky, setHeaderSticky] = useState(0);
   const [topScrollHeight, setTopScrollHeight] = useState(162);
   const [loaderOff, setLoaderOff] = useState(false);
@@ -65,18 +66,19 @@ const MarketTable = (props: propsType) => {
     //console.log({ filters });
   };
 
-  const handleClientSideSort = (key: any) => {
-    if (Object.keys(sortData).includes(key)) {
-      if (sortData[key] == "asc") {
-        delete sortData[key];
-        setSortData({ ...sortData, [key]: "desc" });
-      } else {
-        delete sortData[key];
-        setSortData({ ...sortData, [key]: "asc" });
-      }
+  const sortHandler = (key: any) => {
+    if (sortData.field === key) {
+      setSortData({
+        ...sortData,
+        order: sortData.order === "asc" ? "desc" : "asc",
+      });
     } else {
-      setSortData({ ...sortData, [key]: "desc" });
+      setSortData({ field: key, order: "desc" });
     }
+
+    tableConfig.serverSideSort
+      ? handleSortServerSide(key)
+      : _setSortData(sortData);
   };
 
   const filterTableData = (filterData: any) => {
@@ -147,35 +149,34 @@ const MarketTable = (props: propsType) => {
   };
 
   const sortTableData = (tableData: any) => {
-    if (Object.keys(sortData).length) {
-      Object.keys(sortData).forEach((keyId) => {
-        tableData = tableData.sort((a: any, b: any) => {
-          const inputType = tableData[0].data.find(
-            (element: any) => element.keyId == keyId,
-          ).valueType;
+    const { field, order } = sortData;
+    if (!!field) {
+      tableData = tableData.sort((a: any, b: any) => {
+        const inputType = tableData[0].data.find(
+          (element: any) => element.keyId == field,
+        ).valueType;
 
-          let valueA = a.data.find((item: any) => {
-            return item.keyId == keyId;
-          }).filterFormatValue;
-          let valueB = b.data.find((item: any) => {
-            return item.keyId == keyId;
-          }).filterFormatValue;
+        let valueA = a.data.find((item: any) => {
+          return item.keyId == field;
+        }).filterFormatValue;
+        let valueB = b.data.find((item: any) => {
+          return item.keyId == field;
+        }).filterFormatValue;
 
-          if (inputType != "text") {
-            valueA = parseFloat(valueA);
-            valueB = parseFloat(valueB);
-          }
+        if (inputType != "text") {
+          valueA = parseFloat(valueA);
+          valueB = parseFloat(valueB);
+        }
 
-          if (sortData[keyId] === "asc") {
-            if (valueA < valueB) return -1;
-            if (valueA > valueB) return 1;
-          } else if (sortData[keyId] === "desc") {
-            if (valueA > valueB) return -1;
-            if (valueA < valueB) return 1;
-          }
+        if (order === "asc") {
+          if (valueA < valueB) return -1;
+          if (valueA > valueB) return 1;
+        } else if (order === "desc") {
+          if (valueA > valueB) return -1;
+          if (valueA < valueB) return 1;
+        }
 
-          return 0; // elements are equal
-        });
+        return 0; // elements are equal
       });
     }
     return tableData;
@@ -217,7 +218,7 @@ const MarketTable = (props: propsType) => {
   };
   useEffect(() => {
     setFilters({});
-    setSortData({});
+    _setSortData({ field: null, order: "asc" });
   }, [tabsViewIdUpdate]);
 
   useEffect(() => {
@@ -240,7 +241,7 @@ const MarketTable = (props: propsType) => {
       window.objUser.permissions &&
       window.objUser.permissions.indexOf("subscribed") != -1;
     setPrime(isPrime);
-  }, [apiSuccess, data, pageSummary, sortData, filters, loaderOff]);
+  }, [apiSuccess, data, pageSummary, _sortData, filters, loaderOff]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -259,11 +260,7 @@ const MarketTable = (props: propsType) => {
               scrollLeftPos={scrollLeftPos}
               headerSticky={headerSticky}
               topScrollHeight={topScrollHeight}
-              handleSort={
-                tableConfig.serverSideSort
-                  ? handleSortServerSide
-                  : handleClientSideSort
-              }
+              handleSort={sortHandler}
               sortData={sortData}
               filters={filters}
               handleFilterChange={handleFilterChange}
@@ -279,11 +276,7 @@ const MarketTable = (props: propsType) => {
               scrollRightPos={scrollRightPos}
               headerSticky={headerSticky}
               topScrollHeight={topScrollHeight}
-              handleSort={
-                tableConfig.serverSideSort
-                  ? handleSortServerSide
-                  : handleClientSideSort
-              }
+              handleSort={sortHandler}
               sortData={sortData}
               filters={filters}
               handleFilterChange={handleFilterChange}
