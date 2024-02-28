@@ -66,12 +66,18 @@ const ScrollableTable = (props: any) => {
                         <span className={`${styles.sortIcons}`}>
                           <span
                             className={`${
-                              sortData[thead.keyId] == "asc" ? styles.asc : ""
+                              sortData.field == thead.keyId &&
+                              sortData.order == "asc"
+                                ? styles.asc
+                                : ""
                             } eticon_up_arrow`}
                           ></span>
                           <span
                             className={`${
-                              sortData[thead.keyId] == "desc" ? styles.desc : ""
+                              sortData.field == thead.keyId &&
+                              sortData.order == "desc"
+                                ? styles.desc
+                                : ""
                             } eticon_down_arrow`}
                           ></span>
                         </span>

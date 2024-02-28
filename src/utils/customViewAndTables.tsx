@@ -7,7 +7,6 @@ const fetchTabsData = async ({ type, ssoid }: any) => {
   if (type != "watchlist") {
     apiUrl += `?statstype=${type}`;
   }
-  console.log({ apiUrl });
   const response = await Service.get({
     url: apiUrl,
     params: {},
