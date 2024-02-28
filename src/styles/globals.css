@@ -424,6 +424,23 @@ table {
 }
 
 /* Here Only Module Css start here */
+.customeScroll {
+  overflow-y: scroll;
+}
+.customeScroll::-webkit-scrollbar {
+  width: 8px;
+}
+.customeScroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+.customeScroll::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 10px;
+}
+.customeScroll::-webkit-scrollbar-thumb:hover {
+  background: #ddd;
+}
 .customeModule {
   position: fixed;
   left: 0;

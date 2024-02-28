@@ -230,7 +230,7 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
           </div>
           <div className={styles.bodySec}>
             {viewStocks.length > 0 ? (
-              <ul className={styles.lsitItem}>
+              <ul className={`customeScroll ${styles.lsitItem}`}>
                 {viewStocks.map((item: any, index: any) => {
                   return (
                     <li

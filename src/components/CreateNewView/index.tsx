@@ -454,7 +454,9 @@ const CreateNewViewComponent = ({
                         onChange={handleInputChange}
                       />
                       {searchListItems.length > 0 ? (
-                        <ul className={styles.searchItemList}>
+                        <ul
+                          className={`customeScroll ${styles.searchItemList}`}
+                        >
                           {searchListItems.map((item: any) => {
                             return (
                               <li
@@ -572,7 +574,9 @@ const CreateNewViewComponent = ({
                                 </div>
                                 {subItem.screenerCategoryFields &&
                                   subItem.screenerCategoryFields.length > 0 && (
-                                    <ul className={styles.innerList}>
+                                    <ul
+                                      className={`customeScroll ${styles.innerList}`}
+                                    >
                                       {subItem.screenerCategoryFields.map(
                                         (childSubItem: any) => (
                                           <li

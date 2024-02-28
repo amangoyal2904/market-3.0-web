@@ -109,7 +109,7 @@ const PersonaliseModel = ({
                     <ul
                       {...provided.droppableProps}
                       ref={provided.innerRef}
-                      className="list"
+                      className="list customeScroll"
                     >
                       {listData.map((list: any, index: any) => {
                         return (
