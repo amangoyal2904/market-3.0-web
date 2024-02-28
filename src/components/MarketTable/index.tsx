@@ -18,6 +18,7 @@ interface propsType {
   tableConfig?: any;
   pageSummary?: any;
   handleSortServerSide?: any;
+  handlePageChange?: any;
 }
 
 const MarketTable = (props: propsType) => {
@@ -31,6 +32,7 @@ const MarketTable = (props: propsType) => {
     tableConfig = {},
     pageSummary = {},
     handleSortServerSide,
+    handlePageChange,
   } = props || {};
   const { loader = false, loaderType } = tableConfig || {};
   const [_pageSummary, setPageSummary] = useState(pageSummary);
@@ -302,9 +304,7 @@ const MarketTable = (props: propsType) => {
         _pageSummary.totalpages > 1 && (
           <Pagination
             pageSummary={_pageSummary}
-            onPageChange={function (pageNumber: number): void {
-              throw new Error("Function not implemented.");
-            }}
+            onPageChange={handlePageChange}
           />
         )
       )}

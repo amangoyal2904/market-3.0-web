@@ -81,6 +81,10 @@ const MarketStats = ({
     setNiftyFilterData(selectedFilter);
   };
 
+  const onPaginationChange = async (pageNumber: number) => {
+    setPayload({ ..._payload, pageno: pageNumber });
+  };
+
   const onServerSideSort = async (field: any) => {
     let sortConfig = _payload.sort;
     const isFieldSorted = sortConfig.find(
@@ -169,6 +173,7 @@ const MarketStats = ({
             pageSummary={_pageSummary}
             tableConfig={tableConfig}
             handleSortServerSide={onServerSideSort}
+            handlePageChange={onPaginationChange}
           />
         </div>
       </div>

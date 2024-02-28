@@ -8,15 +8,7 @@ interface PageSummary {
   pageno: number;
 }
 
-interface PaginationProps {
-  pageSummary: PageSummary;
-  onPageChange: (pageNumber: number) => void;
-}
-
-const Pagination: React.FC<PaginationProps> = ({
-  pageSummary,
-  onPageChange,
-}) => {
+const Pagination = ({ pageSummary, onPageChange }: any) => {
   const { totalRecords, totalpages, pagesize, pageno } = pageSummary;
 
   const handlePageChange = (pageNumber: number) => {
