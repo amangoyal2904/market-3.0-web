@@ -431,11 +431,8 @@ table {
   top: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.2);
-  z-index: 99;
+  z-index: 999;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .customeModule .moduleWrap {
   position: relative;
@@ -445,6 +442,7 @@ table {
   background: #fff;
   text-align: left;
   min-width: 420px;
+  margin-top: 120px;
 }
 .customeModule .moduleHeader {
   display: flex;

@@ -215,9 +215,9 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
   }, []);
   return (
     <>
-      <div className={styles.addStockWrap}>
-        <div className={styles.stockSec} ref={viewWraperRef}>
-          <div className={styles.header}>
+      <div className={`customeModule ${styles.addStockWrap}`}>
+        <div className={`moduleWrap ${styles.stockSec}`} ref={viewWraperRef}>
+          <div className={`moduleHeader ${styles.header}`}>
             <div className={styles.formGroup}>
               <span className={`eticon_search ${styles.searchIcon}`}></span>
               <input
