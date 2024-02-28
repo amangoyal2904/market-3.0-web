@@ -30,15 +30,27 @@ const WatchListClient = () => {
   const { isLogin, ssoid, isPrime } = state.login;
   const config = tableConfig["watchList"];
   const pageSummary = {};
-
-  const onTabViewUpdate = (viewId: any) => {
-    if (viewId != activeViewId) {
+  const onTabViewUpdate = async (viewId: any) => {
+    if (viewId && viewId != activeViewId) {
       setAPISuccess(false);
       setActiveViewId(viewId);
       setPayload({ ..._payload, viewId: viewId });
     }
   };
+  const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
+    const { tabData, activeViewId } = await getCustomViewsTab({
+      type: "watchlist",
+      ssoid: ssoid,
+    });
 
+    setTabData(tabData);
+    if (newActiveId !== "") {
+      onTabViewUpdate(newActiveId);
+      setActiveViewId(newActiveId);
+    } else {
+      onTabViewUpdate(activeViewId);
+    }
+  };
   const updateTableData = async () => {
     const bodyParams = { ..._payload };
     const isprimeuser = !!isPrime ? isPrime : false;
@@ -170,6 +182,7 @@ const WatchListClient = () => {
               removeMultipleStockInWathclist={removeMultipleStockInWathclist}
               tabConfig={tabConfig["watchList"]}
               updateTableHander={updateTableHanderFun}
+              onPersonalizeHandler={onPersonalizeHandlerfun}
             />
             <MarketTable
               data={tableData}

@@ -8,7 +8,7 @@ import NameViewComponent from "./createmodule";
 const CreateNewViewComponent = ({
   closePopCreateView,
   editmode,
-  tabsUpdateHandler,
+  onPersonalizeHandler,
 }: any) => {
   const [viewData, setViewData]: any = useState([]);
   const [screenerName, setScreenerName]: any = useState("");
@@ -111,7 +111,7 @@ const CreateNewViewComponent = ({
       const viewId: any = resData.viewId || "";
       closePopCreateView(false);
       //alert(resData.response)
-      tabsUpdateHandler(viewId);
+      onPersonalizeHandler(viewId);
     } else {
       alert("some error please check api or code");
     }
@@ -242,7 +242,7 @@ const CreateNewViewComponent = ({
     if (resData && resData.responseCode === 200) {
       closePopCreateView(false);
       //alert(resData.response)
-      tabsUpdateHandler();
+      onPersonalizeHandler();
     } else {
       alert("some error please check api or code");
     }
