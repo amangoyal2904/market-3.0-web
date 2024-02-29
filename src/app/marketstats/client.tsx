@@ -40,7 +40,7 @@ const MarketStats = ({
   const router = useRouter();
   const l3NavType = searchParams.get("type");
   const [dayFilterData, setDayFilterData] = useState({
-    value: payload?.duration.toLowerCase(),
+    value: payload?.duration,
     label: payload?.duration,
   });
   const { state, dispatch } = useStateContext();
@@ -143,7 +143,21 @@ const MarketStats = ({
     setTabData(tabData);
     setActiveViewId(tabIdActive);
   };
+  const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
+    const type = getParameterByName("type");
+    const { tabData, activeViewId } = await getCustomViewsTab({
+      type,
+      ssoid: getCookie("ssoid"),
+    });
 
+    setTabData(tabData);
+    if (newActiveId !== "") {
+      onTabViewUpdate(newActiveId);
+      setActiveViewId(newActiveId);
+    } else {
+      onTabViewUpdate(activeViewId);
+    }
+  };
   useEffect(() => {
     updateTableData();
     const intervalId = setInterval(() => {
@@ -187,6 +201,7 @@ const MarketStats = ({
               tabConfig={tabConfig}
               dayFilterData={dayFilterData}
               setDayFilterData={setDayFilterData}
+              onPersonalizeHandler={onPersonalizeHandlerfun}
             />
           </div>
           <MarketTable
