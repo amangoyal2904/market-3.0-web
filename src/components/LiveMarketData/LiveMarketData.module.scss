@@ -6,11 +6,16 @@
   .marketIndex {
     display: flex;
     padding: 0 25px 0 10px;
+    font-size: 12px;
+    font-weight: 700;
+    align-items: center;
     .indexName {
       font-weight: bold;
     }
     .indexValue {
       font-family: $Lato-font-family;
+      font-size: 14px;
+      font-weight: 400;
     }
     .indexChange {
       position: relative;
@@ -20,11 +25,10 @@
     }
     .indexChange::before {
       font-family: "eticons" !important;
-      font-weight: bold;
+      font-weight: 400;
       font-size: 11px;
       position: absolute;
-      right: -16px;
-      top: 1px;
+      right: -15px;
     }
   }
   .marketIndex > div {
