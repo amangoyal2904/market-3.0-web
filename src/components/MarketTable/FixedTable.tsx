@@ -111,9 +111,7 @@ const FixedTable = (props: any) => {
                             tdData.keyId == "name" ? "Search Value" : "> #"
                           }
                         ></input>
-                        {tdData.keyId == "name" && (
-                          <span className="eticon_search"></span>
-                        )}
+                        <span className="eticon_search"></span>
                       </span>
                     </td>
                   ),

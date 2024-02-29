@@ -92,17 +92,20 @@ const ScrollableTable = (props: any) => {
                 (tdData: any, index: number) =>
                   index > 2 && (
                     <td key={index} className={styles.inputWrapper}>
-                      <input
-                        className={styles.filterInput}
-                        type="text"
-                        name={tdData.keyId}
-                        data-type={tdData.valueType}
-                        value={filters[tdData.keyId] || ""}
-                        onChange={handleFilterChange}
-                        maxLength={20}
-                        placeholder="> #"
-                        disabled={!isPrime && tdData.primeFlag}
-                      ></input>
+                      <span className={styles.searchWrapper}>
+                        <input
+                          className={styles.filterInput}
+                          type="text"
+                          name={tdData.keyId}
+                          data-type={tdData.valueType}
+                          value={filters[tdData.keyId] || ""}
+                          onChange={handleFilterChange}
+                          maxLength={20}
+                          placeholder="> #"
+                          disabled={!isPrime && tdData.primeFlag}
+                        ></input>
+                        <span className="eticon_search"></span>
+                      </span>
                     </td>
                   ),
               )}
