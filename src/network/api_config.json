@@ -73,6 +73,10 @@
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats",
     "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"
   },
+  "liveStream": {
+    "development": "https://json.bselivefeeds.indiatimes.com/ET_WebCast/getEventData",
+    "production": "https://etwebcast.indiatimes.com/ET_WebCast/getEventData"
+  },
   "marketStatsIntradayNextJs": {
     "development": "http://localhost:3009/api/intradaystats",
     "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"

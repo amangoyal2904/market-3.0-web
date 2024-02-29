@@ -1,0 +1,52 @@
+.liveStreamWrapper {
+  padding: 20px 0;
+}
+.cardsWrapper {
+  display: inline-block;
+  vertical-align: top;
+  width: 225px;
+  background-color: #fff;
+  border: solid 1px #e4e4e4;
+  margin-right: 20px;
+}
+.headingIcon {
+  vertical-align: middle;
+}
+.textSection {
+  padding: 9px 17px 17px 17px;
+  min-height: 260px;
+
+  .title {
+    font-size: 16px;
+    font-weight: bold;
+    word-break: break-word;
+  }
+}
+.imgSection {
+  img {
+    width: 100%;
+    vertical-align: top;
+    height: 168px;
+  }
+}
+.profileSection {
+  margin-top: 14px;
+
+  .userPic {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    vertical-align: top;
+    border-radius: 50%;
+    position: relative;
+    vertical-align: middle;
+    img {
+      border-radius: 50%;
+    }
+  }
+  .userName {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+  }
+}
