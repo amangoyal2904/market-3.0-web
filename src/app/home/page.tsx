@@ -5,6 +5,7 @@ import StockRecommendations from "@/components/StockRecommendations";
 import WatchlistWidget from "@/components/WatchlistWidget";
 import StockReportsPlus from "@/components/StockReportsPlus";
 import StockScreenerWidget from "@/components/ScreenerWidget";
+import LiveStreamWidget from "@/components/LiveStreamWidget";
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       <StockRecommendations />
       <StockReportsPlus />
       <StockScreenerWidget />
+      <LiveStreamWidget />
     </>
   );
 };
