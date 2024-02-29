@@ -17,6 +17,10 @@ export const get = async (config: any) => {
     //console.log("config----", config);
     const url = getApiUrl(config, 0);
     //console.log("url------", url);
+    const cache = config.cache ? config.cache : "false";
+    if (cache) {
+      config["cache"] = "no-store";
+    }
     if (!config.headers) {
       config["headers"] = {};
     }
@@ -36,6 +40,10 @@ export const post = async (config: any) => {
   try {
     const { payload } = config;
     const url = getApiUrl(config, 0);
+    const cache = config.cache ? config.cache : "false";
+    if (cache) {
+      config["cache"] = "no-store";
+    }
     const response = await fetch(url, {
       method: "POST",
       data: payload,
