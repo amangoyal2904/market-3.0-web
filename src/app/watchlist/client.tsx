@@ -62,10 +62,8 @@ const WatchListClient = () => {
         ssoid,
         "watchListTable",
       );
-
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
-    setAPISuccess(true);
   };
 
   const fetchWatchListData = async () => {
@@ -156,13 +154,11 @@ const WatchListClient = () => {
   }, [isLogin]);
 
   useEffect(() => {
-    if (!!apiSuccess) {
+    updateTableData();
+    const intervalId = setInterval(() => {
       updateTableData();
-      const intervalId = setInterval(() => {
-        updateTableData();
-      }, parseInt(refeshConfig.watchlist));
-      return () => clearInterval(intervalId);
-    }
+    }, parseInt(refeshConfig.watchlist));
+    return () => clearInterval(intervalId);
   }, [requestPayload]);
 
   return (
