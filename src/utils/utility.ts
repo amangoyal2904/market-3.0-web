@@ -9,6 +9,15 @@ import Service from "@/network/service";
 
 const API_SOURCE = 18;
 
+export const durationOptions = [
+  { label: "1 Day", value: "1D", id: 1 },
+  { label: "1 Week", value: "1W", id: 2 },
+  { label: "1 Month", value: "1M", id: 3 },
+  { label: "3 Months", value: "3M", id: 4 },
+  { label: "6 Months", value: "6M", id: 5 },
+  { label: "1 Year", value: "1Y", id: 6 },
+];
+
 export const updateOrAddParamToPath = (
   pathname: any,
   param: any,
