@@ -19,6 +19,7 @@ interface propsType {
   pageSummary?: any;
   handleSortServerSide?: any;
   handlePageChange?: any;
+  updateTableHander?: any;
 }
 
 const MarketTable = (props: propsType) => {
@@ -33,6 +34,7 @@ const MarketTable = (props: propsType) => {
     pageSummary = {},
     handleSortServerSide,
     handlePageChange,
+    updateTableHander,
   } = props || {};
   const { loader = false, loaderType } = tableConfig || {};
   const [_pageSummary, setPageSummary] = useState(pageSummary);
@@ -298,6 +300,7 @@ const MarketTable = (props: propsType) => {
               ? "noStocks"
               : "noDataFound"
           }
+          updateTableHander={updateTableHander}
         />
       ) : (
         _pageSummary &&

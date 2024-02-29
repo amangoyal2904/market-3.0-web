@@ -21,7 +21,7 @@ const WatchListClient = () => {
   const [tableData, setTableData] = useState([]);
   const [tableHeaderData, setTableHeaderData] = useState([]);
   const [activeViewId, setActiveViewId] = useState(null);
-  const [_payload, setPayload] = useState({});
+  const [requestPayload, setRequestPayload] = useState({});
   const [showBlocker, setShowBlocker] = useState(false);
   const [apiSuccess, setAPISuccess] = useState(false);
 
@@ -35,7 +35,7 @@ const WatchListClient = () => {
     if (viewId && viewId != "") {
       setAPISuccess(false);
       setActiveViewId(viewId);
-      setPayload({ ..._payload, viewId: viewId });
+      setRequestPayload({ ...requestPayload, viewId: viewId });
     }
   };
   const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
@@ -53,14 +53,14 @@ const WatchListClient = () => {
     }
   };
   const updateTableData = async () => {
-    const bodyParams = { ..._payload };
+    const bodyParams = requestPayload;
     const isprimeuser = !!isPrime ? isPrime : false;
     const { tableHeaderData, tableData, pageSummary, payload } =
       await getCustomViewTable(
         bodyParams,
         isprimeuser,
         ssoid,
-        "watchListTable",
+        "watchListTable"
       );
 
     setTableData(tableData);
@@ -81,7 +81,7 @@ const WatchListClient = () => {
         bodyParams,
         isprimeuser,
         ssoid,
-        "watchListTable",
+        "watchListTable"
       );
 
     setTabData(tabData);
@@ -89,13 +89,19 @@ const WatchListClient = () => {
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
     setAPISuccess(true);
-    setPayload(payload);
+    setRequestPayload(payload);
+    const intervalId = refreshTableData();
+    return () => clearInterval(intervalId);
+  };
+
+  const refreshTableData = () => {
+    return setInterval(updateTableData, parseInt(refeshConfig.watchlist));
   };
 
   const removeMultipleStockInWathclist = async () => {
     if (unFollowStocksList.length > 0) {
       const userConfirm = confirm(
-        "Are you sure you want to remove those stock list in your watchlist?",
+        "Are you sure you want to remove those stock list in your watchlist?"
       );
       const followData = {
         source: "1",
@@ -137,7 +143,7 @@ const WatchListClient = () => {
       setUnFollowStocksList((prevList): any => [...prevList, data]);
     } else {
       setUnFollowStocksList((prevList): any =>
-        prevList.filter((item: any) => item.msid !== companyId),
+        prevList.filter((item: any) => item.msid !== companyId)
       );
     }
   };
@@ -155,19 +161,9 @@ const WatchListClient = () => {
     }
   }, [isLogin]);
 
-  // Page Refresh Code start  here
   useEffect(() => {
-    const pageRefresh = parseInt(refeshConfig.watchlist);
-    const dataUpdateHandler = () => {
-      if (!!_payload && Object.keys(_payload).length > 0) updateTableData();
-    };
-    const intervalId = setInterval(dataUpdateHandler, pageRefresh);
-    return () => clearInterval(intervalId);
-  }, []);
-  // Page Refresh Code end  Here
-  useEffect(() => {
-    if (!!_payload && Object.keys(_payload).length > 0) updateTableData();
-  }, [_payload]);
+    updateTableData();
+  }, [requestPayload]);
 
   return (
     <>
@@ -198,8 +194,8 @@ const WatchListClient = () => {
                 showTableCheckBox={showTableCheckBox}
                 removeMultipleStockInWathclist={removeMultipleStockInWathclist}
                 tabConfig={tabConfig["watchList"]}
-                updateTableHander={updateTableHanderFun}
                 onPersonalizeHandler={onPersonalizeHandlerfun}
+                updateTableHander={updateTableHanderFun}
               />
             </div>
             <MarketTable
@@ -211,6 +207,7 @@ const WatchListClient = () => {
               multipleStockCollect={multipleStockCollect}
               pageSummary={pageSummary}
               tableConfig={config}
+              updateTableHander={updateTableHanderFun}
             />
           </>
         )}
