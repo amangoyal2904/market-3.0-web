@@ -9,6 +9,7 @@ import { removeMultipleStockInWatchList } from "@/utils/utility";
 import Blocker from "@/components/Blocker";
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
+import refeshConfig from "@/utils/refreshConfig.json";
 import styles from "./Watchlist.module.scss";
 import {
   getCustomViewTable,
@@ -154,6 +155,16 @@ const WatchListClient = () => {
     }
   }, [isLogin]);
 
+  // Page Refresh Code start  here
+  useEffect(() => {
+    const pageRefresh = parseInt(refeshConfig.watchlist);
+    const dataUpdateHandler = () => {
+      if (!!_payload && Object.keys(_payload).length > 0) updateTableData();
+    };
+    const intervalId = setInterval(dataUpdateHandler, pageRefresh);
+    return () => clearInterval(intervalId);
+  }, []);
+  // Page Refresh Code end  Here
   useEffect(() => {
     if (!!_payload && Object.keys(_payload).length > 0) updateTableData();
   }, [_payload]);
