@@ -190,9 +190,7 @@ export const fetchAllWatchListData = async (
   type: any,
   usersettingsubType: any,
 ) => {
-  const authorization: any = getCookie("peuuid")
-    ? getCookie("peuuid")
-    : "1135320605";
+  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
   const isLocalhost = window.location.origin.includes("localhost");
 
   const apiUrl = isLocalhost
@@ -217,9 +215,7 @@ export const fetchAllWatchListData = async (
 };
 
 export const saveStockInWatchList = async (followData: any) => {
-  const authorization: any = getCookie("peuuid")
-    ? getCookie("peuuid")
-    : "1135320605";
+  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
   const isLocalhost = window.location.origin.includes("localhost");
   let postBodyData = {};
   if (isLocalhost) {
@@ -322,9 +318,7 @@ export const createPeuuid = async (fpid: any) => {
 };
 
 export const removeMultipleStockInWatchList = async (followData: any) => {
-  const authorization: any = getCookie("peuuid")
-    ? getCookie("peuuid")
-    : "1135320605";
+  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
   const isLocalhost = window.location.origin.includes("localhost");
   let postBodyData = {};
   if (isLocalhost) {
