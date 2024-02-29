@@ -18,7 +18,7 @@ export default function StockFilterNifty({
   childMenuTabActive,
   showFilter,
 }: StockSRFilterProps) {
-  const activeFilterValue = sessionStorage.sr_filtervalue;
+  const activeFilterValue = childMenuTabActive;
   const activeIndex =
     (!!activeFilterValue &&
       data.keyIndices.nse.some(
@@ -43,8 +43,8 @@ export default function StockFilterNifty({
           : 3;
   const [nseBseMenuSelect, setNseBseMenuSelect] = useState(selectTab);
   const [activeItem, setActiveItem] = useState<number | null>(activeIndex);
-  const childTabMenuActive =
-    childMenuTabActive && childMenuTabActive !== "" ? childMenuTabActive : "";
+  // const childTabMenuActive =
+  //   childMenuTabActive && childMenuTabActive !== "" ? childMenuTabActive : "";
   const popupRef = useRef<HTMLDivElement | null>(null);
   const handleClickOutside = (event: any) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -120,7 +120,7 @@ export default function StockFilterNifty({
                             clickFilterMenu(item.name, item.indexId)
                           }
                           className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                            childTabMenuActive === item.indexId
+                            childMenuTabActive === item.indexId
                               ? styles.selectedMenu
                               : ""
                           }`}
@@ -137,7 +137,7 @@ export default function StockFilterNifty({
                             clickFilterMenu(item.name, item.indexId)
                           }
                           className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                            childTabMenuActive === item.indexId
+                            childMenuTabActive === item.indexId
                               ? styles.selectedMenu
                               : ""
                           }`}
@@ -168,7 +168,7 @@ export default function StockFilterNifty({
                             clickFilterMenu(item.name, item.indexId)
                           }
                           className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                            childTabMenuActive === item.indexId
+                            childMenuTabActive === item.indexId
                               ? styles.selectedMenu
                               : ""
                           }`}
@@ -185,7 +185,7 @@ export default function StockFilterNifty({
                             clickFilterMenu(item.name, item.indexId)
                           }
                           className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                            childTabMenuActive === item.indexId
+                            childMenuTabActive === item.indexId
                               ? styles.selectedMenu
                               : ""
                           }`}
@@ -214,7 +214,7 @@ export default function StockFilterNifty({
                             clickFilterMenu(item.name, item.indexId)
                           }
                           className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                            childTabMenuActive === item.indexId
+                            childMenuTabActive === item.indexId
                               ? styles.selectedMenu
                               : ""
                           }`}
@@ -231,7 +231,7 @@ export default function StockFilterNifty({
                             clickFilterMenu(item.name, item.indexId)
                           }
                           className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                            childTabMenuActive === item.indexId
+                            childMenuTabActive === item.indexId
                               ? styles.selectedMenu
                               : ""
                           }`}

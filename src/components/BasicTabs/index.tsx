@@ -73,9 +73,6 @@ const BasicTabs = ({
   };
   const handleChangeData = (id: any, name: string, selectedTab: string) => {
     setShowFilter(false);
-    sessionStorage.setItem("sr_filtervalue", id);
-    sessionStorage.setItem("sr_filtername", name);
-    sessionStorage.setItem("sr_filtertab", selectedTab);
     filterDataChange(id, name, selectedTab);
   };
   const filterApiCall = () => {
