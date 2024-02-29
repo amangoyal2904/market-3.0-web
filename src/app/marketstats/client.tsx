@@ -8,9 +8,15 @@ import { useEffect, useState } from "react";
 import { getCookie, getParameterByName } from "@/utils";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useStateContext } from "@/store/StateContext";
-import { fetchViewTable, updateOrAddParamToPath } from "@/utils/utility";
+import {
+  fetchViewTable,
+  getSelectedFilter,
+  updateOrAddParamToPath,
+} from "@/utils/utility";
+import refeshConfig from "@/utils/refreshConfig.json";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import TechincalOperands from "@/components/TechincalOperands";
+import { getMarketStatsNav } from "@/utils/marketstats";
 
 const MarketStats = ({
   l3Nav = [],
@@ -72,17 +78,14 @@ const MarketStats = ({
     setPageSummary(_pageSummary);
   };
 
-  const onSearchParamChange = async () => {
-    setPayload(payload);
-    setTabData(tabData);
+  const updateL3NAV = async (intFilter: any, duration: any) => {
+    const type = getParameterByName("type");
+    const { l3Nav } = await getMarketStatsNav({
+      type,
+      intFilter,
+      duration,
+    });
     setL3Nav(l3Nav);
-    setMetaData(metaData);
-    setTableData(tableData);
-    setTableHeaderData(tableHeaderData);
-    setTechnicalCategory(technicalCategory);
-    setActiveViewId(activeViewId);
-    setPageSummary(pageSummary);
-    setNiftyFilterData(selectedFilter);
   };
 
   const onPaginationChange = async (pageNumber: number) => {
@@ -116,6 +119,10 @@ const MarketStats = ({
   const filterDataChangeHander = async (id: any) => {
     const url = `${pathname}?${searchParams}`;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
+    const selectedFilter = await getSelectedFilter(id);
+    setNiftyFilterData(selectedFilter);
+    setPayload({ ..._payload, filterValue: [id] });
+    updateL3NAV(id, _payload.duration);
     router.push(newUrl, { scroll: false });
   };
 
@@ -123,6 +130,8 @@ const MarketStats = ({
     const url = `${pathname}?${searchParams}`;
     const newDuration = value.toUpperCase();
     const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
+    setPayload({ ..._payload, duration: newDuration });
+    updateL3NAV(_payload.filterValue[0], newDuration);
     router.push(newUrl, { scroll: false });
   };
 
@@ -136,12 +145,13 @@ const MarketStats = ({
   };
 
   useEffect(() => {
-    onSearchParamChange();
-  }, [searchParams]);
-
-  useEffect(() => {
     updateTableData();
+    const intervalId = setInterval(() => {
+      updateTableData();
+    }, parseInt(refeshConfig.marketstats));
+    return () => clearInterval(intervalId);
   }, [_payload]);
+
   return (
     <>
       <h1

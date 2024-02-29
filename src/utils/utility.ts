@@ -357,7 +357,6 @@ export const removeMultipleStockInWatchList = async (followData: any) => {
 
 const fetchSelectedFilter = async (data: any, desiredIndexId: any) => {
   let filterData;
-  debugger;
   if (data.keyIndices.nse.some((obj: any) => obj.indexId == desiredIndexId)) {
     filterData = data.keyIndices.nse.find(
       (obj: any) => obj.indexId == desiredIndexId,
