@@ -1,7 +1,7 @@
 {
-  "marketstats": "40",
-  "stockrecos": "",
-  "marketcloseapi": "5",
-  "livemarketdata": "5",
-  "watchlist": "10000"
+  "marketstats": "30000",
+  "stockrecos": "60000",
+  "marketcloseapi": "10000",
+  "livemarketdata": "20000",
+  "watchlist": "30000"
 }

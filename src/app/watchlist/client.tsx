@@ -60,7 +60,7 @@ const WatchListClient = () => {
         bodyParams,
         isprimeuser,
         ssoid,
-        "watchListTable"
+        "watchListTable",
       );
 
     setTableData(tableData);
@@ -81,7 +81,7 @@ const WatchListClient = () => {
         bodyParams,
         isprimeuser,
         ssoid,
-        "watchListTable"
+        "watchListTable",
       );
 
     setTabData(tabData);
@@ -90,18 +90,12 @@ const WatchListClient = () => {
     setTableHeaderData(tableHeaderData);
     setAPISuccess(true);
     setRequestPayload(payload);
-    const intervalId = refreshTableData();
-    return () => clearInterval(intervalId);
-  };
-
-  const refreshTableData = () => {
-    return setInterval(updateTableData, parseInt(refeshConfig.watchlist));
   };
 
   const removeMultipleStockInWathclist = async () => {
     if (unFollowStocksList.length > 0) {
       const userConfirm = confirm(
-        "Are you sure you want to remove those stock list in your watchlist?"
+        "Are you sure you want to remove those stock list in your watchlist?",
       );
       const followData = {
         source: "1",
@@ -143,7 +137,7 @@ const WatchListClient = () => {
       setUnFollowStocksList((prevList): any => [...prevList, data]);
     } else {
       setUnFollowStocksList((prevList): any =>
-        prevList.filter((item: any) => item.msid !== companyId)
+        prevList.filter((item: any) => item.msid !== companyId),
       );
     }
   };
@@ -163,6 +157,10 @@ const WatchListClient = () => {
 
   useEffect(() => {
     updateTableData();
+    const intervalId = setInterval(() => {
+      updateTableData();
+    }, parseInt(refeshConfig.watchlist));
+    return () => clearInterval(intervalId);
   }, [requestPayload]);
 
   return (
