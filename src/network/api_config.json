@@ -200,5 +200,9 @@
   "MARKET_STATS_NAV": {
     "development": "https://etapipre.indiatimes.com/api/marketstatsnav",
     "production": "https://etapipre.indiatimes.com/api/marketstatsnav"
+  },
+  "MARKET_STATUS": {
+    "development": "https://bselivefeeds.indiatimes.com/ET_Community/holidaylist",
+    "production": "https://json.bselivefeeds.indiatimes.com/ET_Community/holidaylist"
   }
 }

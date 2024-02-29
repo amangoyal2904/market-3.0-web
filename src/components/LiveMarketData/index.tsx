@@ -4,14 +4,33 @@ import Service from "../../network/service";
 import styles from "./LiveMarketData.module.scss";
 import { APP_ENV } from "../../utils";
 import APIS_CONFIG from "../../network/api_config.json";
+import { useStateContext } from "../../store/StateContext";
 
 const LiveMarketData = () => {
+  const { state, dispatch } = useStateContext();
+  const { currentMarketStatus } = state.marketStatus;
   const [marketData, setMarketData] = useState<any>([]);
+  //const [marketStatus, setMarketStatus] = useState<any>({})
   let x: any = null;
   useEffect(() => {
+    getMarketStatus();
+    getLiveMarketData();
     x = setInterval(getLiveMarketData, 5000);
   }, []);
-
+  console.log("--------->", state.marketStatus, currentMarketStatus);
+  const getMarketStatus = async () => {
+    const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
+    const res = await Service.get({ url, params: {} });
+    if (res?.status === 200) {
+      const result = await res.json();
+      dispatch({
+        type: "MARKET_STATUS",
+        payload: {
+          currentMarketStatus: result.currentMarketStatus,
+        },
+      });
+    }
+  };
   const getLiveMarketData = async () => {
     const url = (APIS_CONFIG as any)?.LIVE_MARKET_DATA[APP_ENV];
     const res = await Service.get({ url, params: {} });
@@ -23,13 +42,9 @@ const LiveMarketData = () => {
     const jsonStartIndex = data.indexOf("[");
     const jsonEndIndex = data.lastIndexOf("]");
     const jsonString = data.substring(jsonStartIndex, jsonEndIndex + 1);
-    //console.log("live Data", JSON.parse(jsonString));
+    console.log("live Data==============?????", currentMarketStatus);
     setMarketData(JSON.parse(jsonString));
-    if (
-      marketData &&
-      marketData[0] &&
-      marketData[0].marketstatus.currentMarketStatus !== "Live"
-    ) {
+    if (currentMarketStatus !== "CLOSED") {
       clearInterval(x);
     }
   };

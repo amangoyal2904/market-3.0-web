@@ -53,7 +53,8 @@ const Intraday = async ({ searchParams }: any) => {
   const leftNavApi = (APIS_CONFIG as any)["MARKET_STATS_NAV"][APP_ENV];
   console.log("Left Nav APi", leftNavApi);
   const leftNavPromise = await service.get({
-    url: leftNavApi + "?v=1",
+    url: leftNavApi,
+    cache: true,
     params: {},
   });
   const leftNavResult = await leftNavPromise?.json();
