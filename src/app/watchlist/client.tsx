@@ -90,12 +90,6 @@ const WatchListClient = () => {
     setTableHeaderData(tableHeaderData);
     setAPISuccess(true);
     setRequestPayload(payload);
-    const intervalId = refreshTableData();
-    return () => clearInterval(intervalId);
-  };
-
-  const refreshTableData = () => {
-    return setInterval(updateTableData, parseInt(refeshConfig.watchlist));
   };
 
   const removeMultipleStockInWathclist = async () => {
@@ -162,7 +156,13 @@ const WatchListClient = () => {
   }, [isLogin]);
 
   useEffect(() => {
-    updateTableData();
+    if (!!apiSuccess) {
+      updateTableData();
+      const intervalId = setInterval(() => {
+        updateTableData();
+      }, parseInt(refeshConfig.watchlist));
+      return () => clearInterval(intervalId);
+    }
   }, [requestPayload]);
 
   return (
