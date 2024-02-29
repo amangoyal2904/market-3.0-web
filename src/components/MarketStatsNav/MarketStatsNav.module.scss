@@ -9,7 +9,8 @@
     list-style-type: none;
     padding: 7px 15px 7px 0;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
+    font-weight: 700;
     .navWrapDiv {
       position: relative;
     }
@@ -29,32 +30,15 @@
   }
   ul.subNavWrap li {
     list-style-type: none;
-    padding: 2px 15px 2px 4px;
+    padding: 4px 8px;
     margin-left: 22px;
     font-size: 12px;
+    font-weight: 400;
     margin-bottom: 3px;
   }
   ul.subNavWrap li a:hover {
     color: red;
   }
-  // .collapsed {
-  //     .subNavWrap {
-  //       display: none;
-  //     }
-
-  // }
-  // .expanded {
-  //     .subNavWrap {
-  //         display: block;
-  //         li.active{
-  //             background-color: $salmon_secondary_50;
-  //         }
-  //     }
-  //     .caret_up:before {
-  //       rotate: -90deg;
-  //     }
-  // }
-
   .collapsed + .subNavWrap {
     display: none;
   }
@@ -62,6 +46,7 @@
     display: block;
     li.active {
       background-color: $salmon_secondary_50;
+      font-weight: 600;
     }
   }
 }
