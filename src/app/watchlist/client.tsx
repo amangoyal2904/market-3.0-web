@@ -156,11 +156,13 @@ const WatchListClient = () => {
   }, [isLogin]);
 
   useEffect(() => {
-    updateTableData();
-    const intervalId = setInterval(() => {
+    if (!!apiSuccess) {
       updateTableData();
-    }, parseInt(refeshConfig.watchlist));
-    return () => clearInterval(intervalId);
+      const intervalId = setInterval(() => {
+        updateTableData();
+      }, parseInt(refeshConfig.watchlist));
+      return () => clearInterval(intervalId);
+    }
   }, [requestPayload]);
 
   return (
