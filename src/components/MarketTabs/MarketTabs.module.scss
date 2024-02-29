@@ -22,16 +22,18 @@
       cursor: pointer;
       white-space: nowrap;
     }
-    li.active {
-      font-weight: 700;
-      position: relative;
-      &::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -12px;
-        border-bottom: solid 1px #000000;
+    li {
+      &.active {
+        font-weight: 700;
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -12px;
+          border-bottom: solid 2px #000000;
+        }
       }
     }
   }
@@ -136,14 +138,14 @@
     display: none;
     li {
       display: block;
-      padding: 2px 14px 2px 8px;
+      padding: 5px 10px;
       margin: 0;
       cursor: pointer;
       border-bottom: solid 1px #f3f3f3;
     }
     .active {
       &::after {
-        bottom: 0;
+        content: none;
       }
     }
   }
