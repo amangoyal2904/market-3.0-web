@@ -303,7 +303,7 @@ const MarketTabs = ({
               className={`${styles.btnStock} ${styles.stockBtn}`}
               onClick={addStockHandler}
             >
-              + Add Stocks
+              <i className={`${styles.icons} eticon_add`}></i>Add Stocks
             </span>
           ) : (
             ""
@@ -313,17 +313,17 @@ const MarketTabs = ({
             <>
               {showTableCheckBox ? (
                 <span
-                  className={`${styles.btnStock} ${styles.stockModifyBtn}`}
+                  className={styles.btnStock}
                   onClick={removeMultipleStockInWathclist}
                 >
                   Remove
                 </span>
               ) : (
                 <span
-                  className={`${styles.btnStock} ${styles.stockModifyBtn}`}
+                  className={styles.btnStock}
                   onClick={() => setShowTableCheckBox(true)}
                 >
-                  Edit
+                  <i className={`${styles.icons} eticon_edit`}></i>Edit
                 </span>
               )}
             </>
@@ -333,7 +333,7 @@ const MarketTabs = ({
 
           {showPersonalize ? (
             <span
-              className={`${styles.roundBtn} ${styles.editBtnPencil}`}
+              className={styles.roundBtn}
               onClick={() => userPersonaliseHandle()}
             >
               Personalise

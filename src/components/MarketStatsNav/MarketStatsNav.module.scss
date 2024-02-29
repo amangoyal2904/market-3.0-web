@@ -5,7 +5,7 @@
   box-sizing: border-box;
   position: sticky;
   top: 60px;
-  div.navWrapLi {
+  .navWrapLi {
     list-style-type: none;
     padding: 7px 15px 7px 0;
     cursor: pointer;
@@ -16,6 +16,9 @@
     .caret {
       margin-right: 10px;
       transition: transform 0.1s ease;
+    }
+    &.expanded {
+      font-weight: bold;
     }
   }
   ul.subNavWrap {
