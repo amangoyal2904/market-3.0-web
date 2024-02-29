@@ -3,15 +3,16 @@ import { useState, useEffect } from "react";
 
 import styles from "./MarketTabs.module.scss";
 
-import PersonaliseModel from "../PersonaliseModel/index";
-import CreateNewViewComponent from "../CreateNewView/index";
-import APIS_CONFIG from "../../network/api_config.json";
-import { APP_ENV } from "../../utils/index";
-import AddStockComponent from "../StockAdd/index";
-import { useStateContext } from "../../store/StateContext";
-import StockFilterNifty from "../StockFilterNifty/index";
-import DayFitler from "../DayFilter/index";
-import CreateScreenerModule from "../CreateScreenerModule/CreateScreener";
+import PersonaliseModel from "@/components/PersonaliseModel";
+import CreateNewViewComponent from "@/components/CreateNewView";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV, initSSOWidget } from "@/utils";
+import AddStockComponent from "@/components/StockAdd";
+import { useStateContext } from "@/store/StateContext";
+import StockFilterNifty from "@/components/StockFilterNifty";
+import DayFitler from "@/components/DayFilter";
+import CreateScreenerModule from "@/components/CreateScreenerModule/CreateScreener";
+import { fetchFilters } from "@/utils/utility";
 
 const MarketFiltersTab = ({
   data,
@@ -64,7 +65,7 @@ const MarketFiltersTab = ({
     if (isLogin) {
       setOpenPersonaliseModal(true);
     } else {
-      alert("Please login to first");
+      initSSOWidget();
     }
   };
   const updateTabsListDataHandler = async (updateData: any) => {
@@ -122,33 +123,11 @@ const MarketFiltersTab = ({
   };
   const handleChagneData = (id: any, name: string, selectedTab: string) => {
     setShowFilter(false);
-    sessionStorage.setItem("sr_filtervalue", id);
-    sessionStorage.setItem("sr_filtername", name);
-    sessionStorage.setItem("sr_filtertab", selectedTab);
-    //setFilterMenuTxtShow({ name: name, id: id, selectedTab: selectedTab });
     filterDataChange(id, name, selectedTab);
   };
-  const filterApiCall = () => {
-    try {
-      fetch(
-        "https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson",
-      )
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            console.log("error filer data is not fetch");
-          }
-        })
-        .then((data) => {
-          setFilterMenuData(data);
-        })
-        .catch((err) => {
-          console.log("get error", err);
-        });
-    } catch (error) {
-      console.log("error", error);
-    }
+  const filterApiCall = async () => {
+    const data = await fetchFilters();
+    setFilterMenuData(data);
   };
 
   useEffect(() => {

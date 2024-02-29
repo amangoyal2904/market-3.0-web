@@ -1,6 +1,5 @@
 "use client";
 import MarketTable from "@/components/MarketTable";
-import MarketTabs from "@/components/MarketTabs";
 import styles from "./stockScreener.module.scss";
 import { useEffect, useState } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
@@ -48,29 +47,6 @@ const StocksScreener = ({
 
   const onTabViewUpdate = async (viewId: any) => {
     console.log("viewId", viewId);
-    // const pagesize = 100;
-    // const pageno = 1;
-    // const sort: any = [];
-    // const activeViewId = viewId;
-    // const {
-    //   tableHeaderData,
-    //   tableData,
-    //   ivKey,
-    //   screenerDetail,
-    //   pageSummary,
-    //   allowSortFields,
-    // } = await useScreenerTable({
-    //   scrid,
-    //   sort,
-    //   pagesize,
-    //   pageno,
-    //   activeViewId
-    // });
-    // console.log('___tableDataivKey',ivKey)
-    // setActiveViewId(activeViewId);
-    // setTableData(tableData);
-    // setTableHeaderData(tableHeaderData);
-    // setIvKey(ivKey);
   };
 
   const updateOrAddParamToPath = (pathname: any, param: any, value: any) => {
@@ -148,7 +124,7 @@ const StocksScreener = ({
           <AsideNavComponets data={_l3Nav} activeId={scrid} />
         </aside>
         <div className={styles.rhs}>
-          <MarketTabs
+          {/* <MarketTabs
             data={_tabData}
             activeViewId={_activeViewId}
             tabsViewIdUpdate={onTabViewUpdate}
@@ -158,7 +134,7 @@ const StocksScreener = ({
             tabsUpdateHandler={TabsAndTableDataChangeHandler}
             tabConfig={tabConfig}
             runQueryhandler={runQueryHandlerFun}
-          />
+          /> */}
           <MarketTable
             data={_tableData}
             tableHeaders={_tableHeaderData}
