@@ -9,6 +9,7 @@ import { getCookie, getParameterByName } from "@/utils";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useStateContext } from "@/store/StateContext";
 import {
+  durationOptions,
   fetchViewTable,
   getSelectedFilter,
   updateOrAddParamToPath,
@@ -41,7 +42,8 @@ const MarketStats = ({
   const l3NavType = searchParams.get("type");
   const [dayFilterData, setDayFilterData] = useState({
     value: payload?.duration,
-    label: payload?.duration,
+    label: durationOptions.find((option) => option.value === payload?.duration)
+      ?.label,
   });
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
