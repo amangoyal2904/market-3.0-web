@@ -93,7 +93,10 @@ const FixedTable = (props: any) => {
               {tableHeaderData.map(
                 (tdData: any, index: number) =>
                   index <= 2 && (
-                    <td key={index} className={styles.inputWrapper}>
+                    <td
+                      key={index}
+                      className={`${styles.inputWrapper} ${tdData.keyId == "name" || tdData.keyId == "shortName" || tdData.keyId == "shortNameKeyword" ? styles.firstInput : ""}`}
+                    >
                       <span className={styles.searchWrapper}>
                         <input
                           className={`${styles.filterInput} ${
