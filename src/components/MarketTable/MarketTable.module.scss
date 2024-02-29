@@ -1,4 +1,4 @@
-@import "../../styles/variables.scss";
+@import "@/styles/variables.scss";
 
 .ellipses {
   overflow: hidden;
@@ -85,8 +85,8 @@
     position: relative;
     white-space: nowrap;
     padding: 15px 30px 15px 10px;
-    background-color: $gray_90;
-    border-right: 1px solid $gray_80;
+    background-color: $gray_95;
+    border-right: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
     border-right-style: solid;
     font-family: $Montserrat-font-family;

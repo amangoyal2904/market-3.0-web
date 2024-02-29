@@ -424,7 +424,7 @@ table {
 }
 
 /* Here Only Module Css start here */
-.customeScroll{
+.customeScroll {
   overflow-y: scroll;
 }
 .customeScroll::-webkit-scrollbar {
