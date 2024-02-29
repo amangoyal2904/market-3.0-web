@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import MarketTabs from "@/components/MarketTabs";
+import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
+import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import MarketTable from "@/components/MarketTable";
 import { useStateContext } from "@/store/StateContext";
 import { removeMultipleStockInWatchList } from "@/utils/utility";
@@ -20,7 +22,6 @@ const WatchListClient = () => {
   const [tableHeaderData, setTableHeaderData] = useState([]);
   const [activeViewId, setActiveViewId] = useState(null);
   const [_payload, setPayload] = useState({});
-
   const [showBlocker, setShowBlocker] = useState(false);
   const [apiSuccess, setAPISuccess] = useState(false);
 
@@ -172,7 +173,7 @@ const WatchListClient = () => {
           <Blocker type="loginBlocker" />
         ) : (
           <>
-            <MarketTabs
+            {/* <MarketTabs
               data={tabData}
               activeViewId={activeViewId}
               tabsViewIdUpdate={onTabViewUpdate}
@@ -183,7 +184,26 @@ const WatchListClient = () => {
               tabConfig={tabConfig["watchList"]}
               updateTableHander={updateTableHanderFun}
               onPersonalizeHandler={onPersonalizeHandlerfun}
-            />
+            /> */}
+            <div className={styles.tabsWrap}>
+              <LeftMenuTabs
+                data={tabData}
+                activeViewId={activeViewId}
+                tabsViewIdUpdate={onTabViewUpdate}
+              />
+              <MarketFiltersTab
+                data={tabData}
+                activeViewId={activeViewId}
+                tabsViewIdUpdate={onTabViewUpdate}
+                tabsUpdateHandler={onTabViewUpdate}
+                setShowTableCheckBox={setShowTableCheckBox}
+                showTableCheckBox={showTableCheckBox}
+                removeMultipleStockInWathclist={removeMultipleStockInWathclist}
+                tabConfig={tabConfig["watchList"]}
+                updateTableHander={updateTableHanderFun}
+                onPersonalizeHandler={onPersonalizeHandlerfun}
+              />
+            </div>
             <MarketTable
               data={tableData}
               tableHeaders={tableHeaderData}
