@@ -1,36 +1,21 @@
-//"use client";
-import APIS_CONFIG from "../../network/api_config.json";
+"use client";
+
+import MarketsDashboardWidget from "@/components/MarketsDashboardWidget";
 import StockRecommendations from "@/components/StockRecommendations";
-import service from "@/network/service";
-import { APP_ENV } from "@/utils";
-import { useEffect } from "react";
+import WatchlistWidget from "@/components/WatchlistWidget";
+import StockReportsPlus from "@/components/StockReportsPlus";
+import StockScreenerWidget from "@/components/ScreenerWidget";
+import LiveStreamWidget from "@/components/LiveStreamWidget";
 
-const Home = async () => {
-  const leftNavApi =
-    "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail";
-  const payload = {
-    apiType: "newRecos",
-    filterType: "",
-    filterValue: [],
-    recoType: "all",
-    pageSize: 100,
-    pageNumber: 1,
-  };
-  const headers = {
-    "Content-Type": "application/json",
-  };
-  const leftNavPromise = await service.post({
-    url: leftNavApi,
-    headers: headers,
-    body: JSON.stringify(payload),
-    params: {},
-  });
-  const leftNavResult123 = await leftNavPromise?.json();
-  console.log("leftNavResult345", leftNavResult123);
-
+const Home = () => {
   return (
     <>
+      <MarketsDashboardWidget />
+      <WatchlistWidget />
       <StockRecommendations />
+      <StockReportsPlus />
+      <StockScreenerWidget />
+      <LiveStreamWidget />
     </>
   );
 };

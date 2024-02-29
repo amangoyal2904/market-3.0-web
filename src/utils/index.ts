@@ -40,43 +40,48 @@ export const getCookie = (name: string) => {
 
 export const setCookieToSpecificTime = (
   name: string,
-  value: any,
-  days: number,
-  time: string | number,
-  seconds: number,
+  value: string | number | boolean,
+  days = 0,
+  time = 0,
+  seconds = 0,
+  domain = ".indiatimes.com",
 ) => {
   try {
-    const domain = document.domain;
-    let cookiestring = "";
-    if (name && value) {
-      cookiestring = name + "=" + encodeURIComponent(value) + "; expires=";
-      if (days) {
-        cookiestring +=
-          new Date(
-            new Date().getTime() + days * 24 * 60 * 60 * 1000,
-          ).toUTCString() +
-          "; domain=" +
-          domain +
-          "; path=/;";
-      }
-      if (time) {
-        cookiestring +=
-          new Date(new Date().toDateString() + " " + time).toUTCString() +
-          "; domain=" +
-          domain +
-          "; path=/;";
-      }
-      if (seconds) {
-        const exdate = new Date();
-        exdate.setSeconds(exdate.getSeconds() + seconds);
-        cookiestring +=
-          exdate.toUTCString() + "; domain=" + domain + "; path=/;";
-      }
+    let cookiestring = `${name}=${encodeURIComponent(value)};`;
+    const options = { domain: domain, path: "/" };
+
+    if (days) {
+      const expirationDate = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+      cookiestring += `expires=${expirationDate.toUTCString()};`;
     }
+
+    if (time) {
+      const date = new Date();
+      const [hours, minutes] = (time as any).split(":");
+      date.setHours(hours);
+      date.setMinutes(minutes);
+      cookiestring += `expires=${date.toUTCString()};`;
+    }
+
+    if (seconds) {
+      const expirationDate = new Date(Date.now() + seconds * 1000);
+      cookiestring += `expires=${expirationDate.toUTCString()};`;
+    }
+
+    cookiestring += `domain=${options.domain}; path=${options.path};`;
 
     document.cookie = cookiestring;
   } catch (e) {
-    console.log("setCookieToSpecificTime", e);
+    console.log("setCookieToSpecificTime Error:", e);
+  }
+};
+
+export const delete_cookie = (name: any) => {
+  try {
+    document.cookie =
+      name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+  } catch (err) {
+    console.log("delete_cookie Error: ", err);
   }
 };
 
@@ -183,7 +188,7 @@ export const ssoLoginWidget = () => {
         };
       sc.type = "text/javascript";
       if (sessionStorage.getItem("openLogin_popup") == "true") {
-        //sc.onload = objUser.initSSOWidget();
+        (sc as any).onload = initSSOWidget();
         sessionStorage.removeItem("openLogin_popup");
       }
       sc.src = s;
@@ -252,6 +257,7 @@ export const initSSOWidget = () => {
     signInCallback: function () {
       verifyLogin();
       ssoClose();
+      window.location.reload();
     },
     signupForm: {
       defaultFirstName: "Guest",
@@ -287,7 +293,8 @@ export const initSSOWidget = () => {
 export const logout = async () => {
   window?.jsso?.signOutUser(async function (response: any) {
     if (response.status == "SUCCESS") {
-      setCookieToSpecificTime("OTR", "", 0, 0, 0);
+      delete_cookie("OTR");
+      delete_cookie("isprimeuser");
 
       const url = (APIS_CONFIG as any)["LOGOUT_AUTH_TOKEN"][APP_ENV],
         oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],

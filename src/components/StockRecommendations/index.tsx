@@ -1,382 +1,99 @@
-"use client";
-import { useState, useEffect, useRef } from "react";
-import styles from "./Market.module.scss";
+import React, { useState, useEffect } from "react";
+import styles from "./StockRecommendations.module.scss";
+import StockReco from "../StockReco";
 import SlickSlider from "../SlickSlider";
+import service from "@/network/service";
 
 interface Slide {
   content: JSX.Element;
 }
-const StockRecommendations = () => {
-  const [activeTab, setActiveTab] = useState("tab1");
 
-  const handleTabClick = (tab: string) => {
+const StockRecommendations: React.FC = () => {
+  const tabNames = [
+    {
+      type: "newRecos",
+      name: "New Recos",
+    },
+    {
+      type: "mostBuy",
+      name: "Most Buy",
+    },
+    {
+      type: "mostSell",
+      name: "Most Sell",
+    },
+    {
+      type: "recoByFH",
+      name: "Reocs by Fund Houses",
+    },
+    {
+      type: "recoOnWL",
+      name: "Recos on Your Watchlist",
+    },
+  ];
+  const responsive = [
+    {
+      breakpoint: 1921,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      },
+    },
+    {
+      breakpoint: 1601,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      },
+    },
+    {
+      breakpoint: 1361,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+      },
+    },
+  ];
+  const [activeTab, setActiveTab] = useState(tabNames[0]);
+  const [stockData, setStockData] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchData(activeTab.type);
+  }, []);
+
+  const handleTabClick = (tab: any) => {
     setActiveTab(tab);
+    fetchData(tab.type);
   };
+  const getdotsnum = (a: any) => {
+    // alert(a)
+  };
+  const fetchData = async (type: any) => {
+    const stockReportAllTabApi =
+      "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail";
+    // console.log("@@type --- > " , type)
+    const payload = {
+      apiType: type,
+      filterType: "",
+      filterValue: [],
+      recoType: "all",
+      pageSize: 30,
+      pageNumber: 1,
+    };
 
-  const slides1: Slide[] = [
-    {
-      content: (
-        <div className={`${styles.stocksMain} ${styles.buyStock}`}>
-          <div className={styles.stocksBox}>
-            <div className={styles.stocksCallDates}>
-              <span className={styles.buySellTitle}>Buy</span>
-              <span className={styles.callDateBox}>
-                <span className={styles.callDateTitle}>Call Date:</span>
-                <span className={styles.callDate}>Sept 4, 2023</span>
-              </span>
-            </div>
-            <h2 className={styles.stocksTitle}>Tata Steel Pvt. Ltd.</h2>
-            <div className={styles.updownTargetBox}>
-              <div className={styles.potensialBox}>
-                <h3>Potential Upside</h3>
-                <h4>22.76%</h4>
-              </div>
-              <ul className={styles.targetBox}>
-                <li>
-                  <span>Target</span>
-                  <span>1150</span>
-                </li>
-                <li>
-                  <span>Price at Reco</span>
-                  <span>1284</span>
-                </li>
-                <li>
-                  <span>Current Price</span>
-                  <span>23,950.35</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <a href="javascript:void(0);" className={styles.viewReportBox}>
-            <span className={`eticon_srplus ${styles.pdfIcon}`}></span>
-            <span className={styles.viewReport}>View Report</span>
-          </a>
-          <div className={styles.brokerageBox}>
-            <span>Brokerage:</span>
-            <span>Motilal Oswal</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      content: (
-        <div className={`${styles.stocksMain} ${styles.sellStock}`}>
-          <div className={styles.stocksBox}>
-            <div className={styles.stocksCallDates}>
-              <span className={styles.buySellTitle}>Buy</span>
-              <span className={styles.callDateBox}>
-                <span className={styles.callDateTitle}>Call Date:</span>
-                <span className={styles.callDate}>Sept 4, 2023</span>
-              </span>
-            </div>
-            <h2 className={styles.stocksTitle}>Tata Steel Pvt. Ltd.</h2>
-            <div className={styles.updownTargetBox}>
-              <div className={styles.potensialBox}>
-                <h3>Potential Upside</h3>
-                <h4>22.76%</h4>
-              </div>
-              <ul className={styles.targetBox}>
-                <li>
-                  <span>Target</span>
-                  <span>1150</span>
-                </li>
-                <li>
-                  <span>Price at Reco</span>
-                  <span>1284</span>
-                </li>
-                <li>
-                  <span>Current Price</span>
-                  <span>23,950.35</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <a href="javascript:void(0);" className={styles.viewReportBox}>
-            <span className={`eticon_srplus ${styles.pdfIcon}`}></span>
-            <span className={styles.viewReport}>View Report</span>
-          </a>
-          <div className={styles.brokerageBox}>
-            <span>Brokerage:</span>
-            <span>Motilal Oswal</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      content: (
-        <div className={`${styles.stocksMain} ${styles.sellStock}`}>
-          <div className={styles.stocksBox}>
-            <div className={styles.stocksCallDates}>
-              <span className={styles.buySellTitle}>Buy</span>
-              <span className={styles.callDateBox}>
-                <span className={styles.callDateTitle}>Call Date:</span>
-                <span className={styles.callDate}>Sept 4, 2023</span>
-              </span>
-            </div>
-            <h2 className={styles.stocksTitle}>Tata Steel Pvt. Ltd.</h2>
-            <div className={styles.updownTargetBox}>
-              <div className={styles.potensialBox}>
-                <h3>Potential Upside</h3>
-                <h4>22.76%</h4>
-              </div>
-              <ul className={styles.targetBox}>
-                <li>
-                  <span>Target</span>
-                  <span>1150</span>
-                </li>
-                <li>
-                  <span>Price at Reco</span>
-                  <span>1284</span>
-                </li>
-                <li>
-                  <span>Current Price</span>
-                  <span>23,950.35</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <a href="javascript:void(0);" className={styles.viewReportBox}>
-            <span className={`eticon_srplus ${styles.pdfIcon}`}></span>
-            <span className={styles.viewReport}>View Report</span>
-          </a>
-          <div className={styles.brokerageBox}>
-            <span>Brokerage:</span>
-            <span>Motilal Oswal</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      content: (
-        <div className={`${styles.stocksMain} ${styles.buyStock}`}>
-          <div className={styles.stocksBox}>
-            <div className={styles.stocksCallDates}>
-              <span className={styles.buySellTitle}>Buy</span>
-              <span className={styles.callDateBox}>
-                <span className={styles.callDateTitle}>Call Date:</span>
-                <span className={styles.callDate}>Sept 4, 2023</span>
-              </span>
-            </div>
-            <h2 className={styles.stocksTitle}>Tata Steel Pvt. Ltd.</h2>
-            <div className={styles.updownTargetBox}>
-              <div className={styles.potensialBox}>
-                <h3>Potential Upside</h3>
-                <h4>22.76%</h4>
-              </div>
-              <ul className={styles.targetBox}>
-                <li>
-                  <span>Target</span>
-                  <span>1150</span>
-                </li>
-                <li>
-                  <span>Price at Reco</span>
-                  <span>1284</span>
-                </li>
-                <li>
-                  <span>Current Price</span>
-                  <span>23,950.35</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <a href="javascript:void(0);" className={styles.viewReportBox}>
-            <span className={`eticon_srplus ${styles.pdfIcon}`}></span>
-            <span className={styles.viewReport}>View Report</span>
-          </a>
-          <div className={styles.brokerageBox}>
-            <span>Brokerage:</span>
-            <span>Motilal Oswal</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      content: (
-        <div className={`${styles.stocksMain} ${styles.buyStock}`}>
-          <div className={styles.stocksBox}>
-            <div className={styles.stocksCallDates}>
-              <span className={styles.buySellTitle}>Buy</span>
-              <span className={styles.callDateBox}>
-                <span className={styles.callDateTitle}>Call Date:</span>
-                <span className={styles.callDate}>Sept 4, 2023</span>
-              </span>
-            </div>
-            <h2 className={styles.stocksTitle}>Tata Steel Pvt. Ltd.</h2>
-            <div className={styles.updownTargetBox}>
-              <div className={styles.potensialBox}>
-                <h3>Potential Upside</h3>
-                <h4>22.76%</h4>
-              </div>
-              <ul className={styles.targetBox}>
-                <li>
-                  <span>Target</span>
-                  <span>1150</span>
-                </li>
-                <li>
-                  <span>Price at Reco</span>
-                  <span>1284</span>
-                </li>
-                <li>
-                  <span>Current Price</span>
-                  <span>23,950.35</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <a href="javascript:void(0);" className={styles.viewReportBox}>
-            <span className={`eticon_srplus ${styles.pdfIcon}`}></span>
-            <span className={styles.viewReport}>View Report</span>
-          </a>
-          <div className={styles.brokerageBox}>
-            <span>Brokerage:</span>
-            <span>Motilal Oswal</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      content: (
-        <div className={`${styles.stocksMain} ${styles.sellStock}`}>
-          <div className={styles.stocksBox}>
-            <div className={styles.stocksCallDates}>
-              <span className={styles.buySellTitle}>Buy</span>
-              <span className={styles.callDateBox}>
-                <span className={styles.callDateTitle}>Call Date:</span>
-                <span className={styles.callDate}>Sept 4, 2023</span>
-              </span>
-            </div>
-            <h2 className={styles.stocksTitle}>Tata Steel Pvt. Ltd.</h2>
-            <div className={styles.updownTargetBox}>
-              <div className={styles.potensialBox}>
-                <h3>Potential Upside</h3>
-                <h4>22.76%</h4>
-              </div>
-              <ul className={styles.targetBox}>
-                <li>
-                  <span>Target</span>
-                  <span>1150</span>
-                </li>
-                <li>
-                  <span>Price at Reco</span>
-                  <span>1284</span>
-                </li>
-                <li>
-                  <span>Current Price</span>
-                  <span>23,950.35</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <a href="javascript:void(0);" className={styles.viewReportBox}>
-            <span className={`eticon_srplus ${styles.pdfIcon}`}></span>
-            <span className={styles.viewReport}>View Report</span>
-          </a>
-          <div className={styles.brokerageBox}>
-            <span>Brokerage:</span>
-            <span>Motilal Oswal</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      content: (
-        <div className={`${styles.stocksMain} ${styles.sellStock}`}>
-          <div className={styles.stocksBox}>
-            <div className={styles.stocksCallDates}>
-              <span className={styles.buySellTitle}>Buy</span>
-              <span className={styles.callDateBox}>
-                <span className={styles.callDateTitle}>Call Date:</span>
-                <span className={styles.callDate}>Sept 4, 2023</span>
-              </span>
-            </div>
-            <h2 className={styles.stocksTitle}>Tata Steel Pvt. Ltd.</h2>
-            <div className={styles.updownTargetBox}>
-              <div className={styles.potensialBox}>
-                <h3>Potential Upside</h3>
-                <h4>22.76%</h4>
-              </div>
-              <ul className={styles.targetBox}>
-                <li>
-                  <span>Target</span>
-                  <span>1150</span>
-                </li>
-                <li>
-                  <span>Price at Reco</span>
-                  <span>1284</span>
-                </li>
-                <li>
-                  <span>Current Price</span>
-                  <span>23,950.35</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <a href="javascript:void(0);" className={styles.viewReportBox}>
-            <span className={`eticon_srplus ${styles.pdfIcon}`}></span>
-            <span className={styles.viewReport}>View Report</span>
-          </a>
-          <div className={styles.brokerageBox}>
-            <span>Brokerage:</span>
-            <span>Motilal Oswal</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      content: (
-        <div className={`${styles.stocksMain} ${styles.buyStock}`}>
-          <div className={styles.stocksBox}>
-            <div className={styles.stocksCallDates}>
-              <span className={styles.buySellTitle}>Buy</span>
-              <span className={styles.callDateBox}>
-                <span className={styles.callDateTitle}>Call Date:</span>
-                <span className={styles.callDate}>Sept 4, 2023</span>
-              </span>
-            </div>
-            <h2 className={styles.stocksTitle}>Tata Steel Pvt. Ltd.</h2>
-            <div className={styles.updownTargetBox}>
-              <div className={styles.potensialBox}>
-                <h3>Potential Upside</h3>
-                <h4>22.76%</h4>
-              </div>
-              <ul className={styles.targetBox}>
-                <li>
-                  <span>Target</span>
-                  <span>1150</span>
-                </li>
-                <li>
-                  <span>Price at Reco</span>
-                  <span>1284</span>
-                </li>
-                <li>
-                  <span>Current Price</span>
-                  <span>23,950.35</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <a href="javascript:void(0);" className={styles.viewReportBox}>
-            <span className={`eticon_srplus ${styles.pdfIcon}`}></span>
-            <span className={styles.viewReport}>View Report</span>
-          </a>
-          <div className={styles.brokerageBox}>
-            <span>Brokerage:</span>
-            <span>Motilal Oswal</span>
-          </div>
-        </div>
-      ),
-    },
-  ];
-  const slides2: Slide[] = [
-    { content: <div>Slide 1 for Slider 2</div> },
-    { content: <div>Slide 2 for Slider 2</div> },
-    { content: <div>Slide 3 for Slider 2</div> },
-    { content: <div>Slide 4 for Slider 2</div> },
-    { content: <div>Slide 5 for Slider 2</div> },
-    { content: <div>Slide 6 for Slider 2</div> },
-    { content: <div>Slide 7 for Slider 2</div> },
-    { content: <div>Slide 8 for Slider 2</div> },
-  ];
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const stockReportAllTabPromise = await service.post({
+      url: stockReportAllTabApi,
+      headers: headers,
+      body: JSON.stringify(payload),
+      params: {},
+    });
+    const data = await stockReportAllTabPromise?.json();
+    setStockData(data?.recoData);
+    // console.log("@@fetchData --- > " , data)
+  };
 
   return (
     <div className={styles.wraper}>
@@ -384,41 +101,39 @@ const StockRecommendations = () => {
 
       <div className={styles.tabMainBox}>
         <ul className={styles.tabs}>
-          <li
-            className={`${styles.tab} ${activeTab === "tab1" ? styles.active : ""}`}
-            onClick={() => handleTabClick("tab1")}
-          >
-            Top Gainers
-          </li>
-          <li
-            className={`${styles.tab} ${activeTab === "tab2" ? styles.active : ""}`}
-            onClick={() => handleTabClick("tab2")}
-          >
-            Top Losers
-          </li>
-          <li
-            className={`${styles.tab} ${activeTab === "tab3" ? styles.active : ""}`}
-            onClick={() => handleTabClick("tab3")}
-          >
-            Most Traded
-          </li>
+          {tabNames.map((tab) => (
+            <li
+              key={tab.type}
+              className={`${styles.tab} ${activeTab.type === tab.type ? styles.active : ""}`}
+              onClick={() => handleTabClick(tab)}
+            >
+              {tab.name}
+            </li>
+          ))}
         </ul>
 
-        <div className={`${styles.tabContentWraper}`}>
+        <div className={styles.tabContentWraper}>
           <div
-            className={`${styles.tabContentBox} ${activeTab === "tab1" ? styles.active : ""}`}
+            className={`${styles.tabContentBox} ${activeTab.type === activeTab.type ? styles.active : ""}`}
           >
-            <SlickSlider slides={slides1.map((slide) => slide.content)} />
-          </div>
-          <div
-            className={`${styles.tabContentBox} ${activeTab === "tab2" ? styles.active : ""}`}
-          >
-            <SlickSlider slides={slides2.map((slide) => slide.content)} />
-          </div>
-          <div
-            className={`${styles.tabContentBox} ${activeTab === "tab3" ? styles.active : ""}`}
-          >
-            <p>Content for Tab 3</p>
+            <SlickSlider
+              slides={stockData[0]?.data?.map((card: any, index: any) => ({
+                content: (
+                  <StockReco
+                    data={card}
+                    key={index}
+                    activeTab={activeTab.type}
+                  />
+                ),
+              }))}
+              key={`slider${activeTab.type}`}
+              sliderId={`slider${activeTab.type}`}
+              dotsNum={getdotsnum}
+              slidesToShow={3}
+              slidesToScroll={3}
+              rows={2}
+              responsive={responsive}
+            />
           </div>
         </div>
       </div>

@@ -1,93 +1,105 @@
-import APIS_CONFIG from "../../../network/api_config.json";
-import styles from "../Marketstats.module.scss";
-import { APP_ENV } from "@/utils";
-import service from "@/network/service";
-import MarketStatsNav from "@/components/MarketStatsNav";
-import MarketStatsIntraDay from "../../../containers/IntraDay/index";
+import tableConfig from "@/utils/tableConfig.json";
+import tabConfig from "@/utils/tabConfig.json";
+import { cookies } from "next/headers";
+import { fnGenerateMetaData, getSelectedFilter } from "@/utils/utility";
+import { Metadata, ResolvingMetadata } from "next";
+import { getMarketStatsNav } from "@/utils/marketstats";
+import {
+  getCustomViewTable,
+  getCustomViewsTab,
+} from "@/utils/customViewAndTables";
+import MarketStats from "../client";
 
-const fetchTabsData = async (statstype: string) => {
-  const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?statstype=${statstype}`;
-  const data = await fetch(apiUrl, {
-    cache: "no-store",
+export async function generateMetadata(
+  { searchParams }: any,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const type = searchParams?.type;
+  const duration = searchParams.duration
+    ? searchParams.duration.toUpperCase()
+    : "1D";
+  const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
+
+  const { metaData } = await getMarketStatsNav({
+    type,
+    intFilter,
+    duration,
   });
-  const res = await data.json();
-  //console.log('res',res)
-  return res;
-};
 
-const fetchTableData = async (
-  type: any,
-  duration: any,
-  filter: any,
-  activeViewId: any,
-) => {
-  const apiUrl = (APIS_CONFIG as any)?.marketStatsIntraday["development"];
+  const meta = {
+    title: metaData[0]?.title,
+    desc: metaData[0]?.desc,
+    keywords: `et, etmarkets, economictimes, ${type}, ${duration}`,
+    index: false,
+  };
+  return fnGenerateMetaData(meta);
+}
+
+const Intraday = async ({ searchParams }: any) => {
+  const cookieStore = cookies();
+  const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
+  const ssoid = cookieStore.get("ssoid")?.value;
+  const type = searchParams?.type?.toLowerCase();
+  const duration = searchParams.duration
+    ? searchParams.duration.toUpperCase()
+    : "1D";
+  const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
+  const filter = !!intFilter ? [intFilter] : [];
+  const pagesize = 100;
+  const pageno = 1;
+  const sort: any = [];
+
+  const { l3Nav, metaData } = await getMarketStatsNav({
+    type,
+    intFilter,
+    duration,
+  });
+
+  const { tabData, activeViewId } = await getCustomViewsTab({
+    type,
+    ssoid,
+  });
+
   const bodyParams = {
     viewId: activeViewId,
     apiType: type,
-    duration: duration,
-    filterType: "index",
-    filterValue: [parseFloat(filter)],
-    sort: [{ field: "R1MonthReturn", order: "DESC" }],
-    pagesize: 100,
-    pageno: 1,
+    duration,
+    filterValue: filter,
+    filterType: !!filter && filter.length ? "index" : null,
+    sort,
+    pagesize,
+    pageno,
   };
-  //console.log(bodyParams, apiUrl)
-  const data = await fetch(apiUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(bodyParams),
-  });
-  //console.log("data", bodyParams);
-  const res = await data.json();
 
-  return res.dataList ? res.dataList : res;
-};
+  const { tableHeaderData, tableData, pageSummary, payload } =
+    await getCustomViewTable(
+      bodyParams,
+      isprimeuser,
+      ssoid,
+      "marketStatsIntraday",
+    );
 
-const Intraday = async ({ searchParams }: any) => {
-  const type = searchParams?.type;
-  const duration = searchParams?.duration;
-  const filter = searchParams?.filter;
-  const leftNavApi = (APIS_CONFIG as any)["MARKET_STATS_NAV"][APP_ENV];
-  console.log("Left Nav APi", leftNavApi);
-  const leftNavPromise = await service.get({
-    url: leftNavApi,
-    cache: true,
-    params: {},
-  });
-  const leftNavResult = await leftNavPromise?.json();
-  const tabData = await fetchTabsData(type);
-  let activeViewId = tabData[0].viewId;
-  let tableData = await fetchTableData(type, duration, filter, activeViewId);
-  const tableHeaderData =
-    tableData && tableData.length && tableData[0] && tableData[0]?.data
-      ? tableData[0]?.data
-      : [];
-  const TabsData: any = {
-    data: tabData,
-    activeViewId: activeViewId,
-    showAddStock: false,
-    showEditStock: false,
-    showNiftyFilter: true,
-    showDayFilter: true,
-  };
-  const TableData: any = {
-    data: tableData,
-    tableHeaders: tableHeaderData,
-  };
+  const selectedFilter = await getSelectedFilter(intFilter);
+
   return (
     <>
-      <h1 className="heading">Top Gainers</h1>
-      <div className={styles.marketstatsContainer}>
-        <aside className={styles.lhs}>
-          <MarketStatsNav leftNavResult={leftNavResult} />
-        </aside>
-        <div className={styles.rhs}>
-          <MarketStatsIntraDay tabsData={TabsData} tableData={TableData} />
-        </div>
-      </div>
+      <MarketStats
+        l3Nav={l3Nav}
+        metaData={metaData[0]}
+        tabData={tabData}
+        activeViewId={activeViewId}
+        tableHeaderData={tableHeaderData}
+        tableData={tableData}
+        pageSummary={pageSummary}
+        selectedFilter={selectedFilter}
+        isTechnical={false}
+        technicalCategory={null}
+        tableConfig={tableConfig["marketStatsIntrday"]}
+        tabConfig={tabConfig["marketStatsIntrday"]}
+        payload={payload}
+        ssoid={ssoid}
+        isprimeuser={isprimeuser}
+      />
     </>
   );
 };

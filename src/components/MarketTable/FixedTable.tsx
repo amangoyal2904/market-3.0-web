@@ -1,6 +1,9 @@
 import React from "react";
 import styles from "./MarketTable.module.scss";
 import { getStockUrl } from "@/utils/utility";
+import Link from "next/link";
+import GLOBAL_CONFIG from "@/network/global_config.json";
+import { APP_ENV } from "@/utils";
 
 const FixedTable = (props: any) => {
   const {
@@ -14,9 +17,16 @@ const FixedTable = (props: any) => {
     tableDataList,
     handleFilterChange,
     hideThead = false,
+    isPrime = false,
     showRemoveCheckbox = false,
     removeCheckBoxHandle,
+    tableConfig = {},
   } = props || {};
+  const {
+    showFilterInput = true,
+    isSorting = true,
+    isHeaderSticky = true,
+  } = tableConfig || {};
 
   return (
     <div
@@ -28,12 +38,18 @@ const FixedTable = (props: any) => {
         <thead
           style={{
             transform: `translateY(${
-              headerSticky > topScrollHeight
-                ? headerSticky - topScrollHeight
+              isHeaderSticky
+                ? headerSticky > topScrollHeight
+                  ? headerSticky - topScrollHeight
+                  : 0
                 : 0
             }px)`,
           }}
-          className={hideThead && tableDataList.length ? styles.hideThead : ""}
+          className={
+            isHeaderSticky && hideThead && tableDataList.length
+              ? styles.hideThead
+              : ""
+          }
           id="thead"
         >
           <tr className={styles.leftThWrapper}>
@@ -42,22 +58,28 @@ const FixedTable = (props: any) => {
                 index <= 2 && (
                   <th
                     onClick={() => {
-                      handleSort(thead.keyId);
+                      isSorting ? handleSort(thead.keyId) : null;
                     }}
-                    className={`${thead.keyId == "name" ? styles.firstTh : styles.enableSort}`}
+                    className={`${thead.keyId == "name" || thead.keyId == "shortName" || thead.keyId == "shortNameKeyword" ? styles.firstTh : isSorting ? styles.enableSort : ""}`}
                     key={thead.keyId}
                   >
                     {thead.keyText}
-                    {thead.keyId && (
+                    {isSorting && thead.keyId && (
                       <span className={`${styles.sortIcons}`}>
                         <span
                           className={`${
-                            sortData[thead.keyId] == "asc" ? styles.asc : ""
+                            sortData.field == thead.keyId &&
+                            sortData.order == "asc"
+                              ? styles.asc
+                              : ""
                           } eticon_up_arrow`}
                         ></span>
                         <span
                           className={`${
-                            sortData[thead.keyId] == "desc" ? styles.desc : ""
+                            sortData.field == thead.keyId &&
+                            sortData.order == "desc"
+                              ? styles.desc
+                              : ""
                           } eticon_down_arrow`}
                         ></span>
                       </span>
@@ -66,34 +88,42 @@ const FixedTable = (props: any) => {
                 ),
             )}
           </tr>
-          <tr>
-            {tableHeaderData.map(
-              (tdData: any, index: number) =>
-                index <= 2 && (
-                  <td key={index} className={styles.inputWrapper}>
-                    <span className={styles.searchWrapper}>
-                      <input
-                        className={`${styles.filterInput} ${
-                          tdData.keyId == "name" ? styles.filterInputFirst : ""
-                        }`}
-                        type="text"
-                        name={tdData.keyId}
-                        data-type={tdData.valueType}
-                        value={filters[tdData.keyId] || ""}
-                        onChange={handleFilterChange}
-                        maxLength={20}
-                        placeholder={
-                          tdData.keyId == "name" ? "Search Value" : "> #"
-                        }
-                      ></input>
-                      {tdData.keyId == "name" && (
+          {showFilterInput && (
+            <tr>
+              {tableHeaderData.map(
+                (tdData: any, index: number) =>
+                  index <= 2 && (
+                    <td key={index} className={styles.inputWrapper}>
+                      <span className={styles.searchWrapper}>
+                        <input
+                          className={`${styles.filterInput} ${
+                            tdData.keyId == "name" ||
+                            tdData.keyId == "shortName" ||
+                            tdData.keyId == "shortNameKeyword"
+                              ? styles.filterInputFirst
+                              : ""
+                          }`}
+                          type="text"
+                          name={tdData.keyId}
+                          data-type={tdData.valueType}
+                          value={filters[tdData.keyId] || ""}
+                          onChange={handleFilterChange}
+                          maxLength={20}
+                          placeholder={
+                            tdData.keyId == "name" ||
+                            tdData.keyId == "shortName" ||
+                            tdData.keyId == "shortNameKeyword"
+                              ? "Search Value"
+                              : "> #"
+                          }
+                        ></input>
                         <span className="eticon_search"></span>
-                      )}
-                    </span>
-                  </td>
-                ),
-            )}
-          </tr>
+                      </span>
+                    </td>
+                  ),
+              )}
+            </tr>
+          )}
         </thead>
         {tableDataList.length > 0 ? (
           <tbody>
@@ -103,8 +133,13 @@ const FixedTable = (props: any) => {
                   {item.data.map(
                     (tdData: any, index: number) =>
                       index <= 2 &&
-                      (tdData.keyId == "name" ? (
-                        <td key={index} className={styles.fixedTD}>
+                      (tdData.keyId == "name" ||
+                      tdData.keyId == "shortName" ||
+                      tdData.keyId == "shortNameKeyword" ? (
+                        <td
+                          key={index}
+                          className={`${styles.fixedTD} ${styles.companyName}`}
+                        >
                           <div className={styles.tdColWrap}>
                             {showRemoveCheckbox ? (
                               <div className={styles.formGroup}>
@@ -125,6 +160,7 @@ const FixedTable = (props: any) => {
                               ""
                             )}
                             <a
+                              className={styles.ellipses}
                               href={getStockUrl(
                                 item.assetId,
                                 !!item.assetSeoName
@@ -133,7 +169,11 @@ const FixedTable = (props: any) => {
                                 item.assetType,
                               )}
                               target="_blank"
-                              title={tdData.value}
+                              title={`${tdData.value} ${
+                                item.assetType.toLowerCase() != "equity"
+                                  ? `(${item.assetType.toUpperCase()})`
+                                  : ""
+                              }`}
                             >
                               {tdData.value}{" "}
                               {item.assetType != "" &&
@@ -145,28 +185,46 @@ const FixedTable = (props: any) => {
                         </td>
                       ) : (
                         <td
-                          className={`${styles.fixedTD} ${tdData.trend} ${
-                            tdData.valueType == "number" ? "numberFonts" : ""
+                          className={`${!tdData.primeFlag || isPrime ? tdData.trend : ""} ${
+                            tdData.valueType == "number" &&
+                            (!tdData.primeFlag || isPrime)
+                              ? "numberFonts"
+                              : tdData.primeFlag
+                                ? styles.primeTd
+                                : ""
                           }`}
                           key={index}
                         >
-                          {tdData.value.replaceAll(" ", "")}
-                          {tdData.trend && (
-                            <span
-                              className={`${styles.arrowIcons} ${
-                                tdData.trend == "up"
-                                  ? "eticon_up_arrow"
-                                  : tdData.trend == "down"
-                                    ? "eticon_down_arrow"
-                                    : ""
+                          {!isPrime && tdData.primeFlag ? (
+                            <Link
+                              href={`${
+                                (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]
                               }`}
-                            />
+                              data-ga-onclick="Subscription Flow#Upgrade to Prime#table - url"
+                            >
+                              Upgrade to Prime
+                            </Link>
+                          ) : (
+                            <>
+                              {tdData.value.replaceAll(" ", "")}
+                              {tdData.trend && (
+                                <span
+                                  className={`${styles.arrowIcons} ${
+                                    tdData.trend == "up"
+                                      ? "eticon_up_arrow"
+                                      : tdData.trend == "down"
+                                        ? "eticon_down_arrow"
+                                        : ""
+                                  }`}
+                                />
+                              )}
+                            </>
                           )}
                         </td>
                       )),
                   )}
                 </tr>
-              ))}{" "}
+              ))}
             </>
           </tbody>
         ) : (

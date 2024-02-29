@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  .lhs {
+    width: 200px;
+  }
+  .rhs {
+    width: calc(100% - 200px);
+  }
+}

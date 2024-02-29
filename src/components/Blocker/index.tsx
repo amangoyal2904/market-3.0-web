@@ -1,15 +1,19 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import styles from "./Blocker.module.scss";
 import { initSSOWidget } from "../../utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
+import AddStockComponent from "../StockAdd";
 
 interface propsType {
   type: any;
+  updateTableHander?: any;
 }
 
 const handleLoginToggle = (): void => {
   initSSOWidget();
 };
+
 const blockerList: any = {
   loginBlocker: {
     message: "To access watchlist data please login here",
@@ -38,20 +42,42 @@ const blockerList: any = {
   },
 };
 const Blocker = (props: propsType) => {
-  const { type } = props;
+  const [addStockShow, setAddStockShow] = useState(false);
+  const { type, updateTableHander } = props;
   const { message, cta, action, icon } = blockerList[type] || {};
+
+  const moduelClose = () => {
+    setAddStockShow(false);
+  };
+
+  const handleAddStocks = () => {
+    setAddStockShow(true);
+  };
+
   return (
-    <div className={styles.blockerContainer}>
-      {icon && (
-        <img
-          width={150}
-          height={150}
-          src={(GLOBAL_CONFIG as any).ET_IMG_DOMAIN + `/photo/${icon}.cms`}
+    <>
+      <div className={styles.blockerContainer}>
+        {icon && (
+          <img
+            width={150}
+            height={150}
+            src={(GLOBAL_CONFIG as any).ET_IMG_DOMAIN + `/photo/${icon}.cms`}
+          />
+        )}
+        {message && <p>{message}</p>}
+        {cta && (
+          <button onClick={cta == "Add Stocks" ? handleAddStocks : action}>
+            {cta}
+          </button>
+        )}
+      </div>
+      {addStockShow ? (
+        <AddStockComponent
+          moduelClose={setAddStockShow}
+          updateTableHander={updateTableHander}
         />
-      )}
-      {message && <p>{message}</p>}
-      {cta && <button onClick={action}>{cta}</button>}
-    </div>
+      ) : null}
+    </>
   );
 };
 export default Blocker;

@@ -65,9 +65,17 @@
     "development": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData",
     "production": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData"
   },
+  "movingAverages": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/moving-averages",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/moving-averages"
+  },
   "marketStatsIntraday": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats",
     "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"
+  },
+  "liveStream": {
+    "development": "https://json.bselivefeeds.indiatimes.com/ET_WebCast/getEventData",
+    "production": "https://etwebcast.indiatimes.com/ET_WebCast/getEventData"
   },
   "marketStatsIntradayNextJs": {
     "development": "http://localhost:3009/api/intradaystats",
@@ -204,5 +212,33 @@
   "MARKET_STATUS": {
     "development": "https://bselivefeeds.indiatimes.com/ET_Community/holidaylist",
     "production": "https://json.bselivefeeds.indiatimes.com/ET_Community/holidaylist"
+  },
+  "SCREENER": {
+    "getAllScreenerlist": {
+      "development": [
+        "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
+      ],
+      "production": [
+        "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
+      ]
+    },
+    "screenerListTab": {
+      "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
+      "production": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview"
+    },
+    "getAllScreenerNextJsAPI": {
+      "development": ["http://localhost:3009/api/screener"],
+      "production": [
+        "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
+      ]
+    },
+    "getScreenerByScreenerId": {
+      "development": [
+        "https://qcbselivefeeds.indiatimes.com/screener/getScreenerByScreenerId"
+      ],
+      "production": [
+        "https://qcbselivefeeds.indiatimes.com/screener/getScreenerByScreenerId"
+      ]
+    }
   }
 }

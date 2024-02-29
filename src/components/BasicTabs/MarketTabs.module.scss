@@ -1,0 +1,184 @@
+.tabsWrap {
+  display: flex;
+  border-bottom: solid 1px #cdcdcd;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px 10px 0;
+  column-gap: 30px;
+  .tabsList {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    column-gap: 10px;
+    width: calc(100% - 400px);
+    li {
+      font-family: Montserrat;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    li.active {
+      font-weight: 700;
+      position: relative;
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -12px;
+        border-bottom: solid 1px #000000;
+      }
+    }
+  }
+}
+.rightSide {
+  margin: 0;
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 10px;
+  align-items: center;
+  width: 400px;
+  .btnStock {
+    cursor: pointer;
+    color: #2b74e3;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+  }
+  .roundBtn {
+    cursor: pointer;
+    border-radius: 100px;
+    border: 1px solid #000;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    padding: 5px 10px;
+    white-space: nowrap;
+  }
+  .stockBtn {
+    border-right: solid 1px #000000;
+    padding-right: 8px;
+    white-space: nowrap;
+  }
+  .stockModifyBtn {
+    position: relative;
+    padding-left: 14px;
+    &::after {
+      content: "";
+      position: absolute;
+      left: -2px;
+      top: 2px;
+      display: inline-block;
+      vertical-align: top;
+      width: 10px;
+      height: 10px;
+      background: url("https://img.etimg.com/photo/msid-107279657,quality-100/editPancel.jpg")
+        no-repeat 0 0;
+    }
+  }
+  .editBtnPencil {
+    position: relative;
+    padding-left: 30px;
+    &::after {
+      content: "";
+      display: inline-block;
+      vertical-align: top;
+      position: absolute;
+      left: 10px;
+      top: 4px;
+      background: url("https://img.etimg.com/photo/msid-107279926,quality-100/tableexit.jpg")
+        no-repeat 0 0;
+      width: 16px;
+      height: 16px;
+    }
+  }
+  .filterNseBse {
+    position: relative;
+  }
+  .fitlerDay {
+    position: relative;
+  }
+  .exportIcon {
+    position: relative;
+    padding-left: 30px;
+    padding-right: 26px;
+    &::after {
+      content: "";
+      display: inline-block;
+      vertical-align: top;
+      position: absolute;
+      left: 10px;
+      top: 4px;
+      background: url("https://img.etimg.com/photo/msid-107280025,quality-100/export.jpg")
+        no-repeat 0 0;
+      width: 16px;
+      height: 16px;
+    }
+    &::before {
+      content: "";
+      display: inline-block;
+      vertical-align: top;
+      position: absolute;
+      right: 13px;
+      top: 10px;
+      border-left: solid 5px transparent;
+      border-right: solid 5px transparent;
+      border-top: solid 5px #000;
+    }
+  }
+}
+//
+.moreTabWrap {
+  margin: 0;
+  position: relative;
+  .moreSec {
+    position: relative;
+    padding-right: 20px;
+    .moreCaretDown {
+      display: inline-block;
+      vertical-align: top;
+      position: absolute;
+      top: 3px;
+      right: 2px;
+      font-size: 18px;
+    }
+  }
+}
+.tabsList li {
+  &:hover {
+    .moreListItem {
+      display: block;
+    }
+  }
+  .moreListItem {
+    list-style-type: none;
+    position: absolute;
+    z-index: 5;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    border: solid 1px #f3f3f3;
+    background-color: #fff;
+    top: 22px;
+    left: 0;
+    padding: 2px 0 0 0;
+    display: none;
+    li {
+      display: block;
+      padding: 2px 14px 2px 8px;
+      margin: 0;
+      cursor: pointer;
+      border-bottom: solid 1px #f3f3f3;
+    }
+    .active {
+      &::after {
+        bottom: 0;
+      }
+    }
+  }
+}

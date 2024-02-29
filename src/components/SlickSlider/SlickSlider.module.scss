@@ -2,8 +2,7 @@
   position: relative;
   .slick-slider {
     position: relative;
-    button,
-    ul {
+    button {
       display: none !important;
     }
   }
@@ -34,23 +33,11 @@
         }
       }
     }
-    .commonDots {
-      ul {
-        position: static;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: auto;
-        margin: 0 10px;
-        li {
-          position: static;
-          height: 8px;
-          width: 8px;
-          margin: 0 4px;
-          border-radius: 100px;
-          background-color: #ccc;
-        }
-      }
-    }
   }
+}
+.screener {
+  top: -25px !important;
+}
+.liveStream {
+  top: -45px !important;
 }

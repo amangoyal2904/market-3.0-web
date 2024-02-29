@@ -4,9 +4,9 @@ import styles from "./styles.module.scss";
 interface StockSRFilterProps {
   data: { keyIndices: any; sectoralIndices: any; otherIndices: any; all: any };
   onclick: (value: boolean) => void;
-  valuechange: (id: string, name: string, slectedTab: string) => void;
+  valuechange: (id: string, name: string, selectedTab: string) => void;
   selectTab: string;
-  childMenuTabAcive?: string;
+  childMenuTabActive?: string;
   showFilter: boolean;
 }
 
@@ -15,10 +15,10 @@ export default function StockFilterNifty({
   onclick,
   valuechange,
   selectTab,
-  childMenuTabAcive,
+  childMenuTabActive,
   showFilter,
 }: StockSRFilterProps) {
-  const activeFilterValue = sessionStorage.sr_filtervalue;
+  const activeFilterValue = childMenuTabActive;
   const activeIndex =
     (!!activeFilterValue &&
       data.keyIndices.nse.some(
@@ -43,8 +43,8 @@ export default function StockFilterNifty({
           : 3;
   const [nseBseMenuSelect, setNseBseMenuSelect] = useState(selectTab);
   const [activeItem, setActiveItem] = useState<number | null>(activeIndex);
-  const childTabMenuActive =
-    childMenuTabAcive && childMenuTabAcive !== "" ? childMenuTabAcive : "";
+  // const childTabMenuActive =
+  //   childMenuTabActive && childMenuTabActive !== "" ? childMenuTabActive : "";
   const popupRef = useRef<HTMLDivElement | null>(null);
   const handleClickOutside = (event: any) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
@@ -65,8 +65,8 @@ export default function StockFilterNifty({
     setActiveItem(index);
   };
   const clickFilterMenu = (name: any, indexid: any) => {
-    const slectedTab = nseBseMenuSelect;
-    valuechange(indexid, name, slectedTab);
+    const selectedTab = nseBseMenuSelect;
+    valuechange(indexid, name, selectedTab);
   };
   useEffect(() => {
     if (showFilter) {
@@ -120,7 +120,7 @@ export default function StockFilterNifty({
                             clickFilterMenu(item.name, item.indexId)
                           }
                           className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                            childTabMenuActive === item.indexId
+                            childMenuTabActive === item.indexId
                               ? styles.selectedMenu
                               : ""
                           }`}
@@ -137,7 +137,7 @@ export default function StockFilterNifty({
                             clickFilterMenu(item.name, item.indexId)
                           }
                           className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                            childTabMenuActive === item.indexId
+                            childMenuTabActive === item.indexId
                               ? styles.selectedMenu
                               : ""
                           }`}
@@ -168,7 +168,7 @@ export default function StockFilterNifty({
                             clickFilterMenu(item.name, item.indexId)
                           }
                           className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                            childTabMenuActive === item.indexId
+                            childMenuTabActive === item.indexId
                               ? styles.selectedMenu
                               : ""
                           }`}
@@ -185,7 +185,7 @@ export default function StockFilterNifty({
                             clickFilterMenu(item.name, item.indexId)
                           }
                           className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                            childTabMenuActive === item.indexId
+                            childMenuTabActive === item.indexId
                               ? styles.selectedMenu
                               : ""
                           }`}
@@ -214,7 +214,7 @@ export default function StockFilterNifty({
                             clickFilterMenu(item.name, item.indexId)
                           }
                           className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                            childTabMenuActive === item.indexId
+                            childMenuTabActive === item.indexId
                               ? styles.selectedMenu
                               : ""
                           }`}
@@ -231,7 +231,7 @@ export default function StockFilterNifty({
                             clickFilterMenu(item.name, item.indexId)
                           }
                           className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                            childTabMenuActive === item.indexId
+                            childMenuTabActive === item.indexId
                               ? styles.selectedMenu
                               : ""
                           }`}
