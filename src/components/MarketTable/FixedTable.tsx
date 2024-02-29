@@ -60,7 +60,7 @@ const FixedTable = (props: any) => {
                     onClick={() => {
                       isSorting ? handleSort(thead.keyId) : null;
                     }}
-                    className={`${thead.keyId == "name" ? styles.firstTh : isSorting ? styles.enableSort : ""}`}
+                    className={`${thead.keyId == "name" || thead.keyId == "shortName" || thead.keyId == "shortNameKeyword" ? styles.firstTh : isSorting ? styles.enableSort : ""}`}
                     key={thead.keyId}
                   >
                     {thead.keyText}
@@ -97,7 +97,9 @@ const FixedTable = (props: any) => {
                       <span className={styles.searchWrapper}>
                         <input
                           className={`${styles.filterInput} ${
-                            tdData.keyId == "name"
+                            tdData.keyId == "name" ||
+                            tdData.keyId == "shortName" ||
+                            tdData.keyId == "shortNameKeyword"
                               ? styles.filterInputFirst
                               : ""
                           }`}
@@ -108,7 +110,11 @@ const FixedTable = (props: any) => {
                           onChange={handleFilterChange}
                           maxLength={20}
                           placeholder={
-                            tdData.keyId == "name" ? "Search Value" : "> #"
+                            tdData.keyId == "name" ||
+                            tdData.keyId == "shortName" ||
+                            tdData.keyId == "shortNameKeyword"
+                              ? "Search Value"
+                              : "> #"
                           }
                         ></input>
                         <span className="eticon_search"></span>
@@ -127,8 +133,13 @@ const FixedTable = (props: any) => {
                   {item.data.map(
                     (tdData: any, index: number) =>
                       index <= 2 &&
-                      (tdData.keyId == "name" ? (
-                        <td key={index} className={styles.fixedTD}>
+                      (tdData.keyId == "name" ||
+                      tdData.keyId == "shortName" ||
+                      tdData.keyId == "shortNameKeyword" ? (
+                        <td
+                          key={index}
+                          className={`${styles.fixedTD} ${styles.companyName}`}
+                        >
                           <div className={styles.tdColWrap}>
                             {showRemoveCheckbox ? (
                               <div className={styles.formGroup}>
@@ -161,7 +172,7 @@ const FixedTable = (props: any) => {
                               title={`${tdData.value} ${
                                 item.assetType.toLowerCase() != "equity"
                                   ? `(${item.assetType.toUpperCase()})`
-                                  : null
+                                  : ""
                               }`}
                             >
                               {tdData.value}{" "}

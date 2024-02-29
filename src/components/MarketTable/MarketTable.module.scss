@@ -132,6 +132,12 @@
   .fixedTD {
     max-width: 100px;
     overflow: hidden;
+    &.companyName:hover {
+      background: #f4f4f4;
+      a {
+        text-decoration: underline;
+      }
+    }
   }
 
   .fixedTr {
