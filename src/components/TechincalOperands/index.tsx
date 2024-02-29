@@ -30,6 +30,14 @@ const TechincalOperands = ({ technicalCategory }: any) => {
     setSecondOperand(event.target.value);
   };
 
+  const handleTextChange = (e: any) => {
+    const { value } = e.target;
+    const validNum = /^\d+$/;
+    if (validNum.test(value) || value === "") {
+      setSecondOperand(value);
+    }
+  };
+
   const onSumbitHandler = () => {
     let url = `${pathname}?${searchParams}`;
     const type = searchParams.get("type");
@@ -81,8 +89,9 @@ const TechincalOperands = ({ technicalCategory }: any) => {
       ) : (
         <input
           className={styles.formControl}
-          type="number"
+          type="text"
           value={secondOperand}
+          onChange={handleTextChange}
         />
       )}
       <div className={styles.blackCTA} onClick={onSumbitHandler}>
