@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import MarketTabs from "@/components/MarketTabs";
 import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import MarketTable from "@/components/MarketTable";
@@ -173,19 +172,7 @@ const WatchListClient = () => {
           <Blocker type="loginBlocker" />
         ) : (
           <>
-            {/* <MarketTabs
-              data={tabData}
-              activeViewId={activeViewId}
-              tabsViewIdUpdate={onTabViewUpdate}
-              tabsUpdateHandler={onTabViewUpdate}
-              setShowTableCheckBox={setShowTableCheckBox}
-              showTableCheckBox={showTableCheckBox}
-              removeMultipleStockInWathclist={removeMultipleStockInWathclist}
-              tabConfig={tabConfig["watchList"]}
-              updateTableHander={updateTableHanderFun}
-              onPersonalizeHandler={onPersonalizeHandlerfun}
-            /> */}
-            <div className={styles.tabsWrap}>
+            <div className="tabsWrap">
               <LeftMenuTabs
                 data={tabData}
                 activeViewId={activeViewId}
