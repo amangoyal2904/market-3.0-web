@@ -35,7 +35,11 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
               : [];
           const addFollowFlag = filterData.map((stock: any) => {
             const followData = watchlistStock.find(
-              (wathcList: any) => wathcList.prefDataVal === stock.tagId,
+              (watchlist: any) =>
+                watchlist.prefDataVal === stock.tagId &&
+                ((watchlist.companyType === "equity" &&
+                  stock.entityType === "company") ||
+                  watchlist.companyType === stock.subType),
             );
             const data = followData
               ? { ...stock, follow: "yes" }
@@ -44,7 +48,6 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
           });
 
           setViewStocks(addFollowFlag);
-          //console.log('followData',addFollowFlag)
         })
         .catch((err) => {
           console.log(err);
@@ -53,7 +56,6 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
   };
   const addStockInWatchlistHandler = (companyData: any, action: any) => {
     // ===
-    //console.log('companyData',companyData)
     const companytType =
       companyData.entityType === "company" && !companyData.subType
         ? "equity"
@@ -181,6 +183,7 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
       setWatchlistStock(data);
     }
   };
+  // console.log('___WatchlistStock',watchlistStock)
   useEffect(() => {
     const handleClickOutsidePopup = (e: any) => {
       if (
