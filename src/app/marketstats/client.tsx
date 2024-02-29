@@ -1,7 +1,8 @@
 "use client";
 import MarketStatsNav from "@/components/MarketStatsNav";
 import MarketTable from "@/components/MarketTable";
-import MarketTabs from "@/components/MarketTabs";
+import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
+import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
 import { getCookie, getParameterByName } from "@/utils";
@@ -32,7 +33,10 @@ const MarketStats = ({
   const searchParams = useSearchParams();
   const router = useRouter();
   const l3NavType = searchParams.get("type");
-
+  const [dayFilterData, setDayFilterData] = useState({
+    value: payload?.duration.toLowerCase(),
+    label: payload?.duration,
+  });
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
   const [_payload, setPayload] = useState(payload);
@@ -138,7 +142,6 @@ const MarketStats = ({
   useEffect(() => {
     updateTableData();
   }, [_payload]);
-
   return (
     <>
       <h1
@@ -157,16 +160,25 @@ const MarketStats = ({
           {isTechnical && (
             <TechincalOperands technicalCategory={technicalCategory} />
           )}
-          <MarketTabs
-            data={_tabData}
-            activeViewId={_activeViewId}
-            tabsViewIdUpdate={onTabViewUpdate}
-            filterDataChange={filterDataChangeHander}
-            niftyFilterData={niftyFilterData}
-            dayFitlerHanlderChange={dayFitlerHanlderChange}
-            tabsUpdateHandler={TabsAndTableDataChangeHandler}
-            tabConfig={tabConfig}
-          />
+          <div className="tabsWrap">
+            <LeftMenuTabs
+              data={_tabData}
+              activeViewId={_activeViewId}
+              tabsViewIdUpdate={onTabViewUpdate}
+            />
+            <MarketFiltersTab
+              data={_tabData}
+              activeViewId={_activeViewId}
+              tabsViewIdUpdate={onTabViewUpdate}
+              filterDataChange={filterDataChangeHander}
+              niftyFilterData={niftyFilterData}
+              dayFitlerHanlderChange={dayFitlerHanlderChange}
+              tabsUpdateHandler={TabsAndTableDataChangeHandler}
+              tabConfig={tabConfig}
+              dayFilterData={dayFilterData}
+              setDayFilterData={setDayFilterData}
+            />
+          </div>
           <MarketTable
             data={_tableData}
             tableHeaders={_tableHeaderData}
