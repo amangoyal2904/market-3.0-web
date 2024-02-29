@@ -24,14 +24,12 @@ const concatenateAndLowerCase = (
   param2: string,
   param3: any,
 ): string => {
+  if (!isNaN(param3)) {
+    param3 = "number";
+  }
   let concatenatedString: string = `${param1}-${param2}-${param3}`;
   concatenatedString = concatenatedString.toLowerCase();
-  if (!isNaN(param3)) {
-    concatenatedString = concatenatedString.replace(
-      param3.toString(),
-      "number",
-    );
-  }
+
   return concatenatedString;
 };
 
@@ -66,6 +64,7 @@ export const getCustomViewsTab = async ({
   if (type == null) {
     type = concatenateAndLowerCase(firstOperand, operationType, secondOperand);
   }
+  console.log({ type });
   const tabData = await fetchTabsData({ type, ssoid });
   const activeViewId = tabData[0].viewId;
   return {
