@@ -15,6 +15,14 @@
     margin: 0 auto;
     padding: 10px 20px;
     min-height: 54px;
+    .logoHeader {
+      min-width: 170px;
+    }
+    .headerRightContainer {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
   }
   #searchBar {
     margin-left: 20px;
