@@ -192,6 +192,7 @@ const WatchListClient = () => {
                 tabConfig={tabConfig["watchList"]}
                 onPersonalizeHandler={onPersonalizeHandlerfun}
                 updateTableHander={updateTableHanderFun}
+                watchlistDataLength={tableData.length}
               />
             </div>
             <MarketTable
