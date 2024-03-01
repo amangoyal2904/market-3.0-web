@@ -126,7 +126,7 @@ const MarketStats = ({
   const onTabViewUpdate = async (viewId: any) => {
     setProcessingLoader(true);
     setActiveViewId(viewId);
-    setPayload({ ..._payload, viewId: viewId });
+    setPayload({ ..._payload, viewId: viewId, pageno: 1 });
   };
 
   const filterDataChangeHander = async (id: any) => {
@@ -137,7 +137,7 @@ const MarketStats = ({
     const selectedFilter = await getSelectedFilter(id);
     setNiftyFilterData(selectedFilter);
     updateL3NAV(id, _payload.duration);
-    setPayload({ ..._payload, filterValue: [id] });
+    setPayload({ ..._payload, filterValue: [id], pageno: 1 });
   };
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
@@ -147,7 +147,7 @@ const MarketStats = ({
     const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
     router.push(newUrl, { scroll: false });
     updateL3NAV(_payload.filterValue[0], newDuration);
-    setPayload({ ..._payload, duration: newDuration });
+    setPayload({ ..._payload, duration: newDuration, pageno: 1 });
   };
 
   const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
@@ -206,6 +206,7 @@ const MarketStats = ({
       firstOperand: firstOperand,
       operationType: operationType,
       secondOperand: secondOperand,
+      pageno: 1,
     });
   };
 
