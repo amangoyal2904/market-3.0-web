@@ -1,53 +1,34 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import StockFilterNifty from "../StockFilterNifty/index";
+import StockFilterNifty from "@/components/StockFilterNifty";
 import { useEffect, useState } from "react";
+import { fetchFilters } from "@/utils/utility";
 
 const Subhead = (props: any) => {
-  const { showIndexFilter } = props;
+  const { showIndexFilter, niftyFilterData = {}, filterDataChange } = props;
   const [showFilter, setShowFilter] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
 
-  const handleShowFilter = () => {
-    setShowFilter(!showFilter);
+  // ====  Here only Filter tabs code start here
+  const showFilterMenu = (value: boolean) => {
+    setShowFilter(value);
+  };
+  const handleChagneData = (id: any, name: string, selectedTab: string) => {
+    setShowFilter(false);
+    filterDataChange(id, name, selectedTab);
+  };
+  const filterApiCall = async () => {
+    const data = await fetchFilters();
+    setFilterMenuData(data);
   };
 
-  const handleChagneData = (id: any, name: string, slectedTab: string) => {
-    setShowFilter(false);
-    sessionStorage.setItem("sr_filtervalue", id);
-    sessionStorage.setItem("sr_filtername", name);
-    sessionStorage.setItem("sr_filtertab", slectedTab);
-    //setFilterMenuTxtShow({ name: name, id: id, slectedTab: slectedTab });
-    //filterDataChange(id, name, slectedTab);
-  };
-  const filterApiCall = () => {
-    try {
-      fetch(
-        "https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson",
-      )
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            console.log("error filer data is not fetch");
-          }
-        })
-        .then((data) => {
-          setFilterMenuData(data);
-        })
-        .catch((err) => {
-          console.log("get error", err);
-        });
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
   useEffect(() => {
     if (showIndexFilter) {
       filterApiCall();
     }
   }, []);
+  // ====  Here only Filter tabs code end  here
 
   return (
     <>
@@ -61,10 +42,13 @@ const Subhead = (props: any) => {
               <option>Performance Low to High</option>
             </select>
           </div>
-          <div onClick={handleShowFilter} className={styles.niftyWrap}>
+          <div
+            onClick={() => showFilterMenu(true)}
+            className={styles.niftyWrap}
+          >
             <div className={styles.niftyBtn}>
               <span className="eticon_filter"></span>
-              <span>Nifty 50</span>
+              <span>{niftyFilterData?.name}</span>
             </div>
           </div>
           <div className={styles.listingTypeWrap}>
@@ -79,16 +63,16 @@ const Subhead = (props: any) => {
           </div>
         </div>
       </div>
-      {/* {showFilter && (
+      {showFilter && (
         <StockFilterNifty
           data={filterMenuData}
-          onclick={""}
+          onclick={showFilterMenu}
           showFilter={showFilter}
           valuechange={handleChagneData}
-          selectTab={""}
-          childMenuTabActive={""}
+          selectTab={niftyFilterData.selectedTab}
+          childMenuTabActive={niftyFilterData.id}
         />
-      )} */}
+      )}
     </>
   );
 };

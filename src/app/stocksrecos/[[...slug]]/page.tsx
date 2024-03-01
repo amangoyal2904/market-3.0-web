@@ -3,6 +3,7 @@ import styles from "./styles.module.scss";
 import APIS_CONFIG from "../../../network/api_config.json";
 import { APP_ENV } from "@/utils";
 import service from "@/network/service";
+import { getSelectedFilter } from "@/utils/utility";
 
 export default async function stocksrecos({
   params,
@@ -51,7 +52,8 @@ export default async function stocksrecos({
   const recosDetailResult = await recosDetailPromise?.json();
 
   console.log("recosNavResult--", recosDetailResult);
-
+  const intFilter = 0;
+  const selectedFilter = await getSelectedFilter(intFilter);
   return (
     <>
       <div className={styles.recosPageWrap}>
@@ -67,6 +69,7 @@ export default async function stocksrecos({
         <StockRecosListing
           recosNavResult={recosNavResult}
           recosDetailResult={recosDetailResult}
+          selectedFilter={selectedFilter}
         />
       </div>
     </>
