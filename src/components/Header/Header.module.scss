@@ -40,4 +40,13 @@
     cursor: pointer;
     margin-left: 5px;
   }
+
+  .subscribeBtn {
+    display: flex;
+    align-items: center;
+
+    .prime_icon {
+      margin-right: 4px;
+    }
+  }
 }
