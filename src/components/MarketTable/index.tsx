@@ -20,6 +20,7 @@ interface propsType {
   handleSortServerSide?: any;
   handlePageChange?: any;
   updateTableHander?: any;
+  processingLoader?: boolean;
 }
 
 const MarketTable = (props: propsType) => {
@@ -35,6 +36,7 @@ const MarketTable = (props: propsType) => {
     handleSortServerSide,
     handlePageChange,
     updateTableHander,
+    processingLoader,
   } = props || {};
   const { loader = false, loaderType } = tableConfig || {};
   const [_pageSummary, setPageSummary] = useState(pageSummary);
@@ -256,6 +258,7 @@ const MarketTable = (props: propsType) => {
   return (
     <>
       <div className={styles.tableWrapper} id="table">
+        {!!processingLoader && <Loader loaderType="container" />}
         {tableHeaderData.length > 0 && (
           <>
             <FixedTable
