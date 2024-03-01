@@ -50,6 +50,7 @@ const MarketTable = (props: propsType) => {
   const [loaderOff, setLoaderOff] = useState(false);
   const [isPrime, setPrime] = useState(false);
   const [hideThead, setHideThead] = useState(false);
+  const [parentHasScroll, setParentHasScroll] = useState(false);
   const handleFilterChange = (e: any) => {
     const { name, value } = e.target;
     const inputType = e.target.dataset["type"];
@@ -228,6 +229,13 @@ const MarketTable = (props: propsType) => {
   }, [tabsViewIdUpdate]);
 
   useEffect(() => {
+    const parent = document.querySelector("#scrollableTable");
+    if (parent) {
+      setParentHasScroll(parent.scrollWidth > parent.clientWidth);
+    }
+  });
+
+  useEffect(() => {
     if ((data && data.length) || apiSuccess) {
       const filteredData = filterTableData(data);
       const sortedData = sortTableData(filteredData);
@@ -252,6 +260,7 @@ const MarketTable = (props: propsType) => {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
   }, []);
+
   if (!loaderOff && loader) {
     return <Loader loaderType={loaderType} />;
   }
@@ -290,6 +299,7 @@ const MarketTable = (props: propsType) => {
               isPrime={isPrime}
               hideThead={hideThead}
               tableConfig={tableConfig}
+              parentHasScroll={parentHasScroll}
             />
           </>
         )}
