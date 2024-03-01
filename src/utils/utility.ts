@@ -421,3 +421,11 @@ export const getSelectedFilter = async (filter: any) => {
     selectedTab: selectedFilter.selectedTab,
   };
 };
+
+export const getShortUrlMapping = async (type: string) => {
+  const response = await Service.get({
+    url: "https://etapipre.indiatimes.com/api/shorturlmapping/" + type,
+    params: {},
+  });
+  return response?.json();
+};
