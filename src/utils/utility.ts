@@ -5,8 +5,88 @@ import { getCookie } from "@/utils/index";
 import Fingerprint2 from "fingerprintjs2";
 import { setCookies } from "./index";
 import CryptoJS from "crypto-js";
+import Service from "@/network/service";
 
 const API_SOURCE = 18;
+
+export const updateOrAddParamToPath = (
+  pathname: any,
+  param: any,
+  value: any,
+) => {
+  const url = new URL(window.location.origin + pathname);
+  const searchParams = url.searchParams;
+
+  if (value === 0) {
+    searchParams.delete(param);
+  } else if (searchParams.has(param)) {
+    searchParams.set(param, value);
+  } else {
+    searchParams.append(param, value);
+  }
+
+  return url.pathname + "?" + searchParams.toString();
+};
+
+export const fnGenerateMetaData = (meta?: any) => {
+  return {
+    title: `${meta?.title} | ET Markets`,
+    description: meta?.desc,
+    generator: "ET Markets",
+    applicationName: "ET Markets",
+    keywords: meta?.meta_keywords?.split(","),
+    metadataBase: new URL("https://economictimes.indiatimes.com/"),
+    alternates: {
+      canonical: "/",
+      languages: {
+        "en-IN": "/en-IN",
+      },
+    },
+    openGraph: {
+      title: meta?.title,
+      description: meta?.desc,
+      url: "https://economictimes.indiatimes.com/",
+      siteName: "ET Markets",
+      images: [
+        {
+          url: "https://img.etimg.com/photo/msid-65498029/et-logo.jpg",
+          width: 1200,
+          height: 628,
+        },
+      ],
+      locale: "en-IN",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta?.title,
+      description: meta?.desc,
+      creator: "@etmarkets",
+      images: ["https://img.etimg.com/photo/msid-65498029/et-logo.jpg"],
+    },
+    robots: {
+      index: meta?.index,
+      follow: meta?.index,
+      googleBot: {
+        index: meta?.index,
+        follow: meta?.index,
+      },
+    },
+    icons: {
+      icon: "/etfavicon.ico",
+    },
+  };
+};
+
+export const fetchFilters = async () => {
+  const apiUrl =
+    "https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson";
+  const response = await Service.get({
+    url: apiUrl,
+    params: {},
+  });
+  return response?.json();
+};
 
 export const fetchTabsData = async () => {
   const ssoid = window.objUser?.ssoid;
@@ -21,16 +101,43 @@ export const fetchTabsData = async () => {
   return res;
 };
 
-export const fetchTableData = async (viewId: any, params?: any) => {
-  const ssoid = window.objUser?.ssoid;
-  const apiUrl = (APIS_CONFIG as any)?.watchListTable["development"];
-  const data = await fetch(apiUrl, {
-    method: "POST",
-    cache: "no-store",
+export const fetchViewTable = async (
+  requestObj: any,
+  apiType: any,
+  isprimeuser: any,
+  ssoid: any,
+) => {
+  const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
+  const response = await Service.post({
+    url: apiUrl,
     headers: {
       "Content-Type": "application/json",
       ssoid: ssoid,
+      isprime: isprimeuser,
     },
+    cache: "no-store",
+    body: JSON.stringify({ ...requestObj }),
+    params: {},
+  });
+  return response?.json();
+};
+
+export const fetchTableData = async (viewId: any, params?: any) => {
+  const ssoid = window.objUser?.ssoid;
+  const isprimeuser =
+    typeof window != "undefined" &&
+    window.objUser &&
+    window.objUser.permissions &&
+    window.objUser.permissions.indexOf("subscribed") != -1;
+  const apiUrl = (APIS_CONFIG as any)?.watchListTable["development"];
+  const response = await Service.post({
+    url: apiUrl,
+    headers: {
+      "Content-Type": "application/json",
+      ssoid: ssoid,
+      isprime: isprimeuser ? isprimeuser : false,
+    },
+    cache: "no-store",
     body: JSON.stringify({
       sort: [],
       type: "STOCK",
@@ -38,17 +145,16 @@ export const fetchTableData = async (viewId: any, params?: any) => {
       deviceId: "web",
       ...params,
     }),
+    params: {},
   });
-  const res = await data.json();
-  //console.log("tabledata", res);
-  return res;
+
+  return response?.json();
 };
 
-export const decryptPrimeData = (ivKey: string, encrytedTxt: string) => {
-  debugger;
+export const decryptPrimeData = (pageSummary: string, encrytedTxt: string) => {
   const secretkey = GLOBAL_CONFIG.securityKey;
   const key = CryptoJS.enc.Utf8.parse(secretkey);
-  const iv = CryptoJS.enc.Utf8.parse(ivKey);
+  const iv = CryptoJS.enc.Utf8.parse(pageSummary);
 
   const decrypted = CryptoJS.AES.decrypt(encrytedTxt, key, {
     iv: iv,
@@ -84,9 +190,7 @@ export const fetchAllWatchListData = async (
   type: any,
   usersettingsubType: any,
 ) => {
-  const authorization: any = getCookie("peuuid")
-    ? getCookie("peuuid")
-    : "1135320605";
+  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
   const isLocalhost = window.location.origin.includes("localhost");
 
   const apiUrl = isLocalhost
@@ -111,9 +215,7 @@ export const fetchAllWatchListData = async (
 };
 
 export const saveStockInWatchList = async (followData: any) => {
-  const authorization: any = getCookie("peuuid")
-    ? getCookie("peuuid")
-    : "1135320605";
+  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
   const isLocalhost = window.location.origin.includes("localhost");
   let postBodyData = {};
   if (isLocalhost) {
@@ -174,20 +276,24 @@ export const createPfuuid = async (fpid: any) => {
   let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
   url = url + `?type=7&source=${API_SOURCE}`;
   console.log("@@@@@-->inpfuuid", url);
-  const res: any = await fetch(url, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-type": "application/json",
-      Authorization: fpid,
-    },
-  });
-  const data = await res.json();
-  console.log("res", res, data);
-  if (data && data.id != 0) {
-    console.log("@@@@--->>>>>", data);
-    var pfuuid = data.id;
-    setCookies("pfuuid", pfuuid);
+  try {
+    const res: any = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: fpid,
+      },
+    });
+    const data = await res.json();
+    console.log("res", res, data);
+    if (data && data.id != 0) {
+      console.log("@@@@--->>>>>", data);
+      var pfuuid = data.id;
+      setCookies("pfuuid", pfuuid);
+    }
+  } catch (e) {
+    console.log("error in pfuuid api", e);
   }
 };
 
@@ -210,10 +316,9 @@ export const createPeuuid = async (fpid: any) => {
     setCookies("peuuid", peuuid);
   }
 };
+
 export const removeMultipleStockInWatchList = async (followData: any) => {
-  const authorization: any = getCookie("peuuid")
-    ? getCookie("peuuid")
-    : "1135320605";
+  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
   const isLocalhost = window.location.origin.includes("localhost");
   let postBodyData = {};
   if (isLocalhost) {
@@ -248,4 +353,66 @@ export const removeMultipleStockInWatchList = async (followData: any) => {
     console.error("Error saving stock in watchlist:", error);
     throw error;
   }
+};
+
+const fetchSelectedFilter = async (data: any, desiredIndexId: any) => {
+  let filterData;
+  if (data.keyIndices.nse.some((obj: any) => obj.indexId == desiredIndexId)) {
+    filterData = data.keyIndices.nse.find(
+      (obj: any) => obj.indexId == desiredIndexId,
+    );
+    filterData.selectedTab = "nse";
+  } else if (
+    data.keyIndices.bse.some((obj: any) => obj.indexId == desiredIndexId)
+  ) {
+    filterData = data.keyIndices.bse.find(
+      (obj: any) => obj.indexId == desiredIndexId,
+    );
+    filterData.selectedTab = "bse";
+  } else if (
+    data.sectoralIndices.nse.some((obj: any) => obj.indexId == desiredIndexId)
+  ) {
+    filterData = data.sectoralIndices.nse.find(
+      (obj: any) => obj.indexId == desiredIndexId,
+    );
+    filterData.selectedTab = "nse";
+  } else if (
+    data.sectoralIndices.bse.some((obj: any) => obj.indexId == desiredIndexId)
+  ) {
+    filterData = data.sectoralIndices.bse.find(
+      (obj: any) => obj.indexId == desiredIndexId,
+    );
+    filterData.selectedTab = "bse";
+  } else if (
+    data.otherIndices.nse.some((obj: any) => obj.indexId == desiredIndexId)
+  ) {
+    filterData = data.otherIndices.nse.find(
+      (obj: any) => obj.indexId == desiredIndexId,
+    );
+    filterData.selectedTab = "nse";
+  } else if (
+    data.otherIndices.bse.some((obj: any) => obj.indexId == desiredIndexId)
+  ) {
+    filterData = data.otherIndices.bse.find(
+      (obj: any) => obj.indexId == desiredIndexId,
+    );
+    filterData.selectedTab = "bse";
+  }
+  return filterData;
+};
+
+export const getSelectedFilter = async (filter: any) => {
+  let selectedFilter;
+  const filters = await fetchFilters();
+  if (!!filter) {
+    selectedFilter = await fetchSelectedFilter(filters, filter);
+  } else {
+    selectedFilter = { name: "All Stocks", indexId: 0, selectedTab: "nse" };
+  }
+
+  return {
+    name: selectedFilter.name,
+    id: selectedFilter.indexId,
+    selectedTab: selectedFilter.selectedTab,
+  };
 };

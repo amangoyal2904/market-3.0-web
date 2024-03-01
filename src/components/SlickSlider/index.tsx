@@ -12,12 +12,22 @@ interface SlickSliderProps {
   slides: Slide[];
   sliderId: string;
   dotsNum: any;
+  slidesToShow?: any;
+  slidesToScroll?: any;
+  rows?: any;
+  topSpaceClass?: string;
+  responsive: any;
 }
 
 const SlickSlider: React.FC<SlickSliderProps> = ({
   slides = [],
   sliderId,
   dotsNum,
+  slidesToShow,
+  slidesToScroll,
+  rows,
+  topSpaceClass,
+  responsive = [],
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef<Slider>(null);
@@ -29,12 +39,14 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     focusOnSelect: true,
     swipe: true,
     swipeToSlide: true,
-    slidesToShow: 5,
-    slidesToScroll: 5,
-    rows: 2,
+    slidesToShow: slidesToShow || 5,
+    slidesToScroll: slidesToScroll || 5,
+    rows: rows || 1,
     appendDots: (dots) => (
       <div>
-        <div className={`stockSliderIcons ${styles.SliderCommonIcons}`}>
+        <div
+          className={`stockSliderIcons ${styles.SliderCommonIcons} ${styles[`${topSpaceClass}`]}`}
+        >
           <div
             className={`slick-prev slick-arrow ${styles.arrowIcon}`}
             onClick={prevSlide}
@@ -57,29 +69,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
       setCurrentSlideIndex(newIndex);
       dotsNum(newIndex);
     },
-    responsive: [
-      {
-        breakpoint: 1921,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-        },
-      },
-      {
-        breakpoint: 1601,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 1361,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-        },
-      },
-    ],
+    responsive: responsive,
   };
 
   useEffect(() => {

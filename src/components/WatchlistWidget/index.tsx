@@ -5,12 +5,14 @@ import { fetchTabsData, fetchTableData } from "@/utils/utility";
 import { useStateContext } from "../../store/StateContext";
 import tableConfig from "../../utils/tableConfig.json";
 import Blocker from "../Blocker";
+import ViewAllLink from "../ViewAllLink";
 
 const WatchlistWidget = () => {
-  const [showBlocker, setShowBlocker] = useState(false);
+  const [showBlocker, setShowBlocker] = useState(true);
   const [apiSuccess, setAPISuccess] = useState(false);
   const [tableData, setTableData] = useState<any>([]);
   const { state } = useStateContext();
+  const [pageSummary, setPageSummary] = useState(false);
   const { isLogin, userInfo } = state.login;
   const config = tableConfig["watchListWidget"];
 
@@ -28,6 +30,7 @@ const WatchlistWidget = () => {
     const res = await fetchTableData(viewId, params);
     if (res.message == "success") {
       setTableData(res.dataList);
+      setPageSummary(res?.pageSummary);
       setAPISuccess(true);
     }
   };
@@ -49,12 +52,16 @@ const WatchlistWidget = () => {
       {showBlocker ? (
         <Blocker type="loginBlocker" />
       ) : (
-        <MarketTable
-          data={tableData}
-          tableHeaders={tableHeaderData}
-          apiSuccess={apiSuccess}
-          tableConfig={config}
-        />
+        <>
+          <MarketTable
+            data={tableData}
+            tableHeaders={tableHeaderData}
+            apiSuccess={apiSuccess}
+            tableConfig={config}
+            pageSummary={pageSummary}
+          />
+          <ViewAllLink text="View All Stocks" link="/watchlist" />
+        </>
       )}
     </>
   );

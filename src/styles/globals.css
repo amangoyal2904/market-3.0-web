@@ -306,6 +306,11 @@ a {
 .align-item-center {
   align-items: center;
 }
+
+.space-between {
+  justify-content: space-between;
+}
+
 .slick-dots {
   top: 0;
   right: 0;
@@ -407,7 +412,7 @@ table {
 .main_container {
   padding: 20px;
   flex-grow: 1;
-  width: calc(100vw - 200px);
+  width: calc(100vw - 210px);
 }
 
 .heading {
@@ -419,6 +424,23 @@ table {
 }
 
 /* Here Only Module Css start here */
+.customeScroll {
+  overflow-y: scroll;
+}
+.customeScroll::-webkit-scrollbar {
+  width: 8px;
+}
+.customeScroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+.customeScroll::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 10px;
+}
+.customeScroll::-webkit-scrollbar-thumb:hover {
+  background: #ddd;
+}
 .customeModule {
   position: fixed;
   left: 0;
@@ -426,11 +448,8 @@ table {
   top: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.2);
-  z-index: 99;
+  z-index: 999;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .customeModule .moduleWrap {
   position: relative;
@@ -440,6 +459,7 @@ table {
   background: #fff;
   text-align: left;
   min-width: 420px;
+  margin-top: 120px;
 }
 .customeModule .moduleHeader {
   display: flex;
@@ -458,5 +478,14 @@ table {
   margin: 0;
   max-height: 70vh;
   position: relative;
+}
+.tabsWrap {
+  display: flex;
+  border-bottom: solid 1px #cdcdcd;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px 10px 0;
+  column-gap: 30px;
 }
 /* Here Only Module Css end here */

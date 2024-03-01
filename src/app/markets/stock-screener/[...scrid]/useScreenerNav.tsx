@@ -14,25 +14,25 @@ const fetchTitleAndDesc = async (navData: any, subNavType: any) => {
   });
   return results;
 };
-const fetchL3Nav = async ({ duration, intFilter }: any) => {
-  intFilter = !!intFilter ? intFilter : 0;
-  duration = !!duration ? duration.toUpperCase() : "";
-  const apiUrl = `${(APIS_CONFIG as any)?.["MARKET_STATS_NAV"][APP_ENV]}?filter=${intFilter}&duration=${duration}`;
+const fetchL3Nav = async () => {
+  const bodyParams = `?collectiontypeid=5&screenercount=40`;
+  const API_URL = `${(APIS_CONFIG as any)?.SCREENER?.getAllScreenerlist[APP_ENV]}${bodyParams}`;
   const response = await Service.get({
-    url: apiUrl,
+    url: API_URL,
     params: {},
     cache: "no-store",
   });
   return response?.json();
 };
 
-const useMarketStatsNav = async ({ type, intFilter, duration }: any) => {
-  const l3Nav = await fetchL3Nav({ duration, intFilter });
-  const metaData = await fetchTitleAndDesc(l3Nav.nav, type);
+const useScreenerNav = async ({ scrid }: any) => {
+  const l3Nav = await fetchL3Nav();
+  //const metaData = await fetchTitleAndDesc(l3Nav.nav);
+  const metaData = [{}];
   return {
     l3Nav,
     metaData,
   };
 };
 
-export default useMarketStatsNav;
+export default useScreenerNav;

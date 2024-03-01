@@ -9,6 +9,7 @@ import {
   logout,
   loadPrimeApi,
   setCookieToSpecificTime,
+  delete_cookie,
 } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
@@ -36,18 +37,20 @@ const Login = () => {
           primeRes.data.accessibleFeatures || [];
         window.objUser.primeInfo = primeRes.data;
         window.objUser.isPrime = isPrime;
+        setCookieToSpecificTime("isprimeuser", isPrime, 30, 0, 0, "");
 
         if (primeRes && primeRes.token) {
-          setCookieToSpecificTime("OTR", primeRes.token, 30, "", 0);
+          setCookieToSpecificTime("OTR", primeRes.token, 30, 0, 0, "");
         }
       } else {
         window.objUser.permissions = [];
         window.objUser.accessibleFeatures = [];
         window.objUser.primeInfo = {};
         window.objUser.isPrime = false;
+        delete_cookie("isprimeuser");
 
         if (primeRes && primeRes.token) {
-          setCookieToSpecificTime("OTR", "", 0, 0, 0);
+          delete_cookie("OTR");
         }
       }
 

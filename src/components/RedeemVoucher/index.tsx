@@ -4,7 +4,12 @@ import styles from "./styles.module.scss";
 import { dateFormat } from "../../utils";
 import Service from "../../network/service";
 import APIS_CONFIG from "../../network/api_config.json";
-import { APP_ENV, getCookie, setCookieToSpecificTime } from "../../utils"; // Correct import path
+import {
+  APP_ENV,
+  getCookie,
+  setCookieToSpecificTime,
+  delete_cookie,
+} from "../../utils"; // Correct import path
 import GLOBAL_CONFIG from "../../network/global_config.json";
 // import { grxEvent } from "utils/ga";
 
@@ -199,7 +204,7 @@ const RedeemVoucher = () => {
             const data: ResponseData = await (res as any)?.data;
             if (data.code && data.status === "SUCCESS") {
               sessionStorage.setItem("isVouchedOpened", "true");
-              setCookieToSpecificTime("OTR", "", 0, 0, 0);
+              delete_cookie("OTR");
               setSuccess(true);
             }
             const message = responseMessage(data);

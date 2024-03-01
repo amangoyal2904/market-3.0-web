@@ -7,7 +7,29 @@ const StockReportsPlus: React.FC = () => {
   const tabNames = ["Stock Scores", "Stock Forecast"];
   const [activeTab, setActiveTab] = useState(tabNames[0]); // Initialize activeTab with the first tab dynamically
   const [activeSlides, setActiveSlides] = useState<Slide[]>([]);
-
+  const responsive = [
+    {
+      breakpoint: 1921,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 4,
+      },
+    },
+    {
+      breakpoint: 1601,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      },
+    },
+    {
+      breakpoint: 1361,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+      },
+    },
+  ];
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
@@ -249,8 +271,8 @@ const StockReportsPlus: React.FC = () => {
     // alert(a);
   };
   useEffect(() => {
-    setActiveSlides(tabData[activeTab] || []);
-  }, [activeTab, tabData]);
+    setActiveSlides(tabData[activeTab]);
+  }, [activeTab]);
 
   return (
     <div className={styles.wraper}>
@@ -280,6 +302,10 @@ const StockReportsPlus: React.FC = () => {
               key={`slider${activeTab}`}
               sliderId={`slider${activeTab}`}
               dotsNum={getdotsnum}
+              slidesToShow={3}
+              slidesToScroll={3}
+              rows={2}
+              responsive={responsive}
             />
           </div>
         </div>
