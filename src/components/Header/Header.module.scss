@@ -14,6 +14,14 @@
     align-items: center;
     margin: 0 auto;
     padding: 11px 20px;
+    .logoHeader {
+      min-width: 170px;
+    }
+    .headerRightContainer {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
   }
   #searchBar {
     margin-left: 20px;
