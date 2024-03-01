@@ -220,7 +220,11 @@ const MarketStats = ({
 
   useEffect(() => {
     if (_payload.apiType != payload.apiType) {
-      setPayload(payload);
+      const newApiType = payload.apiType;
+      setPayload({
+        ..._payload,
+        apiType: newApiType,
+      });
     }
   }, [searchParams]);
 
