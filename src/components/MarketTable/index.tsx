@@ -6,6 +6,7 @@ import ScrollableTable from "./ScrollableTable";
 import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
 import Pagination from "./Pagination";
+import { getCookie } from "@/utils";
 
 interface propsType {
   data: any[];
@@ -249,11 +250,7 @@ const MarketTable = (props: propsType) => {
       setPageSummary({});
     }
     setHeaderSticky(0);
-    const isPrime =
-      typeof window != "undefined" &&
-      window.objUser &&
-      window.objUser.permissions &&
-      window.objUser.permissions.indexOf("subscribed") != -1;
+    const isPrime = getCookie("isprimeuser") ? true : false;
     setPrime(isPrime);
   }, [apiSuccess, data, pageSummary, _sortData, filters, loaderOff]);
 
