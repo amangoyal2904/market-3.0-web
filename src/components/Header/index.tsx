@@ -17,10 +17,12 @@ const Header = () => {
   return (
     <header id={styles.pageTopbar}>
       <div className={styles.navbarHeader} id="header">
-        <div className="dflex align-item-center">
+        <div className={`dflex align-item-center ${styles.logoHeader}`}>
           <Link href="/">
             <Image src="/logo.png" width={138} height={24} alt="ET Markets" />
           </Link>
+        </div>
+        <div className={styles.headerRightContainer}>
           <Search />
         </div>
         <LiveMarketData />
