@@ -127,11 +127,11 @@ const MarketStats = ({
     setProcessingLoader(true);
     const url = `${pathname}?${searchParams}`;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
+    router.push(newUrl, { scroll: false });
     const selectedFilter = await getSelectedFilter(id);
     setNiftyFilterData(selectedFilter);
-    setPayload({ ..._payload, filterValue: [id] });
     updateL3NAV(id, _payload.duration);
-    router.push(newUrl, { scroll: false });
+    setPayload({ ..._payload, filterValue: [id] });
   };
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
@@ -139,9 +139,9 @@ const MarketStats = ({
     const url = `${pathname}?${searchParams}`;
     const newDuration = value.toUpperCase();
     const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
-    setPayload({ ..._payload, duration: newDuration });
-    updateL3NAV(_payload.filterValue[0], newDuration);
     router.push(newUrl, { scroll: false });
+    updateL3NAV(_payload.filterValue[0], newDuration);
+    setPayload({ ..._payload, duration: newDuration });
   };
 
   const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
@@ -169,6 +169,30 @@ const MarketStats = ({
       onTabViewUpdate(activeViewId);
     }
   };
+
+  const onTechnicalOperandsUpdate = async ({
+    firstOperand,
+    secondOperand,
+    operationType,
+  }: any) => {
+    setProcessingLoader(true);
+    let url = `${pathname}?${searchParams}`;
+    const type = searchParams.get("type");
+    if (type == "golden-cross" || type == "death-cross") {
+      url = updateOrAddParamToPath(url, "type", "sma-sma-crossovers");
+    }
+    (url = updateOrAddParamToPath(url, "firstoperand", firstOperand)),
+      (url = updateOrAddParamToPath(url, "secondoperand", secondOperand)),
+      (url = updateOrAddParamToPath(url, "operationtype", operationType));
+    router.push(url, { scroll: false });
+    setPayload({
+      ..._payload,
+      firstOperand: firstOperand,
+      operationType: operationType,
+      secondOperand: secondOperand,
+    });
+  };
+
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
@@ -194,7 +218,10 @@ const MarketStats = ({
         </aside>
         <div className={styles.rhs}>
           {isTechnical && (
-            <TechincalOperands technicalCategory={technicalCategory} />
+            <TechincalOperands
+              technicalCategory={technicalCategory}
+              handleTechnicalOperands={onTechnicalOperandsUpdate}
+            />
           )}
           <div className="tabsWrap">
             <LeftMenuTabs
