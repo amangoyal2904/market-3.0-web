@@ -133,11 +133,7 @@ export const fetchViewTable = async (
 
 export const fetchTableData = async (viewId: any, params?: any) => {
   const ssoid = window.objUser?.ssoid;
-  const isprimeuser =
-    typeof window != "undefined" &&
-    window.objUser &&
-    window.objUser.permissions &&
-    window.objUser.permissions.indexOf("subscribed") != -1;
+  const isprimeuser = getCookie("isprimeuser") ? true : false;
   const apiUrl = (APIS_CONFIG as any)?.watchListTable["development"];
   const response = await Service.post({
     url: apiUrl,
