@@ -16,12 +16,14 @@ const handleLoginToggle = (): void => {
 
 const blockerList: any = {
   loginBlocker: {
+    id: 1,
     message: "To access watchlist data please login here",
     cta: "Login",
     action: handleLoginToggle,
     icon: 107522568,
   },
   noDataFound: {
+    id: 2,
     message:
       "No record found for search criteria, please check our other stats!",
     cta: "",
@@ -29,12 +31,14 @@ const blockerList: any = {
     icon: 107522565,
   },
   noStocks: {
+    id: 3,
     message: "You have not added any stocks to your Watchlist yet.",
     cta: "Add Stocks Now",
     action: "",
     icon: 107522570,
   },
   notFound: {
+    id: 4,
     message: "Page not Found!",
     cta: "",
     action: "",
@@ -44,7 +48,7 @@ const blockerList: any = {
 const Blocker = (props: propsType) => {
   const [addStockShow, setAddStockShow] = useState(false);
   const { type, updateTableHander } = props;
-  const { message, cta, action, icon } = blockerList[type] || {};
+  const { message, cta, action, icon, id } = blockerList[type] || {};
 
   const moduelClose = () => {
     setAddStockShow(false);
@@ -66,9 +70,7 @@ const Blocker = (props: propsType) => {
         )}
         {message && <p>{message}</p>}
         {cta && (
-          <button onClick={cta == "Add Stocks" ? handleAddStocks : action}>
-            {cta}
-          </button>
+          <button onClick={id == 3 ? handleAddStocks : action}>{cta}</button>
         )}
       </div>
       {addStockShow ? (
