@@ -33,20 +33,20 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
           item.classList.remove(styles["expanded"]);
           item.classList.add(styles["collapsed"]);
           const caret = item.getElementsByClassName(styles["caret"]);
-          caret[0].classList.remove("eticon_caret_down");
-          caret[0].classList.add("eticon_caret_up");
+          caret[0].classList.remove("eticon_caret_up");
+          caret[0].classList.add("eticon_caret_down");
         });
         elm.classList.remove(styles["collapsed"]);
         elm.classList.add(styles["expanded"]);
         const caret = elm.getElementsByClassName(styles["caret"]);
-        caret[0].classList.remove("eticon_caret_up");
-        caret[0].classList.add("eticon_caret_down");
+        caret[0].classList.remove("eticon_caret_down");
+        caret[0].classList.add("eticon_caret_up");
       } else {
         elm.classList.remove(styles["expanded"]);
         elm.classList.add(styles["collapsed"]);
         const caret = elm.getElementsByClassName(styles["caret"]);
-        caret[0].classList.remove("eticon_caret_down");
-        caret[0].classList.add("eticon_caret_up");
+        caret[0].classList.remove("eticon_caret_up");
+        caret[0].classList.add("eticon_caret_down");
       }
     } catch (e) {
       console.log("Error toggleL2Menu: ", e);
@@ -79,7 +79,7 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
                 >
                   {item.sub_nav && item.sub_nav.length > 0 && (
                     <span
-                      className={`${index == 0 ? "eticon_caret_down" : "eticon_caret_up"} ${styles.caret}`}
+                      className={`${index == 0 ? "eticon_caret_up" : "eticon_caret_down"} ${styles.caret}`}
                     ></span>
                   )}
                   <span className={styles.labelName}>{item.label}</span>

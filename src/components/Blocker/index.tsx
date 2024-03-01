@@ -29,8 +29,8 @@ const blockerList: any = {
     icon: 107522565,
   },
   noStocks: {
-    message: "You have not added any Stocks to your Watchlist",
-    cta: "Add Stocks",
+    message: "You have not added any stocks to your Watchlist yet.",
+    cta: "Add Stocks Now",
     action: "",
     icon: 107522570,
   },

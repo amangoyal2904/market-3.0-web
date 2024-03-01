@@ -6,22 +6,29 @@
   .marketIndex {
     display: flex;
     padding: 0 25px 0 10px;
+    font-size: 12px;
+    font-weight: 700;
+    align-items: center;
     .indexName {
       font-weight: bold;
     }
     .indexValue {
       font-family: $Lato-font-family;
+      font-size: 14px;
+      font-weight: 400;
     }
     .indexChange {
       position: relative;
       font-family: $Lato-font-family !important;
+      font-weight: bold;
+      top: 1px;
     }
     .indexChange::before {
       font-family: "eticons" !important;
+      font-weight: 400;
       font-size: 11px;
       position: absolute;
-      right: -16px;
-      top: 0;
+      right: -15px;
     }
   }
   .marketIndex > div {
@@ -31,6 +38,6 @@
     margin-right: 0;
   }
   .marketIndex:first-child {
-    border-right: 1px solid;
+    border-right: 1px solid #ccc;
   }
 }

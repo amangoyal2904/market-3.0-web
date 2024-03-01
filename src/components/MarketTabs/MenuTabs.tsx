@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 
 import styles from "./MarketTabs.module.scss";
+import ShimmerMenu from "@/components/Shimmer/shimmerMenu";
 
 const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate }: any) => {
   const tabsListRef = useRef<HTMLUListElement>(null);
@@ -59,6 +60,7 @@ const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate }: any) => {
   return (
     <>
       <ul className={styles.tabsList} ref={tabsListRef}>
+        {!visibleTabs.length && <ShimmerMenu />}
         {visibleTabs.map((item: any, index: number) => {
           return (
             <li

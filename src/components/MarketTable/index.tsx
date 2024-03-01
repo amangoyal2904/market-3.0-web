@@ -291,15 +291,9 @@ const MarketTable = (props: propsType) => {
           </>
         )}
       </div>
-      {tableHeaderData.length == 0 ? (
+      {tableDataList.length == 0 && tableHeaderData.length == 0 ? (
         <Blocker
-          type={
-            tableDataList.length == 0 &&
-            tableHeaderData.length == 0 &&
-            tableConfig.name == "watchList"
-              ? "noStocks"
-              : "noDataFound"
-          }
+          type={tableConfig.name == "watchList" ? "noStocks" : "noDataFound"}
           updateTableHander={updateTableHander}
         />
       ) : (
@@ -310,6 +304,9 @@ const MarketTable = (props: propsType) => {
             onPageChange={handlePageChange}
           />
         )
+      )}
+      {tableDataList.length == 0 && tableHeaderData.length != 0 && (
+        <Blocker type={"noDataFound"} updateTableHander={updateTableHander} />
       )}
     </>
   );

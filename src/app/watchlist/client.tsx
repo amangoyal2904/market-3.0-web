@@ -62,10 +62,8 @@ const WatchListClient = () => {
         ssoid,
         "watchListTable",
       );
-
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
-    setAPISuccess(true);
   };
 
   const fetchWatchListData = async () => {
@@ -157,10 +155,10 @@ const WatchListClient = () => {
 
   useEffect(() => {
     updateTableData();
-    const intervalId = setInterval(() => {
-      updateTableData();
-    }, parseInt(refeshConfig.watchlist));
-    return () => clearInterval(intervalId);
+    // const intervalId = setInterval(() => {
+    //   updateTableData();
+    // }, parseInt(refeshConfig.watchlist));
+    // return () => clearInterval(intervalId);
   }, [requestPayload]);
 
   return (
@@ -194,6 +192,7 @@ const WatchListClient = () => {
                 tabConfig={tabConfig["watchList"]}
                 onPersonalizeHandler={onPersonalizeHandlerfun}
                 updateTableHander={updateTableHanderFun}
+                watchlistDataLength={tableData.length}
               />
             </div>
             <MarketTable

@@ -1,0 +1,16 @@
+.wraper {
+  padding: 20px;
+  flex-grow: 1;
+  width: 100vh;
+}
+.heading1 {
+  font-family: Montserrat;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 22px;
+}
+.marketstatsContainer {
+  display: flex;
+}

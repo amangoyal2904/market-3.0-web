@@ -9,6 +9,7 @@ import { getCookie, getParameterByName } from "@/utils";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useStateContext } from "@/store/StateContext";
 import {
+  durationOptions,
   fetchViewTable,
   getSelectedFilter,
   updateOrAddParamToPath,
@@ -40,8 +41,9 @@ const MarketStats = ({
   const router = useRouter();
   const l3NavType = searchParams.get("type");
   const [dayFilterData, setDayFilterData] = useState({
-    value: payload?.duration.toLowerCase(),
-    label: payload?.duration,
+    value: payload?.duration,
+    label: durationOptions.find((option) => option.value === payload?.duration)
+      ?.label,
   });
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
@@ -143,7 +145,21 @@ const MarketStats = ({
     setTabData(tabData);
     setActiveViewId(tabIdActive);
   };
+  const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
+    const type = getParameterByName("type");
+    const { tabData, activeViewId } = await getCustomViewsTab({
+      type,
+      ssoid: getCookie("ssoid"),
+    });
 
+    setTabData(tabData);
+    if (newActiveId !== "") {
+      onTabViewUpdate(newActiveId);
+      setActiveViewId(newActiveId);
+    } else {
+      onTabViewUpdate(activeViewId);
+    }
+  };
   useEffect(() => {
     updateTableData();
     const intervalId = setInterval(() => {
@@ -187,6 +203,7 @@ const MarketStats = ({
               tabConfig={tabConfig}
               dayFilterData={dayFilterData}
               setDayFilterData={setDayFilterData}
+              onPersonalizeHandler={onPersonalizeHandlerfun}
             />
           </div>
           <MarketTable
