@@ -47,17 +47,6 @@ const CreateNewViewComponent = ({
       });
     });
     tabDataFitlerBaseOnWidth(tabDataFilterDo);
-
-    // <li
-    //   key={item.categoryMappingID}
-    //   className={index === activeTab ? styles.active : ""}
-    //   onClick={() => handleTabClick(index)}
-    // >
-    //   <div className={styles.catHead}>
-    //     {item.displayName}
-    //   </div>
-    // </li>
-
     setViewData(viewDataSet);
   };
 
@@ -66,18 +55,13 @@ const CreateNewViewComponent = ({
       alert("Please select at least one view");
     } else if (screenerName === "") {
       setViewNameModule(true);
+      const randomNumber = Math.floor(Math.random() * 100) + 1;
+      setScreenerName(`my${randomNumber}-view`);
     } else {
       saveUserPersonaliseAPICall();
     }
   };
   const saveUserPersonaliseAPICall = async () => {
-    //console.log('save user view personalize ', selectedView)
-
-    // let userConfirmBox = false;
-    // if(editmode && editmode.mode && editmode.viewId !== ""){
-    //      userConfirmBox = confirm("Are you sure you want to be update this screener");
-    // }
-
     const ssoid = window.objUser?.ssoid;
     const updatedOrder: any[] = [];
     selectedView.map((item: any) => {
@@ -153,6 +137,11 @@ const CreateNewViewComponent = ({
 
   const viewCheckHandler = (e: any, addData: any) => {
     const isChecked = e.target.checked;
+    console.log("selectedView", selectedView);
+    if (selectedView.length >= 20 && isChecked) {
+      alert("You have only 20 selected not more ");
+      return;
+    }
     if (isChecked) {
       let viewAllDataforSelected: any = [...selectedView];
       const userSelectViewData = {
@@ -259,7 +248,6 @@ const CreateNewViewComponent = ({
     setSelectedView(__updatedViewData);
   };
   const viewNameHandlerFun = (viewName: string) => {
-    //console.log("__viewName_", viewName);
     if (viewName !== "") {
       setViewNameModule(false);
       saveUserPersonalise();
@@ -662,6 +650,7 @@ const CreateNewViewComponent = ({
               editMode={editmode.viewId}
               updateViewNameHandler={updateViewNameHandler}
               setScreenerName={setScreenerName}
+              closeViewNamePopup={setViewNameModule}
             />
           ) : null}
           {loading ? (
