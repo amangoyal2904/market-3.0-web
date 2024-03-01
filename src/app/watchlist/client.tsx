@@ -95,7 +95,6 @@ const WatchListClient = () => {
   };
 
   const removeMultipleStockInWathclist = async () => {
-    setProcessingLoader(true);
     if (unFollowStocksList.length > 0) {
       const userConfirm = confirm(
         "Are you sure you want to remove those stock list in your watchlist?",
@@ -128,7 +127,6 @@ const WatchListClient = () => {
   };
 
   const multipleStockCollect = (e: any, companyId: any, assetType: any) => {
-    setProcessingLoader(true);
     const checkInput = e.target.checked;
     const data = {
       action: checkInput ? 0 : 1, // If checked, action is 0 (add), else 1 (remove)
@@ -189,6 +187,21 @@ const WatchListClient = () => {
                   data={tabData}
                   activeViewId={activeViewId}
                   tabsViewIdUpdate={onTabViewUpdate}
+                />
+                <MarketFiltersTab
+                  data={tabData}
+                  activeViewId={activeViewId}
+                  tabsViewIdUpdate={onTabViewUpdate}
+                  tabsUpdateHandler={onTabViewUpdate}
+                  setShowTableCheckBox={setShowTableCheckBox}
+                  showTableCheckBox={showTableCheckBox}
+                  removeMultipleStockInWathclist={
+                    removeMultipleStockInWathclist
+                  }
+                  tabConfig={tabConfig["watchList"]}
+                  onPersonalizeHandler={onPersonalizeHandlerfun}
+                  updateTableHander={updateTableHanderFun}
+                  watchlistDataLength={tableData.length}
                 />
               </div>
             )}
