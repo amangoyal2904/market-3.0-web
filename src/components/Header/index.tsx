@@ -30,10 +30,16 @@ const Header = () => {
           </Link>
           {!isPrime && (
             <Link
-              className="default-btn"
+              className={`default-btn ${styles.subscribeBtn}`}
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`}
               data-ga-onclick="Subscription Flow#SYFT#ATF - url"
             >
+              <img
+                src="/prime_icon.svg"
+                height="12"
+                width="12"
+                className={styles.prime_icon}
+              />
               Subscribe
             </Link>
           )}
