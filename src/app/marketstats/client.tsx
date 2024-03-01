@@ -6,7 +6,12 @@ import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
 import { getCookie, getParameterByName } from "@/utils";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import {
+  usePathname,
+  useSearchParams,
+  useRouter,
+  useParams,
+} from "next/navigation";
 import { useStateContext } from "@/store/StateContext";
 import {
   durationOptions,
@@ -17,7 +22,7 @@ import {
 import refeshConfig from "@/utils/refreshConfig.json";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import TechincalOperands from "@/components/TechincalOperands";
-import { getMarketStatsNav } from "@/utils/marketstats";
+import { getMarketStatsNav, getTechincalOperands } from "@/utils/marketstats";
 
 const MarketStats = ({
   l3Nav = [],
@@ -39,6 +44,7 @@ const MarketStats = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const params = useParams();
   const l3NavType = searchParams.get("type");
   const [dayFilterData, setDayFilterData] = useState({
     value: payload?.duration,
@@ -185,6 +191,16 @@ const MarketStats = ({
       (url = updateOrAddParamToPath(url, "secondoperand", secondOperand)),
       (url = updateOrAddParamToPath(url, "operationtype", operationType));
     router.push(url, { scroll: false });
+
+    const technicalCategory = await getTechincalOperands(
+      params,
+      type,
+      firstOperand,
+      operationType,
+      secondOperand,
+    );
+    const descTxt = `Discover the stocks in the Indian stock market with ${technicalCategory?.selectedFilterLabel?.firstOperand} ${technicalCategory?.selectedFilterLabel?.operationType} ${technicalCategory?.selectedFilterLabel?.secondOperand} exclusively on The Economic Times`;
+    setMetaData({ ..._metaData, desc: descTxt });
     setPayload({
       ..._payload,
       firstOperand: firstOperand,
