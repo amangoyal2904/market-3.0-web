@@ -218,6 +218,12 @@ const MarketStats = ({
     return () => clearInterval(intervalId);
   }, [_payload]);
 
+  useEffect(() => {
+    if (_payload.apiType != payload.apiType) {
+      setPayload(payload);
+    }
+  }, [searchParams]);
+
   return (
     <>
       <h1
