@@ -8,15 +8,19 @@
   font-size: 12px;
   font-weight: 700;
   line-height: 16px;
+  min-width: 70px;
 }
 
 .loginSpace {
-  width: 50px;
+  width: 70px;
+  margin-left: 4px;
 }
 
 .menuWrap {
   position: relative;
   cursor: pointer;
+  min-width: 70px;
+  margin-left: 4px;
   .userProfile {
     display: flex;
     // width: 34px;

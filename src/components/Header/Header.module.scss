@@ -16,12 +16,12 @@
     padding: 10px 20px;
     min-height: 54px;
     .logoHeader {
-      min-width: 170px;
+      max-width: 150px;
     }
-    .headerRightContainer {
+    .headerMidContainer {
       display: flex;
       justify-content: space-between;
-      // width: 100%;
+      width: 790px;
     }
   }
   #searchBar {
