@@ -7,7 +7,9 @@ const Loader = ({ loaderType }: any) => {
         className={
           loaderType == "inner"
             ? styles.innerLoading_layer
-            : styles.loading_layer
+            : loaderType == "container"
+              ? styles.container_layer
+              : styles.loading_layer
         }
         id="loading_layer"
       >

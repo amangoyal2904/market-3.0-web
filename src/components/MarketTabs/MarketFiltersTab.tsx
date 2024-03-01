@@ -28,6 +28,7 @@ const MarketFiltersTab = ({
   onPersonalizeHandler,
   dayFilterData,
   setDayFilterData,
+  watchlistDataLength = 0,
 }: any) => {
   const {
     showAddStock,
@@ -136,6 +137,7 @@ const MarketFiltersTab = ({
     }
   }, []);
   // ====  Here only Filter tabs code end  here
+  //console.log('watchlistDataLength',watchlistDataLength)
   return (
     <>
       <div className={styles.rightSide}>
@@ -181,7 +183,7 @@ const MarketFiltersTab = ({
           ""
         )}
 
-        {showEditStock ? (
+        {showEditStock && watchlistDataLength > 0 ? (
           <>
             {showTableCheckBox ? (
               <span

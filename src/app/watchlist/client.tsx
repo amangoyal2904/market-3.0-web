@@ -24,7 +24,7 @@ const WatchListClient = () => {
   const [requestPayload, setRequestPayload] = useState({});
   const [showBlocker, setShowBlocker] = useState(false);
   const [apiSuccess, setAPISuccess] = useState(false);
-
+  const [processingLoader, setProcessingLoader] = useState(false);
   const [showTableCheckBox, setShowTableCheckBox] = useState(false);
   const [unFollowStocksList, setUnFollowStocksList] = useState([]);
   const { state } = useStateContext();
@@ -33,12 +33,14 @@ const WatchListClient = () => {
   const pageSummary = {};
   const onTabViewUpdate = async (viewId: any) => {
     if (viewId && viewId != "") {
+      setProcessingLoader(true);
       setAPISuccess(false);
       setActiveViewId(viewId);
       setRequestPayload({ ...requestPayload, viewId: viewId });
     }
   };
   const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
+    setProcessingLoader(true);
     const { tabData, activeViewId } = await getCustomViewsTab({
       type: "watchlist",
       ssoid: ssoid,
@@ -64,9 +66,11 @@ const WatchListClient = () => {
       );
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
+    setProcessingLoader(false);
   };
 
   const fetchWatchListData = async () => {
+    setProcessingLoader(true);
     const { tabData, activeViewId } = await getCustomViewsTab({
       type: "watchlist",
       ssoid: ssoid,
@@ -141,6 +145,7 @@ const WatchListClient = () => {
   };
 
   const updateTableHanderFun = () => {
+    setProcessingLoader(true);
     onTabViewUpdate(activeViewId);
   };
 
@@ -154,6 +159,7 @@ const WatchListClient = () => {
   }, [isLogin]);
 
   useEffect(() => {
+    setProcessingLoader(true);
     updateTableData();
     // const intervalId = setInterval(() => {
     //   updateTableData();
@@ -175,25 +181,30 @@ const WatchListClient = () => {
           <Blocker type="loginBlocker" />
         ) : (
           <>
-            <div className="tabsWrap">
-              <LeftMenuTabs
-                data={tabData}
-                activeViewId={activeViewId}
-                tabsViewIdUpdate={onTabViewUpdate}
-              />
-              <MarketFiltersTab
-                data={tabData}
-                activeViewId={activeViewId}
-                tabsViewIdUpdate={onTabViewUpdate}
-                tabsUpdateHandler={onTabViewUpdate}
-                setShowTableCheckBox={setShowTableCheckBox}
-                showTableCheckBox={showTableCheckBox}
-                removeMultipleStockInWathclist={removeMultipleStockInWathclist}
-                tabConfig={tabConfig["watchList"]}
-                onPersonalizeHandler={onPersonalizeHandlerfun}
-                updateTableHander={updateTableHanderFun}
-              />
-            </div>
+            {!!isLogin && (
+              <div className="tabsWrap">
+                <LeftMenuTabs
+                  data={tabData}
+                  activeViewId={activeViewId}
+                  tabsViewIdUpdate={onTabViewUpdate}
+                />
+                <MarketFiltersTab
+                  data={tabData}
+                  activeViewId={activeViewId}
+                  tabsViewIdUpdate={onTabViewUpdate}
+                  tabsUpdateHandler={onTabViewUpdate}
+                  setShowTableCheckBox={setShowTableCheckBox}
+                  showTableCheckBox={showTableCheckBox}
+                  removeMultipleStockInWathclist={
+                    removeMultipleStockInWathclist
+                  }
+                  tabConfig={tabConfig["watchList"]}
+                  onPersonalizeHandler={onPersonalizeHandlerfun}
+                  updateTableHander={updateTableHanderFun}
+                  watchlistDataLength={tableData.length}
+                />
+              </div>
+            )}
             <MarketTable
               data={tableData}
               tableHeaders={tableHeaderData}
@@ -204,6 +215,7 @@ const WatchListClient = () => {
               pageSummary={pageSummary}
               tableConfig={config}
               updateTableHander={updateTableHanderFun}
+              processingLoader={processingLoader}
             />
           </>
         )}

@@ -64,7 +64,6 @@ export const getCustomViewsTab = async ({
   if (type == null) {
     type = concatenateAndLowerCase(firstOperand, operationType, secondOperand);
   }
-  console.log({ type });
   const tabData = await fetchTabsData({ type, ssoid });
   const activeViewId = tabData[0].viewId;
   return {
