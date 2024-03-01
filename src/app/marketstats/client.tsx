@@ -58,6 +58,7 @@ const MarketStats = ({
   const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
+  const [processingLoader, setProcessingLoader] = useState(false);
 
   const updateTableData = async () => {
     const responseData: any = await fetchViewTable(
@@ -78,6 +79,7 @@ const MarketStats = ({
     setTableData(_tableData);
     setTableHeaderData(_tableHeaderData);
     setPageSummary(_pageSummary);
+    setProcessingLoader(false);
   };
 
   const updateL3NAV = async (intFilter: any, duration: any) => {
@@ -91,10 +93,12 @@ const MarketStats = ({
   };
 
   const onPaginationChange = async (pageNumber: number) => {
+    setProcessingLoader(true);
     setPayload({ ..._payload, pageno: pageNumber });
   };
 
   const onServerSideSort = async (field: any) => {
+    setProcessingLoader(true);
     let sortConfig = _payload.sort;
     const isFieldSorted = sortConfig.find(
       (config: any) => config.field === field,
@@ -114,11 +118,13 @@ const MarketStats = ({
   };
 
   const onTabViewUpdate = async (viewId: any) => {
+    setProcessingLoader(true);
     setActiveViewId(viewId);
     setPayload({ ..._payload, viewId: viewId });
   };
 
   const filterDataChangeHander = async (id: any) => {
+    setProcessingLoader(true);
     const url = `${pathname}?${searchParams}`;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
     const selectedFilter = await getSelectedFilter(id);
@@ -129,6 +135,7 @@ const MarketStats = ({
   };
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
+    setProcessingLoader(true);
     const url = `${pathname}?${searchParams}`;
     const newDuration = value.toUpperCase();
     const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
@@ -138,6 +145,7 @@ const MarketStats = ({
   };
 
   const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
+    setProcessingLoader(true);
     const type = getParameterByName("type");
     const { tabData } = await getCustomViewsTab({
       type,
@@ -146,6 +154,7 @@ const MarketStats = ({
     setActiveViewId(tabIdActive);
   };
   const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
+    setProcessingLoader(true);
     const type = getParameterByName("type");
     const { tabData, activeViewId } = await getCustomViewsTab({
       type,
@@ -161,6 +170,7 @@ const MarketStats = ({
     }
   };
   useEffect(() => {
+    setProcessingLoader(true);
     updateTableData();
     const intervalId = setInterval(() => {
       updateTableData();
@@ -213,6 +223,7 @@ const MarketStats = ({
             tableConfig={tableConfig}
             handleSortServerSide={onServerSideSort}
             handlePageChange={onPaginationChange}
+            processingLoader={processingLoader}
           />
         </div>
       </div>
