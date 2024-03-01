@@ -24,22 +24,28 @@ const Header = () => {
         </div>
         <div className={styles.headerRightContainer}>
           <Search />
-          <LiveMarketData />
-          <div className="dflex align-item-center">
-            <Link className="default-btn" href="/watchlist">
-              My Watchlist
+        </div>
+        <LiveMarketData />
+        <div className="dflex align-item-center">
+          <Link className="default-btn" href="/watchlist">
+            My Watchlist
+          </Link>
+          {!isPrime && (
+            <Link
+              className={`default-btn ${styles.subscribeBtn}`}
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`}
+              data-ga-onclick="Subscription Flow#SYFT#ATF - url"
+            >
+              <img
+                src="/prime_icon.svg"
+                height="12"
+                width="12"
+                className={styles.prime_icon}
+              />
+              Subscribe
             </Link>
-            {!isPrime && (
-              <Link
-                className="default-btn"
-                href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`}
-                data-ga-onclick="Subscription Flow#SYFT#ATF - url"
-              >
-                Subscribe
-              </Link>
-            )}
-            <Login />
-          </div>
+          )}
+          <Login />
         </div>
       </div>
     </header>
