@@ -5,13 +5,8 @@ import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
-import { getCookie, getParameterByName } from "@/utils";
-import {
-  usePathname,
-  useSearchParams,
-  useRouter,
-  useParams,
-} from "next/navigation";
+import { getCookie } from "@/utils";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useStateContext } from "@/store/StateContext";
 import {
   durationOptions,
@@ -42,6 +37,7 @@ const MarketStats = ({
   isprimeuser = false,
   l3NavMenuItem = null,
   l3NavSubItem = null,
+  actualUrl = null,
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -130,7 +126,7 @@ const MarketStats = ({
 
   const filterDataChangeHander = async (id: any) => {
     setProcessingLoader(true);
-    const url = `${pathname}?${searchParams}`;
+    const url = actualUrl;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
     router.push(newUrl, { scroll: false });
     const selectedFilter = await getSelectedFilter(id);
@@ -141,7 +137,7 @@ const MarketStats = ({
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
     setProcessingLoader(true);
-    const url = `${pathname}?${searchParams}`;
+    const url = actualUrl;
     const newDuration = value.toUpperCase();
     const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
     router.push(newUrl, { scroll: false });
