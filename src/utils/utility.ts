@@ -43,10 +43,10 @@ export const fnGenerateMetaData = (meta?: any) => {
     description: meta?.desc,
     generator: "ET Markets",
     applicationName: "ET Markets",
-    keywords: meta?.meta_keywords?.split(","),
+    keywords: meta?.keywords?.split(","),
     metadataBase: new URL("https://economictimes.indiatimes.com/"),
     alternates: {
-      canonical: "/",
+      canonical: "https://economictimes.indiatimes.com" + meta?.pathname,
       languages: {
         "en-IN": "/en-IN",
       },
@@ -420,12 +420,4 @@ export const getSelectedFilter = async (filter: any) => {
     id: selectedFilter.indexId,
     selectedTab: selectedFilter.selectedTab,
   };
-};
-
-export const getShortUrlMapping = async (type: string) => {
-  const response = await Service.get({
-    url: "https://etapipre.indiatimes.com/api/shorturlmapping/" + type,
-    params: {},
-  });
-  return response?.json();
 };

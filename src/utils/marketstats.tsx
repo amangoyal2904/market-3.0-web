@@ -6,7 +6,7 @@ const fetchTitleAndDesc = async (navData: any, L3NavSubItem: any) => {
   const results: { title: string; desc: string }[] = [];
   navData.forEach((navItem: any) => {
     navItem.sub_nav.forEach((subNavItem: any) => {
-      if (subNavItem.type.toLowerCase() === L3NavSubItem.toLowerCase()) {
+      if (subNavItem.type.toLowerCase() === L3NavSubItem) {
         const { title, desc } = subNavItem;
         results.push({ title, desc });
       }
@@ -92,4 +92,18 @@ export const getTechincalOperands = async (
     },
     category: L3NavMenuItem,
   };
+};
+
+export const getShortUrlMapping = async (type: string, pathname: any) => {
+  const response = await Service.get({
+    url: "https://etapipre.indiatimes.com/api/shorturlmapping/" + type,
+    params: {},
+  });
+  const urlList = await response?.json();
+  const isExist = urlList.some((item: any) => item.shortUrl == pathname);
+  if (isExist) {
+    const pageData = urlList.find((item: any) => item.shortUrl == pathname);
+    return { shortUrl: true, pageData };
+  }
+  return { shortUrl: false };
 };
