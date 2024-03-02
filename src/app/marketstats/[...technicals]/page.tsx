@@ -14,17 +14,18 @@ export async function generateMetadata(
   { searchParams, params }: any,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const type = searchParams?.type;
+  const L3NavMenuItem = params.technicals[0];
+  const L3NavSubItem = searchParams?.type?.toLowerCase();
   const firstOperand = searchParams?.firstoperand;
   const operationType = searchParams?.operationtype;
   const secondOperand = searchParams?.secondoperand;
   const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
 
-  const { metaData } = await getMarketStatsNav({ type, intFilter });
+  const { metaData } = await getMarketStatsNav({ L3NavSubItem, intFilter });
 
   const technicalCategory = await getTechincalOperands(
-    params,
-    type,
+    L3NavMenuItem,
+    L3NavSubItem,
     firstOperand,
     operationType,
     secondOperand,
@@ -34,7 +35,7 @@ export async function generateMetadata(
   const meta = {
     title: title,
     desc: desc,
-    keywords: `et, etmarkets, economictimes, ${params}, ${type}, ${firstOperand}, ${operationType}, ${secondOperand}`,
+    keywords: `et, etmarkets, economictimes, ${L3NavMenuItem}, ${L3NavSubItem}, ${firstOperand}, ${operationType}, ${secondOperand}`,
     index: false,
   };
   return fnGenerateMetaData(meta);
@@ -43,8 +44,9 @@ export async function generateMetadata(
 const MovingAverages = async ({ searchParams, params }: any) => {
   const cookieStore = cookies();
   const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
+  const L3NavMenuItem = params.technicals[0];
+  const L3NavSubItem = searchParams?.type?.toLowerCase();
   const ssoid = cookieStore.get("ssoid")?.value;
-  const type = searchParams?.type;
   const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
   const filter = !!intFilter ? [intFilter] : [];
   const firstOperand = searchParams?.firstoperand;
@@ -54,7 +56,10 @@ const MovingAverages = async ({ searchParams, params }: any) => {
   const pageno = 1;
   const sort: any = [];
 
-  const { l3Nav, metaData } = await getMarketStatsNav({ type, intFilter });
+  const { l3Nav, metaData } = await getMarketStatsNav({
+    L3NavSubItem,
+    intFilter,
+  });
 
   const { tabData, activeViewId } = await getCustomViewsTab({
     firstOperand,
@@ -65,7 +70,7 @@ const MovingAverages = async ({ searchParams, params }: any) => {
 
   const bodyParams = {
     viewId: activeViewId,
-    apiType: type,
+    apiType: L3NavSubItem,
     firstOperand,
     operationType,
     secondOperand,
@@ -80,8 +85,8 @@ const MovingAverages = async ({ searchParams, params }: any) => {
 
   const selectedFilter = await getSelectedFilter(intFilter);
   const technicalCategory = await getTechincalOperands(
-    params,
-    type,
+    L3NavMenuItem,
+    L3NavSubItem,
     firstOperand,
     operationType,
     secondOperand,
@@ -112,6 +117,8 @@ const MovingAverages = async ({ searchParams, params }: any) => {
         payload={payload}
         ssoid={ssoid}
         isprimeuser={isprimeuser}
+        l3NavMenuItem={L3NavMenuItem}
+        l3NavSubItem={L3NavSubItem}
       />
     </>
   );
