@@ -215,11 +215,24 @@ const MarketStats = ({
     if (_payload.apiType != payload.apiType) {
       const newApiType = payload.apiType;
       // Resetting the api type and page number, when user navigates from L3 nav
-      setPayload({
+      let newPaylaod = {
         ..._payload,
         apiType: newApiType,
         pageno: 1,
-      });
+      };
+      if (isTechnical) {
+        const { firstOperand, operationType, secondOperand } =
+          technicalCategory?.selectedFilter;
+        newPaylaod = {
+          ...newPaylaod,
+          firstOperand,
+          operationType,
+          secondOperand,
+        };
+      }
+      setPayload(newPaylaod);
+      setMetaData(metaData);
+      setTechnicalCategory(technicalCategory);
     }
   }, [searchParams]);
 
@@ -240,7 +253,7 @@ const MarketStats = ({
         <div className={styles.rhs}>
           {isTechnical && (
             <TechincalOperands
-              technicalCategory={technicalCategory}
+              technicalCategory={_technicalCategory}
               handleTechnicalOperands={onTechnicalOperandsUpdate}
             />
           )}
