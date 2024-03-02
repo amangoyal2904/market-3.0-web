@@ -55,16 +55,20 @@ const fetchViewTable = async (
 };
 
 export const getCustomViewsTab = async ({
-  type = null,
+  L3NavSubItem = null,
   firstOperand = null,
   operationType = null,
   secondOperand = null,
   ssoid,
 }: any) => {
-  if (type == null) {
-    type = concatenateAndLowerCase(firstOperand, operationType, secondOperand);
+  if (L3NavSubItem == null) {
+    L3NavSubItem = concatenateAndLowerCase(
+      firstOperand,
+      operationType,
+      secondOperand,
+    );
   }
-  const tabData = await fetchTabsData({ type, ssoid });
+  const tabData = await fetchTabsData({ L3NavSubItem, ssoid });
   const activeViewId = tabData[0].viewId;
   return {
     tabData,

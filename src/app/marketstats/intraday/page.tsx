@@ -14,14 +14,14 @@ export async function generateMetadata(
   { searchParams }: any,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const type = searchParams?.type;
+  const L3NavSubItem = searchParams?.type?.toLowerCase();
   const duration = searchParams.duration
     ? searchParams.duration.toUpperCase()
     : "1D";
   const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
 
   const { metaData } = await getMarketStatsNav({
-    type,
+    L3NavSubItem,
     intFilter,
     duration,
   });
@@ -29,7 +29,7 @@ export async function generateMetadata(
   const meta = {
     title: metaData[0]?.title,
     desc: metaData[0]?.desc,
-    keywords: `et, etmarkets, economictimes, ${type}, ${duration}`,
+    keywords: `et, etmarkets, economictimes, ${L3NavSubItem}, ${duration}`,
     index: false,
   };
   return fnGenerateMetaData(meta);
@@ -39,7 +39,8 @@ const Intraday = async ({ searchParams }: any) => {
   const cookieStore = cookies();
   const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
   const ssoid = cookieStore.get("ssoid")?.value;
-  const type = searchParams?.type?.toLowerCase();
+  const L3NavMenuItem = "intraday";
+  const L3NavSubItem = searchParams?.type?.toLowerCase();
   const duration = searchParams.duration
     ? searchParams.duration.toUpperCase()
     : "1D";
@@ -50,19 +51,19 @@ const Intraday = async ({ searchParams }: any) => {
   const sort: any = [];
 
   const { l3Nav, metaData } = await getMarketStatsNav({
-    type,
+    L3NavSubItem,
     intFilter,
     duration,
   });
 
   const { tabData, activeViewId } = await getCustomViewsTab({
-    type,
+    L3NavSubItem,
     ssoid,
   });
 
   const bodyParams = {
     viewId: activeViewId,
-    apiType: type,
+    apiType: L3NavSubItem,
     duration,
     filterValue: filter,
     filterType: !!filter && filter.length ? "index" : null,
@@ -99,6 +100,8 @@ const Intraday = async ({ searchParams }: any) => {
         payload={payload}
         ssoid={ssoid}
         isprimeuser={isprimeuser}
+        l3NavMenuItem={L3NavMenuItem}
+        l3NavSubItem={L3NavSubItem}
       />
     </>
   );

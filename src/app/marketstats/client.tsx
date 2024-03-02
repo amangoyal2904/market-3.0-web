@@ -40,12 +40,12 @@ const MarketStats = ({
   payload = {},
   ssoid = null,
   isprimeuser = false,
+  l3NavMenuItem = null,
+  l3NavSubItem = null,
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const params = useParams();
-  const l3NavType = searchParams.get("type");
   const [dayFilterData, setDayFilterData] = useState({
     value: payload?.duration,
     label: durationOptions.find((option) => option.value === payload?.duration)
@@ -89,9 +89,8 @@ const MarketStats = ({
   };
 
   const updateL3NAV = async (intFilter: any, duration: any) => {
-    const type = getParameterByName("type");
     const { l3Nav } = await getMarketStatsNav({
-      type,
+      l3NavSubItem,
       intFilter,
       duration,
     });
@@ -152,18 +151,16 @@ const MarketStats = ({
 
   const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
     setProcessingLoader(true);
-    const type = getParameterByName("type");
     const { tabData } = await getCustomViewsTab({
-      type,
+      l3NavSubItem,
     });
     setTabData(tabData);
     setActiveViewId(tabIdActive);
   };
   const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
     setProcessingLoader(true);
-    const type = getParameterByName("type");
     const { tabData, activeViewId } = await getCustomViewsTab({
-      type,
+      l3NavSubItem,
       ssoid: getCookie("ssoid"),
     });
 
@@ -183,8 +180,7 @@ const MarketStats = ({
   }: any) => {
     setProcessingLoader(true);
     let url = `${pathname}?${searchParams}`;
-    const type = searchParams.get("type");
-    if (type == "golden-cross" || type == "death-cross") {
+    if (l3NavSubItem == "golden-cross" || l3NavSubItem == "death-cross") {
       url = updateOrAddParamToPath(url, "type", "sma-sma-crossovers");
     }
     (url = updateOrAddParamToPath(url, "firstoperand", firstOperand)),
@@ -193,8 +189,8 @@ const MarketStats = ({
     router.push(url, { scroll: false });
 
     const technicalCategory = await getTechincalOperands(
-      params,
-      type,
+      l3NavMenuItem,
+      l3NavSubItem,
       firstOperand,
       operationType,
       secondOperand,
@@ -243,7 +239,7 @@ const MarketStats = ({
       <p className={styles.desc}>{_metaData.desc}</p>
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
-          <MarketStatsNav leftNavResult={_l3Nav} type={l3NavType} />
+          <MarketStatsNav leftNavResult={_l3Nav} type={l3NavSubItem} />
         </aside>
         <div className={styles.rhs}>
           {isTechnical && (
