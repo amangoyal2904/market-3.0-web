@@ -7,7 +7,11 @@ import {
   getSelectedFilter,
 } from "@/utils/utility";
 import { Metadata, ResolvingMetadata } from "next";
-import { getMarketStatsNav, getShortUrlMapping } from "@/utils/marketstats";
+import {
+  getAllShortUrls,
+  getMarketStatsNav,
+  getShortUrlMapping,
+} from "@/utils/marketstats";
 import {
   getCustomViewTable,
   getCustomViewsTab,
@@ -62,8 +66,6 @@ const Intraday = async ({ searchParams }: any) => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
   const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
-  console.log({ shortUrl });
-  console.log({ pageData });
   let L3NavMenuItem, L3NavSubItem, duration, intFilter, actualUrl;
   if (shortUrl) {
     actualUrl = pageData?.longURL;
@@ -129,6 +131,8 @@ const Intraday = async ({ searchParams }: any) => {
     desc: desc,
   };
 
+  const shortUrlMapping = await getAllShortUrls();
+
   return (
     <>
       <MarketStats
@@ -150,6 +154,7 @@ const Intraday = async ({ searchParams }: any) => {
         l3NavMenuItem={L3NavMenuItem}
         l3NavSubItem={L3NavSubItem}
         actualUrl={actualUrl}
+        shortUrlMapping={shortUrlMapping}
       />
     </>
   );
