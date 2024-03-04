@@ -29,6 +29,7 @@ const MarketFiltersTab = ({
   dayFilterData,
   setDayFilterData,
   watchlistDataLength = 0,
+  removePersonaliseView,
 }: any) => {
   const {
     showAddStock,
@@ -130,7 +131,6 @@ const MarketFiltersTab = ({
     const data = await fetchFilters();
     setFilterMenuData(data);
   };
-
   useEffect(() => {
     if (showIndexFilter) {
       filterApiCall();
@@ -238,6 +238,7 @@ const MarketFiltersTab = ({
           closePopCreateView={setOpenPersonaliseCreateModal}
           onPersonalizeHandler={onPersonalizeHandler}
           editmode={editMode}
+          removePersonaliseView={removePersonaliseView}
         />
       ) : (
         ""
