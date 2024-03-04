@@ -1,0 +1,134 @@
+.asideNav {
+  .mainList {
+    list-style-type: none;
+    .mainListLi {
+      padding: 7px 15px 7px 0;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .liActive {
+      .scrName {
+        font-weight: 700;
+      }
+    }
+  }
+}
+.navTitle {
+  display: flex;
+  font-size: 12px;
+  .up {
+    margin-right: 10px;
+    transition: transform 0.1s ease;
+  }
+}
+.asideNav .subChildNav {
+  margin: 0 0 0 25px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 5px;
+  display: none;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the scrollbar handle */
+    border-radius: 3px; /* Rounded corners */
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the scrollbar handle on hover */
+  }
+  li {
+    padding: 0;
+    margin-top: 2px;
+    a {
+      display: block;
+      padding: 3px 4px;
+      font-size: 12px;
+      line-height: 16px;
+      line-break: anywhere;
+      &:hover {
+        background-color: rgba(255, 233, 225, 1);
+      }
+    }
+  }
+  .active {
+    a {
+      background-color: rgba(255, 233, 225, 1);
+    }
+  }
+}
+.asideNav .subChildNav.expanded {
+  display: block;
+}
+
+.querySec {
+  margin: 50px 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  .left {
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 1);
+    padding: 16px;
+    border-radius: 5px;
+    width: 63%;
+    min-height: 245px;
+    .heading {
+      font-size: 18px;
+      line-height: 22px;
+      font-weight: 600;
+    }
+    .queryBox {
+      margin-top: 20px;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 18px;
+    }
+    .btnSec {
+      margin-top: 20px;
+      .editBtn {
+        display: inline-block;
+        vertical-align: top;
+        cursor: pointer;
+        border-radius: 3px;
+        padding: 10px 24px 10px 24px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 18px;
+        color: #ffffff;
+        background: #000000;
+      }
+    }
+  }
+  .right {
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 1);
+    padding: 6px 16px;
+    border-radius: 5px;
+    width: 35%;
+    .listQuerySample {
+      list-style-type: none;
+      .head3 {
+        font-size: 18px;
+        line-height: 22px;
+        font-weight: 600;
+      }
+      .text {
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 400;
+        margin-top: 5px;
+      }
+      li {
+        padding: 10px 0;
+      }
+      li + li {
+        border-top: solid 1px rgba(230, 230, 230, 1);
+      }
+    }
+  }
+}

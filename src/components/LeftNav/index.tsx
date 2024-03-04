@@ -8,8 +8,8 @@ import Link from "next/link";
 
 const LeftNav = (props: any) => {
   //console.log("props-----", props.leftNavResult);
-  const { leftNavResult } = props;
-  const { markets, markets_pro } = leftNavResult;
+  const { leftNavResult = {} } = props;
+  const { markets = {}, markets_pro = {} } = leftNavResult;
   const [isExpanded, setIsExpanded] = useState(true);
   const [isL2Expanded, setIsL2Expanded] = useState(false);
   const pathname = usePathname();
@@ -55,7 +55,7 @@ const LeftNav = (props: any) => {
         </div>
         <div>
           <ul className={styles.marketNavWrap}>
-            {markets?.nav.map((value: any, index: any) => {
+            {markets?.nav?.map((value: any, index: any) => {
               return (
                 <li
                   className={`${styles.navListWrap} ${!isExpanded ? styles.l2Collapsed : ""}`}
@@ -127,7 +127,7 @@ const LeftNav = (props: any) => {
               {/* {isExpanded ?  : } */}
             </h3>
             <ul>
-              {markets_pro?.nav.map((value: any, index: any) => {
+              {markets_pro?.nav?.map((value: any, index: any) => {
                 return (
                   <li
                     className={styles.navListWrap}

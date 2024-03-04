@@ -5,6 +5,8 @@ import FixedTable from "./FixedTable";
 import ScrollableTable from "./ScrollableTable";
 import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
+import Pagination from "./Pagination";
+import { getCookie } from "@/utils";
 
 interface propsType {
   data: any[];
@@ -15,7 +17,11 @@ interface propsType {
   multipleStockCollect?: any;
   loader?: boolean;
   tableConfig?: any;
-  ivKey?: any;
+  pageSummary?: any;
+  handleSortServerSide?: any;
+  handlePageChange?: any;
+  updateTableHander?: any;
+  processingLoader?: boolean;
 }
 
 const MarketTable = (props: propsType) => {
@@ -27,19 +33,25 @@ const MarketTable = (props: propsType) => {
     showTableCheckBox = false,
     multipleStockCollect,
     tableConfig = {},
-    ivKey,
+    pageSummary = {},
+    handleSortServerSide,
+    handlePageChange,
+    updateTableHander,
+    processingLoader,
   } = props || {};
   const { loader = false, loaderType } = tableConfig || {};
-  const [ivKeyPhrase, setIvKeyPhrase] = useState(ivKey);
+  const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
-  const [sortData, setSortData] = useState<any>({});
+  const [sortData, setSortData] = useState({ field: null, order: "desc" });
+  const [_sortData, _setSortData] = useState({ field: null, order: "desc" });
   const [headerSticky, setHeaderSticky] = useState(0);
   const [topScrollHeight, setTopScrollHeight] = useState(162);
   const [loaderOff, setLoaderOff] = useState(false);
   const [isPrime, setPrime] = useState(false);
   const [hideThead, setHideThead] = useState(false);
+  const [parentHasScroll, setParentHasScroll] = useState(false);
   const handleFilterChange = (e: any) => {
     const { name, value } = e.target;
     const inputType = e.target.dataset["type"];
@@ -62,18 +74,19 @@ const MarketTable = (props: propsType) => {
     //console.log({ filters });
   };
 
-  const handleSort = (key: any) => {
-    if (Object.keys(sortData).includes(key)) {
-      if (sortData[key] == "asc") {
-        delete sortData[key];
-        setSortData({ ...sortData, [key]: "desc" });
-      } else {
-        delete sortData[key];
-        setSortData({ ...sortData, [key]: "asc" });
-      }
+  const sortHandler = (key: any) => {
+    if (sortData.field === key) {
+      setSortData({
+        ...sortData,
+        order: sortData.order === "asc" ? "desc" : "asc",
+      });
     } else {
-      setSortData({ ...sortData, [key]: "desc" });
+      setSortData({ field: key, order: "desc" });
     }
+
+    tableConfig.serverSideSort
+      ? handleSortServerSide(key)
+      : _setSortData(sortData);
   };
 
   const filterTableData = (filterData: any) => {
@@ -144,35 +157,34 @@ const MarketTable = (props: propsType) => {
   };
 
   const sortTableData = (tableData: any) => {
-    if (Object.keys(sortData).length) {
-      Object.keys(sortData).forEach((keyId) => {
-        tableData = tableData.sort((a: any, b: any) => {
-          const inputType = tableData[0].data.find(
-            (element: any) => element.keyId == keyId,
-          ).valueType;
+    const { field, order } = sortData;
+    if (!!field) {
+      tableData = tableData.sort((a: any, b: any) => {
+        const inputType = tableData[0].data.find(
+          (element: any) => element.keyId == field,
+        ).valueType;
 
-          let valueA = a.data.find((item: any) => {
-            return item.keyId == keyId;
-          }).filterFormatValue;
-          let valueB = b.data.find((item: any) => {
-            return item.keyId == keyId;
-          }).filterFormatValue;
+        let valueA = a.data.find((item: any) => {
+          return item.keyId == field;
+        }).filterFormatValue;
+        let valueB = b.data.find((item: any) => {
+          return item.keyId == field;
+        }).filterFormatValue;
 
-          if (inputType != "text") {
-            valueA = parseFloat(valueA);
-            valueB = parseFloat(valueB);
-          }
+        if (inputType != "text") {
+          valueA = parseFloat(valueA);
+          valueB = parseFloat(valueB);
+        }
 
-          if (sortData[keyId] === "asc") {
-            if (valueA < valueB) return -1;
-            if (valueA > valueB) return 1;
-          } else if (sortData[keyId] === "desc") {
-            if (valueA > valueB) return -1;
-            if (valueA < valueB) return 1;
-          }
+        if (order === "asc") {
+          if (valueA < valueB) return -1;
+          if (valueA > valueB) return 1;
+        } else if (order === "desc") {
+          if (valueA > valueB) return -1;
+          if (valueA < valueB) return 1;
+        }
 
-          return 0; // elements are equal
-        });
+        return 0; // elements are equal
       });
     }
     return tableData;
@@ -214,38 +226,45 @@ const MarketTable = (props: propsType) => {
   };
   useEffect(() => {
     setFilters({});
-    setSortData({});
+    _setSortData({ field: null, order: "asc" });
   }, [tabsViewIdUpdate]);
 
   useEffect(() => {
-    if (data.length || apiSuccess) {
+    const parent = document.querySelector("#scrollableTable");
+    if (parent) {
+      setParentHasScroll(parent.scrollWidth > parent.clientWidth);
+    }
+  });
+
+  useEffect(() => {
+    if ((data && data.length) || apiSuccess) {
       const filteredData = filterTableData(data);
       const sortedData = sortTableData(filteredData);
       setTableDataList((tableDataList) => [...sortedData]);
       setTableHeaderData(tableHeaders);
-      setIvKeyPhrase(ivKey);
+      setPageSummary(pageSummary);
       if (!loaderOff) setLoaderOff(true);
-    } else if (data.length === 0) {
+    } else if (data && data.length === 0) {
       setTableDataList([]);
+      setTableHeaderData([]);
+      setPageSummary({});
     }
-
-    const isPrime =
-      typeof window != "undefined" &&
-      window.objUser &&
-      window.objUser.permissions &&
-      window.objUser.permissions.indexOf("subscribed") != -1;
+    setHeaderSticky(0);
+    const isPrime = getCookie("isprimeuser") ? true : false;
     setPrime(isPrime);
-  }, [apiSuccess, data, sortData, filters, loaderOff]);
+  }, [apiSuccess, data, pageSummary, _sortData, filters, loaderOff]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
   }, []);
+
   if (!loaderOff && loader) {
     return <Loader loaderType={loaderType} />;
   }
   return (
     <>
       <div className={styles.tableWrapper} id="table">
+        {!!processingLoader && <Loader loaderType="container" />}
         {tableHeaderData.length > 0 && (
           <>
             <FixedTable
@@ -254,10 +273,11 @@ const MarketTable = (props: propsType) => {
               scrollLeftPos={scrollLeftPos}
               headerSticky={headerSticky}
               topScrollHeight={topScrollHeight}
-              handleSort={handleSort}
+              handleSort={sortHandler}
               sortData={sortData}
               filters={filters}
               handleFilterChange={handleFilterChange}
+              isPrime={isPrime}
               hideThead={hideThead}
               showRemoveCheckbox={showTableCheckBox}
               removeCheckBoxHandle={removeCheckBoxHandleFun}
@@ -269,28 +289,34 @@ const MarketTable = (props: propsType) => {
               scrollRightPos={scrollRightPos}
               headerSticky={headerSticky}
               topScrollHeight={topScrollHeight}
-              handleSort={handleSort}
+              handleSort={sortHandler}
               sortData={sortData}
               filters={filters}
               handleFilterChange={handleFilterChange}
               isPrime={isPrime}
               hideThead={hideThead}
               tableConfig={tableConfig}
-              ivKeyPhrase={ivKeyPhrase}
+              parentHasScroll={parentHasScroll}
             />
           </>
         )}
       </div>
-      {tableDataList.length == 0 || tableHeaderData.length == 0 ? (
+      {tableDataList.length == 0 && tableHeaderData.length == 0 ? (
         <Blocker
-          type={
-            tableDataList.length == 0 && tableHeaderData.length == 0
-              ? "noStocks"
-              : "noDataFound"
-          }
+          type={tableConfig.name == "watchList" ? "noStocks" : "noDataFound"}
+          updateTableHander={updateTableHander}
         />
       ) : (
-        ""
+        _pageSummary &&
+        _pageSummary.totalpages > 1 && (
+          <Pagination
+            pageSummary={_pageSummary}
+            onPageChange={handlePageChange}
+          />
+        )
+      )}
+      {tableDataList.length == 0 && tableHeaderData.length != 0 && (
+        <Blocker type={"noDataFound"} updateTableHander={updateTableHander} />
       )}
     </>
   );

@@ -4,6 +4,9 @@ import StockReportsPlus from "@/components/StockReportsPlus";
 import APIS_CONFIG from "@/network/api_config.json";
 import service from "@/network/service";
 import { APP_ENV } from "@/utils";
+import MarketsDashboardWidget from "@/components/MarketsDashboardWidget";
+import StockScreenerWidget from "@/components/ScreenerWidget";
+import LiveStreamWidget from "@/components/LiveStreamWidget";
 
 const Home = async () => {
   const getRecosData = async (type: any) => {
@@ -60,9 +63,12 @@ const Home = async () => {
   const srPlusResult = await getSrPlusData("2554");
   return (
     <>
+      <MarketsDashboardWidget />
       <WatchlistWidget />
       <StockRecommendations stockRecoResult={stockRecoResult} />
       <StockReportsPlus srResult={srPlusResult} />
+      <StockScreenerWidget />
+      <LiveStreamWidget />
     </>
   );
 };

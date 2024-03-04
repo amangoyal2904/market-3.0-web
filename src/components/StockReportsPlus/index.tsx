@@ -37,6 +37,29 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
       screenerId: 2695,
     },
   ];
+  const responsive = [
+    {
+      breakpoint: 1921,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 4,
+      },
+    },
+    {
+      breakpoint: 1601,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      },
+    },
+    {
+      breakpoint: 1361,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+      },
+    },
+  ];
   const [activeTab, setActiveTab] = useState(tabNames[0]);
   const [activeSlides, setActiveSlides] = useState<any[]>(srResult.dataList);
 
@@ -46,9 +69,6 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
     // console.log('tabName ---> ', tab)
   };
 
-  const getdotsnum = (a: any) => {
-    // alert(a);
-  };
   const fetchData = async (screenerId: any) => {
     const stockReportAllTabApi = `${(APIS_CONFIG as any)?.["SCREENER_BY_SCREENERID"][APP_ENV]}`;
     // console.log("@@type --- > " , type)
@@ -109,7 +129,10 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
                 }))}
                 key={`slider${activeTab}`}
                 sliderId={`slider${activeTab}`}
-                dotsNum={getdotsnum}
+                slidesToShow={3}
+                slidesToScroll={3}
+                rows={2}
+                responsive={responsive}
               />
             ) : (
               <SlickSlider
@@ -118,7 +141,10 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
                 }))}
                 key={`slider${activeTab}`}
                 sliderId={`slider${activeTab}`}
-                dotsNum={getdotsnum}
+                slidesToShow={3}
+                slidesToScroll={3}
+                rows={2}
+                responsive={responsive}
               />
             )}
           </div>

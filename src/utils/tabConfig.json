@@ -1,0 +1,38 @@
+{
+  "watchList": {
+    "showAddStock": true,
+    "showEditStock": true,
+    "showIndexFilter": false,
+    "showDuration": false,
+    "showPersonalize": true,
+    "showExport": false,
+    "showCreateScreener": false
+  },
+  "marketStatsIntrday": {
+    "showAddStock": false,
+    "showEditStock": false,
+    "showIndexFilter": true,
+    "showDuration": true,
+    "showPersonalize": true,
+    "showExport": false,
+    "showCreateScreener": false
+  },
+  "marketStatsTechnical": {
+    "showAddStock": false,
+    "showEditStock": false,
+    "showIndexFilter": true,
+    "showDuration": false,
+    "showPersonalize": true,
+    "showExport": false,
+    "showCreateScreener": false
+  },
+  "stocksScreener": {
+    "showAddStock": false,
+    "showEditStock": false,
+    "showIndexFilter": true,
+    "showDuration": false,
+    "showPersonalize": true,
+    "showExport": true,
+    "showCreateScreener": true
+  }
+}

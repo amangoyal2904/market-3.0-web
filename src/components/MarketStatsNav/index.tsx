@@ -1,14 +1,15 @@
 "use client";
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import styles from "./MarketStatsNav.module.scss";
 import Link from "next/link";
-import MarketStatsSubNav from "./MarketStatsSubNav";
+
 interface PageProps {
   leftNavResult: any;
+  type: any;
 }
 
 const MarketStatsNav: React.FC<PageProps> = (props) => {
-  const { leftNavResult } = props;
+  const { leftNavResult, type } = props;
   // console.log("leftNavResult", leftNavResult.nav);
   const [expandedItems, setExpandedItems] = useState<number[]>([0]);
 
@@ -32,31 +33,20 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
           item.classList.remove(styles["expanded"]);
           item.classList.add(styles["collapsed"]);
           const caret = item.getElementsByClassName(styles["caret"]);
-          caret[0].classList.remove("eticon_caret_down");
-          caret[0].classList.add("eticon_caret_up");
+          caret[0].classList.remove("eticon_caret_up");
+          caret[0].classList.add("eticon_caret_down");
         });
         elm.classList.remove(styles["collapsed"]);
         elm.classList.add(styles["expanded"]);
         const caret = elm.getElementsByClassName(styles["caret"]);
-        caret[0].classList.remove("eticon_caret_up");
-        caret[0].classList.add("eticon_caret_down");
-        // const navAll = document.querySelectorAll(`.${styles["subNavWrapLi"]}`);
-        // navAll.forEach((item:any)=>{
-        //     item.classList.remove(styles["active"]);
-        // })
-        // const parentElem = e.target.parentNode;
-        // const nav = parentElem.nextElementSibling.querySelectorAll(`.${styles["subNavWrapLi"]}`);
-        // nav[0].classList.add(styles["active"]);
+        caret[0].classList.remove("eticon_caret_down");
+        caret[0].classList.add("eticon_caret_up");
       } else {
         elm.classList.remove(styles["expanded"]);
         elm.classList.add(styles["collapsed"]);
         const caret = elm.getElementsByClassName(styles["caret"]);
-        caret[0].classList.remove("eticon_caret_down");
-        caret[0].classList.add("eticon_caret_up");
-        // const nav = document.querySelectorAll(`.${styles["subNavWrapLi"]}`);
-        // nav.forEach((item)=>{
-        //     item.classList.remove(styles["active"]);
-        // })
+        caret[0].classList.remove("eticon_caret_up");
+        caret[0].classList.add("eticon_caret_down");
       }
     } catch (e) {
       console.log("Error toggleL2Menu: ", e);
@@ -82,14 +72,14 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
                 <div
                   key={item.id}
                   id={item.id}
-                  className={`${styles.navWrapLi} ${index == 0 ? styles.expanded : styles.collapsed}`}
+                  className={`${styles.navWrapLi} ${item.sub_nav.some((obj: any) => obj.type == type) ? styles.expanded : styles.collapsed}`}
                   onClick={(e) => {
                     item.sub_nav && toggleL2Menu(e);
                   }}
                 >
                   {item.sub_nav && item.sub_nav.length > 0 && (
                     <span
-                      className={`${index == 0 ? "eticon_caret_down" : "eticon_caret_up"} ${styles.caret}`}
+                      className={`${index == 0 ? "eticon_caret_up" : "eticon_caret_down"} ${styles.caret}`}
                     ></span>
                   )}
                   <span className={styles.labelName}>{item.label}</span>
@@ -100,7 +90,7 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
                       <li
                         key={subItem.id}
                         id={subItem.id}
-                        className={`${styles.subNavWrapLi}`}
+                        className={`${styles.subNavWrapLi} ${type == subItem.type ? styles.active : null}`}
                         onClick={(e) => handleClick(e)}
                       >
                         {/* className={`${index == 0 ? styles.active : ""}`} */}

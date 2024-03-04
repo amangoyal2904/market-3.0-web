@@ -1,4 +1,10 @@
-@import "../../styles/variables.scss";
+@import "@/styles/variables.scss";
+
+.ellipses {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 .tableWrapper {
   margin-top: 20px;
@@ -6,21 +12,23 @@
   position: relative;
   overflow: auto;
   overflow-y: "scroll";
-  justify-content: center;
+  justify-content: flex-start;
   font-family: $Montserrat-font-family;
 
   .inputWrapper {
     text-align: center;
     padding: 8px 12px;
+    &.firstInput {
+      padding-left: 0;
+    }
 
     .filterInput {
       width: 100%;
       min-width: 55px;
-      max-width: 100px;
       height: 32px;
       background-color: $gray_95;
       border: 0;
-      padding: 8px 16px;
+      padding: 8px 32px 8px 16px;
       border-radius: 3px;
       font-size: 12px;
       font-style: normal;
@@ -56,7 +64,7 @@
   overflow-x: auto;
 
   td {
-    padding: 9px 5px;
+    padding: 10px 15px;
     border-right: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
     background: $color-white;
@@ -68,16 +76,23 @@
     color: $black;
     font-style: normal;
     line-height: 18px;
-    text-align: center;
+    text-align: right;
     text-overflow: ellipsis;
     white-space: nowrap;
+    &.fullWidth {
+      width: 100%;
+      &.hide {
+        display: none;
+      }
+    }
   }
 
   th {
+    position: relative;
     white-space: nowrap;
-    padding: 16px 8px;
-    background-color: $gray_90;
-    border-right: 1px solid $gray_80;
+    padding: 15px 30px 15px 10px;
+    background-color: $gray_95;
+    border-right: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
     border-right-style: solid;
     font-family: $Montserrat-font-family;
@@ -91,12 +106,18 @@
     &.enableSort {
       cursor: pointer;
     }
+    &.fullWidth {
+      width: 100%;
+      &.hide {
+        display: none;
+      }
+    }
   }
 
   .firstTh {
-    width: 199px;
-    height: 48px;
+    width: 200px;
     min-width: 200px;
+    text-align: left;
     cursor: pointer;
   }
 
@@ -122,6 +143,7 @@
     width: 400px;
     border-collapse: collapse;
     overflow: auto;
+    border-left: 1px solid rgb(244, 244, 244);
   }
 
   .fixedTD {
@@ -152,13 +174,15 @@
 }
 
 .scrollableWrapper {
+  width: 100%;
   overflow-y: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
 .sortIcons {
-  margin-left: 4px;
+  position: absolute;
+  right: 10px;
   span {
     font-size: 12px;
     margin-right: -5px;
@@ -180,6 +204,7 @@
 }
 .searchWrapper {
   position: relative;
+  font-size: 12px;
   span {
     position: absolute;
     top: 3px;
@@ -193,6 +218,32 @@
     padding-right: 5px;
     label {
       cursor: pointer;
+    }
+  }
+}
+
+.m20 {
+  margin: 20px auto;
+}
+
+#tablePagination {
+  p {
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .pageList {
+    background: #fff;
+    color: #000;
+    display: inline-block;
+    padding: 5px 8px;
+    cursor: pointer;
+    &.active {
+      background: #000;
+      color: #fff;
+    }
+    &.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   }
 }

@@ -6,8 +6,9 @@ import {
   fetchAllWatchListData,
   saveStockInWatchList,
 } from "../../utils/utility";
-const AddStockComponent = ({ moduelClose }: any) => {
+const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
   const [viewStocks, setViewStocks]: any = useState([]);
+  const [loading, setLoading] = useState(false);
   const [searchNode, setSearchNode] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [watchlistStock, setWatchlistStock] = useState([]);
@@ -34,7 +35,11 @@ const AddStockComponent = ({ moduelClose }: any) => {
               : [];
           const addFollowFlag = filterData.map((stock: any) => {
             const followData = watchlistStock.find(
-              (wathcList: any) => wathcList.prefDataVal === stock.tagId,
+              (watchlist: any) =>
+                watchlist.prefDataVal === stock.tagId &&
+                ((watchlist.companyType === "equity" &&
+                  stock.entityType === "company") ||
+                  watchlist.companyType === stock.subType),
             );
             const data = followData
               ? { ...stock, follow: "yes" }
@@ -43,7 +48,6 @@ const AddStockComponent = ({ moduelClose }: any) => {
           });
 
           setViewStocks(addFollowFlag);
-          //console.log('followData',addFollowFlag)
         })
         .catch((err) => {
           console.log(err);
@@ -52,7 +56,6 @@ const AddStockComponent = ({ moduelClose }: any) => {
   };
   const addStockInWatchlistHandler = (companyData: any, action: any) => {
     // ===
-    //console.log('companyData',companyData)
     const companytType =
       companyData.entityType === "company" && !companyData.subType
         ? "equity"
@@ -145,8 +148,10 @@ const AddStockComponent = ({ moduelClose }: any) => {
         },
       ];
     }
+    setLoading(true);
     const addWathlistResAPI = await saveStockInWatchList(followData);
     //console.log('---save addWathlistResAPI',addWathlistResAPI, data.companyId)
+    setLoading(false);
     if (addWathlistResAPI?.status === "success") {
       //alert(addWathlistResAPI.meessage);
     } else if (addWathlistResAPI?.status === "failure") {
@@ -168,6 +173,7 @@ const AddStockComponent = ({ moduelClose }: any) => {
       });
       setViewStocks(addFollowFlag);
     }
+    updateTableHander();
   };
   const fetchWatchListStocks = async () => {
     const data = await fetchAllWatchListData("Follow", 11);
@@ -177,6 +183,7 @@ const AddStockComponent = ({ moduelClose }: any) => {
       setWatchlistStock(data);
     }
   };
+  // console.log('___WatchlistStock',watchlistStock)
   useEffect(() => {
     const handleClickOutsidePopup = (e: any) => {
       if (
@@ -211,9 +218,9 @@ const AddStockComponent = ({ moduelClose }: any) => {
   }, []);
   return (
     <>
-      <div className={styles.addStockWrap}>
-        <div className={styles.stockSec} ref={viewWraperRef}>
-          <div className={styles.header}>
+      <div className={`customeModule ${styles.addStockWrap}`}>
+        <div className={`moduleWrap ${styles.stockSec}`} ref={viewWraperRef}>
+          <div className={`moduleHeader ${styles.header}`}>
             <div className={styles.formGroup}>
               <span className={`eticon_search ${styles.searchIcon}`}></span>
               <input
@@ -226,7 +233,7 @@ const AddStockComponent = ({ moduelClose }: any) => {
           </div>
           <div className={styles.bodySec}>
             {viewStocks.length > 0 ? (
-              <ul className={styles.lsitItem}>
+              <ul className={`customeScroll ${styles.lsitItem}`}>
                 {viewStocks.map((item: any, index: any) => {
                   return (
                     <li
@@ -254,6 +261,13 @@ const AddStockComponent = ({ moduelClose }: any) => {
               </div>
             )}
           </div>
+          {loading ? (
+            <div className={styles.loading}>
+              <div className={styles.loader}></div>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>

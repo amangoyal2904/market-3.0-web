@@ -8,7 +8,7 @@ import NameViewComponent from "./createmodule";
 const CreateNewViewComponent = ({
   closePopCreateView,
   editmode,
-  tabsUpdateHandler,
+  onPersonalizeHandler,
 }: any) => {
   const [viewData, setViewData]: any = useState([]);
   const [screenerName, setScreenerName]: any = useState("");
@@ -21,6 +21,10 @@ const CreateNewViewComponent = ({
   const viewWraperRef = useRef<HTMLDivElement>(null);
   const [viewNameModule, setViewNameModule] = useState(false);
   const [sateUpdate, setSateUpdate] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [visibleTabs, setVisibleTabs] = useState<any[]>([]);
+  const [hiddenTabs, setHiddenTabs] = useState<any[]>([]);
+  const tabsListRef = useRef<HTMLUListElement>(null);
   //console.log('editmode', editmode)
   const ViewDataAPICall = async () => {
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.AllScreenerCategory[
@@ -35,26 +39,36 @@ const CreateNewViewComponent = ({
       resData.datainfo.screenerCategoryLevelZero.screenerCategoryLevelOne
         ? resData.datainfo.screenerCategoryLevelZero.screenerCategoryLevelOne
         : [];
+    const tabDataFilterDo: any[] = [];
+    viewDataSet.map((item: any) => {
+      return tabDataFilterDo.push({
+        categoryMappingID: item.categoryMappingID,
+        displayName: item.displayName,
+      });
+    });
+    tabDataFitlerBaseOnWidth(tabDataFilterDo);
     setViewData(viewDataSet);
   };
-
+  const hideElementsByClass = (className: any) => {
+    const elements = document.querySelectorAll(`.${className}`);
+    elements.forEach((element) => {
+      element.classList.add("hide");
+    });
+  };
   const saveUserPersonalise = () => {
     if (!selectedView.length) {
       alert("Please select at least one view");
     } else if (screenerName === "") {
       setViewNameModule(true);
+      const randomNumber = Math.floor(Math.random() * 100) + 1;
+      setScreenerName(`my${randomNumber}-view`);
+      //closePopCreateView(false);
+      hideElementsByClass("hideSecElement");
     } else {
       saveUserPersonaliseAPICall();
     }
   };
   const saveUserPersonaliseAPICall = async () => {
-    //console.log('save user view personalize ', selectedView)
-
-    // let userConfirmBox = false;
-    // if(editmode && editmode.mode && editmode.viewId !== ""){
-    //      userConfirmBox = confirm("Are you sure you want to be update this screener");
-    // }
-
     const ssoid = window.objUser?.ssoid;
     const updatedOrder: any[] = [];
     selectedView.map((item: any) => {
@@ -73,6 +87,7 @@ const CreateNewViewComponent = ({
     if (editmode && editmode.mode && editmode.viewId !== "") {
       bodyPost.viewId = editmode.viewId;
     }
+    setLoading(true);
     const res = await fetch(API_URL, {
       method: "POST",
       headers: {
@@ -82,12 +97,12 @@ const CreateNewViewComponent = ({
       body: JSON.stringify(bodyPost),
     });
     const resData = await res.json();
-    console.log("resdata", resData);
+    setLoading(false);
     if (resData && resData.responseCode === 200) {
       const viewId: any = resData.viewId || "";
       closePopCreateView(false);
       //alert(resData.response)
-      tabsUpdateHandler(viewId);
+      onPersonalizeHandler(viewId);
     } else {
       alert("some error please check api or code");
     }
@@ -129,6 +144,11 @@ const CreateNewViewComponent = ({
 
   const viewCheckHandler = (e: any, addData: any) => {
     const isChecked = e.target.checked;
+    console.log("selectedView", selectedView);
+    if (selectedView.length >= 20 && isChecked) {
+      alert("You have only 20 selected not more ");
+      return;
+    }
     if (isChecked) {
       let viewAllDataforSelected: any = [...selectedView];
       const userSelectViewData = {
@@ -169,6 +189,7 @@ const CreateNewViewComponent = ({
     }
   };
   const fetchByViewID = async (viewId: any) => {
+    setLoading(true);
     const ssoid = window.objUser?.ssoid;
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.screenerViewById[
       APP_ENV
@@ -198,8 +219,10 @@ const CreateNewViewComponent = ({
       setScreenerName(resData[0].name);
       setSelectedView(createViewData);
     }
+    setLoading(false);
   };
   const removeByViewID = async (viewId: any) => {
+    setLoading(true);
     const ssoid = window.objUser?.ssoid;
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW
       .screenerRemoveviewbyid[APP_ENV];
@@ -211,10 +234,11 @@ const CreateNewViewComponent = ({
     });
     const resData = await data.json();
     //console.log('resdata', resData)
+    setLoading(false);
     if (resData && resData.responseCode === 200) {
       closePopCreateView(false);
       //alert(resData.response)
-      tabsUpdateHandler();
+      onPersonalizeHandler();
     } else {
       alert("some error please check api or code");
     }
@@ -231,7 +255,6 @@ const CreateNewViewComponent = ({
     setSelectedView(__updatedViewData);
   };
   const viewNameHandlerFun = (viewName: string) => {
-    console.log("__viewName_", viewName);
     if (viewName !== "") {
       setViewNameModule(false);
       saveUserPersonalise();
@@ -250,7 +273,41 @@ const CreateNewViewComponent = ({
       document.removeEventListener("click", handleClickOutside);
     };
   }, [searchRef]);
-
+  const handleResizeTabslist = () => {
+    const tabsListWidth = tabsListRef.current?.offsetWidth;
+    if (tabsListWidth != null) {
+      const actualTabListWith = tabsListWidth - 200;
+      const visibleTabsWidth = visibleTabs.reduce((totalWidth, tab) => {
+        return totalWidth + tab.offsetWidth;
+      }, 0);
+      const hiddenTabsWidth = hiddenTabs.reduce((totalWidth, tab) => {
+        return totalWidth + tab.offsetWidth;
+      }, 0);
+    }
+  };
+  const tabDataFitlerBaseOnWidth = (data: any) => {
+    //console.log("___data", data);
+    const tabsListWidth = tabsListRef.current?.offsetWidth;
+    if (tabsListWidth != null) {
+      let currentWidth = 0;
+      const filterData = data || [];
+      const newVisibleTabs: any[] = [];
+      const newHiddenTabs: any[] = [];
+      for (const tab of filterData) {
+        //console.log("tab", tab);
+        const tabWidth = tab.displayName.length * 10; // Adjust the width calculation as per your requirement
+        if (currentWidth + tabWidth < tabsListWidth) {
+          newVisibleTabs.push(tab);
+          currentWidth += tabWidth;
+        } else {
+          newHiddenTabs.push(tab);
+        }
+      }
+      setVisibleTabs(newVisibleTabs);
+      setHiddenTabs(newHiddenTabs);
+    }
+  };
+  //console.log('VisibleTabs', visibleTabs, "_HiddenTabs__", hiddenTabs)
   useEffect(() => {
     const handleClickOutsidePopup = (e: any) => {
       //console.log('___________')
@@ -273,6 +330,10 @@ const CreateNewViewComponent = ({
     if (editmode && editmode.mode && editmode.viewId !== "") {
       fetchByViewID(editmode.viewId);
     }
+    //window.addEventListener("resize", handleResizeTabslist);
+    return () => {
+      //window.removeEventListener("resize", handleResizeTabslist);
+    };
   }, []);
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -292,7 +353,7 @@ const CreateNewViewComponent = ({
     <>
       <div className={`customeModule ${styles.wraper}`}>
         <div className={`moduleWrap ${styles.perWrap}`} ref={viewWraperRef}>
-          <div className={styles.header}>
+          <div className={`hideSecElement ${styles.header}`}>
             <span>
               {editmode && editmode.mode && editmode.viewId !== ""
                 ? "Edit"
@@ -313,7 +374,7 @@ const CreateNewViewComponent = ({
                             <input type="text" placeholder="Please enter screener name" value={screenerName} onChange={(e:any)=>setScreenerName(e.target.value)} />
                         </div> */}
           </div>
-          <div className={`moduleBody ${styles.body}`}>
+          <div className={`hideSecElement moduleBody ${styles.body}`}>
             <div className={styles.bodySec}>
               <div className={styles.filterSec}>
                 <div className={styles.leftSec}>
@@ -388,7 +449,9 @@ const CreateNewViewComponent = ({
                         onChange={handleInputChange}
                       />
                       {searchListItems.length > 0 ? (
-                        <ul className={styles.searchItemList}>
+                        <ul
+                          className={`customeScroll ${styles.searchItemList}`}
+                        >
                           {searchListItems.map((item: any) => {
                             return (
                               <li
@@ -432,9 +495,9 @@ const CreateNewViewComponent = ({
                     </div>
                   </div>
                   <div className={styles.resultSec}>
-                    <ul className={styles.topLevelList}>
-                      {viewData.length > 0 ? (
-                        viewData.map((item: any, index: number) => (
+                    <ul className={styles.topLevelList} ref={tabsListRef}>
+                      {visibleTabs.length > 0 ? (
+                        visibleTabs.map((item: any, index: number) => (
                           <li
                             key={item.categoryMappingID}
                             className={index === activeTab ? styles.active : ""}
@@ -446,8 +509,41 @@ const CreateNewViewComponent = ({
                           </li>
                         ))
                       ) : (
-                        <div>No data found</div>
+                        <li>No data found</li>
                       )}
+                      {hiddenTabs && hiddenTabs.length > 0 ? (
+                        <li className={styles.moreTabsListData}>
+                          <div className={styles.moreTabWrap}>
+                            <div className={styles.moreSec}>
+                              More{" "}
+                              <span
+                                className={`eticon_caret_down ${styles.moreCaretDown}`}
+                              ></span>
+                            </div>
+                            <ul className={styles.moreListItem}>
+                              {hiddenTabs.map((item: any, index: number) => {
+                                return (
+                                  <li
+                                    key={item.categoryMappingID}
+                                    className={
+                                      visibleTabs.length + index === activeTab
+                                        ? styles.active
+                                        : ""
+                                    }
+                                    onClick={() =>
+                                      handleTabClick(visibleTabs.length + index)
+                                    }
+                                  >
+                                    <div className={styles.catHead}>
+                                      {item.displayName}
+                                    </div>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        </li>
+                      ) : null}
                     </ul>
 
                     {viewData.length > 0 && (
@@ -473,7 +569,9 @@ const CreateNewViewComponent = ({
                                 </div>
                                 {subItem.screenerCategoryFields &&
                                   subItem.screenerCategoryFields.length > 0 && (
-                                    <ul className={styles.innerList}>
+                                    <ul
+                                      className={`customeScroll ${styles.innerList}`}
+                                    >
                                       {subItem.screenerCategoryFields.map(
                                         (childSubItem: any) => (
                                           <li
@@ -528,7 +626,7 @@ const CreateNewViewComponent = ({
                             ),
                           )
                         ) : (
-                          <div>No inner data found</div>
+                          <li>No inner data found</li>
                         )}
                       </ul>
                     )}
@@ -537,7 +635,7 @@ const CreateNewViewComponent = ({
               </div>
             </div>
           </div>
-          <div className={styles.footer}>
+          <div className={`hideSecElement ${styles.footer}`}>
             {editmode && editmode.mode && editmode.viewId !== "" ? (
               <span
                 className={`${styles.updateBtn} ${styles.removeBtn}`}
@@ -559,8 +657,16 @@ const CreateNewViewComponent = ({
               editMode={editmode.viewId}
               updateViewNameHandler={updateViewNameHandler}
               setScreenerName={setScreenerName}
+              closeViewNamePopup={setViewNameModule}
             />
           ) : null}
+          {loading ? (
+            <div className={styles.loading}>
+              <div className={styles.loader}></div>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </>

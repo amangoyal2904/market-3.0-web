@@ -34,15 +34,35 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
     //   name: "Recos on Your Watchlist",
     // },
   ];
+  const responsive = [
+    {
+      breakpoint: 1921,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      },
+    },
+    {
+      breakpoint: 1601,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      },
+    },
+    {
+      breakpoint: 1361,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+      },
+    },
+  ];
   const [activeTab, setActiveTab] = useState(tabNames[0]);
   const [stockData, setStockData] = useState<any[]>(stockRecoResult?.recoData);
 
   const handleTabClick = (tab: any) => {
     setActiveTab(tab);
     fetchData(tab.type);
-  };
-  const getdotsnum = (a: any) => {
-    // alert(a)
   };
   const fetchData = async (type: any) => {
     const stockReportAllTabApi =
@@ -104,7 +124,10 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
               }))}
               key={`slider${activeTab.type}`}
               sliderId={`slider${activeTab.type}`}
-              dotsNum={getdotsnum}
+              slidesToShow={3}
+              slidesToScroll={3}
+              rows={2}
+              responsive={responsive}
             />
           </div>
         </div>

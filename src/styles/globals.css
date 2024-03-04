@@ -9,14 +9,6 @@
 }
 
 @font-face {
-  font-family: "Faustina";
-  src: url("/fonts/Faustina-VariableFont_wght.woff2") format("woff2-variations");
-  font-weight: 300 800;
-  font-display: swap;
-  font-style: normal;
-}
-
-@font-face {
   font-family: "Lato";
   src: url("/fonts/lato-regular.woff2") format("woff2-variations");
   font-weight: 400 700;
@@ -306,6 +298,11 @@ a {
 .align-item-center {
   align-items: center;
 }
+
+.space-between {
+  justify-content: space-between;
+}
+
 .slick-dots {
   top: 0;
   right: 0;
@@ -338,7 +335,7 @@ a {
 .default-btn {
   font-size: 12px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   padding: 4px 10px;
   border: 1px solid #000;
   border-radius: 100px;
@@ -353,14 +350,18 @@ a {
   background-size: 500px;
 }
 .green {
-  color: green;
+  color: #0d875c;
 }
 .red {
-  color: red;
+  color: #d51131;
 }
 .hide {
   display: none;
 }
+.hide.hideSecElement {
+  display: none !important;
+}
+
 .center {
   text-align: center;
   justify-content: center;
@@ -407,11 +408,11 @@ table {
 .main_container {
   padding: 20px;
   flex-grow: 1;
-  width: calc(100vw - 200px);
+  width: calc(100vw - 210px);
 }
 
 .heading {
-  font-family: Faustina;
+  font-family: Montserrat;
   font-size: 32px;
   font-style: normal;
   font-weight: 800;
@@ -419,6 +420,23 @@ table {
 }
 
 /* Here Only Module Css start here */
+.customeScroll {
+  overflow-y: scroll;
+}
+.customeScroll::-webkit-scrollbar {
+  width: 8px;
+}
+.customeScroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+.customeScroll::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 10px;
+}
+.customeScroll::-webkit-scrollbar-thumb:hover {
+  background: #ddd;
+}
 .customeModule {
   position: fixed;
   left: 0;
@@ -426,11 +444,8 @@ table {
   top: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.2);
-  z-index: 99;
+  z-index: 999;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .customeModule .moduleWrap {
   position: relative;
@@ -440,6 +455,7 @@ table {
   background: #fff;
   text-align: left;
   min-width: 420px;
+  margin-top: 80px;
 }
 .customeModule .moduleHeader {
   display: flex;
@@ -458,5 +474,14 @@ table {
   margin: 0;
   max-height: 70vh;
   position: relative;
+}
+.tabsWrap {
+  display: flex;
+  border-bottom: solid 1px #cdcdcd;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px 10px 0;
+  column-gap: 30px;
 }
 /* Here Only Module Css end here */

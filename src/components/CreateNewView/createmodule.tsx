@@ -6,26 +6,48 @@ const NameViewComponent = ({
   setScreenerName,
   editMode,
   updateViewNameHandler,
+  closeViewNamePopup,
 }: any) => {
-  const createViewHandler = () => {
-    if (screenerName && screenerName !== "") {
-      createViewNameHandler(screenerName.trim());
+  const viewActionBtnHandler = () => {
+    const viewScreenerName: any = screenerName.trim();
+    if (editMode && editMode !== "") {
+      updateViewNameHandler(viewScreenerName);
     } else {
-      alert("Plase fill your screener name");
+      createViewNameHandler(viewScreenerName);
     }
   };
-  const updateViewHandler = () => {
-    if (screenerName && screenerName !== "") {
-      updateViewNameHandler(screenerName.trim());
-    } else {
-      alert("Plase fill your screener name");
-    }
+  const closeNameViewModule = () => {
+    closeViewNamePopup(false);
   };
+  // const createViewHandler = () => {
+  //   if (screenerName && screenerName !== "") {
+  //     createViewNameHandler(screenerName.trim());
+  //   } else {
+  //     alert("Plase fill your screener name");
+  //   }
+  // };
+  // const updateViewHandler = () => {
+  //   if (screenerName && screenerName !== "") {
+  //     updateViewNameHandler(screenerName.trim());
+  //   } else {
+  //     alert("Plase fill your screener name");
+  //   }
+  // };
   return (
     <>
       <div className={`customeModule ${styles.wraperSmall}`}>
+        <div
+          className={`refRemoveList ${styles.overlaySmall}`}
+          onClick={viewActionBtnHandler}
+        ></div>
         <div className={`moduleWrap ${styles.perWrap}`}>
-          <div className={styles.header}>Name your custom view</div>
+          <div className={styles.header}>
+            Name your custom view
+            <span
+              className={`refRemoveList ${styles.closeIcon}`}
+              onClick={viewActionBtnHandler}
+            ></span>
+          </div>
           <div className={styles.body}>
             <div className={styles.createFormGoup}>
               <input
@@ -37,21 +59,12 @@ const NameViewComponent = ({
             </div>
           </div>
           <div className={styles.footer}>
-            {editMode && editMode !== "" ? (
-              <span
-                className={`refRemoveList ${styles.updateBtn}`}
-                onClick={updateViewHandler}
-              >
-                Update view
-              </span>
-            ) : (
-              <span
-                className={`refRemoveList ${styles.updateBtn}`}
-                onClick={createViewHandler}
-              >
-                Create view
-              </span>
-            )}
+            <span
+              className={`refRemoveList ${styles.updateBtn}`}
+              onClick={viewActionBtnHandler}
+            >
+              {editMode && editMode !== "" ? "Update view" : "Create view"}
+            </span>
           </div>
         </div>
       </div>

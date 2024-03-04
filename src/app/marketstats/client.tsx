@@ -1,0 +1,295 @@
+"use client";
+import MarketStatsNav from "@/components/MarketStatsNav";
+import MarketTable from "@/components/MarketTable";
+import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
+import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
+import styles from "./Marketstats.module.scss";
+import { useEffect, useState } from "react";
+import { getCookie } from "@/utils";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import { useStateContext } from "@/store/StateContext";
+import {
+  durationOptions,
+  fetchViewTable,
+  getSelectedFilter,
+  updateOrAddParamToPath,
+} from "@/utils/utility";
+import refeshConfig from "@/utils/refreshConfig.json";
+import { getCustomViewsTab } from "@/utils/customViewAndTables";
+import TechincalOperands from "@/components/TechincalOperands";
+import { getMarketStatsNav, getTechincalOperands } from "@/utils/marketstats";
+
+const MarketStats = ({
+  l3Nav = [],
+  metaData = {},
+  tabData = [],
+  activeViewId = null,
+  tableHeaderData = [],
+  tableData = [],
+  pageSummary = {},
+  selectedFilter = {},
+  isTechnical = false,
+  technicalCategory,
+  tableConfig = {},
+  tabConfig = {},
+  payload = {},
+  ssoid = null,
+  isprimeuser = false,
+  l3NavMenuItem = null,
+  l3NavSubItem = null,
+  actualUrl = null,
+}: any) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [dayFilterData, setDayFilterData] = useState({
+    value: payload?.duration,
+    label: durationOptions.find((option) => option.value === payload?.duration)
+      ?.label,
+  });
+  const { state, dispatch } = useStateContext();
+  const { isLogin, userInfo, ssoReady, isPrime } = state.login;
+  const [_payload, setPayload] = useState(payload);
+  const [_tabData, setTabData] = useState(tabData);
+  const [_l3Nav, setL3Nav] = useState(l3Nav);
+  const [_metaData, setMetaData] = useState(metaData);
+  const [_tableData, setTableData] = useState(tableData);
+  const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
+  const [_technicalCategory, setTechnicalCategory] =
+    useState(technicalCategory);
+  const [_pageSummary, setPageSummary] = useState(pageSummary);
+  const [_activeViewId, setActiveViewId] = useState(activeViewId);
+  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
+  const [processingLoader, setProcessingLoader] = useState(false);
+
+  const updateTableData = async () => {
+    const responseData: any = await fetchViewTable(
+      { ..._payload },
+      isTechnical ? "movingAverages" : "marketStatsIntraday",
+      getCookie("isprimeuser") ? true : false,
+      getCookie("ssoid"),
+    );
+    const _pageSummary = !!responseData.pageSummary
+      ? responseData.pageSummary
+      : {};
+    const _tableData = responseData?.dataList ? responseData.dataList : [];
+
+    const _tableHeaderData =
+      _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
+        ? _tableData[0]?.data
+        : [];
+    setTableData(_tableData);
+    setTableHeaderData(_tableHeaderData);
+    setPageSummary(_pageSummary);
+    setProcessingLoader(false);
+  };
+
+  const updateL3NAV = async (intFilter: any, duration: any) => {
+    const { l3Nav } = await getMarketStatsNav({
+      l3NavSubItem,
+      intFilter,
+      duration,
+    });
+    setL3Nav(l3Nav);
+  };
+
+  const onPaginationChange = async (pageNumber: number) => {
+    setProcessingLoader(true);
+    setPayload({ ..._payload, pageno: pageNumber });
+  };
+
+  const onServerSideSort = async (field: any) => {
+    setProcessingLoader(true);
+    let sortConfig = _payload.sort;
+    const isFieldSorted = sortConfig.find(
+      (config: any) => config.field === field,
+    );
+    let newSortConfig;
+
+    if (isFieldSorted) {
+      newSortConfig = sortConfig.map((config: any) =>
+        config.field === field
+          ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
+          : config,
+      );
+    } else {
+      newSortConfig = [...sortConfig, { field, order: "DESC" }];
+    }
+    setPayload({ ..._payload, sort: newSortConfig });
+  };
+
+  const onTabViewUpdate = async (viewId: any) => {
+    setProcessingLoader(true);
+    setActiveViewId(viewId);
+    setPayload({ ..._payload, viewId: viewId, pageno: 1 });
+  };
+
+  const filterDataChangeHander = async (id: any) => {
+    setProcessingLoader(true);
+    const url = actualUrl;
+    const newUrl = updateOrAddParamToPath(url, "filter", id);
+    router.push(newUrl, { scroll: false });
+    const selectedFilter = await getSelectedFilter(id);
+    setNiftyFilterData(selectedFilter);
+    updateL3NAV(id, _payload.duration);
+    setPayload({ ..._payload, filterValue: [id], pageno: 1 });
+  };
+
+  const dayFitlerHanlderChange = async (value: any, label: any) => {
+    setProcessingLoader(true);
+    const url = actualUrl;
+    const newDuration = value.toUpperCase();
+    const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
+    router.push(newUrl, { scroll: false });
+    updateL3NAV(_payload.filterValue[0], newDuration);
+    setPayload({ ..._payload, duration: newDuration, pageno: 1 });
+  };
+
+  const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
+    setProcessingLoader(true);
+    const { tabData } = await getCustomViewsTab({
+      l3NavSubItem,
+    });
+    setTabData(tabData);
+    setActiveViewId(tabIdActive);
+  };
+  const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
+    setProcessingLoader(true);
+    const { tabData, activeViewId } = await getCustomViewsTab({
+      l3NavSubItem,
+      ssoid: getCookie("ssoid"),
+    });
+
+    setTabData(tabData);
+    if (newActiveId !== "") {
+      onTabViewUpdate(newActiveId);
+      setActiveViewId(newActiveId);
+    } else {
+      onTabViewUpdate(activeViewId);
+    }
+  };
+
+  const onTechnicalOperandsUpdate = async ({
+    firstOperand,
+    secondOperand,
+    operationType,
+  }: any) => {
+    setProcessingLoader(true);
+    let url = `${pathname}?${searchParams}`;
+    if (l3NavSubItem == "golden-cross" || l3NavSubItem == "death-cross") {
+      url = updateOrAddParamToPath(url, "type", "sma-sma-crossovers");
+    }
+    (url = updateOrAddParamToPath(url, "firstoperand", firstOperand)),
+      (url = updateOrAddParamToPath(url, "secondoperand", secondOperand)),
+      (url = updateOrAddParamToPath(url, "operationtype", operationType));
+    router.push(url, { scroll: false });
+
+    const technicalCategory = await getTechincalOperands(
+      l3NavMenuItem,
+      l3NavSubItem,
+      firstOperand,
+      operationType,
+      secondOperand,
+    );
+    const descTxt = `Discover the stocks in the Indian stock market with ${technicalCategory?.selectedFilterLabel?.firstOperand} ${technicalCategory?.selectedFilterLabel?.operationType} ${technicalCategory?.selectedFilterLabel?.secondOperand} exclusively on The Economic Times`;
+    setMetaData({ ..._metaData, desc: descTxt });
+    setPayload({
+      ..._payload,
+      firstOperand: firstOperand,
+      operationType: operationType,
+      secondOperand: secondOperand,
+      pageno: 1,
+    });
+  };
+
+  useEffect(() => {
+    setProcessingLoader(true);
+    updateTableData();
+    const intervalId = setInterval(() => {
+      updateTableData();
+    }, parseInt(refeshConfig.marketstats));
+    return () => clearInterval(intervalId);
+  }, [_payload]);
+
+  useEffect(() => {
+    if (_payload.apiType != payload.apiType) {
+      const newApiType = payload.apiType;
+      // Resetting the api type and page number, when user navigates from L3 nav
+      let newPaylaod = {
+        ..._payload,
+        apiType: newApiType,
+        pageno: 1,
+      };
+      if (isTechnical) {
+        const { firstOperand, operationType, secondOperand } =
+          technicalCategory?.selectedFilter;
+        newPaylaod = {
+          ...newPaylaod,
+          firstOperand,
+          operationType,
+          secondOperand,
+        };
+      }
+      setPayload(newPaylaod);
+      setMetaData(metaData);
+      setTechnicalCategory(technicalCategory);
+    }
+  }, [searchParams]);
+
+  return (
+    <>
+      <h1
+        data-ssoid={ssoid}
+        data-prime={isprimeuser}
+        className={styles.heading}
+      >
+        {_metaData.title}
+      </h1>
+      <p className={styles.desc}>{_metaData.desc}</p>
+      <div className={styles.marketstatsContainer}>
+        <aside className={styles.lhs}>
+          <MarketStatsNav leftNavResult={_l3Nav} type={l3NavSubItem} />
+        </aside>
+        <div className={styles.rhs}>
+          {isTechnical && (
+            <TechincalOperands
+              technicalCategory={_technicalCategory}
+              handleTechnicalOperands={onTechnicalOperandsUpdate}
+            />
+          )}
+          <div className="tabsWrap">
+            <LeftMenuTabs
+              data={_tabData}
+              activeViewId={_activeViewId}
+              tabsViewIdUpdate={onTabViewUpdate}
+            />
+            <MarketFiltersTab
+              data={_tabData}
+              activeViewId={_activeViewId}
+              tabsViewIdUpdate={onTabViewUpdate}
+              filterDataChange={filterDataChangeHander}
+              niftyFilterData={niftyFilterData}
+              dayFitlerHanlderChange={dayFitlerHanlderChange}
+              tabsUpdateHandler={TabsAndTableDataChangeHandler}
+              tabConfig={tabConfig}
+              dayFilterData={dayFilterData}
+              setDayFilterData={setDayFilterData}
+              onPersonalizeHandler={onPersonalizeHandlerfun}
+            />
+          </div>
+          <MarketTable
+            data={_tableData}
+            tableHeaders={_tableHeaderData}
+            pageSummary={_pageSummary}
+            tableConfig={tableConfig}
+            handleSortServerSide={onServerSideSort}
+            handlePageChange={onPaginationChange}
+            processingLoader={processingLoader}
+          />
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default MarketStats;
