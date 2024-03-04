@@ -31,11 +31,9 @@ const DayFitler = ({ selectedDay, setDayFilterShow, filterHandler }: any) => {
   }, [setDayFilterShow]);
   return (
     <>
-      <div className={`customeModule ${styles.dayFilter}`}>
-        <div className={`moduleWrap ${styles.wrap}`} ref={popupRef}>
-          <div className={`moduleHeader ${styles.header}`}>
-            Select Date Range
-          </div>
+      <div className={`${styles.dayFilter}`}>
+        <div className={`${styles.wrap}`} ref={popupRef}>
+          <div className={`${styles.header}`}>Select Date Range</div>
           <div className={`moduleBody ${styles.body}`}>
             <ul>
               {FilterRadioData.map((item: any) => {

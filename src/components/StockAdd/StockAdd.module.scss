@@ -49,24 +49,18 @@
         position: relative;
         background: rgba(43, 116, 227, 1);
         cursor: pointer;
-        border-radius: 5px;
+        border-radius: 3px;
         &::after {
           content: "";
           position: absolute;
-          left: 6px;
-          right: 6px;
-          top: 50%;
+          left: 4px;
+          top: 4px;
           margin-top: -0.5px;
-          border-top: solid 1px #ffffff;
-        }
-        &::before {
-          content: "";
-          position: absolute;
-          top: 6px;
-          bottom: 6px;
-          left: 50%;
-          margin-left: -0.5px;
-          border-left: solid 1px #ffffff;
+          background: url("/img/whitePlus.svg") no-repeat 0 0;
+          display: inline-block;
+          vertical-align: top;
+          width: 8px;
+          height: 8px;
         }
       }
       .removeRemove {
@@ -77,26 +71,18 @@
         position: relative;
         background: rgba(43, 116, 227, 1);
         cursor: pointer;
-        border-radius: 5px;
+        border-radius: 3px;
         &::after {
           content: "";
           position: absolute;
-          left: 5px;
-          margin-top: -0.5px;
-          border-top: solid 1px #ffffff;
-          top: 10px;
-          width: 3px;
-          transform: rotate(45deg);
-        }
-        &::before {
-          content: "";
-          position: absolute;
+          left: 4px;
           top: 5px;
-          margin-left: -0.5px;
-          border-left: solid 1px #ffffff;
-          left: 10px;
+          margin-top: -0.5px;
+          background: url("/img/whiteMines.svg") no-repeat 0 0;
+          display: inline-block;
+          vertical-align: top;
+          width: 10px;
           height: 7px;
-          transform: rotate(45deg);
         }
       }
     }
@@ -127,6 +113,20 @@
     height: 50px;
     animation: spin 1s linear infinite; /* Animation */
   }
+}
+.mostSearch {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: left;
+  padding: 0px 0 0 10px;
+}
+.comHead {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: left;
+  padding: 10px;
 }
 /* Keyframes for the spinner animation */
 @keyframes spin {
