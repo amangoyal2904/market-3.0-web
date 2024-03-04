@@ -32,20 +32,20 @@ const StockComponent: React.FC<Props> = ({ data, activeTab }) => {
   const formattedDate = formatDate(data.priceAtRecosDate);
   let stockMainClass;
 
-  switch (data.recoTypeColour) {
-    case "Green":
+  switch (data.potentialDirection) {
+    case "Up":
       stockMainClass = styles.buyStock;
       break;
-    case "Red":
+    case "Down":
       stockMainClass = styles.sellStock;
       break;
-    case "Grey":
+    case "Neutral":
       stockMainClass = styles.GreyStock;
       break;
     default:
       stockMainClass = styles.buyStock;
   }
-  console.log("##" + activeTab + "--- >", data);
+  // console.log("##" + activeTab + "--- >", data);
   return (
     <>
       {activeTab == "recoByFH" ? (
@@ -54,7 +54,7 @@ const StockComponent: React.FC<Props> = ({ data, activeTab }) => {
             <h2 className={styles.stocksTitle}>{data.organisation}</h2>
             <div className={styles.updownTargetBox}>
               <div className={styles.potensialBox}>
-                <h3>{data.potentialText}</h3>
+                <h3>Total Recos</h3>
                 <h4>{data.totalCount}</h4>
               </div>
               <ul className={styles.targetBox}>

@@ -1,12 +1,42 @@
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useState } from "react";
 import styles from "./StockReportsPlus.module.scss";
 import SlickSlider from "../SlickSlider";
-import StockScreens from "../StockScreens";
+import APIS_CONFIG from "@/network/api_config.json";
+import service from "@/network/service";
+import { APP_ENV } from "@/utils";
+import StockReportsType2 from "./StockReportsType2";
+import StockReportsType3 from "./StockReportsType3";
+import StockReportsTab from "./StockReportsTab";
 
-const StockReportsPlus: React.FC = () => {
-  const tabNames = ["Stock Scores", "Stock Forecast"];
-  const [activeTab, setActiveTab] = useState(tabNames[0]); // Initialize activeTab with the first tab dynamically
-  const [activeSlides, setActiveSlides] = useState<Slide[]>([]);
+interface Slide {
+  content: JSX.Element;
+}
+interface Props {
+  srResult: any;
+}
+const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
+  // console.log('@@ -->' ,srResult)
+  const tabNames = [
+    {
+      name: "High Upside",
+      type: "type-3",
+      seoName: "high-upside",
+      screenerId: 2554,
+    },
+    {
+      name: "Top Score Companies",
+      type: "type-2",
+      seoName: "top-score-companies",
+      screenerId: 4205,
+    },
+    {
+      name: "Analyst Favs",
+      type: "type-3",
+      seoName: "analyst-favs",
+      screenerId: 2695,
+    },
+  ];
   const responsive = [
     {
       breakpoint: 1921,
@@ -30,283 +60,93 @@ const StockReportsPlus: React.FC = () => {
       },
     },
   ];
-  const handleTabClick = (tab: string) => {
+  const [activeTab, setActiveTab] = useState(tabNames[0]);
+  const [activeSlides, setActiveSlides] = useState<any[]>(srResult.dataList);
+
+  const handleTabClick = (tab: any) => {
     setActiveTab(tab);
+    fetchData(tab.screenerId);
+    // console.log('tabName ---> ', tab)
   };
 
-  interface Slide {
-    title: string;
-    score: number;
-    maxScore: number;
-    expectedReturns: string;
-    target: string;
-    recommendation: string;
-    currentPrice: string;
-  }
+  const fetchData = async (screenerId: any) => {
+    const stockReportAllTabApi = `${(APIS_CONFIG as any)?.["SCREENER_BY_SCREENERID"][APP_ENV]}`;
+    // console.log("@@type --- > " , type)
+    const payload = {
+      deviceId: "web",
+      pageno: 1,
+      pagesize: 20,
+      screenerId: screenerId,
+      viewId: 5246,
+      filterType: "index",
+      filterValue: [2365],
+    };
 
-  const tabData: Record<string, Slide[]> = {
-    "Stock Scores": [
-      {
-        title: "Dummy Title 1",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 1",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 2",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 2",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 3",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 3",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 4",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 4",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 5",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 5",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 6",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 6",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 1",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 1",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 2",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 2",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 3",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 3",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 4",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 4",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 5",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 5",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 6",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 6",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 1",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 1",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 2",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 2",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 3",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 3",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 4",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 4",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 5",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 5",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 6",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 6",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-    ],
-    "Stock Forecast": [
-      {
-        title: "Dummy Title 1",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 1",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 2",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 2",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 3",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 3",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 4",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 4",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 5",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 5",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-      {
-        title: "Dummy Title 6",
-        score: 80,
-        maxScore: 100,
-        expectedReturns: "10%",
-        target: "Dummy Target 6",
-        recommendation: "Buy",
-        currentPrice: "$100",
-      },
-    ],
-    // Add data for other tabs as needed
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const stockReportAllTabPromise = await service.post({
+      url: stockReportAllTabApi,
+      headers: headers,
+      body: JSON.stringify(payload),
+      params: {},
+    });
+    const data = await stockReportAllTabPromise?.json();
+    setActiveSlides(data.dataList);
+    // console.log("@@fetchData --- > " , data)
   };
-  const getdotsnum = (a: any) => {
-    // alert(a);
-  };
-  useEffect(() => {
-    setActiveSlides(tabData[activeTab]);
-  }, [activeTab]);
-
   return (
     <div className={styles.wraper}>
       <h1 className={styles.heading1}>Stock Reports Plus</h1>
 
       <div className={styles.tabMainBox}>
-        <ul className={styles.tabs}>
+        {/* <ul className={styles.tabs}>
           {tabNames.map((tab) => (
             <li
-              key={tab}
-              className={`${styles.tab} ${activeTab === tab ? styles.active : ""}`}
+              key={tab.seoName}
+              className={`${styles.tab} ${activeTab.seoName === tab.seoName ? styles.active : ""}`}
               onClick={() => handleTabClick(tab)}
             >
-              {tab}
+              {tab.name}
             </li>
           ))}
-        </ul>
+        </ul> */}
+
+        <StockReportsTab
+          handleTabClick={handleTabClick}
+          tabNames={tabNames}
+          activeTab={activeTab}
+        />
 
         <div className={styles.tabContentWraper}>
           <div
-            className={`${styles.tabContentBox} ${activeTab === activeTab ? styles.active : ""}`}
+            className={`${styles.tabContentBox} ${activeTab.seoName === activeTab.seoName ? styles.active : ""}`}
           >
-            <SlickSlider
-              slides={activeSlides.map((slide, index) => ({
-                content: <StockScreens key={index} slide={slide} />,
-              }))}
-              key={`slider${activeTab}`}
-              sliderId={`slider${activeTab}`}
-              dotsNum={getdotsnum}
-              slidesToShow={3}
-              slidesToScroll={3}
-              rows={2}
-              responsive={responsive}
-            />
+            {activeTab.type === "type-2" ? (
+              <SlickSlider
+                slides={activeSlides.map((slide, index) => ({
+                  content: <StockReportsType2 datalist={slide} />,
+                }))}
+                key={`slider${activeTab}`}
+                sliderId={`slider${activeTab}`}
+                slidesToShow={3}
+                slidesToScroll={3}
+                rows={2}
+                responsive={responsive}
+              />
+            ) : (
+              <SlickSlider
+                slides={activeSlides.map((slide, index) => ({
+                  content: <StockReportsType3 datalist={slide} />,
+                }))}
+                key={`slider${activeTab}`}
+                sliderId={`slider${activeTab}`}
+                slidesToShow={3}
+                slidesToScroll={3}
+                rows={2}
+                responsive={responsive}
+              />
+            )}
           </div>
         </div>
       </div>

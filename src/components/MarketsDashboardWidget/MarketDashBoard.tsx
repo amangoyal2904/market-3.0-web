@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import BasicTabs from "../BasicTabs";
 import MarketTable from "../MarketTable";

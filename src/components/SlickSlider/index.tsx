@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -11,7 +12,6 @@ interface Slide {
 interface SlickSliderProps {
   slides: Slide[];
   sliderId: string;
-  dotsNum: any;
   slidesToShow?: any;
   slidesToScroll?: any;
   rows?: any;
@@ -22,7 +22,6 @@ interface SlickSliderProps {
 const SlickSlider: React.FC<SlickSliderProps> = ({
   slides = [],
   sliderId,
-  dotsNum,
   slidesToShow,
   slidesToScroll,
   rows,
@@ -67,16 +66,9 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     ),
     beforeChange: (oldIndex, newIndex) => {
       setCurrentSlideIndex(newIndex);
-      dotsNum(newIndex);
     },
     responsive: responsive,
   };
-
-  useEffect(() => {
-    if (sliderRef.current) {
-      sliderRef.current.slickGoTo(0);
-    }
-  }, []);
 
   const nextSlide = () => {
     if (sliderRef.current) {
@@ -90,6 +82,11 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (sliderRef.current) {
+      sliderRef.current.slickGoTo(0);
+    }
+  }, []);
   return (
     <div className={`stockSlider ${styles.sliderMain}`} id={`${sliderId}`}>
       <div className={styles["slick-slider"]}>

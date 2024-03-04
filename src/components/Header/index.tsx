@@ -22,33 +22,35 @@ const Header = () => {
             <Image src="/logo.png" width={138} height={24} alt="ET Markets" />
           </Link>
         </div>
-        <div className={styles.headerMidContainer}>
-          <Search />
-          <LiveMarketData />
-        </div>
 
         <div
           className={`dflex align-item-center ${styles.headerRightContainer}`}
         >
-          <Link className="default-btn" href="/watchlist">
-            My Watchlist
-          </Link>
-          {!isPrime && (
-            <Link
-              className={`default-btn ${styles.subscribeBtn}`}
-              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`}
-              data-ga-onclick="Subscription Flow#SYFT#ATF - url"
-            >
-              <img
-                src="/prime_icon.svg"
-                height="12"
-                width="12"
-                className={styles.prime_icon}
-              />
-              Subscribe
+          <div className={styles.headerMidContainer}>
+            <Search />
+          </div>
+          <div className={`dflex align-item-center`}>
+            <LiveMarketData />
+            <Link className="default-btn" href="/watchlist">
+              My Watchlist
             </Link>
-          )}
-          <Login />
+            {!isPrime && (
+              <Link
+                className={`default-btn ${styles.subscribeBtn}`}
+                href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`}
+                data-ga-onclick="Subscription Flow#SYFT#ATF - url"
+              >
+                <img
+                  src="/prime_icon.svg"
+                  height="12"
+                  width="12"
+                  className={styles.prime_icon}
+                />
+                Subscribe
+              </Link>
+            )}
+            <Login />
+          </div>
         </div>
       </div>
     </header>
