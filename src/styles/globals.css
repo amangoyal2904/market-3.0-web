@@ -358,6 +358,10 @@ a {
 .hide {
   display: none;
 }
+.hide.hideSecElement {
+  display: none !important;
+}
+
 .center {
   text-align: center;
   justify-content: center;

@@ -387,11 +387,11 @@
   bottom: 0;
   background: transparent;
   text-align: center;
-  z-index: 99;
+  z-index: 999;
   .perWrap {
     width: 400px;
     z-index: 999;
-    margin-top:160px;
+    margin-top: 160px;
   }
 }
 .createFormGoup {
