@@ -94,6 +94,14 @@ export const getTechincalOperands = async (
   };
 };
 
+export const getAllShortUrls = async () => {
+  const response = await Service.get({
+    url: "https://etapipre.indiatimes.com/api/shorturlmapping/marketstats",
+    params: {},
+  });
+  return await response?.json();
+};
+
 export const getShortUrlMapping = async (pathname: any) => {
   const response = await Service.get({
     url: "https://etapipre.indiatimes.com/api/shorturlmapping/marketstats",

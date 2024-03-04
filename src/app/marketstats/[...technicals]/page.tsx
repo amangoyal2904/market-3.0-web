@@ -8,6 +8,7 @@ import {
 } from "@/utils/utility";
 import { Metadata, ResolvingMetadata } from "next";
 import {
+  getAllShortUrls,
   getMarketStatsNav,
   getShortUrlMapping,
   getTechincalOperands,
@@ -161,6 +162,8 @@ const MovingAverages = async ({ params, searchParams }: any) => {
     desc: desc,
   };
 
+  const shortUrlMapping = await getAllShortUrls();
+
   return (
     <>
       <MarketStats
@@ -182,6 +185,7 @@ const MovingAverages = async ({ params, searchParams }: any) => {
         l3NavMenuItem={L3NavMenuItem}
         l3NavSubItem={L3NavSubItem}
         actualUrl={actualUrl}
+        shortUrlMapping={shortUrlMapping}
       />
     </>
   );
