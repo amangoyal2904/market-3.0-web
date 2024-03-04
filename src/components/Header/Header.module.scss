@@ -10,10 +10,17 @@
   z-index: 99;
   .navbarHeader {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin: 0 auto;
     padding: 12px 20px;
+    .logoHeader {
+      min-width: 170px;
+    }
+    .headerRightContainer {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
   }
   #searchBar {
     margin-left: 20px;

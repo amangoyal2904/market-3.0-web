@@ -204,5 +204,13 @@
   "MARKET_STATS_NAV": {
     "development": "https://etapipre.indiatimes.com/api/marketstatsnav",
     "production": "https://etapipre.indiatimes.com/api/marketstatsnav"
+  },
+  "SCREENER_BY_SCREENERID": {
+    "development": "https://screener.indiatimes.com/screener/getScreenerByScreenerId",
+    "production": "https://screener.indiatimes.com/screener/getScreenerByScreenerId"
+  },
+  "GET_RECOS_DETAILS": {
+    "development": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail",
+    "production": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail"
   }
 }

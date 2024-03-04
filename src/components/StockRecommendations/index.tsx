@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useState } from "react";
 import styles from "./StockRecommendations.module.scss";
 import StockReco from "../StockReco";
 import SlickSlider from "../SlickSlider";
@@ -7,8 +8,10 @@ import service from "@/network/service";
 interface Slide {
   content: JSX.Element;
 }
-
-const StockRecommendations: React.FC = () => {
+interface Props {
+  stockRecoResult: any;
+}
+const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
   const tabNames = [
     {
       type: "newRecos",
@@ -26,17 +29,13 @@ const StockRecommendations: React.FC = () => {
       type: "recoByFH",
       name: "Reocs by Fund Houses",
     },
-    {
-      type: "recoOnWL",
-      name: "Recos on Your Watchlist",
-    },
+    // {
+    //   type: "recoOnWL",
+    //   name: "Recos on Your Watchlist",
+    // },
   ];
   const [activeTab, setActiveTab] = useState(tabNames[0]);
-  const [stockData, setStockData] = useState<any[]>([]);
-
-  useEffect(() => {
-    fetchData(activeTab.type);
-  }, []);
+  const [stockData, setStockData] = useState<any[]>(stockRecoResult?.recoData);
 
   const handleTabClick = (tab: any) => {
     setActiveTab(tab);

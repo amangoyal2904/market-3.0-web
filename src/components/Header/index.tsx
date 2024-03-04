@@ -17,27 +17,29 @@ const Header = () => {
   return (
     <header id={styles.pageTopbar}>
       <div className={styles.navbarHeader} id="header">
-        <div className="dflex align-item-center">
+        <div className={`dflex align-item-center ${styles.logoHeader}`}>
           <Link href="/">
             <Image src="/logo.png" width={138} height={24} alt="ET Markets" />
           </Link>
-          <Search />
         </div>
-        <LiveMarketData />
-        <div className="dflex align-item-center">
-          <Link className="default-btn" href="/watchlist">
-            My Watchlist
-          </Link>
-          {!isPrime && (
-            <Link
-              className="default-btn"
-              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`}
-              data-ga-onclick="Subscription Flow#SYFT#ATF - url"
-            >
-              Subscribe
+        <div className={styles.headerRightContainer}>
+          <Search />
+          <LiveMarketData />
+          <div className="dflex align-item-center">
+            <Link className="default-btn" href="/watchlist">
+              My Watchlist
             </Link>
-          )}
-          <Login />
+            {!isPrime && (
+              <Link
+                className="default-btn"
+                href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`}
+                data-ga-onclick="Subscription Flow#SYFT#ATF - url"
+              >
+                Subscribe
+              </Link>
+            )}
+            <Login />
+          </div>
         </div>
       </div>
     </header>
