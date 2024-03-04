@@ -358,6 +358,10 @@ a {
 .hide {
   display: none;
 }
+.hide.hideSecElement {
+  display: none !important;
+}
+
 .center {
   text-align: center;
   justify-content: center;
@@ -451,7 +455,7 @@ table {
   background: #fff;
   text-align: left;
   min-width: 420px;
-  margin-top: 120px;
+  margin-top: 80px;
 }
 .customeModule .moduleHeader {
   display: flex;

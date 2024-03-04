@@ -43,10 +43,10 @@ export const fnGenerateMetaData = (meta?: any) => {
     description: meta?.desc,
     generator: "ET Markets",
     applicationName: "ET Markets",
-    keywords: meta?.meta_keywords?.split(","),
+    keywords: meta?.keywords?.split(","),
     metadataBase: new URL("https://economictimes.indiatimes.com/"),
     alternates: {
-      canonical: "/",
+      canonical: "https://economictimes.indiatimes.com" + meta?.pathname,
       languages: {
         "en-IN": "/en-IN",
       },
@@ -133,11 +133,7 @@ export const fetchViewTable = async (
 
 export const fetchTableData = async (viewId: any, params?: any) => {
   const ssoid = window.objUser?.ssoid;
-  const isprimeuser =
-    typeof window != "undefined" &&
-    window.objUser &&
-    window.objUser.permissions &&
-    window.objUser.permissions.indexOf("subscribed") != -1;
+  const isprimeuser = getCookie("isprimeuser") ? true : false;
   const apiUrl = (APIS_CONFIG as any)?.watchListTable["development"];
   const response = await Service.post({
     url: apiUrl,

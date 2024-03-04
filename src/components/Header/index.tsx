@@ -22,11 +22,14 @@ const Header = () => {
             <Image src="/logo.png" width={138} height={24} alt="ET Markets" />
           </Link>
         </div>
-        <div className={styles.headerRightContainer}>
+        <div className={styles.headerMidContainer}>
           <Search />
+          <LiveMarketData />
         </div>
-        <LiveMarketData />
-        <div className="dflex align-item-center">
+
+        <div
+          className={`dflex align-item-center ${styles.headerRightContainer}`}
+        >
           <Link className="default-btn" href="/watchlist">
             My Watchlist
           </Link>

@@ -3,70 +3,48 @@ import tabConfig from "@/utils/tabConfig.json";
 import { cookies, headers } from "next/headers";
 import { fnGenerateMetaData, getSelectedFilter } from "@/utils/utility";
 import { Metadata, ResolvingMetadata } from "next";
-import {
-  getMarketStatsNav,
-  getShortUrlMapping,
-  getTechincalOperands,
-} from "@/utils/marketstats";
+import { getMarketStatsNav, getShortUrlMapping } from "@/utils/marketstats";
 import {
   getCustomViewTable,
   getCustomViewsTab,
 } from "@/utils/customViewAndTables";
-import MarketStats from "../client";
+import MarketStats from "../../client";
 
 export async function generateMetadata(
-  { searchParams, params }: any,
+  { searchParams }: any,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
-  const { shortUrl, pageData } = await getShortUrlMapping(
-    "technicals",
-    pageUrl,
-  );
-  let L3NavMenuItem,
-    L3NavSubItem,
-    firstOperand,
-    operationType,
-    secondOperand,
-    intFilter,
-    actualUrl;
+  const { shortUrl, pageData } = await getShortUrlMapping("intraday", pageUrl);
+  let L3NavSubItem, duration, intFilter, actualUrl;
   if (shortUrl) {
-    L3NavMenuItem = pageData?.l3NavMenuItem;
     L3NavSubItem = pageData?.requestParams?.type;
-    firstOperand = pageData?.requestParams?.firstoperand;
-    operationType = pageData?.requestParams?.operationtype;
-    secondOperand = pageData?.requestParams?.secondoperand;
+    duration = pageData?.requestParams?.duration;
     intFilter = pageData?.requestParams.filter
       ? parseInt(pageData.requestParams.filter)
       : 0;
     actualUrl = pageData?.longURL;
   } else {
-    L3NavMenuItem = params.technicals[0];
     L3NavSubItem = searchParams?.type?.toLowerCase();
-    firstOperand = searchParams?.firstoperand;
-    operationType = searchParams?.operationtype;
-    secondOperand = searchParams?.secondoperand;
+    duration = searchParams.duration
+      ? searchParams.duration.toUpperCase()
+      : "1D";
     intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
     actualUrl = pageUrl;
   }
 
-  const { metaData } = await getMarketStatsNav({ L3NavSubItem, intFilter });
-
-  const technicalCategory = await getTechincalOperands(
-    L3NavMenuItem,
+  const { metaData } = await getMarketStatsNav({
     L3NavSubItem,
-    firstOperand,
-    operationType,
-    secondOperand,
-  );
+    intFilter,
+    duration,
+  });
+
   const seo_title = !!shortUrl ? pageData?.seo_title : metaData[0]?.title;
-  const seo_desc = !!shortUrl
-    ? pageData?.seo_desc
-    : `Discover the stocks in the Indian stock market with ${technicalCategory?.selectedFilterLabel?.firstOperand} ${technicalCategory?.selectedFilterLabel?.operationType} ${technicalCategory?.selectedFilterLabel?.secondOperand} exclusively on The Economic Times`;
+  const seo_desc = !!shortUrl ? pageData?.seo_desc : metaData[0]?.desc;
   const seo_keywords = !!shortUrl
     ? pageData?.keywords
-    : `et, etmarkets, economictimes, ${L3NavMenuItem}, ${L3NavSubItem}, ${firstOperand}, ${operationType}, ${secondOperand}`;
+    : `et, etmarkets, economictimes, ${L3NavSubItem}, ${duration}`;
   const meta = {
     title: seo_title,
     desc: seo_desc,
@@ -77,36 +55,27 @@ export async function generateMetadata(
   return fnGenerateMetaData(meta);
 }
 
-const MovingAverages = async ({ params, searchParams }: any) => {
+const Intraday = async ({ searchParams }: any) => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
-  const { shortUrl, pageData } = await getShortUrlMapping(
-    "technicals",
-    pageUrl,
-  );
-  let L3NavMenuItem,
-    L3NavSubItem,
-    firstOperand,
-    operationType,
-    secondOperand,
-    intFilter,
-    actualUrl;
+  const { shortUrl, pageData } = await getShortUrlMapping("intraday", pageUrl);
+  console.log({ shortUrl });
+  console.log({ pageData });
+  let L3NavMenuItem, L3NavSubItem, duration, intFilter, actualUrl;
   if (shortUrl) {
     L3NavMenuItem = pageData?.l3NavMenuItem;
-    L3NavSubItem = pageData?.requestParams?.type?.toLowerCase();
-    firstOperand = pageData?.requestParams?.firstoperand;
-    operationType = pageData?.requestParams?.operationtype;
-    secondOperand = pageData?.requestParams?.secondoperand;
+    L3NavSubItem = pageData?.requestParams?.type;
+    duration = pageData?.requestParams?.duration;
     intFilter = pageData?.requestParams.filter
       ? parseInt(pageData.requestParams.filter)
       : 0;
     actualUrl = pageData?.longURL;
   } else {
-    L3NavMenuItem = params.technicals[0];
+    L3NavMenuItem = "intraday";
     L3NavSubItem = searchParams?.type?.toLowerCase();
-    firstOperand = searchParams?.firstoperand;
-    operationType = searchParams?.operationtype;
-    secondOperand = searchParams?.secondoperand;
+    duration = searchParams.duration
+      ? searchParams.duration.toUpperCase()
+      : "1D";
     intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
     actualUrl = pageUrl;
   }
@@ -122,44 +91,37 @@ const MovingAverages = async ({ params, searchParams }: any) => {
   const { l3Nav, metaData } = await getMarketStatsNav({
     L3NavSubItem,
     intFilter,
+    duration,
   });
 
   const { tabData, activeViewId } = await getCustomViewsTab({
-    firstOperand,
-    operationType,
-    secondOperand,
+    L3NavSubItem,
     ssoid,
   });
 
   const bodyParams = {
     viewId: activeViewId,
     apiType: L3NavSubItem,
-    firstOperand,
-    operationType,
-    secondOperand,
+    duration,
     filterValue: filter,
     filterType: !!filter && filter.length ? "index" : null,
     sort,
     pagesize,
     pageno,
   };
+
   const { tableHeaderData, tableData, pageSummary, payload } =
-    await getCustomViewTable(bodyParams, isprimeuser, ssoid, "movingAverages");
+    await getCustomViewTable(
+      bodyParams,
+      isprimeuser,
+      ssoid,
+      "marketStatsIntraday",
+    );
 
   const selectedFilter = await getSelectedFilter(intFilter);
-  const technicalCategory = await getTechincalOperands(
-    L3NavMenuItem,
-    L3NavSubItem,
-    firstOperand,
-    operationType,
-    secondOperand,
-  );
 
   const title = !!shortUrl ? pageData?.heading : metaData[0]?.title;
-  const desc = !!shortUrl
-    ? pageData?.desc
-    : `Discover the stocks in the Indian stock market with ${technicalCategory?.selectedFilterLabel?.firstOperand} ${technicalCategory?.selectedFilterLabel?.operationType} ${technicalCategory?.selectedFilterLabel?.secondOperand} exclusively on The Economic Times`;
-
+  const desc = !!shortUrl ? pageData?.desc : metaData[0]?.desc;
   const meta = {
     title: title,
     desc: desc,
@@ -176,10 +138,10 @@ const MovingAverages = async ({ params, searchParams }: any) => {
         tableData={tableData}
         pageSummary={pageSummary}
         selectedFilter={selectedFilter}
-        isTechnical={true}
-        technicalCategory={technicalCategory}
-        tableConfig={tableConfig["marketStatsTechnical"]}
-        tabConfig={tabConfig["marketStatsTechnical"]}
+        isTechnical={false}
+        technicalCategory={null}
+        tableConfig={tableConfig["marketStatsIntrday"]}
+        tabConfig={tabConfig["marketStatsIntrday"]}
         payload={payload}
         ssoid={ssoid}
         isprimeuser={isprimeuser}
@@ -191,4 +153,4 @@ const MovingAverages = async ({ params, searchParams }: any) => {
   );
 };
 
-export default MovingAverages;
+export default Intraday;

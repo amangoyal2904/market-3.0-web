@@ -23,13 +23,11 @@ const Pagination = ({ pageSummary, onPageChange }: any) => {
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    const ellipsis = <li className={styles.pageList}>...</li>;
-
     if (totalpages <= 5) {
       for (let i = 1; i <= totalpages; i++) {
         pageNumbers.push(
           <li
-            key={i}
+            key={`page_${i}`}
             className={`${styles.pageList} ${pageno === i ? styles.active : ""}`}
             onClick={() => onPageChange(i)}
           >
@@ -42,7 +40,7 @@ const Pagination = ({ pageSummary, onPageChange }: any) => {
         for (let i = 1; i <= 5; i++) {
           pageNumbers.push(
             <li
-              key={i}
+              key={`page_${i}`}
               className={`${styles.pageList} ${pageno === i ? styles.active : ""}`}
               onClick={() => onPageChange(i)}
             >
@@ -50,13 +48,21 @@ const Pagination = ({ pageSummary, onPageChange }: any) => {
             </li>,
           );
         }
-        pageNumbers.push(ellipsis);
+        pageNumbers.push(
+          <li key="ellipses_1" className={styles.pageList}>
+            ...
+          </li>,
+        );
       } else if (pageno >= totalpages - 2) {
-        pageNumbers.push(ellipsis);
+        pageNumbers.push(
+          <li key="ellipses_2" className={styles.pageList}>
+            ...
+          </li>,
+        );
         for (let i = totalpages - 4; i <= totalpages; i++) {
           pageNumbers.push(
             <li
-              key={i}
+              key={`page_${i}`}
               className={`${styles.pageList} ${pageno === i ? styles.active : ""}`}
               onClick={() => onPageChange(i)}
             >
@@ -65,11 +71,15 @@ const Pagination = ({ pageSummary, onPageChange }: any) => {
           );
         }
       } else {
-        pageNumbers.push(ellipsis);
+        pageNumbers.push(
+          <li key="ellipses_3" className={styles.pageList}>
+            ...
+          </li>,
+        );
         for (let i = pageno - 2; i <= pageno + 2; i++) {
           pageNumbers.push(
             <li
-              key={i}
+              key={`page_${i}`}
               className={`${styles.pageList} ${pageno === i ? styles.active : ""}`}
               onClick={() => onPageChange(i)}
             >
@@ -77,7 +87,11 @@ const Pagination = ({ pageSummary, onPageChange }: any) => {
             </li>,
           );
         }
-        pageNumbers.push(ellipsis);
+        pageNumbers.push(
+          <li key="ellipses_4" className={styles.pageList}>
+            ...
+          </li>,
+        );
       }
     }
 
@@ -107,13 +121,13 @@ const Pagination = ({ pageSummary, onPageChange }: any) => {
         </li>
         {renderPageNumbers()}
         <li
-          className={`${styles.pageList} ${pageno === totalpages ? "disabled" : ""}`}
+          className={`${styles.pageList} ${pageno === totalpages ? styles.disabled : ""}`}
           onClick={() => handlePageChange(pageno + 1)}
         >
           Next
         </li>
         <li
-          className={`${styles.pageList} ${pageno === totalpages ? "disabled" : ""}`}
+          className={`${styles.pageList} ${pageno === totalpages ? styles.disabled : ""}`}
           onClick={() => handlePageChange(totalpages)}
         >
           Last

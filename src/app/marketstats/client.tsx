@@ -5,13 +5,8 @@ import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
-import { getCookie, getParameterByName } from "@/utils";
-import {
-  usePathname,
-  useSearchParams,
-  useRouter,
-  useParams,
-} from "next/navigation";
+import { getCookie } from "@/utils";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useStateContext } from "@/store/StateContext";
 import {
   durationOptions,
@@ -40,12 +35,13 @@ const MarketStats = ({
   payload = {},
   ssoid = null,
   isprimeuser = false,
+  l3NavMenuItem = null,
+  l3NavSubItem = null,
+  actualUrl = null,
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const params = useParams();
-  const l3NavType = searchParams.get("type");
   const [dayFilterData, setDayFilterData] = useState({
     value: payload?.duration,
     label: durationOptions.find((option) => option.value === payload?.duration)
@@ -89,9 +85,8 @@ const MarketStats = ({
   };
 
   const updateL3NAV = async (intFilter: any, duration: any) => {
-    const type = getParameterByName("type");
     const { l3Nav } = await getMarketStatsNav({
-      type,
+      l3NavSubItem,
       intFilter,
       duration,
     });
@@ -126,44 +121,42 @@ const MarketStats = ({
   const onTabViewUpdate = async (viewId: any) => {
     setProcessingLoader(true);
     setActiveViewId(viewId);
-    setPayload({ ..._payload, viewId: viewId });
+    setPayload({ ..._payload, viewId: viewId, pageno: 1 });
   };
 
   const filterDataChangeHander = async (id: any) => {
     setProcessingLoader(true);
-    const url = `${pathname}?${searchParams}`;
+    const url = actualUrl;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
     router.push(newUrl, { scroll: false });
     const selectedFilter = await getSelectedFilter(id);
     setNiftyFilterData(selectedFilter);
     updateL3NAV(id, _payload.duration);
-    setPayload({ ..._payload, filterValue: [id] });
+    setPayload({ ..._payload, filterValue: [id], pageno: 1 });
   };
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
     setProcessingLoader(true);
-    const url = `${pathname}?${searchParams}`;
+    const url = actualUrl;
     const newDuration = value.toUpperCase();
     const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
     router.push(newUrl, { scroll: false });
     updateL3NAV(_payload.filterValue[0], newDuration);
-    setPayload({ ..._payload, duration: newDuration });
+    setPayload({ ..._payload, duration: newDuration, pageno: 1 });
   };
 
   const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
     setProcessingLoader(true);
-    const type = getParameterByName("type");
     const { tabData } = await getCustomViewsTab({
-      type,
+      l3NavSubItem,
     });
     setTabData(tabData);
     setActiveViewId(tabIdActive);
   };
   const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
     setProcessingLoader(true);
-    const type = getParameterByName("type");
     const { tabData, activeViewId } = await getCustomViewsTab({
-      type,
+      l3NavSubItem,
       ssoid: getCookie("ssoid"),
     });
 
@@ -183,8 +176,7 @@ const MarketStats = ({
   }: any) => {
     setProcessingLoader(true);
     let url = `${pathname}?${searchParams}`;
-    const type = searchParams.get("type");
-    if (type == "golden-cross" || type == "death-cross") {
+    if (l3NavSubItem == "golden-cross" || l3NavSubItem == "death-cross") {
       url = updateOrAddParamToPath(url, "type", "sma-sma-crossovers");
     }
     (url = updateOrAddParamToPath(url, "firstoperand", firstOperand)),
@@ -193,8 +185,8 @@ const MarketStats = ({
     router.push(url, { scroll: false });
 
     const technicalCategory = await getTechincalOperands(
-      params,
-      type,
+      l3NavMenuItem,
+      l3NavSubItem,
       firstOperand,
       operationType,
       secondOperand,
@@ -206,6 +198,7 @@ const MarketStats = ({
       firstOperand: firstOperand,
       operationType: operationType,
       secondOperand: secondOperand,
+      pageno: 1,
     });
   };
 
@@ -221,10 +214,25 @@ const MarketStats = ({
   useEffect(() => {
     if (_payload.apiType != payload.apiType) {
       const newApiType = payload.apiType;
-      setPayload({
+      // Resetting the api type and page number, when user navigates from L3 nav
+      let newPaylaod = {
         ..._payload,
         apiType: newApiType,
-      });
+        pageno: 1,
+      };
+      if (isTechnical) {
+        const { firstOperand, operationType, secondOperand } =
+          technicalCategory?.selectedFilter;
+        newPaylaod = {
+          ...newPaylaod,
+          firstOperand,
+          operationType,
+          secondOperand,
+        };
+      }
+      setPayload(newPaylaod);
+      setMetaData(metaData);
+      setTechnicalCategory(technicalCategory);
     }
   }, [searchParams]);
 
@@ -240,12 +248,12 @@ const MarketStats = ({
       <p className={styles.desc}>{_metaData.desc}</p>
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
-          <MarketStatsNav leftNavResult={_l3Nav} type={l3NavType} />
+          <MarketStatsNav leftNavResult={_l3Nav} type={l3NavSubItem} />
         </aside>
         <div className={styles.rhs}>
           {isTechnical && (
             <TechincalOperands
-              technicalCategory={technicalCategory}
+              technicalCategory={_technicalCategory}
               handleTechnicalOperands={onTechnicalOperandsUpdate}
             />
           )}
