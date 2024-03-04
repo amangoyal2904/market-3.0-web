@@ -217,6 +217,14 @@
     "development": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail",
     "production": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail"
   },
+  "SCREENER_BY_SCREENERID": {
+    "development": "https://screener.indiatimes.com/screener/getScreenerByScreenerId",
+    "production": "https://screener.indiatimes.com/screener/getScreenerByScreenerId"
+  },
+  "GET_RECOS_DETAILS": {
+    "development": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail",
+    "production": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail"
+  },
   "MARKET_STATUS": {
     "development": "https://bselivefeeds.indiatimes.com/ET_Community/holidaylist",
     "production": "https://json.bselivefeeds.indiatimes.com/ET_Community/holidaylist"

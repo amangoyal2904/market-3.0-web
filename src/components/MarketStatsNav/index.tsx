@@ -1,26 +1,16 @@
 "use client";
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import styles from "./MarketStatsNav.module.scss";
 import Link from "next/link";
 
 interface PageProps {
   leftNavResult: any;
   type: any;
+  shortUrlMapping: [];
 }
 
 const MarketStatsNav: React.FC<PageProps> = (props) => {
-  const { leftNavResult, type } = props;
-  // console.log("leftNavResult", leftNavResult.nav);
-  const [expandedItems, setExpandedItems] = useState<number[]>([0]);
-
-  // Function to toggle the expansion of submenu for a given index
-  const toggleSubMenu = (index: number) => {
-    if (expandedItems.includes(index)) {
-      setExpandedItems(expandedItems.filter((item) => item !== index));
-    } else {
-      setExpandedItems([...expandedItems, index]);
-    }
-  };
+  const { leftNavResult, type, shortUrlMapping } = props;
   const toggleL2Menu = (e: any) => {
     try {
       e.stopPropagation();
@@ -62,6 +52,14 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
     elm.classList.add(styles["active"]);
   };
 
+  const renderLink = (subItem: any) => {
+    const isExist: any = shortUrlMapping.find(
+      (item: any) => item.longURL == subItem.link,
+    );
+    const linkHref = isExist ? isExist.shortUrl : subItem.link;
+    return <Link href={linkHref}>{subItem.label}</Link>;
+  };
+
   return (
     <>
       <div className={styles.navWrap}>
@@ -93,8 +91,7 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
                         className={`${styles.subNavWrapLi} ${type == subItem.type ? styles.active : null}`}
                         onClick={(e) => handleClick(e)}
                       >
-                        {/* className={`${index == 0 ? styles.active : ""}`} */}
-                        <Link href={subItem.link}>{subItem.label}</Link>
+                        {renderLink(subItem)}
                       </li>
                     ))}
                   </ul>

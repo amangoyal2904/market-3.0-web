@@ -38,6 +38,7 @@ const MarketStats = ({
   l3NavMenuItem = null,
   l3NavSubItem = null,
   actualUrl = null,
+  shortUrlMapping = [],
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -248,7 +249,11 @@ const MarketStats = ({
       <p className={styles.desc}>{_metaData.desc}</p>
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
-          <MarketStatsNav leftNavResult={_l3Nav} type={l3NavSubItem} />
+          <MarketStatsNav
+            leftNavResult={_l3Nav}
+            type={l3NavSubItem}
+            shortUrlMapping={shortUrlMapping}
+          />
         </aside>
         <div className={styles.rhs}>
           {isTechnical && (

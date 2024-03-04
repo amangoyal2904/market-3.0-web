@@ -9,6 +9,7 @@ const CreateNewViewComponent = ({
   closePopCreateView,
   editmode,
   onPersonalizeHandler,
+  removePersonaliseView,
 }: any) => {
   const [viewData, setViewData]: any = useState([]);
   const [screenerName, setScreenerName]: any = useState("");
@@ -181,11 +182,10 @@ const CreateNewViewComponent = ({
     setSelectedView(updatedListData);
   };
   const removeUserPersonalise = () => {
-    const userConfirm = confirm(
-      "Are you sure you want to remove to this scrneer?",
-    );
-    if (userConfirm && editmode && editmode.mode && editmode.viewId !== "") {
-      removeByViewID(editmode.viewId);
+    if (editmode && editmode.mode && editmode.viewId !== "") {
+      //removeByViewID(editmode.viewId);
+      closePopCreateView(false);
+      removePersonaliseView(editmode.viewId);
     }
   };
   const fetchByViewID = async (viewId: any) => {

@@ -29,6 +29,7 @@ const MarketFiltersTab = ({
   dayFilterData,
   setDayFilterData,
   watchlistDataLength = 0,
+  removePersonaliseView,
 }: any) => {
   const {
     showAddStock,
@@ -130,7 +131,6 @@ const MarketFiltersTab = ({
     const data = await fetchFilters();
     setFilterMenuData(data);
   };
-
   useEffect(() => {
     if (showIndexFilter) {
       filterApiCall();
@@ -168,6 +168,15 @@ const MarketFiltersTab = ({
             onClick={() => dayFilterHandler()}
           >
             {dayFilterData.label} <i className="eticon_caret_down"></i>
+            {dayFilterShow ? (
+              <DayFitler
+                setDayFilterShow={setDayFilterShow}
+                selectedDay={dayFilterData}
+                filterHandler={filterChangeHandler}
+              />
+            ) : (
+              ""
+            )}
           </div>
         ) : (
           ""
@@ -238,6 +247,7 @@ const MarketFiltersTab = ({
           closePopCreateView={setOpenPersonaliseCreateModal}
           onPersonalizeHandler={onPersonalizeHandler}
           editmode={editMode}
+          removePersonaliseView={removePersonaliseView}
         />
       ) : (
         ""
@@ -257,15 +267,6 @@ const MarketFiltersTab = ({
           selectTab={niftyFilterData.selectedTab}
           childMenuTabActive={niftyFilterData.id}
         />
-      )}
-      {dayFilterShow ? (
-        <DayFitler
-          setDayFilterShow={setDayFilterShow}
-          selectedDay={dayFilterData}
-          filterHandler={filterChangeHandler}
-        />
-      ) : (
-        ""
       )}
       {createModuleScreener ? (
         <CreateScreenerModule

@@ -5,8 +5,12 @@ import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import MarketTable from "@/components/MarketTable";
 import { useStateContext } from "@/store/StateContext";
-import { removeMultipleStockInWatchList } from "@/utils/utility";
+import {
+  removeMultipleStockInWatchList,
+  removePersonalizeViewById,
+} from "@/utils/utility";
 import Blocker from "@/components/Blocker";
+import ToasterPopup from "@/components/ToasterPopup";
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
 import refeshConfig from "@/utils/refreshConfig.json";
@@ -27,6 +31,10 @@ const WatchListClient = () => {
   const [processingLoader, setProcessingLoader] = useState(false);
   const [showTableCheckBox, setShowTableCheckBox] = useState(false);
   const [unFollowStocksList, setUnFollowStocksList] = useState([]);
+  const [toasterConfirmBoxShow, setToasterConfirmBoxShow] = useState(false);
+  const [toasterPersonaliseViewRemove, setToasterPersonaliseViewRemove] =
+    useState(false);
+  const [toasterConfirmData, setToasterConfirmData] = useState({});
   const { state } = useStateContext();
   const { isLogin, ssoid, isPrime } = state.login;
   const config = tableConfig["watchList"];
@@ -93,34 +101,62 @@ const WatchListClient = () => {
     setAPISuccess(true);
     setRequestPayload(payload);
   };
-
+  const toasterRemovePersonaliseViewCloseHandlerFun = async (
+    value: boolean,
+    data: any,
+  ) => {
+    console.log(
+      "toasterRemovePersonaliseViewCloseHandlerFun",
+      value,
+      "___data",
+      data,
+    );
+    setToasterPersonaliseViewRemove(false);
+    if (value && data && data.id && data.id !== "") {
+      const removeViewById = await removePersonalizeViewById(data?.id);
+      console.log("removeViewById", removeViewById);
+      onPersonalizeHandlerfun();
+    }
+  };
+  const removePersonaliseViewFun = (viewId: any) => {
+    setToasterPersonaliseViewRemove(true);
+    const confirmData = {
+      title: "Are you sure you want to remove your Personalise View?",
+      id: viewId,
+    };
+    setToasterConfirmData(confirmData);
+    console.log("removePersonaliseViewFun", viewId);
+  };
+  const toasterCloseHandlerFun = async (value: boolean) => {
+    //console.log('getValue',value);
+    const userConfirm = value || false;
+    const followData = {
+      source: "1",
+      userSettings: [...unFollowStocksList],
+    };
+    setToasterConfirmBoxShow(false);
+    if (userConfirm) {
+      const removeAllStock = await removeMultipleStockInWatchList(followData);
+      if (
+        removeAllStock &&
+        removeAllStock.nextJsResponse &&
+        removeAllStock.nextJsResponse.length > 0
+      ) {
+        setShowTableCheckBox(false);
+        setUnFollowStocksList([]);
+        onTabViewUpdate(activeViewId);
+      } else if (removeAllStock.length > 0) {
+        setShowTableCheckBox(false);
+        setUnFollowStocksList([]);
+        onTabViewUpdate(activeViewId);
+      } else {
+        alert("Some api error plesae check now");
+      }
+    }
+  };
   const removeMultipleStockInWathclist = async () => {
     if (unFollowStocksList.length > 0) {
-      const userConfirm = confirm(
-        "Are you sure you want to remove those stock list in your watchlist?",
-      );
-      const followData = {
-        source: "1",
-        userSettings: [...unFollowStocksList],
-      };
-      if (userConfirm) {
-        const removeAllStock = await removeMultipleStockInWatchList(followData);
-        if (
-          removeAllStock &&
-          removeAllStock.nextJsResponse &&
-          removeAllStock.nextJsResponse.length > 0
-        ) {
-          setShowTableCheckBox(false);
-          setUnFollowStocksList([]);
-          onTabViewUpdate(activeViewId);
-        } else if (removeAllStock.length > 0) {
-          setShowTableCheckBox(false);
-          setUnFollowStocksList([]);
-          onTabViewUpdate(activeViewId);
-        } else {
-          alert("Some api error plesae check now");
-        }
-      }
+      setToasterConfirmBoxShow(true);
     } else {
       setShowTableCheckBox(false);
     }
@@ -202,6 +238,7 @@ const WatchListClient = () => {
                   onPersonalizeHandler={onPersonalizeHandlerfun}
                   updateTableHander={updateTableHanderFun}
                   watchlistDataLength={tableData.length}
+                  removePersonaliseView={removePersonaliseViewFun}
                 />
               </div>
             )}
@@ -220,6 +257,18 @@ const WatchListClient = () => {
           </>
         )}
       </div>
+      {toasterConfirmBoxShow && (
+        <ToasterPopup
+          data={toasterConfirmData}
+          toasterCloseHandler={toasterCloseHandlerFun}
+        />
+      )}
+      {toasterPersonaliseViewRemove && (
+        <ToasterPopup
+          data={toasterConfirmData}
+          toasterCloseHandler={toasterRemovePersonaliseViewCloseHandlerFun}
+        />
+      )}
     </>
   );
 };

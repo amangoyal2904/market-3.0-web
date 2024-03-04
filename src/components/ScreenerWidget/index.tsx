@@ -55,7 +55,6 @@ const StockScreenerWidget = async () => {
           .listScreenerCollectionMasterDataInfo
       : [];
 
-  const getdotsnum = () => {};
   return (
     <>
       <h1 className="heading">
@@ -67,7 +66,6 @@ const StockScreenerWidget = async () => {
           slides={StockScreenerData?.map((slides: any, index: any) => ({
             content: <StockScreenCards item={slides} index={index} />,
           }))}
-          dotsNum={getdotsnum}
           key={`screenerSlider}`}
           sliderId={`slider-screener`}
           slidesToShow={3}

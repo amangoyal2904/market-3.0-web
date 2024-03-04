@@ -3,7 +3,6 @@ import SlickSlider from "../SlickSlider";
 import { LiveStreamCards } from "./LiveStreamCards";
 
 const LiveStreamSlider = ({ liveStreamData }: any) => {
-  const getdotsnum = () => {};
   const responsive = [
     {
       breakpoint: 1921,
@@ -34,7 +33,6 @@ const LiveStreamSlider = ({ liveStreamData }: any) => {
           slides={liveStreamData?.map((slides: any, index: any) => ({
             content: <LiveStreamCards data={slides} index={index} />,
           }))}
-          dotsNum={getdotsnum}
           key={`liveStreamSlider}`}
           sliderId={`slider-liveStream`}
           slidesToShow={5}

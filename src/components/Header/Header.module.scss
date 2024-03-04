@@ -10,18 +10,21 @@
   z-index: 99;
   .navbarHeader {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin: 0 auto;
     padding: 10px 20px;
     min-height: 54px;
     .logoHeader {
-      max-width: 150px;
+      min-width: 200px;
     }
     .headerMidContainer {
       display: flex;
+      // width: 790px;
+    }
+    .headerRightContainer {
+      display: flex;
       justify-content: space-between;
-      width: 790px;
+      width: 100%;
     }
   }
   #searchBar {

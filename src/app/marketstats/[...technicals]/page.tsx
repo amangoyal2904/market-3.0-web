@@ -1,9 +1,14 @@
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
 import { cookies, headers } from "next/headers";
-import { fnGenerateMetaData, getSelectedFilter } from "@/utils/utility";
+import {
+  fnGenerateMetaData,
+  getSearchParams,
+  getSelectedFilter,
+} from "@/utils/utility";
 import { Metadata, ResolvingMetadata } from "next";
 import {
+  getAllShortUrls,
   getMarketStatsNav,
   getShortUrlMapping,
   getTechincalOperands,
@@ -20,10 +25,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
-  const { shortUrl, pageData } = await getShortUrlMapping(
-    "technicals",
-    pageUrl,
-  );
+  const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
   let L3NavMenuItem,
     L3NavSubItem,
     firstOperand,
@@ -32,15 +34,14 @@ export async function generateMetadata(
     intFilter,
     actualUrl;
   if (shortUrl) {
-    L3NavMenuItem = pageData?.l3NavMenuItem;
-    L3NavSubItem = pageData?.requestParams?.type;
-    firstOperand = pageData?.requestParams?.firstoperand;
-    operationType = pageData?.requestParams?.operationtype;
-    secondOperand = pageData?.requestParams?.secondoperand;
-    intFilter = pageData?.requestParams.filter
-      ? parseInt(pageData.requestParams.filter)
-      : 0;
     actualUrl = pageData?.longURL;
+    const requestParams = getSearchParams(actualUrl);
+    L3NavMenuItem = pageData?.l3NavMenuItem;
+    L3NavSubItem = requestParams?.type;
+    firstOperand = requestParams?.firstoperand;
+    operationType = requestParams?.operationtype;
+    secondOperand = requestParams?.secondoperand;
+    intFilter = requestParams.filter ? parseInt(requestParams.filter) : 0;
   } else {
     L3NavMenuItem = params.technicals[0];
     L3NavSubItem = searchParams?.type?.toLowerCase();
@@ -80,10 +81,7 @@ export async function generateMetadata(
 const MovingAverages = async ({ params, searchParams }: any) => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
-  const { shortUrl, pageData } = await getShortUrlMapping(
-    "technicals",
-    pageUrl,
-  );
+  const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
   let L3NavMenuItem,
     L3NavSubItem,
     firstOperand,
@@ -92,15 +90,14 @@ const MovingAverages = async ({ params, searchParams }: any) => {
     intFilter,
     actualUrl;
   if (shortUrl) {
-    L3NavMenuItem = pageData?.l3NavMenuItem;
-    L3NavSubItem = pageData?.requestParams?.type?.toLowerCase();
-    firstOperand = pageData?.requestParams?.firstoperand;
-    operationType = pageData?.requestParams?.operationtype;
-    secondOperand = pageData?.requestParams?.secondoperand;
-    intFilter = pageData?.requestParams.filter
-      ? parseInt(pageData.requestParams.filter)
-      : 0;
     actualUrl = pageData?.longURL;
+    const requestParams = getSearchParams(actualUrl);
+    L3NavMenuItem = pageData?.l3NavMenuItem;
+    L3NavSubItem = requestParams?.type?.toLowerCase();
+    firstOperand = requestParams?.firstoperand;
+    operationType = requestParams?.operationtype;
+    secondOperand = requestParams?.secondoperand;
+    intFilter = requestParams.filter ? parseInt(requestParams.filter) : 0;
   } else {
     L3NavMenuItem = params.technicals[0];
     L3NavSubItem = searchParams?.type?.toLowerCase();
@@ -165,6 +162,8 @@ const MovingAverages = async ({ params, searchParams }: any) => {
     desc: desc,
   };
 
+  const shortUrlMapping = await getAllShortUrls();
+
   return (
     <>
       <MarketStats
@@ -186,6 +185,7 @@ const MovingAverages = async ({ params, searchParams }: any) => {
         l3NavMenuItem={L3NavMenuItem}
         l3NavSubItem={L3NavSubItem}
         actualUrl={actualUrl}
+        shortUrlMapping={shortUrlMapping}
       />
     </>
   );

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./TechnicalOperands.module.scss";
 
 const TechincalOperands = ({
@@ -39,6 +39,12 @@ const TechincalOperands = ({
   const onSumbitHandler = () => {
     handleTechnicalOperands({ firstOperand, secondOperand, operationType });
   };
+
+  useEffect(() => {
+    setFirstOperand(technicalCategory.selectedFilter.firstOperand);
+    setOperationType(technicalCategory.selectedFilter.operationType);
+    setSecondOperand(technicalCategory.selectedFilter.secondOperand);
+  }, [technicalCategory]);
 
   return (
     <div className={`dflex align-item-center ${styles.mb20}`}>
