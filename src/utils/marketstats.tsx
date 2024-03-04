@@ -94,9 +94,9 @@ export const getTechincalOperands = async (
   };
 };
 
-export const getShortUrlMapping = async (type: string, pathname: any) => {
+export const getShortUrlMapping = async (pathname: any) => {
   const response = await Service.get({
-    url: "https://etapipre.indiatimes.com/api/shorturlmapping/" + type,
+    url: "https://etapipre.indiatimes.com/api/shorturlmapping/marketstats",
     params: {},
   });
   const urlList = await response?.json();

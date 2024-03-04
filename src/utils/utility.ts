@@ -421,3 +421,16 @@ export const getSelectedFilter = async (filter: any) => {
     selectedTab: selectedFilter.selectedTab,
   };
 };
+
+export const getSearchParams = (url: string) => {
+  const searchParams: { [key: string]: string } = {};
+  const queryString = url.split("?")[1];
+  if (queryString) {
+    const params = queryString.split("&");
+    params.forEach((param) => {
+      const [key, value] = param.split("=");
+      searchParams[key] = decodeURIComponent(value);
+    });
+  }
+  return searchParams;
+};

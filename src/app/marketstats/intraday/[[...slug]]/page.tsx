@@ -1,7 +1,11 @@
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
 import { cookies, headers } from "next/headers";
-import { fnGenerateMetaData, getSelectedFilter } from "@/utils/utility";
+import {
+  fnGenerateMetaData,
+  getSearchParams,
+  getSelectedFilter,
+} from "@/utils/utility";
 import { Metadata, ResolvingMetadata } from "next";
 import { getMarketStatsNav, getShortUrlMapping } from "@/utils/marketstats";
 import {
@@ -16,15 +20,14 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
-  const { shortUrl, pageData } = await getShortUrlMapping("intraday", pageUrl);
+  const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
   let L3NavSubItem, duration, intFilter, actualUrl;
   if (shortUrl) {
-    L3NavSubItem = pageData?.requestParams?.type;
-    duration = pageData?.requestParams?.duration;
-    intFilter = pageData?.requestParams.filter
-      ? parseInt(pageData.requestParams.filter)
-      : 0;
     actualUrl = pageData?.longURL;
+    const requestParams = getSearchParams(actualUrl);
+    L3NavSubItem = pageData?.requestParams?.type;
+    duration = requestParams?.duration;
+    intFilter = requestParams.filter ? parseInt(requestParams.filter) : 0;
   } else {
     L3NavSubItem = searchParams?.type?.toLowerCase();
     duration = searchParams.duration
@@ -58,18 +61,17 @@ export async function generateMetadata(
 const Intraday = async ({ searchParams }: any) => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
-  const { shortUrl, pageData } = await getShortUrlMapping("intraday", pageUrl);
+  const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
   console.log({ shortUrl });
   console.log({ pageData });
   let L3NavMenuItem, L3NavSubItem, duration, intFilter, actualUrl;
   if (shortUrl) {
-    L3NavMenuItem = pageData?.l3NavMenuItem;
-    L3NavSubItem = pageData?.requestParams?.type;
-    duration = pageData?.requestParams?.duration;
-    intFilter = pageData?.requestParams.filter
-      ? parseInt(pageData.requestParams.filter)
-      : 0;
     actualUrl = pageData?.longURL;
+    const requestParams = getSearchParams(actualUrl);
+    L3NavMenuItem = pageData?.l3NavMenuItem;
+    L3NavSubItem = requestParams?.type;
+    duration = requestParams?.duration;
+    intFilter = requestParams.filter ? parseInt(requestParams.filter) : 0;
   } else {
     L3NavMenuItem = "intraday";
     L3NavSubItem = searchParams?.type?.toLowerCase();
