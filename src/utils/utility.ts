@@ -359,7 +359,20 @@ export const removeMultipleStockInWatchList = async (followData: any) => {
     throw error;
   }
 };
-
+export const removePersonalizeViewById = async (viewId: any) => {
+  const ssoid = window.objUser?.ssoid;
+  const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.screenerRemoveviewbyid[
+    APP_ENV
+  ];
+  const data = await fetch(`${API_URL}${viewId}`, {
+    cache: "no-store",
+    headers: {
+      ssoid: ssoid,
+    },
+  });
+  const resData = await data.json();
+  return resData;
+};
 const fetchSelectedFilter = async (data: any, desiredIndexId: any) => {
   let filterData;
   if (data.keyIndices.nse.some((obj: any) => obj.indexId == desiredIndexId)) {
