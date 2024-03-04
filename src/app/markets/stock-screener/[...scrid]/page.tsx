@@ -6,6 +6,7 @@ import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
 import { Metadata } from "next";
 import { getSelectedFilter } from "@/utils/utility";
+import { headers } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Stock Screener !!",
@@ -14,6 +15,9 @@ export const metadata: Metadata = {
 };
 
 const ScreenerIneerpage = async ({ params, searchParams }: any) => {
+  const headersList = headers();
+  const referer = headersList.get("referer");
+
   const intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
   const filter = !!intFilter ? [intFilter] : [];
 
@@ -47,6 +51,9 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
 
   return (
     <>
+      {referer}
+      <hr />
+      {JSON.stringify(headersList, null, 2)}
       <StocksScreener
         l3Nav={l3Nav}
         metaData={metaData[0]}

@@ -1,13 +1,11 @@
 "use client";
 import { useState } from "react";
 import styles from "./TechnicalOperands.module.scss";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
-import { updateOrAddParamToPath } from "@/utils/utility";
 
-const TechincalOperands = ({ technicalCategory }: any) => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const router = useRouter();
+const TechincalOperands = ({
+  technicalCategory,
+  handleTechnicalOperands,
+}: any) => {
   const [firstOperand, setFirstOperand] = useState(
     technicalCategory.selectedFilter.firstOperand,
   );
@@ -39,15 +37,7 @@ const TechincalOperands = ({ technicalCategory }: any) => {
   };
 
   const onSumbitHandler = () => {
-    let url = `${pathname}?${searchParams}`;
-    const type = searchParams.get("type");
-    if (type == "golden-cross" || type == "death-cross") {
-      url = updateOrAddParamToPath(url, "type", "sma-sma-crossovers");
-    }
-    (url = updateOrAddParamToPath(url, "firstoperand", firstOperand)),
-      (url = updateOrAddParamToPath(url, "secondoperand", secondOperand)),
-      (url = updateOrAddParamToPath(url, "operationtype", operationType));
-    router.push(url, { scroll: false });
+    handleTechnicalOperands({ firstOperand, secondOperand, operationType });
   };
 
   return (

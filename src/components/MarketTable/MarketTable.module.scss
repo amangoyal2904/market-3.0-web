@@ -12,7 +12,7 @@
   position: relative;
   overflow: auto;
   overflow-y: "scroll";
-  justify-content: center;
+  justify-content: flex-start;
   font-family: $Montserrat-font-family;
 
   .inputWrapper {
@@ -79,6 +79,12 @@
     text-align: right;
     text-overflow: ellipsis;
     white-space: nowrap;
+    &.fullWidth {
+      width: 100%;
+      &.hide {
+        display: none;
+      }
+    }
   }
 
   th {
@@ -99,6 +105,12 @@
     -webkit-box-orient: vertical;
     &.enableSort {
       cursor: pointer;
+    }
+    &.fullWidth {
+      width: 100%;
+      &.hide {
+        display: none;
+      }
     }
   }
 
@@ -162,6 +174,7 @@
 }
 
 .scrollableWrapper {
+  width: 100%;
   overflow-y: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;

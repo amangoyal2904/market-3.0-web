@@ -159,12 +159,28 @@ const Login = () => {
           >
             <span className={styles.userProfile}>
               {userInfo?.thumbImageUrl ? (
-                <img width="34" height="34" src={userInfo?.thumbImageUrl} />
+                <img
+                  width="34"
+                  height="34"
+                  className={styles.thumbImg}
+                  src={userInfo?.thumbImageUrl}
+                />
               ) : (
                 <span className={styles.userFChar}>
                   {userInfo?.firstName.charAt(0)}
                 </span>
               )}
+              {isPrime && (
+                <img
+                  src="/prime_icon.svg"
+                  height="12"
+                  width="12"
+                  className={styles.prime_icon}
+                />
+              )}
+              <span
+                className={`eticon_caret_down ${styles.signinDDArrow}`}
+              ></span>
             </span>
             <div className={`${styles.menuListWrap}`}>
               <div className={styles.userNameWrap}>

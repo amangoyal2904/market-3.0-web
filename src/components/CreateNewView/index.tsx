@@ -47,37 +47,28 @@ const CreateNewViewComponent = ({
       });
     });
     tabDataFitlerBaseOnWidth(tabDataFilterDo);
-
-    // <li
-    //   key={item.categoryMappingID}
-    //   className={index === activeTab ? styles.active : ""}
-    //   onClick={() => handleTabClick(index)}
-    // >
-    //   <div className={styles.catHead}>
-    //     {item.displayName}
-    //   </div>
-    // </li>
-
     setViewData(viewDataSet);
   };
-
+  const hideElementsByClass = (className: any) => {
+    const elements = document.querySelectorAll(`.${className}`);
+    elements.forEach((element) => {
+      element.classList.add("hide");
+    });
+  };
   const saveUserPersonalise = () => {
     if (!selectedView.length) {
       alert("Please select at least one view");
     } else if (screenerName === "") {
       setViewNameModule(true);
+      const randomNumber = Math.floor(Math.random() * 100) + 1;
+      setScreenerName(`my${randomNumber}-view`);
+      //closePopCreateView(false);
+      hideElementsByClass("hideSecElement");
     } else {
       saveUserPersonaliseAPICall();
     }
   };
   const saveUserPersonaliseAPICall = async () => {
-    //console.log('save user view personalize ', selectedView)
-
-    // let userConfirmBox = false;
-    // if(editmode && editmode.mode && editmode.viewId !== ""){
-    //      userConfirmBox = confirm("Are you sure you want to be update this screener");
-    // }
-
     const ssoid = window.objUser?.ssoid;
     const updatedOrder: any[] = [];
     selectedView.map((item: any) => {
@@ -153,6 +144,11 @@ const CreateNewViewComponent = ({
 
   const viewCheckHandler = (e: any, addData: any) => {
     const isChecked = e.target.checked;
+    console.log("selectedView", selectedView);
+    if (selectedView.length >= 20 && isChecked) {
+      alert("You have only 20 selected not more ");
+      return;
+    }
     if (isChecked) {
       let viewAllDataforSelected: any = [...selectedView];
       const userSelectViewData = {
@@ -259,7 +255,6 @@ const CreateNewViewComponent = ({
     setSelectedView(__updatedViewData);
   };
   const viewNameHandlerFun = (viewName: string) => {
-    //console.log("__viewName_", viewName);
     if (viewName !== "") {
       setViewNameModule(false);
       saveUserPersonalise();
@@ -291,7 +286,7 @@ const CreateNewViewComponent = ({
     }
   };
   const tabDataFitlerBaseOnWidth = (data: any) => {
-    console.log("___data", data);
+    //console.log("___data", data);
     const tabsListWidth = tabsListRef.current?.offsetWidth;
     if (tabsListWidth != null) {
       let currentWidth = 0;
@@ -299,7 +294,7 @@ const CreateNewViewComponent = ({
       const newVisibleTabs: any[] = [];
       const newHiddenTabs: any[] = [];
       for (const tab of filterData) {
-        console.log("tab", tab);
+        //console.log("tab", tab);
         const tabWidth = tab.displayName.length * 10; // Adjust the width calculation as per your requirement
         if (currentWidth + tabWidth < tabsListWidth) {
           newVisibleTabs.push(tab);
@@ -358,7 +353,7 @@ const CreateNewViewComponent = ({
     <>
       <div className={`customeModule ${styles.wraper}`}>
         <div className={`moduleWrap ${styles.perWrap}`} ref={viewWraperRef}>
-          <div className={styles.header}>
+          <div className={`hideSecElement ${styles.header}`}>
             <span>
               {editmode && editmode.mode && editmode.viewId !== ""
                 ? "Edit"
@@ -379,7 +374,7 @@ const CreateNewViewComponent = ({
                             <input type="text" placeholder="Please enter screener name" value={screenerName} onChange={(e:any)=>setScreenerName(e.target.value)} />
                         </div> */}
           </div>
-          <div className={`moduleBody ${styles.body}`}>
+          <div className={`hideSecElement moduleBody ${styles.body}`}>
             <div className={styles.bodySec}>
               <div className={styles.filterSec}>
                 <div className={styles.leftSec}>
@@ -640,7 +635,7 @@ const CreateNewViewComponent = ({
               </div>
             </div>
           </div>
-          <div className={styles.footer}>
+          <div className={`hideSecElement ${styles.footer}`}>
             {editmode && editmode.mode && editmode.viewId !== "" ? (
               <span
                 className={`${styles.updateBtn} ${styles.removeBtn}`}
@@ -662,6 +657,7 @@ const CreateNewViewComponent = ({
               editMode={editmode.viewId}
               updateViewNameHandler={updateViewNameHandler}
               setScreenerName={setScreenerName}
+              closeViewNamePopup={setViewNameModule}
             />
           ) : null}
           {loading ? (

@@ -2,11 +2,11 @@ import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import Service from "@/network/service";
 
-const fetchTitleAndDesc = async (navData: any, subNavType: any) => {
+const fetchTitleAndDesc = async (navData: any, L3NavSubItem: any) => {
   const results: { title: string; desc: string }[] = [];
   navData.forEach((navItem: any) => {
     navItem.sub_nav.forEach((subNavItem: any) => {
-      if (subNavItem.type.toLowerCase() === subNavType.toLowerCase()) {
+      if (subNavItem.type.toLowerCase() === L3NavSubItem) {
         const { title, desc } = subNavItem;
         results.push({ title, desc });
       }
@@ -27,31 +27,34 @@ const fetchL3Nav = async ({ duration, intFilter }: any) => {
   return response?.json();
 };
 
-const fetchTechnicalCategory = async (params: any, type: any) => {
-  let category = params.technicals[0];
-  if (category == "moving-averages") {
-    category =
-      type == "ema-ema-crossovers" || type == "price-ema-crossovers"
+const fetchTechnicalCategory = async (
+  L3NavMenuItem: any,
+  L3NavSubItem: any,
+) => {
+  if (L3NavMenuItem == "moving-averages") {
+    L3NavMenuItem =
+      L3NavSubItem == "ema-ema-crossovers" ||
+      L3NavSubItem == "price-ema-crossovers"
         ? "ema-ema-crossovers"
         : "sma-sma-crossovers";
   }
   const apiUrl =
     "https://qcbselivefeeds.indiatimes.com/et-screener/operands-data?category=" +
-    category;
+    L3NavMenuItem;
   const response = await Service.get({
     url: apiUrl,
     params: {},
   });
-  return response?.json();
+  return await response?.json();
 };
 
 export const getMarketStatsNav = async ({
-  type,
+  L3NavSubItem,
   intFilter,
   duration = null,
 }: any) => {
   const l3Nav = await fetchL3Nav({ duration, intFilter });
-  const metaData = await fetchTitleAndDesc(l3Nav.nav, type);
+  const metaData = await fetchTitleAndDesc(l3Nav.nav, L3NavSubItem);
   return {
     l3Nav,
     metaData,
@@ -59,13 +62,13 @@ export const getMarketStatsNav = async ({
 };
 
 export const getTechincalOperands = async (
-  params: any,
-  type: any,
+  L3NavMenuItem: any,
+  L3NavSubItem: any,
   firstOperand: any,
   operationType: any,
   secondOperand: any,
 ) => {
-  const response = await fetchTechnicalCategory(params, type);
+  const response = await fetchTechnicalCategory(L3NavMenuItem, L3NavSubItem);
 
   return {
     ...response,
@@ -87,6 +90,20 @@ export const getTechincalOperands = async (
             (operand: any) => operand.fieldName === secondOperand,
           )?.displayName,
     },
-    category: params,
+    category: L3NavMenuItem,
   };
+};
+
+export const getShortUrlMapping = async (type: string, pathname: any) => {
+  const response = await Service.get({
+    url: "https://etapipre.indiatimes.com/api/shorturlmapping/" + type,
+    params: {},
+  });
+  const urlList = await response?.json();
+  const isExist = urlList.some((item: any) => item.shortUrl == pathname);
+  if (isExist) {
+    const pageData = urlList.find((item: any) => item.shortUrl == pathname);
+    return { shortUrl: true, pageData };
+  }
+  return { shortUrl: false };
 };

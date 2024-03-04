@@ -18,6 +18,7 @@ const ScrollableTable = (props: any) => {
     isPrime = false,
     hideThead = false,
     tableConfig = {},
+    parentHasScroll = false,
   } = props || {};
   const {
     showFilterInput = true,
@@ -85,6 +86,9 @@ const ScrollableTable = (props: any) => {
                   </th>
                 ),
             )}
+            <th
+              className={`${styles.fullWidth} ${parentHasScroll ? styles.hide : null}`}
+            ></th>
           </tr>
           {showFilterInput && (
             <tr>
@@ -109,6 +113,9 @@ const ScrollableTable = (props: any) => {
                     </td>
                   ),
               )}
+              <td
+                className={`${styles.fullWidth} ${parentHasScroll ? styles.hide : null}`}
+              ></td>
             </tr>
           )}
         </thead>
@@ -158,6 +165,9 @@ const ScrollableTable = (props: any) => {
                       </td>
                     ),
                 )}
+                <td
+                  className={`${styles.fullWidth} ${parentHasScroll ? styles.hide : null}`}
+                ></td>
               </tr>
             ))}
           </tbody>

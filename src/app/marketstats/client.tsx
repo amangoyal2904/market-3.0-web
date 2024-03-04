@@ -5,7 +5,7 @@ import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
-import { getCookie, getParameterByName } from "@/utils";
+import { getCookie } from "@/utils";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useStateContext } from "@/store/StateContext";
 import {
@@ -17,7 +17,7 @@ import {
 import refeshConfig from "@/utils/refreshConfig.json";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import TechincalOperands from "@/components/TechincalOperands";
-import { getMarketStatsNav } from "@/utils/marketstats";
+import { getMarketStatsNav, getTechincalOperands } from "@/utils/marketstats";
 
 const MarketStats = ({
   l3Nav = [],
@@ -35,11 +35,13 @@ const MarketStats = ({
   payload = {},
   ssoid = null,
   isprimeuser = false,
+  l3NavMenuItem = null,
+  l3NavSubItem = null,
+  actualUrl = null,
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const l3NavType = searchParams.get("type");
   const [dayFilterData, setDayFilterData] = useState({
     value: payload?.duration,
     label: durationOptions.find((option) => option.value === payload?.duration)
@@ -58,6 +60,7 @@ const MarketStats = ({
   const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
+  const [processingLoader, setProcessingLoader] = useState(false);
 
   const updateTableData = async () => {
     const responseData: any = await fetchViewTable(
@@ -78,12 +81,12 @@ const MarketStats = ({
     setTableData(_tableData);
     setTableHeaderData(_tableHeaderData);
     setPageSummary(_pageSummary);
+    setProcessingLoader(false);
   };
 
   const updateL3NAV = async (intFilter: any, duration: any) => {
-    const type = getParameterByName("type");
     const { l3Nav } = await getMarketStatsNav({
-      type,
+      l3NavSubItem,
       intFilter,
       duration,
     });
@@ -91,10 +94,12 @@ const MarketStats = ({
   };
 
   const onPaginationChange = async (pageNumber: number) => {
+    setProcessingLoader(true);
     setPayload({ ..._payload, pageno: pageNumber });
   };
 
   const onServerSideSort = async (field: any) => {
+    setProcessingLoader(true);
     let sortConfig = _payload.sort;
     const isFieldSorted = sortConfig.find(
       (config: any) => config.field === field,
@@ -114,41 +119,44 @@ const MarketStats = ({
   };
 
   const onTabViewUpdate = async (viewId: any) => {
+    setProcessingLoader(true);
     setActiveViewId(viewId);
-    setPayload({ ..._payload, viewId: viewId });
+    setPayload({ ..._payload, viewId: viewId, pageno: 1 });
   };
 
   const filterDataChangeHander = async (id: any) => {
-    const url = `${pathname}?${searchParams}`;
+    setProcessingLoader(true);
+    const url = actualUrl;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
+    router.push(newUrl, { scroll: false });
     const selectedFilter = await getSelectedFilter(id);
     setNiftyFilterData(selectedFilter);
-    setPayload({ ..._payload, filterValue: [id] });
     updateL3NAV(id, _payload.duration);
-    router.push(newUrl, { scroll: false });
+    setPayload({ ..._payload, filterValue: [id], pageno: 1 });
   };
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
-    const url = `${pathname}?${searchParams}`;
+    setProcessingLoader(true);
+    const url = actualUrl;
     const newDuration = value.toUpperCase();
     const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
-    setPayload({ ..._payload, duration: newDuration });
-    updateL3NAV(_payload.filterValue[0], newDuration);
     router.push(newUrl, { scroll: false });
+    updateL3NAV(_payload.filterValue[0], newDuration);
+    setPayload({ ..._payload, duration: newDuration, pageno: 1 });
   };
 
   const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
-    const type = getParameterByName("type");
+    setProcessingLoader(true);
     const { tabData } = await getCustomViewsTab({
-      type,
+      l3NavSubItem,
     });
     setTabData(tabData);
     setActiveViewId(tabIdActive);
   };
   const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
-    const type = getParameterByName("type");
+    setProcessingLoader(true);
     const { tabData, activeViewId } = await getCustomViewsTab({
-      type,
+      l3NavSubItem,
       ssoid: getCookie("ssoid"),
     });
 
@@ -160,13 +168,73 @@ const MarketStats = ({
       onTabViewUpdate(activeViewId);
     }
   };
+
+  const onTechnicalOperandsUpdate = async ({
+    firstOperand,
+    secondOperand,
+    operationType,
+  }: any) => {
+    setProcessingLoader(true);
+    let url = `${pathname}?${searchParams}`;
+    if (l3NavSubItem == "golden-cross" || l3NavSubItem == "death-cross") {
+      url = updateOrAddParamToPath(url, "type", "sma-sma-crossovers");
+    }
+    (url = updateOrAddParamToPath(url, "firstoperand", firstOperand)),
+      (url = updateOrAddParamToPath(url, "secondoperand", secondOperand)),
+      (url = updateOrAddParamToPath(url, "operationtype", operationType));
+    router.push(url, { scroll: false });
+
+    const technicalCategory = await getTechincalOperands(
+      l3NavMenuItem,
+      l3NavSubItem,
+      firstOperand,
+      operationType,
+      secondOperand,
+    );
+    const descTxt = `Discover the stocks in the Indian stock market with ${technicalCategory?.selectedFilterLabel?.firstOperand} ${technicalCategory?.selectedFilterLabel?.operationType} ${technicalCategory?.selectedFilterLabel?.secondOperand} exclusively on The Economic Times`;
+    setMetaData({ ..._metaData, desc: descTxt });
+    setPayload({
+      ..._payload,
+      firstOperand: firstOperand,
+      operationType: operationType,
+      secondOperand: secondOperand,
+      pageno: 1,
+    });
+  };
+
   useEffect(() => {
+    setProcessingLoader(true);
     updateTableData();
     const intervalId = setInterval(() => {
       updateTableData();
     }, parseInt(refeshConfig.marketstats));
     return () => clearInterval(intervalId);
   }, [_payload]);
+
+  useEffect(() => {
+    if (_payload.apiType != payload.apiType) {
+      const newApiType = payload.apiType;
+      // Resetting the api type and page number, when user navigates from L3 nav
+      let newPaylaod = {
+        ..._payload,
+        apiType: newApiType,
+        pageno: 1,
+      };
+      if (isTechnical) {
+        const { firstOperand, operationType, secondOperand } =
+          technicalCategory?.selectedFilter;
+        newPaylaod = {
+          ...newPaylaod,
+          firstOperand,
+          operationType,
+          secondOperand,
+        };
+      }
+      setPayload(newPaylaod);
+      setMetaData(metaData);
+      setTechnicalCategory(technicalCategory);
+    }
+  }, [searchParams]);
 
   return (
     <>
@@ -180,11 +248,14 @@ const MarketStats = ({
       <p className={styles.desc}>{_metaData.desc}</p>
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
-          <MarketStatsNav leftNavResult={_l3Nav} type={l3NavType} />
+          <MarketStatsNav leftNavResult={_l3Nav} type={l3NavSubItem} />
         </aside>
         <div className={styles.rhs}>
           {isTechnical && (
-            <TechincalOperands technicalCategory={technicalCategory} />
+            <TechincalOperands
+              technicalCategory={_technicalCategory}
+              handleTechnicalOperands={onTechnicalOperandsUpdate}
+            />
           )}
           <div className="tabsWrap">
             <LeftMenuTabs
@@ -213,6 +284,7 @@ const MarketStats = ({
             tableConfig={tableConfig}
             handleSortServerSide={onServerSideSort}
             handlePageChange={onPaginationChange}
+            processingLoader={processingLoader}
           />
         </div>
       </div>

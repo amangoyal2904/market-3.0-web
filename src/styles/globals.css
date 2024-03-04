@@ -335,7 +335,7 @@ a {
 .default-btn {
   font-size: 12px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   padding: 4px 10px;
   border: 1px solid #000;
   border-radius: 100px;
@@ -358,6 +358,10 @@ a {
 .hide {
   display: none;
 }
+.hide.hideSecElement {
+  display: none !important;
+}
+
 .center {
   text-align: center;
   justify-content: center;
@@ -451,7 +455,7 @@ table {
   background: #fff;
   text-align: left;
   min-width: 420px;
-  margin-top: 120px;
+  margin-top: 80px;
 }
 .customeModule .moduleHeader {
   display: flex;

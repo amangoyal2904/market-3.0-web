@@ -12,28 +12,39 @@ import LiveMarketData from "../LiveMarketData";
 
 const Header = () => {
   const { state, dispatch } = useStateContext();
-  const { isLogin, isPrime } = state.login;
+  const { isLogin, isPrime, ssoReady } = state.login;
 
   return (
     <header id={styles.pageTopbar}>
       <div className={styles.navbarHeader} id="header">
-        <div className="dflex align-item-center">
+        <div className={`dflex align-item-center ${styles.logoHeader}`}>
           <Link href="/">
             <Image src="/logo.png" width={138} height={24} alt="ET Markets" />
           </Link>
-          <Search />
         </div>
-        <LiveMarketData />
-        <div className="dflex align-item-center">
+        <div className={styles.headerMidContainer}>
+          <Search />
+          <LiveMarketData />
+        </div>
+
+        <div
+          className={`dflex align-item-center ${styles.headerRightContainer}`}
+        >
           <Link className="default-btn" href="/watchlist">
             My Watchlist
           </Link>
           {!isPrime && (
             <Link
-              className="default-btn"
+              className={`default-btn ${styles.subscribeBtn}`}
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`}
               data-ga-onclick="Subscription Flow#SYFT#ATF - url"
             >
+              <img
+                src="/prime_icon.svg"
+                height="12"
+                width="12"
+                className={styles.prime_icon}
+              />
               Subscribe
             </Link>
           )}
