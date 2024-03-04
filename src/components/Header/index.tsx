@@ -12,7 +12,7 @@ import LiveMarketData from "../LiveMarketData";
 
 const Header = () => {
   const { state, dispatch } = useStateContext();
-  const { isLogin, isPrime } = state.login;
+  const { isLogin, isPrime, ssoReady } = state.login;
 
   return (
     <header id={styles.pageTopbar}>
