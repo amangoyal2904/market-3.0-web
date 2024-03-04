@@ -209,6 +209,14 @@
     "development": "https://etapipre.indiatimes.com/api/marketstatsnav",
     "production": "https://etapipre.indiatimes.com/api/marketstatsnav"
   },
+  "STOCK_RECOS_NAV": {
+    "development": "https://etapipre.indiatimes.com/api/stockrecosnav",
+    "production": "https://etapipre.indiatimes.com/api/stockrecosnav"
+  },
+  "STOCK_RECOS_DETAIL": {
+    "development": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail",
+    "production": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail"
+  },
   "SCREENER_BY_SCREENERID": {
     "development": "https://screener.indiatimes.com/screener/getScreenerByScreenerId",
     "production": "https://screener.indiatimes.com/screener/getScreenerByScreenerId"

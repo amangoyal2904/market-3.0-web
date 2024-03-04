@@ -237,14 +237,21 @@ const MarketTable = (props: propsType) => {
   });
 
   useEffect(() => {
-    if ((data && data.length) || apiSuccess) {
+    const parent = document.querySelector("#scrollableTable");
+    if (parent) {
+      setParentHasScroll(parent.scrollWidth > parent.clientWidth);
+    }
+  });
+
+  useEffect(() => {
+    if (data?.length || apiSuccess) {
       const filteredData = filterTableData(data);
       const sortedData = sortTableData(filteredData);
       setTableDataList((tableDataList) => [...sortedData]);
       setTableHeaderData(tableHeaders);
       setPageSummary(pageSummary);
       if (!loaderOff) setLoaderOff(true);
-    } else if (data && data.length === 0) {
+    } else if (data?.length === 0) {
       setTableDataList([]);
       setTableHeaderData([]);
       setPageSummary({});

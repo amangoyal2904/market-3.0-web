@@ -24,7 +24,7 @@ export default function StockFilterNifty({
       data.keyIndices.nse.some(
         (obj: any) => obj.indexId == activeFilterValue,
       )) ||
-    data.keyIndices.bse.some((obj: any) => obj.indexId == activeFilterValue)
+    data?.keyIndices.bse.some((obj: any) => obj.indexId == activeFilterValue)
       ? 0
       : data.sectoralIndices.nse.some(
             (obj: any) => obj.indexId == activeFilterValue,
