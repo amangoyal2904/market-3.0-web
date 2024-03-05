@@ -295,6 +295,8 @@ export const logout = async () => {
     if (response.status == "SUCCESS") {
       delete_cookie("OTR");
       delete_cookie("isprimeuser");
+      delete_cookie("pfuuid");
+      delete_cookie("peuuid");
 
       const url = (APIS_CONFIG as any)["LOGOUT_AUTH_TOKEN"][APP_ENV],
         oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],
