@@ -6,26 +6,31 @@ import { useStateContext } from "../../store/StateContext";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 
-const WatchlistAddition = ({ companyData }: any) => {
+const WatchlistAddition = ({
+  companyData,
+  companyName,
+  companyId,
+  companyType,
+}: any) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, ssoReady } = state.login;
   const { watchlist } = state.watchlistStatus;
   const [loadingStatus, setLoadingStatus] = useState(false);
 
   const addStockInWatchlistHandler = (companyData: any, action: any) => {
-    const companytType =
-      companyData?.entityType === "company" && !companyData.subType
-        ? "equity"
-        : companyData.subType || "equity";
-    const { companyName, companyId } = companyData;
+    // const companytType =
+    //   companyData?.entityType === "company" && !companyData.subType
+    //     ? "equity"
+    //     : companyData.subType || "equity";
+    //const { companyName, companyId, companyid } = companyData;
 
     const stockDetails = {
-      companyName: companyName,
-      companyType: companytType,
-      companyId: companyId,
+      companyName,
+      companyType,
+      companyId,
     };
     const type = 11;
-    //console.log("stockDetails---", stockDetails, companyData);
+    console.log("stockDetails---", stockDetails, companyData);
     getMoreDetailsStockWatchList(action, stockDetails, type);
   };
 
@@ -51,7 +56,7 @@ const WatchlistAddition = ({ companyData }: any) => {
       data.ltp = ltp;
       data.exchange = exch;
     }
-    //console.log("getMoreDetailsStockWatchList---", data);
+    console.log("getMoreDetailsStockWatchList---", data);
     saveStockInWatchListHandler(action, data, type);
   };
 
@@ -84,7 +89,7 @@ const WatchlistAddition = ({ companyData }: any) => {
         }),
     };
 
-    //console.log("data----", data, type)
+    console.log("data----", data, type);
 
     const addWathlistResAPI = await saveStockInWatchList(followData);
     if (addWathlistResAPI?.status === "success") {
@@ -100,7 +105,7 @@ const WatchlistAddition = ({ companyData }: any) => {
         },
       });
 
-      //console.log("newWatchList----", newWatchList, action);
+      console.log("newWatchList----", newWatchList, action);
     } else if (addWathlistResAPI?.status === "failure") {
       alert(addWathlistResAPI.meessage);
     }
@@ -110,11 +115,9 @@ const WatchlistAddition = ({ companyData }: any) => {
 
   const handleWatchListClick = () => {
     if (isLogin) {
-      //console.log("watchlist----------", watchlist, companyData);
-      const watchlistStatus = watchlist.includes(companyData?.companyId)
-        ? 0
-        : 1;
-      //console.log("watchlistStatus---", watchlistStatus);
+      console.log("watchlist----------", watchlist, companyData);
+      const watchlistStatus = watchlist.includes(companyId) ? 0 : 1;
+      console.log("watchlistStatus---", watchlistStatus);
       setLoadingStatus(true);
       addStockInWatchlistHandler(companyData, watchlistStatus);
     } else {
@@ -133,7 +136,7 @@ const WatchlistAddition = ({ companyData }: any) => {
             <div className={styles.loading}>
               <div className={styles.loader}></div>
             </div>
-          ) : watchlist.includes(companyData.companyId) ? (
+          ) : watchlist.includes(companyId) ? (
             <span className={styles.tickIcon}></span>
           ) : (
             <span className="eticon_add"></span>
