@@ -170,7 +170,7 @@ export const decryptPrimeData = (pageSummary: string, encrytedTxt: string) => {
 };
 
 export const getStockUrl = (id: string, seoName: string, stockType: string) => {
-  if (seoName.indexOf(" ") >= 0) {
+  if (seoName?.indexOf(" ") >= 0) {
     seoName = seoName
       .replaceAll(" ", "-")
       .replaceAll("&", "")
@@ -187,7 +187,7 @@ export const getStockUrl = (id: string, seoName: string, stockType: string) => {
     id +
     ".cms";
   if (stockType != "equity" && stockType !== "" && stockType !== "company")
-    stockUrl = stockUrl + "?companytype=" + stockType.toLowerCase();
+    stockUrl = stockUrl + "?companytype=" + stockType?.toLowerCase();
   return stockUrl;
 };
 

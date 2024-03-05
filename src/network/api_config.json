@@ -256,5 +256,9 @@
         "https://qcbselivefeeds.indiatimes.com/screener/getScreenerByScreenerId"
       ]
     }
+  },
+  "screenerGetViewById": {
+    "development": "https://qcbselivefeeds.indiatimes.com/screener/screenerByScreenerIdForWeb",
+    "production": "https://qcbselivefeeds.indiatimes.com/screener/screenerByScreenerIdForWeb"
   }
 }

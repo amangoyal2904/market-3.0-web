@@ -5,7 +5,7 @@ import { APP_ENV } from "../../../utils/index";
 import StockScreenerPage from "./client";
 
 const fetchData = async () => {
-  const bodyParams = `?collectiontypeid=5&screenercount=40&list=true`;
+  const bodyParams = `?collectiontypeid=5&screenercount=40&list=false`;
   const API_URL = `${(APIS_CONFIG as any)?.SCREENER?.getAllScreenerlist[APP_ENV]}${bodyParams}`;
   const response = await Service.get({
     url: API_URL,

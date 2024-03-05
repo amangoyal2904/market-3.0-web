@@ -6,7 +6,8 @@
     "showDuration": false,
     "showPersonalize": true,
     "showExport": false,
-    "showCreateScreener": false
+    "showCreateScreener": false,
+    "showIndustryFilter": false
   },
   "marketStatsIntrday": {
     "showAddStock": false,
@@ -15,7 +16,8 @@
     "showDuration": true,
     "showPersonalize": true,
     "showExport": false,
-    "showCreateScreener": false
+    "showCreateScreener": false,
+    "showIndustryFilter": false
   },
   "marketStatsTechnical": {
     "showAddStock": false,
@@ -24,15 +26,17 @@
     "showDuration": false,
     "showPersonalize": true,
     "showExport": false,
-    "showCreateScreener": false
+    "showCreateScreener": false,
+    "showIndustryFilter": false
   },
   "stocksScreener": {
     "showAddStock": false,
     "showEditStock": false,
-    "showIndexFilter": true,
+    "showIndexFilter": false,
     "showDuration": false,
     "showPersonalize": true,
     "showExport": true,
-    "showCreateScreener": true
+    "showCreateScreener": true,
+    "showIndustryFilter": true
   }
 }

@@ -97,18 +97,18 @@ export const getCustomViewTable = async (
   let tableData = [];
   let tableHeaderData = [];
 
-  if (responseData.pageSummary) {
+  if (responseData?.pageSummary) {
     pageSummary = responseData.pageSummary;
   }
 
-  if (responseData.dataList) {
+  if (responseData?.dataList) {
     tableData = responseData.dataList;
     if (tableData.length > 0 && tableData[0].data) {
       tableHeaderData = tableData[0].data;
     }
   } else {
     tableData = responseData;
-    if (tableData.length > 0 && tableData[0]?.data) {
+    if (tableData?.length > 0 && tableData[0]?.data) {
       tableHeaderData = tableData[0].data;
     }
   }
