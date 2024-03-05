@@ -1,6 +1,6 @@
 import APIS_CONFIG from "@/network/api_config.json";
 import GLOBAL_CONFIG from "@/network/global_config.json";
-import { APP_ENV } from "@/utils/index";
+import { APP_ENV, setCookieToSpecificTime } from "@/utils/index";
 import { getCookie } from "@/utils/index";
 import Fingerprint2 from "fingerprintjs2";
 import { setCookies } from "./index";
@@ -295,7 +295,7 @@ export const createPfuuid = async (fpid: any) => {
     if (data && data.id != 0) {
       console.log("@@@@--->>>>>", data);
       var pfuuid = data.id;
-      setCookies("pfuuid", pfuuid);
+      setCookieToSpecificTime("pfuuid", pfuuid, 365, 0, 0, "");
     }
   } catch (e) {
     console.log("error in pfuuid api", e);
@@ -318,7 +318,7 @@ export const createPeuuid = async (fpid: any) => {
   if (data && data.id != 0) {
     const peuuid: any = data.id;
     console.log("@@@@--->>>>>2", data);
-    setCookies("peuuid", peuuid);
+    setCookieToSpecificTime("peuuid", peuuid, 365, 0, 0, "");
   }
 };
 

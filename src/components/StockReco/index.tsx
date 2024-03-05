@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./StockReco.module.scss"; // Import your CSS styles
+import WatchlistAddition from "../WatchlistAddition";
 
 interface Props {
   data: any; // Define the type of data correctly
@@ -86,6 +87,7 @@ const StockComponent: React.FC<Props> = ({ data, activeTab }) => {
                   <span className={styles.callDateTitle}>Call Date:</span>
                   <span className={styles.callDate}>{formattedDate}</span>
                 </span>
+                <WatchlistAddition companyData={data} />
               </div>
             )}
 
