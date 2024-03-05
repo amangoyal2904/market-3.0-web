@@ -29,7 +29,9 @@ const Login = () => {
         return entry.companyType && entry.id;
       });
     } else if (data?.length > 0) {
-      watchlistArr = data.map((entry: any) => entry.msid);
+      watchlistArr = data.map((entry: any) => {
+        return entry.companyType && entry.id;
+      });
     }
 
     console.log("watchlistArr----", watchlistArr);
