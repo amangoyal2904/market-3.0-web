@@ -153,7 +153,7 @@ const MarketStats = ({
   const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
     setProcessingLoader(true);
     const { tabData } = await getCustomViewsTab({
-      l3NavSubItem,
+      L3NavSubItem: l3NavSubItem,
     });
     setTabData(tabData);
     setActiveViewId(tabIdActive);
@@ -161,7 +161,7 @@ const MarketStats = ({
   const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
     setProcessingLoader(true);
     const { tabData, activeViewId } = await getCustomViewsTab({
-      l3NavSubItem,
+      L3NavSubItem: l3NavSubItem,
       ssoid: getCookie("ssoid"),
     });
 

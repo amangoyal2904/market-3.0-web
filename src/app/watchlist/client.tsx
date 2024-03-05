@@ -13,7 +13,6 @@ import Blocker from "@/components/Blocker";
 import ToasterPopup from "@/components/ToasterPopup";
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
-import refeshConfig from "@/utils/refreshConfig.json";
 import styles from "./Watchlist.module.scss";
 import {
   getCustomViewTable,
@@ -50,7 +49,7 @@ const WatchListClient = () => {
   const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
     setProcessingLoader(true);
     const { tabData, activeViewId } = await getCustomViewsTab({
-      type: "watchlist",
+      L3NavSubItem: "watchlist",
       ssoid: ssoid,
     });
 
@@ -80,7 +79,7 @@ const WatchListClient = () => {
   const fetchWatchListData = async () => {
     setProcessingLoader(true);
     const { tabData, activeViewId } = await getCustomViewsTab({
-      type: "watchlist",
+      L3NavSubItem: "watchlist",
       ssoid: ssoid,
     });
 
