@@ -232,10 +232,10 @@
   "SCREENER": {
     "getAllScreenerlist": {
       "development": [
-        "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
+        "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
       ],
       "production": [
-        "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
+        "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
       ]
     },
     "screenerListTab": {

@@ -119,3 +119,12 @@ export const getCustomViewTable = async (
     payload: bodyParams,
   };
 };
+
+export const getScreenerTabViewData = async ({ type = "", ssoid = "" }) => {
+  const tabData = await fetchTabsData({ type, ssoid });
+  const activeViewId = tabData[0].viewId;
+  return {
+    tabData,
+    activeViewId,
+  };
+};

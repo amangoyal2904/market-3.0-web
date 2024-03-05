@@ -184,6 +184,8 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
     } else if (data?.length > 0) {
       setWatchlistStock(data);
       fetchMostPopularStocks(data);
+    } else {
+      fetchMostPopularStocks();
     }
   };
   const fetchMostPopularStocks = async (watchListUserData: any = []) => {
