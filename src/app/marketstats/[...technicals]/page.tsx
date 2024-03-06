@@ -78,7 +78,7 @@ export async function generateMetadata(
   return fnGenerateMetaData(meta);
 }
 
-const MovingAverages = async ({ params, searchParams }: any) => {
+const Technicals = async ({ params, searchParams }: any) => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
   const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
@@ -141,7 +141,12 @@ const MovingAverages = async ({ params, searchParams }: any) => {
     pageno,
   };
   const { tableHeaderData, tableData, pageSummary, payload } =
-    await getCustomViewTable(bodyParams, isprimeuser, ssoid, "movingAverages");
+    await getCustomViewTable(
+      bodyParams,
+      isprimeuser,
+      ssoid,
+      "marketstatsTechnicals",
+    );
 
   const selectedFilter = await getSelectedFilter(intFilter);
   const technicalCategory = await getTechincalOperands(
@@ -191,4 +196,4 @@ const MovingAverages = async ({ params, searchParams }: any) => {
   );
 };
 
-export default MovingAverages;
+export default Technicals;

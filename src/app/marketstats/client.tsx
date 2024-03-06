@@ -70,7 +70,7 @@ const MarketStats = ({
   const updateTableData = async () => {
     const responseData: any = await fetchViewTable(
       { ..._payload },
-      isTechnical ? "movingAverages" : "marketStatsIntraday",
+      isTechnical ? "marketstatsTechnicals" : "marketstatsIntraday",
       getCookie("isprimeuser") ? true : false,
       getCookie("ssoid"),
     );
