@@ -116,7 +116,6 @@ const WatchlistAddition = ({
 
   const handleWatchListClick = () => {
     if (isLogin) {
-      debugger;
       console.log("watchlist----------", watchlist, companyData);
       const watchlistStatus = watchlist.includes(companyId) ? 0 : 1;
       console.log("watchlistStatus---", watchlistStatus);
