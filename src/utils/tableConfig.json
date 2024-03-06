@@ -9,7 +9,7 @@
     "isHeaderSticky": false,
     "pagination": false,
     "loaderType": "inner",
-    "showWatchlistIcon": true
+    "showWatchlistIcon": false
   },
   "watchList": {
     "name": "watchList",
