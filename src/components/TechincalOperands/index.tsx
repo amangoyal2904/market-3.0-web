@@ -53,24 +53,27 @@ const TechincalOperands = ({
         value={firstOperand}
         onChange={handleFirstOperandChange}
       >
-        {technicalCategory.firstOperands.map((item: any) => (
-          <option value={item.fieldName} key={item.fieldID}>
-            {item.displayName}
-          </option>
-        ))}
+        {technicalCategory.firstOperands &&
+          technicalCategory.firstOperands.map((item: any) => (
+            <option value={item.fieldName} key={item.fieldID}>
+              {item.displayName}
+            </option>
+          ))}
       </select>
       <select
         className={styles.formControl}
         value={operationType}
         onChange={handleOperationTypeChange}
       >
-        {technicalCategory.operationType.map((item: any, index: number) => (
-          <option value={item.fieldName} key={index}>
-            {item.displayName}
-          </option>
-        ))}
+        {technicalCategory.operationType &&
+          technicalCategory.operationType.map((item: any, index: number) => (
+            <option value={item.fieldName} key={index}>
+              {item.displayName}
+            </option>
+          ))}
       </select>
-      {technicalCategory.secondOperands.length ? (
+      {technicalCategory.secondOperands &&
+      technicalCategory.secondOperands.length ? (
         <select
           className={styles.formControl}
           value={secondOperand}

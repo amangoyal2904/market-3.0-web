@@ -3,7 +3,7 @@ import { APP_ENV } from "@/utils";
 import Service from "@/network/service";
 
 const fetchTabsData = async ({ type, ssoid }: any) => {
-  let apiUrl = `${(APIS_CONFIG as any)?.["watchListTab"][APP_ENV]}`;
+  let apiUrl = `${(APIS_CONFIG as any)?.["MARKETS_CUSTOM_TAB"][APP_ENV]}`;
   if (type != "watchlist") {
     apiUrl += `?statstype=${type}`;
   }

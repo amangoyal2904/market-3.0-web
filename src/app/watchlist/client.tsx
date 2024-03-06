@@ -69,7 +69,7 @@ const WatchListClient = () => {
         bodyParams,
         isprimeuser,
         ssoid,
-        "watchListTable",
+        "MARKETS_CUSTOM_TABLE",
       );
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
@@ -90,7 +90,7 @@ const WatchListClient = () => {
         bodyParams,
         isprimeuser,
         ssoid,
-        "watchListTable",
+        "MARKETS_CUSTOM_TABLE",
       );
 
     setTabData(tabData);

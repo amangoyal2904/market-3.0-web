@@ -615,7 +615,7 @@ table {
 .main_container {
   padding: 20px;
   flex-grow: 1;
-  width: calc(100vw - 210px);
+  width: calc(100vw - 212px);
 }
 
 .heading {

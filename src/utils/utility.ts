@@ -98,7 +98,7 @@ export const fetchFilters = async () => {
 
 export const fetchTabsData = async () => {
   const ssoid = window.objUser?.ssoid;
-  const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?ssoid=${ssoid}`;
+  const apiUrl = `${APIS_CONFIG?.MARKETS_CUSTOM_TAB["development"]}?ssoid=${ssoid}`;
   const data = await fetch(apiUrl, {
     cache: "no-store",
     headers: {
@@ -133,7 +133,7 @@ export const fetchViewTable = async (
 export const fetchTableData = async (viewId: any, params?: any) => {
   const ssoid = window.objUser?.ssoid;
   const isprimeuser = getCookie("isprimeuser") ? true : false;
-  const apiUrl = (APIS_CONFIG as any)?.watchListTable["development"];
+  const apiUrl = (APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE["development"];
   const response = await Service.post({
     url: apiUrl,
     headers: {

@@ -145,7 +145,7 @@ const Technicals = async ({ params, searchParams }: any) => {
       bodyParams,
       isprimeuser,
       ssoid,
-      "marketstatsTechnicals",
+      "MARKETSTATS_TECHNICALS",
     );
 
   const selectedFilter = await getSelectedFilter(intFilter);

@@ -31,7 +31,7 @@ const ScrollableTable = (props: any) => {
       className={styles.scrollableWrapper}
       onScroll={scrollRightPos}
     >
-      <table className={styles.watchListTable}>
+      <table className={styles.marketsCustomTable}>
         <thead
           style={{
             transform: `translateY(${isHeaderSticky ? (headerSticky > topScrollHeight ? headerSticky - topScrollHeight : 0) : 0}px)`,

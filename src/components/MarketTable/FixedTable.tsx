@@ -36,7 +36,7 @@ const FixedTable = (props: any) => {
       className={styles.fixedWrapper}
       onScroll={scrollLeftPos}
     >
-      <table className={styles.watchListTable}>
+      <table className={styles.marketsCustomTable}>
         <thead
           style={{
             transform: `translateY(${
