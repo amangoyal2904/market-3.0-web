@@ -144,7 +144,7 @@ const WatchlistAddition = ({
               <div className={styles.loader}></div>
             </div>
           ) : watchlist.includes(companyId) ? (
-            <span className={styles.tickIcon}></span>
+            <span className="eticon_tick"></span>
           ) : (
             <span className="eticon_add"></span>
           )}
