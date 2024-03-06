@@ -7,7 +7,6 @@ import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 
 const WatchlistAddition = ({
-  companyData,
   companyName,
   companyId,
   companyType,
@@ -18,7 +17,7 @@ const WatchlistAddition = ({
   const { watchlist } = state.watchlistStatus;
   const [loadingStatus, setLoadingStatus] = useState(false);
 
-  const addStockInWatchlistHandler = (companyData: any, action: any) => {
+  const addStockInWatchlistHandler = (action: any) => {
     // const companytType =
     //   companyData?.entityType === "company" && !companyData.subType
     //     ? "equity"
@@ -31,7 +30,7 @@ const WatchlistAddition = ({
       companyId,
     };
     const type = 11;
-    console.log("stockDetails---", stockDetails, companyData);
+    console.log("stockDetails---", stockDetails);
     getMoreDetailsStockWatchList(action, stockDetails, type);
   };
 
@@ -96,8 +95,8 @@ const WatchlistAddition = ({
     if (addWathlistResAPI?.status === "success") {
       const newWatchList =
         action == 1
-          ? [...watchlist, data.companyId]
-          : watchlist.filter((item: any) => item !== data.companyId);
+          ? [...watchlist, data.companyId.toString()]
+          : watchlist.filter((item: any) => item != data.companyId.toString());
 
       dispatch({
         type: "UPDATE_MSID",
@@ -116,11 +115,11 @@ const WatchlistAddition = ({
 
   const handleWatchListClick = () => {
     if (isLogin) {
-      console.log("watchlist----------", watchlist, companyData);
-      const watchlistStatus = watchlist.includes(companyId) ? 0 : 1;
+      console.log("watchlist----------", watchlist);
+      const watchlistStatus = watchlist.includes(companyId.toString()) ? 0 : 1;
       console.log("watchlistStatus---", watchlistStatus);
       setLoadingStatus(true);
-      addStockInWatchlistHandler(companyData, watchlistStatus);
+      addStockInWatchlistHandler(watchlistStatus);
     } else {
       initSSOWidget();
     }
@@ -132,7 +131,7 @@ const WatchlistAddition = ({
 
   return (
     <>
-      {ssoReady && (
+      {ssoReady && companyId && (
         <span
           style={mergedStyle}
           onClick={handleWatchListClick}
@@ -142,7 +141,7 @@ const WatchlistAddition = ({
             <div className={styles.loading}>
               <div className={styles.loader}></div>
             </div>
-          ) : watchlist.includes(companyId) ? (
+          ) : watchlist.includes(companyId.toString()) ? (
             <span className={styles.tickIcon}></span>
           ) : (
             <span className="eticon_add"></span>

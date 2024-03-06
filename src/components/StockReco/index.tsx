@@ -88,7 +88,6 @@ const StockComponent: React.FC<Props> = ({ data, activeTab }) => {
                   <span className={styles.callDate}>{formattedDate}</span>
                 </span>
                 <WatchlistAddition
-                  companyData={data}
                   companyName={data.companyName}
                   companyId={data.companyId}
                   companyType="equity"
