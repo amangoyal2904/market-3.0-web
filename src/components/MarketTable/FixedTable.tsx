@@ -27,6 +27,7 @@ const FixedTable = (props: any) => {
     showFilterInput = true,
     isSorting = true,
     isHeaderSticky = true,
+    showWatchlistIcon = true,
   } = tableConfig || {};
 
   return (
@@ -140,10 +141,7 @@ const FixedTable = (props: any) => {
                       (tdData.keyId == "name" ||
                       tdData.keyId == "shortName" ||
                       tdData.keyId == "shortNameKeyword" ? (
-                        <td
-                          key={index}
-                          className={`${styles.fixedTD} ${styles.companyName}`}
-                        >
+                        <td key={index} className={styles.fixedTD}>
                           <div className={styles.tdColWrap}>
                             {showRemoveCheckbox ? (
                               <div className={styles.formGroup}>
@@ -163,16 +161,18 @@ const FixedTable = (props: any) => {
                             ) : (
                               ""
                             )}
-                            <WatchlistAddition
-                              companyName={item.assetName}
-                              companyId={item.assetId}
-                              companyType={item.assetType}
-                              customStyle={{
-                                width: "18px",
-                                height: "18px",
-                                fontSize: "inherit",
-                              }}
-                            />
+                            {showWatchlistIcon && (
+                              <WatchlistAddition
+                                companyName={item.assetName}
+                                companyId={item.assetId}
+                                companyType={item.assetType}
+                                customStyle={{
+                                  width: "18px",
+                                  height: "18px",
+                                  fontSize: "inherit",
+                                }}
+                              />
+                            )}
                             <a
                               className={styles.ellipses}
                               href={getStockUrl(
