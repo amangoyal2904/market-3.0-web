@@ -11,6 +11,7 @@ const WatchlistAddition = ({
   companyName,
   companyId,
   companyType,
+  customStyle,
 }: any) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, ssoReady } = state.login;
@@ -115,6 +116,7 @@ const WatchlistAddition = ({
 
   const handleWatchListClick = () => {
     if (isLogin) {
+      debugger;
       console.log("watchlist----------", watchlist, companyData);
       const watchlistStatus = watchlist.includes(companyId) ? 0 : 1;
       console.log("watchlistStatus---", watchlistStatus);
@@ -124,11 +126,16 @@ const WatchlistAddition = ({
       initSSOWidget();
     }
   };
+  const defaultStyle = {
+    position: "relative",
+  };
+  const mergedStyle = { ...defaultStyle, ...customStyle };
 
   return (
     <>
       {ssoReady && (
         <span
+          style={mergedStyle}
           onClick={handleWatchListClick}
           className={styles.watchlistPlusWrap}
         >
