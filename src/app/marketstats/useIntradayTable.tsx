@@ -11,7 +11,7 @@ const fetchTableData = async ({
   pagesize,
   pageno,
 }: any) => {
-  const apiUrl = (APIS_CONFIG as any)?.["marketStatsIntraday"][APP_ENV];
+  const apiUrl = (APIS_CONFIG as any)?.["marketstatsIntraday"][APP_ENV];
   const bodyParams: any = {
     viewId: activeViewId,
     apiType: type,

@@ -96,18 +96,14 @@ export const getTechincalOperands = async (
 
 export const getAllShortUrls = async () => {
   const response = await Service.get({
-    url: "https://etapipre.indiatimes.com/api/shorturlmapping/marketstats",
+    url: (APIS_CONFIG as any)["MARKET_STATS_SHORTURLS_MAPPING"][APP_ENV],
     params: {},
   });
   return await response?.json();
 };
 
 export const getShortUrlMapping = async (pathname: any) => {
-  const response = await Service.get({
-    url: "https://etapipre.indiatimes.com/api/shorturlmapping/marketstats",
-    params: {},
-  });
-  const urlList = await response?.json();
+  const urlList = await getAllShortUrls();
   const isExist = urlList.some((item: any) => item.shortUrl == pathname);
   if (isExist) {
     const pageData = urlList.find((item: any) => item.shortUrl == pathname);

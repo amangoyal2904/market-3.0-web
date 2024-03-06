@@ -4,7 +4,6 @@ import { APP_ENV, setCookieToSpecificTime } from "@/utils/index";
 import { getCookie } from "@/utils/index";
 import Fingerprint2 from "fingerprintjs2";
 import { setCookies } from "./index";
-import CryptoJS from "crypto-js";
 import Service from "@/network/service";
 
 const API_SOURCE = 18;
@@ -154,19 +153,6 @@ export const fetchTableData = async (viewId: any, params?: any) => {
   });
 
   return response?.json();
-};
-
-export const decryptPrimeData = (pageSummary: string, encrytedTxt: string) => {
-  const secretkey = GLOBAL_CONFIG.securityKey;
-  const key = CryptoJS.enc.Utf8.parse(secretkey);
-  const iv = CryptoJS.enc.Utf8.parse(pageSummary);
-
-  const decrypted = CryptoJS.AES.decrypt(encrytedTxt, key, {
-    iv: iv,
-    mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7,
-  });
-  return decrypted.toString(CryptoJS.enc.Utf8);
 };
 
 export const getStockUrl = (id: string, seoName: string, stockType: string) => {

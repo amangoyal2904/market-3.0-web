@@ -4,6 +4,7 @@ import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 import { APP_ENV } from "@/utils";
+import WatchlistAddition from "../WatchlistAddition";
 
 const FixedTable = (props: any) => {
   const {
@@ -162,6 +163,16 @@ const FixedTable = (props: any) => {
                             ) : (
                               ""
                             )}
+                            <WatchlistAddition
+                              companyName={item.assetName}
+                              companyId={item.assetId}
+                              companyType={item.assetType}
+                              customStyle={{
+                                width: "18px",
+                                height: "18px",
+                                fontSize: "inherit",
+                              }}
+                            />
                             <a
                               className={styles.ellipses}
                               href={getStockUrl(

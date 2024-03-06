@@ -92,6 +92,11 @@ const StockComponent: React.FC<Props> = ({ data, activeTab }) => {
                   companyName={data.companyName}
                   companyId={data.companyId}
                   companyType="equity"
+                  customStyle={{
+                    position: "absolute",
+                    top: "16px",
+                    right: "16px",
+                  }}
                 />
               </div>
             )}
