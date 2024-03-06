@@ -8,7 +8,8 @@
     "serverSideSort": false,
     "isHeaderSticky": false,
     "pagination": false,
-    "loaderType": "inner"
+    "loaderType": "inner",
+    "showWatchlistIcon": false
   },
   "watchList": {
     "name": "watchList",
@@ -19,7 +20,8 @@
     "serverSideSort": false,
     "isHeaderSticky": true,
     "pagination": false,
-    "loaderType": "global"
+    "loaderType": "global",
+    "showWatchlistIcon": false
   },
   "marketStatsIntrday": {
     "name": "marketStatsIntrday",
@@ -30,7 +32,8 @@
     "serverSideSort": true,
     "isHeaderSticky": true,
     "pagination": true,
-    "loaderType": "inner"
+    "loaderType": "inner",
+    "showWatchlistIcon": true
   },
   "marketStatsTechnical": {
     "name": "marketStatsTechnical",
@@ -41,7 +44,8 @@
     "serverSideSort": true,
     "isHeaderSticky": true,
     "pagination": true,
-    "loaderType": "inner"
+    "loaderType": "inner",
+    "showWatchlistIcon": true
   },
   "buySell": {
     "name": "buySell",
@@ -52,7 +56,8 @@
     "serverSideSort": false,
     "isHeaderSticky": false,
     "pagination": false,
-    "loaderType": "inner"
+    "loaderType": "inner",
+    "showWatchlistIcon": true
   },
   "marketDashboard": {
     "name": "marketDashboard",
@@ -63,7 +68,8 @@
     "serverSideSort": false,
     "isHeaderSticky": false,
     "pagination": false,
-    "loaderType": "inner"
+    "loaderType": "inner",
+    "showWatchlistIcon": true
   },
   "stocksScreener": {
     "name": "stocksScreener",
@@ -74,6 +80,7 @@
     "serverSideSort": false,
     "isHeaderSticky": true,
     "pagination": true,
-    "loaderType": "inner"
+    "loaderType": "inner",
+    "showWatchlistIcon": true
   }
 }
