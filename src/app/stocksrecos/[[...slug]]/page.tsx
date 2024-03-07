@@ -67,11 +67,11 @@ export default async function stocksrecos({
             stocks.
           </p>
         </div>
-        <StockRecosListing
+        {/* <StockRecosListing
           recosNavResult={recosNavResult}
           recosDetailResult={recosDetailResult}
           selectedFilter={selectedFilter}
-        />
+        /> */}
         <StockRecosOverview
           recosNavResult={recosNavResult}
           recosDetailResult={recosDetailResult}

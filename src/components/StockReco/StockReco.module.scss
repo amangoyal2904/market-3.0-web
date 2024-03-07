@@ -138,15 +138,13 @@
     bottom: 40px;
     border-radius: 2px;
     border: 0.5px solid #000000;
-    padding: 2px 7px 2px 32px;
+    padding: 2px 7px 2px 25px;
     background: #fff3f0;
     .pdfIcon {
       position: absolute;
-      left: 4px;
-      bottom: 3px;
-      font-size: 20px;
-      font-weight: 600;
-      color: #d51131;
+      left: -2px;
+      bottom: 0;
+      font-size: 28px;
     }
     .viewReport {
       font-size: 10px;

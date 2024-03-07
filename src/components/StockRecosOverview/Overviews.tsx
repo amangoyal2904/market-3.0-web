@@ -6,7 +6,7 @@ interface Props {
   data: any;
 }
 const Overview: React.FC<Props> = ({ data }) => {
-  // console.log("activeTab --- > ", data);
+  console.log("activeTab --- > ", data);
   const responsive = [
     {
       breakpoint: 1921,
@@ -40,7 +40,7 @@ const Overview: React.FC<Props> = ({ data }) => {
           <SlickSlider
             slides={obj.data?.map((card: any, index: any) => ({
               content: (
-                <StockReco data={card} key={index} activeTab={data.type} />
+                <StockReco data={card} key={index} activeTab={obj.apiType} />
               ),
             }))}
             key={`slider${obj.type}`}

@@ -71,8 +71,7 @@ const StockRecosOverview = (props: any) => {
       apiType: type,
       filterType: "",
       filterValue: [],
-      recoType: "all",
-      pageSize: 30,
+      pageSize: 10,
       pageNumber: 1,
     };
 
