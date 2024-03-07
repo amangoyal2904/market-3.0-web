@@ -4,6 +4,7 @@ import APIS_CONFIG from "../../../network/api_config.json";
 import { APP_ENV } from "@/utils";
 import service from "@/network/service";
 import { getSelectedFilter } from "@/utils/utility";
+import StockRecosOverview from "@/components/StockRecosOverview";
 
 export default async function stocksrecos({
   params,
@@ -12,7 +13,7 @@ export default async function stocksrecos({
     slug: string[];
   };
 }) {
-  console.log("params.slug", params.slug);
+  console.log("params.slug ----> ", params.slug);
 
   const { slug } = params || [];
 
@@ -25,7 +26,7 @@ export default async function stocksrecos({
 
   const recosNavResult = await recosNavPromise?.json();
 
-  //console.log("recosNavResult--", recosNavResult);
+  // console.log("recosNavResult--", recosNavResult);
 
   // =====  Get Left Nav Data =======
   const STOCK_RECOS_DETAIL_Link = (APIS_CONFIG as any)["STOCK_RECOS_DETAIL"][
@@ -51,7 +52,7 @@ export default async function stocksrecos({
 
   const recosDetailResult = await recosDetailPromise?.json();
 
-  console.log("recosNavResult--", recosDetailResult);
+  console.log("recosNavResult --->", recosDetailResult.recoData);
   const intFilter = 0;
   const selectedFilter = await getSelectedFilter(intFilter);
   return (
@@ -66,7 +67,12 @@ export default async function stocksrecos({
             stocks.
           </p>
         </div>
-        <StockRecosListing
+        {/* <StockRecosListing
+          recosNavResult={recosNavResult}
+          recosDetailResult={recosDetailResult}
+          selectedFilter={selectedFilter}
+        /> */}
+        <StockRecosOverview
           recosNavResult={recosNavResult}
           recosDetailResult={recosDetailResult}
           selectedFilter={selectedFilter}

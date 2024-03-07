@@ -36,6 +36,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     arrows: false,
     dots: true,
     focusOnSelect: true,
+    infinite: false,
     swipe: true,
     swipeToSlide: true,
     slidesToShow: slidesToShow || 5,
