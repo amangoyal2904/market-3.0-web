@@ -631,18 +631,18 @@ table {
   overflow-y: scroll;
 }
 .customeScroll::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 .customeScroll::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 10px;
+  background: #cdcdcd;
+  border-radius: 5px;
 }
 .customeScroll::-webkit-scrollbar-thumb {
-  background: #ddd;
-  border-radius: 10px;
+  background: rgb(140, 140, 140);
+  border-radius: 5px;
 }
 .customeScroll::-webkit-scrollbar-thumb:hover {
-  background: #ddd;
+  background: rgb(87, 87, 87);
 }
 .customeModule {
   position: fixed;

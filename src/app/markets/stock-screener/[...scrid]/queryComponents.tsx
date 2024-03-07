@@ -1,4 +1,4 @@
-import styles from "./LeftRight.module.scss";
+import styles from "./stockScreener.module.scss";
 
 const QueryComponets = ({ data }: any) => {
   return (

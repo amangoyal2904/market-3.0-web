@@ -112,11 +112,16 @@ export const getCustomViewTable = async (
       tableHeaderData = tableData[0].data;
     }
   }
+  let screenerDetail: any = {};
+  if (responseData && responseData.screenerDetail) {
+    screenerDetail = { ...responseData.screenerDetail };
+  }
   return {
     tableHeaderData,
     tableData,
     pageSummary,
     payload: bodyParams,
+    screenerDetail,
   };
 };
 
