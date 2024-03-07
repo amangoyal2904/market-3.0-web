@@ -75,7 +75,7 @@
     "name": "stocksScreener",
     "tabs": true,
     "loader": false,
-    "showFilterInput": false,
+    "showFilterInput": true,
     "isSorting": true,
     "serverSideSort": false,
     "isHeaderSticky": true,
