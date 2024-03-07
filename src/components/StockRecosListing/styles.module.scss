@@ -1,0 +1,225 @@
+@import "../../styles/variables.scss";
+
+// Sub Head Css  Style
+.subHead {
+  display: flex;
+  justify-content: space-between;
+
+  .headName {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29.26px;
+  }
+
+  .actionBarWrap {
+    display: flex;
+    align-items: center;
+
+    .sortByWrap {
+      .sortByText {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+      }
+
+      .sortByDD {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        border: 0px solid;
+        margin-right: 4px;
+      }
+    }
+
+    .niftyWrap {
+      padding: 0 4px;
+      .niftyBtn {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+        padding: 2px 8px;
+        border: 1px solid;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+    }
+
+    .listingType {
+      display: flex;
+      border: 1px solid;
+      border-radius: 24px;
+      align-items: center;
+      list-style: none;
+      overflow: hidden;
+
+      li {
+        padding: 2px 8px;
+        cursor: pointer;
+
+        &.active {
+          background-color: $salmon_secondary_40;
+        }
+      }
+    }
+  }
+}
+
+// Left Nav Css Style
+.leftNavWrap {
+  border: 1px solid $gray_90;
+  border-radius: 8px;
+  padding: 16px;
+  width: 200px;
+  box-sizing: border-box;
+
+  .headName {
+    padding: 4px 0;
+  }
+
+  .categoryWrap {
+    padding-bottom: 16px;
+
+    .categoryList {
+      padding: 8px 0;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 16xp;
+      cursor: pointer;
+
+      &.catLink {
+        padding-left: 16px;
+      }
+
+      .categoryListTab {
+        display: flex;
+        .eticon_caret_down {
+          font-size: 16px;
+        }
+        &.collapsed {
+          & ~ .categoryInnerListWrap {
+            display: block;
+          }
+        }
+      }
+
+      .categoryInnerListWrap {
+        list-style: none;
+        padding-left: 16px;
+        display: none;
+        .categoryInnerList {
+          padding: 4px 8px;
+          font-size: 12px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+
+  .searchWrap,
+  .brokeringWrap {
+    padding: 16px 8px;
+  }
+
+  .brokeringWrap {
+    border-top: 1px solid $gray_90;
+    border-bottom: 1px solid $gray_90;
+    // padding: 16px 0;
+
+    .innerList {
+      .brokeringList {
+        padding: 6px 0;
+        list-style: none;
+        .forGroup {
+          margin: 0;
+          display: flex;
+          justify-content: flex-start;
+          align-items: self-start;
+          .checkBoxSec {
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 2px;
+            display: none;
+          }
+
+          input:checked ~ label .checkBoxStyle {
+            border-color: rgba(43, 116, 227, 1);
+            background: rgba(43, 116, 227, 1);
+            position: relative;
+            &::after {
+              content: "";
+              position: absolute;
+              left: 4px;
+              top: 7px;
+              display: inline-block;
+              vertical-align: top;
+              border-left: solid 1px #ffffff;
+              transform: rotate(-45deg);
+              height: 4px;
+            }
+            &::before {
+              content: "";
+              position: absolute;
+              display: inline-block;
+              vertical-align: top;
+              left: 5px;
+              top: 7px;
+              border-bottom: solid 1px #ffffff;
+              transform: rotate(-45deg);
+              width: 9px;
+            }
+          }
+          label {
+            display: flex;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 400;
+            .checkBoxStyle {
+              width: 16px;
+              height: 16px;
+              border: solid 0.8px rgba(204, 204, 204, 1);
+              border-radius: 2px;
+              display: inline-block;
+              vertical-align: top;
+              margin-right: 8px;
+            }
+            .labelText {
+              font-size: 12px;
+              font-weight: 400;
+              line-height: 16px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .searchBox {
+    border: 1px solid $gray_80;
+    padding: 6px 8px 6px 8px;
+    display: flex;
+    align-items: center;
+    border-radius: 100px;
+    margin-top: 8px;
+
+    .recosSearchInput {
+      margin-left: 8px;
+      font-size: 12px;
+      color: $gray_30;
+      font-weight: 400;
+    }
+  }
+}
+
+.contentWrap {
+  margin-top: 10px;
+  display: flex;
+}
+
+.listingWrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-left: 16px;
+}
