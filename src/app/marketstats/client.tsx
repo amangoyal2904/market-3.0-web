@@ -118,7 +118,7 @@ const MarketStats = ({
           : config,
       );
     } else {
-      newSortConfig = [...sortConfig, { field, order: "DESC" }];
+      newSortConfig = [{ field, order: "DESC" }];
     }
     setPayload({ ..._payload, sort: newSortConfig });
   };
