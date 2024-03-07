@@ -1,3 +1,4 @@
+import StockRecosListing from "@/components/StockRecosListing";
 import styles from "./styles.module.scss";
 import APIS_CONFIG from "../../../network/api_config.json";
 import { APP_ENV } from "@/utils";
@@ -66,7 +67,11 @@ export default async function stocksrecos({
             stocks.
           </p>
         </div>
-
+        <StockRecosListing
+          recosNavResult={recosNavResult}
+          recosDetailResult={recosDetailResult}
+          selectedFilter={selectedFilter}
+        />
         <StockRecosOverview
           recosNavResult={recosNavResult}
           recosDetailResult={recosDetailResult}

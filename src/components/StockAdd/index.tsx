@@ -8,6 +8,7 @@ import {
 } from "../../utils/utility";
 const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
   const [viewStocks, setViewStocks]: any = useState([]);
+  const [mostStocks, setMostStocks]: any = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchNode, setSearchNode] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
@@ -20,7 +21,7 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
   const handleInputChange = (e: any) => {
     setSearchNode(e.target.value);
     if (e.target.value === "") {
-      setViewStocks([]);
+      setViewStocks([...mostStocks]);
     }
   };
   const FetchDataSearchView = () => {
@@ -179,9 +180,78 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
     const data = await fetchAllWatchListData("Follow", 11);
     if (data?.resData?.length > 0) {
       setWatchlistStock(data.resData);
+      fetchMostPopularStocks(data.resData);
     } else if (data?.length > 0) {
       setWatchlistStock(data);
+      fetchMostPopularStocks(data);
+    } else {
+      fetchMostPopularStocks();
     }
+  };
+  const fetchMostPopularStocks = async (watchListUserData: any = []) => {
+    try {
+      const API_URL = (APIS_CONFIG as any)?.SEARCH.mostPopular[APP_ENV];
+      fetch(API_URL)
+        .then((response) => response.json())
+        .then((res) => {
+          const mostData = res?.searchresult || [];
+          const addFollowFlag =
+            mostData.length > 0
+              ? mostData.map((stock: any) => {
+                  const followData = watchListUserData.find(
+                    (watchlist: any) =>
+                      watchlist.prefDataVal === stock.companyid &&
+                      watchlist.companyType === stock.companytype,
+                  );
+                  const data = followData
+                    ? {
+                        ...stock,
+                        follow: "yes",
+                        tagId: stock.companyid,
+                        tagName: stock.companyname,
+                      }
+                    : {
+                        ...stock,
+                        follow: "no",
+                        tagId: stock.companyid,
+                        tagName: stock.companyname,
+                      };
+                  return data;
+                })
+              : [];
+          setMostStocks(addFollowFlag); // set for all most view stocks popular
+          setViewStocks(addFollowFlag);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log("most search api error ", error);
+    }
+  };
+
+  const viewDataListSet = (data: any) => {
+    return (
+      <ul className={`customeScroll ${styles.lsitItem}`}>
+        {data.map((item: any, index: any) => {
+          return (
+            <li
+              key={`${item.tagId}--${index}`}
+              onClick={() =>
+                addStockInWatchlistHandler(item, item?.follow == "yes" ? 0 : 1)
+              }
+            >
+              <span>{item.tagName}</span>
+              {item?.follow === "yes" ? (
+                <span className={styles.removeRemove}></span>
+              ) : (
+                <span className={styles.addRemove}></span>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    );
   };
   // console.log('___WatchlistStock',watchlistStock)
   useEffect(() => {
@@ -232,29 +302,15 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
             </div>
           </div>
           <div className={styles.bodySec}>
+            {searchNode === "" ? (
+              <div className={styles.mostSearch}>Most Searched Results</div>
+            ) : (
+              ""
+            )}
+
+            <h3 className={styles.comHead}>Companies</h3>
             {viewStocks.length > 0 ? (
-              <ul className={`customeScroll ${styles.lsitItem}`}>
-                {viewStocks.map((item: any, index: any) => {
-                  return (
-                    <li
-                      key={`${item.tagId}--${index}`}
-                      onClick={() =>
-                        addStockInWatchlistHandler(
-                          item,
-                          item?.follow == "yes" ? 0 : 1,
-                        )
-                      }
-                    >
-                      <span>{item.tagName}</span>
-                      {item?.follow === "yes" ? (
-                        <span className={styles.removeRemove}></span>
-                      ) : (
-                        <span className={styles.addRemove}></span>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
+              viewDataListSet(viewStocks)
             ) : (
               <div className={styles.noData}>
                 Company not found! Please refine your search

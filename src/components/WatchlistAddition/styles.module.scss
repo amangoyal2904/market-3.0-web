@@ -1,0 +1,71 @@
+@import "../../styles/variables.scss";
+
+.watchlistPlusWrap {
+  width: 24px;
+  height: 24px;
+  color: $color-white;
+  background-color: $blue_secondary_50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  font-size: 20px;
+  cursor: pointer;
+
+  .tickIcon {
+    &:before {
+      content: "";
+      position: absolute;
+      display: inline-block;
+      vertical-align: top;
+      left: 7px;
+      top: 11px;
+      border-bottom: 1px solid #fff;
+      transform: rotate(-45deg);
+      width: 14px;
+    }
+    &:after {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 12px;
+      display: inline-block;
+      vertical-align: top;
+      border-left: 1px solid #fff;
+      transform: rotate(-45deg);
+      height: 5px;
+    }
+  }
+
+  .loading {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    // background: rgba(0, 0, 0, 0.5);
+    z-index: 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    .loader {
+      border: 2px solid #ffe9e2;
+      border-top: 2px solid #000;
+      border-radius: 50%;
+      width: 15px;
+      height: 15px;
+      animation: spin 1s linear infinite; /* Animation */
+    }
+  }
+}
+
+/* Keyframes for the spinner animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -6,8 +6,10 @@ import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import useScreenerTab from "./useScreenerTab";
 import AsideNavComponets from "./asideNav";
 import QueryComponets from "./queryComponents";
+import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
+import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 
-const StocksScreener = ({
+const StockScreeners = ({
   l3Nav = [],
   metaData = {},
   tabData = [],
@@ -15,7 +17,6 @@ const StocksScreener = ({
   tableHeaderData = [],
   tableData = [],
   pageSummary = {},
-  selectedFilter = {},
   tableConfig = {},
   tabConfig = {},
   scrid,
@@ -32,7 +33,6 @@ const StocksScreener = ({
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
   const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
-  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [_payload, setPayload] = useState(payload);
 
   const onSearchParamChange = async () => {
@@ -42,7 +42,6 @@ const StocksScreener = ({
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
     setPageSummary(pageSummary);
-    setNiftyFilterData(selectedFilter);
   };
 
   const onTabViewUpdate = async (viewId: any) => {
@@ -121,25 +120,38 @@ const StocksScreener = ({
       <p className={styles.desc}>{_metaData.desc}</p>
       <div className={styles.container}>
         <aside className={styles.lhs}>
-          <AsideNavComponets data={_l3Nav} activeId={scrid} />
+          {/* <AsideNavComponets data={_l3Nav} activeId={scrid} /> */}
+          Aside Menu Item
         </aside>
         <div className={styles.rhs}>
-          {/* <MarketTabs
-            data={_tabData}
-            activeViewId={_activeViewId}
-            tabsViewIdUpdate={onTabViewUpdate}
-            filterDataChange={filterDataChangeHander}
-            niftyFilterData={niftyFilterData}
-            dayFitlerHanlderChange={dayFitlerHanlderChange}
-            tabsUpdateHandler={TabsAndTableDataChangeHandler}
-            tabConfig={tabConfig}
-            runQueryhandler={runQueryHandlerFun}
-          /> */}
+          <div className="tabsWrap">
+            <LeftMenuTabs
+              data={_tabData}
+              activeViewId={_activeViewId}
+              tabsViewIdUpdate={onTabViewUpdate}
+            />
+            <MarketFiltersTab
+              data={_tabData}
+              activeViewId={_activeViewId}
+              tabsViewIdUpdate={onTabViewUpdate}
+              filterDataChange={filterDataChangeHander}
+              dayFitlerHanlderChange={dayFitlerHanlderChange}
+              tabsUpdateHandler={TabsAndTableDataChangeHandler}
+              tabConfig={tabConfig}
+              // dayFilterData={dayFilterData}
+              // setDayFilterData={setDayFilterData}
+              // onPersonalizeHandler={onPersonalizeHandlerfun}
+              // removePersonaliseView={removePersonaliseViewFun}
+            />
+          </div>
           <MarketTable
             data={_tableData}
             tableHeaders={_tableHeaderData}
             pageSummary={_pageSummary}
             tableConfig={tableConfig}
+            // handleSortServerSide={onServerSideSort}
+            // handlePageChange={onPaginationChange}
+            // processingLoader={processingLoader}
           />
           <div className="">
             <QueryComponets data={screenerDetail} />
@@ -150,4 +162,4 @@ const StocksScreener = ({
   );
 };
 
-export default StocksScreener;
+export default StockScreeners;

@@ -3,7 +3,7 @@ import APIS_CONFIG from "../../../network/api_config.json";
 import { APP_ENV } from "../../../utils/index";
 
 const tableDataGet = async (bodyParams, _authorization) => {
-  const API_URL = APIS_CONFIG?.marketStatsIntraday[APP_ENV];
+  const API_URL = APIS_CONFIG?.MARKETSTATS_INTRADAY[APP_ENV];
   const apiRes = await fetch(API_URL, {
     method: "POST",
     headers: {

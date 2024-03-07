@@ -3,7 +3,7 @@ import { APP_ENV } from "@/utils";
 import Service from "@/network/service";
 
 const fetchTabsData = async ({ type, ssoid }: any) => {
-  let apiUrl = `${(APIS_CONFIG as any)?.["watchListTab"][APP_ENV]}`;
+  let apiUrl = `${(APIS_CONFIG as any)?.["MARKETS_CUSTOM_TAB"][APP_ENV]}`;
   if (type != "watchlist") {
     apiUrl += `?statstype=${type}`;
   }
@@ -68,8 +68,13 @@ export const getCustomViewsTab = async ({
       secondOperand,
     );
   }
-  const tabData = await fetchTabsData({ L3NavSubItem, ssoid });
-  const activeViewId = tabData[0].viewId;
+  const tabData = await fetchTabsData({ type: L3NavSubItem, ssoid });
+  let activeViewId = null;
+  if (typeof tabData != "undefined" && tabData.length > 0) {
+    activeViewId = tabData[0].viewId;
+  } else {
+    console.error("tabData is empty");
+  }
   return {
     tabData,
     activeViewId,
@@ -88,19 +93,38 @@ export const getCustomViewTable = async (
     ssoid,
     apiType,
   );
-  const pageSummary = responseData.pageSummary;
-  const tableData = responseData?.dataList
-    ? responseData.dataList
-    : responseData;
+  let pageSummary = null;
+  let tableData = [];
+  let tableHeaderData = [];
 
-  const tableHeaderData =
-    tableData && tableData.length && tableData[0] && tableData[0]?.data
-      ? tableData[0]?.data
-      : [];
+  if (responseData?.pageSummary) {
+    pageSummary = responseData.pageSummary;
+  }
+
+  if (responseData?.dataList) {
+    tableData = responseData.dataList;
+    if (tableData.length > 0 && tableData[0].data) {
+      tableHeaderData = tableData[0].data;
+    }
+  } else {
+    tableData = responseData;
+    if (tableData?.length > 0 && tableData[0]?.data) {
+      tableHeaderData = tableData[0].data;
+    }
+  }
   return {
     tableHeaderData,
     tableData,
     pageSummary,
     payload: bodyParams,
+  };
+};
+
+export const getScreenerTabViewData = async ({ type = "", ssoid = "" }) => {
+  const tabData = await fetchTabsData({ type, ssoid });
+  const activeViewId = tabData[0].viewId;
+  return {
+    tabData,
+    activeViewId,
   };
 };

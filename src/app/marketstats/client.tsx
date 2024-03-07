@@ -6,6 +6,8 @@ import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
 import { getCookie } from "@/utils";
+import { removePersonalizeViewById } from "@/utils/utility";
+import ToasterPopup from "@/components/ToasterPopup";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useStateContext } from "@/store/StateContext";
 import {
@@ -62,11 +64,13 @@ const MarketStats = ({
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [processingLoader, setProcessingLoader] = useState(false);
-
+  const [toasterPersonaliseViewRemove, setToasterPersonaliseViewRemove] =
+    useState(false);
+  const [toasterConfirmData, setToasterConfirmData] = useState({});
   const updateTableData = async () => {
     const responseData: any = await fetchViewTable(
       { ..._payload },
-      isTechnical ? "movingAverages" : "marketStatsIntraday",
+      isTechnical ? "MARKETSTATS_TECHNICALS" : "MARKETSTATS_INTRADAY",
       getCookie("isprimeuser") ? true : false,
       getCookie("ssoid"),
     );
@@ -149,7 +153,7 @@ const MarketStats = ({
   const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
     setProcessingLoader(true);
     const { tabData } = await getCustomViewsTab({
-      l3NavSubItem,
+      L3NavSubItem: l3NavSubItem,
     });
     setTabData(tabData);
     setActiveViewId(tabIdActive);
@@ -157,7 +161,7 @@ const MarketStats = ({
   const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
     setProcessingLoader(true);
     const { tabData, activeViewId } = await getCustomViewsTab({
-      l3NavSubItem,
+      L3NavSubItem: l3NavSubItem,
       ssoid: getCookie("ssoid"),
     });
 
@@ -202,7 +206,32 @@ const MarketStats = ({
       pageno: 1,
     });
   };
-
+  const removePersonaliseViewFun = (viewId: any) => {
+    setToasterPersonaliseViewRemove(true);
+    const confirmData = {
+      title: "Are you sure you want to remove your Personalise View?",
+      id: viewId,
+    };
+    setToasterConfirmData(confirmData);
+    console.log("removePersonaliseViewFun", viewId);
+  };
+  const toasterRemovePersonaliseViewCloseHandlerFun = async (
+    value: boolean,
+    data: any,
+  ) => {
+    console.log(
+      "toasterRemovePersonaliseViewCloseHandlerFun",
+      value,
+      "___data",
+      data,
+    );
+    setToasterPersonaliseViewRemove(false);
+    if (value && data && data.id && data.id !== "") {
+      const removeViewById = await removePersonalizeViewById(data?.id);
+      console.log("removeViewById", removeViewById);
+      onPersonalizeHandlerfun();
+    }
+  };
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
@@ -280,6 +309,7 @@ const MarketStats = ({
               dayFilterData={dayFilterData}
               setDayFilterData={setDayFilterData}
               onPersonalizeHandler={onPersonalizeHandlerfun}
+              removePersonaliseView={removePersonaliseViewFun}
             />
           </div>
           <MarketTable
@@ -293,6 +323,12 @@ const MarketStats = ({
           />
         </div>
       </div>
+      {toasterPersonaliseViewRemove && (
+        <ToasterPopup
+          data={toasterConfirmData}
+          toasterCloseHandler={toasterRemovePersonaliseViewCloseHandlerFun}
+        />
+      )}
     </>
   );
 };

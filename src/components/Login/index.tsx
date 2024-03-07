@@ -11,6 +11,7 @@ import {
   setCookieToSpecificTime,
   delete_cookie,
 } from "../../utils";
+import { fetchAllWatchListData } from "../../utils/utility";
 import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 
@@ -20,8 +21,33 @@ const Login = () => {
 
   //console.log(state.login);
 
+  const fetchWatchListStocks = async () => {
+    const data = await fetchAllWatchListData("Follow", 11);
+    let watchlistArr = "";
+    if (data?.resData?.length > 0) {
+      watchlistArr = data?.resData.map((entry: any) => {
+        return entry.companyType && entry.id;
+      });
+    } else if (data?.length > 0) {
+      watchlistArr = data.map((entry: any) => {
+        return entry.companyType && entry.id;
+      });
+    }
+
+    console.log("watchlistArr----", watchlistArr);
+
+    dispatch({
+      type: "UPDATE_MSID",
+      payload: {
+        watchlist: watchlistArr,
+      },
+    });
+  };
+
   const verifyLoginSuccessCallback = async () => {
     try {
+      fetchWatchListStocks();
+
       const primeRes = await loadPrimeApi();
       //console.log(permissionRes.)
 

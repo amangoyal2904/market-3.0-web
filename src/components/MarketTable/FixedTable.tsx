@@ -4,6 +4,7 @@ import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 import { APP_ENV } from "@/utils";
+import WatchlistAddition from "../WatchlistAddition";
 
 const FixedTable = (props: any) => {
   const {
@@ -26,6 +27,7 @@ const FixedTable = (props: any) => {
     showFilterInput = true,
     isSorting = true,
     isHeaderSticky = true,
+    showWatchlistIcon = true,
   } = tableConfig || {};
 
   return (
@@ -34,7 +36,7 @@ const FixedTable = (props: any) => {
       className={styles.fixedWrapper}
       onScroll={scrollLeftPos}
     >
-      <table className={styles.watchListTable}>
+      <table className={styles.marketsCustomTable}>
         <thead
           style={{
             transform: `translateY(${
@@ -139,10 +141,7 @@ const FixedTable = (props: any) => {
                       (tdData.keyId == "name" ||
                       tdData.keyId == "shortName" ||
                       tdData.keyId == "shortNameKeyword" ? (
-                        <td
-                          key={index}
-                          className={`${styles.fixedTD} ${styles.companyName}`}
-                        >
+                        <td key={index} className={styles.fixedTD}>
                           <div className={styles.tdColWrap}>
                             {showRemoveCheckbox ? (
                               <div className={styles.formGroup}>
@@ -162,6 +161,18 @@ const FixedTable = (props: any) => {
                             ) : (
                               ""
                             )}
+                            {showWatchlistIcon && (
+                              <WatchlistAddition
+                                companyName={item.assetName}
+                                companyId={item.assetId}
+                                companyType={item.assetType}
+                                customStyle={{
+                                  width: "18px",
+                                  height: "18px",
+                                  fontSize: "inherit",
+                                }}
+                              />
+                            )}
                             <a
                               className={styles.ellipses}
                               href={getStockUrl(
@@ -172,16 +183,16 @@ const FixedTable = (props: any) => {
                                 item.assetType,
                               )}
                               target="_blank"
-                              title={`${tdData.value} ${
-                                item.assetType.toLowerCase() != "equity"
-                                  ? `(${item.assetType.toUpperCase()})`
+                              title={`${tdData?.value} ${
+                                item?.assetType?.toLowerCase() != "equity"
+                                  ? `(${item?.assetType?.toUpperCase()})`
                                   : ""
                               }`}
                             >
                               {tdData.value}{" "}
                               {item.assetType != "" &&
-                              item.assetType.toLowerCase() != "equity"
-                                ? `(${item.assetType.toUpperCase()})`
+                              item?.assetType?.toLowerCase() != "equity"
+                                ? `(${item?.assetType?.toUpperCase()})`
                                 : null}
                             </a>
                           </div>

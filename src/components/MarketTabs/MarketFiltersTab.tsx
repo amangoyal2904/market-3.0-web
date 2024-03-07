@@ -168,6 +168,15 @@ const MarketFiltersTab = ({
             onClick={() => dayFilterHandler()}
           >
             {dayFilterData.label} <i className="eticon_caret_down"></i>
+            {dayFilterShow ? (
+              <DayFitler
+                setDayFilterShow={setDayFilterShow}
+                selectedDay={dayFilterData}
+                filterHandler={filterChangeHandler}
+              />
+            ) : (
+              ""
+            )}
           </div>
         ) : (
           ""
@@ -258,15 +267,6 @@ const MarketFiltersTab = ({
           selectTab={niftyFilterData.selectedTab}
           childMenuTabActive={niftyFilterData.id}
         />
-      )}
-      {dayFilterShow ? (
-        <DayFitler
-          setDayFilterShow={setDayFilterShow}
-          selectedDay={dayFilterData}
-          filterHandler={filterChangeHandler}
-        />
-      ) : (
-        ""
       )}
       {createModuleScreener ? (
         <CreateScreenerModule

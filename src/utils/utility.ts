@@ -1,10 +1,9 @@
 import APIS_CONFIG from "@/network/api_config.json";
 import GLOBAL_CONFIG from "@/network/global_config.json";
-import { APP_ENV } from "@/utils/index";
+import { APP_ENV, setCookieToSpecificTime } from "@/utils/index";
 import { getCookie } from "@/utils/index";
 import Fingerprint2 from "fingerprintjs2";
 import { setCookies } from "./index";
-import CryptoJS from "crypto-js";
 import Service from "@/network/service";
 
 const API_SOURCE = 18;
@@ -99,7 +98,7 @@ export const fetchFilters = async () => {
 
 export const fetchTabsData = async () => {
   const ssoid = window.objUser?.ssoid;
-  const apiUrl = `${APIS_CONFIG?.watchListTab["development"]}?ssoid=${ssoid}`;
+  const apiUrl = `${APIS_CONFIG?.MARKETS_CUSTOM_TAB["development"]}?ssoid=${ssoid}`;
   const data = await fetch(apiUrl, {
     cache: "no-store",
     headers: {
@@ -134,7 +133,7 @@ export const fetchViewTable = async (
 export const fetchTableData = async (viewId: any, params?: any) => {
   const ssoid = window.objUser?.ssoid;
   const isprimeuser = getCookie("isprimeuser") ? true : false;
-  const apiUrl = (APIS_CONFIG as any)?.watchListTable["development"];
+  const apiUrl = (APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE["development"];
   const response = await Service.post({
     url: apiUrl,
     headers: {
@@ -156,21 +155,8 @@ export const fetchTableData = async (viewId: any, params?: any) => {
   return response?.json();
 };
 
-export const decryptPrimeData = (pageSummary: string, encrytedTxt: string) => {
-  const secretkey = GLOBAL_CONFIG.securityKey;
-  const key = CryptoJS.enc.Utf8.parse(secretkey);
-  const iv = CryptoJS.enc.Utf8.parse(pageSummary);
-
-  const decrypted = CryptoJS.AES.decrypt(encrytedTxt, key, {
-    iv: iv,
-    mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7,
-  });
-  return decrypted.toString(CryptoJS.enc.Utf8);
-};
-
 export const getStockUrl = (id: string, seoName: string, stockType: string) => {
-  if (seoName.indexOf(" ") >= 0) {
+  if (seoName?.indexOf(" ") >= 0) {
     seoName = seoName
       .replaceAll(" ", "-")
       .replaceAll("&", "")
@@ -187,7 +173,7 @@ export const getStockUrl = (id: string, seoName: string, stockType: string) => {
     id +
     ".cms";
   if (stockType != "equity" && stockType !== "" && stockType !== "company")
-    stockUrl = stockUrl + "?companytype=" + stockType.toLowerCase();
+    stockUrl = stockUrl + "?companytype=" + stockType?.toLowerCase();
   return stockUrl;
 };
 
@@ -295,7 +281,7 @@ export const createPfuuid = async (fpid: any) => {
     if (data && data.id != 0) {
       console.log("@@@@--->>>>>", data);
       var pfuuid = data.id;
-      setCookies("pfuuid", pfuuid);
+      setCookieToSpecificTime("pfuuid", pfuuid, 365, 0, 0, "");
     }
   } catch (e) {
     console.log("error in pfuuid api", e);
@@ -318,7 +304,7 @@ export const createPeuuid = async (fpid: any) => {
   if (data && data.id != 0) {
     const peuuid: any = data.id;
     console.log("@@@@--->>>>>2", data);
-    setCookies("peuuid", peuuid);
+    setCookieToSpecificTime("peuuid", peuuid, 365, 0, 0, "");
   }
 };
 
