@@ -205,6 +205,10 @@
       "https://marketservices.indiatimes.com/marketservices/companyshortdata"
     ]
   },
+  "MARKET_STATS_TECHNICAL_OPERANDS": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/operands-data",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/operands-data"
+  },
   "MARKET_STATS_SHORTURLS_MAPPING": {
     "development": "https://etapipre.indiatimes.com/api/shorturlmapping/marketstats",
     "production": "https://etapipre.indiatimes.com/api/shorturlmapping/marketstats"

@@ -38,9 +38,7 @@ const fetchTechnicalCategory = async (
         ? "ema-ema-crossovers"
         : "sma-sma-crossovers";
   }
-  const apiUrl =
-    "https://qcbselivefeeds.indiatimes.com/et-screener/operands-data?category=" +
-    L3NavMenuItem;
+  const apiUrl = `${(APIS_CONFIG as any)?.["MARKET_STATS_TECHNICAL_OPERANDS"][APP_ENV]}?category=${L3NavMenuItem}`;
   const response = await Service.get({
     url: apiUrl,
     params: {},

@@ -71,7 +71,7 @@ const FixedTable = (props: any) => {
                         <span
                           className={`${
                             sortData.field == thead.keyId &&
-                            sortData.order == "asc"
+                            sortData.order == "ASC"
                               ? styles.asc
                               : ""
                           } eticon_up_arrow`}
@@ -79,7 +79,7 @@ const FixedTable = (props: any) => {
                         <span
                           className={`${
                             sortData.field == thead.keyId &&
-                            sortData.order == "desc"
+                            sortData.order == "DESC"
                               ? styles.desc
                               : ""
                           } eticon_down_arrow`}

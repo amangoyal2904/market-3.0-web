@@ -44,8 +44,8 @@ const MarketTable = (props: propsType) => {
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
-  const [sortData, setSortData] = useState({ field: null, order: "desc" });
-  const [_sortData, _setSortData] = useState({ field: null, order: "desc" });
+  const [sortData, setSortData] = useState({ field: null, order: "DESC" });
+  const [_sortData, _setSortData] = useState({ field: null, order: "DESC" });
   const [headerSticky, setHeaderSticky] = useState(0);
   const [topScrollHeight, setTopScrollHeight] = useState(162);
   const [loaderOff, setLoaderOff] = useState(false);
@@ -78,10 +78,10 @@ const MarketTable = (props: propsType) => {
     if (sortData.field === key) {
       setSortData({
         ...sortData,
-        order: sortData.order === "asc" ? "desc" : "asc",
+        order: sortData.order === "ASC" ? "DESC" : "ASC",
       });
     } else {
-      setSortData({ field: key, order: "desc" });
+      setSortData({ field: key, order: "DESC" });
     }
 
     tableConfig.serverSideSort
@@ -176,10 +176,10 @@ const MarketTable = (props: propsType) => {
           valueB = parseFloat(valueB);
         }
 
-        if (order === "asc") {
+        if (order === "ASC") {
           if (valueA < valueB) return -1;
           if (valueA > valueB) return 1;
-        } else if (order === "desc") {
+        } else if (order === "DESC") {
           if (valueA > valueB) return -1;
           if (valueA < valueB) return 1;
         }
@@ -226,7 +226,7 @@ const MarketTable = (props: propsType) => {
   };
   useEffect(() => {
     setFilters({});
-    _setSortData({ field: null, order: "asc" });
+    _setSortData({ field: null, order: "ASC" });
   }, [tabsViewIdUpdate]);
 
   useEffect(() => {
