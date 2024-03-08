@@ -116,6 +116,9 @@ export const fetchViewTable = async (
   ssoid: any,
 ) => {
   const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
+  if (apiType == "MARKETSTATS_TECHNICALS") {
+    delete requestObj.apiType;
+  }
   const response = await Service.post({
     url: apiUrl,
     headers: {
