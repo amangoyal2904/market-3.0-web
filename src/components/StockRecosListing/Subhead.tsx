@@ -19,7 +19,7 @@ const Subhead = (props: any) => {
     filterDataChange(id, name, selectedTab);
   };
   const filterApiCall = async () => {
-    const data = await fetchFilters();
+    const data = await fetchFilters({ all: true });
     setFilterMenuData(data);
   };
 

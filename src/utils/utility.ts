@@ -86,9 +86,40 @@ export const fnGenerateMetaData = (meta?: any) => {
   };
 };
 
-export const fetchFilters = async () => {
-  const apiUrl =
-    "https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson";
+export const getFilterIndexId = async (seoName: string) => {
+  const data = await fetchFilters({ marketcap: true });
+  const allIndices = [
+    ...data.keyIndices.nse,
+    ...data.keyIndices.bse,
+    ...data.sectoralIndices.nse,
+    ...data.sectoralIndices.bse,
+    ...data.otherIndices.nse,
+    ...data.otherIndices.bse,
+    ...data.marketcap.nse,
+    ...data.marketcap.bse,
+  ];
+
+  const foundIndex = allIndices.find((index) => index.seoname === seoName);
+  return foundIndex ? foundIndex.indexId : 0;
+};
+
+export const fetchFilters = async ({
+  all = false,
+  watchlist = false,
+  mostrecent = false,
+  marketcap = false,
+}) => {
+  let apiUrl = (APIS_CONFIG as any)?.["INDEX_FILTERS"][APP_ENV];
+  let queryParams = [];
+  if (all) queryParams.push("all=true");
+  if (watchlist) queryParams.push("watchlist=true");
+  if (mostrecent) queryParams.push("mostrecent=true");
+  if (marketcap) queryParams.push("marketcap=true");
+  const queryString = queryParams.join("&");
+  if (!!queryString) {
+    apiUrl = apiUrl + "?" + queryString;
+  }
+
   const response = await Service.get({
     url: apiUrl,
     params: {},
@@ -410,7 +441,7 @@ const fetchSelectedFilter = async (data: any, desiredIndexId: any) => {
 
 export const getSelectedFilter = async (filter: any) => {
   let selectedFilter;
-  const filters = await fetchFilters();
+  const filters = await fetchFilters({ all: true });
   if (!!filter) {
     selectedFilter = await fetchSelectedFilter(filters, filter);
   } else {
