@@ -5,6 +5,7 @@ import WatchlistAddition from "../WatchlistAddition";
 interface Props {
   data: any; // Define the type of data correctly
   activeTab: string;
+  pageName: string;
 }
 const formatDate = (timestamp: number) => {
   const months = [
@@ -29,7 +30,7 @@ const formatDate = (timestamp: number) => {
 
   return `${month} ${day}, ${year}`;
 };
-const StockComponent: React.FC<Props> = ({ data, activeTab }) => {
+const StockComponent: React.FC<Props> = ({ data, activeTab, pageName }) => {
   const formattedDate = formatDate(data.priceAtRecosDate);
   let stockMainClass;
 
@@ -50,7 +51,9 @@ const StockComponent: React.FC<Props> = ({ data, activeTab }) => {
   return (
     <>
       {activeTab == "recoByFH" ? (
-        <div className={`${styles.stocksMain} ${styles.GreyStock}`}>
+        <div
+          className={`${pageName == "stockRecosPage" ? styles.stockRecosPage : ""} ${styles.stocksMain} ${styles.GreyStock}`}
+        >
           <div className={styles.stocksBox}>
             <h2 className={styles.stocksTitle}>{data.organisation}</h2>
             <div className={styles.updownTargetBox}>
@@ -77,28 +80,36 @@ const StockComponent: React.FC<Props> = ({ data, activeTab }) => {
         </div>
       ) : (
         <div
-          className={`${activeTab === "newRecos" ? `${styles.stocksMain} ${stockMainClass} ${styles.stockGap}` : `${styles.stocksMain} ${stockMainClass}`}`}
+          className={`${pageName == "stockRecosPage" ? styles.stockRecosPage : ""} ${activeTab === "newRecos" ? `${styles.stocksMain} ${stockMainClass} ${styles.stockGap}` : `${styles.stocksMain} ${stockMainClass}`}`}
         >
           <div className={styles.stocksBox}>
-            {activeTab == "newRecos" && (
-              <div className={styles.stocksCallDates}>
-                <span className={styles.buySellTitle}>{data.recoType}</span>
+            {/* {activeTab == "newRecos" && ( */}
+            <div className={styles.stocksCallDates}>
+              <span className={styles.buySellTitle}>
+                {activeTab == "mostBuy"
+                  ? "Buy"
+                  : activeTab == "mostSell"
+                    ? "Sell"
+                    : data.recoType}
+              </span>
+              {activeTab == "newRecos" && (
                 <span className={styles.callDateBox}>
                   <span className={styles.callDateTitle}>Call Date:</span>
                   <span className={styles.callDate}>{formattedDate}</span>
                 </span>
-                <WatchlistAddition
-                  companyName={data.companyName}
-                  companyId={data.companyId}
-                  companyType="equity"
-                  customStyle={{
-                    position: "absolute",
-                    top: "16px",
-                    right: "16px",
-                  }}
-                />
-              </div>
-            )}
+              )}
+              <WatchlistAddition
+                companyName={data.companyName}
+                companyId={data.companyId}
+                companyType="equity"
+                customStyle={{
+                  position: "absolute",
+                  top: "16px",
+                  right: "16px",
+                }}
+              />
+            </div>
+            {/* )} */}
 
             <h2 className={styles.stocksTitle}>{data.companyName}</h2>
             <div className={styles.updownTargetBox}>

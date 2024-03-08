@@ -5,7 +5,7 @@ import StockReco from "../StockReco";
 import styles from "./styles.module.scss";
 
 const Listing = (props: any) => {
-  const { recosDetailResult } = props;
+  const { recosDetailResult, activeApi } = props;
   const pathname = usePathname();
 
   console.log("router----", recosDetailResult);
@@ -15,7 +15,14 @@ const Listing = (props: any) => {
         {recosDetailResult?.recoData.map((recoDataValue: any, index: any) => {
           return recoDataValue?.data.map((value: any, index: any) => {
             // console.log("recoData---", value)
-            return <StockReco data={value} key={index} activeTab="newRecos" />;
+            return (
+              <StockReco
+                data={value}
+                key={index}
+                activeTab={activeApi}
+                pageName="stockRecosPage"
+              />
+            );
           });
         })}
       </div>

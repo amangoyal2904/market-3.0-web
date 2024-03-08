@@ -4,6 +4,7 @@ import APIS_CONFIG from "../../../network/api_config.json";
 import { APP_ENV } from "@/utils";
 import service from "@/network/service";
 import { getSelectedFilter } from "@/utils/utility";
+import Subhead from "@/components/StockRecosListing/Subhead";
 
 export default async function stocksrecos({
   params,
@@ -25,33 +26,53 @@ export default async function stocksrecos({
 
   const recosNavResult = await recosNavPromise?.json();
 
+  const getApiType = () => {
+    const activeObj = recosNavResult?.tabs.filter(
+      (item: any) => item.seoPath == slug?.[0],
+    );
+    return slug.includes("fundhousedetails") && slug.length > 1
+      ? "FHDetail"
+      : slug.includes("fundhousedetails")
+        ? "recoByFH"
+        : activeObj[0]?.apiType;
+  };
+
   //console.log("recosNavResult--", recosNavResult);
 
-  // =====  Get Left Nav Data =======
-  const STOCK_RECOS_DETAIL_Link = (APIS_CONFIG as any)["STOCK_RECOS_DETAIL"][
-    APP_ENV
-  ];
-  const headers = {
-    "Content-Type": "application/json",
-  };
-  const payload = {
-    apiType: slug?.[0] || "overview",
-    filterType: "",
-    filterValue: [],
-    recoType: slug?.[1] || "all",
-    pageSize: 30,
-    pageNumber: 1,
-  };
-  const recosDetailPromise = await service.post({
-    url: STOCK_RECOS_DETAIL_Link,
-    headers: headers,
-    body: JSON.stringify(payload),
-    params: {},
-  });
+  // =====  Get STOCK_RECOS_DETAIL Data =======
+  const getStockRecosDetail = async () => {
+    const STOCK_RECOS_DETAIL_Link = (APIS_CONFIG as any)["STOCK_RECOS_DETAIL"][
+      APP_ENV
+    ];
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const payload = {
+      apiType: getApiType(),
+      filterType: "",
+      filterValue: [],
+      recoType: slug?.[1] || "all",
+      pageSize: 30,
+      pageNumber: 1,
+    };
 
-  const recosDetailResult = await recosDetailPromise?.json();
+    console.log("payload----", payload);
 
-  console.log("recosNavResult--", recosDetailResult);
+    const recosDetailPromise = await service.post({
+      url: STOCK_RECOS_DETAIL_Link,
+      headers: headers,
+      body: JSON.stringify(payload),
+      params: {},
+    });
+
+    const recosDetailResult = await recosDetailPromise?.json();
+
+    // console.log("recosDetailResult----", JSON.stringify(recosDetailResult));
+
+    return recosDetailResult;
+  };
+
+  //console.log("recosNavResult--", recosDetailResult);
   const intFilter = 0;
   const selectedFilter = await getSelectedFilter(intFilter);
   return (
@@ -66,10 +87,19 @@ export default async function stocksrecos({
             stocks.
           </p>
         </div>
+        <Subhead
+          showIndexFilter={true}
+          selectedFilter={selectedFilter}
+          recosNavResult={recosNavResult}
+          activeTab={slug?.[0]}
+          slug={slug}
+        />
         <StockRecosListing
           recosNavResult={recosNavResult}
-          recosDetailResult={recosDetailResult}
+          recosDetailResult={await getStockRecosDetail()}
           selectedFilter={selectedFilter}
+          activeApi={getApiType()}
+          slug={slug}
         />
       </div>
     </>
