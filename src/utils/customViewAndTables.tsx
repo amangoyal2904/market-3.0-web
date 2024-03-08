@@ -40,6 +40,9 @@ const fetchViewTable = async (
   apiType: any,
 ) => {
   const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
+  if (apiType == "MARKETSTATS_TECHNICALS") {
+    delete bodyParams.apiType;
+  }
   const response = await Service.post({
     url: apiUrl,
     headers: {
