@@ -102,11 +102,11 @@ export const getFilterDataBySeoName = async (seoName: string) => {
   const foundIndex = allIndices.find((index) => index.seoname === seoName);
   return foundIndex
     ? {
-        indexId: foundIndex.indexId,
         name: foundIndex.name,
+        indexId: foundIndex.indexId,
         seoname: foundIndex.seoname,
       }
-    : { indexId: foundIndex.indexId, name: "All Stocks", seoname: "" };
+    : { name: "All Stocks", indexId: 0, seoname: "" };
 };
 
 export const fetchFilters = async ({
