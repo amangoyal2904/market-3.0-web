@@ -86,7 +86,7 @@ export const fnGenerateMetaData = (meta?: any) => {
   };
 };
 
-export const getFilterIndexId = async (seoName: string) => {
+export const getFilterDataBySeoName = async (seoName: string) => {
   const data = await fetchFilters({ marketcap: true });
   const allIndices = [
     ...data.keyIndices.nse,
@@ -100,7 +100,13 @@ export const getFilterIndexId = async (seoName: string) => {
   ];
 
   const foundIndex = allIndices.find((index) => index.seoname === seoName);
-  return foundIndex ? foundIndex.indexId : 0;
+  return foundIndex
+    ? {
+        name: foundIndex.name,
+        indexId: foundIndex.indexId,
+        seoname: foundIndex.seoname,
+      }
+    : { name: "All Stocks", indexId: 0, seoname: "" };
 };
 
 export const fetchFilters = async ({
@@ -129,7 +135,7 @@ export const fetchFilters = async ({
 
 export const fetchTabsData = async () => {
   const ssoid = window.objUser?.ssoid;
-  const apiUrl = `${APIS_CONFIG?.MARKETS_CUSTOM_TAB["development"]}?ssoid=${ssoid}`;
+  const apiUrl = `${(APIS_CONFIG as any)?.MARKETS_CUSTOM_TAB[APP_ENV]}?ssoid=${ssoid}`;
   const data = await fetch(apiUrl, {
     cache: "no-store",
     headers: {
@@ -167,7 +173,7 @@ export const fetchViewTable = async (
 export const fetchTableData = async (viewId: any, params?: any) => {
   const ssoid = window.objUser?.ssoid;
   const isprimeuser = getCookie("isprimeuser") ? true : false;
-  const apiUrl = (APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE["development"];
+  const apiUrl = `${(APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE[APP_ENV]}`;
   const response = await Service.post({
     url: apiUrl,
     headers: {
@@ -473,4 +479,28 @@ export const fetchIndustryFilters = async (query: string) => {
   const data = await fetch(`${API_URL}${query}`);
   const resData = await data.json();
   return resData;
+};
+
+export const getOverviewData = async (indexid: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_OVERVIEW[APP_ENV]}?indexid=${indexid}&pageno=1&pagesize=10`,
+    params: {},
+  });
+  return response?.json();
+};
+
+export const getAdvanceDeclineData = async (indexid: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_ADVANCEDECLINE[APP_ENV]}?indexid=${indexid}&pageno=1&pagesize=10`,
+    params: {},
+  });
+  return response?.json();
+};
+
+export const getPeriodicData = async (indexid: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_PERIODIC[APP_ENV]}?indexid=${indexid}&pageno=1&pagesize=10`,
+    params: {},
+  });
+  return response?.json();
 };

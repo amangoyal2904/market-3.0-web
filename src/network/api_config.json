@@ -85,7 +85,7 @@
     "development": "https://screener.indiatimes.com/screener/advancedecline",
     "production": "https://screener.indiatimes.com/screener/advancedecline"
   },
-  "MARKETMOODS_PERIDIC": {
+  "MARKETMOODS_PERIODIC": {
     "development": "https://screener.indiatimes.com/screener/periodic",
     "production": "https://screener.indiatimes.com/screener/periodic"
   },
