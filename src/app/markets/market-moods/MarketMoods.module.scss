@@ -1,0 +1,139 @@
+.desc {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: #4d4d4d;
+  margin: 5px auto 30px;
+}
+.logo {
+  position: relative;
+  padding-left: 45px;
+  .icon {
+    position: absolute;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    font-size: 39px;
+  }
+  .prime {
+    font-size: 12px;
+    line-height: 1;
+    color: #ed193b;
+    font-weight: 600;
+  }
+  .heading {
+    font-size: 32px;
+    line-height: 1;
+    font-weight: 700;
+  }
+}
+
+.tabsWrap {
+  display: flex;
+  border-bottom: 1px solid #cdcdcd;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px 10px 0;
+  column-gap: 30px;
+  .tabsList {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    column-gap: 15px;
+    width: calc(100% - 400px);
+    li {
+      font-family: Montserrat;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    li {
+      &.active {
+        font-weight: 700;
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -12px;
+          border-bottom: solid 2px #000000;
+        }
+      }
+    }
+  }
+}
+
+.section {
+  position: relative;
+  margin: 10px auto 25px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .head {
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: 700;
+  }
+  .options {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 10px;
+    .roundBtn {
+      display: flex;
+      cursor: pointer;
+      border-radius: 15px;
+      border: 1px solid #000;
+      font-family: Montserrat;
+      font-size: 12px;
+      line-height: 18px;
+      font-style: normal;
+      font-weight: 600;
+      padding: 3px 10px;
+      white-space: nowrap;
+      align-items: center;
+      i {
+        font-size: 18px;
+        margin-right: 4px;
+      }
+    }
+    .btnGroup {
+      display: flex;
+      list-style: none;
+      cursor: pointer;
+      border-radius: 15px;
+      border: 1px solid #000;
+      font-family: Montserrat;
+      font-size: 12px;
+      line-height: 18px;
+      font-style: normal;
+      font-weight: 600;
+      white-space: nowrap;
+      align-items: center;
+      li {
+        padding: 3px 10px;
+        &:first-child {
+          border-top-left-radius: 15px;
+          border-bottom-left-radius: 15px;
+        }
+        &:last-child {
+          border-top-right-radius: 15px;
+          border-bottom-right-radius: 15px;
+        }
+        &.active {
+          background-color: #000;
+          color: #fff;
+        }
+      }
+    }
+  }
+}

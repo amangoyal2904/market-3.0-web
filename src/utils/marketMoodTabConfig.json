@@ -1,0 +1,20 @@
+{
+  "overview": {
+    "showIndexFilter": true,
+    "showDuration": false,
+    "showCountPercentage": true,
+    "showMonthlyDaily": false
+  },
+  "advanceDecline": {
+    "showIndexFilter": true,
+    "showDuration": false,
+    "showCountPercentage": false,
+    "showMonthlyDaily": true
+  },
+  "periodic": {
+    "showIndexFilter": true,
+    "showDuration": true,
+    "showCountPercentage": false,
+    "showMonthlyDaily": false
+  }
+}
