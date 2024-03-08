@@ -27,6 +27,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
   const filterType = "index";
 
   const getScreenerNav = async () => {
+    // https://screener.indiatimes.com/screener/getScreenerCollectionMasterData?screenercount=3&ssoId=2vff6v9j5sy2xi8elymo46c85
     const apiParams = `?collectiontypeid=5&screenercount=40&list=true`;
     const apiUrl = `${(APIS_CONFIG as any)?.["screenerL3Nav"][APP_ENV]}${apiParams}`;
     const response = await Service.get({

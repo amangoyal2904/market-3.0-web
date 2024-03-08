@@ -10,7 +10,6 @@ interface PageProps {
 
 const StocksScreenerNav: React.FC<PageProps> = (props) => {
   const { leftNavResult, activeId } = props;
-
   const toggleL2Menu = (e: any) => {
     try {
       e.stopPropagation();

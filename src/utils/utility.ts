@@ -433,3 +433,10 @@ export const getSearchParams = (url: string) => {
   }
   return searchParams;
 };
+
+export const fetchIndustryFilters = async (query: string) => {
+  const API_URL = (APIS_CONFIG as any)?.["industryFilter"][APP_ENV];
+  const data = await fetch(`${API_URL}${query}`);
+  const resData = await data.json();
+  return resData;
+};

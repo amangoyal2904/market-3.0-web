@@ -101,6 +101,14 @@
     line-height: 16px;
     font-weight: 600;
   }
+  .industryFiler {
+    position: relative;
+    cursor: auto;
+    .filterInner {
+      display: flex;
+      cursor: pointer;
+    }
+  }
 }
 //
 .moreTabWrap {

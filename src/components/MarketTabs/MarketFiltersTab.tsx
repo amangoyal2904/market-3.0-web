@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 
 import styles from "./MarketTabs.module.scss";
 
@@ -11,8 +12,17 @@ import AddStockComponent from "@/components/StockAdd";
 import { useStateContext } from "@/store/StateContext";
 import StockFilterNifty from "@/components/StockFilterNifty";
 import DayFitler from "@/components/DayFilter";
-import CreateScreenerModule from "@/components/CreateScreenerModule/CreateScreener";
 import { fetchFilters } from "@/utils/utility";
+
+const IndustryFilter = dynamic(() => import("@/components/IndustryFilter"), {
+  loading: () => (
+    <div className="customLoader">
+      <div className="loading">
+        <div className="loader"></div>
+      </div>
+    </div>
+  ),
+});
 
 const MarketFiltersTab = ({
   data,
@@ -23,13 +33,13 @@ const MarketFiltersTab = ({
   filterDataChange,
   dayFitlerHanlderChange,
   tabConfig,
-  runQueryhandler,
   updateTableHander,
   onPersonalizeHandler,
   dayFilterData,
   setDayFilterData,
   watchlistDataLength = 0,
   removePersonaliseView,
+  createNewScreener,
 }: any) => {
   const {
     showAddStock,
@@ -54,21 +64,33 @@ const MarketFiltersTab = ({
   const [dayFilterShow, setDayFilterShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
-  const [createModuleScreener, setCreateModuleScreener] = useState(false);
-  const [screenerEditMode, setScreenerEditMode] = useState({
-    mode: false,
-    viewId: "",
-  });
+
+  const [industryFilterShow, setIndustryFilterShow] = useState(false);
+  const [checkedIndustryFilterItems, setCheckedIndustryFilterItems]: any[] =
+    useState([]);
   const { state } = useStateContext();
   const { isLogin } = state.login;
-  const closeModuleScreerHandler = () => {
-    setCreateModuleScreener(false);
-  };
+
   const userPersonaliseHandle = () => {
     if (isLogin) {
       setOpenPersonaliseModal(true);
     } else {
       initSSOWidget();
+    }
+  };
+  const industrySelectedFilterHanlder = (event: any) => {
+    const { id, checked } = event.target;
+    if (checked) {
+      setCheckedIndustryFilterItems([
+        ...checkedIndustryFilterItems,
+        parseFloat(id),
+      ]);
+    } else {
+      setCheckedIndustryFilterItems(
+        checkedIndustryFilterItems.filter(
+          (item: any) => item !== parseFloat(id),
+        ),
+      );
     }
   };
   const updateTabsListDataHandler = async (updateData: any) => {
@@ -106,7 +128,10 @@ const MarketFiltersTab = ({
       alert("some error please check api or code");
     }
   };
-
+  const industryCloseModule = () => {
+    console.log("helo");
+    setIndustryFilterShow(false);
+  };
   const addStockHandler = () => {
     setAddStockShow(true);
   };
@@ -145,7 +170,7 @@ const MarketFiltersTab = ({
         {showCreateScreener ? (
           <span
             className={`${styles.filterScreener}`}
-            onClick={() => setCreateModuleScreener(true)}
+            onClick={() => createNewScreener(true)}
           >
             + Create Screeners
           </span>
@@ -154,8 +179,22 @@ const MarketFiltersTab = ({
         )}
 
         {showIndustryFilter ? (
-          <span className={`${styles.roundBtn} ${styles.fitlerDay}`}>
-            Industry <i className="eticon_caret_down"></i>
+          <span className={`${styles.roundBtn} ${styles.industryFiler}`}>
+            <span
+              className={styles.filterInner}
+              onClick={() => setIndustryFilterShow(true)}
+            >
+              Industry <i className="eticon_caret_down"></i>
+            </span>
+            {industryFilterShow ? (
+              <IndustryFilter
+                industrySelectedFilter={industrySelectedFilterHanlder}
+                defaultCheck={checkedIndustryFilterItems}
+                onclose={industryCloseModule}
+              />
+            ) : (
+              ""
+            )}
           </span>
         ) : (
           ""
@@ -277,15 +316,6 @@ const MarketFiltersTab = ({
           selectTab={niftyFilterData.selectedTab}
           childMenuTabActive={niftyFilterData.id}
         />
-      )}
-      {createModuleScreener ? (
-        <CreateScreenerModule
-          closeModuleScreenerNew={closeModuleScreerHandler}
-          runQueryhandler={runQueryhandler}
-          editmode={screenerEditMode}
-        />
-      ) : (
-        ""
       )}
     </>
   );
