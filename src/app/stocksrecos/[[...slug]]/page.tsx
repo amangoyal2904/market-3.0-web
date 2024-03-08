@@ -55,6 +55,7 @@ export default async function stocksrecos({
   console.log("recosNavResult --->", recosDetailResult.recoData);
   const intFilter = 0;
   const selectedFilter = await getSelectedFilter(intFilter);
+
   return (
     <>
       <div className={styles.recosPageWrap}>

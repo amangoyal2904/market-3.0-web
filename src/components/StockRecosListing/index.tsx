@@ -5,11 +5,12 @@ import Subhead from "./Subhead";
 import styles from "./styles.module.scss";
 import { useState } from "react";
 import { getSelectedFilter } from "@/utils/utility";
+import Grid from "./Grid";
 const StockRecosListing = (props: any) => {
-  const { recosNavResult, recosDetailResult, selectedFilter } = props;
+  const { recosNavResult, recosDetailResult, selectedFilter, data } = props;
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
 
-  //console.log("StockRecosListing----", recosDetailResult);
+  console.log("StockRecosListing----", recosDetailResult);
   const filterDataChangeHander = async (id: any) => {
     //setProcessingLoader(true);
     // const url = `${pathname}?${searchParams}`;
@@ -29,8 +30,12 @@ const StockRecosListing = (props: any) => {
         filterDataChange={filterDataChangeHander}
       />
       <div className={styles.contentWrap}>
-        <InnerLeftNav recosNavResult={recosNavResult} />
-        <Listing recosDetailResult={recosDetailResult} />
+        {/* <InnerLeftNav recosNavResult={recosNavResult} /> */}
+        {true ? (
+          <Grid recosDetailResult={data} />
+        ) : (
+          <Listing recosDetailResult={recosDetailResult} />
+        )}
       </div>
     </>
   );
