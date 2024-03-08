@@ -223,3 +223,119 @@
   justify-content: flex-start;
   margin-left: 16px;
 }
+.gridMainBox {
+  position: relative;
+  width: 100%;
+  .tableWrapper {
+    margin-top: 20px;
+    display: flex;
+    position: relative;
+    overflow: auto;
+    overflow-y: "scroll";
+    justify-content: flex-start;
+    font-family: "Montserrat", "Verdana";
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow-x: auto;
+      border-left: 1px solid rgb(244, 244, 244);
+      thead {
+        position: relative;
+        z-index: 1;
+        tr {
+          background-color: #ffffff;
+          th {
+            position: relative;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 16px;
+            white-space: nowrap;
+            padding: 15px 30px 15px 10px;
+            color: rgb(77, 77, 77);
+            background-color: rgb(244, 244, 244);
+            border-right: 1px solid rgb(244, 244, 244);
+            border-bottom: 1px solid rgb(204, 204, 204);
+            border-right-style: solid;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            &:nth-child(1) {
+              width: 200px;
+            }
+            &:nth-child(2),
+            &:nth-child(3),
+            &:nth-child(4),
+            &:nth-child(5),
+            &:nth-child(6),
+            &:nth-child(7),
+            &:nth-child(8) {
+              width: 110px;
+            }
+          }
+        }
+      }
+      tbody {
+        tr {
+          background-color: #ffffff;
+          td {
+            font-family: "Lato";
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 16px;
+            height: 40px;
+            color: rgb(0, 0, 0);
+            padding: 10px 15px;
+            border-right: 1px solid rgb(244, 244, 244);
+            border-bottom: 1px solid rgb(204, 204, 204);
+            background: #ffffff;
+            text-align: right;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            &:first-child {
+              color: rgb(0, 0, 0);
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: 18px;
+              text-align: left;
+            }
+            .tdColWrap {
+              position: relative;
+              display: flex;
+              align-items: center;
+            }
+            .potential {
+              text-align: center;
+              display: inline-block;
+              padding: 8px 12px;
+              width: 100%;
+              &.upSide {
+                padding: 8px 12px;
+                background-color: #e9fbe9;
+                color: #147014;
+              }
+              &.downSide {
+                background-color: #fef1f3;
+                color: #d51131;
+              }
+            }
+            .avgTargetVal {
+              font-weight: 700;
+              color: #333333;
+            }
+            .currentPriceVal {
+              color: #0d0d0d;
+            }
+            .buyCountVal {
+              color: #147014;
+            }
+            .sellCountVal {
+              color: #d51131;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -86,7 +86,7 @@ const StockRecosOverview = (props: any) => {
     });
     const data = await stockReportAllTabPromise?.json();
     setStockData(data?.recoData);
-    console.log("@@fetchData --- > ", data);
+    // console.log("@@fetchData --- > ", data);
   };
   return (
     <div className={styles.wraper}>
@@ -114,6 +114,7 @@ const StockRecosOverview = (props: any) => {
                 recosNavResult={recosNavResult}
                 recosDetailResult={recosDetailResult}
                 selectedFilter={selectedFilter}
+                data={stockData}
               />
             ) : (
               <Overview data={stockData} />
