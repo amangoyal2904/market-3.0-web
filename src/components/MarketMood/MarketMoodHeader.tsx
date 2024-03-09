@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import styles from "./MarketMoods.module.scss";
+import styles from "./MarketMoodComponents.module.scss";
 
 const durationOptions = [
   { label: "1M", value: "1M", id: 1 },
@@ -48,7 +48,10 @@ const MarketMoodHeader = ({ heading, niftyFilterData, config }: any) => {
 
   return (
     <div className={styles.header}>
-      <div className={styles.head}>{heading}</div>
+      <div className={styles.head}>
+        {heading}
+        <span className={styles.subHeading}>{niftyFilterData.name}</span>
+      </div>
       <div className={styles.options}>
         {showIndexFilter && (
           <span

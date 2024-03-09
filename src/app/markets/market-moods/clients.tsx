@@ -2,8 +2,10 @@
 
 import styles from "./MarketMoods.module.scss";
 import { useEffect, useState } from "react";
-import MarketMoodHeader from "./header";
 import MarketMoodTabConfig from "@/utils/marketMoodTabConfig.json";
+import MarketMoodHeader from "@/components/MarketMood/MarketMoodHeader";
+import FixedTableMarketMood from "@/components/MarketMood/FixedTableMarketMood";
+import ScrollableTableMarketMood from "@/components/MarketMood/ScrollableTableMarketMood";
 
 const tabData = [
   { label: "Overview", key: "overview" },
@@ -12,13 +14,32 @@ const tabData = [
   { label: "FAQ", key: "faq" },
 ];
 
+const faqData = [
+  {
+    ques: "What is Market Mood?",
+    ans: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
+  },
+  {
+    ques: "How to read Market Mood?",
+    ans: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
+  },
+  {
+    ques: "How it will help you in your investment Journey ?",
+    ans: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
+  },
+  {
+    ques: "What value will Market Mood add to my decision making?",
+    ans: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
+  },
+];
+
 const MarketMoodsClient = ({
   isprimeuser = false,
   overviewData = {},
   advacneDeclineData = {},
   periodicData = {},
   niftyFilterData = {},
-}) => {
+}: any) => {
   const [activeItem, setActiveItem] = useState<string>("overview");
 
   const handleItemClick = (item: string) => {
@@ -77,7 +98,14 @@ const MarketMoodsClient = ({
           niftyFilterData={niftyFilterData}
           config={MarketMoodTabConfig["overview"]}
         />
-        <p>This is the content for Item 1.</p>
+        <div className={styles.tableWrapper} id="table">
+          <FixedTableMarketMood tableData={overviewData?.dataList} />
+          <ScrollableTableMarketMood
+            tableHeader={overviewData?.labels}
+            tableData={overviewData?.dataList}
+            type="count"
+          />
+        </div>
       </section>
       <section id="periodic" className={styles.section}>
         <MarketMoodHeader
@@ -95,9 +123,16 @@ const MarketMoodsClient = ({
         />
         <p>This is the content for Item 3.</p>
       </section>
-      <section id="faq">
-        <h2>Item 3 Content</h2>
-        <p>This is the content for Item 3.</p>
+      <section id="faq" className={styles.faq}>
+        <div className={styles.head}>Frequently Asked Questions</div>
+        {faqData.map((item: any, index: number) => {
+          return (
+            <div className={styles.faqItem} key={index}>
+              <p className={styles.ques}>{item.ques}</p>
+              <p className={styles.ans}>{item.ans}</p>
+            </div>
+          );
+        })}
       </section>
     </>
   );

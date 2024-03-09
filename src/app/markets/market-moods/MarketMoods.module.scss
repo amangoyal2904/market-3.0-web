@@ -71,69 +71,44 @@
 
 .section {
   position: relative;
-  margin: 10px auto 25px;
+  margin: 25px auto 50px;
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.faq {
+  background: #f4f4f4;
+  padding: 25px 15px;
+  border-radius: 5px;
   .head {
     font-size: 24px;
     line-height: 30px;
     font-weight: 700;
+    text-align: center;
+    margin-bottom: 20px;
   }
-  .options {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    column-gap: 10px;
-    .roundBtn {
-      display: flex;
-      cursor: pointer;
-      border-radius: 15px;
-      border: 1px solid #000;
-      font-family: Montserrat;
-      font-size: 12px;
-      line-height: 18px;
-      font-style: normal;
-      font-weight: 600;
-      padding: 3px 10px;
-      white-space: nowrap;
-      align-items: center;
-      i {
-        font-size: 18px;
-        margin-right: 4px;
-      }
+  .faqItem {
+    & + .faqItem {
+      border-top: 1px solid #e6e6e6;
+      margin-top: 15px;
+      padding-top: 15px;
     }
-    .btnGroup {
-      display: flex;
-      list-style: none;
-      cursor: pointer;
-      border-radius: 15px;
-      border: 1px solid #000;
-      font-family: Montserrat;
-      font-size: 12px;
-      line-height: 18px;
-      font-style: normal;
+    .ques {
+      font-size: 18px;
+      line-height: 22px;
       font-weight: 600;
-      white-space: nowrap;
-      align-items: center;
-      li {
-        padding: 3px 10px;
-        &:first-child {
-          border-top-left-radius: 15px;
-          border-bottom-left-radius: 15px;
-        }
-        &:last-child {
-          border-top-right-radius: 15px;
-          border-bottom-right-radius: 15px;
-        }
-        &.active {
-          background-color: #000;
-          color: #fff;
-        }
-      }
+    }
+    .ans {
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+      color: #4d4d4d;
     }
   }
+}
+.tableWrapper {
+  margin-top: 20px;
+  display: flex;
+  position: relative;
+  overflow: auto;
+  overflow-y: "scroll";
+  justify-content: flex-start;
 }
