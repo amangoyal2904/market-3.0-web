@@ -1,0 +1,243 @@
+@import "@/styles/variables.scss";
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .head {
+    font-size: 24px;
+    line-height: 30px;
+    font-weight: 700;
+    .subHeading {
+      font-size: 18px;
+      line-height: 22px;
+      font-weight: 400;
+      color: #4d4d4d;
+      border-left: 1px solid #cbcbcb;
+      margin-left: 15px;
+      padding-left: 15px;
+    }
+  }
+  .options {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    column-gap: 10px;
+    .roundBtn {
+      display: flex;
+      cursor: pointer;
+      border-radius: 15px;
+      border: 1px solid #000;
+      font-family: Montserrat;
+      font-size: 12px;
+      line-height: 18px;
+      font-style: normal;
+      font-weight: 600;
+      padding: 3px 10px;
+      white-space: nowrap;
+      align-items: center;
+      i {
+        font-size: 18px;
+        margin-right: 4px;
+      }
+    }
+    .btnGroup {
+      display: flex;
+      list-style: none;
+      cursor: pointer;
+      border-radius: 15px;
+      border: 1px solid #000;
+      font-family: Montserrat;
+      font-size: 12px;
+      line-height: 18px;
+      font-style: normal;
+      font-weight: 600;
+      white-space: nowrap;
+      align-items: center;
+      li {
+        padding: 3px 10px;
+        &:first-child {
+          border-top-left-radius: 15px;
+          border-bottom-left-radius: 15px;
+        }
+        &:last-child {
+          border-top-right-radius: 15px;
+          border-bottom-right-radius: 15px;
+        }
+        &.active {
+          background-color: #000;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+.marketsCustomTable {
+  //   border: solid 1px #ddd;
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+
+  td {
+    padding: 10px 15px;
+    border-right: 1px solid $gray_95;
+    border-bottom: 1px solid $gray_80;
+    background: $color-white;
+    text-align: left;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    height: 40px;
+    color: $black;
+    font-style: normal;
+    line-height: 18px;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    &.withTiles {
+      padding: 2px 4px;
+    }
+    &.fullWidth {
+      width: 100%;
+      &.hide {
+        display: none;
+      }
+    }
+  }
+
+  th {
+    position: relative;
+    white-space: nowrap;
+    padding: 15px 30px 15px 10px;
+    background-color: $gray_95;
+    border-right: 1px solid $gray_95;
+    border-bottom: 1px solid $gray_80;
+    border-right-style: solid;
+    font-family: $Montserrat-font-family;
+    font-weight: 600;
+    color: $gray_30;
+    font-size: 12px;
+    line-height: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    &.enableSort {
+      cursor: pointer;
+    }
+    &.fullWidth {
+      width: 100%;
+      &.hide {
+        display: none;
+      }
+    }
+  }
+
+  .firstTh {
+    width: 200px;
+    min-width: 200px;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  tr {
+    background-color: $color-white;
+  }
+  .hideThead {
+    visibility: hidden;
+  }
+}
+
+.fixedWrapper {
+  overflow: auto;
+  width: 100%;
+  min-width: max-content;
+  max-width: max-content;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  box-shadow: 1px 0px 12px 0px rgba(0, 0, 0, 0.06);
+  z-index: 1;
+
+  table {
+    width: 400px;
+    border-collapse: collapse;
+    overflow: auto;
+    border-left: 1px solid rgb(244, 244, 244);
+    thead {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  .fixedTD {
+    max-width: 100px;
+    overflow: hidden;
+  }
+
+  .fixedTr {
+    td {
+      &:first-child {
+        color: $black;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 18px;
+        text-align: left;
+      }
+
+      &:nth-child(2) {
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.fixedWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollableWrapper {
+  width: 100%;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.sortIcons {
+  position: absolute;
+  right: 10px;
+  span {
+    font-size: 16px;
+    margin-right: -8px;
+    color: $gray_60;
+  }
+  .asc {
+    color: $color-black;
+  }
+  .desc {
+    color: $color-black;
+  }
+}
+
+.tiles {
+  display: block;
+  text-align: center;
+  padding: 8px 0;
+  border-radius: 2px;
+}
+
+.ORANGE {
+  background: #ffe9c7;
+}
+.LIGHT_GREEN {
+  background: #a4efa4;
+}
+.DARK_GREEN {
+  background: #5fe25f;
+}
+.RED {
+  background: #f8a5b3;
+}
+.LIGHT_RED {
+  background: #fbcbd3;
+}
