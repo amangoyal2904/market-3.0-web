@@ -1,6 +1,9 @@
 import styles from "./MarketMood.module.scss";
 
-const FixedTableMarketMood = ({ tableData = null }: any) => {
+const FixedTableMarketMood = ({
+  tableData = null,
+  widget = "overview",
+}: any) => {
   return (
     <div id="fixedTable" className={styles.fixedWrapper}>
       <table className={styles.marketsCustomTable}>
