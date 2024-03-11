@@ -508,6 +508,5 @@ export const formatNumber = (number: number): string => {
   });
 
   const formattedNumber = formatter.format(number);
-
-  return formattedNumber.replace(/(\d)(?=(\d{2})+(\D|$))/g, "$1,");
+  return formattedNumber.replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
 };
