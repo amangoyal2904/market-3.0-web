@@ -1,6 +1,6 @@
 import APIS_CONFIG from "@/network/api_config.json";
 import GLOBAL_CONFIG from "@/network/global_config.json";
-import { APP_ENV, setCookieToSpecificTime } from "@/utils/index";
+import { APP_ENV, dateFormat, setCookieToSpecificTime } from "@/utils/index";
 import { getCookie } from "@/utils/index";
 import Fingerprint2 from "fingerprintjs2";
 import { setCookies } from "./index";
@@ -486,7 +486,27 @@ export const getOverviewData = async (indexid: number) => {
     url: `${(APIS_CONFIG as any)?.MARKETMOODS_OVERVIEW[APP_ENV]}?indexid=${indexid}&pageno=1&pagesize=10`,
     params: {},
   });
-  return response?.json();
+  const originalJson = await response?.json();
+  return {
+    labels: originalJson.labels,
+    dataList: originalJson.dataList.map((item: any) => ({
+      date: dateFormat(item.date, "%d %MMM"),
+      indexPrice: item.indexPrice,
+      percentChange: item.percentChange,
+      trend:
+        item.percentChange > 0
+          ? "up"
+          : item.percentChange < 0
+            ? "down"
+            : "neutral",
+      others: item.count.map((count: number, index: number) => ({
+        count: count,
+        percent: item.percent[index],
+        color: item.color[index],
+      })),
+    })),
+    pageSummary: originalJson.pageSummary,
+  };
 };
 
 export const getAdvanceDeclineData = async (indexid: number) => {

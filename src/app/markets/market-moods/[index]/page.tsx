@@ -23,16 +23,6 @@ const MarketMoods = async ({ params }: any) => {
     periodicData = null;
   // if (isprimeuser) {
   overviewData = await getOverviewData(niftyFilterData.indexId);
-  overviewData.dataList.forEach((item: any) => {
-    item.dataList = item.count.map((countValue: any, index: number) => ({
-      count: countValue,
-      percent: item.percent[index],
-      color: item.color[index],
-    }));
-    delete item.count;
-    delete item.percent;
-    delete item.color;
-  });
   advacneDeclineData = await getAdvanceDeclineData(niftyFilterData.indexId);
   periodicData = await getPeriodicData(niftyFilterData.indexId);
   // }
