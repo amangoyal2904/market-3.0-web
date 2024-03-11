@@ -226,3 +226,38 @@
     }
   }
 }
+
+.stockRecosPage {
+  &.stocksMain {
+    width: 32%;
+    margin-right: 2%;
+    .stocksBox {
+      gap: unset;
+
+      .stocksTitle {
+        margin-top: 8px;
+      }
+      .updownTargetBox {
+        margin-top: 20px;
+      }
+    }
+  }
+  &.stocksMain:nth-child(3n) {
+    margin-right: 0;
+  }
+}
+
+.stockRecosOverviewTab {
+  &.stocksMain {
+    .stocksBox {
+      gap: unset;
+
+      .stocksTitle {
+        margin-top: 8px;
+      }
+      .updownTargetBox {
+        margin-top: 20px;
+      }
+    }
+  }
+}

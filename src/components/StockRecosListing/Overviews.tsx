@@ -1,7 +1,8 @@
 import React from "react";
 import SlickSlider from "../SlickSlider";
 import StockReco from "../StockReco";
-import styles from "./StockRecosOverview.module.scss";
+import styles from "./styles.module.scss";
+import Link from "next/link";
 interface Props {
   data: any;
 }
@@ -30,9 +31,26 @@ const Overview: React.FC<Props> = ({ data }) => {
       },
     },
   ];
+
+  const redirectLink = (apiType: any) => {
+    switch (apiType) {
+      case "newRecos":
+        return "/stocksrecos/newrecos/all";
+      case "mostBuy":
+        return "/stocksrecos/mostbuy";
+      case "mostSell":
+        return "/stocksrecos/mostsell";
+      case "recoOnWL":
+        return "/stocksrecos/recoonwl";
+      case "recoByFH":
+        return "/stocksrecos/fundhousedetails";
+      default:
+        return "/stocksrecos/overview";
+    }
+  };
   return (
     <>
-      {data.map((obj: any, index: any) => (
+      {data?.recoData.map((obj: any, index: any) => (
         <div key={`"overView"${index} `} className={styles.overviewMain}>
           <h2 className={styles.title} key={index}>
             {obj.name}
@@ -40,7 +58,12 @@ const Overview: React.FC<Props> = ({ data }) => {
           <SlickSlider
             slides={obj.data?.map((card: any, index: any) => ({
               content: (
-                <StockReco data={card} key={index} activeTab={obj.apiType} />
+                <StockReco
+                  data={card}
+                  key={index}
+                  activeTab={obj.apiType}
+                  pageName={"stockRecosOverviewTab"}
+                />
               ),
             }))}
             key={`slider${obj.type}`}
@@ -50,6 +73,12 @@ const Overview: React.FC<Props> = ({ data }) => {
             rows={1}
             responsive={responsive}
           />
+          <div className={styles.overviewViewAll}>
+            <Link href={redirectLink(obj.apiType)}>
+              View all {obj.name}{" "}
+              <span className={`eticon_next ${styles.arrowIcon}`}></span>
+            </Link>
+          </div>
         </div>
       ))}
     </>

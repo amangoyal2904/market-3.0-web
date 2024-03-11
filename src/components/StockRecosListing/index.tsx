@@ -1,40 +1,56 @@
 "use client";
+import { useState } from "react";
+import Grid from "./Grid";
 import InnerLeftNav from "./InnerLeftNav";
 import Listing from "./Listing";
 import Subhead from "./Subhead";
 import styles from "./styles.module.scss";
-import { useState } from "react";
-import { getSelectedFilter } from "@/utils/utility";
-import Grid from "./Grid";
-const StockRecosListing = (props: any) => {
-  const { recosNavResult, recosDetailResult, selectedFilter, data } = props;
-  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
+import Overview from "./Overviews";
 
-  console.log("StockRecosListing----", recosDetailResult);
-  const filterDataChangeHander = async (id: any) => {
-    //setProcessingLoader(true);
-    // const url = `${pathname}?${searchParams}`;
-    // const newUrl = updateOrAddParamToPath(url, "filter", id);
-    const selectedFilter = await getSelectedFilter(id);
-    setNiftyFilterData(selectedFilter);
-    console.log("selectedFilter", selectedFilter);
-    // setPayload({ ..._payload, filterValue: [id] });
-    // updateL3NAV(id, _payload.duration);
-    // router.push(newUrl, { scroll: false });
+const StockRecosListing = (props: any) => {
+  const {
+    recosNavResult,
+    recosDetailResult,
+    activeApi,
+    slug,
+    selectedFilter,
+    activeTab,
+  } = props;
+  const [activeItem, setActiveItem] = useState("listytpe_card");
+
+  console.log("StockRecosListing --- ", slug);
+
+  const handleSetActiveItem = (key: any) => {
+    setActiveItem(key);
   };
+
   return (
     <>
       <Subhead
         showIndexFilter={true}
-        niftyFilterData={niftyFilterData}
-        filterDataChange={filterDataChangeHander}
+        selectedFilter={selectedFilter}
+        recosNavResult={recosNavResult}
+        activeTab={slug?.[0]}
+        slug={slug}
+        activeItem={activeItem}
+        setActiveItem={handleSetActiveItem}
       />
-      <div className={styles.contentWrap}>
-        {/* <InnerLeftNav recosNavResult={recosNavResult} /> */}
-        {true ? (
-          <Grid recosDetailResult={data} />
+      <div
+        className={`${styles.contentWrap} ${slug?.[0] == "overview" ? styles.overviewWrap : ""}`}
+      >
+        {/* {
+          (activeApi == "newRecos" || slug.includes("fundhousedetails")) && <InnerLeftNav recosNavResult={recosNavResult} recosDetailResult={recosDetailResult} activeApi={activeApi} slug={slug} />
+        } */}
+
+        {slug?.[0] == "overview" ? (
+          <Overview data={recosDetailResult} />
+        ) : activeItem == "listytpe_table" ? (
+          <Grid recosDetailResult={recosDetailResult} activeApi={activeApi} />
         ) : (
-          <Listing recosDetailResult={recosDetailResult} />
+          <Listing
+            recosDetailResult={recosDetailResult}
+            activeApi={activeApi}
+          />
         )}
       </div>
     </>
