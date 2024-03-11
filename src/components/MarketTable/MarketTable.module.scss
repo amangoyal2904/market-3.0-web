@@ -47,7 +47,7 @@
     }
   }
   .primeTd {
-    color: $blue_secondary_60;
+    color: $blue-60;
     text-align: center;
     text-overflow: ellipsis;
     font-size: 12px;
@@ -69,7 +69,7 @@
     padding: 10px 15px;
     border-right: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
-    background: $color-white;
+    background: $white;
     text-align: left;
     font-size: 14px;
     font-style: normal;
@@ -126,7 +126,7 @@
   }
 
   tr {
-    background-color: $color-white;
+    background-color: $white;
   }
   .hideThead {
     visibility: hidden;
@@ -198,10 +198,10 @@
     color: $gray_60;
   }
   .asc {
-    color: $color-black;
+    color: $black;
   }
   .desc {
-    color: $color-black;
+    color: $black;
   }
 }
 

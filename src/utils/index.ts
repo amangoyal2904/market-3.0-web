@@ -500,3 +500,14 @@ export const setCookies = (
   document.cookie =
     name + "=" + value + expires + `; domain=${window.location.host}; path=/;`;
 };
+
+export const formatNumber = (number: number): string => {
+  const formatter = new Intl.NumberFormat("en-IN", {
+    style: "decimal",
+    maximumFractionDigits: 2,
+  });
+
+  const formattedNumber = formatter.format(number);
+
+  return formattedNumber.replace(/(\d)(?=(\d{2})+(\D|$))/g, "$1,");
+};
