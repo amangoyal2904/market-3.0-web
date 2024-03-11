@@ -1,6 +1,11 @@
 import APIS_CONFIG from "@/network/api_config.json";
 import GLOBAL_CONFIG from "@/network/global_config.json";
-import { APP_ENV, dateFormat, setCookieToSpecificTime } from "@/utils/index";
+import {
+  APP_ENV,
+  dateFormat,
+  formatNumber,
+  setCookieToSpecificTime,
+} from "@/utils/index";
 import { getCookie } from "@/utils/index";
 import Fingerprint2 from "fingerprintjs2";
 import { setCookies } from "./index";
@@ -491,7 +496,7 @@ export const getOverviewData = async (indexid: number) => {
     labels: originalJson.labels,
     dataList: originalJson.dataList.map((item: any) => ({
       date: dateFormat(item.date, "%d %MMM"),
-      indexPrice: item.indexPrice,
+      indexPrice: formatNumber(item.indexPrice),
       percentChange: item.percentChange,
       trend:
         item.percentChange > 0
@@ -514,7 +519,29 @@ export const getAdvanceDeclineData = async (indexid: number) => {
     url: `${(APIS_CONFIG as any)?.MARKETMOODS_ADVANCEDECLINE[APP_ENV]}?indexid=${indexid}&pageno=1&pagesize=10`,
     params: {},
   });
-  return response?.json();
+  const originalJson = await response?.json();
+  return {
+    dataList: originalJson.searchresult.map((item: any) => ({
+      date: dateFormat(item.dateTime, "%d %MMM"),
+      indexPrice: formatNumber(item.currentIndexValue),
+      percentChange: item.percentChange,
+      trend:
+        item.percentChange > 0
+          ? "up"
+          : item.percentChange < 0
+            ? "down"
+            : "neutral",
+      others: {
+        up: item.advances,
+        upChg: item.advancesPercentange,
+        down: item.declines,
+        downChg: item.declinesPercentange,
+        neutral: item.noChange,
+        neutralChg: item.noChangePercentage,
+      },
+    })),
+    pageSummary: originalJson.pagesummary,
+  };
 };
 
 export const getPeriodicData = async (indexid: number) => {
@@ -522,5 +549,30 @@ export const getPeriodicData = async (indexid: number) => {
     url: `${(APIS_CONFIG as any)?.MARKETMOODS_PERIODIC[APP_ENV]}?indexid=${indexid}&pageno=1&pagesize=10`,
     params: {},
   });
-  return response?.json();
+  const originalJson = await response?.json();
+  return {
+    dataList: originalJson.searchresult.map((item: any) => ({
+      date: dateFormat(item.dateTime, "%d %MMM"),
+      indexPrice: formatNumber(item.currentIndexValue),
+      percentChange: item.percentChange,
+      trend:
+        item.percentChange > 0
+          ? "up"
+          : item.percentChange < 0
+            ? "down"
+            : "neutral",
+      others: {
+        up: item.highZone,
+        upChg:
+          (item.highZone * (item.highZone + item.midZone + item.lowZone)) / 100,
+        down: item.lowZone,
+        downChg:
+          (item.lowZone * (item.highZone + item.midZone + item.lowZone)) / 100,
+        neutral: item.midZone,
+        neutralChg:
+          (item.midZone * (item.highZone + item.midZone + item.lowZone)) / 100,
+      },
+    })),
+    pageSummary: originalJson.pagesummary,
+  };
 };

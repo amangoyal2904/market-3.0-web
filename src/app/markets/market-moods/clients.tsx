@@ -6,6 +6,7 @@ import MarketMoodTabConfig from "@/utils/marketMoodTabConfig.json";
 import MarketMoodHeader from "@/components/MarketMood/SectionHeader";
 import FixedTableMarketMood from "@/components/MarketMood/FixedTable";
 import ScrollableTableMarketMood from "@/components/MarketMood/ScrollableTable";
+import ScrollableBarsTableMarketMood from "@/components/MarketMood/ScrollableBarsTable";
 
 const tabData = [
   { label: "Overview", key: "overview" },
@@ -149,7 +150,6 @@ const MarketMoodsClient = ({
             tableHeader={overviewData?.labels}
             tableData={overviewData?.dataList}
             type="count"
-            widget="overview"
           />
         </div>
       </div>
@@ -164,12 +164,10 @@ const MarketMoodsClient = ({
           config={MarketMoodTabConfig["periodic"]}
         />
         <div className={styles.tableWrapper} id="table">
-          <FixedTableMarketMood tableData={overviewData?.dataList} />
-          <ScrollableTableMarketMood
-            tableHeader={overviewData?.labels}
-            tableData={overviewData?.dataList}
-            type="count"
-            widget="overview"
+          <FixedTableMarketMood tableData={periodicData?.dataList} />
+          <ScrollableBarsTableMarketMood
+            tableData={periodicData?.dataList}
+            type="periodic"
           />
         </div>
       </div>
@@ -184,12 +182,10 @@ const MarketMoodsClient = ({
           config={MarketMoodTabConfig["advanceDecline"]}
         />
         <div className={styles.tableWrapper} id="table">
-          <FixedTableMarketMood tableData={overviewData?.dataList} />
-          <ScrollableTableMarketMood
-            tableHeader={overviewData?.labels}
-            tableData={overviewData?.dataList}
-            type="count"
-            widget="overview"
+          <FixedTableMarketMood tableData={advacneDeclineData?.dataList} />
+          <ScrollableBarsTableMarketMood
+            tableData={advacneDeclineData?.dataList}
+            type="advacneDecline"
           />
         </div>
       </div>
