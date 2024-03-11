@@ -487,6 +487,7 @@ export const dateFormat = (dt: any, format = "%Y-%M-%d") => {
   }
   return newDate;
 };
+
 export const setCookies = (
   name: string,
   value: string,

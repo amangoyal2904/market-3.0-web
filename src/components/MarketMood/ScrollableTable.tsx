@@ -15,7 +15,7 @@ const ScrollableTableMarketMood = ({ tableHeader, tableData, type }: any) => {
         <tbody>
           {tableData.map((data: any, index: number) => (
             <tr key={index}>
-              {data.dataList.map((item: any, itemIndex: number) => (
+              {data.others.map((item: any, itemIndex: number) => (
                 <td key={itemIndex} className={styles.withTiles}>
                   <span className={`${styles[item.color]} ${styles.tiles}`}>
                     {type == "count" ? item.count : item.percent + "%"}
