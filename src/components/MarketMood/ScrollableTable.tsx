@@ -1,4 +1,4 @@
-import styles from "./MarketMoodComponents.module.scss";
+import styles from "./MarketMood.module.scss";
 
 const ScrollableTableMarketMood = ({ tableHeader, tableData, type }: any) => {
   return (
@@ -9,6 +9,7 @@ const ScrollableTableMarketMood = ({ tableHeader, tableData, type }: any) => {
             {tableHeader.map((item: any, index: number) => (
               <th key={index}>{item.replace(/\n/g, " ")}</th>
             ))}
+            <th className={styles.noData}></th>
           </tr>
         </thead>
         <tbody>
@@ -21,6 +22,7 @@ const ScrollableTableMarketMood = ({ tableHeader, tableData, type }: any) => {
                   </span>
                 </td>
               ))}
+              <td className={styles.noData}></td>
             </tr>
           ))}
         </tbody>

@@ -1,4 +1,4 @@
-import styles from "./MarketMoodComponents.module.scss";
+import styles from "./MarketMood.module.scss";
 
 const FixedTableMarketMood = ({ tableData = null }: any) => {
   return (
@@ -14,7 +14,7 @@ const FixedTableMarketMood = ({ tableData = null }: any) => {
         <tbody>
           {tableData.map((item: any, index: number) => {
             return (
-              <tr key={item.index}>
+              <tr key={index}>
                 <td>{item.dateStr}</td>
                 <td>{item.indexPrice}</td>
                 <td>-</td>

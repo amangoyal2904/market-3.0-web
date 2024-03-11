@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import styles from "./MarketMoodComponents.module.scss";
+import styles from "./MarketMood.module.scss";
 
 const durationOptions = [
   { label: "1M", value: "1M", id: 1 },
