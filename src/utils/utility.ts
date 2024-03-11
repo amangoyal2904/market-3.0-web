@@ -87,7 +87,6 @@ export const fnGenerateMetaData = (meta?: any) => {
 };
 
 export const getFilterDataBySeoName = async (seoName: string) => {
-  debugger;
   const data = await fetchFilters({ marketcap: true });
   const allIndices = [
     ...data.keyIndices.nse,

@@ -155,7 +155,6 @@ const MarketFiltersTab = ({
   };
   const filterApiCall = async () => {
     const data = await fetchFilters({ all: true });
-    debugger;
     setFilterMenuData(data);
   };
   useEffect(() => {
