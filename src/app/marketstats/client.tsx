@@ -70,7 +70,7 @@ const MarketStats = ({
   const updateTableData = async () => {
     const responseData: any = await fetchViewTable(
       { ..._payload },
-      isTechnical ? "marketstatsTechnicals" : "marketstatsIntraday",
+      isTechnical ? "MARKETSTATS_TECHNICALS" : "MARKETSTATS_INTRADAY",
       getCookie("isprimeuser") ? true : false,
       getCookie("ssoid"),
     );
@@ -118,7 +118,7 @@ const MarketStats = ({
           : config,
       );
     } else {
-      newSortConfig = [...sortConfig, { field, order: "DESC" }];
+      newSortConfig = [{ field, order: "DESC" }];
     }
     setPayload({ ..._payload, sort: newSortConfig });
   };

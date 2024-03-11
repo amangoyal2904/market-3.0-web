@@ -9,7 +9,7 @@ export const fetchTableData = async (
   activeViewId: any,
 ) => {
   try {
-    const apiUrl = (APIS_CONFIG as any)?.marketstatsIntraday[APP_ENV];
+    const apiUrl = (APIS_CONFIG as any)?.MARKETSTATS_INTRADAY[APP_ENV];
     const bodyParams = {
       viewId: activeViewId,
       apiType: type,

@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import StockReco from "../StockReco";
 import styles from "./styles.module.scss";
+import Blocker from "../Blocker";
 
 const Listing = (props: any) => {
   const { recosDetailResult, activeApi } = props;
@@ -11,21 +12,26 @@ const Listing = (props: any) => {
   console.log("router----", recosDetailResult);
   return (
     <>
-      <div className={styles.listingWrap}>
-        {recosDetailResult?.recoData.map((recoDataValue: any, index: any) => {
-          return recoDataValue?.data.map((value: any, index: any) => {
-            // console.log("recoData---", value)
-            return (
-              <StockReco
-                data={value}
-                key={index}
-                activeTab={activeApi}
-                pageName="stockRecosPage"
-              />
-            );
-          });
-        })}
-      </div>
+      {typeof recosDetailResult?.recoData?.[0].data != "undefined" ? (
+        <div className={styles.listingWrap}>
+          {recosDetailResult?.recoData?.[0].data.map(
+            (recoDataValue: any, index: any) => {
+              return (
+                <StockReco
+                  data={recoDataValue}
+                  key={index}
+                  activeTab={activeApi}
+                  pageName="stockRecosPage"
+                />
+              );
+            },
+          )}
+        </div>
+      ) : (
+        <div className={`${styles.listingWrap} ${styles.noDataFound}`}>
+          <Blocker type={"noDataFound"} />
+        </div>
+      )}
     </>
   );
 };

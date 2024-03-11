@@ -13,7 +13,7 @@ export default async function stocksrecos({
     slug: string[];
   };
 }) {
-  console.log("params.slug", params.slug);
+  console.log("params.slug ----> ", params.slug);
 
   const { slug } = params || [];
 
@@ -75,6 +75,7 @@ export default async function stocksrecos({
   //console.log("recosNavResult--", recosDetailResult);
   const intFilter = 0;
   const selectedFilter = await getSelectedFilter(intFilter);
+
   return (
     <>
       <div className={styles.recosPageWrap}>
@@ -87,20 +88,22 @@ export default async function stocksrecos({
             stocks.
           </p>
         </div>
-        <Subhead
+        <StockRecosListing
           showIndexFilter={true}
-          selectedFilter={selectedFilter}
           recosNavResult={recosNavResult}
+          recosDetailResult={await getStockRecosDetail()}
+          selectedFilter={selectedFilter}
+          activeApi={getApiType()}
           activeTab={slug?.[0]}
           slug={slug}
         />
-        <StockRecosListing
+        {/* <StockRecosOverview
           recosNavResult={recosNavResult}
           recosDetailResult={await getStockRecosDetail()}
           selectedFilter={selectedFilter}
           activeApi={getApiType()}
           slug={slug}
-        />
+        /> */}
       </div>
     </>
   );

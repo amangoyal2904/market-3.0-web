@@ -31,7 +31,7 @@ const ScrollableTable = (props: any) => {
       className={styles.scrollableWrapper}
       onScroll={scrollRightPos}
     >
-      <table className={styles.watchListTable}>
+      <table className={styles.marketsCustomTable}>
         <thead
           style={{
             transform: `translateY(${isHeaderSticky ? (headerSticky > topScrollHeight ? headerSticky - topScrollHeight : 0) : 0}px)`,
@@ -68,7 +68,7 @@ const ScrollableTable = (props: any) => {
                           <span
                             className={`${
                               sortData.field == thead.keyId &&
-                              sortData.order == "asc"
+                              sortData.order == "ASC"
                                 ? styles.asc
                                 : ""
                             } eticon_up_arrow`}
@@ -76,7 +76,7 @@ const ScrollableTable = (props: any) => {
                           <span
                             className={`${
                               sortData.field == thead.keyId &&
-                              sortData.order == "desc"
+                              sortData.order == "DESC"
                                 ? styles.desc
                                 : ""
                             } eticon_down_arrow`}

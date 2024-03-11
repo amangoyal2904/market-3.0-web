@@ -119,7 +119,7 @@ const Intraday = async ({ searchParams }: any) => {
       bodyParams,
       isprimeuser,
       ssoid,
-      "marketstatsIntraday",
+      "MARKETSTATS_INTRADAY",
     );
 
   const selectedFilter = await getSelectedFilter(intFilter);

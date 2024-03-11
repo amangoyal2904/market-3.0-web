@@ -3,5 +3,6 @@
   "stockrecos": "60000",
   "marketcloseapi": "10000",
   "livemarketdata": "20000",
-  "watchlist": "30000"
+  "watchlist": "30000",
+  "stocksScreener": "600000"
 }

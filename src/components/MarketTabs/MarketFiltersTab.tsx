@@ -39,6 +39,7 @@ const MarketFiltersTab = ({
     showPersonalize,
     showExport,
     showCreateScreener,
+    showIndustryFilter,
   } = tabConfig;
   const personaliseDataListItem =
     data && data.length > 0
@@ -151,6 +152,15 @@ const MarketFiltersTab = ({
         ) : (
           ""
         )}
+
+        {showIndustryFilter ? (
+          <span className={`${styles.roundBtn} ${styles.fitlerDay}`}>
+            Industry <i className="eticon_caret_down"></i>
+          </span>
+        ) : (
+          ""
+        )}
+
         {showIndexFilter ? (
           <span
             className={`${styles.roundBtn} ${styles.filterNseBse}`}

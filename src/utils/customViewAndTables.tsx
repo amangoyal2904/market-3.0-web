@@ -3,7 +3,7 @@ import { APP_ENV } from "@/utils";
 import Service from "@/network/service";
 
 const fetchTabsData = async ({ type, ssoid }: any) => {
-  let apiUrl = `${(APIS_CONFIG as any)?.["watchListTab"][APP_ENV]}`;
+  let apiUrl = `${(APIS_CONFIG as any)?.["MARKETS_CUSTOM_TAB"][APP_ENV]}`;
   if (type != "watchlist") {
     apiUrl += `?statstype=${type}`;
   }
@@ -40,6 +40,9 @@ const fetchViewTable = async (
   apiType: any,
 ) => {
   const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
+  if (apiType == "MARKETSTATS_TECHNICALS") {
+    delete bodyParams.apiType;
+  }
   const response = await Service.post({
     url: apiUrl,
     headers: {
@@ -112,11 +115,16 @@ export const getCustomViewTable = async (
       tableHeaderData = tableData[0].data;
     }
   }
+  let screenerDetail: any = {};
+  if (responseData && responseData.screenerDetail) {
+    screenerDetail = { ...responseData.screenerDetail };
+  }
   return {
     tableHeaderData,
     tableData,
     pageSummary,
     payload: bodyParams,
+    screenerDetail,
   };
 };
 

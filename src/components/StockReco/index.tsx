@@ -47,7 +47,7 @@ const StockComponent: React.FC<Props> = ({ data, activeTab, pageName }) => {
     default:
       stockMainClass = styles.buyStock;
   }
-  // console.log("##" + activeTab + "--- >", data);
+  console.log("##" + activeTab + "--- >", data);
   return (
     <>
       {activeTab == "recoByFH" ? (
@@ -80,7 +80,7 @@ const StockComponent: React.FC<Props> = ({ data, activeTab, pageName }) => {
         </div>
       ) : (
         <div
-          className={`${pageName == "stockRecosPage" ? styles.stockRecosPage : ""} ${activeTab === "newRecos" ? `${styles.stocksMain} ${stockMainClass} ${styles.stockGap}` : `${styles.stocksMain} ${stockMainClass}`}`}
+          className={`${styles[pageName]} ${activeTab === "newRecos" ? `${styles.stocksMain} ${stockMainClass} ${styles.stockGap}` : `${styles.stocksMain} ${stockMainClass}`}`}
         >
           <div className={styles.stocksBox}>
             {/* {activeTab == "newRecos" && ( */}
@@ -152,7 +152,12 @@ const StockComponent: React.FC<Props> = ({ data, activeTab, pageName }) => {
               className={styles.viewReportBox}
               target="_blank"
             >
-              <span className={`eticon_srplus ${styles.pdfIcon}`}></span>
+              <span className={`eticon_pdf ${styles.pdfIcon}`}>
+                <span className="path1"></span>
+                <span className="path2"></span>
+                <span className="path3"></span>
+                <span className="path4"></span>
+              </span>
               <span className={styles.viewReport}>View Report</span>
             </a>
           )}

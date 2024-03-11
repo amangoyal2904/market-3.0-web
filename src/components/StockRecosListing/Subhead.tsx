@@ -7,8 +7,15 @@ import { fetchFilters, getSelectedFilter } from "@/utils/utility";
 import Link from "next/link";
 
 const Subhead = (props: any) => {
-  const { showIndexFilter, selectedFilter, recosNavResult, activeTab, slug } =
-    props;
+  const {
+    showIndexFilter,
+    selectedFilter,
+    recosNavResult,
+    activeTab,
+    slug,
+    activeItem,
+    setActiveItem,
+  } = props;
   const [showFilter, setShowFilter] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
@@ -47,6 +54,7 @@ const Subhead = (props: any) => {
   const handleLowerCase = (item: any) => {
     return item.toLowerCase();
   };
+
   // ====  Here only Filter tabs code end  here
 
   //console.log("recosNavResult---", recosNavResult);
@@ -73,34 +81,50 @@ const Subhead = (props: any) => {
             </li>
           ))}
         </ul>
-        <div className={styles.actionBarWrap}>
-          {/* <div className={styles.sortByWrap}>
-            <span className={styles.sortByText}>Sort By:</span>
-            <select className={styles.sortByDD}>
-              <option>Performance High to Low</option>
-              <option>Performance Low to High</option>
-            </select>
-          </div> */}
-          <div
-            onClick={() => showFilterMenu(true)}
-            className={styles.niftyWrap}
-          >
-            <div className={styles.niftyBtn}>
-              <span className="eticon_filter"></span>
-              <span>{niftyFilterData?.name}</span>
+        {slug?.[0] != "overview" && (
+          <div className={styles.actionBarWrap}>
+            {/* <div className={styles.sortByWrap}>
+              <span className={styles.sortByText}>Sort By:</span>
+              <select className={styles.sortByDD}>
+                <option>Performance High to Low</option>
+                <option>Performance Low to High</option>
+              </select>
+            </div> */}
+            {slug?.[0] != "fundhousedetails" && (
+              <div
+                onClick={() => showFilterMenu(true)}
+                className={styles.niftyWrap}
+              >
+                <div className={styles.niftyBtn}>
+                  <span className="eticon_filter"></span>
+                  <span>{niftyFilterData?.name}</span>
+                </div>
+              </div>
+            )}
+            <div className={styles.listingTypeWrap}>
+              <ul className={styles.listingType}>
+                <li
+                  key="listytpe_grid"
+                  className={
+                    activeItem === "listytpe_card" ? styles.active : ""
+                  }
+                  onClick={() => setActiveItem("listytpe_card")}
+                >
+                  <span className="eticon_grid_view"></span>
+                </li>
+                <li
+                  key="listytpe_view"
+                  className={
+                    activeItem === "listytpe_table" ? styles.active : ""
+                  }
+                  onClick={() => setActiveItem("listytpe_table")}
+                >
+                  <span className="eticon_list_view"></span>
+                </li>
+              </ul>
             </div>
           </div>
-          <div className={styles.listingTypeWrap}>
-            <ul className={styles.listingType}>
-              <li key="listytpe_grid" className={styles.active}>
-                <span className="eticon_grid_view"></span>
-              </li>
-              <li key="listytpe_view">
-                <span className="eticon_list_view"></span>
-              </li>
-            </ul>
-          </div>
-        </div>
+        )}
       </div>
       {showFilter && (
         <StockFilterNifty

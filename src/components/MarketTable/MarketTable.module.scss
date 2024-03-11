@@ -57,7 +57,7 @@
   }
 }
 
-.watchListTable {
+.marketsCustomTable {
   //   border: solid 1px #ddd;
   width: 100%;
   border-collapse: collapse;
@@ -144,7 +144,7 @@
     border-collapse: collapse;
     overflow: auto;
     border-left: 1px solid rgb(244, 244, 244);
-    #thead {
+    thead {
       position: relative;
       z-index: 1;
     }
@@ -188,8 +188,8 @@
   position: absolute;
   right: 10px;
   span {
-    font-size: 12px;
-    margin-right: -5px;
+    font-size: 16px;
+    margin-right: -8px;
     color: $gray_60;
   }
   .asc {
@@ -201,18 +201,18 @@
 }
 
 .arrowIcons {
-  font-size: 11px;
+  font-size: 16px;
   margin-left: 7px;
-  // float: right;
-  // margin-right: 5px;
+  vertical-align: bottom;
 }
 .searchWrapper {
   position: relative;
   font-size: 12px;
   span {
     position: absolute;
-    top: 3px;
-    right: 15px;
+    top: 0;
+    right: 10px;
+    font-size: initial;
   }
 }
 .tdColWrap {
