@@ -1,5 +1,4 @@
 import APIS_CONFIG from "@/network/api_config.json";
-import GLOBAL_CONFIG from "@/network/global_config.json";
 import {
   APP_ENV,
   dateFormat,
@@ -486,9 +485,9 @@ export const fetchIndustryFilters = async (query: string) => {
   return resData;
 };
 
-export const getOverviewData = async (indexid: number) => {
+export const getOverviewData = async (indexid: number, pageno: number) => {
   const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.MARKETMOODS_OVERVIEW[APP_ENV]}?indexid=${indexid}&pageno=1&pagesize=10`,
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_OVERVIEW[APP_ENV]}?indexid=${indexid}&pageno=${pageno}&pagesize=13`,
     params: {},
   });
   const originalJson = await response?.json();
@@ -514,9 +513,13 @@ export const getOverviewData = async (indexid: number) => {
   };
 };
 
-export const getAdvanceDeclineData = async (indexid: number) => {
+export const getAdvanceDeclineData = async (
+  indexid: number,
+  duration: string,
+  pageno: number,
+) => {
   const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.MARKETMOODS_ADVANCEDECLINE[APP_ENV]}?indexid=${indexid}&pageno=1&pagesize=10`,
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_ADVANCEDECLINE[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=6`,
     params: {},
   });
   const originalJson = await response?.json();
@@ -544,9 +547,13 @@ export const getAdvanceDeclineData = async (indexid: number) => {
   };
 };
 
-export const getPeriodicData = async (indexid: number) => {
+export const getPeriodicData = async (
+  indexid: number,
+  duration: string,
+  pageno: number,
+) => {
   const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.MARKETMOODS_PERIODIC[APP_ENV]}?indexid=${indexid}&pageno=1&pagesize=10`,
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_PERIODIC[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=6`,
     params: {},
   });
   const originalJson = await response?.json();

@@ -1,25 +1,23 @@
 "use client";
 import { useState } from "react";
 import styles from "./MarketMood.module.scss";
+import {
+  countPercentageOptions,
+  durationOptions,
+  monthlyDailyOptions,
+} from "./config";
 
-const durationOptions = [
-  { label: "1M", value: "1M", id: 1 },
-  { label: "3M", value: "3M", id: 2 },
-  { label: "6M", value: "6M", id: 3 },
-  { label: "1Y", value: "1Y", id: 4 },
-];
-
-const countPercentageOptions = [
-  { label: "Count", value: "count", id: 1 },
-  { label: "Percentage", value: "percentage", id: 2 },
-];
-
-const monthlyDailyOptions = [
-  { label: "Daily", value: "daily", id: 1 },
-  { label: "Monthly", value: "monthly", id: 2 },
-];
-
-const MarketMoodHeader = ({ heading, niftyFilterData, config }: any) => {
+const MarketMoodHeader = ({
+  heading,
+  niftyFilterData,
+  config,
+  countPercentage,
+  handleCountPercentage,
+  duration,
+  handleDuration,
+  monthlyDaily,
+  handleMonthlyDaily,
+}: any) => {
   const {
     showIndexFilter,
     showDuration,
@@ -27,23 +25,8 @@ const MarketMoodHeader = ({ heading, niftyFilterData, config }: any) => {
     showMonthlyDaily,
   } = config;
   const [showFilter, setShowFilter] = useState(false);
-  const [duration, setDuration] = useState("1M");
-  const [countPercentage, setCountPercentage] = useState("count");
-  const [monthlyDaily, setMonthlyDaily] = useState("daily");
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);
-  };
-
-  const handleDuration = (item: string) => {
-    setDuration(item);
-  };
-
-  const handleCountPercentage = (item: string) => {
-    setCountPercentage(item);
-  };
-
-  const handleMonthlyDaily = (item: string) => {
-    setMonthlyDaily(item);
   };
 
   return (
