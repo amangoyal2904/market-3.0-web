@@ -22,9 +22,13 @@ const MarketMoods = async ({ params }: any) => {
     advacneDeclineData,
     periodicData = null;
   // if (isprimeuser) {
-  overviewData = await getOverviewData(niftyFilterData.indexId);
-  advacneDeclineData = await getAdvanceDeclineData(niftyFilterData.indexId);
-  periodicData = await getPeriodicData(niftyFilterData.indexId);
+  overviewData = await getOverviewData(niftyFilterData.indexId, 1);
+  advacneDeclineData = await getAdvanceDeclineData(
+    niftyFilterData.indexId,
+    "daily",
+    1,
+  );
+  periodicData = await getPeriodicData(niftyFilterData.indexId, "1M", 1);
   // }
 
   return (

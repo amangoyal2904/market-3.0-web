@@ -2,37 +2,13 @@
 
 import styles from "./MarketMoods.module.scss";
 import React, { useState, useEffect, useRef } from "react";
-import MarketMoodTabConfig from "@/utils/marketMoodTabConfig.json";
 import MarketMoodHeader from "@/components/MarketMood/SectionHeader";
 import FixedTableMarketMood from "@/components/MarketMood/FixedTable";
 import ScrollableTableMarketMood from "@/components/MarketMood/ScrollableTable";
 import ScrollableBarsTableMarketMood from "@/components/MarketMood/ScrollableBarsTable";
-
-const tabData = [
-  { label: "Overview", key: "overview" },
-  { label: "Periodic High/Low", key: "periodic" },
-  { label: "Advance/Decline", key: "advanceDecline" },
-  { label: "FAQ", key: "faq" },
-];
-
-const faqData = [
-  {
-    ques: "What is Market Mood?",
-    ans: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
-  },
-  {
-    ques: "How to read Market Mood?",
-    ans: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
-  },
-  {
-    ques: "How it will help you in your investment Journey ?",
-    ans: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
-  },
-  {
-    ques: "What value will Market Mood add to my decision making?",
-    ans: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
-  },
-];
+import { faqData, tabData } from "@/components/MarketMood/config";
+import MarketMoodTabConfig from "@/components/MarketMood/tabConfig.json";
+import { getAdvanceDeclineData, getPeriodicData } from "@/utils/utility";
 
 const MarketMoodsClient = ({
   isprimeuser = false,
@@ -41,7 +17,14 @@ const MarketMoodsClient = ({
   periodicData = {},
   niftyFilterData = {},
 }: any) => {
+  const [_overviewData, setOverviewData] = useState(overviewData);
+  const [_advacneDeclineData, setAdvacneDeclineData] =
+    useState(advacneDeclineData);
+  const [_periodicData, setPeriodicData] = useState(periodicData);
   const [activeItem, setActiveItem] = useState<string>("");
+  const [countPercentage, setCountPercentage] = useState("count");
+  const [duration, setDuration] = useState("1M");
+  const [monthlyDaily, setMonthlyDaily] = useState("daily");
   const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const scrollDisabledRef = useRef<boolean>(false); // Flag to disable/enable scroll listener
 
@@ -96,6 +79,26 @@ const MarketMoodsClient = ({
     scrollDisabledRef.current = true;
   };
 
+  const handleCountPercentage = (widgetType: string) => {
+    setCountPercentage(widgetType);
+  };
+
+  const handleDuration = async (item: string) => {
+    setDuration(item);
+    periodicData = await getPeriodicData(niftyFilterData.indexId, item, 1);
+    setPeriodicData(periodicData);
+  };
+
+  const handleMonthlyDaily = async (item: string) => {
+    setMonthlyDaily(item);
+    advacneDeclineData = await getAdvanceDeclineData(
+      niftyFilterData.indexId,
+      item,
+      1,
+    );
+    setAdvacneDeclineData(advacneDeclineData);
+  };
+
   return (
     <>
       <div className={styles.logo}>
@@ -143,13 +146,15 @@ const MarketMoodsClient = ({
           heading="Overview"
           niftyFilterData={niftyFilterData}
           config={MarketMoodTabConfig["overview"]}
+          countPercentage={countPercentage}
+          handleCountPercentage={handleCountPercentage}
         />
-        <div className={styles.tableWrapper} id="table">
-          <FixedTableMarketMood tableData={overviewData?.dataList} />
+        <div className={styles.tableWrapper}>
+          <FixedTableMarketMood tableData={_overviewData?.dataList} />
           <ScrollableTableMarketMood
-            tableHeader={overviewData?.labels}
-            tableData={overviewData?.dataList}
-            type="count"
+            tableHeader={_overviewData?.labels}
+            tableData={_overviewData?.dataList}
+            type={countPercentage}
           />
         </div>
       </div>
@@ -162,11 +167,13 @@ const MarketMoodsClient = ({
           heading="Periodic High/Low"
           niftyFilterData={niftyFilterData}
           config={MarketMoodTabConfig["periodic"]}
+          duration={duration}
+          handleDuration={handleDuration}
         />
-        <div className={styles.tableWrapper} id="table">
-          <FixedTableMarketMood tableData={periodicData?.dataList} />
+        <div className={styles.tableWrapper}>
+          <FixedTableMarketMood tableData={_periodicData?.dataList} />
           <ScrollableBarsTableMarketMood
-            tableData={periodicData?.dataList}
+            tableData={_periodicData?.dataList}
             type="periodic"
           />
         </div>
@@ -180,11 +187,13 @@ const MarketMoodsClient = ({
           heading="Advance/Decline"
           niftyFilterData={niftyFilterData}
           config={MarketMoodTabConfig["advanceDecline"]}
+          monthlyDaily={monthlyDaily}
+          handleMonthlyDaily={handleMonthlyDaily}
         />
-        <div className={styles.tableWrapper} id="table">
-          <FixedTableMarketMood tableData={advacneDeclineData?.dataList} />
+        <div className={styles.tableWrapper}>
+          <FixedTableMarketMood tableData={_advacneDeclineData?.dataList} />
           <ScrollableBarsTableMarketMood
-            tableData={advacneDeclineData?.dataList}
+            tableData={_advacneDeclineData?.dataList}
             type="advacneDecline"
           />
         </div>

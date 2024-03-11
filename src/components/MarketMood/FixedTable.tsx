@@ -1,15 +1,12 @@
 import styles from "./MarketMood.module.scss";
 
-const FixedTableMarketMood = ({
-  tableData = null,
-  widget = "overview",
-}: any) => {
+const FixedTableMarketMood = ({ tableData = null }: any) => {
   return (
     <div id="fixedTable" className={styles.fixedWrapper}>
       <table className={styles.marketsCustomTable}>
         <thead id="thead">
           <tr className={styles.leftThWrapper}>
-            <th>Date</th>
+            <th className={styles.firstTh}>Date</th>
             <th>Price</th>
             <th>Chg%</th>
           </tr>
@@ -19,8 +16,8 @@ const FixedTableMarketMood = ({
             return (
               <tr key={index}>
                 <td>{item.date}</td>
-                <td>{item.indexPrice}</td>
-                <td className={item.trend}>
+                <td className="numberFonts">{item.indexPrice}</td>
+                <td className={`${item.trend} numberFonts`}>
                   {item.percentChange}{" "}
                   {item.trend && (
                     <span
