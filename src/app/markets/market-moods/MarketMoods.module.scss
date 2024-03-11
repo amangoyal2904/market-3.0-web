@@ -34,8 +34,12 @@
   position: relative;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px 10px 0;
+  padding: 10px 20px 10px 0;
   column-gap: 30px;
+  position: sticky;
+  background: #fff;
+  top: 55px;
+  z-index: 4;
   .tabsList {
     margin: 0;
     padding: 0;

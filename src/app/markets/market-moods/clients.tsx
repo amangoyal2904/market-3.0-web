@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./MarketMoods.module.scss";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import MarketMoodTabConfig from "@/utils/marketMoodTabConfig.json";
 import MarketMoodHeader from "@/components/MarketMood/SectionHeader";
 import FixedTableMarketMood from "@/components/MarketMood/FixedTable";
@@ -10,7 +10,7 @@ import ScrollableTableMarketMood from "@/components/MarketMood/ScrollableTable";
 const tabData = [
   { label: "Overview", key: "overview" },
   { label: "Periodic High/Low", key: "periodic" },
-  { label: "Advance/Decline", key: "advance-decline" },
+  { label: "Advance/Decline", key: "advanceDecline" },
   { label: "FAQ", key: "faq" },
 ];
 
@@ -40,24 +40,60 @@ const MarketMoodsClient = ({
   periodicData = {},
   niftyFilterData = {},
 }: any) => {
-  const [activeItem, setActiveItem] = useState<string>("overview");
+  const [activeItem, setActiveItem] = useState<string>("");
+  const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const scrollDisabledRef = useRef<boolean>(false); // Flag to disable/enable scroll listener
+
+  useEffect(() => {
+    // Check if there's a hash in the URL
+    const hash = window.location.hash.substr(1);
+    if (hash) {
+      // If there is, set the active item to the hash value
+      setActiveItem(hash);
+    }
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup the event listener
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Scroll to the active item's content when activeItem changes
+    scrollToActiveContent();
+  }, [activeItem]);
+
+  const scrollToActiveContent = () => {
+    const element = document.getElementById(activeItem);
+    if (element) {
+      const offset = element.offsetTop - 120;
+      window.scrollTo({ top: offset, behavior: "smooth" });
+      setTimeout(() => {
+        scrollDisabledRef.current = false;
+      }, 500);
+    }
+  };
+
+  const handleScroll = () => {
+    if (!scrollDisabledRef.current) {
+      for (const [key, value] of Object.entries(contentRefs.current)) {
+        if (value) {
+          const rect = value.getBoundingClientRect();
+          if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+            setActiveItem(key);
+          }
+        }
+      }
+    }
+  };
 
   const handleItemClick = (item: string) => {
     setActiveItem(item);
+    scrollDisabledRef.current = true;
   };
-
-  useEffect(() => {
-    const hash = window.location.hash.substr(1);
-    if (hash) {
-      setActiveItem(hash);
-    } else {
-      setActiveItem(activeItem);
-    }
-    const element = document.getElementById(activeItem);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [activeItem]);
 
   return (
     <>
@@ -84,7 +120,12 @@ const MarketMoodsClient = ({
               <li
                 key={item.key}
                 onClick={() => handleItemClick(item.key)}
-                className={activeItem === item.key ? styles.active : ""}
+                className={
+                  activeItem === item.key ||
+                  (activeItem == "" && item.key == "overview")
+                    ? styles.active
+                    : ""
+                }
               >
                 {item.label}
               </li>
@@ -92,7 +133,11 @@ const MarketMoodsClient = ({
           })}
         </ul>
       </div>
-      <section id="overview" className={styles.section}>
+      <div
+        id="overview"
+        className={styles.section}
+        ref={(ref) => (contentRefs.current["overview"] = ref)}
+      >
         <MarketMoodHeader
           heading="Overview"
           niftyFilterData={niftyFilterData}
@@ -104,26 +149,55 @@ const MarketMoodsClient = ({
             tableHeader={overviewData?.labels}
             tableData={overviewData?.dataList}
             type="count"
+            widget="overview"
           />
         </div>
-      </section>
-      <section id="periodic" className={styles.section}>
+      </div>
+      <div
+        id="periodic"
+        className={styles.section}
+        ref={(ref) => (contentRefs.current["periodic"] = ref)}
+      >
         <MarketMoodHeader
           heading="Periodic High/Low"
           niftyFilterData={niftyFilterData}
           config={MarketMoodTabConfig["periodic"]}
         />
-        <p>This is the content for Item 2.</p>
-      </section>
-      <section id="advance-decline" className={styles.section}>
+        <div className={styles.tableWrapper} id="table">
+          <FixedTableMarketMood tableData={overviewData?.dataList} />
+          <ScrollableTableMarketMood
+            tableHeader={overviewData?.labels}
+            tableData={overviewData?.dataList}
+            type="count"
+            widget="overview"
+          />
+        </div>
+      </div>
+      <div
+        id="advanceDecline"
+        className={styles.section}
+        ref={(ref) => (contentRefs.current["advanceDecline"] = ref)}
+      >
         <MarketMoodHeader
           heading="Advance/Decline"
           niftyFilterData={niftyFilterData}
           config={MarketMoodTabConfig["advanceDecline"]}
         />
-        <p>This is the content for Item 3.</p>
-      </section>
-      <section id="faq" className={styles.faq}>
+        <div className={styles.tableWrapper} id="table">
+          <FixedTableMarketMood tableData={overviewData?.dataList} />
+          <ScrollableTableMarketMood
+            tableHeader={overviewData?.labels}
+            tableData={overviewData?.dataList}
+            type="count"
+            widget="overview"
+          />
+        </div>
+      </div>
+      <div
+        id="faq"
+        className={styles.faq}
+        ref={(ref) => (contentRefs.current["faq"] = ref)}
+      >
         <div className={styles.head}>Frequently Asked Questions</div>
         {faqData.map((item: any, index: number) => {
           return (
@@ -133,7 +207,7 @@ const MarketMoodsClient = ({
             </div>
           );
         })}
-      </section>
+      </div>
     </>
   );
 };
