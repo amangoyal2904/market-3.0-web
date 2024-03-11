@@ -1,3 +1,5 @@
+@import "./variables.scss";
+
 @font-face {
   font-family: "Montserrat";
   src: url("/fonts/Montserrat-VariableFont_wght.woff2")
@@ -598,15 +600,16 @@ a {
 table {
   td {
     &.up {
-      color: #0d875c;
+      color: $green-80;
     }
     &.down {
-      color: #d51131;
+      color: $red-60;
     }
   }
 }
 .numberFonts {
   font-family: Lato, sans-serif;
+  color: $gray-40;
 }
 .container {
   display: flex;

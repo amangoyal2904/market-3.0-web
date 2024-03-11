@@ -6,7 +6,7 @@ const FixedTableMarketMood = ({ tableData = null }: any) => {
       <table className={styles.marketsCustomTable}>
         <thead id="thead">
           <tr className={styles.leftThWrapper}>
-            <th>Date</th>
+            <th className={styles.firstTh}>Date</th>
             <th>Price</th>
             <th>Chg%</th>
           </tr>
@@ -16,8 +16,8 @@ const FixedTableMarketMood = ({ tableData = null }: any) => {
             return (
               <tr key={index}>
                 <td>{item.date}</td>
-                <td>{item.indexPrice}</td>
-                <td className={item.trend}>
+                <td className="numberFonts">{item.indexPrice}</td>
+                <td className={`${item.trend} numberFonts`}>
                   {item.percentChange}{" "}
                   {item.trend && (
                     <span

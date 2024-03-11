@@ -89,12 +89,15 @@
     font-style: normal;
     font-weight: 500;
     height: 40px;
-    color: $black;
     font-style: normal;
     line-height: 18px;
     text-align: right;
     text-overflow: ellipsis;
     white-space: nowrap;
+    &:first-child {
+      font-weight: 600;
+      text-align: left;
+    }
     &.noData {
       padding: 0;
     }
@@ -149,10 +152,7 @@
   }
 
   .firstTh {
-    width: 200px;
-    min-width: 200px;
     text-align: left;
-    cursor: pointer;
   }
 
   tr {

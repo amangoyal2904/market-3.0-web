@@ -136,6 +136,7 @@ const WatchlistAddition = ({
           style={mergedStyle}
           onClick={handleWatchListClick}
           className={styles.watchlistPlusWrap}
+          title="Add to watchlist"
         >
           {loadingStatus ? (
             <div className={styles.loading}>
