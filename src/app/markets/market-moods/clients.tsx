@@ -3,9 +3,9 @@
 import styles from "./MarketMoods.module.scss";
 import { useEffect, useState } from "react";
 import MarketMoodTabConfig from "@/utils/marketMoodTabConfig.json";
-import MarketMoodHeader from "@/components/MarketMood/MarketMoodHeader";
-import FixedTableMarketMood from "@/components/MarketMood/FixedTableMarketMood";
-import ScrollableTableMarketMood from "@/components/MarketMood/ScrollableTableMarketMood";
+import MarketMoodHeader from "@/components/MarketMood/SectionHeader";
+import FixedTableMarketMood from "@/components/MarketMood/FixedTable";
+import ScrollableTableMarketMood from "@/components/MarketMood/ScrollableTable";
 
 const tabData = [
   { label: "Overview", key: "overview" },

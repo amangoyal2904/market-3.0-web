@@ -95,8 +95,12 @@
     text-align: right;
     text-overflow: ellipsis;
     white-space: nowrap;
+    &.noData {
+      padding: 0;
+    }
     &.withTiles {
-      padding: 2px 4px;
+      padding: 3px 8px;
+      max-width: 142px;
     }
     &.fullWidth {
       width: 100%;
@@ -122,6 +126,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
+    &.noData {
+      padding: 0;
+    }
     &.enableSort {
       cursor: pointer;
     }
@@ -224,6 +231,8 @@
   text-align: center;
   padding: 8px 0;
   border-radius: 2px;
+  width: 123px;
+  height: 32px;
 }
 
 .ORANGE {
