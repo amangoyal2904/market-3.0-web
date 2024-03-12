@@ -177,7 +177,6 @@ const MarketFiltersTab = ({
         ) : (
           ""
         )}
-
         {showIndustryFilter ? (
           <span className={`${styles.roundBtn} ${styles.industryFiler}`}>
             <span
@@ -199,7 +198,6 @@ const MarketFiltersTab = ({
         ) : (
           ""
         )}
-
         {showIndexFilter ? (
           <span
             className={`${styles.roundBtn} ${styles.filterNseBse}`}
@@ -211,7 +209,7 @@ const MarketFiltersTab = ({
         ) : (
           ""
         )}
-        {showDuration ? (
+        {showDuration && !!dayFilterData.value ? (
           <div
             className={`${styles.roundBtn} ${styles.fitlerDay}`}
             onClick={() => dayFilterHandler()}
@@ -240,7 +238,6 @@ const MarketFiltersTab = ({
         ) : (
           ""
         )}
-
         {showEditStock && watchlistDataLength > 0 ? (
           <>
             {showTableCheckBox ? (
@@ -262,7 +259,6 @@ const MarketFiltersTab = ({
         ) : (
           ""
         )}
-
         {showPersonalize ? (
           <span
             className={styles.roundBtn}
