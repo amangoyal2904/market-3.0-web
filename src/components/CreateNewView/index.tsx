@@ -4,7 +4,6 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import NameViewComponent from "./createmodule";
-
 const CreateNewViewComponent = ({
   closePopCreateView,
   editmode,
@@ -70,6 +69,7 @@ const CreateNewViewComponent = ({
     }
   };
   const saveUserPersonaliseAPICall = async () => {
+    const modeOfPersonaliseView = editmode?.viewId !== "" ? "update" : "new";
     const ssoid = window.objUser?.ssoid;
     const updatedOrder: any[] = [];
     selectedView.map((item: any) => {
@@ -103,7 +103,7 @@ const CreateNewViewComponent = ({
       const viewId: any = resData.viewId || "";
       closePopCreateView(false);
       //alert(resData.response)
-      onPersonalizeHandler(viewId);
+      onPersonalizeHandler(viewId, modeOfPersonaliseView);
     } else {
       alert("some error please check api or code");
     }

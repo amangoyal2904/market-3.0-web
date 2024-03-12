@@ -1,0 +1,64 @@
+@import "../../styles/variables.scss";
+
+.messageWrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  z-index: 999;
+}
+.sec {
+  min-width: 400px;
+  display: inline-block;
+  position: relative;
+  margin-top: 100px;
+  text-align: left;
+  padding: 16px 24px 16px 24px;
+  border: solid 1px $green-80;
+  border-left-width: 4px;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.16);
+  z-index: 9;
+  background: $white;
+}
+.success.sec {
+  border-color: $green-80;
+}
+.sec.failure {
+  border-color: $red-60;
+}
+.modalSec {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+  column-gap: 16px;
+  .textHead {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+  }
+  .closePopup {
+    width: 24px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    &::after,
+    &::before {
+      content: "";
+      position: absolute;
+      left: 5px;
+      right: 5px;
+      top: 12px;
+      border-top: solid 2px $gray-30;
+    }
+    &::after {
+      transform: rotate(45deg);
+    }
+    &::before {
+      transform: rotate(-45deg);
+    }
+  }
+}
