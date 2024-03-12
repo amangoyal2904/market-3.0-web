@@ -1,0 +1,69 @@
+.dayFilter {
+  position: absolute;
+  right: 0;
+  top: 30px;
+  background: #ffffff;
+  width: 390px;
+  z-index: 99;
+  border: solid 1px rgba(204, 204, 204, 1);
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  .wrap {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    position: relative;
+    z-index: 99;
+  }
+  .header {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    padding: 16px;
+    border-bottom: solid 1px rgb(204, 204, 204);
+  }
+  .body {
+    margin: 0;
+    padding: 0;
+    ul {
+      margin: 0;
+      padding: 0 0 5px 0;
+      list-style-type: none;
+      height: 50vh;
+      overflow-y: auto;
+      li {
+        border-bottom: solid 1px rgba(204, 204, 204, 1);
+        padding: 5px 10px;
+        label {
+          font-size: 12px;
+          display: inline-block;
+          vertical-align: top;
+          cursor: pointer;
+          margin-left: 5px;
+          font-weight: 400;
+        }
+        input {
+          display: inline-block;
+          vertical-align: top;
+          cursor: pointer;
+          margin-top: 2px;
+          &:checked ~ label {
+            font-weight: 700;
+          }
+        }
+        &:last-child {
+          border: none;
+        }
+      }
+    }
+  }
+}
+.overlay {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 1;
+}

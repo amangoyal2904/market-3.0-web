@@ -57,6 +57,10 @@
     "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout",
     "production": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout"
   },
+  "INDEX_FILTERS": {
+    "development": "https://etapipre.indiatimes.com/api/indexfilters",
+    "production": "https://etapipre.indiatimes.com/api/indexfilters"
+  },
   "MARKETS_CUSTOM_TAB": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
     "production": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview"
@@ -72,6 +76,18 @@
   "MARKETSTATS_INTRADAY": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats",
     "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"
+  },
+  "MARKETMOODS_OVERVIEW": {
+    "development": "https://screener.indiatimes.com/screener/marketbreadth/overview",
+    "production": "https://screener.indiatimes.com/screener/marketbreadth/overview"
+  },
+  "MARKETMOODS_ADVANCEDECLINE": {
+    "development": "https://screener.indiatimes.com/screener/advancedecline",
+    "production": "https://screener.indiatimes.com/screener/advancedecline"
+  },
+  "MARKETMOODS_PERIODIC": {
+    "development": "https://screener.indiatimes.com/screener/periodic",
+    "production": "https://screener.indiatimes.com/screener/periodic"
   },
   "liveStream": {
     "development": "https://json.bselivefeeds.indiatimes.com/ET_WebCast/getEventData",
@@ -280,5 +296,13 @@
   "screenerL3Nav": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType",
     "production": "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
+  },
+  "industryFilter": {
+    "development": "https://json.bselivefeeds.indiatimes.com/ET_Community/sectors",
+    "production": "https://json.bselivefeeds.indiatimes.com/ET_Community/sectors"
+  },
+  "SaveScreenerAPI": {
+    "development": "https://qcbselivefeeds.indiatimes.com/screener/saveUserScreener",
+    "production": "https://screener.indiatimes.com/screener/saveUserScreener"
   }
 }

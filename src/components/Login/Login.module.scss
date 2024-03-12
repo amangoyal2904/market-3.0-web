@@ -1,7 +1,7 @@
 @import "../../styles/variables.scss";
 
 .defaultLink {
-  color: $blue_secondary_90;
+  color: $blue-90;
   cursor: pointer;
   margin-left: 4px;
   padding: 5px, 8px, 5px, 8px;
@@ -52,12 +52,12 @@
     .userFChar {
       width: 34px;
       height: 34px;
-      background: $blue_secondary_60;
+      background: $blue-60;
       display: flex;
       justify-content: center;
       align-items: center;
       font-size: 12px;
-      color: $color-white;
+      color: $white;
       font-weight: 700;
     }
   }
@@ -68,7 +68,7 @@
     border: 1px solid;
     right: 0;
     display: none;
-    background: $color-white;
+    background: $white;
     padding: 12px;
     border: 1px solid $gray_90;
     background-color: $gray_95;
@@ -90,7 +90,7 @@
           margin: 0 4px;
         }
         img {
-          background-color: $color-black;
+          background-color: $black;
           padding: 1px 8px 1px 8px;
           border-radius: 16px;
         }
@@ -107,7 +107,7 @@
 
     .ddListWrap {
       list-style: none;
-      background-color: $color-white;
+      background-color: $white;
       padding: 0 12px;
       border-radius: 4px;
 
@@ -148,18 +148,17 @@
 
   &.primeMenu {
     .menuListWrap {
-      background: linear-gradient(
-          0deg,
-          $salmon_secondary_20,
-          $salmon_secondary_20
-        ),
-        linear-gradient(0deg, $salmon_secondary_50, $salmon_secondary_50);
+      background: linear-gradient(0deg, $salmon-20, $salmon-20),
+        linear-gradient(0deg, $salmon-50, $salmon-50);
       box-shadow: 0px 0px 4px 0px #0000001a;
-      border: 1px solid $salmon_secondary_50;
+      border: 1px solid $salmon-50;
     }
 
     .userProfile {
       margin-left: 24px;
     }
   }
+}
+.rght12 {
+  margin-right: 12px;
 }

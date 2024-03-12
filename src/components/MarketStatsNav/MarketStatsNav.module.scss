@@ -1,4 +1,4 @@
-@import "../../styles/variables.scss";
+@import "@/styles/variables.scss";
 .navWrap {
   width: 180px;
   transition: width 0.1s ease;
@@ -36,17 +36,20 @@
     font-weight: 400;
     margin-bottom: 3px;
   }
-  ul.subNavWrap li a:hover {
-    color: red;
-  }
   .collapsed + .subNavWrap {
     display: none;
   }
   .expanded + .subNavWrap {
     display: block;
-    li.active {
-      background-color: $salmon_secondary_50;
-      font-weight: 600;
+    li {
+      &.active,
+      &.active:hover {
+        background-color: $salmon-40;
+        font-weight: 600;
+      }
+      &:hover {
+        background-color: $salmon-20;
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import MarketTable from "@/components/MarketTable";
 import styles from "./stockScreener.module.scss";
 import { useEffect, useState } from "react";
@@ -13,7 +14,30 @@ import StocksScreenerNav from "@/components/ScreenersAsideNav";
 import { removePersonalizeViewById } from "@/utils/utility";
 import { fetchViewTable } from "@/utils/utility";
 import { getCookie } from "@/utils";
+import { createNewScreener } from "@/utils/screeners";
 import { getScreenerTabViewData } from "@/utils/customViewAndTables";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils/index";
+const MessagePopupShow = dynamic(
+  () => import("@/components/MessagePopupShow"),
+  { ssr: false },
+);
+const CreateScreenerModule = dynamic(
+  () => import("@/components/CreateScreenerModule/CreateScreener"),
+  {
+    loading: () => (
+      <div className="customLoader">
+        <div className="loading">
+          <div className="loader"></div>
+        </div>
+      </div>
+    ),
+  },
+);
+const ScreenerNameViewPopup = dynamic(
+  () => import("@/components/CreateScreenerModule/Createmodule"),
+  { ssr: false },
+);
 const StockScreeners = ({
   l3Nav = [],
   metaData = {},
@@ -40,10 +64,22 @@ const StockScreeners = ({
   const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [_payload, setPayload] = useState(payload);
+  const [_screenerDetail, setScreenerDetail] = useState(screenerDetail);
   const [processingLoader, setProcessingLoader] = useState(false);
   const [toasterConfirmData, setToasterConfirmData] = useState({});
   const [toasterPersonaliseViewRemove, setToasterPersonaliseViewRemove] =
     useState(false);
+  const [createScreenerNamePopup, setCeateScreenerNamePopup] = useState(false);
+  const [createModuleScreener, setCreateModuleScreener] = useState(false);
+  const [screenerEditMode, setScreenerEditMode] = useState({
+    mode: false,
+    viewId: "",
+  });
+  const [screenerLoading, setScreenerLoading] = useState(false);
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [modalBodyText, setModalBodyText] = useState({
+    title: "You have Successfully created your personalise view",
+  });
 
   const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
@@ -81,35 +117,6 @@ const StockScreeners = ({
     router.push(newUrl, { scroll: false });
   };
 
-  const runQueryHandlerFun = async (query: any) => {
-    // const API_URL = `${(APIS_CONFIG as any)?.SCREENER?.getScreenerByScreenerId[APP_ENV]}`;
-    const API_URL = `https://screener.indiatimes.com/screener/getScreenerByScreenerId`;
-    const bodyparams = {
-      queryCondition: query.trim(),
-      filterValue: [],
-      pageno: 1,
-      pagesize: 25,
-      screenerId: scrid,
-    };
-
-    const data = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(bodyparams),
-    });
-    //return data.json()
-    const resData = await data.json();
-    console.log("query", query, _tabData);
-    console.log("resData", resData);
-    if (resData && resData.statusCode === 200) {
-      alert("Success Query run");
-      //setTabData([])
-    } else {
-      alert("Error : Incorrect Query");
-    }
-  };
   const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
     const { tabData, activeViewId } = await useScreenerTab();
     setTabData(tabData);
@@ -141,7 +148,20 @@ const StockScreeners = ({
       onPersonalizeHandlerfun();
     }
   };
-  const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
+  const onPersonalizeHandlerfun = async (newActiveId: any = "", mode = "") => {
+    if (mode === "update") {
+      setModalBodyText({
+        ...modalBodyText,
+        title: "You have successfully updated your personalize view",
+      });
+      setShowModalMessage(true);
+    } else if (mode === "new") {
+      setModalBodyText({
+        ...modalBodyText,
+        title: "You have successfully created your personalize view",
+      });
+      setShowModalMessage(true);
+    }
     setProcessingLoader(true);
     const { tabData, activeViewId } = await getScreenerTabViewData({
       type: "screenerGetViewById",
@@ -179,6 +199,92 @@ const StockScreeners = ({
     }
     setPayload({ ..._payload, sort: newSortConfig });
   };
+  const runQueryHandlerFun = async (query: any) => {
+    //setProcessingLoader(true);
+    //setPayload({ ..._payload, queryCondition:query.trim(), pageno: 1 });
+    setScreenerLoading(true);
+
+    const API_URL = (APIS_CONFIG as any)?.["screenerGetViewById"][APP_ENV];
+    const bodyparams = {
+      queryCondition: query.trim(),
+      filterValue: [],
+      pageno: 1,
+      pagesize: 25,
+      screenerId: scrid,
+    };
+
+    const data = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyparams),
+    });
+    const responseData = await data.json();
+    if (responseData && responseData.statusCode === 200) {
+      // const _pageSummary = !!responseData.pageSummary
+      //   ? responseData.pageSummary
+      //   : {};
+      // const _tableData = responseData?.dataList ? responseData.dataList : [];
+
+      // const _tableHeaderData =
+      //   _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
+      //     ? _tableData[0]?.data
+      //     : [];
+      // const _screenerDetails = !!responseData.screenerDetail
+      //   ? responseData.screenerDetail
+      //   : {};
+      // setTableData(_tableData);
+      // setTableHeaderData(_tableHeaderData);
+      // setPageSummary(_pageSummary);
+      // setScreenerDetail(_screenerDetails);
+      setScreenerLoading(false);
+      setCreateModuleScreener(false);
+      setMetaData({
+        ..._metaData,
+        title: "Unsaved Screener",
+        saveMode: "true",
+      });
+      setPayload({ ..._payload, queryCondition: query.trim() });
+    } else {
+      alert("Error : Incorrect Query");
+    }
+    setScreenerLoading(false);
+  };
+  const createNewScreenerFun = () => {
+    setCreateModuleScreener(true);
+  };
+  const cancelScreenerCreateFun = () => {
+    setCreateModuleScreener(false);
+  };
+  const closeModuleScreerHandler = () => {
+    setCreateModuleScreener(false);
+  };
+  const saveScreenerhandler = async () => {
+    setCeateScreenerNamePopup(true);
+  };
+  const screenerNameUpdateHandler = (value: any) => {
+    setMetaData({ ..._metaData, title: value });
+  };
+  const createViewNameHandlerHandler = async (value: any) => {
+    setCeateScreenerNamePopup(false);
+    setProcessingLoader(true);
+    const userInfo: any =
+      window.objUser && window.objUser.ssoid && window.objUser.ssoid !== ""
+        ? window.objUser
+        : {};
+    const screenerPayload = {
+      ssoEmailID: userInfo?.info?.loginId || "",
+      ssoid: userInfo?.ssoid || "",
+      name: _metaData?.title || "",
+      displayQuery: _screenerDetail?.displayQuery || "",
+      isActive: "1",
+      screenerType: "USER",
+      screenerId: "",
+    };
+    const resData = await createNewScreener(screenerPayload);
+    setProcessingLoader(false);
+  };
   const updateTableData = async () => {
     const responseData: any = await fetchViewTable(
       { ..._payload },
@@ -195,10 +301,14 @@ const StockScreeners = ({
       _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
         ? _tableData[0]?.data
         : [];
+    const _screenerDetails = !!responseData.screenerDetail
+      ? responseData.screenerDetail
+      : {};
     setTableData(_tableData);
     setTableHeaderData(_tableHeaderData);
     setPageSummary(_pageSummary);
     setProcessingLoader(false);
+    setScreenerDetail(_screenerDetails);
   };
   useEffect(() => {
     onSearchParamChange();
@@ -214,50 +324,99 @@ const StockScreeners = ({
 
   return (
     <>
-      <h1 className={styles.heading}>{_metaData.title}</h1>
-      <p className={styles.desc}>{_metaData.desc}</p>
+      <h1 className={styles.heading}>
+        {!createModuleScreener ? _metaData.title : "New Screener"}
+        {_metaData && _metaData.saveMode ? (
+          <span onClick={saveScreenerhandler} className={styles.saveMode}>
+            {" "}
+            <i
+              className="eticon_save
+          "
+            />
+            Save
+          </span>
+        ) : (
+          ""
+        )}
+      </h1>
+      {_metaData && _metaData.saveMode ? (
+        ""
+      ) : (
+        <p className={styles.desc}>{_metaData.desc}</p>
+      )}
+
       <div className={styles.container}>
-        <aside className={styles.lhs}>
-          <StocksScreenerNav leftNavResult={_l3Nav} activeId={scrid} />
-        </aside>
-        <div className={styles.rhs}>
-          <div className="tabsWrap">
-            <LeftMenuTabs
-              data={_tabData}
-              activeViewId={_activeViewId}
-              tabsViewIdUpdate={onTabViewUpdate}
-            />
-            <MarketFiltersTab
-              data={_tabData}
-              activeViewId={_activeViewId}
-              tabsViewIdUpdate={onTabViewUpdate}
-              dayFitlerHanlderChange={dayFitlerHanlderChange}
-              tabsUpdateHandler={TabsAndTableDataChangeHandler}
-              tabConfig={tabConfig}
-              // dayFilterData={dayFilterData}
-              // setDayFilterData={setDayFilterData}
-              onPersonalizeHandler={onPersonalizeHandlerfun}
-              removePersonaliseView={removePersonaliseViewFun}
-            />
-          </div>
-          <MarketTable
-            data={_tableData}
-            tableHeaders={_tableHeaderData}
-            pageSummary={_pageSummary}
-            tableConfig={tableConfig}
-            handleSortServerSide={onServerSideSort}
-            handlePageChange={onPaginationChange}
-            processingLoader={processingLoader}
+        {createModuleScreener ? (
+          <CreateScreenerModule
+            closeModuleScreenerNew={closeModuleScreerHandler}
+            runQueryhandler={runQueryHandlerFun}
+            editmode={screenerEditMode}
+            cancelScreenerCreate={cancelScreenerCreateFun}
+            screenerLoading={screenerLoading}
+            setScreenerLoading={setScreenerLoading}
           />
-          <div className="">
-            <QueryComponets data={screenerDetail} />
-          </div>
-        </div>
+        ) : (
+          <>
+            <aside className={styles.lhs}>
+              <StocksScreenerNav leftNavResult={_l3Nav} activeId={scrid} />
+            </aside>
+            <div className={styles.rhs}>
+              <div className="tabsWrap">
+                <LeftMenuTabs
+                  data={_tabData}
+                  activeViewId={_activeViewId}
+                  tabsViewIdUpdate={onTabViewUpdate}
+                />
+                <MarketFiltersTab
+                  data={_tabData}
+                  activeViewId={_activeViewId}
+                  tabsViewIdUpdate={onTabViewUpdate}
+                  dayFitlerHanlderChange={dayFitlerHanlderChange}
+                  tabsUpdateHandler={TabsAndTableDataChangeHandler}
+                  tabConfig={tabConfig}
+                  // dayFilterData={dayFilterData}
+                  // setDayFilterData={setDayFilterData}
+                  onPersonalizeHandler={onPersonalizeHandlerfun}
+                  removePersonaliseView={removePersonaliseViewFun}
+                  createNewScreener={createNewScreenerFun}
+                />
+              </div>
+              <MarketTable
+                data={_tableData}
+                tableHeaders={_tableHeaderData}
+                pageSummary={_pageSummary}
+                tableConfig={tableConfig}
+                handleSortServerSide={onServerSideSort}
+                handlePageChange={onPaginationChange}
+                processingLoader={processingLoader}
+                fixedCol={1}
+              />
+              <div className="">
+                <QueryComponets data={_screenerDetail} />
+              </div>
+            </div>
+          </>
+        )}
       </div>
       {toasterPersonaliseViewRemove && (
         <ToasterPopup
           data={toasterConfirmData}
           toasterCloseHandler={toasterRemovePersonaliseViewCloseHandlerFun}
+        />
+      )}
+      {createScreenerNamePopup && (
+        <ScreenerNameViewPopup
+          closePopUp={setCeateScreenerNamePopup}
+          screenerName={_metaData.title}
+          setScreenerName={screenerNameUpdateHandler}
+          createViewNameHandler={createViewNameHandlerHandler}
+        />
+      )}
+      {showModalMessage && (
+        <MessagePopupShow
+          message={modalBodyText}
+          mode="success"
+          closePopup={setShowModalMessage}
         />
       )}
     </>

@@ -1,3 +1,4 @@
+@import "../../styles/variables.scss";
 .wraper {
   position: fixed;
   top: 0;
@@ -14,19 +15,19 @@
   margin-top: 100px;
   text-align: left;
   padding: 16px 24px 16px 24px;
-  border: solid 1px #2b74e3;
+  border: solid 1px $blue-50;
   border-left-width: 4px;
   border-radius: 4px;
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.16);
   z-index: 9;
-  background: #ffffff;
+  background: $white;
 }
 .topSec {
   h6 {
     font-weight: 400;
     font-size: 14px;
     line-height: 18px;
-    color: #000000;
+    color: $black;
   }
 }
 .bottomSec {
@@ -38,16 +39,20 @@
     margin-left: 12px;
     border-radius: 40px;
     padding: 4px 12px;
-    border: solid 1px #000000;
+    border: solid 1px $black;
     font-size: 12px;
     line-height: 16px;
     font-weight: 600;
-    background: #ffffff;
-    color: #000000;
+    background: $white;
+    color: $black;
     cursor: pointer;
-    &:hover {
-      background: #000000;
-      color: #ffffff;
-    }
+  }
+  .primaryBtn {
+    background: $white;
+    color: $black;
+  }
+  .secondaryBtn {
+    background: $black;
+    color: $white;
   }
 }

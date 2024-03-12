@@ -15,7 +15,6 @@
   column-gap: 15px;
   width: calc(100% - 400px);
   li {
-    font-family: Montserrat;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -63,7 +62,6 @@
     cursor: pointer;
     border-radius: 100px;
     border: 1px solid #000;
-    font-family: Montserrat;
     font-size: 12px;
     line-height: 18px;
     font-style: normal;
@@ -100,6 +98,14 @@
     font-size: 12px;
     line-height: 16px;
     font-weight: 600;
+  }
+  .industryFiler {
+    position: relative;
+    cursor: auto;
+    .filterInner {
+      display: flex;
+      cursor: pointer;
+    }
   }
 }
 //

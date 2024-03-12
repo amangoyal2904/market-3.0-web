@@ -1,4 +1,6 @@
-import "../styles/globals.css";
+import { Montserrat, Lato } from "next/font/google";
+
+import "../styles/globals.scss";
 import Headers from "@/components/Head";
 import { Suspense } from "react";
 import Header from "@/components/Header";
@@ -12,6 +14,18 @@ import service from "@/network/service";
 import { StateProvider } from "@/store/StateContext";
 import NextTopLoader from "nextjs-toploader";
 import { Metadata } from "next";
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const lato = Lato({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-lato",
+});
 
 declare global {
   interface Window {
@@ -47,7 +61,7 @@ export default async function RootLayout({
   const leftNavResult = await leftNavPromise?.json();
 
   return (
-    <html lang="en" className="h-full bg-gray-50">
+    <html lang="en" className={`${montserrat.className} h-full bg-gray-50`}>
       <body className="h-full">
         <NextTopLoader />
         <StateProvider>

@@ -1,13 +1,15 @@
+@import "@/styles/variables.scss";
+
 .heading {
-  font-family: Montserrat;
   font-size: 32px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  color: $black;
 }
 .desc {
   font-size: 12px;
-  color: #5c5c5c;
+  color: $gray-30;
   line-height: 16px;
   font-weight: 400;
   margin-top: 4px;

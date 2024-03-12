@@ -22,6 +22,7 @@ const FixedTable = (props: any) => {
     showRemoveCheckbox = false,
     removeCheckBoxHandle,
     tableConfig = {},
+    fixedCol = 3,
   } = props || {};
   const {
     showFilterInput = true,
@@ -57,7 +58,7 @@ const FixedTable = (props: any) => {
           <tr className={styles.leftThWrapper}>
             {tableHeaderData.map(
               (thead: any, index: number) =>
-                index <= 2 && (
+                index < fixedCol && (
                   <th
                     onClick={() => {
                       isSorting ? handleSort(thead.keyId) : null;
@@ -94,7 +95,7 @@ const FixedTable = (props: any) => {
             <tr>
               {tableHeaderData.map(
                 (tdData: any, index: number) =>
-                  index <= 2 && (
+                  index < fixedCol && (
                     <td
                       key={index}
                       className={`${styles.inputWrapper} ${tdData.keyId == "name" || tdData.keyId == "shortName" || tdData.keyId == "shortNameKeyword" ? styles.firstInput : ""}`}
@@ -137,7 +138,7 @@ const FixedTable = (props: any) => {
                 <tr key={index} className={styles.fixedTr}>
                   {item.data.map(
                     (tdData: any, index: number) =>
-                      index <= 2 &&
+                      index < fixedCol &&
                       (tdData.keyId == "name" ||
                       tdData.keyId == "shortName" ||
                       tdData.keyId == "shortNameKeyword" ? (

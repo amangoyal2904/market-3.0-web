@@ -9,7 +9,7 @@
   z-index: 10;
 
   &:after {
-    content: '';
+    content: "";
     opacity: 0.54;
     background-color: #000000;
     position: absolute;
@@ -24,7 +24,6 @@
     margin: auto;
     position: absolute;
     text-align: center;
-    font-family: $Montserrat-font-family;
     background-color: #fff;
     z-index: 9;
     transform: translate(-50%, -50%);
@@ -107,7 +106,5 @@
       font-size: 11px;
       font-weight: 600;
     }
-
   }
-
 }

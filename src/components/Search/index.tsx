@@ -110,18 +110,6 @@ const Search = () => {
         .catch((error) => {
           console.error(`Data Fetch Error Outer: ${error}`);
         });
-      // fetch(API_URL)
-      // .then((response) => response.json())
-      // .then((res) => {
-      //     setData(res);
-      //     if(query){
-      //         setVal(query);
-      //     }
-      //     setSearchEnable(true);
-      // })
-      // .catch((err) => {
-      //     console.log(err);
-      // })
     } catch (e) {
       console.error(e);
     }
@@ -139,6 +127,7 @@ const Search = () => {
     <>
       {searchEnable && <div className={styles.background_overlay}></div>}
       <div className="dflex" id={styles.searchBar} ref={popupRef}>
+        <span className={`eticon_search ${styles.searchIcon}`}></span>
         <input
           autoComplete="off"
           name="ticker_newsearch"

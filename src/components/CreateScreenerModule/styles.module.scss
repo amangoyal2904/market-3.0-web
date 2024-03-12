@@ -1,6 +1,37 @@
 .wraper {
   margin: 0;
 }
+.overlaySmall {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+.newCreate.wraper {
+  margin: 0;
+  position: static;
+  background: #fff;
+  width: 100%;
+  border: solid 1px rgba(230, 230, 230, 1);
+  box-shadow: 0px 0px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  .perWrap {
+    width: auto;
+    margin: 0;
+    display: block;
+  }
+  .body {
+    margin: 0;
+    position: relative;
+  }
+}
 .perWrap {
   margin: 0;
   width: 70vw;
@@ -14,6 +45,18 @@
   font-weight: 700;
   display: flex;
   align-items: center;
+  .closeIcon {
+    position: absolute;
+    display: inline-block;
+    vertical-align: top;
+    right: 20px;
+    top: 16px;
+    background: url("/img/closeIcon.svg") no-repeat 0 0;
+    width: 12px;
+    height: 12px;
+    background-size: cover;
+    cursor: pointer;
+  }
   .formGroup {
     padding-left: 10px;
     input {
@@ -43,6 +86,14 @@
     color: #ffffff;
     cursor: pointer;
     padding: 10px 16px;
+    border: solid 2px #000;
+    &:hover {
+      color: #000000;
+      background: #ffffff;
+    }
+  }
+  .cancelBtn {
+    margin-right: 20px;
   }
   .removeBtn {
     margin-right: 20px;
@@ -61,10 +112,10 @@
     padding: 16px 5px 16px 24px;
     width: 300px;
     h2 {
-      font-size: 12px;
+      font-size: 14px;
       font-style: normal;
       font-weight: 700;
-      line-height: 16px;
+      line-height: 18px;
       text-transform: uppercase;
     }
     .queryBox {
@@ -81,6 +132,9 @@
         resize: none;
         width: 100%;
         min-height: 40vh;
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 400;
       }
     }
   }
@@ -155,6 +209,10 @@
   display: flex;
   list-style-type: none;
   column-gap: 15px;
+  justify-content: start;
+  li {
+    min-width: 20%;
+  }
   .subHeadName {
     font-size: 14px;
     background: rgba(230, 230, 230, 1);
@@ -392,9 +450,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9;
+  z-index: 99;
   .perWrap {
     width: 400px;
+    z-index: 2;
   }
 }
 .createFormGoup {

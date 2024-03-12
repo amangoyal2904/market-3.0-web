@@ -9,7 +9,6 @@
   }
 }
 .heading {
-  font-family: Montserrat;
   font-size: 32px;
   font-style: normal;
   font-weight: 700;
@@ -89,5 +88,22 @@
         border-top: solid 1px rgba(230, 230, 230, 1);
       }
     }
+  }
+}
+.saveMode {
+  display: inline-block;
+  vertical-align: top;
+  padding: 2px 8px;
+  border: solid 1px #000000;
+  border-radius: 15px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  margin: 13px 0 0 10px;
+  cursor: pointer;
+  i {
+    margin: 2px 3px 0 0;
+    display: inline-block;
+    vertical-align: top;
   }
 }

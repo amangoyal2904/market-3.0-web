@@ -89,6 +89,10 @@ const PersonaliseModel = ({
       <div className={`moduleWrap ${styles.perWrap}`} ref={popupRef}>
         <div className={`moduleHeader ${styles.header}`}>
           Personalise Your View
+          <span
+            className={`${styles.closeIcon}`}
+            onClick={() => setOpenPersonaliseModal(false)}
+          ></span>
         </div>
         <div className={`moduleBody ${styles.body}`}>
           <div className={styles.topHeader}>

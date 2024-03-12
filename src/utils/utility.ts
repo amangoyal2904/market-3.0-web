@@ -1,6 +1,10 @@
 import APIS_CONFIG from "@/network/api_config.json";
-import GLOBAL_CONFIG from "@/network/global_config.json";
-import { APP_ENV, setCookieToSpecificTime } from "@/utils/index";
+import {
+  APP_ENV,
+  dateFormat,
+  formatNumber,
+  setCookieToSpecificTime,
+} from "@/utils/index";
 import { getCookie } from "@/utils/index";
 import Fingerprint2 from "fingerprintjs2";
 import { setCookies } from "./index";
@@ -86,9 +90,46 @@ export const fnGenerateMetaData = (meta?: any) => {
   };
 };
 
-export const fetchFilters = async () => {
-  const apiUrl =
-    "https://economictimes.indiatimes.com/feed/feed_indexfilterdata.cms?feedtype=etjson";
+export const getFilterDataBySeoName = async (seoName: string) => {
+  const data = await fetchFilters({ marketcap: true });
+  const allIndices = [
+    ...data.keyIndices.nse,
+    ...data.keyIndices.bse,
+    ...data.sectoralIndices.nse,
+    ...data.sectoralIndices.bse,
+    ...data.otherIndices.nse,
+    ...data.otherIndices.bse,
+    ...data.marketcap.nse,
+    ...data.marketcap.bse,
+  ];
+
+  const foundIndex = allIndices.find((index) => index.seoname === seoName);
+  return foundIndex
+    ? {
+        name: foundIndex.name,
+        indexId: foundIndex.indexId,
+        seoname: foundIndex.seoname,
+      }
+    : { name: "All Stocks", indexId: 0, seoname: "" };
+};
+
+export const fetchFilters = async ({
+  all = false,
+  watchlist = false,
+  mostrecent = false,
+  marketcap = false,
+}) => {
+  let apiUrl = (APIS_CONFIG as any)?.["INDEX_FILTERS"][APP_ENV];
+  let queryParams = [];
+  if (all) queryParams.push("all=true");
+  if (watchlist) queryParams.push("watchlist=true");
+  if (mostrecent) queryParams.push("mostrecent=true");
+  if (marketcap) queryParams.push("marketcap=true");
+  const queryString = queryParams.join("&");
+  if (!!queryString) {
+    apiUrl = apiUrl + "?" + queryString;
+  }
+
   const response = await Service.get({
     url: apiUrl,
     params: {},
@@ -98,7 +139,7 @@ export const fetchFilters = async () => {
 
 export const fetchTabsData = async () => {
   const ssoid = window.objUser?.ssoid;
-  const apiUrl = `${APIS_CONFIG?.MARKETS_CUSTOM_TAB["development"]}?ssoid=${ssoid}`;
+  const apiUrl = `${(APIS_CONFIG as any)?.MARKETS_CUSTOM_TAB[APP_ENV]}?ssoid=${ssoid}`;
   const data = await fetch(apiUrl, {
     cache: "no-store",
     headers: {
@@ -136,7 +177,7 @@ export const fetchViewTable = async (
 export const fetchTableData = async (viewId: any, params?: any) => {
   const ssoid = window.objUser?.ssoid;
   const isprimeuser = getCookie("isprimeuser") ? true : false;
-  const apiUrl = (APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE["development"];
+  const apiUrl = `${(APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE[APP_ENV]}`;
   const response = await Service.post({
     url: apiUrl,
     headers: {
@@ -410,7 +451,7 @@ const fetchSelectedFilter = async (data: any, desiredIndexId: any) => {
 
 export const getSelectedFilter = async (filter: any) => {
   let selectedFilter;
-  const filters = await fetchFilters();
+  const filters = await fetchFilters({ all: true });
   if (!!filter) {
     selectedFilter = await fetchSelectedFilter(filters, filter);
   } else {
@@ -435,4 +476,110 @@ export const getSearchParams = (url: string) => {
     });
   }
   return searchParams;
+};
+
+export const fetchIndustryFilters = async (query: string) => {
+  const API_URL = (APIS_CONFIG as any)?.["industryFilter"][APP_ENV];
+  const data = await fetch(`${API_URL}${query}`);
+  const resData = await data.json();
+  return resData;
+};
+
+export const getOverviewData = async (indexid: number, pageno: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_OVERVIEW[APP_ENV]}?indexid=${indexid}&pageno=${pageno}&pagesize=13`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return {
+    labels: originalJson.labels,
+    dataList: originalJson.dataList.map((item: any) => ({
+      date: dateFormat(item.date, "%d %MMM"),
+      indexPrice: formatNumber(item.indexPrice),
+      percentChange: item.percentChange,
+      trend:
+        item.percentChange > 0
+          ? "up"
+          : item.percentChange < 0
+            ? "down"
+            : "neutral",
+      others: item.count.map((count: number, index: number) => ({
+        count: count,
+        percent: item.percent[index],
+        color: item.color[index],
+      })),
+    })),
+    pageSummary: originalJson.pageSummary,
+  };
+};
+
+export const getAdvanceDeclineData = async (
+  indexid: number,
+  duration: string,
+  pageno: number,
+) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_ADVANCEDECLINE[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=6`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return {
+    dataList: originalJson.searchresult.map((item: any) => ({
+      date: dateFormat(item.dateTime, "%d %MMM"),
+      indexPrice: formatNumber(item.currentIndexValue),
+      percentChange: item.percentChange,
+      trend:
+        item.percentChange > 0
+          ? "up"
+          : item.percentChange < 0
+            ? "down"
+            : "neutral",
+      others: {
+        up: item.advances,
+        upChg: item.advancesPercentange,
+        down: item.declines,
+        downChg: item.declinesPercentange,
+        neutral: item.noChange,
+        neutralChg: item.noChangePercentage,
+      },
+    })),
+    pageSummary: originalJson.pagesummary,
+  };
+};
+
+export const getPeriodicData = async (
+  indexid: number,
+  duration: string,
+  pageno: number,
+) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_PERIODIC[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=6`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return {
+    dataList: originalJson.searchresult.map((item: any) => ({
+      date: dateFormat(item.dateTime, "%d %MMM"),
+      indexPrice: formatNumber(item.currentIndexValue),
+      percentChange: item.percentChange,
+      trend:
+        item.percentChange > 0
+          ? "up"
+          : item.percentChange < 0
+            ? "down"
+            : "neutral",
+      others: {
+        up: item.highZone,
+        upChg:
+          (item.highZone * (item.highZone + item.midZone + item.lowZone)) / 100,
+        down: item.lowZone,
+        downChg:
+          (item.lowZone * (item.highZone + item.midZone + item.lowZone)) / 100,
+        neutral: item.midZone,
+        neutralChg:
+          (item.midZone * (item.highZone + item.midZone + item.lowZone)) / 100,
+      },
+    })),
+    pageSummary: originalJson.pagesummary,
+  };
 };

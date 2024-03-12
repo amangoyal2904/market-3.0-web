@@ -487,6 +487,7 @@ export const dateFormat = (dt: any, format = "%Y-%M-%d") => {
   }
   return newDate;
 };
+
 export const setCookies = (
   name: string,
   value: string,
@@ -547,3 +548,17 @@ export const getStockRecosDetail = async (getApiType: any, slug: any) => {
   const recosDetailResult = await recosDetailPromise?.json();
   return recosDetailResult;
 };
+export const formatNumber = (number: number): string => {
+  const formatter = new Intl.NumberFormat("en-IN", {
+    style: "decimal",
+    maximumFractionDigits: 2,
+  });
+
+  const formattedNumber = formatter.format(number);
+  return formattedNumber.replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+};
+
+export const areObjectsNotEqual = (
+  obj1: Record<string, any>,
+  obj2: Record<string, any>,
+): boolean => JSON.stringify(obj1) !== JSON.stringify(obj2);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import MarketTable from "@/components/MarketTable";
@@ -18,6 +19,10 @@ import {
   getCustomViewTable,
   getCustomViewsTab,
 } from "@/utils/customViewAndTables";
+const MessagePopupShow = dynamic(
+  () => import("@/components/MessagePopupShow"),
+  { ssr: false },
+);
 
 const WatchListClient = () => {
   const [tabData, setTabData] = useState([]);
@@ -34,6 +39,10 @@ const WatchListClient = () => {
   const [toasterPersonaliseViewRemove, setToasterPersonaliseViewRemove] =
     useState(false);
   const [toasterConfirmData, setToasterConfirmData] = useState({});
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [modalBodyText, setModalBodyText] = useState({
+    title: "You have Successfully created your personalise view",
+  });
   const { state } = useStateContext();
   const { isLogin, ssoid, isPrime } = state.login;
   const config = tableConfig["watchList"];
@@ -46,7 +55,21 @@ const WatchListClient = () => {
       setRequestPayload({ ...requestPayload, viewId: viewId });
     }
   };
-  const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
+  const onPersonalizeHandlerfun = async (newActiveId: any = "", mode = "") => {
+    if (mode === "update") {
+      setModalBodyText({
+        ...modalBodyText,
+        title: "You have successfully updated your personalize view",
+      });
+      setShowModalMessage(true);
+    } else if (mode === "new") {
+      setModalBodyText({
+        ...modalBodyText,
+        title: "You have successfully created your personalize view",
+      });
+      setShowModalMessage(true);
+    }
+
     setProcessingLoader(true);
     const { tabData, activeViewId } = await getCustomViewsTab({
       L3NavSubItem: "watchlist",
@@ -151,6 +174,9 @@ const WatchListClient = () => {
       } else {
         alert("Some api error plesae check now");
       }
+    } else {
+      setUnFollowStocksList([]);
+      setShowTableCheckBox(false);
     }
   };
   const removeMultipleStockInWathclist = async () => {
@@ -266,6 +292,13 @@ const WatchListClient = () => {
         <ToasterPopup
           data={toasterConfirmData}
           toasterCloseHandler={toasterRemovePersonaliseViewCloseHandlerFun}
+        />
+      )}
+      {showModalMessage && (
+        <MessagePopupShow
+          message={modalBodyText}
+          mode="success"
+          closePopup={setShowModalMessage}
         />
       )}
     </>

@@ -19,6 +19,7 @@ const ScrollableTable = (props: any) => {
     hideThead = false,
     tableConfig = {},
     parentHasScroll = false,
+    fixedCol = 3,
   } = props || {};
   const {
     showFilterInput = true,
@@ -45,7 +46,7 @@ const ScrollableTable = (props: any) => {
           <tr>
             {tableHeaderData.map(
               (thead: any, index: number) =>
-                index > 2 && (
+                index >= fixedCol && (
                   <th
                     className={
                       isSorting &&
@@ -94,7 +95,7 @@ const ScrollableTable = (props: any) => {
             <tr>
               {tableHeaderData.map(
                 (tdData: any, index: number) =>
-                  index > 2 && (
+                  index >= fixedCol && (
                     <td key={index} className={styles.inputWrapper}>
                       <span className={styles.searchWrapper}>
                         <input
@@ -125,7 +126,7 @@ const ScrollableTable = (props: any) => {
               <tr key={index}>
                 {item.data.map(
                   (tdData: any, index: number) =>
-                    index > 2 && (
+                    index >= fixedCol && (
                       <td
                         className={`${!tdData.primeFlag || isPrime ? tdData.trend : ""} ${
                           tdData.valueType == "number" &&

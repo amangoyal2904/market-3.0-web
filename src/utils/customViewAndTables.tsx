@@ -40,9 +40,6 @@ const fetchViewTable = async (
   apiType: any,
 ) => {
   const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
-  if (apiType == "MARKETSTATS_TECHNICALS") {
-    delete bodyParams.apiType;
-  }
   const response = await Service.post({
     url: apiUrl,
     headers: {
@@ -119,11 +116,12 @@ export const getCustomViewTable = async (
   if (responseData && responseData.screenerDetail) {
     screenerDetail = { ...responseData.screenerDetail };
   }
+  const _queryCondition = screenerDetail?.displayQuery;
   return {
     tableHeaderData,
     tableData,
     pageSummary,
-    payload: bodyParams,
+    payload: { ...bodyParams, queryCondition: _queryCondition },
     screenerDetail,
   };
 };

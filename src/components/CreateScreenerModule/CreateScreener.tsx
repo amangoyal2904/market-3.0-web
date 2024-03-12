@@ -9,6 +9,9 @@ const CreateScreenerModule = ({
   closeModuleScreenerNew,
   editmode,
   runQueryhandler,
+  cancelScreenerCreate,
+  screenerLoading,
+  setScreenerLoading,
 }: any) => {
   const [viewData, setViewData]: any = useState([]);
   const [screenerName, setScreenerName]: any = useState("");
@@ -37,6 +40,7 @@ const CreateScreenerModule = ({
         ? resData.datainfo.screenerCategoryLevelZero.screenerCategoryLevelOne
         : [];
     setViewData(viewDataSet);
+    setScreenerLoading(false);
   };
 
   const saveUserPersonalise = () => {
@@ -105,7 +109,7 @@ const CreateScreenerModule = ({
     //   const modifiedString = originalString.replace(pattern, "");
     //   setQueryInput(modifiedString)
     // }
-    const queryData = `${queryInput} ${addData.sourceFieldName}`;
+    const queryData = `${queryInput} ${addData.displayName}`;
     setQueryInput(queryData);
   };
   const queryInputHandler = (e: any) => {
@@ -228,6 +232,7 @@ const CreateScreenerModule = ({
     };
   }, [viewWraperRef, closeModuleScreenerNew]);
   useEffect(() => {
+    setScreenerLoading(true);
     ViewDataAPICall();
     if (editmode && editmode.mode && editmode.viewId !== "") {
       fetchByViewID(editmode.viewId);
@@ -249,8 +254,19 @@ const CreateScreenerModule = ({
   }, [debouncedSearchTerm]);
   return (
     <>
-      <div className={`customeModule ${styles.wraper}`}>
+      <div
+        className={`customeModule ${styles.wraper} ${!editmode.mode ? styles.newCreate : ""}`}
+      >
         <div className={`moduleWrap ${styles.perWrap}`} ref={viewWraperRef}>
+          {screenerLoading ? (
+            <div className="customLoader">
+              <div className="loading">
+                <div className="loader"></div>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
           <div className={`moduleBody ${styles.body}`}>
             <div className={styles.bodySec}>
               <div className={styles.filterSec}>
@@ -277,7 +293,9 @@ const CreateScreenerModule = ({
                         onChange={handleInputChange}
                       />
                       {searchListItems.length > 0 ? (
-                        <ul className={styles.searchItemList}>
+                        <ul
+                          className={`customeScroll ${styles.searchItemList}`}
+                        >
                           {searchListItems.map((item: any) => {
                             return (
                               <li
@@ -323,53 +341,49 @@ const CreateScreenerModule = ({
                     </div>
                     <span
                       className={styles.symble}
-                      onClick={() => viewCheckHandler({ sourceFieldName: "<" })}
+                      onClick={() => viewCheckHandler({ displayName: "<" })}
                     >
                       {" "}
                       {`<`}{" "}
                     </span>
                     <span
                       className={styles.symble}
-                      onClick={() => viewCheckHandler({ sourceFieldName: "=" })}
+                      onClick={() => viewCheckHandler({ displayName: "=" })}
                     >
                       {" "}
                       {`=`}{" "}
                     </span>
                     <span
                       className={styles.symble}
-                      onClick={() => viewCheckHandler({ sourceFieldName: ">" })}
+                      onClick={() => viewCheckHandler({ displayName: ">" })}
                     >
                       {" "}
                       {`>`}{" "}
                     </span>
                     <span
                       className={styles.symble}
-                      onClick={() => viewCheckHandler({ sourceFieldName: "(" })}
+                      onClick={() => viewCheckHandler({ displayName: "(" })}
                     >
                       {" "}
                       {`(`}{" "}
                     </span>
                     <span
                       className={styles.symble}
-                      onClick={() =>
-                        viewCheckHandler({ sourceFieldName: "AND" })
-                      }
+                      onClick={() => viewCheckHandler({ displayName: "AND" })}
                     >
                       {" "}
                       {`AND`}{" "}
                     </span>
                     <span
                       className={styles.symble}
-                      onClick={() =>
-                        viewCheckHandler({ sourceFieldName: "OR" })
-                      }
+                      onClick={() => viewCheckHandler({ displayName: "OR" })}
                     >
                       {" "}
                       {`OR`}{" "}
                     </span>
                     <span
                       className={styles.symble}
-                      onClick={() => viewCheckHandler({ sourceFieldName: ")" })}
+                      onClick={() => viewCheckHandler({ displayName: ")" })}
                     >
                       {" "}
                       {`)`}{" "}
@@ -417,7 +431,9 @@ const CreateScreenerModule = ({
                                 </div>
                                 {subItem.screenerCategoryFields &&
                                   subItem.screenerCategoryFields.length > 0 && (
-                                    <ul className={styles.innerList}>
+                                    <ul
+                                      className={`customeScroll ${styles.innerList}`}
+                                    >
                                       {subItem.screenerCategoryFields.map(
                                         (childSubItem: any) => (
                                           <li
@@ -494,6 +510,12 @@ const CreateScreenerModule = ({
                 DELETE VIEW
               </span>
             ) : null}
+            <span
+              className={`${styles.updateBtn} ${styles.cancelBtn}`}
+              onClick={cancelScreenerCreate}
+            >
+              Cancel
+            </span>
             <span className={styles.updateBtn} onClick={saveUserPersonalise}>
               {editmode && editmode.mode && editmode.viewId !== ""
                 ? "Update Changes"

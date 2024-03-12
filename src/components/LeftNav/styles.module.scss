@@ -1,7 +1,7 @@
 @import "../../styles/variables.scss";
 
 .navWrap {
-  background-color: $salmon_secondary_50;
+  background-color: $salmon-50;
   width: 56px;
   position: sticky;
   top: 56px;
@@ -19,7 +19,7 @@
 
   /* Track */
   ::-webkit-scrollbar-track {
-    background: $salmon_secondary_60; /* color of the scrollbar track */
+    background: $salmon-60; /* color of the scrollbar track */
   }
 
   /* Handle */
@@ -34,7 +34,7 @@
 
   .marketProWrap {
     margin-top: 20px;
-    background-color: $salmon_secondary_60;
+    background-color: $salmon-60;
     padding-bottom: 10px;
 
     .proHeading {
@@ -64,7 +64,7 @@
 
     &:has(.active) {
       .mainTabWrap {
-        background-color: $salmon_secondary_10;
+        background-color: $salmon-10;
         font-weight: 700;
         border-radius: 4px;
       }
@@ -81,7 +81,7 @@
       }
 
       .mainTabWrap {
-        background-color: $salmon_secondary_10;
+        background-color: $salmon-10;
         font-weight: 700;
       }
     }
@@ -129,9 +129,9 @@
 
       .l2ListWrapName {
         padding: 10px 16px;
-        background-color: $salmon_secondary_10;
+        background-color: $salmon-10;
         font-weight: 700;
-        border-bottom: 1px solid $salmon_secondary_60;
+        border-bottom: 1px solid $salmon-60;
         cursor: default;
       }
 
@@ -142,12 +142,12 @@
         font-weight: 400;
         cursor: pointer;
         &:hover {
-          background-color: $salmon_secondary_30;
+          background-color: $salmon-30;
           border-radius: 4px;
           font-weight: 700;
         }
         &.active {
-          background-color: $salmon_secondary_10;
+          background-color: $salmon-10;
           border-radius: 4px;
           font-weight: 700;
         }
@@ -156,7 +156,7 @@
 
     &:hover {
       .mainTabWrap {
-        background-color: $salmon_secondary_30;
+        background-color: $salmon-30;
         cursor: pointer;
 
         border-radius: 4px;
@@ -167,7 +167,7 @@
   .marketProWrap {
     .navListWrap {
       &:hover .mainTabWrap {
-        background-color: $salmon_secondary_40;
+        background-color: $salmon-40;
       }
     }
   }
@@ -182,7 +182,7 @@
     .toggleMenu {
       font-size: 14px;
       border-radius: 50%;
-      background-color: $salmon_secondary_60;
+      background-color: $salmon-60;
       font-weight: 700;
       margin-left: 18px;
       cursor: pointer;
@@ -196,7 +196,7 @@
 
     .navInnerWrap {
       width: 100%;
-      background-color: $salmon_secondary_50;
+      background-color: $salmon-50;
       height: 100%;
     }
 
@@ -222,7 +222,7 @@
   &.collapsed {
     .navInnerWrap {
       width: 100%;
-      background-color: $salmon_secondary_50;
+      background-color: $salmon-50;
       height: 100%;
       .marketNavWrap {
         overflow: unset;
@@ -259,7 +259,7 @@
         .l2ListWrap {
           display: block;
           position: absolute;
-          background-color: $salmon_secondary_30;
+          background-color: $salmon-30;
           top: 0;
           max-height: fit-content;
           width: 160px;

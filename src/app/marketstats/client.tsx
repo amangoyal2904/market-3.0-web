@@ -1,11 +1,12 @@
 "use client";
+import dynamic from "next/dynamic";
 import MarketStatsNav from "@/components/MarketStatsNav";
 import MarketTable from "@/components/MarketTable";
 import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
-import { getCookie } from "@/utils";
+import { areObjectsNotEqual, getCookie } from "@/utils";
 import { removePersonalizeViewById } from "@/utils/utility";
 import ToasterPopup from "@/components/ToasterPopup";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
@@ -20,6 +21,10 @@ import refeshConfig from "@/utils/refreshConfig.json";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import TechincalOperands from "@/components/TechincalOperands";
 import { getMarketStatsNav, getTechincalOperands } from "@/utils/marketstats";
+const MessagePopupShow = dynamic(
+  () => import("@/components/MessagePopupShow"),
+  { ssr: false },
+);
 
 const MarketStats = ({
   l3Nav = [],
@@ -67,6 +72,10 @@ const MarketStats = ({
   const [toasterPersonaliseViewRemove, setToasterPersonaliseViewRemove] =
     useState(false);
   const [toasterConfirmData, setToasterConfirmData] = useState({});
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [modalBodyText, setModalBodyText] = useState({
+    title: "You have Successfully created your personalise view",
+  });
   const updateTableData = async () => {
     const responseData: any = await fetchViewTable(
       { ..._payload },
@@ -158,7 +167,20 @@ const MarketStats = ({
     setTabData(tabData);
     setActiveViewId(tabIdActive);
   };
-  const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
+  const onPersonalizeHandlerfun = async (newActiveId: any = "", mode = "") => {
+    if (mode === "update") {
+      setModalBodyText({
+        ...modalBodyText,
+        title: "You have successfully updated your personalize view",
+      });
+      setShowModalMessage(true);
+    } else if (mode === "new") {
+      setModalBodyText({
+        ...modalBodyText,
+        title: "You have successfully created your personalize view",
+      });
+      setShowModalMessage(true);
+    }
     setProcessingLoader(true);
     const { tabData, activeViewId } = await getCustomViewsTab({
       L3NavSubItem: l3NavSubItem,
@@ -242,12 +264,9 @@ const MarketStats = ({
   }, [_payload]);
 
   useEffect(() => {
-    if (_payload.apiType != payload.apiType) {
-      const newApiType = payload.apiType;
-      // Resetting the api type and page number, when user navigates from L3 nav
+    if (areObjectsNotEqual(_payload, payload)) {
       let newPaylaod = {
-        ..._payload,
-        apiType: newApiType,
+        ...payload,
         pageno: 1,
       };
       if (isTechnical) {
@@ -327,6 +346,13 @@ const MarketStats = ({
         <ToasterPopup
           data={toasterConfirmData}
           toasterCloseHandler={toasterRemovePersonaliseViewCloseHandlerFun}
+        />
+      )}
+      {showModalMessage && (
+        <MessagePopupShow
+          message={modalBodyText}
+          mode="success"
+          closePopup={setShowModalMessage}
         />
       )}
     </>

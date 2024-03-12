@@ -37,7 +37,7 @@ const Subhead = (props: any) => {
     filterDataChangeHander(id);
   };
   const filterApiCall = async () => {
-    const data = await fetchFilters();
+    const data = await fetchFilters({ all: true });
     setFilterMenuData(data);
   };
 
