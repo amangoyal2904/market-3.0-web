@@ -19,11 +19,11 @@ const MarketMoods = async ({ params }: any) => {
   const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
   const niftyFilterData = await getFilterDataBySeoName(params.index);
   let overviewData,
-    advacneDeclineData,
+    advanceDeclineData,
     periodicData = null;
   // if (isprimeuser) {
   overviewData = await getOverviewData(niftyFilterData.indexId, 1);
-  advacneDeclineData = await getAdvanceDeclineData(
+  advanceDeclineData = await getAdvanceDeclineData(
     niftyFilterData.indexId,
     "daily",
     1,
@@ -35,7 +35,7 @@ const MarketMoods = async ({ params }: any) => {
     <MarketMoodsClient
       isprimeuser={isprimeuser}
       overviewData={overviewData}
-      advacneDeclineData={advacneDeclineData}
+      advanceDeclineData={advanceDeclineData}
       periodicData={periodicData}
       niftyFilterData={niftyFilterData}
     />

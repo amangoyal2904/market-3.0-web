@@ -7,7 +7,7 @@ const ScrollableBarsTableMarketMood = ({ tableData, type }: any) => {
         <thead>
           <tr>
             <th>
-              {type == "advacneDecline" ? (
+              {type == "advanceDecline" ? (
                 <ul className={styles.legend}>
                   <li>
                     <span className={styles.up}></span> Advanced
@@ -40,7 +40,7 @@ const ScrollableBarsTableMarketMood = ({ tableData, type }: any) => {
           {tableData.map((data: any, index: number) => (
             <tr key={index}>
               <td className={styles.withBar}>
-                {type == "advacneDecline" ? (
+                {type == "advanceDecline" ? (
                   <>
                     <div className={styles.bar}>
                       {data.others.up > 0 && (

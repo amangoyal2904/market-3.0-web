@@ -8,18 +8,23 @@ import ScrollableTableMarketMood from "@/components/MarketMood/ScrollableTable";
 import ScrollableBarsTableMarketMood from "@/components/MarketMood/ScrollableBarsTable";
 import { faqData, tabData } from "@/components/MarketMood/config";
 import MarketMoodTabConfig from "@/components/MarketMood/tabConfig.json";
-import { getAdvanceDeclineData, getPeriodicData } from "@/utils/utility";
+import {
+  getAdvanceDeclineData,
+  getOverviewData,
+  getPeriodicData,
+} from "@/utils/utility";
 
 const MarketMoodsClient = ({
   isprimeuser = false,
   overviewData = {},
-  advacneDeclineData = {},
+  advanceDeclineData = {},
   periodicData = {},
   niftyFilterData = {},
 }: any) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [_overviewData, setOverviewData] = useState(overviewData);
-  const [_advacneDeclineData, setAdvacneDeclineData] =
-    useState(advacneDeclineData);
+  const [_advanceDeclineData, setAdvanceDeclineData] =
+    useState(advanceDeclineData);
   const [_periodicData, setPeriodicData] = useState(periodicData);
   const [activeItem, setActiveItem] = useState<string>("");
   const [countPercentage, setCountPercentage] = useState("count");
@@ -28,30 +33,8 @@ const MarketMoodsClient = ({
   const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const scrollDisabledRef = useRef<boolean>(false); // Flag to disable/enable scroll listener
 
-  useEffect(() => {
-    // Check if there's a hash in the URL
-    const hash = window.location.hash.substr(1);
-    if (hash) {
-      // If there is, set the active item to the hash value
-      setActiveItem(hash);
-    }
-
-    // Add scroll event listener
-    window.addEventListener("scroll", handleScroll);
-
-    // Cleanup the event listener
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    // Scroll to the active item's content when activeItem changes
-    scrollToActiveContent();
-  }, [activeItem]);
-
   const scrollToActiveContent = () => {
-    const element = document.getElementById(activeItem);
+    const element = contentRefs.current[activeItem];
     if (element) {
       const offset = element.offsetTop - 120;
       window.scrollTo({ top: offset, behavior: "smooth" });
@@ -62,13 +45,23 @@ const MarketMoodsClient = ({
   };
 
   const handleScroll = () => {
-    if (!scrollDisabledRef.current) {
-      for (const [key, value] of Object.entries(contentRefs.current)) {
-        if (value) {
-          const rect = value.getBoundingClientRect();
-          if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-            setActiveItem(key);
-          }
+    for (const [key, value] of Object.entries(contentRefs.current)) {
+      if (value) {
+        const rect = value.getBoundingClientRect();
+        if (
+          rect.top >= 0 &&
+          rect.bottom <= window.innerHeight &&
+          !scrollDisabledRef.current
+        ) {
+          setActiveItem(key);
+          break;
+        } else if (
+          rect.top <= 70 &&
+          rect.bottom >= window.innerHeight &&
+          !scrollDisabledRef.current
+        ) {
+          setActiveItem("overview");
+          break;
         }
       }
     }
@@ -91,13 +84,70 @@ const MarketMoodsClient = ({
 
   const handleMonthlyDaily = async (item: string) => {
     setMonthlyDaily(item);
-    advacneDeclineData = await getAdvanceDeclineData(
+    advanceDeclineData = await getAdvanceDeclineData(
       niftyFilterData.indexId,
       item,
       1,
     );
-    setAdvacneDeclineData(advacneDeclineData);
+    setAdvanceDeclineData(advanceDeclineData);
   };
+
+  const loadMoreData = async (pageno: number, type: string) => {
+    setLoading(true);
+    let prevData, newData;
+    if (type == "overview") {
+      prevData = !!_overviewData ? _overviewData : overviewData;
+      newData = await getOverviewData(niftyFilterData.indexId, pageno + 1);
+    } else if (type == "periodic") {
+      prevData = !!_periodicData ? _periodicData : periodicData;
+      newData = await getPeriodicData(
+        niftyFilterData.indexId,
+        duration,
+        pageno + 1,
+      );
+    } else if (type == "advanceDecline") {
+      prevData = !!_advanceDeclineData
+        ? _advanceDeclineData
+        : advanceDeclineData;
+      newData = await getAdvanceDeclineData(
+        niftyFilterData.indexId,
+        monthlyDaily,
+        pageno + 1,
+      );
+    }
+    if (!!newData && !!prevData)
+      newData.dataList = [...prevData.dataList, ...newData.dataList];
+    if (type == "overview") {
+      setOverviewData(newData);
+    } else if (type == "periodic") {
+      setPeriodicData(newData);
+    } else if (type == "advanceDecline") {
+      setAdvanceDeclineData(newData);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    // Check if there's a hash in the URL
+    const hash = window.location.hash.substr(1);
+    if (hash && tabData.some((item) => item.key === hash)) {
+      // If there is, set the active item to the hash value
+      setActiveItem(hash);
+    }
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup the event listener
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Scroll to the active item's content when activeItem changes
+    scrollToActiveContent();
+  }, [activeItem]);
 
   return (
     <>
@@ -157,6 +207,17 @@ const MarketMoodsClient = ({
             type={countPercentage}
           />
         </div>
+        {_overviewData?.pageSummary?.pageno <
+          _overviewData?.pageSummary?.totalpages && (
+          <div
+            className={styles.loadMore}
+            onClick={() =>
+              loadMoreData(_overviewData?.pageSummary?.pageno, "overview")
+            }
+          >
+            Load More...
+          </div>
+        )}
       </div>
       <div
         id="periodic"
@@ -177,6 +238,17 @@ const MarketMoodsClient = ({
             type="periodic"
           />
         </div>
+        {_periodicData?.pageSummary?.pageno <
+          _periodicData?.pageSummary?.totalpages && (
+          <div
+            className={styles.loadMore}
+            onClick={() =>
+              loadMoreData(_periodicData?.pageSummary?.pageno, "periodic")
+            }
+          >
+            Load More...
+          </div>
+        )}
       </div>
       <div
         id="advanceDecline"
@@ -191,12 +263,26 @@ const MarketMoodsClient = ({
           handleMonthlyDaily={handleMonthlyDaily}
         />
         <div className={styles.tableWrapper}>
-          <FixedTableMarketMood tableData={_advacneDeclineData?.dataList} />
+          <FixedTableMarketMood tableData={_advanceDeclineData?.dataList} />
           <ScrollableBarsTableMarketMood
-            tableData={_advacneDeclineData?.dataList}
-            type="advacneDecline"
+            tableData={_advanceDeclineData?.dataList}
+            type="advanceDecline"
           />
         </div>
+        {_advanceDeclineData?.pageSummary?.pageno <
+          _advanceDeclineData?.pageSummary?.totalpages && (
+          <div
+            className={styles.loadMore}
+            onClick={() =>
+              loadMoreData(
+                _advanceDeclineData?.pageSummary?.pageno,
+                "advanceDecline",
+              )
+            }
+          >
+            Load More...
+          </div>
+        )}
       </div>
       <div
         id="faq"
