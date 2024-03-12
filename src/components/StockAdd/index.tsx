@@ -302,12 +302,6 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
             </div>
           </div>
           <div className={styles.bodySec}>
-            {searchNode === "" ? (
-              <div className={styles.mostSearch}>Most Searched Results</div>
-            ) : (
-              ""
-            )}
-
             <h3 className={styles.comHead}>Companies</h3>
             {viewStocks.length > 0 ? (
               viewDataListSet(viewStocks)

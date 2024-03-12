@@ -1,6 +1,19 @@
 .wraper {
   margin: 0;
 }
+.overlaySmall {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
 .newCreate.wraper {
   margin: 0;
   position: static;
@@ -32,6 +45,18 @@
   font-weight: 700;
   display: flex;
   align-items: center;
+  .closeIcon {
+    position: absolute;
+    display: inline-block;
+    vertical-align: top;
+    right: 20px;
+    top: 16px;
+    background: url("/img/closeIcon.svg") no-repeat 0 0;
+    width: 12px;
+    height: 12px;
+    background-size: cover;
+    cursor: pointer;
+  }
   .formGroup {
     padding-left: 10px;
     input {
@@ -425,9 +450,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9;
+  z-index: 99;
   .perWrap {
     width: 400px;
+    z-index: 2;
   }
 }
 .createFormGoup {

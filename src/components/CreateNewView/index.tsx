@@ -359,6 +359,10 @@ const CreateNewViewComponent = ({
                 ? "Edit"
                 : "Create New View"}
             </span>
+            <span
+              className={`${styles.closeIcon}`}
+              onClick={() => closePopCreateView(false)}
+            ></span>
             {editmode && editmode.mode && editmode.viewId != "" ? (
               <span className={styles.editViewName}>
                 {screenerName}{" "}
