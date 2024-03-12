@@ -224,13 +224,12 @@ const SearchData: React.FC<Props> = ({
                       <div className={styles.st_row}>
                         <div className={styles.st_col}>{item.companyname}</div>
                         <div
-                          className={`${styles.st_col} ${styles.st_change} ${styles.st_mid_col}`}
+                          className={`numberFonts ${styles.st_col} ${styles.st_change} ${styles.st_mid_col}`}
                         >
                           <span
                             className={`numberFonts ${Number(item.absolutechange) > 0 ? "eticon_up_arrow green" : "eticon_down_arrow red"}`}
-                          >
-                            {item.current}
-                          </span>
+                          ></span>
+                          <span>{item.current}</span>
                         </div>
                         <div
                           className={`${styles.st_col} ${Number(item.absolutechange) > 0 ? "green" : "red"}`}
