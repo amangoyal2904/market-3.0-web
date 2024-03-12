@@ -151,6 +151,9 @@ const WatchListClient = () => {
       } else {
         alert("Some api error plesae check now");
       }
+    } else {
+      setUnFollowStocksList([]);
+      setShowTableCheckBox(false);
     }
   };
   const removeMultipleStockInWathclist = async () => {
