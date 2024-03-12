@@ -18,6 +18,10 @@ import { createNewScreener } from "@/utils/screeners";
 import { getScreenerTabViewData } from "@/utils/customViewAndTables";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
+const MessagePopupShow = dynamic(
+  () => import("@/components/MessagePopupShow"),
+  { ssr: false },
+);
 const CreateScreenerModule = dynamic(
   () => import("@/components/CreateScreenerModule/CreateScreener"),
   {
@@ -72,6 +76,10 @@ const StockScreeners = ({
     viewId: "",
   });
   const [screenerLoading, setScreenerLoading] = useState(false);
+  const [showModalMessage, setShowModalMessage] = useState(false);
+  const [modalBodyText, setModalBodyText] = useState({
+    title: "You have Successfully created your personalise view",
+  });
 
   const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
@@ -140,7 +148,20 @@ const StockScreeners = ({
       onPersonalizeHandlerfun();
     }
   };
-  const onPersonalizeHandlerfun = async (newActiveId: any = "") => {
+  const onPersonalizeHandlerfun = async (newActiveId: any = "", mode = "") => {
+    if (mode === "update") {
+      setModalBodyText({
+        ...modalBodyText,
+        title: "You have successfully updated your personalize view",
+      });
+      setShowModalMessage(true);
+    } else if (mode === "new") {
+      setModalBodyText({
+        ...modalBodyText,
+        title: "You have successfully created your personalize view",
+      });
+      setShowModalMessage(true);
+    }
     setProcessingLoader(true);
     const { tabData, activeViewId } = await getScreenerTabViewData({
       type: "screenerGetViewById",
@@ -389,6 +410,13 @@ const StockScreeners = ({
           screenerName={_metaData.title}
           setScreenerName={screenerNameUpdateHandler}
           createViewNameHandler={createViewNameHandlerHandler}
+        />
+      )}
+      {showModalMessage && (
+        <MessagePopupShow
+          message={modalBodyText}
+          mode="success"
+          closePopup={setShowModalMessage}
         />
       )}
     </>
