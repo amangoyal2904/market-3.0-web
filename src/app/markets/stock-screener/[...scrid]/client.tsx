@@ -16,6 +16,8 @@ import { fetchViewTable } from "@/utils/utility";
 import { getCookie } from "@/utils";
 import { createNewScreener } from "@/utils/screeners";
 import { getScreenerTabViewData } from "@/utils/customViewAndTables";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils/index";
 const CreateScreenerModule = dynamic(
   () => import("@/components/CreateScreenerModule/CreateScreener"),
   {
@@ -27,6 +29,10 @@ const CreateScreenerModule = dynamic(
       </div>
     ),
   },
+);
+const ScreenerNameViewPopup = dynamic(
+  () => import("@/components/CreateScreenerModule/Createmodule"),
+  { ssr: false },
 );
 const StockScreeners = ({
   l3Nav = [],
@@ -59,6 +65,7 @@ const StockScreeners = ({
   const [toasterConfirmData, setToasterConfirmData] = useState({});
   const [toasterPersonaliseViewRemove, setToasterPersonaliseViewRemove] =
     useState(false);
+  const [createScreenerNamePopup, setCeateScreenerNamePopup] = useState(false);
   const [createModuleScreener, setCreateModuleScreener] = useState(false);
   const [screenerEditMode, setScreenerEditMode] = useState({
     mode: false,
@@ -172,9 +179,11 @@ const StockScreeners = ({
     setPayload({ ..._payload, sort: newSortConfig });
   };
   const runQueryHandlerFun = async (query: any) => {
+    //setProcessingLoader(true);
+    //setPayload({ ..._payload, queryCondition:query.trim(), pageno: 1 });
     setScreenerLoading(true);
-    // const API_URL = `${(APIS_CONFIG as any)?.SCREENER?.getScreenerByScreenerId[APP_ENV]}`;
-    const API_URL = `https://screener.indiatimes.com/screener/getScreenerByScreenerId`;
+
+    const API_URL = (APIS_CONFIG as any)?.["screenerGetViewById"][APP_ENV];
     const bodyparams = {
       queryCondition: query.trim(),
       filterValue: [],
@@ -190,25 +199,24 @@ const StockScreeners = ({
       },
       body: JSON.stringify(bodyparams),
     });
-    //return data.json()
     const responseData = await data.json();
     if (responseData && responseData.statusCode === 200) {
-      const _pageSummary = !!responseData.pageSummary
-        ? responseData.pageSummary
-        : {};
-      const _tableData = responseData?.dataList ? responseData.dataList : [];
+      // const _pageSummary = !!responseData.pageSummary
+      //   ? responseData.pageSummary
+      //   : {};
+      // const _tableData = responseData?.dataList ? responseData.dataList : [];
 
-      const _tableHeaderData =
-        _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
-          ? _tableData[0]?.data
-          : [];
-      const _screenerDetails = !!responseData.screenerDetail
-        ? responseData.screenerDetail
-        : {};
-      setTableData(_tableData);
-      setTableHeaderData(_tableHeaderData);
-      setPageSummary(_pageSummary);
-      setScreenerDetail(_screenerDetails);
+      // const _tableHeaderData =
+      //   _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
+      //     ? _tableData[0]?.data
+      //     : [];
+      // const _screenerDetails = !!responseData.screenerDetail
+      //   ? responseData.screenerDetail
+      //   : {};
+      // setTableData(_tableData);
+      // setTableHeaderData(_tableHeaderData);
+      // setPageSummary(_pageSummary);
+      // setScreenerDetail(_screenerDetails);
       setScreenerLoading(false);
       setCreateModuleScreener(false);
       setMetaData({
@@ -216,6 +224,7 @@ const StockScreeners = ({
         title: "Unsaved Screener",
         saveMode: "true",
       });
+      setPayload({ ..._payload, queryCondition: query.trim() });
     } else {
       alert("Error : Incorrect Query");
     }
@@ -231,8 +240,14 @@ const StockScreeners = ({
     setCreateModuleScreener(false);
   };
   const saveScreenerhandler = async () => {
-    // here api call
-    // SaveScreenerAPI
+    setCeateScreenerNamePopup(true);
+  };
+  const screenerNameUpdateHandler = (value: any) => {
+    setMetaData({ ..._metaData, title: value });
+  };
+  const createViewNameHandlerHandler = async (value: any) => {
+    setCeateScreenerNamePopup(false);
+    setProcessingLoader(true);
     const userInfo: any =
       window.objUser && window.objUser.ssoid && window.objUser.ssoid !== ""
         ? window.objUser
@@ -246,8 +261,8 @@ const StockScreeners = ({
       screenerType: "USER",
       screenerId: "",
     };
-    //const resData = await createNewScreener(screenerPayload);
-    console.log("_resDatascreenerPayload__", screenerPayload);
+    const resData = await createNewScreener(screenerPayload);
+    setProcessingLoader(false);
   };
   const updateTableData = async () => {
     const responseData: any = await fetchViewTable(
@@ -265,10 +280,14 @@ const StockScreeners = ({
       _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
         ? _tableData[0]?.data
         : [];
+    const _screenerDetails = !!responseData.screenerDetail
+      ? responseData.screenerDetail
+      : {};
     setTableData(_tableData);
     setTableHeaderData(_tableHeaderData);
     setPageSummary(_pageSummary);
     setProcessingLoader(false);
+    setScreenerDetail(_screenerDetails);
   };
   useEffect(() => {
     onSearchParamChange();
@@ -299,10 +318,10 @@ const StockScreeners = ({
           ""
         )}
       </h1>
-      {!createModuleScreener ? (
-        <p className={styles.desc}>{_metaData.desc}</p>
-      ) : (
+      {_metaData && _metaData.saveMode ? (
         ""
+      ) : (
+        <p className={styles.desc}>{_metaData.desc}</p>
       )}
 
       <div className={styles.container}>
@@ -361,6 +380,14 @@ const StockScreeners = ({
         <ToasterPopup
           data={toasterConfirmData}
           toasterCloseHandler={toasterRemovePersonaliseViewCloseHandlerFun}
+        />
+      )}
+      {createScreenerNamePopup && (
+        <ScreenerNameViewPopup
+          closePopUp={setCeateScreenerNamePopup}
+          screenerName={_metaData.title}
+          setScreenerName={screenerNameUpdateHandler}
+          createViewNameHandler={createViewNameHandlerHandler}
         />
       )}
     </>

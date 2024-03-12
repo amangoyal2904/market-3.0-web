@@ -109,7 +109,7 @@ const CreateScreenerModule = ({
     //   const modifiedString = originalString.replace(pattern, "");
     //   setQueryInput(modifiedString)
     // }
-    const queryData = `${queryInput} ${addData.sourceFieldName}`;
+    const queryData = `${queryInput} ${addData.displayName}`;
     setQueryInput(queryData);
   };
   const queryInputHandler = (e: any) => {
@@ -341,53 +341,49 @@ const CreateScreenerModule = ({
                     </div>
                     <span
                       className={styles.symble}
-                      onClick={() => viewCheckHandler({ sourceFieldName: "<" })}
+                      onClick={() => viewCheckHandler({ displayName: "<" })}
                     >
                       {" "}
                       {`<`}{" "}
                     </span>
                     <span
                       className={styles.symble}
-                      onClick={() => viewCheckHandler({ sourceFieldName: "=" })}
+                      onClick={() => viewCheckHandler({ displayName: "=" })}
                     >
                       {" "}
                       {`=`}{" "}
                     </span>
                     <span
                       className={styles.symble}
-                      onClick={() => viewCheckHandler({ sourceFieldName: ">" })}
+                      onClick={() => viewCheckHandler({ displayName: ">" })}
                     >
                       {" "}
                       {`>`}{" "}
                     </span>
                     <span
                       className={styles.symble}
-                      onClick={() => viewCheckHandler({ sourceFieldName: "(" })}
+                      onClick={() => viewCheckHandler({ displayName: "(" })}
                     >
                       {" "}
                       {`(`}{" "}
                     </span>
                     <span
                       className={styles.symble}
-                      onClick={() =>
-                        viewCheckHandler({ sourceFieldName: "AND" })
-                      }
+                      onClick={() => viewCheckHandler({ displayName: "AND" })}
                     >
                       {" "}
                       {`AND`}{" "}
                     </span>
                     <span
                       className={styles.symble}
-                      onClick={() =>
-                        viewCheckHandler({ sourceFieldName: "OR" })
-                      }
+                      onClick={() => viewCheckHandler({ displayName: "OR" })}
                     >
                       {" "}
                       {`OR`}{" "}
                     </span>
                     <span
                       className={styles.symble}
-                      onClick={() => viewCheckHandler({ sourceFieldName: ")" })}
+                      onClick={() => viewCheckHandler({ displayName: ")" })}
                     >
                       {" "}
                       {`)`}{" "}

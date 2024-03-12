@@ -1,11 +1,12 @@
 import styles from "./styles.module.scss";
 
-const NameViewComponent = ({
+const ScreenerNameViewPopup = ({
   createViewNameHandler,
   screenerName,
   setScreenerName,
   editMode,
   updateViewNameHandler,
+  closePopUp,
 }: any) => {
   const createViewHandler = () => {
     if (screenerName && screenerName !== "") {
@@ -24,8 +25,18 @@ const NameViewComponent = ({
   return (
     <>
       <div className={`customeModule ${styles.wraperSmall}`}>
+        <div
+          className={`${styles.overlaySmall}`}
+          onClick={() => closePopUp(false)}
+        ></div>
         <div className={`moduleWrap ${styles.perWrap}`}>
-          <div className={styles.header}>Name your screener view</div>
+          <div className={styles.header}>
+            Name your screener view
+            <span
+              className={`${styles.closeIcon}`}
+              onClick={() => closePopUp(false)}
+            ></span>
+          </div>
           <div className={styles.body}>
             <div className={styles.createFormGoup}>
               <input
@@ -37,16 +48,22 @@ const NameViewComponent = ({
             </div>
           </div>
           <div className={styles.footer}>
+            <span
+              className={`${styles.updateBtn} ${styles.cancelBtn}`}
+              onClick={() => closePopUp(false)}
+            >
+              Cancel
+            </span>
             {editMode && editMode !== "" ? (
               <span
-                className={`refRemoveList ${styles.updateBtn}`}
+                className={`${styles.updateBtn}`}
                 onClick={updateViewHandler}
               >
                 Update view
               </span>
             ) : (
               <span
-                className={`refRemoveList ${styles.updateBtn}`}
+                className={`${styles.updateBtn}`}
                 onClick={createViewHandler}
               >
                 Create view
@@ -59,4 +76,4 @@ const NameViewComponent = ({
   );
 };
 
-export default NameViewComponent;
+export default ScreenerNameViewPopup;

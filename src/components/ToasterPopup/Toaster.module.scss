@@ -1,3 +1,4 @@
+@import "../../styles/variables.scss";
 .wraper {
   position: fixed;
   top: 0;
@@ -45,9 +46,13 @@
     background: #ffffff;
     color: #000000;
     cursor: pointer;
-    &:hover {
-      background: #000000;
-      color: #ffffff;
-    }
+  }
+  .primaryBtn {
+    background: #ffffff;
+    color: #000000;
+  }
+  .secondaryBtn {
+    background: #000000;
+    color: #ffffff;
   }
 }
