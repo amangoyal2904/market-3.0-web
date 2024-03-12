@@ -6,7 +6,7 @@ import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
-import { getCookie } from "@/utils";
+import { areObjectsNotEqual, getCookie } from "@/utils";
 import { removePersonalizeViewById } from "@/utils/utility";
 import ToasterPopup from "@/components/ToasterPopup";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
@@ -264,12 +264,9 @@ const MarketStats = ({
   }, [_payload]);
 
   useEffect(() => {
-    if (_payload.apiType != payload.apiType) {
-      const newApiType = payload.apiType;
-      // Resetting the api type and page number, when user navigates from L3 nav
+    if (areObjectsNotEqual(_payload, payload)) {
       let newPaylaod = {
-        ..._payload,
-        apiType: newApiType,
+        ...payload,
         pageno: 1,
       };
       if (isTechnical) {
