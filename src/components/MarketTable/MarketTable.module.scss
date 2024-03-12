@@ -13,7 +13,6 @@
   overflow: auto;
   overflow-y: "scroll";
   justify-content: flex-start;
-  font-family: $Montserrat-font-family;
 
   .inputWrapper {
     text-align: center;
@@ -64,7 +63,6 @@
   overflow-x: auto;
 
   td {
-    min-width: 140px;
     max-width: 140px;
     padding: 10px 15px;
     border-right: 1px solid $gray_95;
@@ -80,6 +78,7 @@
     text-align: right;
     text-overflow: ellipsis;
     white-space: nowrap;
+    overflow: hidden;
     &.fullWidth {
       width: 100%;
       &.hide {
@@ -98,7 +97,6 @@
     border-right: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
     border-right-style: solid;
-    font-family: $Montserrat-font-family;
     font-weight: 600;
     color: $gray_30;
     font-size: 12px;

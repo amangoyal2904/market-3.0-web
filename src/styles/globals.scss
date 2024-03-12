@@ -1,14 +1,5 @@
 @import "./variables.scss";
-
-@font-face {
-  font-family: "Montserrat";
-  src: url("/fonts/Montserrat-VariableFont_wght.woff2")
-    format("woff2-variations");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-  font-stretch: 75% 125%;
-}
+@import "./etIcons.scss";
 
 @font-face {
   font-family: "Lato";
@@ -29,344 +20,6 @@
   font-weight: normal;
   font-style: normal;
   font-display: block;
-}
-
-[class^="eticon_"],
-[class*=" eticon_"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: "eticons" !important;
-  speak: never;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.eticon_add:before {
-  content: "\e900";
-}
-.eticon_menu_dots:before {
-  content: "\e901";
-}
-.eticon_bookmark:before {
-  content: "\e902";
-}
-.eticon_arrow_left:before {
-  content: "\e903";
-}
-.eticon_arrow_right:before {
-  content: "\e904";
-}
-.eticon_caret_down:before {
-  content: "\e905";
-}
-.eticon_caret_left:before {
-  content: "\e906";
-}
-.eticon_caret_right:before {
-  content: "\e907";
-}
-.eticon_caret_up:before {
-  content: "\e908";
-}
-.eticon_chevron_left:before {
-  content: "\e909";
-}
-.eticon_chevron_right:before {
-  content: "\e90a";
-}
-.eticon_prev:before {
-  content: "\e90b";
-}
-.eticon_next:before {
-  content: "\e90c";
-}
-.eticon_up_arrow:before {
-  content: "\e90d";
-}
-.eticon_down_arrow:before {
-  content: "\e90e";
-}
-.eticon_cross:before {
-  content: "\e90f";
-}
-.eticon_tick:before {
-  content: "\e910";
-}
-.eticon_hyphen:before {
-  content: "\e911";
-}
-.eticon_subscription:before {
-  content: "\e912";
-}
-.eticon_download:before {
-  content: "\e913";
-}
-.eticon_delete:before {
-  content: "\e914";
-}
-.eticon_edit:before {
-  content: "\e915";
-}
-.eticon_move:before {
-  content: "\e916";
-}
-.eticon_personalise:before {
-  content: "\e917";
-}
-.eticon_export_line:before {
-  content: "\e918";
-}
-.eticon_logout:before {
-  content: "\e919";
-}
-.eticon_epaper_icon:before {
-  content: "\e91a";
-}
-.eticon_filter:before {
-  content: "\e91b";
-}
-.eticon_graph_chart:before {
-  content: "\e91c";
-}
-.eticon_grid_view:before {
-  content: "\e91d";
-}
-.eticon_table_view .path1:before {
-  content: "\e91e";
-  color: rgb(0, 0, 0);
-}
-.eticon_table_view .path2:before {
-  content: "\e91f";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.eticon_table_view .path3:before {
-  content: "\e920";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.eticon_table_view .path4:before {
-  content: "\e921";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.eticon_table_view .path5:before {
-  content: "\e922";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.eticon_table_view .path6:before {
-  content: "\e923";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.eticon_table_view .path7:before {
-  content: "\e924";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.eticon_table_view .path8:before {
-  content: "\e925";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.eticon_table_view .path9:before {
-  content: "\e926";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.eticon_table_view .path10:before {
-  content: "\e927";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.eticon_list_view:before {
-  content: "\e928";
-}
-.eticon_help:before {
-  content: "\e929";
-}
-.eticon_info:before {
-  content: "\e92a";
-}
-.eticon_ideas:before {
-  content: "\e92b";
-}
-.eticon_chart_view:before {
-  content: "\e92c";
-}
-.eticon_market:before {
-  content: "\e92d";
-}
-.eticon_live_chat:before {
-  content: "\e92e";
-}
-.eticon_sort_asc .path1:before {
-  content: "\e92f";
-  color: rgb(0, 0, 0);
-}
-.eticon_sort_asc .path2:before {
-  content: "\e930";
-  margin-left: -1em;
-  color: rgb(153, 153, 153);
-}
-.eticon_sort_desc .path1:before {
-  content: "\e931";
-  color: rgb(153, 153, 153);
-}
-.eticon_sort_desc .path2:before {
-  content: "\e932";
-  margin-left: -1em;
-  color: rgb(0, 0, 0);
-}
-.eticon_thumbs_down:before {
-  content: "\e933";
-}
-.eticon_thumbs_up:before {
-  content: "\e934";
-}
-.eticon_user_profile:before {
-  content: "\e935";
-}
-.eticon_visible_eye:before {
-  content: "\e936";
-}
-.eticon_visible_eye_off:before {
-  content: "\e937";
-}
-.eticon_watchlist .path1:before {
-  content: "\e938";
-  color: rgb(0, 0, 0);
-}
-.eticon_watchlist .path2:before {
-  content: "\e939";
-  margin-left: -1em;
-  color: rgb(0, 0, 0);
-}
-.eticon_watchlist .path3:before {
-  content: "\e93a";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.eticon_watchlist .path4:before {
-  content: "\e93b";
-  margin-left: -1em;
-  color: rgb(0, 0, 0);
-}
-.eticon_watchlist .path5:before {
-  content: "\e93c";
-  margin-left: -1em;
-  color: rgb(0, 0, 0);
-}
-.eticon_search:before {
-  content: "\e93d";
-}
-.eticon_retry:before {
-  content: "\e93e";
-}
-.eticon_rupee:before {
-  content: "\e93f";
-  color: #4d4d4d;
-}
-.eticon_save:before {
-  content: "\e940";
-}
-.eticon_share:before {
-  content: "\e941";
-}
-.eticon_big_bull:before {
-  content: "\e942";
-}
-.eticon_wealth:before {
-  content: "\e943";
-}
-.eticon_srplus:before {
-  content: "\e944";
-}
-.eticon_news:before {
-  content: "\e945";
-}
-.eticon_redeem_benefits:before {
-  content: "\e946";
-}
-.eticon_benefits:before {
-  content: "\e947";
-}
-.eticon_marketmood:before {
-  content: "\e948";
-}
-.eticon_newsletters:before {
-  content: "\e949";
-}
-.eticon_screeners:before {
-  content: "\e94a";
-}
-.eticon_recos:before {
-  content: "\e94b";
-}
-.eticon_preferences:before {
-  content: "\e94c";
-}
-.eticon_candlestick .path1:before {
-  content: "\e94d";
-  color: rgb(213, 17, 49);
-}
-.eticon_candlestick .path2:before {
-  content: "\e94e";
-  margin-left: -1em;
-  color: rgb(20, 112, 20);
-}
-.eticon_lock .path1:before {
-  content: "\e94f";
-  color: rgb(237, 25, 59);
-}
-.eticon_lock .path2:before {
-  content: "\e950";
-  margin-left: -1em;
-  color: rgb(102, 102, 102);
-}
-.eticon_pdf .path1:before {
-  content: "\e951";
-  color: rgb(237, 25, 59);
-}
-.eticon_pdf .path2:before {
-  content: "\e952";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.eticon_pdf .path3:before {
-  content: "\e953";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.eticon_pdf .path4:before {
-  content: "\e954";
-  margin-left: -1em;
-  color: rgb(237, 25, 59);
-}
-.eticon_prime_logo .path1:before {
-  content: "\e955";
-  color: rgb(255, 255, 255);
-}
-.eticon_prime_logo .path2:before {
-  content: "\e956";
-  margin-left: -1em;
-  color: rgb(237, 28, 36);
-}
-.eticon_prime_logo .path3:before {
-  content: "\e957";
-  margin-left: -1em;
-  color: rgb(237, 28, 36);
-}
-.eticon_star:before {
-  content: "\e958";
-  color: #ffba52;
 }
 
 /*, sub, sup removed from reset class*/
@@ -439,7 +92,6 @@ time,
 mark,
 audio,
 video {
-  font-family: $Montserrat-font-family;
   background: transparent;
   font-size: 100%;
   margin: 0;
@@ -485,7 +137,6 @@ img:not([src]) {
 }
 
 body {
-  font-family: Montserrat, sans-serif;
   font-size: 0.8125rem;
   margin: 0;
   font-weight: 400;
@@ -551,14 +202,6 @@ a {
   border-radius: 100px;
   margin: 0 5px;
 }
-.cSprite,
-.cSprite_a:after,
-.cSprite_b:before {
-  background: url(https://img.etimg.com/photo/msid-105560634,quality-100/common-sprite.jpg)
-    no-repeat;
-  display: inline-block;
-  background-size: 500px;
-}
 .green {
   color: $green-80;
 }
@@ -623,7 +266,6 @@ table {
 }
 
 .heading {
-  font-family: Montserrat;
   font-size: 32px;
   font-style: normal;
   font-weight: 800;
