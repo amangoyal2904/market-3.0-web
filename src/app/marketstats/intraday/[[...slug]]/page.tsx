@@ -36,7 +36,7 @@ export async function generateMetadata(
     L3NavSubItem = searchParams?.type?.toLowerCase();
     duration = searchParams.duration
       ? searchParams.duration.toUpperCase()
-      : "1D";
+      : null;
     intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
     actualUrl = pageUrl;
   }
@@ -79,7 +79,7 @@ const Intraday = async ({ searchParams }: any) => {
     L3NavSubItem = searchParams?.type?.toLowerCase();
     duration = searchParams.duration
       ? searchParams.duration.toUpperCase()
-      : "1D";
+      : null;
     intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
     actualUrl = pageUrl;
   }
@@ -106,7 +106,7 @@ const Intraday = async ({ searchParams }: any) => {
   const bodyParams = {
     viewId: activeViewId,
     apiType: L3NavSubItem,
-    duration,
+    ...(duration ? { duration } : {}), // Conditional inclusion of duration
     filterValue: filter,
     filterType: !!filter && filter.length ? "index" : null,
     sort,
