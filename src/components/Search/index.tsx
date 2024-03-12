@@ -127,6 +127,7 @@ const Search = () => {
     <>
       {searchEnable && <div className={styles.background_overlay}></div>}
       <div className="dflex" id={styles.searchBar} ref={popupRef}>
+        <span className={`eticon_search ${styles.searchIcon}`}></span>
         <input
           autoComplete="off"
           name="ticker_newsearch"

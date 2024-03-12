@@ -256,7 +256,13 @@ const Login = () => {
                   </a>
                 </li>
                 <li className={styles.ddList}>
-                  <span className="eticon_benefits"></span>
+                  <img
+                    className={styles.rght12}
+                    src="/icon_svgs/Redeem_Benefits_01.svg"
+                    alt="Redeem_Benefits_Icons"
+                    width="16"
+                    height="23"
+                  />
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}et_benefits.cms`}
                     rel="nofollow noreferrer"
@@ -276,7 +282,13 @@ const Login = () => {
                   </a>
                 </li>
                 <li className={styles.ddList}>
-                  <span className="eticon_watchlist"></span>
+                  <span className="eticon_watchlist">
+                    <span className="path1"></span>
+                    <span className="path2"></span>
+                    <span className="path3"></span>
+                    <span className="path4"></span>
+                    <span className="path5"></span>
+                  </span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}marketstats/pageno-1,pid-501.cms`}
                     rel="nofollow noreferrer"
@@ -299,7 +311,14 @@ const Login = () => {
                   <span onClick={handleRedeemVoucher}>Redeem Voucher</span>
                 </li>
                 <li className={styles.ddList}>
-                  <span className="eticon_recos"></span>
+                  {/* <span className="eticon_recos"></span> */}
+                  <img
+                    className={styles.rght12}
+                    src="/icon_svgs/live-chat01.svg"
+                    alt="Redeem_Benefits_Icons"
+                    width="18"
+                    height="16"
+                  />
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}contactus.cms`}
                     rel="nofollow noreferrer"
