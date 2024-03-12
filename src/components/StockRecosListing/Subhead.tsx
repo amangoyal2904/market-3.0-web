@@ -5,20 +5,16 @@ import StockFilterNifty from "@/components/StockFilterNifty";
 import { useEffect, useState } from "react";
 import { fetchFilters, getSelectedFilter } from "@/utils/utility";
 import Link from "next/link";
+import { useStateContext } from "../../store/StateContext";
 
 const Subhead = (props: any) => {
-  const {
-    showIndexFilter,
-    selectedFilter,
-    recosNavResult,
-    activeTab,
-    slug,
-    activeItem,
-    setActiveItem,
-  } = props;
+  const { showIndexFilter, selectedFilter, recosNavResult, activeTab, slug } =
+    props;
   const [showFilter, setShowFilter] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
+  const { state, dispatch } = useStateContext();
+  const { viewType } = state.StockRecosStatus;
 
   const filterDataChangeHander = async (id: any) => {
     //setProcessingLoader(true);
@@ -55,9 +51,16 @@ const Subhead = (props: any) => {
     return item.toLowerCase();
   };
 
-  // ====  Here only Filter tabs code end  here
+  const handleViewType = (type: any) => {
+    dispatch({
+      type: "UPDATE_VIEWTYPE",
+      payload: {
+        viewType: type,
+      },
+    });
+  };
 
-  //console.log("recosNavResult---", recosNavResult);
+  // ====  Here only Filter tabs code end  here
 
   return (
     <>
@@ -67,9 +70,9 @@ const Subhead = (props: any) => {
           {recosNavResult?.tabs.map((item: any, index: any) => (
             <li
               key={`recos_main_${index}`}
-              className={`${styles.mainTab} ${item.seoPath == activeTab || (item.seoPath == "recobyfh" && activeTab == "fundhousedetails") ? styles.active : ""}`}
+              className={`${styles.mainTab} ${item.seoPath == activeTab || (item.seoPath == "fundhousedetails" && activeTab == "fundhousedetails") ? styles.active : ""}`}
             >
-              {item.seoPath == "recobyfh" ? (
+              {item.seoPath == "fundhousedetails" ? (
                 <Link href={`/stocksrecos/fundhousedetails`}>{item.label}</Link>
               ) : (
                 <Link
@@ -105,19 +108,15 @@ const Subhead = (props: any) => {
               <ul className={styles.listingType}>
                 <li
                   key="listytpe_grid"
-                  className={
-                    activeItem === "listytpe_card" ? styles.active : ""
-                  }
-                  onClick={() => setActiveItem("listytpe_card")}
+                  className={viewType === "card" ? styles.active : ""}
+                  onClick={() => handleViewType("card")}
                 >
                   <span className="eticon_grid_view"></span>
                 </li>
                 <li
                   key="listytpe_view"
-                  className={
-                    activeItem === "listytpe_table" ? styles.active : ""
-                  }
-                  onClick={() => setActiveItem("listytpe_table")}
+                  className={viewType === "grid" ? styles.active : ""}
+                  onClick={() => handleViewType("grid")}
                 >
                   <span className="eticon_list_view"></span>
                 </li>

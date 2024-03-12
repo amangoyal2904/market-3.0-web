@@ -1,11 +1,11 @@
-"use client";
-
 import Link from "next/link";
 import styles from "./styles.module.scss";
+import FundNavAccordionItem from "./FundNavAccordionItem";
+import { getFundHouseInfo } from "../../utils";
 
 const InnerLeftNav = (props: any) => {
   const { recosNavResult, recosDetailResult, activeApi, slug } = props;
-  console.log("slug?.[1]====", slug?.[1]);
+
   return (
     <>
       {activeApi == "newRecos" &&
@@ -36,7 +36,25 @@ const InnerLeftNav = (props: any) => {
             </>
           );
         })}
-      {slug.includes("fundhousedetails") && recosDetailResult}
+      {slug.includes("fundhousedetails") && (
+        <ul className={styles.fundHousesLeftNavWrap}>
+          <li
+            className={`${styles.fundHousesLeftNav} ${styles.allBrokeragesTab} ${activeApi == "recoByFH" ? styles.active : ""}`}
+          >
+            <Link href="/stocksrecos/fundhousedetails">All Brokerages</Link>
+          </li>
+          {recosDetailResult?.recoData?.[0].data.map(
+            (item: any, index: any) => (
+              <FundNavAccordionItem
+                key={`fundHousesLeftNavWrap_key_${index}`}
+                getFundHouseInfo={getFundHouseInfo(item, slug)}
+                item={item}
+                slug={slug}
+              />
+            ),
+          )}
+        </ul>
+      )}
     </>
   );
 };

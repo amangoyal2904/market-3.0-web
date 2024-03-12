@@ -5,6 +5,7 @@ import combineReducers from "./combinedReducers";
 import loginReducer from "../Reducers/loginReducer.ts";
 import marketReducer from "../Reducers/marketReducer.ts";
 import watchlistReducer from "../Reducers/watchlistReducer.ts";
+import stockRecosReducer from "../Reducers/stockRecosReducer.ts";
 
 const initialState = {
   login: {
@@ -22,6 +23,10 @@ const initialState = {
     watchlist: [],
     error: null,
   },
+  StockRecosStatus: {
+    viewType: "card",
+    error: null,
+  },
 };
 
 const StateContext = createContext();
@@ -32,6 +37,7 @@ export function StateProvider({ children }) {
       login: loginReducer,
       marketStatus: marketReducer,
       watchlistStatus: watchlistReducer,
+      StockRecosStatus: stockRecosReducer,
     }),
     initialState,
   );

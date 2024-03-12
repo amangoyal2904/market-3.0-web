@@ -1,10 +1,11 @@
 import StockRecosListing from "@/components/StockRecosListing";
 import styles from "./styles.module.scss";
 import APIS_CONFIG from "../../../network/api_config.json";
-import { APP_ENV } from "@/utils";
+import { APP_ENV, getStockRecosDetail } from "@/utils";
 import service from "@/network/service";
 import { getSelectedFilter } from "@/utils/utility";
 import Subhead from "@/components/StockRecosListing/Subhead";
+import InnerLeftNav from "@/components/StockRecosListing/InnerLeftNav";
 
 export default async function stocksrecos({
   params,
@@ -37,44 +38,17 @@ export default async function stocksrecos({
         : activeObj[0]?.apiType;
   };
 
-  //console.log("recosNavResult--", recosNavResult);
-
-  // =====  Get STOCK_RECOS_DETAIL Data =======
-  const getStockRecosDetail = async () => {
-    const STOCK_RECOS_DETAIL_Link = (APIS_CONFIG as any)["STOCK_RECOS_DETAIL"][
-      APP_ENV
-    ];
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    const payload = {
-      apiType: getApiType(),
-      filterType: "",
-      filterValue: [],
-      recoType: slug?.[1] || "all",
-      pageSize: 30,
-      pageNumber: 1,
-    };
-
-    console.log("payload----", payload);
-
-    const recosDetailPromise = await service.post({
-      url: STOCK_RECOS_DETAIL_Link,
-      headers: headers,
-      body: JSON.stringify(payload),
-      params: {},
-    });
-
-    const recosDetailResult = await recosDetailPromise?.json();
-
-    // console.log("recosDetailResult----", JSON.stringify(recosDetailResult));
-
-    return recosDetailResult;
-  };
-
-  //console.log("recosNavResult--", recosDetailResult);
   const intFilter = 0;
   const selectedFilter = await getSelectedFilter(intFilter);
+
+  const recosDetailResult = await getStockRecosDetail(getApiType(), slug);
+  const fundHouseListResult =
+    getApiType() == "FHDetail"
+      ? await getStockRecosDetail("recoByFH", slug)
+      : "";
+
+  const navListData =
+    getApiType() == "FHDetail" ? fundHouseListResult : recosDetailResult;
 
   return (
     <>
@@ -88,22 +62,73 @@ export default async function stocksrecos({
             stocks.
           </p>
         </div>
-        <StockRecosListing
+        <Subhead
           showIndexFilter={true}
-          recosNavResult={recosNavResult}
-          recosDetailResult={await getStockRecosDetail()}
           selectedFilter={selectedFilter}
-          activeApi={getApiType()}
+          recosNavResult={recosNavResult}
           activeTab={slug?.[0]}
           slug={slug}
         />
-        {/* <StockRecosOverview
-          recosNavResult={recosNavResult}
-          recosDetailResult={await getStockRecosDetail()}
-          selectedFilter={selectedFilter}
-          activeApi={getApiType()}
-          slug={slug}
-        /> */}
+        {getApiType() == "FHDetail" && (
+          <div className={styles.brokerageWrap}>
+            <div className={styles.totalRecosWrap}>
+              <span className={styles.totalRecosTitle}>Total Recos</span>
+              <span className={styles.totalRecosval}>
+                {recosDetailResult.recoData?.[0].topSection.totalCount}
+              </span>
+            </div>
+            <div className={styles.pipe}></div>
+            <div className={styles.buyWrap}>
+              <span className={styles.buyTitle}>Buy</span>
+              <span className={styles.buyval}>
+                {recosDetailResult.recoData?.[0].topSection.buyCount}
+              </span>
+            </div>
+            <div className={styles.sellWrap}>
+              <span className={styles.sellTitle}>Sell</span>
+              <span className={styles.sellVal}>
+                {recosDetailResult.recoData?.[0].topSection.sellCount}
+              </span>
+            </div>
+            <div className={styles.holdWrap}>
+              <span className={styles.holdTitle}>Hold</span>
+              <span className={styles.holdVal}>
+                {recosDetailResult.recoData?.[0].topSection.holdCount}
+              </span>
+            </div>
+            <div className={styles.addWrap}>
+              <span className={styles.addTitle}>Add</span>
+              <span className={styles.addVal}>-</span>
+            </div>
+            <div className={styles.accumulateWrap}>
+              <span className={styles.accumulateTitle}>Accumulate</span>
+              <span className={styles.accumulateVal}>-</span>
+            </div>
+            <div className={styles.neutralWrap}>
+              <span className={styles.neutralTitle}>Neutral</span>
+              <span className={styles.neutralVal}>-</span>
+            </div>
+          </div>
+        )}
+        <div
+          className={`${styles.contentWrap} ${slug?.[0] == "overview" ? styles.overviewWrap : ""}`}
+        >
+          {(getApiType() == "newRecos" ||
+            slug.includes("fundhousedetails")) && (
+            <InnerLeftNav
+              recosNavResult={recosNavResult}
+              recosDetailResult={navListData}
+              activeApi={getApiType()}
+              slug={slug}
+            />
+          )}
+          <StockRecosListing
+            showIndexFilter={true}
+            recosDetailResult={recosDetailResult}
+            activeApi={getApiType()}
+            slug={slug}
+          />
+        </div>
       </div>
     </>
   );

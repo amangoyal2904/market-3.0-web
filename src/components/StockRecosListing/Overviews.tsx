@@ -7,7 +7,6 @@ interface Props {
   data: any;
 }
 const Overview: React.FC<Props> = ({ data }) => {
-  console.log("activeTab --- > ", data);
   const responsive = [
     {
       breakpoint: 1921,
@@ -40,8 +39,8 @@ const Overview: React.FC<Props> = ({ data }) => {
         return "/stocksrecos/mostbuy";
       case "mostSell":
         return "/stocksrecos/mostsell";
-      case "recoOnWL":
-        return "/stocksrecos/recoonwl";
+      case "recoOnWatchlist":
+        return "/stocksrecos/recos-on-your-watchlist";
       case "recoByFH":
         return "/stocksrecos/fundhousedetails";
       default:
