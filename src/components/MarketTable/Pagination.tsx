@@ -111,26 +111,26 @@ const Pagination = ({ pageSummary, onPageChange }: any) => {
           className={`${styles.pageList} ${pageno === 1 ? styles.disabled : ""}`}
           onClick={() => handlePageChange(1)}
         >
-          First
+          <i className="eticon_chevron_left"></i>
         </li>
         <li
-          className={`${styles.pageList} ${pageno === 1 ? styles.disabled : ""}`}
+          className={`${styles.withBorder} ${styles.pageList} ${pageno === 1 ? styles.disabled : ""}`}
           onClick={() => handlePageChange(pageno - 1)}
         >
-          Prev
+          <i className="eticon_caret_left"></i>
         </li>
         {renderPageNumbers()}
         <li
-          className={`${styles.pageList} ${pageno === totalpages ? styles.disabled : ""}`}
+          className={`${styles.withBorder} ${styles.pageList} ${pageno === totalpages ? styles.disabled : ""}`}
           onClick={() => handlePageChange(pageno + 1)}
         >
-          Next
+          <i className="eticon_caret_right"></i>
         </li>
         <li
           className={`${styles.pageList} ${pageno === totalpages ? styles.disabled : ""}`}
           onClick={() => handlePageChange(totalpages)}
         >
-          Last
+          <i className="eticon_chevron_right"></i>
         </li>
       </ul>
     </div>
