@@ -439,6 +439,7 @@ time,
 mark,
 audio,
 video {
+  font-family: $Montserrat-font-family;
   background: transparent;
   font-size: 100%;
   margin: 0;
@@ -559,10 +560,10 @@ a {
   background-size: 500px;
 }
 .green {
-  color: #0d875c;
+  color: $green-80;
 }
 .red {
-  color: #d51131;
+  color: $red-60;
 }
 .hide {
   display: none;

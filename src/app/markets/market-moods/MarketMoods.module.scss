@@ -1,3 +1,5 @@
+@import "@/styles/variables.scss";
+
 .desc {
   font-size: 12px;
   line-height: 16px;
@@ -76,6 +78,23 @@
 .section {
   position: relative;
   margin: 25px auto 50px;
+  .loadMore {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 600;
+    color: $black;
+    background: $white;
+    border: 1px solid $black;
+    padding: 10px 24px 10px 24px;
+    border-radius: 3px;
+    margin: 40px auto 50px;
+    max-width: 140px;
+    cursor: pointer;
+  }
 }
 
 .faq {
