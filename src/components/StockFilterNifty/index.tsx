@@ -111,7 +111,7 @@ export default function StockFilterNifty({
               >
                 <div className={styles.subMenu}>
                   <div className={styles.mainTxt}>{data.keyIndices.name}</div>
-                  <ul className={`${styles.subMenuItem}`}>
+                  <ul className={`${styles.subMenuItem} customeScroll}`}>
                     {data.keyIndices.nse.map((item: any, i: any) => {
                       return (
                         <li
@@ -159,7 +159,7 @@ export default function StockFilterNifty({
                   <div className={styles.mainTxt}>
                     {data.sectoralIndices.name}
                   </div>
-                  <ul className={styles.subMenuItem}>
+                  <ul className={`${styles.subMenuItem} customeScroll}`}>
                     {data.sectoralIndices.nse.map((item: any, i: any) => {
                       return (
                         <li
@@ -205,7 +205,7 @@ export default function StockFilterNifty({
               >
                 <div className={styles.subMenu}>
                   <div className={styles.mainTxt}>{data.otherIndices.name}</div>
-                  <ul className={styles.subMenuItem}>
+                  <ul className={`${styles.subMenuItem} customeScroll}`}>
                     {data.otherIndices.nse.map((item: any, i: any) => {
                       return (
                         <li
