@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Search.module.scss";
-import { formatDate, filterData } from "@/utils";
+import { filterData } from "@/utils";
 import SearchDataLi from "./SearchDataLi";
 import { getStockUrl } from "@/utils/utility";
 import SearchNews from "./SearchNews";
@@ -227,7 +227,7 @@ const SearchData: React.FC<Props> = ({
                           className={`${styles.st_col} ${styles.st_change} ${styles.st_mid_col}`}
                         >
                           <span
-                            className={`${Number(item.absolutechange) > 0 ? "eticon_up_arrow green" : "eticon_down_arrow red"}`}
+                            className={`numberFonts ${Number(item.absolutechange) > 0 ? "eticon_up_arrow green" : "eticon_down_arrow red"}`}
                           >
                             {item.current}
                           </span>

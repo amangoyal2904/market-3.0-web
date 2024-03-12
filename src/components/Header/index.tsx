@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Header.module.scss";
 import Link from "next/link";
 import Search from "../Search";
@@ -8,12 +8,27 @@ import Login from "../Login";
 import { APP_ENV } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
-import LiveMarketData from "../LiveMarketData";
+import dynamic from "next/dynamic";
+
+const LiveMarketData = dynamic(() => import("../LiveMarketData"), {
+  ssr: false,
+});
 
 const Header = () => {
   const { state, dispatch } = useStateContext();
   const { isLogin, isPrime, ssoReady } = state.login;
+  const [windowWidth, setWindowWidth] = useState<number>();
+  const shouldRenderComponent = !!windowWidth ? windowWidth >= 1280 : true;
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
 
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   return (
     <header id={styles.pageTopbar}>
       <div className={styles.navbarHeader} id="header">
@@ -30,7 +45,7 @@ const Header = () => {
             <Search />
           </div>
           <div className={`dflex align-item-center`}>
-            <LiveMarketData />
+            {shouldRenderComponent && <LiveMarketData />}
             <Link className="default-btn" href="/watchlist">
               My Watchlist
             </Link>

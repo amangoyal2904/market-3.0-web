@@ -1,4 +1,5 @@
-import { Montserrat } from "next/font/google";
+import { Montserrat, Lato } from "next/font/google";
+
 import "../styles/globals.scss";
 import Headers from "@/components/Head";
 import { Suspense } from "react";
@@ -17,6 +18,13 @@ import { Metadata } from "next";
 const montserrat = Montserrat({
   subsets: ["latin"],
   display: "swap",
+});
+
+const lato = Lato({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-lato",
 });
 
 declare global {

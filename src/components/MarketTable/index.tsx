@@ -22,6 +22,7 @@ interface propsType {
   handlePageChange?: any;
   updateTableHander?: any;
   processingLoader?: boolean;
+  fixedCol?: number;
 }
 
 const MarketTable = (props: propsType) => {
@@ -38,6 +39,7 @@ const MarketTable = (props: propsType) => {
     handlePageChange,
     updateTableHander,
     processingLoader,
+    fixedCol = 3,
   } = props || {};
   const { loader = false, loaderType } = tableConfig || {};
   const [_pageSummary, setPageSummary] = useState(pageSummary);
@@ -289,6 +291,7 @@ const MarketTable = (props: propsType) => {
               showRemoveCheckbox={showTableCheckBox}
               removeCheckBoxHandle={removeCheckBoxHandleFun}
               tableConfig={tableConfig}
+              fixedCol={fixedCol}
             />
             <ScrollableTable
               tableHeaderData={tableHeaderData}
@@ -304,6 +307,7 @@ const MarketTable = (props: propsType) => {
               hideThead={hideThead}
               tableConfig={tableConfig}
               parentHasScroll={parentHasScroll}
+              fixedCol={fixedCol}
             />
           </>
         )}

@@ -56,13 +56,20 @@ const LiveMarketData = () => {
           <>
             <div className={styles.marketIndex}>
               <div className={styles.indexName}>SENSEX: </div>
-              <div className={styles.indexValue}>
+              <div className={`${styles.indexValue} numberFonts`}>
                 {marketData[0]?.sensex.CurrentIndexValue}
               </div>
               <div
-                className={`${styles.indexChange} ${Number(marketData[0]?.sensex.NetChange) > 0 ? "eticon_up_arrow green" : "eticon_down_arrow red"}`}
+                className={`numberFonts ${styles.indexChange} ${Number(marketData[0]?.sensex.NetChange) > 0 ? styles.green : styles.red}`}
               >
                 {marketData[0]?.sensex.PercentChange}
+                <i
+                  className={
+                    Number(marketData[0]?.sensex.NetChange) > 0
+                      ? "eticon_up_arrow"
+                      : "eticon_down_arrow"
+                  }
+                ></i>
               </div>
             </div>
             <div className={styles.marketIndex}>
@@ -71,9 +78,16 @@ const LiveMarketData = () => {
                 {marketData[0]?.nifty.CurrentIndexValue}
               </div>
               <div
-                className={`${styles.indexChange} ${Number(marketData[0]?.nifty.NetChange) > 0 ? "eticon_up_arrow green" : "eticon_down_arrow red"}`}
+                className={`numberFonts ${styles.indexChange} ${Number(marketData[0]?.nifty.NetChange) > 0 ? styles.green : styles.red}`}
               >
                 {marketData[0]?.nifty.PercentChange}
+                <i
+                  className={
+                    Number(marketData[0]?.nifty.NetChange) > 0
+                      ? "eticon_up_arrow"
+                      : "eticon_down_arrow"
+                  }
+                ></i>
               </div>
             </div>
           </>
