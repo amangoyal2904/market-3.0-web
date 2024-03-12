@@ -2,16 +2,6 @@
 @import "./etIcons.scss";
 
 @font-face {
-  font-family: "Montserrat";
-  src: url("/fonts/Montserrat-VariableFont_wght.woff2")
-    format("woff2-variations");
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-  font-stretch: 75% 125%;
-}
-
-@font-face {
   font-family: "Lato";
   src: url("/fonts/lato-regular.woff2") format("woff2-variations");
   font-weight: 400 700;
@@ -102,7 +92,6 @@ time,
 mark,
 audio,
 video {
-  font-family: $Montserrat-font-family;
   background: transparent;
   font-size: 100%;
   margin: 0;
@@ -148,7 +137,6 @@ img:not([src]) {
 }
 
 body {
-  font-family: Montserrat, sans-serif;
   font-size: 0.8125rem;
   margin: 0;
   font-weight: 400;
@@ -214,14 +202,6 @@ a {
   border-radius: 100px;
   margin: 0 5px;
 }
-.cSprite,
-.cSprite_a:after,
-.cSprite_b:before {
-  background: url(https://img.etimg.com/photo/msid-105560634,quality-100/common-sprite.jpg)
-    no-repeat;
-  display: inline-block;
-  background-size: 500px;
-}
 .green {
   color: $green-80;
 }
@@ -286,7 +266,6 @@ table {
 }
 
 .heading {
-  font-family: Montserrat;
   font-size: 32px;
   font-style: normal;
   font-weight: 800;

@@ -50,14 +50,14 @@ const SearchDataLi: React.FC<Props> = ({ item, entity, count, query }) => {
                   )}
                   {item.lastTradedPrice && (
                     <div
-                      className={`${styles.st_col} ${styles.cSprite_b} ${styles.st_change} ${Number(item.NetChange) > 0 ? styles.green : styles.red} ${styles.st_mid_col}`}
+                      className={`numberFonts ${styles.st_col} ${styles.st_change} ${Number(item.NetChange) > 0 ? "green" : "red"} ${styles.st_mid_col}`}
                     >
                       {item.lastTradedPrice}
                     </div>
                   )}
                   {item.NetChange && (
                     <div
-                      className={`${styles.st_col} ${Number(item.NetChange) > 0 ? styles.green : styles.red}`}
+                      className={`numberFonts ${styles.st_col} ${Number(item.NetChange) > 0 ? "green" : "red"}`}
                     >
                       {item.NetChange}
                     </div>
@@ -73,7 +73,7 @@ const SearchDataLi: React.FC<Props> = ({ item, entity, count, query }) => {
                     {item.volume && (
                       <div className={`${styles.st_col} ${styles.st_mid_col}`}>
                         Vol.{" "}
-                        <span>
+                        <span className="numberFonts">
                           {parseFloat((Number(item.volume) / 1000).toFixed(2))}
                         </span>
                         k
@@ -81,7 +81,7 @@ const SearchDataLi: React.FC<Props> = ({ item, entity, count, query }) => {
                     )}
                     {item.percentChange && (
                       <div
-                        className={`${styles.st_col} ${Number(item.NetChange) > 0 ? styles.green : styles.red}`}
+                        className={`numberFonts ${styles.st_col} ${Number(item.NetChange) > 0 ? "green" : "red"}`}
                       >
                         {item.percentChange}%
                       </div>
