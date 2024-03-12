@@ -2,14 +2,6 @@
 @import "./etIcons.scss";
 
 @font-face {
-  font-family: "Lato";
-  src: url("/fonts/lato-regular.woff2") format("woff2-variations");
-  font-weight: 400 700;
-  font-display: swap;
-  font-style: normal;
-}
-
-@font-face {
   font-family: "eticons";
   src: url("/fonts/eticons.eot?ulbvy2");
   src:
@@ -244,16 +236,17 @@ a {
 table {
   td {
     &.up {
+      font-weight: 400;
       color: $green-80;
     }
     &.down {
+      font-weight: 400;
       color: $red-60;
     }
   }
 }
 .numberFonts {
-  font-family: Lato, sans-serif;
-  color: $gray-40;
+  font-family: var(--font-lato);
 }
 .container {
   display: flex;

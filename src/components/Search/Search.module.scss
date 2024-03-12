@@ -10,7 +10,7 @@
 }
 #searchBar {
   margin-right: 20px;
-  width: 34vw;
+  width: 30vw;
   position: relative;
   .inputBox {
     width: 100%;
@@ -84,12 +84,8 @@
         text-align: left;
         width: 46%;
       }
-      .st_row > .st_col:last-child {
-        font-family: $Lato-font-family;
-      }
       .st_row > .st_mid_col {
         min-width: 90px;
-        font-family: $Lato-font-family;
       }
       .st_row.st_last > .st_col {
         font-size: 11px;
@@ -98,14 +94,6 @@
       .st_row .st_change span {
         position: relative;
         font-weight: 600;
-        font-family: $Lato-font-family !important;
-      }
-      .st_row .st_change span:before {
-        font-family: "eticons" !important;
-        font-size: 11px;
-        position: relative;
-        right: 2px;
-        top: 0;
       }
       .st_options {
         position: relative;

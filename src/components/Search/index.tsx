@@ -110,18 +110,6 @@ const Search = () => {
         .catch((error) => {
           console.error(`Data Fetch Error Outer: ${error}`);
         });
-      // fetch(API_URL)
-      // .then((response) => response.json())
-      // .then((res) => {
-      //     setData(res);
-      //     if(query){
-      //         setVal(query);
-      //     }
-      //     setSearchEnable(true);
-      // })
-      // .catch((err) => {
-      //     console.log(err);
-      // })
     } catch (e) {
       console.error(e);
     }

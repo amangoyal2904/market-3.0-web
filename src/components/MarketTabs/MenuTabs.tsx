@@ -35,28 +35,20 @@ const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate }: any) => {
   };
 
   useEffect(() => {
+    tabDataFitlerBaseOnWidth();
+  }, [data]);
+
+  useEffect(() => {
     const handleResize = () => {
-      const tabsListWidth = tabsListRef.current?.offsetWidth;
-      if (tabsListWidth != null) {
-        const actualTabListWith = tabsListWidth - 400;
-        const visibleTabsWidth = visibleTabs.reduce((totalWidth, tab) => {
-          return totalWidth + tab.offsetWidth;
-        }, 0);
-        const hiddenTabsWidth = hiddenTabs.reduce((totalWidth, tab) => {
-          return totalWidth + tab.offsetWidth;
-        }, 0);
-      }
+      tabDataFitlerBaseOnWidth();
     };
     window.addEventListener("resize", handleResize);
-    handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [visibleTabs, hiddenTabs]);
-  useEffect(() => {
-    tabDataFitlerBaseOnWidth();
-  }, [data]);
+  }, []);
+
   return (
     <>
       <ul className={styles.tabsList} ref={tabsListRef}>

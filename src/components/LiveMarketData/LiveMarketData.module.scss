@@ -1,4 +1,4 @@
-@import "../../styles/variables.scss";
+@import "@/styles/variables.scss";
 .liveMarkets {
   display: flex;
   align-items: center;
@@ -6,30 +6,34 @@
   width: 352px;
   .marketIndex {
     display: flex;
-    padding: 0 25px 0 10px;
+    padding: 0 10px 0 10px;
     font-size: 12px;
+    line-height: 18px;
     font-weight: 700;
     align-items: center;
     .indexName {
-      font-weight: bold;
+      font-size: 12px;
+      font-weight: 700;
     }
     .indexValue {
-      font-family: $Lato-font-family;
       font-size: 14px;
       font-weight: 400;
     }
     .indexChange {
       position: relative;
-      font-family: $Lato-font-family !important;
-      font-weight: bold;
-      top: 1px;
-    }
-    .indexChange::before {
-      font-family: "eticons" !important;
+      font-size: 12px;
       font-weight: 400;
-      font-size: 11px;
-      position: absolute;
-      right: -15px;
+      top: 1px;
+      &.green {
+        color: $green-80;
+      }
+      &.red {
+        color: $red-60;
+      }
+      i {
+        font-size: 14px;
+        vertical-align: text-bottom;
+      }
     }
   }
   .marketIndex > div {

@@ -368,6 +368,7 @@ const StockScreeners = ({
                 handleSortServerSide={onServerSideSort}
                 handlePageChange={onPaginationChange}
                 processingLoader={processingLoader}
+                fixedCol={1}
               />
               <div className="">
                 <QueryComponets data={_screenerDetail} />
