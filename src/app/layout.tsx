@@ -1,4 +1,5 @@
 import { Montserrat, Lato } from "next/font/google";
+import localFont from "next/font/local";
 
 import "../styles/globals.scss";
 import Headers from "@/components/Head";
@@ -25,6 +26,11 @@ const lato = Lato({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-lato",
+});
+
+const eticons = localFont({
+  src: "../../public/fonts/eticons.ttf",
+  weight: "normal",
 });
 
 declare global {

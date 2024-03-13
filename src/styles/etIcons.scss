@@ -1,3 +1,16 @@
+@font-face {
+  font-family: "eticons";
+  src: url("/fonts/eticons.eot?ulbvy2");
+  src:
+    url("/fonts/eticons.eot?ulbvy2#iefix") format("embedded-opentype"),
+    url("/fonts/eticons.ttf?ulbvy2") format("truetype"),
+    url("/fonts/eticons.woff?ulbvy2") format("woff"),
+    url("/fonts/eticons.svg?ulbvy2#eticons") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
 [class^="eticon_"],
 [class*=" eticon_"],
 [class^="eticon_"] * {

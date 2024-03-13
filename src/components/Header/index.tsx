@@ -10,6 +10,8 @@ import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import dynamic from "next/dynamic";
 
+import ETLogo from "../../../public/et-markets-logo.png";
+
 const LiveMarketData = dynamic(() => import("../LiveMarketData"), {
   ssr: false,
 });
@@ -34,7 +36,13 @@ const Header = () => {
       <div className={styles.navbarHeader} id="header">
         <div className={`dflex align-item-center ${styles.logoHeader}`}>
           <Link href="/">
-            <Image src="/logo.png" width={138} height={24} alt="ET Markets" />
+            <Image
+              src={ETLogo}
+              width={138}
+              height={24}
+              quality={100}
+              alt="ET Markets"
+            />
           </Link>
         </div>
 
