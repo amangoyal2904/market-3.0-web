@@ -147,6 +147,7 @@ const MarketFiltersTab = ({
   };
   // ====  Here only Filter tabs code start here
   const showFilterMenu = (value: boolean) => {
+    debugger;
     setShowFilter(value);
   };
   const handleChagneData = (id: any, name: string, selectedTab: string) => {
