@@ -12,6 +12,7 @@ const CreateScreenerModule = ({
   cancelScreenerCreate,
   screenerLoading,
   setScreenerLoading,
+  query = "",
 }: any) => {
   const [viewData, setViewData]: any = useState([]);
   const [screenerName, setScreenerName]: any = useState("");
@@ -24,7 +25,7 @@ const CreateScreenerModule = ({
   const viewWraperRef = useRef<HTMLDivElement>(null);
   const [viewNameModule, setViewNameModule] = useState(false);
   const [sateUpdate, setSateUpdate] = useState(true);
-  const [queryInput, setQueryInput] = useState("");
+  const [queryInput, setQueryInput] = useState(query);
   //console.log('editmode', editmode)
   const ViewDataAPICall = async () => {
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.AllScreenerCategory[
