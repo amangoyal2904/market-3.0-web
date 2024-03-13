@@ -210,8 +210,8 @@ const BasicTabs = ({
           onclick={showFilterMenu}
           showFilter={showFilter}
           valuechange={handleChangeData}
-          selectTab={niftyFilterData.selectedTab}
-          childMenuTabActive={niftyFilterData.id}
+          selectTab={niftyFilterData.exchange}
+          childMenuTabActive={niftyFilterData.indexId}
         />
       )}
     </>

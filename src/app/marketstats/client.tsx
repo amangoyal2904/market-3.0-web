@@ -7,14 +7,16 @@ import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
 import { areObjectsNotEqual, getCookie } from "@/utils";
-import { removePersonalizeViewById } from "@/utils/utility";
+import {
+  fetchSelectedFilter,
+  removePersonalizeViewById,
+} from "@/utils/utility";
 import ToasterPopup from "@/components/ToasterPopup";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useStateContext } from "@/store/StateContext";
 import {
   durationOptions,
   fetchViewTable,
-  getSelectedFilter,
   updateOrAddParamToPath,
 } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
@@ -143,7 +145,7 @@ const MarketStats = ({
     const url = actualUrl;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
     router.push(newUrl, { scroll: false });
-    const selectedFilter = await getSelectedFilter(id);
+    const selectedFilter = await fetchSelectedFilter(id);
     setNiftyFilterData(selectedFilter);
     updateL3NAV(id, _payload.duration);
     setPayload({ ..._payload, filterValue: [id], pageno: 1 });

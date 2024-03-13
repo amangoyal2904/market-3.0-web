@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import APIS_CONFIG from "../../../network/api_config.json";
 import { APP_ENV, getStockRecosDetail } from "@/utils";
 import service from "@/network/service";
-import { getSelectedFilter } from "@/utils/utility";
+import { fetchSelectedFilter } from "@/utils/utility";
 import Subhead from "@/components/StockRecosListing/Subhead";
 import InnerLeftNav from "@/components/StockRecosListing/InnerLeftNav";
 
@@ -39,7 +39,7 @@ export default async function stocksrecos({
   };
 
   const intFilter = 0;
-  const selectedFilter = await getSelectedFilter(intFilter);
+  const selectedFilter = await fetchSelectedFilter(intFilter);
 
   const recosDetailResult = await getStockRecosDetail(getApiType(), slug);
   const fundHouseListResult =

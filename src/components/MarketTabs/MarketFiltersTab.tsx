@@ -103,7 +103,6 @@ const MarketFiltersTab = ({
     });
     const ssoid = window.objUser?.ssoid;
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.updateTabs[APP_ENV];
-    // const apiUrl = 'https://qcbselivefeeds.indiatimes.com/screener/saveOrderViewWatch';
     const bodyPost = {
       ssoId: ssoid,
       views: updatedOrder,
@@ -147,10 +146,9 @@ const MarketFiltersTab = ({
   };
   // ====  Here only Filter tabs code start here
   const showFilterMenu = (value: boolean) => {
-    debugger;
     setShowFilter(value);
   };
-  const handleChagneData = (id: any, name: string, selectedTab: string) => {
+  const handleChangeData = (id: any, name: string, selectedTab: string) => {
     setShowFilter(false);
     filterDataChange(id, name, selectedTab);
   };
@@ -309,9 +307,9 @@ const MarketFiltersTab = ({
           data={filterMenuData}
           onclick={showFilterMenu}
           showFilter={showFilter}
-          valuechange={handleChagneData}
-          selectTab={niftyFilterData.selectedTab}
-          childMenuTabActive={niftyFilterData.id}
+          valuechange={handleChangeData}
+          selectTab={niftyFilterData.exchange}
+          childMenuTabActive={niftyFilterData.indexId}
         />
       )}
     </>
