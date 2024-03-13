@@ -1,4 +1,5 @@
 "use client";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import styles from "./MarketMood.module.scss";
 import {
@@ -6,8 +7,12 @@ import {
   durationOptions,
   monthlyDailyOptions,
 } from "./config";
-import StockFilterNifty from "../StockFilterNifty";
 import { fetchFilters } from "@/utils/utility";
+
+const StockFilterNifty = dynamic(
+  () => import("@/components/StockFilterNifty"),
+  { ssr: false },
+);
 
 const MarketMoodHeader = ({
   heading,
