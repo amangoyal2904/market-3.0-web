@@ -64,6 +64,7 @@ const StockScreeners = ({
   const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [_payload, setPayload] = useState(payload);
+  const [_query, setQuery] = useState(screenerDetail.displayQuery);
   const [_screenerDetail, setScreenerDetail] = useState(screenerDetail);
   const [processingLoader, setProcessingLoader] = useState(false);
   const [toasterConfirmData, setToasterConfirmData] = useState({});
@@ -176,6 +177,13 @@ const StockScreeners = ({
       onTabViewUpdate(activeViewId);
     }
   };
+  const industryFilerValueHandler = (value: any) => {
+    console.log("getIndustryValuye", value);
+    setPayload({
+      ..._payload,
+      queryCondition: `${_query} AND Industry In(${value.join(",")})`,
+    });
+  };
   const onPaginationChange = async (pageNumber: number) => {
     setProcessingLoader(true);
     setPayload({ ..._payload, pageno: pageNumber });
@@ -212,7 +220,7 @@ const StockScreeners = ({
       pagesize: 25,
       screenerId: scrid,
     };
-
+    setQuery(query.trim());
     const data = await fetch(API_URL, {
       method: "POST",
       headers: {
@@ -379,6 +387,7 @@ const StockScreeners = ({
                   onPersonalizeHandler={onPersonalizeHandlerfun}
                   removePersonaliseView={removePersonaliseViewFun}
                   createNewScreener={createNewScreenerFun}
+                  getIndustryFilterValue={industryFilerValueHandler}
                 />
               </div>
               <MarketTable

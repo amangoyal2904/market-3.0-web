@@ -12,8 +12,6 @@ const IndustryFilter = ({
 }: any) => {
   const [filteData, setFilterData]: any[] = useState([]);
 
-  console.log("defaultCheck", defaultCheck);
-
   const fetchIndustryData = async () => {
     const data = await fetchIndustryFilters(
       "?exchange=50&ismobile=true&datatype=industry",
