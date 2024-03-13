@@ -76,6 +76,7 @@ const StockScreeners = ({
     mode: false,
     viewId: "",
   });
+  const [editQueryScreener, setEditQueryScreener] = useState(false);
   const [screenerLoading, setScreenerLoading] = useState(false);
   const [showModalMessage, setShowModalMessage] = useState(false);
   const [modalBodyText, setModalBodyText] = useState({
@@ -230,29 +231,21 @@ const StockScreeners = ({
     });
     const responseData = await data.json();
     if (responseData && responseData.statusCode === 200) {
-      // const _pageSummary = !!responseData.pageSummary
-      //   ? responseData.pageSummary
-      //   : {};
-      // const _tableData = responseData?.dataList ? responseData.dataList : [];
-
-      // const _tableHeaderData =
-      //   _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
-      //     ? _tableData[0]?.data
-      //     : [];
-      // const _screenerDetails = !!responseData.screenerDetail
-      //   ? responseData.screenerDetail
-      //   : {};
-      // setTableData(_tableData);
-      // setTableHeaderData(_tableHeaderData);
-      // setPageSummary(_pageSummary);
-      // setScreenerDetail(_screenerDetails);
       setScreenerLoading(false);
       setCreateModuleScreener(false);
-      setMetaData({
-        ..._metaData,
-        title: "Unsaved Screener",
-        saveMode: "true",
-      });
+
+      // ====== edit mode
+      if (screenerEditMode.mode) {
+        setEditQueryScreener(false);
+        setScreenerEditMode({ ...screenerEditMode, mode: false });
+      } else {
+        setMetaData({
+          ..._metaData,
+          title: "Unsaved Screener",
+          saveMode: "true",
+        });
+      }
+      // ===== edit mode
       setPayload({ ..._payload, queryCondition: query.trim() });
     } else {
       alert("Error : Incorrect Query");
@@ -263,7 +256,12 @@ const StockScreeners = ({
     setCreateModuleScreener(true);
   };
   const cancelScreenerCreateFun = () => {
-    setCreateModuleScreener(false);
+    if (screenerEditMode.mode) {
+      setEditQueryScreener(false);
+      setScreenerEditMode({ ...screenerEditMode, mode: false });
+    } else {
+      setCreateModuleScreener(false);
+    }
   };
   const closeModuleScreerHandler = () => {
     setCreateModuleScreener(false);
@@ -347,7 +345,9 @@ const StockScreeners = ({
           ""
         )}
       </h1>
-      {_metaData && _metaData.saveMode ? (
+      {createModuleScreener ? (
+        ""
+      ) : _metaData && _metaData.saveMode ? (
         ""
       ) : (
         <p className={styles.desc}>{_metaData.desc}</p>
@@ -401,7 +401,12 @@ const StockScreeners = ({
                 fixedCol={1}
               />
               <div className="">
-                <QueryComponets data={_screenerDetail} />
+                <QueryComponets
+                  data={_screenerDetail}
+                  showModal={setEditQueryScreener}
+                  setScreenerEditMode={setScreenerEditMode}
+                  screenerEditMode={screenerEditMode}
+                />
               </div>
             </div>
           </>
@@ -426,6 +431,17 @@ const StockScreeners = ({
           message={modalBodyText}
           mode="success"
           closePopup={setShowModalMessage}
+        />
+      )}
+      {editQueryScreener && (
+        <CreateScreenerModule
+          closeModuleScreenerNew={closeModuleScreerHandler}
+          runQueryhandler={runQueryHandlerFun}
+          editmode={screenerEditMode}
+          cancelScreenerCreate={cancelScreenerCreateFun}
+          screenerLoading={screenerLoading}
+          setScreenerLoading={setScreenerLoading}
+          query={_query}
         />
       )}
     </>

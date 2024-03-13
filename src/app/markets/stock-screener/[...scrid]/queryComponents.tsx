@@ -1,6 +1,15 @@
 import styles from "./stockScreener.module.scss";
 
-const QueryComponets = ({ data }: any) => {
+const QueryComponets = ({
+  data,
+  showModal,
+  screenerEditMode,
+  setScreenerEditMode,
+}: any) => {
+  const editScreenerModeHandler = () => {
+    showModal(true);
+    setScreenerEditMode({ ...screenerEditMode, mode: true });
+  };
   return (
     <>
       <div className={styles.querySec}>
@@ -8,7 +17,9 @@ const QueryComponets = ({ data }: any) => {
           <div className={styles.heading}>Query</div>
           <div className={styles.queryBox}>{data?.displayQuery}</div>
           <div className={styles.btnSec}>
-            <span className={styles.editBtn}>Edit Attributes</span>
+            <span className={styles.editBtn} onClick={editScreenerModeHandler}>
+              Edit Attributes
+            </span>
           </div>
         </div>
         <div className={styles.right}>
