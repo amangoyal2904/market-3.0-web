@@ -41,10 +41,13 @@ export default async function stocksrecos({
   const intFilter = 0;
   const selectedFilter = await getSelectedFilter(intFilter);
 
-  const recosDetailResult = await getStockRecosDetail(getApiType(), slug);
+  const recosDetailResult = await getStockRecosDetail({
+    getApiType: getApiType(),
+    slug,
+  });
   const fundHouseListResult =
     getApiType() == "FHDetail"
-      ? await getStockRecosDetail("recoByFH", slug)
+      ? await getStockRecosDetail({ getApiType: "recoByFH", slug })
       : "";
 
   const navListData =
