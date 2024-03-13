@@ -4,7 +4,12 @@ import Link from "next/link";
 import styles from "./styles.module.scss";
 import React, { useEffect, useState } from "react";
 
-const FundNavAccordionItem = ({ item, slug, getFundHouseInfo }: any) => {
+const FundNavAccordionItem = ({
+  item,
+  slug,
+  getFundHouseInfo,
+  urlFilterHandle,
+}: any) => {
   const [isOpen, setIsOpen] = useState(getFundHouseInfo.isOpenTab);
 
   const filterList = ["All", "Buy", "Sell", "Hold"];
@@ -38,7 +43,7 @@ const FundNavAccordionItem = ({ item, slug, getFundHouseInfo }: any) => {
                     className={`${fundHouseSeoName(getFundHouseInfo.fundHounseName) == fundHouseSeoName(item.organisation) && slug?.[2] == fundHouseSeoName(filter) ? styles.active : ""} ${styles.fundFilter}`}
                   >
                     <Link
-                      href={`/stocksrecos/fundhousedetails/${fundHouseSeoName(item.organisation)}-${item.omId}/${fundHouseSeoName(filter)}`}
+                      href={`/stocksrecos/fundhousedetails/${fundHouseSeoName(item.organisation)}-${item.omId}/${fundHouseSeoName(filter)}${urlFilterHandle()}`}
                     >
                       {filter}
                     </Link>

@@ -12,7 +12,7 @@
   border: 1px solid #b3b3b3;
   background: #ffffff;
   &.stockGap {
-    gap: 32px;
+    // gap: 32px;
   }
 
   // Apply red color if stocksMain has class sellStock
@@ -132,24 +132,30 @@
       }
     }
   }
-  .viewReportBox {
-    position: absolute;
-    right: 20px;
-    bottom: 40px;
-    border-radius: 2px;
-    border: 0.5px solid #000000;
-    padding: 2px 7px 2px 25px;
-    background: #fff3f0;
-    .pdfIcon {
-      position: absolute;
-      left: -2px;
-      bottom: 0;
-      font-size: 28px;
-    }
-    .viewReport {
-      font-size: 10px;
-      font-weight: 500;
-      line-height: normal;
+  .viewReportWrap {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 7px 16px 12px 0;
+    .viewReportBox {
+      position: relative;
+      // right: 20px;
+      // bottom: 40px;
+      border-radius: 2px;
+      border: 0.5px solid #000000;
+      padding: 2px 7px 2px 25px;
+      background: #fff3f0;
+      .pdfIcon {
+        position: absolute;
+        left: -2px;
+        bottom: 0;
+        font-size: 28px;
+      }
+      .viewReport {
+        font-size: 10px;
+        font-weight: 500;
+        line-height: normal;
+      }
     }
   }
   .brokerageBox {
@@ -232,6 +238,7 @@
     width: 32%;
     margin-right: 2%;
     min-width: auto;
+    gap: unset;
     .stocksBox {
       gap: unset;
 
@@ -250,6 +257,7 @@
 
 .stockRecosOverviewTab {
   &.stocksMain {
+    gap: unset;
     .stocksBox {
       gap: unset;
 

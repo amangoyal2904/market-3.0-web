@@ -3,30 +3,47 @@
 import styles from "./styles.module.scss";
 import StockFilterNifty from "@/components/StockFilterNifty";
 import { useEffect, useState } from "react";
-import { fetchFilters, getSelectedFilter } from "@/utils/utility";
+import {
+  fetchFilters,
+  getSelectedFilter,
+  updateOrAddParamToPath,
+} from "@/utils/utility";
 import Link from "next/link";
 import { useStateContext } from "../../store/StateContext";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 const Subhead = (props: any) => {
-  const { showIndexFilter, selectedFilter, recosNavResult, activeTab, slug } =
-    props;
+  const {
+    showIndexFilter,
+    selectedFilter,
+    recosNavResult,
+    activeTab,
+    slug,
+    filterDataChangeHander,
+    niftyFilterData,
+  } = props;
   const [showFilter, setShowFilter] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
-  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
+  //const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const { state, dispatch } = useStateContext();
   const { viewType } = state.StockRecosStatus;
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const filterDataChangeHander = async (id: any) => {
-    //setProcessingLoader(true);
-    // const url = `${pathname}?${searchParams}`;
-    // const newUrl = updateOrAddParamToPath(url, "filter", id);
-    const selectedFilter = await getSelectedFilter(id);
-    setNiftyFilterData(selectedFilter);
-    console.log("selectedFilter", selectedFilter);
-    // setPayload({ ..._payload, filterValue: [id] });
-    // updateL3NAV(id, _payload.duration);
-    // router.push(newUrl, { scroll: false });
-  };
+  console.log("niftyFilterData--", niftyFilterData);
+
+  // const filterDataChangeHander = async (id: any) => {
+  //   //setProcessingLoader(true);
+  //   const url = `${pathname}?${searchParams}`;
+  //   const newUrl = updateOrAddParamToPath(url, "filter", id);
+  //   const selectedFilter = await getSelectedFilter(id);
+  //   setNiftyFilterData(selectedFilter);
+  //   console.log("selectedFilter", selectedFilter);
+  //   // setPayload({ ..._payload, filterValue: [id] });
+  //   // updateL3NAV(id, _payload.duration);
+  //   router.push(newUrl, { scroll: false });
+  // };
 
   // ====  Here only Filter tabs code start here
   const showFilterMenu = (value: boolean) => {
@@ -73,10 +90,14 @@ const Subhead = (props: any) => {
               className={`${styles.mainTab} ${item.seoPath == activeTab || (item.seoPath == "fundhousedetails" && activeTab == "fundhousedetails") ? styles.active : ""}`}
             >
               {item.seoPath == "fundhousedetails" ? (
-                <Link href={`/stocksrecos/fundhousedetails`}>{item.label}</Link>
+                <Link
+                  href={`/stocksrecos/fundhousedetails${niftyFilterData?.id ? "?filter=" + niftyFilterData.id : ""}`}
+                >
+                  {item.label}
+                </Link>
               ) : (
                 <Link
-                  href={`/stocksrecos/${handleLowerCase(item.seoPath)}${handleLowerCase(item.seoPath) == "newrecos" ? "/all" : ""}`}
+                  href={`/stocksrecos/${handleLowerCase(item.seoPath)}${handleLowerCase(item.seoPath) == "newrecos" ? "/all" : ""}${niftyFilterData?.id ? "?filter=" + niftyFilterData.id : ""}`}
                 >
                   {item.label}
                 </Link>
@@ -84,26 +105,21 @@ const Subhead = (props: any) => {
             </li>
           ))}
         </ul>
-        {slug?.[0] != "overview" && (
-          <div className={styles.actionBarWrap}>
-            {/* <div className={styles.sortByWrap}>
-              <span className={styles.sortByText}>Sort By:</span>
-              <select className={styles.sortByDD}>
-                <option>Performance High to Low</option>
-                <option>Performance Low to High</option>
-              </select>
-            </div> */}
-            {slug?.[0] != "fundhousedetails" && (
-              <div
-                onClick={() => showFilterMenu(true)}
-                className={styles.niftyWrap}
-              >
-                <div className={styles.niftyBtn}>
-                  <span className="eticon_filter"></span>
-                  <span>{niftyFilterData?.name}</span>
-                </div>
+        <div className={styles.actionBarWrap}>
+          {(slug?.[0] != "fundhousedetails" ||
+            slug.length > 1 ||
+            slug?.[0] == "overview") && (
+            <div
+              onClick={() => showFilterMenu(true)}
+              className={styles.niftyWrap}
+            >
+              <div className={styles.niftyBtn}>
+                <span className="eticon_filter"></span>
+                <span>{niftyFilterData?.name}</span>
               </div>
-            )}
+            </div>
+          )}
+          {slug?.[0] != "overview" && (
             <div className={styles.listingTypeWrap}>
               <ul className={styles.listingType}>
                 <li
@@ -122,8 +138,8 @@ const Subhead = (props: any) => {
                 </li>
               </ul>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       {showFilter && (
         <StockFilterNifty

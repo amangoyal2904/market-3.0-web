@@ -4,7 +4,17 @@ import FundNavAccordionItem from "./FundNavAccordionItem";
 import { getFundHouseInfo } from "../../utils";
 
 const InnerLeftNav = (props: any) => {
-  const { recosNavResult, recosDetailResult, activeApi, slug } = props;
+  const {
+    recosNavResult,
+    recosDetailResult,
+    activeApi,
+    niftyFilterData,
+    slug,
+  } = props;
+
+  const urlFilterHandle = () => {
+    return niftyFilterData?.id ? "?filter=" + niftyFilterData?.id : "";
+  };
 
   return (
     <>
@@ -23,7 +33,7 @@ const InnerLeftNav = (props: any) => {
                         >
                           <Link
                             className={styles.ssLabel}
-                            href={`/stocksrecos/${item.seoPath}/${ssItem.recoType}`}
+                            href={`/stocksrecos/${item.seoPath}/${ssItem.recoType}${urlFilterHandle()}`}
                           >
                             {ssItem.label}
                           </Link>
@@ -41,7 +51,9 @@ const InnerLeftNav = (props: any) => {
           <li
             className={`${styles.fundHousesLeftNav} ${styles.allBrokeragesTab} ${activeApi == "recoByFH" ? styles.active : ""}`}
           >
-            <Link href="/stocksrecos/fundhousedetails">All Brokerages</Link>
+            <Link href={`/stocksrecos/fundhousedetails${urlFilterHandle()}`}>
+              All Brokerages
+            </Link>
           </li>
           {recosDetailResult?.recoData?.[0].data.map(
             (item: any, index: any) => (
@@ -50,6 +62,7 @@ const InnerLeftNav = (props: any) => {
                 getFundHouseInfo={getFundHouseInfo(item, slug)}
                 item={item}
                 slug={slug}
+                urlFilterHandle={urlFilterHandle}
               />
             ),
           )}

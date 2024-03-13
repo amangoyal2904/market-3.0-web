@@ -3,18 +3,42 @@ import styles from "./styles.module.scss";
 import APIS_CONFIG from "../../../network/api_config.json";
 import { APP_ENV, getStockRecosDetail } from "@/utils";
 import service from "@/network/service";
-import { getSelectedFilter } from "@/utils/utility";
+import { getSelectedFilter, getSearchParams } from "@/utils/utility";
+import { cookies, headers } from "next/headers";
 import Subhead from "@/components/StockRecosListing/Subhead";
 import InnerLeftNav from "@/components/StockRecosListing/InnerLeftNav";
+import {
+  getAllShortUrls,
+  getMarketStatsNav,
+  getShortUrlMapping,
+} from "@/utils/marketstats";
 
 export default async function stocksrecos({
   params,
+  searchParams,
 }: {
   params: {
     slug: string[];
   };
+  searchParams: any;
 }) {
   console.log("params.slug ----> ", params.slug);
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
+  const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
+  let intFilter;
+  let actualUrl;
+
+  if (shortUrl) {
+    actualUrl = pageData?.longURL;
+    const requestParams = getSearchParams(actualUrl);
+    intFilter = requestParams.filter ? parseInt(requestParams.filter) : 0;
+  } else {
+    intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
+    actualUrl = pageUrl;
+  }
+
+  const selectedFilter = await getSelectedFilter(intFilter);
 
   const { slug } = params || [];
 
@@ -38,20 +62,20 @@ export default async function stocksrecos({
         : activeObj[0]?.apiType;
   };
 
-  const intFilter = 0;
-  const selectedFilter = await getSelectedFilter(intFilter);
-
   const recosDetailResult = await getStockRecosDetail({
     getApiType: getApiType(),
     slug,
+    niftyFilterData: selectedFilter,
   });
-  const fundHouseListResult =
-    getApiType() == "FHDetail"
-      ? await getStockRecosDetail({ getApiType: "recoByFH", slug })
-      : "";
 
   const navListData =
-    getApiType() == "FHDetail" ? fundHouseListResult : recosDetailResult;
+    getApiType() == "FHDetail"
+      ? await getStockRecosDetail({
+          getApiType: "recoByFH",
+          slug,
+          niftyFilterData: selectedFilter,
+        })
+      : recosDetailResult;
 
   return (
     <>
@@ -65,14 +89,14 @@ export default async function stocksrecos({
             stocks.
           </p>
         </div>
-        <Subhead
+        {/* <Subhead
           showIndexFilter={true}
           selectedFilter={selectedFilter}
           recosNavResult={recosNavResult}
           activeTab={slug?.[0]}
           slug={slug}
-        />
-        {getApiType() == "FHDetail" && (
+        /> */}
+        {/* {getApiType() == "FHDetail" && (
           <div className={styles.brokerageWrap}>
             <div className={styles.totalRecosWrap}>
               <span className={styles.totalRecosTitle}>Total Recos</span>
@@ -112,11 +136,11 @@ export default async function stocksrecos({
               <span className={styles.neutralVal}>-</span>
             </div>
           </div>
-        )}
-        <div
+        )} */}
+        {/* <div
           className={`${styles.contentWrap} ${slug?.[0] == "overview" ? styles.overviewWrap : ""}`}
-        >
-          {(getApiType() == "newRecos" ||
+        > */}
+        {/* {(getApiType() == "newRecos" ||
             slug.includes("fundhousedetails")) && (
             <InnerLeftNav
               recosNavResult={recosNavResult}
@@ -124,14 +148,17 @@ export default async function stocksrecos({
               activeApi={getApiType()}
               slug={slug}
             />
-          )}
-          <StockRecosListing
-            showIndexFilter={true}
-            recosDetailResult={recosDetailResult}
-            activeApi={getApiType()}
-            slug={slug}
-          />
-        </div>
+          )} */}
+        <StockRecosListing
+          showIndexFilter={true}
+          selectedFilter={selectedFilter}
+          recosNavResult={recosNavResult}
+          recosDetailResult={recosDetailResult}
+          navListData={navListData}
+          activeApi={getApiType()}
+          slug={slug}
+        />
+        {/* </div> */}
       </div>
     </>
   );

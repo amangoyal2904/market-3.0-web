@@ -5,8 +5,9 @@ import styles from "./styles.module.scss";
 import Link from "next/link";
 interface Props {
   data: any;
+  urlFilterHandle: any;
 }
-const Overview: React.FC<Props> = ({ data }) => {
+const Overview: React.FC<Props> = ({ data, urlFilterHandle }) => {
   const responsive = [
     {
       breakpoint: 1921,
@@ -62,6 +63,7 @@ const Overview: React.FC<Props> = ({ data }) => {
                   key={index}
                   activeTab={obj.apiType}
                   pageName={"stockRecosOverviewTab"}
+                  urlFilterHandle={urlFilterHandle}
                 />
               ),
             }))}
@@ -73,7 +75,7 @@ const Overview: React.FC<Props> = ({ data }) => {
             responsive={responsive}
           />
           <div className={styles.overviewViewAll}>
-            <Link href={redirectLink(obj.apiType)}>
+            <Link href={`${redirectLink(obj.apiType)}${urlFilterHandle()}`}>
               View all {obj.name}{" "}
               <span className={`eticon_next ${styles.arrowIcon}`}></span>
             </Link>

@@ -6,7 +6,7 @@ import Blocker from "../Blocker";
 import { useStateContext } from "../../store/StateContext";
 
 const Listing = (props: any) => {
-  const { recosDetailResult, activeApi } = props;
+  const { recosDetailResult, activeApi, urlFilterHandle } = props;
   const { state, dispatch } = useStateContext();
   const { isLogin } = state.login;
 
@@ -22,6 +22,7 @@ const Listing = (props: any) => {
                   key={index}
                   activeTab={activeApi}
                   pageName="stockRecosPage"
+                  urlFilterHandle={urlFilterHandle}
                 />
               );
             },

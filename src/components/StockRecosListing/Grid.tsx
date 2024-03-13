@@ -4,9 +4,10 @@ import WatchlistAddition from "../WatchlistAddition";
 import Blocker from "../Blocker";
 import { dateFormat } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
+import Link from "next/link";
 
 const TableHtml = (props: any) => {
-  const { recosDetailResult, activeApi } = props;
+  const { recosDetailResult, activeApi, urlFilterHandle } = props;
 
   const tableHead = () => {
     let activeTabHead: any = [];
@@ -102,7 +103,11 @@ const TableHtml = (props: any) => {
       <>
         <td>
           <div className={styles.tdColWrap}>
-            <span>{obj.organisation}</span>
+            <Link
+              href={`/stocksrecos/fundhousedetails/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
+            >
+              <span>{obj.organisation}</span>
+            </Link>
           </div>
         </td>
         <td>
