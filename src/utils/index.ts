@@ -501,6 +501,53 @@ export const setCookies = (
     name + "=" + value + expires + `; domain=${window.location.host}; path=/;`;
 };
 
+export const getFundHouseInfo = (item: any, slug: any) => {
+  let fundHouseId = "";
+  let fundHounseName = "";
+  let isOpenTab = false;
+  if (typeof slug?.[1] != "undefined") {
+    fundHouseId = slug?.[1].split("-").slice(-1)[0];
+    fundHounseName = slug?.[1].split("-").slice(0, -1).join(" ");
+    isOpenTab = item && slug?.[1].indexOf(item.omId) != -1 ? true : false;
+  }
+
+  return {
+    isOpenTab: isOpenTab,
+    fundHouseId: fundHouseId,
+    fundHounseName: fundHounseName,
+  };
+};
+
+// =====  Get STOCK_RECOS_DETAIL Data =======
+export const getStockRecosDetail = async (getApiType: any, slug: any) => {
+  const STOCK_RECOS_DETAIL_Link = (APIS_CONFIG as any)["STOCK_RECOS_DETAIL"][
+    APP_ENV
+  ];
+  const fundHouseInfo = getFundHouseInfo("", slug);
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  const payload = {
+    apiType: getApiType,
+    filterType: getApiType == "FHDetail" ? "fundhouse" : "",
+    filterValue: getApiType == "FHDetail" ? [fundHouseInfo.fundHouseId] : [],
+    recoType: (getApiType == "FHDetail" ? slug?.[2] : slug?.[1]) || "all",
+    pageSize: getApiType == "recoByFH" ? 100 : 30,
+    pageNumber: 1,
+  };
+
+  console.log("payload----", payload);
+
+  const recosDetailPromise = await Service.post({
+    url: STOCK_RECOS_DETAIL_Link,
+    headers: headers,
+    body: JSON.stringify(payload),
+    params: {},
+  });
+
+  const recosDetailResult = await recosDetailPromise?.json();
+  return recosDetailResult;
+};
 export const formatNumber = (number: number): string => {
   const formatter = new Intl.NumberFormat("en-IN", {
     style: "decimal",

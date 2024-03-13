@@ -15,3 +15,150 @@
     }
   }
 }
+
+.contentWrap {
+  margin-top: 32px;
+  display: flex;
+
+  &.overviewWrap {
+    flex-direction: column;
+    margin-top: 0;
+    .overviewMain {
+      position: relative;
+      .title {
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        margin: 40px 0 27px;
+      }
+
+      .overviewViewAll {
+        text-align: right;
+        font-size: 16px;
+        line-height: 19.5px;
+        font-weight: 600;
+        color: $blue_secondary_50;
+        display: flex;
+        justify-content: flex-end;
+        a {
+          display: flex;
+          align-items: center;
+        }
+
+        .arrowIcon {
+          border: 1px solid $color-black;
+          border-radius: 50%;
+          font-size: 24px;
+          margin-left: 14px;
+        }
+      }
+    }
+  }
+}
+
+.brokerageWrap {
+  background-color: $salmon-40;
+  display: flex;
+  border-radius: 3px;
+  padding: 15px 19px;
+  margin-top: 32px;
+  align-items: center;
+
+  .totalRecosWrap {
+    .totalRecosTitle {
+      font-size: 14px;
+      font-weight: 600;
+      margin-right: 14px;
+    }
+    .totalRecosval {
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+
+  .pipe {
+    width: 0px;
+    height: 30px;
+    border-left: 1px solid $color-black;
+    margin: 0 39px;
+  }
+
+  .buyWrap {
+    font-size: 14px;
+    margin-right: 75px;
+    .buyTitle {
+      font-weight: 600;
+      color: $green_secondary_dark;
+      margin-right: 6px;
+    }
+    .buyval {
+      font-weight: 500;
+    }
+  }
+
+  .sellWrap {
+    font-size: 14px;
+    margin-right: 75px;
+    .sellTitle {
+      font-weight: 600;
+      color: $redText;
+      margin-right: 6px;
+    }
+    .sellVal {
+      font-weight: 500;
+    }
+  }
+
+  .holdWrap {
+    font-size: 14px;
+    margin-right: 75px;
+    .holdTitle {
+      font-weight: 600;
+      color: $grayText;
+      margin-right: 6px;
+    }
+    .holdVal {
+      font-weight: 500;
+    }
+  }
+
+  .addWrap {
+    font-size: 14px;
+    margin-right: 75px;
+    .addTitle {
+      font-weight: 600;
+      color: $grayText;
+      margin-right: 6px;
+    }
+    .addVal {
+      font-weight: 500;
+    }
+  }
+
+  .accumulateWrap {
+    font-size: 14px;
+    margin-right: 75px;
+    .accumulateTitle {
+      font-weight: 600;
+      color: $grayText;
+      margin-right: 6px;
+    }
+    .accumulateVal {
+      font-weight: 500;
+    }
+  }
+
+  .neutralWrap {
+    font-size: 14px;
+    margin-right: 75px;
+    .neutralTitle {
+      font-weight: 600;
+      color: $grayText;
+      margin-right: 6px;
+    }
+    .neutralVal {
+      font-weight: 500;
+    }
+  }
+}

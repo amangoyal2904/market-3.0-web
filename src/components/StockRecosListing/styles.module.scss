@@ -56,6 +56,7 @@
 
     .niftyWrap {
       padding: 0 4px;
+      margin-right: 10px;
       .niftyBtn {
         font-size: 12px;
         font-weight: 600;
@@ -93,6 +94,7 @@
 .newRecosWrap {
   list-style: none;
   font-size: 12px;
+  margin-right: 16px;
 
   .newRecosSSList {
     padding: 4px 8px;
@@ -110,42 +112,34 @@
   }
 }
 
-.contentWrap {
-  margin-top: 10px;
-  display: flex;
+.overviewMain {
+  position: relative;
+  .title {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 40px 0 27px;
+  }
 
-  &.overviewWrap {
-    flex-direction: column;
-    .overviewMain {
-      position: relative;
-      .title {
-        font-size: 24px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        margin: 40px 0 27px;
-      }
+  .overviewViewAll {
+    text-align: right;
+    font-size: 16px;
+    line-height: 19.5px;
+    font-weight: 600;
+    color: $blue-50;
+    display: flex;
+    justify-content: flex-end;
+    a {
+      display: flex;
+      align-items: center;
+    }
 
-      .overviewViewAll {
-        text-align: right;
-        font-size: 16px;
-        line-height: 19.5px;
-        font-weight: 600;
-        color: $blue-50;
-        display: flex;
-        justify-content: flex-end;
-        a {
-          display: flex;
-          align-items: center;
-        }
-
-        .arrowIcon {
-          border: 1px solid $black;
-          border-radius: 50%;
-          font-size: 24px;
-          margin-left: 14px;
-        }
-      }
+    .arrowIcon {
+      border: 1px solid $black;
+      border-radius: 50%;
+      font-size: 24px;
+      margin-left: 14px;
     }
   }
 }
@@ -165,76 +159,76 @@
   position: relative;
   width: 100%;
   .tableWrapper {
-    margin-top: 20px;
     display: flex;
     position: relative;
     overflow: auto;
     overflow-y: "scroll";
     justify-content: flex-start;
     table {
-      width: 100%;
+      // width: 100%;
       border-collapse: collapse;
       overflow-x: auto;
-      border-left: 1px solid rgb(244, 244, 244);
+      border-left: 1px solid $gray_95;
       thead {
         position: relative;
         z-index: 1;
         tr {
-          background-color: #ffffff;
+          background-color: $color-white;
           th {
             position: relative;
             font-size: 12px;
             font-weight: 600;
             line-height: 16px;
             white-space: nowrap;
-            padding: 15px 30px 15px 10px;
-            color: rgb(77, 77, 77);
-            background-color: rgb(244, 244, 244);
-            border-right: 1px solid rgb(244, 244, 244);
-            border-bottom: 1px solid rgb(204, 204, 204);
+            padding: 16px 8px;
+            color: $gray_30;
+            background-color: $gray_95;
+            border-right: 1px solid $gray_95;
+            border-bottom: 1px solid $gray_80;
             border-right-style: solid;
             overflow: hidden;
             text-overflow: ellipsis;
             -webkit-box-orient: vertical;
-            &:nth-child(1) {
-              width: 200px;
-            }
-            &:nth-child(2),
-            &:nth-child(3),
-            &:nth-child(4),
-            &:nth-child(5),
-            &:nth-child(6),
-            &:nth-child(7),
-            &:nth-child(8) {
-              width: 110px;
-            }
+            vertical-align: middle;
           }
         }
       }
       tbody {
         tr {
-          background-color: #ffffff;
+          background-color: $color-white;
           td {
             font-size: 14px;
             font-style: normal;
             font-weight: 400;
             line-height: 16px;
             height: 40px;
-            color: rgb(0, 0, 0);
+            color: $color-black;
             padding: 10px 15px;
             border-right: 1px solid rgb(244, 244, 244);
             border-bottom: 1px solid rgb(204, 204, 204);
-            background: #ffffff;
+            background: $color-white;
             text-align: right;
             text-overflow: ellipsis;
             white-space: nowrap;
             &:first-child {
-              color: rgb(0, 0, 0);
+              color: $color-black;
               font-size: 14px;
               font-style: normal;
               font-weight: 600;
               line-height: 18px;
               text-align: left;
+            }
+            &.recommendation {
+              text-align: left;
+              .buySellTitle {
+                font-size: 12px;
+                font-weight: 700;
+                line-height: 16px;
+              }
+              .callDateBox {
+                font-size: 10px;
+                font-weight: 400;
+              }
             }
             .tdColWrap {
               position: relative;
@@ -248,7 +242,7 @@
               width: 100%;
               &.upSide {
                 padding: 8px 12px;
-                background-color: #e9fbe9;
+                background-color: rgb(233, 251, 233);
                 color: #147014;
               }
               &.downSide {
@@ -296,5 +290,159 @@
         }
       }
     }
+
+    &.FHDetail {
+      th {
+        &:nth-child(1) {
+          width: 288px;
+          text-align: left;
+        }
+        &:nth-child(2) {
+          width: 160px;
+          text-align: left;
+        }
+        &:nth-child(3) {
+          width: 138px;
+          text-align: center;
+          white-space: normal;
+        }
+        &:nth-child(4),
+        &:nth-child(5),
+        &:nth-child(6) {
+          width: 120px;
+          text-align: center;
+        }
+        &:nth-child(7) {
+          width: 100px;
+          text-align: center;
+        }
+      }
+    }
+
+    &.recoByFH {
+      th {
+        &:nth-child(1) {
+          width: 320px;
+          text-align: left;
+        }
+        &:nth-child(2),
+        &:nth-child(3),
+        &:nth-child(4),
+        &:nth-child(5),
+        &:nth-child(6),
+        &:nth-child(7),
+        &:nth-child(8) {
+          width: 100px;
+          text-align: center;
+          white-space: normal;
+        }
+        &:nth-child(2) {
+          padding: 8px 14px;
+        }
+      }
+    }
+
+    &.newRecos {
+      th {
+        white-space: normal;
+        &:nth-child(1) {
+          width: 200px;
+          text-align: left;
+        }
+        &:nth-child(2) {
+          width: 160px;
+        }
+        &:nth-child(3),
+        &:nth-child(4),
+        &:nth-child(5),
+        &:nth-child(6) {
+          width: 120px;
+        }
+        &:nth-child(7) {
+          width: 128px;
+        }
+        &:nth-child(8) {
+          width: 100px;
+        }
+      }
+    }
+
+    &.recoOnWatchlist,
+    &.mostSell,
+    &.mostBuy {
+      th {
+        white-space: normal;
+        &:nth-child(1) {
+          width: 320px;
+          text-align: left;
+        }
+        &:nth-child(2),
+        &:nth-child(3),
+        &:nth-child(4) {
+          width: 120px;
+        }
+        &:nth-child(5),
+        &:nth-child(6),
+        &:nth-child(7),
+        &:nth-child(8) {
+          width: 100px;
+        }
+      }
+    }
   }
+}
+
+.fundHousesLeftNavWrap {
+  list-style: none;
+  margin-right: 16px;
+  .fundHousesLeftNav {
+    width: 200px;
+    padding: 8px 0 8px 8px;
+    cursor: pointer;
+    font-size: 12px;
+
+    &.allBrokeragesTab {
+      padding-left: 18px;
+
+      &.active {
+        border-radius: 3px;
+        background-color: $salmon-40;
+        font-weight: 600;
+      }
+    }
+
+    .navTitle {
+      display: flex;
+      .arrowIcon {
+        margin-right: 4px;
+      }
+    }
+
+    .fundFilterWrap {
+      list-style: none;
+      padding: 0 20px;
+
+      .fundFilter {
+        padding: 4px 8px;
+
+        &.active {
+          border-radius: 3px;
+          background-color: $salmon-40;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+.green {
+  color: $green_secondary_dark;
+}
+
+.red {
+  color: $red_secondary_dark;
+}
+
+.gray {
+  color: $gray_30;
 }
