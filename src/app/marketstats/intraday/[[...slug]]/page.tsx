@@ -2,9 +2,9 @@ import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
 import { cookies, headers } from "next/headers";
 import {
+  fetchSelectedFilter,
   fnGenerateMetaData,
   getSearchParams,
-  getSelectedFilter,
 } from "@/utils/utility";
 import { Metadata, ResolvingMetadata } from "next";
 import {
@@ -122,7 +122,7 @@ const Intraday = async ({ searchParams }: any) => {
       "MARKETSTATS_INTRADAY",
     );
 
-  const selectedFilter = await getSelectedFilter(intFilter);
+  const selectedFilter = await fetchSelectedFilter(intFilter);
 
   const title = !!shortUrl ? pageData?.heading : metaData[0]?.title;
   const desc = !!shortUrl ? pageData?.desc : metaData[0]?.desc;

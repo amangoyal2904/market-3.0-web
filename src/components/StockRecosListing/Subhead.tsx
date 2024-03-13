@@ -3,7 +3,7 @@
 import styles from "./styles.module.scss";
 import StockFilterNifty from "@/components/StockFilterNifty";
 import { useEffect, useState } from "react";
-import { fetchFilters, getSelectedFilter } from "@/utils/utility";
+import { fetchFilters, fetchSelectedFilter } from "@/utils/utility";
 import Link from "next/link";
 import { useStateContext } from "../../store/StateContext";
 
@@ -20,7 +20,7 @@ const Subhead = (props: any) => {
     //setProcessingLoader(true);
     // const url = `${pathname}?${searchParams}`;
     // const newUrl = updateOrAddParamToPath(url, "filter", id);
-    const selectedFilter = await getSelectedFilter(id);
+    const selectedFilter = await fetchSelectedFilter(id);
     setNiftyFilterData(selectedFilter);
     console.log("selectedFilter", selectedFilter);
     // setPayload({ ..._payload, filterValue: [id] });
@@ -32,7 +32,7 @@ const Subhead = (props: any) => {
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);
   };
-  const handleChagneData = (id: any, name: string, selectedTab: string) => {
+  const handleChangeData = (id: any, name: string, selectedTab: string) => {
     setShowFilter(false);
     filterDataChangeHander(id);
   };
@@ -130,9 +130,9 @@ const Subhead = (props: any) => {
           data={filterMenuData}
           onclick={showFilterMenu}
           showFilter={showFilter}
-          valuechange={handleChagneData}
-          selectTab={niftyFilterData.selectedTab}
-          childMenuTabActive={niftyFilterData.id}
+          valuechange={handleChangeData}
+          selectTab={niftyFilterData.exchange}
+          childMenuTabActive={niftyFilterData.indexId}
         />
       )}
     </>

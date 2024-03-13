@@ -1,5 +1,5 @@
 "use client";
-
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import styles from "./MarketMoods.module.scss";
 import React, { useState, useEffect, useRef } from "react";
 import MarketMoodHeader from "@/components/MarketMood/SectionHeader";
@@ -9,19 +9,23 @@ import ScrollableBarsTableMarketMood from "@/components/MarketMood/ScrollableBar
 import { faqData, tabData } from "@/components/MarketMood/config";
 import MarketMoodTabConfig from "@/components/MarketMood/tabConfig.json";
 import {
+  fetchSelectedFilter,
   getAdvanceDeclineData,
   getOverviewData,
   getPeriodicData,
 } from "@/utils/utility";
+import Loader from "@/components/Loader";
 
 const MarketMoodsClient = ({
   isprimeuser = false,
   overviewData = {},
   advanceDeclineData = {},
   periodicData = {},
-  niftyFilterData = {},
+  selectedFilter = {},
 }: any) => {
+  const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [_overviewData, setOverviewData] = useState(overviewData);
   const [_advanceDeclineData, setAdvanceDeclineData] =
     useState(advanceDeclineData);
@@ -67,19 +71,31 @@ const MarketMoodsClient = ({
     }
   };
 
+  const filterDataChangeHander = async (id: any) => {
+    setLoading(true);
+    const selectedFilter = await fetchSelectedFilter(id);
+    const newUrl = "/markets/market-moods/" + selectedFilter.seoname;
+    router.push(newUrl, { scroll: false });
+    setLoading(false);
+  };
+
   const handleItemClick = (item: string) => {
     setActiveItem(item);
     scrollDisabledRef.current = true;
   };
 
   const handleCountPercentage = (widgetType: string) => {
+    setLoading(true);
     setCountPercentage(widgetType);
+    setLoading(false);
   };
 
   const handleDuration = async (item: string) => {
+    setLoading(true);
     setDuration(item);
     periodicData = await getPeriodicData(niftyFilterData.indexId, item, 1);
     setPeriodicData(periodicData);
+    setLoading(false);
   };
 
   const handleMonthlyDaily = async (item: string) => {
@@ -187,117 +203,123 @@ const MarketMoodsClient = ({
           })}
         </ul>
       </div>
-      <div
-        id="overview"
-        className={styles.section}
-        ref={(ref) => (contentRefs.current["overview"] = ref)}
-      >
-        <MarketMoodHeader
-          heading="Overview"
-          niftyFilterData={niftyFilterData}
-          config={MarketMoodTabConfig["overview"]}
-          countPercentage={countPercentage}
-          handleCountPercentage={handleCountPercentage}
-        />
-        <div className={styles.tableWrapper}>
-          <FixedTableMarketMood tableData={_overviewData?.dataList} />
-          <ScrollableTableMarketMood
-            tableHeader={_overviewData?.labels}
-            tableData={_overviewData?.dataList}
-            type={countPercentage}
+      <div className={styles.wrapper}>
+        {!!loading && <Loader loaderType="container" />}
+        <div
+          id="overview"
+          className={styles.section}
+          ref={(ref) => (contentRefs.current["overview"] = ref)}
+        >
+          <MarketMoodHeader
+            heading="Overview"
+            niftyFilterData={niftyFilterData}
+            config={MarketMoodTabConfig["overview"]}
+            countPercentage={countPercentage}
+            handleCountPercentage={handleCountPercentage}
+            filterDataChange={filterDataChangeHander}
           />
-        </div>
-        {_overviewData?.pageSummary?.pageno <
-          _overviewData?.pageSummary?.totalpages && (
-          <div
-            className={styles.loadMore}
-            onClick={() =>
-              loadMoreData(_overviewData?.pageSummary?.pageno, "overview")
-            }
-          >
-            Load More...
+          <div className={styles.tableWrapper}>
+            <FixedTableMarketMood tableData={_overviewData?.dataList} />
+            <ScrollableTableMarketMood
+              tableHeader={_overviewData?.labels}
+              tableData={_overviewData?.dataList}
+              type={countPercentage}
+            />
           </div>
-        )}
-      </div>
-      <div
-        id="periodic"
-        className={styles.section}
-        ref={(ref) => (contentRefs.current["periodic"] = ref)}
-      >
-        <MarketMoodHeader
-          heading="Periodic High/Low"
-          niftyFilterData={niftyFilterData}
-          config={MarketMoodTabConfig["periodic"]}
-          duration={duration}
-          handleDuration={handleDuration}
-        />
-        <div className={styles.tableWrapper}>
-          <FixedTableMarketMood tableData={_periodicData?.dataList} />
-          <ScrollableBarsTableMarketMood
-            tableData={_periodicData?.dataList}
-            type="periodic"
-          />
-        </div>
-        {_periodicData?.pageSummary?.pageno <
-          _periodicData?.pageSummary?.totalpages && (
-          <div
-            className={styles.loadMore}
-            onClick={() =>
-              loadMoreData(_periodicData?.pageSummary?.pageno, "periodic")
-            }
-          >
-            Load More...
-          </div>
-        )}
-      </div>
-      <div
-        id="advanceDecline"
-        className={styles.section}
-        ref={(ref) => (contentRefs.current["advanceDecline"] = ref)}
-      >
-        <MarketMoodHeader
-          heading="Advance/Decline"
-          niftyFilterData={niftyFilterData}
-          config={MarketMoodTabConfig["advanceDecline"]}
-          monthlyDaily={monthlyDaily}
-          handleMonthlyDaily={handleMonthlyDaily}
-        />
-        <div className={styles.tableWrapper}>
-          <FixedTableMarketMood tableData={_advanceDeclineData?.dataList} />
-          <ScrollableBarsTableMarketMood
-            tableData={_advanceDeclineData?.dataList}
-            type="advanceDecline"
-          />
-        </div>
-        {_advanceDeclineData?.pageSummary?.pageno <
-          _advanceDeclineData?.pageSummary?.totalpages && (
-          <div
-            className={styles.loadMore}
-            onClick={() =>
-              loadMoreData(
-                _advanceDeclineData?.pageSummary?.pageno,
-                "advanceDecline",
-              )
-            }
-          >
-            Load More...
-          </div>
-        )}
-      </div>
-      <div
-        id="faq"
-        className={styles.faq}
-        ref={(ref) => (contentRefs.current["faq"] = ref)}
-      >
-        <div className={styles.head}>Frequently Asked Questions</div>
-        {faqData.map((item: any, index: number) => {
-          return (
-            <div className={styles.faqItem} key={index}>
-              <p className={styles.ques}>{item.ques}</p>
-              <p className={styles.ans}>{item.ans}</p>
+          {_overviewData?.pageSummary?.pageno <
+            _overviewData?.pageSummary?.totalpages && (
+            <div
+              className={styles.loadMore}
+              onClick={() =>
+                loadMoreData(_overviewData?.pageSummary?.pageno, "overview")
+              }
+            >
+              Load More...
             </div>
-          );
-        })}
+          )}
+        </div>
+        <div
+          id="periodic"
+          className={styles.section}
+          ref={(ref) => (contentRefs.current["periodic"] = ref)}
+        >
+          <MarketMoodHeader
+            heading="Periodic High/Low"
+            niftyFilterData={niftyFilterData}
+            config={MarketMoodTabConfig["periodic"]}
+            duration={duration}
+            handleDuration={handleDuration}
+            filterDataChange={filterDataChangeHander}
+          />
+          <div className={styles.tableWrapper}>
+            <FixedTableMarketMood tableData={_periodicData?.dataList} />
+            <ScrollableBarsTableMarketMood
+              tableData={_periodicData?.dataList}
+              type="periodic"
+            />
+          </div>
+          {_periodicData?.pageSummary?.pageno <
+            _periodicData?.pageSummary?.totalpages && (
+            <div
+              className={styles.loadMore}
+              onClick={() =>
+                loadMoreData(_periodicData?.pageSummary?.pageno, "periodic")
+              }
+            >
+              Load More...
+            </div>
+          )}
+        </div>
+        <div
+          id="advanceDecline"
+          className={styles.section}
+          ref={(ref) => (contentRefs.current["advanceDecline"] = ref)}
+        >
+          <MarketMoodHeader
+            heading="Advance/Decline"
+            niftyFilterData={niftyFilterData}
+            config={MarketMoodTabConfig["advanceDecline"]}
+            monthlyDaily={monthlyDaily}
+            handleMonthlyDaily={handleMonthlyDaily}
+            filterDataChange={filterDataChangeHander}
+          />
+          <div className={styles.tableWrapper}>
+            <FixedTableMarketMood tableData={_advanceDeclineData?.dataList} />
+            <ScrollableBarsTableMarketMood
+              tableData={_advanceDeclineData?.dataList}
+              type="advanceDecline"
+            />
+          </div>
+          {_advanceDeclineData?.pageSummary?.pageno <
+            _advanceDeclineData?.pageSummary?.totalpages && (
+            <div
+              className={styles.loadMore}
+              onClick={() =>
+                loadMoreData(
+                  _advanceDeclineData?.pageSummary?.pageno,
+                  "advanceDecline",
+                )
+              }
+            >
+              Load More...
+            </div>
+          )}
+        </div>
+        <div
+          id="faq"
+          className={styles.faq}
+          ref={(ref) => (contentRefs.current["faq"] = ref)}
+        >
+          <div className={styles.head}>Frequently Asked Questions</div>
+          {faqData.map((item: any, index: number) => {
+            return (
+              <div className={styles.faqItem} key={index}>
+                <p className={styles.ques}>{item.ques}</p>
+                <p className={styles.ans}>{item.ans}</p>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </>
   );
