@@ -204,7 +204,9 @@ export const fetchAllWatchListData = async (
 ) => {
   const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
   const isLocalhost = window.location.origin.includes("localhost");
-
+  if (authorization === "") {
+    console.log("peuuid is not getting please check cookie__", authorization);
+  }
   const apiUrl = isLocalhost
     ? `${(APIS_CONFIG as any)?.WATCHLISTAPI.getAllWatchlistNextJsAPI[APP_ENV]}?type=${type}&usersettingsubType=${usersettingsubType}&authorization=${authorization}`
     : `${(APIS_CONFIG as any)?.WATCHLISTAPI.getAllWatchlist[APP_ENV]}?type=${type}&usersettingsubType=${usersettingsubType}`;
