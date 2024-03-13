@@ -33,7 +33,7 @@ const MarketMoods = async ({ params }: any) => {
 
   return (
     <MarketMoodsClient
-      isprimeuser={isprimeuser}
+      isprimeuser={true}
       overviewData={overviewData}
       advanceDeclineData={advanceDeclineData}
       periodicData={periodicData}

@@ -35,8 +35,13 @@ const MarketMoodHeader = ({
   } = config;
   const [filterMenuData, setFilterMenuData]: any = useState("");
   const [showFilter, setShowFilter] = useState(false);
+  const [showPeriodicPopup, setShowPeriodicPopup] = useState(false);
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);
+  };
+
+  const togglePeriodicPopup = (value: boolean) => {
+    setShowPeriodicPopup(value);
   };
 
   const handleChangeData = (id: any, name: string, selectedTab: string) => {
@@ -60,7 +65,62 @@ const MarketMoodHeader = ({
         <div className={styles.head}>
           {heading}
           <span className={styles.subHeading}>{niftyFilterData.name}</span>
-          {showHelp && <i className="eticon_info"></i>}
+          {showHelp && (
+            <div className="prel">
+              <i
+                className="eticon_info"
+                onClick={() => togglePeriodicPopup(true)}
+              ></i>
+              {showPeriodicPopup && (
+                <>
+                  <div className={styles.popUp}>
+                    <div className={styles.header}>
+                      Zones
+                      <i
+                        className="eticon_cross"
+                        onClick={() => togglePeriodicPopup(false)}
+                      ></i>
+                    </div>
+                    <div className={styles.wrapper}>
+                      <div className={styles.zone}>
+                        <p className={styles.head}>
+                          <span className={styles.low}></span>Low Zone
+                        </p>
+                        <p>
+                          When a stock is trading at a value which is within 20%
+                          of its Low range, it qualifies to be in the Periodic
+                          Low Zone
+                        </p>
+                      </div>
+                      <div className={styles.zone}>
+                        <p className={styles.head}>
+                          <span className={styles.mid}></span>Mid Zone
+                        </p>
+                        <p>
+                          Stocks which are neither in the low nor in the high
+                          zones in the specific time period.
+                        </p>
+                      </div>
+                      <div className={styles.zone}>
+                        <p className={styles.head}>
+                          <span className={styles.high}></span>High Zone
+                        </p>
+                        <p>
+                          When a stock is trading at a value which is within 20%
+                          of its High range, it qualifies to be in the Periodic
+                          High Zone
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className={styles.popUpOverlay}
+                    onClick={() => togglePeriodicPopup(false)}
+                  ></div>
+                </>
+              )}
+            </div>
+          )}
         </div>
         <div className={styles.options}>
           {showIndexFilter && (
