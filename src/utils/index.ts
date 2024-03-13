@@ -519,13 +519,14 @@ export const getFundHouseInfo = (item: any, slug: any) => {
 };
 
 // =====  Get STOCK_RECOS_DETAIL Data =======
-export const getStockRecosDetail = async (getApiType: any, slug: any) => {
+export const getStockRecosDetail = async ({ getApiType, slug, ssoid }: any) => {
   const STOCK_RECOS_DETAIL_Link = (APIS_CONFIG as any)["STOCK_RECOS_DETAIL"][
     APP_ENV
   ];
   const fundHouseInfo = getFundHouseInfo("", slug);
   const headers = {
     "Content-Type": "application/json",
+    ssoid: ssoid || getCookie("ssoid"),
   };
   const payload = {
     apiType: getApiType,

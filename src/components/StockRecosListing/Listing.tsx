@@ -3,9 +3,12 @@
 import StockReco from "../StockReco";
 import styles from "./styles.module.scss";
 import Blocker from "../Blocker";
+import { useStateContext } from "../../store/StateContext";
 
 const Listing = (props: any) => {
   const { recosDetailResult, activeApi } = props;
+  const { state, dispatch } = useStateContext();
+  const { isLogin } = state.login;
 
   return (
     <>
@@ -26,7 +29,11 @@ const Listing = (props: any) => {
         </div>
       ) : (
         <div className={`${styles.listingWrap} ${styles.noDataFound}`}>
-          <Blocker type={"noDataFound"} />
+          {activeApi == "recoOnWatchlist" && !isLogin ? (
+            <Blocker type="loginBlocker" />
+          ) : (
+            <Blocker type={"noDataFound"} />
+          )}
         </div>
       )}
     </>

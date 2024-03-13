@@ -3,6 +3,7 @@ import styles from "./styles.module.scss";
 import WatchlistAddition from "../WatchlistAddition";
 import Blocker from "../Blocker";
 import { dateFormat } from "../../utils";
+import { useStateContext } from "../../store/StateContext";
 
 const TableHtml = (props: any) => {
   const { recosDetailResult, activeApi } = props;
@@ -321,6 +322,8 @@ const TableHtml = (props: any) => {
 
 const Grid = (props: any) => {
   const { recosDetailResult, activeApi } = props;
+  const { state, dispatch } = useStateContext();
+  const { isLogin } = state.login;
 
   return (
     <>
@@ -335,7 +338,11 @@ const Grid = (props: any) => {
         </div>
       ) : (
         <div className={`${styles.listingWrap} ${styles.noDataFound}`}>
-          <Blocker type={"noDataFound"} />
+          {activeApi == "recoOnWatchlist" && !isLogin ? (
+            <Blocker type="loginBlocker" />
+          ) : (
+            <Blocker type={"noDataFound"} />
+          )}
         </div>
       )}
     </>
