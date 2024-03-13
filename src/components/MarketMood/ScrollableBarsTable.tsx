@@ -3,6 +3,9 @@ import styles from "./MarketMood.module.scss";
 const ScrollableBarsTableMarketMood = ({ tableData, type }: any) => {
   return (
     <div id="scrollableTable" className={styles.scrollableWrapper}>
+      <div className={`${styles.horizontalLine} ${styles.withMaxWidth}`}>
+        <span>Showing No. of Stocks</span>
+      </div>
       <table className={styles.marketsCustomTable}>
         <thead>
           <tr>

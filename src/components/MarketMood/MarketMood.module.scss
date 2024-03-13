@@ -5,17 +5,23 @@
   justify-content: space-between;
   align-items: center;
   .head {
+    display: flex;
     font-size: 24px;
     line-height: 30px;
     font-weight: 700;
+    align-items: center;
+    gap: 10px;
     .subHeading {
       font-size: 18px;
       line-height: 22px;
       font-weight: 400;
       color: $gray-30;
       border-left: 1px solid #cbcbcb;
-      margin-left: 15px;
+      margin-left: 5px;
       padding-left: 15px;
+    }
+    i {
+      cursor: pointer;
     }
   }
   .options {
@@ -68,6 +74,36 @@
         }
       }
     }
+  }
+}
+
+.horizontalLine {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  background: $white;
+  padding: 12px 5% 8px;
+  z-index: 2;
+  &.withMaxWidth {
+    max-width: 625px;
+    margin: 0;
+  }
+  span {
+    padding: 0 10px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+    color: $yellow-80;
+  }
+  &:before,
+  &:after {
+    content: "";
+    flex-grow: 1;
+    height: 1px;
+    background-color: $gray-80;
   }
 }
 

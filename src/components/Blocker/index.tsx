@@ -44,6 +44,13 @@ const blockerList: any = {
     action: "",
     icon: 107522565,
   },
+  noDataMinimal: {
+    id: 5,
+    message: "No Data Found",
+    cta: "",
+    action: "",
+    icon: 107522570,
+  },
 };
 const Blocker = (props: propsType) => {
   const [addStockShow, setAddStockShow] = useState(false);

@@ -3,6 +3,9 @@ import styles from "./MarketMood.module.scss";
 const FixedTableMarketMood = ({ tableData = null }: any) => {
   return (
     <div id="fixedTable" className={styles.fixedWrapper}>
+      <div className={styles.horizontalLine}>
+        <span>Daily Performance</span>
+      </div>
       <table className={styles.marketsCustomTable}>
         <thead id="thead">
           <tr className={styles.leftThWrapper}>

@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from "./MarketMoods.module.scss";
 import React, { useState, useEffect, useRef } from "react";
 import MarketMoodHeader from "@/components/MarketMood/SectionHeader";
@@ -25,6 +25,7 @@ import Loader from "@/components/Loader";
 import Image from "next/image";
 import Link from "next/link";
 import { useStateContext } from "@/store/StateContext";
+import Blocker from "@/components/Blocker";
 
 const MarketMoodsClient = ({
   isprimeuser = false,
@@ -36,6 +37,8 @@ const MarketMoodsClient = ({
   const { state } = useStateContext();
   const { isLogin } = state.login;
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [_overviewData, setOverviewData] = useState(overviewData);
@@ -87,8 +90,8 @@ const MarketMoodsClient = ({
     setLoading(true);
     const selectedFilter = await fetchSelectedFilter(id);
     const newUrl = "/markets/market-moods/" + selectedFilter.seoname;
+    router.prefetch(newUrl);
     router.push(newUrl, { scroll: false });
-    setLoading(false);
   };
 
   const handleItemClick = (item: string) => {
@@ -169,6 +172,10 @@ const MarketMoodsClient = ({
     scrollToActiveContent();
   }, [activeItem]);
 
+  useEffect(() => {
+    setLoading(false);
+  }, [pathname, searchParams]);
+
   return (
     <>
       <div className={styles.logo}>
@@ -232,6 +239,11 @@ const MarketMoodsClient = ({
                   type={countPercentage}
                 />
               </div>
+              {_overviewData?.dataList?.length == 0 && (
+                <div className={styles.blocker}>
+                  <Blocker type="noDataMinimal" />
+                </div>
+              )}
               {_overviewData?.pageSummary?.pageno <
                 _overviewData?.pageSummary?.totalpages && (
                 <div
@@ -264,6 +276,11 @@ const MarketMoodsClient = ({
                   type="periodic"
                 />
               </div>
+              {_periodicData?.dataList?.length == 0 && (
+                <div className={styles.blocker}>
+                  <Blocker type="noDataMinimal" />
+                </div>
+              )}
               {_periodicData?.pageSummary?.pageno <
                 _periodicData?.pageSummary?.totalpages && (
                 <div
@@ -298,6 +315,11 @@ const MarketMoodsClient = ({
                   type="advanceDecline"
                 />
               </div>
+              {_advanceDeclineData?.dataList?.length == 0 && (
+                <div className={styles.blocker}>
+                  <Blocker type="noDataMinimal" />
+                </div>
+              )}
               {_advanceDeclineData?.pageSummary?.pageno <
                 _advanceDeclineData?.pageSummary?.totalpages && (
                 <div

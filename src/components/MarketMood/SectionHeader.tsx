@@ -31,6 +31,7 @@ const MarketMoodHeader = ({
     showDuration,
     showCountPercentage,
     showMonthlyDaily,
+    showHelp,
   } = config;
   const [filterMenuData, setFilterMenuData]: any = useState("");
   const [showFilter, setShowFilter] = useState(false);
@@ -44,7 +45,7 @@ const MarketMoodHeader = ({
   };
 
   const filterApiCall = async () => {
-    const data = await fetchFilters({ all: true });
+    const data = await fetchFilters({});
     setFilterMenuData(data);
   };
   useEffect(() => {
@@ -59,6 +60,7 @@ const MarketMoodHeader = ({
         <div className={styles.head}>
           {heading}
           <span className={styles.subHeading}>{niftyFilterData.name}</span>
+          {showHelp && <i className="eticon_info"></i>}
         </div>
         <div className={styles.options}>
           {showIndexFilter && (
