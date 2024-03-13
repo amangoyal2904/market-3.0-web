@@ -50,42 +50,14 @@ const MarketMoodsClient = ({
   const [duration, setDuration] = useState("1M");
   const [monthlyDaily, setMonthlyDaily] = useState("daily");
   const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const scrollDisabledRef = useRef<boolean>(false); // Flag to disable/enable scroll listener
 
   const scrollToActiveContent = () => {
-    const element = contentRefs.current[activeItem];
+    const element = document.getElementById(activeItem);
     if (element) {
-      const offset = element.offsetTop - 120;
+      const offset = element.offsetTop + 120;
       window.scrollTo({ top: offset, behavior: "smooth" });
-      setTimeout(() => {
-        scrollDisabledRef.current = false;
-      }, 500);
     }
   };
-
-  const handleScroll = () => {
-    for (const [key, value] of Object.entries(contentRefs.current)) {
-      if (value) {
-        const rect = value.getBoundingClientRect();
-        if (
-          rect.top >= 0 &&
-          rect.bottom <= window.innerHeight &&
-          !scrollDisabledRef.current
-        ) {
-          setActiveItem(key);
-          break;
-        } else if (
-          rect.top <= 70 &&
-          rect.bottom >= window.innerHeight &&
-          !scrollDisabledRef.current
-        ) {
-          setActiveItem("overview");
-          break;
-        }
-      }
-    }
-  };
-
   const filterDataChangeHander = async (id: any) => {
     setLoading(true);
     const selectedFilter = await fetchSelectedFilter(id);
@@ -96,7 +68,6 @@ const MarketMoodsClient = ({
 
   const handleItemClick = (item: string) => {
     setActiveItem(item);
-    scrollDisabledRef.current = true;
   };
 
   const handleCountPercentage = (widgetType: string) => {
@@ -232,7 +203,10 @@ const MarketMoodsClient = ({
                 filterDataChange={filterDataChangeHander}
               />
               <div className={styles.tableWrapper}>
-                <FixedTableMarketMood tableData={_overviewData?.dataList} />
+                <FixedTableMarketMood
+                  tableData={_overviewData?.dataList}
+                  extraHeader="true"
+                />
                 <ScrollableTableMarketMood
                   tableHeader={_overviewData?.labels}
                   tableData={_overviewData?.dataList}
