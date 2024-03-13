@@ -40,6 +40,7 @@ const MarketFiltersTab = ({
   watchlistDataLength = 0,
   removePersonaliseView,
   createNewScreener,
+  getIndustryFilterValue,
 }: any) => {
   const {
     showAddStock,
@@ -81,16 +82,15 @@ const MarketFiltersTab = ({
   const industrySelectedFilterHanlder = (event: any) => {
     const { id, checked } = event.target;
     if (checked) {
-      setCheckedIndustryFilterItems([
-        ...checkedIndustryFilterItems,
-        parseFloat(id),
-      ]);
+      const getValue = [...checkedIndustryFilterItems, parseFloat(id)];
+      setCheckedIndustryFilterItems(getValue);
+      getIndustryFilterValue(getValue);
     } else {
-      setCheckedIndustryFilterItems(
-        checkedIndustryFilterItems.filter(
-          (item: any) => item !== parseFloat(id),
-        ),
+      const getValue = checkedIndustryFilterItems.filter(
+        (item: any) => item !== parseFloat(id),
       );
+      setCheckedIndustryFilterItems(getValue);
+      getIndustryFilterValue(getValue);
     }
   };
   const updateTabsListDataHandler = async (updateData: any) => {
