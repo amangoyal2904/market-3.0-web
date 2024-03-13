@@ -170,6 +170,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
+    &.extraCell {
+      padding: 0 10px 4px 0;
+      height: 20px;
+      border-top: 0;
+    }
     &.noData {
       padding: 0;
     }
@@ -182,6 +187,11 @@
         display: none;
       }
     }
+  }
+
+  .noBottomBorder th {
+    border-bottom: 0;
+    padding-bottom: 5px;
   }
 
   .firstTh {
@@ -297,11 +307,20 @@
   list-style: none;
   column-gap: 10px;
   justify-content: flex-end;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: $black;
+  li {
+    display: flex;
+    align-items: center;
+  }
   span {
     display: inline-flex;
     width: 12px;
     height: 12px;
     border-radius: 2px;
+    margin: 0 3px;
     &.down {
       background: $red-50;
     }
