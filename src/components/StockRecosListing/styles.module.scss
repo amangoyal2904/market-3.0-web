@@ -5,6 +5,11 @@
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid $gray_80;
+  position: sticky;
+  top: 54px;
+  z-index: 9;
+  background: $color-white;
+  padding-top: 10px;
 
   .headName {
     font-weight: 700;
@@ -95,6 +100,9 @@
   list-style: none;
   font-size: 12px;
   margin-right: 16px;
+  position: sticky;
+  top: 120px;
+  height: calc(100vh - 120px);
 
   .newRecosSSList {
     padding: 4px 8px;
@@ -244,6 +252,14 @@
               position: relative;
               display: flex;
               align-items: center;
+
+              .companyName {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 150px;
+                display: inline-block;
+              }
             }
             .potential {
               text-align: center;
@@ -405,6 +421,10 @@
 .fundHousesLeftNavWrap {
   list-style: none;
   margin-right: 16px;
+  position: sticky;
+  top: 120px;
+  height: calc(100vh - 120px);
+  overflow-y: auto;
   .fundHousesLeftNav {
     width: 200px;
     padding: 8px 0 8px 8px;

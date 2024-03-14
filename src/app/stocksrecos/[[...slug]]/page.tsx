@@ -4,14 +4,6 @@ import APIS_CONFIG from "../../../network/api_config.json";
 import { APP_ENV, getStockRecosDetail } from "@/utils";
 import service from "@/network/service";
 import { getSelectedFilter, getSearchParams } from "@/utils/utility";
-import { cookies, headers } from "next/headers";
-import Subhead from "@/components/StockRecosListing/Subhead";
-import InnerLeftNav from "@/components/StockRecosListing/InnerLeftNav";
-import {
-  getAllShortUrls,
-  getMarketStatsNav,
-  getShortUrlMapping,
-} from "@/utils/marketstats";
 
 export default async function stocksrecos({
   params,
@@ -23,21 +15,7 @@ export default async function stocksrecos({
   searchParams: any;
 }) {
   console.log("params.slug ----> ", params.slug);
-  const headersList = headers();
-  const pageUrl = headersList.get("x-url") || "";
-  const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
-  let intFilter;
-  let actualUrl;
-
-  if (shortUrl) {
-    actualUrl = pageData?.longURL;
-    const requestParams = getSearchParams(actualUrl);
-    intFilter = requestParams.filter ? parseInt(requestParams.filter) : 0;
-  } else {
-    intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
-    actualUrl = pageUrl;
-  }
-
+  const intFilter = searchParams?.filter ? parseInt(searchParams.filter) : 0;
   const selectedFilter = await getSelectedFilter(intFilter);
 
   const { slug } = params || [];
@@ -89,66 +67,6 @@ export default async function stocksrecos({
             stocks.
           </p>
         </div>
-        {/* <Subhead
-          showIndexFilter={true}
-          selectedFilter={selectedFilter}
-          recosNavResult={recosNavResult}
-          activeTab={slug?.[0]}
-          slug={slug}
-        /> */}
-        {/* {getApiType() == "FHDetail" && (
-          <div className={styles.brokerageWrap}>
-            <div className={styles.totalRecosWrap}>
-              <span className={styles.totalRecosTitle}>Total Recos</span>
-              <span className={styles.totalRecosval}>
-                {recosDetailResult.recoData?.[0].topSection.totalCount}
-              </span>
-            </div>
-            <div className={styles.pipe}></div>
-            <div className={styles.buyWrap}>
-              <span className={styles.buyTitle}>Buy</span>
-              <span className={styles.buyval}>
-                {recosDetailResult.recoData?.[0].topSection.buyCount}
-              </span>
-            </div>
-            <div className={styles.sellWrap}>
-              <span className={styles.sellTitle}>Sell</span>
-              <span className={styles.sellVal}>
-                {recosDetailResult.recoData?.[0].topSection.sellCount}
-              </span>
-            </div>
-            <div className={styles.holdWrap}>
-              <span className={styles.holdTitle}>Hold</span>
-              <span className={styles.holdVal}>
-                {recosDetailResult.recoData?.[0].topSection.holdCount}
-              </span>
-            </div>
-            <div className={styles.addWrap}>
-              <span className={styles.addTitle}>Add</span>
-              <span className={styles.addVal}>-</span>
-            </div>
-            <div className={styles.accumulateWrap}>
-              <span className={styles.accumulateTitle}>Accumulate</span>
-              <span className={styles.accumulateVal}>-</span>
-            </div>
-            <div className={styles.neutralWrap}>
-              <span className={styles.neutralTitle}>Neutral</span>
-              <span className={styles.neutralVal}>-</span>
-            </div>
-          </div>
-        )} */}
-        {/* <div
-          className={`${styles.contentWrap} ${slug?.[0] == "overview" ? styles.overviewWrap : ""}`}
-        > */}
-        {/* {(getApiType() == "newRecos" ||
-            slug.includes("fundhousedetails")) && (
-            <InnerLeftNav
-              recosNavResult={recosNavResult}
-              recosDetailResult={navListData}
-              activeApi={getApiType()}
-              slug={slug}
-            />
-          )} */}
         <StockRecosListing
           showIndexFilter={true}
           selectedFilter={selectedFilter}
@@ -158,7 +76,6 @@ export default async function stocksrecos({
           activeApi={getApiType()}
           slug={slug}
         />
-        {/* </div> */}
       </div>
     </>
   );

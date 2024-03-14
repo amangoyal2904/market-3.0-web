@@ -524,6 +524,7 @@ export const getStockRecosDetail = async ({
   slug,
   ssoid,
   niftyFilterData,
+  pageNo,
 }: any) => {
   const STOCK_RECOS_DETAIL_Link = (APIS_CONFIG as any)["STOCK_RECOS_DETAIL"][
     APP_ENV
@@ -538,19 +539,19 @@ export const getStockRecosDetail = async ({
     filterType:
       getApiType == "FHDetail"
         ? "fundhouse"
-        : niftyFilterData?.id
+        : getApiType != "recoByFH" && niftyFilterData?.id
           ? "index"
           : "",
     filterValue:
       getApiType == "FHDetail"
         ? [fundHouseInfo.fundHouseId]
-        : niftyFilterData?.id
+        : getApiType != "recoByFH" && niftyFilterData?.id
           ? [niftyFilterData.id]
           : [],
     recoType: (getApiType == "FHDetail" ? slug?.[2] : slug?.[1]) || "all",
     pageSize:
       getApiType == "recoByFH" ? 100 : getApiType == "overview" ? 6 : 30,
-    pageNumber: 1,
+    pageNumber: pageNo || 1,
     ...(getApiType == "overview" && { deviceId: "web" }),
   };
 

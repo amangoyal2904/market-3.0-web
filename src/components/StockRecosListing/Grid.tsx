@@ -106,7 +106,7 @@ const TableHtml = (props: any) => {
             <Link
               href={`/stocksrecos/fundhousedetails/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
             >
-              <span>{obj.organisation}</span>
+              <span className={styles.companyName}>{obj.organisation}</span>
             </Link>
           </div>
         </td>
@@ -160,7 +160,11 @@ const TableHtml = (props: any) => {
                 fontSize: "14px",
               }}
             />
-            <span>{obj.companyName}</span>
+            <Link
+              href={`https://economictimes.indiatimes.com/${obj.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${obj.companyId}.cms`}
+            >
+              <span className={styles.companyName}>{obj.companyName}</span>
+            </Link>
           </div>
         </td>
         <td className={styles.recommendation}>
@@ -223,7 +227,13 @@ const TableHtml = (props: any) => {
         </td>
         {activeApi == "newRecos" && (
           <td>
-            <div className={styles.organisationName}>{obj.organisation}</div>
+            <div className={styles.organisationName}>
+              <Link
+                href={`/stocksrecos/fundhousedetails/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
+              >
+                {obj.organisation}
+              </Link>
+            </div>
           </td>
         )}
         <td className={styles.pdfIcon}>
@@ -257,7 +267,11 @@ const TableHtml = (props: any) => {
                 fontSize: "14px",
               }}
             />
-            <span>{obj.companyName}</span>
+            <Link
+              href={`https://economictimes.indiatimes.com/${obj.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${obj.companyId}.cms`}
+            >
+              <span className={styles.companyName}>{obj.companyName}</span>
+            </Link>
           </div>
         </td>
         <td>
@@ -311,7 +325,7 @@ const TableHtml = (props: any) => {
         <tr>{tableHead()}</tr>
       </thead>
       <tbody>
-        {recosDetailResult?.recoData?.[0].data.map((obj: any, index: any) => (
+        {recosDetailResult?.map((obj: any, index: any) => (
           <tr key={`recosTable_${index}`}>
             {activeApi == "recoByFH"
               ? fundHousesDetail(obj)
@@ -332,7 +346,7 @@ const Grid = (props: any) => {
 
   return (
     <>
-      {typeof recosDetailResult?.recoData?.[0].data != "undefined" ? (
+      {typeof recosDetailResult != "undefined" && (
         <div className={styles.gridMainBox}>
           <div
             className={`${styles.tableWrapper} ${styles[activeApi]}`}
@@ -340,14 +354,6 @@ const Grid = (props: any) => {
           >
             <TableHtml key={`table_html_stock_recos_0`} {...props} />
           </div>
-        </div>
-      ) : (
-        <div className={`${styles.listingWrap} ${styles.noDataFound}`}>
-          {activeApi == "recoOnWatchlist" && !isLogin ? (
-            <Blocker type="loginBlocker" />
-          ) : (
-            <Blocker type={"noDataFound"} />
-          )}
         </div>
       )}
     </>

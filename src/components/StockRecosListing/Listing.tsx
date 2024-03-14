@@ -12,29 +12,19 @@ const Listing = (props: any) => {
 
   return (
     <>
-      {typeof recosDetailResult?.recoData?.[0].data != "undefined" ? (
+      {typeof recosDetailResult != "undefined" && (
         <div className={styles.listingWrap}>
-          {recosDetailResult?.recoData?.[0].data.map(
-            (recoDataValue: any, index: any) => {
-              return (
-                <StockReco
-                  data={recoDataValue}
-                  key={index}
-                  activeTab={activeApi}
-                  pageName="stockRecosPage"
-                  urlFilterHandle={urlFilterHandle}
-                />
-              );
-            },
-          )}
-        </div>
-      ) : (
-        <div className={`${styles.listingWrap} ${styles.noDataFound}`}>
-          {activeApi == "recoOnWatchlist" && !isLogin ? (
-            <Blocker type="loginBlocker" />
-          ) : (
-            <Blocker type={"noDataFound"} />
-          )}
+          {recosDetailResult?.map((recoDataValue: any, index: any) => {
+            return (
+              <StockReco
+                data={recoDataValue}
+                key={index}
+                activeTab={activeApi}
+                pageName="stockRecosPage"
+                urlFilterHandle={urlFilterHandle}
+              />
+            );
+          })}
         </div>
       )}
     </>

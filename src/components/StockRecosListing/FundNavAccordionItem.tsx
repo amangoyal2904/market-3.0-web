@@ -19,7 +19,7 @@ const FundNavAccordionItem = ({
   };
 
   const fundHouseSeoName = (item: any) => {
-    return item.toLowerCase().replace(/ /g, "-");
+    return item?.toLowerCase().replace(/ /g, "-");
   };
 
   //getFundHouseDetailFromURL()
