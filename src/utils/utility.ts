@@ -10,7 +10,7 @@ import Fingerprint2 from "fingerprintjs2";
 import { setCookies } from "./index";
 import Service from "@/network/service";
 
-const API_SOURCE = 18;
+const API_SOURCE = 0;
 
 export const durationOptions = [
   { label: "1 Day", value: "1D", id: 1 },
@@ -278,7 +278,7 @@ export const generateFpid = (isLogin: any) => {
 };
 
 export const processFingerprint = (data: any, isLogin: any) => {
-  setCookies("fpid", data);
+  setCookieToSpecificTime("fpid", data, 365, 0, 0);
   if (isLogin) {
     createPeuuid(data);
   } else {
@@ -304,7 +304,7 @@ export const createPfuuid = async (fpid: any) => {
     if (data && data.id != 0) {
       console.log("@@@@--->>>>>", data);
       var pfuuid = data.id;
-      setCookieToSpecificTime("pfuuid", pfuuid, 365, 0, 0, "");
+      setCookieToSpecificTime("pfuuid", pfuuid, 365, 0, 0);
     }
   } catch (e) {
     console.log("error in pfuuid api", e);
@@ -327,7 +327,7 @@ export const createPeuuid = async (fpid: any) => {
   if (data && data.id != 0) {
     const peuuid: any = data.id;
     console.log("@@@@--->>>>>2", data);
-    setCookieToSpecificTime("peuuid", peuuid, 365, 0, 0, "");
+    setCookieToSpecificTime("peuuid", peuuid, 365, 0, 0);
   }
 };
 
