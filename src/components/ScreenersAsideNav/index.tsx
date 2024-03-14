@@ -62,7 +62,12 @@ const StocksScreenerNav: React.FC<PageProps> = (props) => {
         l3UserNav.listScreenerMaster &&
         l3UserNav.listScreenerMaster.length > 0 ? (
           <>
-            <div className={`${styles.navWrapLi}`}>
+            <div
+              className={`${styles.navWrapLi} ${l3UserNav.listScreenerMaster.some((obj: any) => obj.screenerId == activeId) ? styles.expanded : styles.collapsed}`}
+              onClick={(e) => {
+                l3UserNav.listScreenerMaster && toggleL2Menu(e);
+              }}
+            >
               <span className={`eticon_caret_up ${styles.caret}`}></span>
               <span className={styles.labelName}>
                 {l3UserNav.collectionName}
