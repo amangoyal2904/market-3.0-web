@@ -6,10 +6,12 @@ import Link from "next/link";
 interface PageProps {
   leftNavResult: any;
   activeId: any;
+  l3UserNav?: any;
 }
 
 const StocksScreenerNav: React.FC<PageProps> = (props) => {
-  const { leftNavResult, activeId } = props;
+  const { leftNavResult, activeId, l3UserNav } = props;
+  console.log("___l3UserNav", l3UserNav);
   const toggleL2Menu = (e: any) => {
     try {
       e.stopPropagation();
@@ -56,6 +58,35 @@ const StocksScreenerNav: React.FC<PageProps> = (props) => {
   return (
     <>
       <div className={`customeScroll ${styles.navWrap}`}>
+        {l3UserNav &&
+        l3UserNav.listScreenerMaster &&
+        l3UserNav.listScreenerMaster.length > 0 ? (
+          <>
+            <div className={`${styles.navWrapLi}`}>
+              <span className={`eticon_caret_up ${styles.caret}`}></span>
+              <span className={styles.labelName}>
+                {l3UserNav.collectionName}
+              </span>
+            </div>
+            <ul className={styles.subNavWrap}>
+              {l3UserNav.listScreenerMaster.map((item: any, index: any) => {
+                return (
+                  <li
+                    key={`${item.screenerId}-${index}-subLi`}
+                    id={item.screenerId}
+                    className={`${styles.subNavWrapLi} ${activeId == item.screenerId ? styles.active : null}`}
+                    onClick={(e) => handleClick(e)}
+                  >
+                    {renderLink(item)}
+                  </li>
+                );
+              })}
+            </ul>
+          </>
+        ) : (
+          ""
+        )}
+
         {leftNavResult &&
           leftNavResult.map((item: any, index: number) => {
             return (

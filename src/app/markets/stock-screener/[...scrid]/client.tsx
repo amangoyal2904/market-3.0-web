@@ -52,12 +52,14 @@ const StockScreeners = ({
   screenerDetail,
   payload = {},
   ssoid = null,
+  l3UserNav = {},
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
   const [_tabData, setTabData] = useState(tabData);
   const [_l3Nav, setL3Nav] = useState(l3Nav);
+  const [_l3UserNav, setL3UserNav] = useState(l3UserNav);
   const [_metaData, setMetaData] = useState(metaData);
   const [_tableData, setTableData] = useState(tableData);
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
@@ -180,10 +182,17 @@ const StockScreeners = ({
   };
   const industryFilerValueHandler = (value: any) => {
     console.log("getIndustryValuye", value);
-    setPayload({
-      ..._payload,
-      queryCondition: `${_query} AND Industry In(${value.join(",")})`,
-    });
+    if (value && value.length > 0) {
+      setPayload({
+        ..._payload,
+        queryCondition: `${_query} AND Industry In(${value.join(",")})`,
+      });
+    } else {
+      setPayload({
+        ..._payload,
+        queryCondition: `${_query}`,
+      });
+    }
   };
   const onPaginationChange = async (pageNumber: number) => {
     setProcessingLoader(true);
@@ -366,7 +375,11 @@ const StockScreeners = ({
         ) : (
           <>
             <aside className={styles.lhs}>
-              <StocksScreenerNav leftNavResult={_l3Nav} activeId={scrid} />
+              <StocksScreenerNav
+                leftNavResult={_l3Nav}
+                activeId={scrid}
+                l3UserNav={_l3UserNav}
+              />
             </aside>
             <div className={styles.rhs}>
               <div className="tabsWrap">

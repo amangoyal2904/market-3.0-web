@@ -54,7 +54,40 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
       l3Nav,
     };
   };
+  const getScreenerUserNav = async () => {
+    const apiParams = `?ssoId=${ssoid}&screenercount=20`;
+    const apiUrl = `${(APIS_CONFIG as any)?.["GetScreenerBySSOID"][APP_ENV]}${apiParams}`;
+    const response = await Service.get({
+      url: apiUrl,
+      params: {},
+      cache: "no-store",
+    });
+    const resJson = await response?.json();
+
+    let l3UserNav: any[] = [];
+    if (
+      resJson &&
+      resJson?.datainfo &&
+      resJson?.datainfo?.screenerCollectionMasterInfo &&
+      resJson?.datainfo?.screenerCollectionMasterInfo
+        ?.listScreenerCollectionMasterDataInfo
+    ) {
+      const listDataInfo = [
+        ...resJson.datainfo.screenerCollectionMasterInfo
+          .listScreenerCollectionMasterDataInfo,
+      ];
+      const collectionId = 0;
+      const filteredArrays = listDataInfo.filter(
+        (item: any) => item.collectionId === collectionId,
+      );
+      l3UserNav = filteredArrays[0];
+    }
+    return {
+      l3UserNav,
+    };
+  };
   const { l3Nav } = await getScreenerNav();
+  const { l3UserNav } = await getScreenerUserNav();
 
   const { tabData, activeViewId } = await getScreenerTabViewData({
     type: "screenerGetViewById",
@@ -95,6 +128,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
     <>
       <StockScreeners
         l3Nav={l3Nav}
+        l3UserNav={l3UserNav}
         metaData={meta}
         tabData={tabData}
         activeViewId={activeViewId}
