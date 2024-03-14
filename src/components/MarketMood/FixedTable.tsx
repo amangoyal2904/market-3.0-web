@@ -31,7 +31,7 @@ const FixedTableMarketMood = ({
                 <td>{item.date}</td>
                 <td className="numberFonts">{item.indexPrice}</td>
                 <td className={`${item.trend} numberFonts`}>
-                  {item.percentChange}{" "}
+                  {item.percentChange}%
                   {item.trend && (
                     <span
                       className={`${styles.arrowIcons} ${
