@@ -304,7 +304,7 @@ const StockScreeners = ({
     const responseData: any = await fetchViewTable(
       { ..._payload },
       "screenerGetViewById",
-      getCookie("isprimeuser") ? true : false,
+      getCookie("isprimeuser") == "true" ? true : false,
       getCookie("ssoid"),
     );
     const _pageSummary = !!responseData.pageSummary
