@@ -120,6 +120,7 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
                     key={index}
                     activeTab={activeTab.type}
                     pageName="homepage_stockRecosWd"
+                    urlFilterHandle={undefined}
                   />
                 ),
               }))}

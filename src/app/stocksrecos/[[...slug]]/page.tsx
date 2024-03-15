@@ -3,18 +3,21 @@ import styles from "./styles.module.scss";
 import APIS_CONFIG from "../../../network/api_config.json";
 import { APP_ENV, getStockRecosDetail } from "@/utils";
 import service from "@/network/service";
-import { fetchSelectedFilter } from "@/utils/utility";
-import Subhead from "@/components/StockRecosListing/Subhead";
-import InnerLeftNav from "@/components/StockRecosListing/InnerLeftNav";
+import { fetchSelectedFilter, getSearchParams } from "@/utils/utility";
+import Disclaimer from "@/components/StockRecosListing/Disclaimer";
 
 export default async function stocksrecos({
   params,
+  searchParams,
 }: {
   params: {
     slug: string[];
   };
+  searchParams: any;
 }) {
   console.log("params.slug ----> ", params.slug);
+  const intFilter = searchParams?.filter ? parseInt(searchParams.filter) : 0;
+  const selectedFilter = await fetchSelectedFilter(intFilter);
 
   const { slug } = params || [];
 
@@ -38,20 +41,20 @@ export default async function stocksrecos({
         : activeObj[0]?.apiType;
   };
 
-  const intFilter = 0;
-  const selectedFilter = await fetchSelectedFilter(intFilter);
-
   const recosDetailResult = await getStockRecosDetail({
     getApiType: getApiType(),
     slug,
+    niftyFilterData: selectedFilter,
   });
-  const fundHouseListResult =
-    getApiType() == "FHDetail"
-      ? await getStockRecosDetail({ getApiType: "recoByFH", slug })
-      : "";
 
   const navListData =
-    getApiType() == "FHDetail" ? fundHouseListResult : recosDetailResult;
+    getApiType() == "FHDetail"
+      ? await getStockRecosDetail({
+          getApiType: "recoByFH",
+          slug,
+          niftyFilterData: selectedFilter,
+        })
+      : recosDetailResult;
 
   return (
     <>
@@ -65,74 +68,17 @@ export default async function stocksrecos({
             stocks.
           </p>
         </div>
-        <Subhead
+        <StockRecosListing
           showIndexFilter={true}
           selectedFilter={selectedFilter}
           recosNavResult={recosNavResult}
-          activeTab={slug?.[0]}
+          recosDetailResult={recosDetailResult}
+          navListData={navListData}
+          activeApi={getApiType()}
           slug={slug}
         />
-        {getApiType() == "FHDetail" && (
-          <div className={styles.brokerageWrap}>
-            <div className={styles.totalRecosWrap}>
-              <span className={styles.totalRecosTitle}>Total Recos</span>
-              <span className={styles.totalRecosval}>
-                {recosDetailResult.recoData?.[0].topSection.totalCount}
-              </span>
-            </div>
-            <div className={styles.pipe}></div>
-            <div className={styles.buyWrap}>
-              <span className={styles.buyTitle}>Buy</span>
-              <span className={styles.buyval}>
-                {recosDetailResult.recoData?.[0].topSection.buyCount}
-              </span>
-            </div>
-            <div className={styles.sellWrap}>
-              <span className={styles.sellTitle}>Sell</span>
-              <span className={styles.sellVal}>
-                {recosDetailResult.recoData?.[0].topSection.sellCount}
-              </span>
-            </div>
-            <div className={styles.holdWrap}>
-              <span className={styles.holdTitle}>Hold</span>
-              <span className={styles.holdVal}>
-                {recosDetailResult.recoData?.[0].topSection.holdCount}
-              </span>
-            </div>
-            <div className={styles.addWrap}>
-              <span className={styles.addTitle}>Add</span>
-              <span className={styles.addVal}>-</span>
-            </div>
-            <div className={styles.accumulateWrap}>
-              <span className={styles.accumulateTitle}>Accumulate</span>
-              <span className={styles.accumulateVal}>-</span>
-            </div>
-            <div className={styles.neutralWrap}>
-              <span className={styles.neutralTitle}>Neutral</span>
-              <span className={styles.neutralVal}>-</span>
-            </div>
-          </div>
-        )}
-        <div
-          className={`${styles.contentWrap} ${slug?.[0] == "overview" ? styles.overviewWrap : ""}`}
-        >
-          {(getApiType() == "newRecos" ||
-            slug.includes("fundhousedetails")) && (
-            <InnerLeftNav
-              recosNavResult={recosNavResult}
-              recosDetailResult={navListData}
-              activeApi={getApiType()}
-              slug={slug}
-            />
-          )}
-          <StockRecosListing
-            showIndexFilter={true}
-            recosDetailResult={recosDetailResult}
-            activeApi={getApiType()}
-            slug={slug}
-          />
-        </div>
       </div>
+      <Disclaimer />
     </>
   );
 }

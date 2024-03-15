@@ -520,7 +520,13 @@ export const getFundHouseInfo = (item: any, slug: any) => {
 };
 
 // =====  Get STOCK_RECOS_DETAIL Data =======
-export const getStockRecosDetail = async ({ getApiType, slug, ssoid }: any) => {
+export const getStockRecosDetail = async ({
+  getApiType,
+  slug,
+  ssoid,
+  niftyFilterData,
+  pageNo,
+}: any) => {
   const STOCK_RECOS_DETAIL_Link = (APIS_CONFIG as any)["STOCK_RECOS_DETAIL"][
     APP_ENV
   ];
@@ -531,11 +537,23 @@ export const getStockRecosDetail = async ({ getApiType, slug, ssoid }: any) => {
   };
   const payload = {
     apiType: getApiType,
-    filterType: getApiType == "FHDetail" ? "fundhouse" : "",
-    filterValue: getApiType == "FHDetail" ? [fundHouseInfo.fundHouseId] : [],
+    filterType:
+      getApiType == "FHDetail"
+        ? "fundhouse"
+        : getApiType != "recoByFH" && niftyFilterData?.indexId
+          ? "index"
+          : "",
+    filterValue:
+      getApiType == "FHDetail"
+        ? [fundHouseInfo.fundHouseId]
+        : getApiType != "recoByFH" && niftyFilterData?.indexId
+          ? [niftyFilterData.indexId]
+          : [],
     recoType: (getApiType == "FHDetail" ? slug?.[2] : slug?.[1]) || "all",
-    pageSize: getApiType == "recoByFH" ? 100 : 30,
-    pageNumber: 1,
+    pageSize:
+      getApiType == "recoByFH" ? 100 : getApiType == "overview" ? 6 : 30,
+    pageNumber: pageNo || 1,
+    ...(getApiType == "overview" && { deviceId: "web" }),
   };
 
   console.log("payload----", payload);

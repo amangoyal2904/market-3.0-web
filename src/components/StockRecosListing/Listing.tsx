@@ -6,34 +6,25 @@ import Blocker from "../Blocker";
 import { useStateContext } from "../../store/StateContext";
 
 const Listing = (props: any) => {
-  const { recosDetailResult, activeApi } = props;
+  const { recosDetailResult, activeApi, urlFilterHandle } = props;
   const { state, dispatch } = useStateContext();
   const { isLogin } = state.login;
 
   return (
     <>
-      {typeof recosDetailResult?.recoData?.[0].data != "undefined" ? (
+      {typeof recosDetailResult != "undefined" && (
         <div className={styles.listingWrap}>
-          {recosDetailResult?.recoData?.[0].data.map(
-            (recoDataValue: any, index: any) => {
-              return (
-                <StockReco
-                  data={recoDataValue}
-                  key={index}
-                  activeTab={activeApi}
-                  pageName="stockRecosPage"
-                />
-              );
-            },
-          )}
-        </div>
-      ) : (
-        <div className={`${styles.listingWrap} ${styles.noDataFound}`}>
-          {activeApi == "recoOnWatchlist" && !isLogin ? (
-            <Blocker type="loginBlocker" />
-          ) : (
-            <Blocker type={"noDataFound"} />
-          )}
+          {recosDetailResult?.map((recoDataValue: any, index: any) => {
+            return (
+              <StockReco
+                data={recoDataValue}
+                key={index}
+                activeTab={activeApi}
+                pageName="stockRecosPage"
+                urlFilterHandle={urlFilterHandle}
+              />
+            );
+          })}
         </div>
       )}
     </>

@@ -5,6 +5,11 @@
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid $gray_80;
+  position: sticky;
+  top: 54px;
+  z-index: 9;
+  background: $color-white;
+  padding-top: 10px;
 
   .headName {
     font-weight: 700;
@@ -95,6 +100,9 @@
   list-style: none;
   font-size: 12px;
   margin-right: 16px;
+  position: sticky;
+  top: 120px;
+  height: calc(100vh - 120px);
 
   .newRecosSSList {
     padding: 4px 8px;
@@ -112,34 +120,52 @@
   }
 }
 
-.overviewMain {
-  position: relative;
-  .title {
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    margin: 40px 0 27px;
-  }
+.contentWrap {
+  margin-top: 32px;
+  display: flex;
 
-  .overviewViewAll {
-    text-align: right;
-    font-size: 16px;
-    line-height: 19.5px;
-    font-weight: 600;
-    color: $blue-50;
-    display: flex;
-    justify-content: flex-end;
-    a {
-      display: flex;
-      align-items: center;
-    }
+  &.overviewWrap {
+    flex-direction: column;
+    margin-top: 0;
+    .overviewMain {
+      position: relative;
+      .title {
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        margin: 40px 0 27px;
+      }
 
-    .arrowIcon {
-      border: 1px solid $black;
-      border-radius: 50%;
-      font-size: 24px;
-      margin-left: 14px;
+      .overviewBlockerWrap {
+        border-radius: 8px;
+        border: 1px solid $gray-80;
+      }
+
+      .overViewCardWrap {
+        display: flex;
+      }
+
+      .overviewViewAll {
+        text-align: right;
+        font-size: 16px;
+        line-height: 19.5px;
+        font-weight: 600;
+        color: $blue_secondary_50;
+        display: flex;
+        justify-content: flex-end;
+        a {
+          display: flex;
+          align-items: center;
+        }
+
+        .arrowIcon {
+          border: 1px solid $color-black;
+          border-radius: 50%;
+          font-size: 24px;
+          margin-left: 14px;
+        }
+      }
     }
   }
 }
@@ -149,6 +175,7 @@
   flex-wrap: wrap;
   justify-content: flex-start;
   // margin-left: 16px;
+  width: 100%;
 
   &.noDataFound {
     width: 100%;
@@ -234,6 +261,14 @@
               position: relative;
               display: flex;
               align-items: center;
+
+              .companyName {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                width: 150px;
+                display: inline-block;
+              }
             }
             .potential {
               text-align: center;
@@ -395,11 +430,19 @@
 .fundHousesLeftNavWrap {
   list-style: none;
   margin-right: 16px;
+  position: sticky;
+  top: 120px;
+  height: calc(100vh - 120px);
+  overflow-y: auto;
   .fundHousesLeftNav {
     width: 200px;
     padding: 8px 0 8px 8px;
     cursor: pointer;
     font-size: 12px;
+
+    .organisationNavName {
+      padding-bottom: 8px;
+    }
 
     &.allBrokeragesTab {
       padding-left: 18px;
@@ -424,6 +467,7 @@
 
       .fundFilter {
         padding: 4px 8px;
+        display: block;
 
         &.active {
           border-radius: 3px;
@@ -445,4 +489,164 @@
 
 .gray {
   color: $gray_30;
+}
+
+.brokerageWrap {
+  background-color: $salmon-40;
+  display: flex;
+  border-radius: 3px;
+  padding: 15px 19px;
+  margin-top: 32px;
+  align-items: center;
+
+  .totalRecosWrap {
+    .totalRecosTitle {
+      font-size: 14px;
+      font-weight: 600;
+      margin-right: 14px;
+    }
+    .totalRecosval {
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+
+  .pipe {
+    width: 0px;
+    height: 30px;
+    border-left: 1px solid $color-black;
+    margin: 0 39px;
+  }
+
+  .buyWrap {
+    font-size: 14px;
+    margin-right: 75px;
+    .buyTitle {
+      font-weight: 600;
+      color: $green_secondary_dark;
+      margin-right: 6px;
+    }
+    .buyval {
+      font-weight: 500;
+    }
+  }
+
+  .sellWrap {
+    font-size: 14px;
+    margin-right: 75px;
+    .sellTitle {
+      font-weight: 600;
+      color: $redText;
+      margin-right: 6px;
+    }
+    .sellVal {
+      font-weight: 500;
+    }
+  }
+
+  .holdWrap {
+    font-size: 14px;
+    margin-right: 75px;
+    .holdTitle {
+      font-weight: 600;
+      color: $grayText;
+      margin-right: 6px;
+    }
+    .holdVal {
+      font-weight: 500;
+    }
+  }
+
+  .addWrap {
+    font-size: 14px;
+    margin-right: 75px;
+    .addTitle {
+      font-weight: 600;
+      color: $grayText;
+      margin-right: 6px;
+    }
+    .addVal {
+      font-weight: 500;
+    }
+  }
+
+  .accumulateWrap {
+    font-size: 14px;
+    margin-right: 75px;
+    .accumulateTitle {
+      font-weight: 600;
+      color: $grayText;
+      margin-right: 6px;
+    }
+    .accumulateVal {
+      font-weight: 500;
+    }
+  }
+
+  .neutralWrap {
+    font-size: 14px;
+    margin-right: 75px;
+    .neutralTitle {
+      font-weight: 600;
+      color: $grayText;
+      margin-right: 6px;
+    }
+    .neutralVal {
+      font-weight: 500;
+    }
+  }
+}
+
+.loaderFacebook {
+  display: inline-block;
+  position: relative;
+  height: 64px;
+  width: 64px;
+}
+
+.loaderFacebook div {
+  display: inline-block;
+  position: absolute;
+  left: 6px;
+  animation: loader-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+  width: 13px;
+  background: $salmon-70;
+}
+
+.loaderFacebook div:nth-child(1) {
+  left: 6px;
+  animation-delay: -0.24s;
+}
+
+.loaderFacebook div:nth-child(2) {
+  left: 26px;
+  animation-delay: -0.12s;
+}
+
+.loaderFacebook div:nth-child(3) {
+  left: 45px;
+  animation-delay: 0;
+}
+
+.disclaimer {
+  padding: 32px 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $gray-95;
+  font-weight: 400;
+  color: $gray-30;
+}
+
+@keyframes loader-facebook {
+  0% {
+    top: 6px;
+    height: 51px;
+  }
+
+  50%,
+  100% {
+    top: 19px;
+    height: 26px;
+  }
 }
