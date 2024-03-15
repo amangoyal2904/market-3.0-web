@@ -5,7 +5,7 @@ import StockFilterNifty from "@/components/StockFilterNifty";
 import { useEffect, useState } from "react";
 import {
   fetchFilters,
-  getSelectedFilter,
+  fetchSelectedFilter,
   updateOrAddParamToPath,
 } from "@/utils/utility";
 import Link from "next/link";
@@ -21,6 +21,7 @@ const Subhead = (props: any) => {
     slug,
     filterDataChangeHander,
     niftyFilterData,
+    urlFilterHandle,
   } = props;
   const [showFilter, setShowFilter] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
@@ -37,7 +38,7 @@ const Subhead = (props: any) => {
   //   //setProcessingLoader(true);
   //   const url = `${pathname}?${searchParams}`;
   //   const newUrl = updateOrAddParamToPath(url, "filter", id);
-  //   const selectedFilter = await getSelectedFilter(id);
+  //   const selectedFilter = await fetchSelectedFilter(id);
   //   setNiftyFilterData(selectedFilter);
   //   console.log("selectedFilter", selectedFilter);
   //   // setPayload({ ..._payload, filterValue: [id] });
@@ -49,7 +50,7 @@ const Subhead = (props: any) => {
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);
   };
-  const handleChagneData = (id: any, name: string, selectedTab: string) => {
+  const handleChangeData = (id: any, name: string, selectedTab: string) => {
     setShowFilter(false);
     filterDataChangeHander(id);
   };
@@ -91,13 +92,13 @@ const Subhead = (props: any) => {
             >
               {item.seoPath == "fundhousedetails" ? (
                 <Link
-                  href={`/stocksrecos/fundhousedetails${niftyFilterData?.id ? "?filter=" + niftyFilterData.id : ""}`}
+                  href={`/stocksrecos/fundhousedetails${urlFilterHandle()}`}
                 >
                   {item.label}
                 </Link>
               ) : (
                 <Link
-                  href={`/stocksrecos/${handleLowerCase(item.seoPath)}${handleLowerCase(item.seoPath) == "newrecos" ? "/all" : ""}${niftyFilterData?.id ? "?filter=" + niftyFilterData.id : ""}`}
+                  href={`/stocksrecos/${handleLowerCase(item.seoPath)}${handleLowerCase(item.seoPath) == "newrecos" ? "/all" : ""}${urlFilterHandle()}`}
                 >
                   {item.label}
                 </Link>
@@ -146,9 +147,9 @@ const Subhead = (props: any) => {
           data={filterMenuData}
           onclick={showFilterMenu}
           showFilter={showFilter}
-          valuechange={handleChagneData}
-          selectTab={niftyFilterData.selectedTab}
-          childMenuTabActive={niftyFilterData.id}
+          valuechange={handleChangeData}
+          selectTab={niftyFilterData.exchange}
+          childMenuTabActive={niftyFilterData.indexId}
         />
       )}
     </>

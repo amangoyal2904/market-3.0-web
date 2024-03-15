@@ -31,24 +31,24 @@ const FundNavAccordionItem = ({
           <span
             className={`${isOpen ? "eticon_caret_up" : "eticon_caret_down"} ${styles.arrowIcon}`}
           ></span>
-          <span>{item.organisation}</span>
+          <span className={styles.organisationNavName}>
+            {item.organisation}
+          </span>
         </div>
         {isOpen && (
           <ul className={styles.fundFilterWrap}>
             {filterList.map((filter: any, index: any) => {
               return (
-                <>
-                  <li
-                    key={`fundnav_filterList_${index}`}
-                    className={`${fundHouseSeoName(getFundHouseInfo.fundHounseName) == fundHouseSeoName(item.organisation) && slug?.[2] == fundHouseSeoName(filter) ? styles.active : ""} ${styles.fundFilter}`}
+                <li
+                  key={`fundnav_filterList_${index}`}
+                  className={`${fundHouseSeoName(getFundHouseInfo.fundHounseName) == fundHouseSeoName(item.organisation) && slug?.[2] == fundHouseSeoName(filter) ? styles.active : ""} ${styles.fundFilter}`}
+                >
+                  <Link
+                    href={`/stocksrecos/fundhousedetails/${fundHouseSeoName(item.organisation)}-${item.omId}/${fundHouseSeoName(filter)}${urlFilterHandle()}`}
                   >
-                    <Link
-                      href={`/stocksrecos/fundhousedetails/${fundHouseSeoName(item.organisation)}-${item.omId}/${fundHouseSeoName(filter)}${urlFilterHandle()}`}
-                    >
-                      {filter}
-                    </Link>
-                  </li>
-                </>
+                    {filter}
+                  </Link>
+                </li>
               );
             })}
           </ul>

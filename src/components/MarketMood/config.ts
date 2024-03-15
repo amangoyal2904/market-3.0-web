@@ -1,3 +1,27 @@
+export const payWallMarketMood = [
+  {
+    key: "overview",
+    heading: "",
+    img: "/img/marketmood1.png",
+    title: "Visualise the heatmap based on Technical Indicators & Levels",
+    desc: "Join ETPrime & unlock complete access to Market Mood.",
+  },
+  {
+    key: "periodic",
+    heading: "Periodic High/Low",
+    img: "/img/marketmood2.png",
+    title: "Determine the trading zones of the stocks-Low, Mid, High",
+    desc: "Join ETPrime & unlock complete access to Market Mood.",
+  },
+  {
+    key: "advanceDecline",
+    heading: "Advance/Decline",
+    img: "/img/marketmood3.png",
+    title: "Get to know the market trend with Advances & Declines",
+    desc: "Join ETPrime & unlock complete access to Market Mood.",
+  },
+];
+
 export const tabData = [
   { label: "Overview", key: "overview" },
   { label: "Periodic High/Low", key: "periodic" },

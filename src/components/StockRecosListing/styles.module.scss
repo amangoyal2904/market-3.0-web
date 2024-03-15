@@ -137,6 +137,15 @@
         margin: 40px 0 27px;
       }
 
+      .overviewBlockerWrap {
+        border-radius: 8px;
+        border: 1px solid $gray-80;
+      }
+
+      .overViewCardWrap {
+        display: flex;
+      }
+
       .overviewViewAll {
         text-align: right;
         font-size: 16px;
@@ -431,6 +440,10 @@
     cursor: pointer;
     font-size: 12px;
 
+    .organisationNavName {
+      padding-bottom: 8px;
+    }
+
     &.allBrokeragesTab {
       padding-left: 18px;
 
@@ -454,6 +467,7 @@
 
       .fundFilter {
         padding: 4px 8px;
+        display: block;
 
         &.active {
           border-radius: 3px;
@@ -580,5 +594,59 @@
     .neutralVal {
       font-weight: 500;
     }
+  }
+}
+
+.loaderFacebook {
+  display: inline-block;
+  position: relative;
+  height: 64px;
+  width: 64px;
+}
+
+.loaderFacebook div {
+  display: inline-block;
+  position: absolute;
+  left: 6px;
+  animation: loader-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+  width: 13px;
+  background: $salmon-70;
+}
+
+.loaderFacebook div:nth-child(1) {
+  left: 6px;
+  animation-delay: -0.24s;
+}
+
+.loaderFacebook div:nth-child(2) {
+  left: 26px;
+  animation-delay: -0.12s;
+}
+
+.loaderFacebook div:nth-child(3) {
+  left: 45px;
+  animation-delay: 0;
+}
+
+.disclaimer {
+  padding: 32px 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $gray-95;
+  font-weight: 400;
+  color: $gray-30;
+}
+
+@keyframes loader-facebook {
+  0% {
+    top: 6px;
+    height: 51px;
+  }
+
+  50%,
+  100% {
+    top: 19px;
+    height: 26px;
   }
 }

@@ -7,7 +7,7 @@ import { Suspense } from "react";
 import Header from "@/components/Header";
 import Scripts from "@/components/Scripts";
 import LeftNav from "@/components/LeftNav";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import RedeemVoucher from "@/components/RedeemVoucher";
 import APIS_CONFIG from "../network/api_config.json";
 import { APP_ENV } from "@/utils";
@@ -15,6 +15,7 @@ import service from "@/network/service";
 import { StateProvider } from "@/store/StateContext";
 import NextTopLoader from "nextjs-toploader";
 import { Metadata } from "next";
+import Disclaimer from "@/components/StockRecosListing/Disclaimer";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -56,6 +57,10 @@ export default async function RootLayout({
 }) {
   const versionControl = {};
   const isprimeuser = cookies().get("isprimeuser") ? true : false;
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
+
+  console.log("headersList----", headersList);
 
   // =====  Get Left Nav Data =======
   const leftNavApi = (APIS_CONFIG as any)["LEFT_NAV"][APP_ENV];

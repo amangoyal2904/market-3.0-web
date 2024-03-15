@@ -2,9 +2,9 @@ import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
 import { cookies, headers } from "next/headers";
 import {
+  fetchSelectedFilter,
   fnGenerateMetaData,
   getSearchParams,
-  getSelectedFilter,
 } from "@/utils/utility";
 import { Metadata, ResolvingMetadata } from "next";
 import {
@@ -148,7 +148,7 @@ const Technicals = async ({ params, searchParams }: any) => {
       "MARKETSTATS_TECHNICALS",
     );
 
-  const selectedFilter = await getSelectedFilter(intFilter);
+  const selectedFilter = await fetchSelectedFilter(intFilter);
   const technicalCategory = await getTechincalOperands(
     L3NavMenuItem,
     L3NavSubItem,

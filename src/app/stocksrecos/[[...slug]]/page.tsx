@@ -3,7 +3,8 @@ import styles from "./styles.module.scss";
 import APIS_CONFIG from "../../../network/api_config.json";
 import { APP_ENV, getStockRecosDetail } from "@/utils";
 import service from "@/network/service";
-import { getSelectedFilter, getSearchParams } from "@/utils/utility";
+import { fetchSelectedFilter, getSearchParams } from "@/utils/utility";
+import Disclaimer from "@/components/StockRecosListing/Disclaimer";
 
 export default async function stocksrecos({
   params,
@@ -16,7 +17,7 @@ export default async function stocksrecos({
 }) {
   console.log("params.slug ----> ", params.slug);
   const intFilter = searchParams?.filter ? parseInt(searchParams.filter) : 0;
-  const selectedFilter = await getSelectedFilter(intFilter);
+  const selectedFilter = await fetchSelectedFilter(intFilter);
 
   const { slug } = params || [];
 
@@ -77,6 +78,7 @@ export default async function stocksrecos({
           slug={slug}
         />
       </div>
+      <Disclaimer />
     </>
   );
 }

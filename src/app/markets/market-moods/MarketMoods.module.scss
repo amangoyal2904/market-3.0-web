@@ -77,6 +77,9 @@
 .section {
   position: relative;
   margin: 25px auto 50px;
+  &.center {
+    text-align: center;
+  }
   .loadMore {
     position: relative;
     display: flex;
@@ -126,11 +129,71 @@
     }
   }
 }
-.tableWrapper {
-  margin-top: 20px;
-  display: flex;
+.wrapper {
   position: relative;
-  overflow: auto;
-  overflow-y: "scroll";
-  justify-content: flex-start;
+  &.center {
+    .section {
+      text-align: center;
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .head {
+          font-size: 24px;
+          line-height: 30px;
+          font-weight: 700;
+        }
+      }
+      .title {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 30px;
+        color: $black;
+        margin: 5px auto 15px;
+      }
+      .desc {
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 22px;
+        color: $black;
+      }
+      .plan {
+        margin: 5px auto 30px;
+        .subscribeBtn {
+          display: inline-block;
+          background: $red-50;
+          border: 1px solid $red-50;
+          padding: 8px 40px;
+          border-radius: 3px;
+          font-size: 14px;
+          line-height: 18px;
+          font-weight: 600;
+          color: $white;
+        }
+        .defaultLink {
+          margin-top: 10px;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 18px;
+          color: $black;
+          span {
+            margin-left: 5px;
+            color: $blue-50;
+          }
+        }
+      }
+    }
+  }
+  .tableWrapper {
+    margin-top: 20px;
+    display: flex;
+    position: relative;
+    overflow: auto;
+    overflow-y: "scroll";
+    justify-content: flex-start;
+  }
+}
+.blocker {
+  display: block;
+  margin: 10px auto 40px;
 }

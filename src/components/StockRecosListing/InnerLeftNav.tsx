@@ -10,11 +10,8 @@ const InnerLeftNav = (props: any) => {
     activeApi,
     niftyFilterData,
     slug,
+    urlFilterHandle,
   } = props;
-
-  const urlFilterHandle = () => {
-    return niftyFilterData?.id ? "?filter=" + niftyFilterData?.id : "";
-  };
 
   return (
     <>
@@ -47,26 +44,28 @@ const InnerLeftNav = (props: any) => {
           );
         })}
       {slug.includes("fundhousedetails") && (
-        <ul className={styles.fundHousesLeftNavWrap}>
-          <li
-            className={`${styles.fundHousesLeftNav} ${styles.allBrokeragesTab} ${activeApi == "recoByFH" ? styles.active : ""}`}
-          >
-            <Link href={`/stocksrecos/fundhousedetails${urlFilterHandle()}`}>
-              All Brokerages
-            </Link>
-          </li>
-          {recosDetailResult?.recoData?.[0].data.map(
-            (item: any, index: any) => (
-              <FundNavAccordionItem
-                key={`fundHousesLeftNavWrap_key_${index}`}
-                getFundHouseInfo={getFundHouseInfo(item, slug)}
-                item={item}
-                slug={slug}
-                urlFilterHandle={urlFilterHandle}
-              />
-            ),
-          )}
-        </ul>
+        <div>
+          <ul className={styles.fundHousesLeftNavWrap}>
+            <li
+              className={`${styles.fundHousesLeftNav} ${styles.allBrokeragesTab} ${activeApi == "recoByFH" ? styles.active : ""}`}
+            >
+              <Link href={`/stocksrecos/fundhousedetails${urlFilterHandle()}`}>
+                All Brokerages
+              </Link>
+            </li>
+            {recosDetailResult?.recoData?.[0].data.map(
+              (item: any, index: any) => (
+                <FundNavAccordionItem
+                  key={`fundHousesLeftNavWrap_key_${index}`}
+                  getFundHouseInfo={getFundHouseInfo(item, slug)}
+                  item={item}
+                  slug={slug}
+                  urlFilterHandle={urlFilterHandle}
+                />
+              ),
+            )}
+          </ul>
+        </div>
       )}
     </>
   );

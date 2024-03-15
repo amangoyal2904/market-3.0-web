@@ -3,18 +3,21 @@
     "showIndexFilter": true,
     "showDuration": false,
     "showCountPercentage": true,
-    "showMonthlyDaily": false
+    "showMonthlyDaily": false,
+    "showHelp": false
   },
   "advanceDecline": {
     "showIndexFilter": true,
     "showDuration": false,
     "showCountPercentage": false,
-    "showMonthlyDaily": true
+    "showMonthlyDaily": true,
+    "showHelp": false
   },
   "periodic": {
     "showIndexFilter": true,
     "showDuration": true,
     "showCountPercentage": false,
-    "showMonthlyDaily": false
+    "showMonthlyDaily": false,
+    "showHelp": true
   }
 }

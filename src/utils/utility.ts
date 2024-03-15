@@ -10,7 +10,7 @@ import Fingerprint2 from "fingerprintjs2";
 import { setCookies } from "./index";
 import Service from "@/network/service";
 
-const API_SOURCE = 18;
+const API_SOURCE = 0;
 
 export const durationOptions = [
   { label: "1 Day", value: "1D", id: 1 },
@@ -88,29 +88,6 @@ export const fnGenerateMetaData = (meta?: any) => {
       icon: "/etfavicon.ico",
     },
   };
-};
-
-export const getFilterDataBySeoName = async (seoName: string) => {
-  const data = await fetchFilters({ marketcap: true });
-  const allIndices = [
-    ...data.keyIndices.nse,
-    ...data.keyIndices.bse,
-    ...data.sectoralIndices.nse,
-    ...data.sectoralIndices.bse,
-    ...data.otherIndices.nse,
-    ...data.otherIndices.bse,
-    ...data.marketcap.nse,
-    ...data.marketcap.bse,
-  ];
-
-  const foundIndex = allIndices.find((index) => index.seoname === seoName);
-  return foundIndex
-    ? {
-        name: foundIndex.name,
-        indexId: foundIndex.indexId,
-        seoname: foundIndex.seoname,
-      }
-    : { name: "All Stocks", indexId: 0, seoname: "" };
 };
 
 export const fetchFilters = async ({
@@ -301,7 +278,7 @@ export const generateFpid = (isLogin: any) => {
 };
 
 export const processFingerprint = (data: any, isLogin: any) => {
-  setCookies("fpid", data);
+  setCookieToSpecificTime("fpid", data, 365, 0, 0);
   if (isLogin) {
     createPeuuid(data);
   } else {
@@ -327,7 +304,7 @@ export const createPfuuid = async (fpid: any) => {
     if (data && data.id != 0) {
       console.log("@@@@--->>>>>", data);
       var pfuuid = data.id;
-      setCookieToSpecificTime("pfuuid", pfuuid, 365, 0, 0, "");
+      setCookieToSpecificTime("pfuuid", pfuuid, 365, 0, 0);
     }
   } catch (e) {
     console.log("error in pfuuid api", e);
@@ -350,7 +327,7 @@ export const createPeuuid = async (fpid: any) => {
   if (data && data.id != 0) {
     const peuuid: any = data.id;
     console.log("@@@@--->>>>>2", data);
-    setCookieToSpecificTime("peuuid", peuuid, 365, 0, 0, "");
+    setCookieToSpecificTime("peuuid", peuuid, 365, 0, 0);
   }
 };
 
@@ -405,66 +382,57 @@ export const removePersonalizeViewById = async (viewId: any) => {
   const resData = await data.json();
   return resData;
 };
-const fetchSelectedFilter = async (data: any, desiredIndexId: any) => {
-  let filterData;
-  if (data.keyIndices.nse.some((obj: any) => obj.indexId == desiredIndexId)) {
-    filterData = data.keyIndices.nse.find(
-      (obj: any) => obj.indexId == desiredIndexId,
-    );
-    filterData.selectedTab = "nse";
-  } else if (
-    data.keyIndices.bse.some((obj: any) => obj.indexId == desiredIndexId)
-  ) {
-    filterData = data.keyIndices.bse.find(
-      (obj: any) => obj.indexId == desiredIndexId,
-    );
-    filterData.selectedTab = "bse";
-  } else if (
-    data.sectoralIndices.nse.some((obj: any) => obj.indexId == desiredIndexId)
-  ) {
-    filterData = data.sectoralIndices.nse.find(
-      (obj: any) => obj.indexId == desiredIndexId,
-    );
-    filterData.selectedTab = "nse";
-  } else if (
-    data.sectoralIndices.bse.some((obj: any) => obj.indexId == desiredIndexId)
-  ) {
-    filterData = data.sectoralIndices.bse.find(
-      (obj: any) => obj.indexId == desiredIndexId,
-    );
-    filterData.selectedTab = "bse";
-  } else if (
-    data.otherIndices.nse.some((obj: any) => obj.indexId == desiredIndexId)
-  ) {
-    filterData = data.otherIndices.nse.find(
-      (obj: any) => obj.indexId == desiredIndexId,
-    );
-    filterData.selectedTab = "nse";
-  } else if (
-    data.otherIndices.bse.some((obj: any) => obj.indexId == desiredIndexId)
-  ) {
-    filterData = data.otherIndices.bse.find(
-      (obj: any) => obj.indexId == desiredIndexId,
-    );
-    filterData.selectedTab = "bse";
-  }
-  return filterData;
-};
 
-export const getSelectedFilter = async (filter: any) => {
-  let selectedFilter;
-  const filters = await fetchFilters({ all: true });
-  if (!!filter) {
-    selectedFilter = await fetchSelectedFilter(filters, filter);
+export const fetchSelectedFilter = async (
+  seoNameOrIndexId?: string | number,
+) => {
+  const data = await fetchFilters({ marketcap: true });
+  const allIndices = [
+    ...data.keyIndices.nse,
+    ...data.keyIndices.bse,
+    ...data.sectoralIndices.nse,
+    ...data.sectoralIndices.bse,
+    ...data.otherIndices.nse,
+    ...data.otherIndices.bse,
+    ...data.marketcap.nse,
+    ...data.marketcap.bse,
+  ];
+  let foundIndex;
+  if (!isNaN(seoNameOrIndexId as number)) {
+    foundIndex = allIndices.find(
+      (index) => index.indexId == (seoNameOrIndexId as number),
+    );
+  } else if (typeof seoNameOrIndexId === "string") {
+    foundIndex = allIndices.find((index) => index.seoname == seoNameOrIndexId);
+  }
+
+  if (foundIndex) {
+    let exchange = "";
+    if (
+      data.keyIndices.nse.includes(foundIndex) ||
+      data.sectoralIndices.nse.includes(foundIndex) ||
+      data.otherIndices.nse.includes(foundIndex) ||
+      data.marketcap.nse.includes(foundIndex)
+    ) {
+      exchange = "nse";
+    } else if (
+      data.keyIndices.bse.includes(foundIndex) ||
+      data.sectoralIndices.bse.includes(foundIndex) ||
+      data.otherIndices.bse.includes(foundIndex) ||
+      data.marketcap.bse.includes(foundIndex)
+    ) {
+      exchange = "bse";
+    }
+
+    return {
+      name: foundIndex.name,
+      indexId: foundIndex.indexId,
+      seoname: foundIndex.seoname,
+      exchange: exchange,
+    };
   } else {
-    selectedFilter = { name: "All Stocks", indexId: 0, selectedTab: "nse" };
+    return { name: "All Stocks", indexId: 0, seoname: "", selectedTab: "nse" };
   }
-
-  return {
-    name: selectedFilter.name,
-    id: selectedFilter.indexId,
-    selectedTab: selectedFilter.selectedTab,
-  };
 };
 
 export const getSearchParams = (url: string) => {
@@ -538,11 +506,11 @@ export const getAdvanceDeclineData = async (
             : "neutral",
       others: {
         up: item.advances,
-        upChg: item.advancesPercentange,
+        upChg: item.advancesPercentange + "%",
         down: item.declines,
-        downChg: item.declinesPercentange,
+        downChg: item.declinesPercentange + "%",
         neutral: item.noChange,
-        neutralChg: item.noChangePercentage,
+        neutralChg: item.noChangePercentage + "%",
       },
     })),
     pageSummary: originalJson.pagesummary,
@@ -560,28 +528,28 @@ export const getPeriodicData = async (
   });
   const originalJson = await response?.json();
   return {
-    dataList: originalJson.searchresult.map((item: any) => ({
-      date: dateFormat(item.dateTime, "%d %MMM"),
-      indexPrice: formatNumber(item.currentIndexValue),
-      percentChange: item.percentChange,
-      trend:
-        item.percentChange > 0
-          ? "up"
-          : item.percentChange < 0
-            ? "down"
-            : "neutral",
-      others: {
-        up: item.highZone,
-        upChg:
-          (item.highZone * (item.highZone + item.midZone + item.lowZone)) / 100,
-        down: item.lowZone,
-        downChg:
-          (item.lowZone * (item.highZone + item.midZone + item.lowZone)) / 100,
-        neutral: item.midZone,
-        neutralChg:
-          (item.midZone * (item.highZone + item.midZone + item.lowZone)) / 100,
-      },
-    })),
+    dataList: originalJson.searchresult.map((item: any) => {
+      const totalZonesSum = item.highZone + item.midZone + item.lowZone;
+      return {
+        date: dateFormat(item.dateTime, "%d %MMM"),
+        indexPrice: formatNumber(item.currentIndexValue),
+        percentChange: item.percentChange,
+        trend:
+          item.percentChange > 0
+            ? "up"
+            : item.percentChange < 0
+              ? "down"
+              : "neutral",
+        others: {
+          up: item.highZone,
+          upChg: (item.highZone / totalZonesSum) * 100 + "%",
+          down: item.lowZone,
+          downChg: (item.lowZone / totalZonesSum) * 100 + "%",
+          neutral: item.midZone,
+          neutralChg: (item.midZone / totalZonesSum) * 100 + "%",
+        },
+      };
+    }),
     pageSummary: originalJson.pagesummary,
   };
 };

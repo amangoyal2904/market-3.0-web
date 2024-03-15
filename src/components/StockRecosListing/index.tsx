@@ -10,7 +10,7 @@ import { getStockRecosDetail } from "@/utils";
 import Subhead from "./Subhead";
 import {
   fetchFilters,
-  getSelectedFilter,
+  fetchSelectedFilter,
   updateOrAddParamToPath,
 } from "@/utils/utility";
 import InnerLeftNav from "./InnerLeftNav";
@@ -38,51 +38,61 @@ const StockRecosListing = (props: any) => {
       : recosDetailResult?.recoData?.[0].data,
   );
   const [currentPageData, setCurrentPageData] = useState([]); // State to hold data for the current page
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const loader = useRef(null);
+  const initialSearchParamsRef = useRef<URLSearchParams>(
+    new URLSearchParams(searchParams.toString()),
+  );
 
-  const filterDataChangeHander = async (id: any) => {
-    const url = `${pathName}?${searchParams}`;
-    const newUrl = updateOrAddParamToPath(url, "filter", id);
-    const selectedFilter = await getSelectedFilter(id);
-    setNiftyFilterData(selectedFilter);
-    router.push(newUrl, { scroll: false });
-  };
+  const filterDataChangeHandler = useCallback(
+    async (id: any) => {
+      const url = `${pathName}?${searchParams}`;
+      const newUrl = updateOrAddParamToPath(url, "filter", id);
+      const selectedFilter = await fetchSelectedFilter(id);
+      setNiftyFilterData(selectedFilter);
+      router.push(newUrl, { scroll: false });
 
-  const urlFilterHandle = () => {
-    return niftyFilterData?.id ? "?filter=" + niftyFilterData?.id : "";
-  };
+      setPage(1);
+      setHasMore(true);
+    },
+    [pathName, searchParams, router],
+  );
 
-  const fetchDataOnLazyLoad = async (currentPage: any) => {
-    // Simulated API call
-    setTimeout(async () => {
-      const newData: any = await getStockRecosDetail({
-        getApiType: activeApi,
-        slug,
-        ssoid: isLogin ? "ce1tl8rz8t1lk96gdlrxwquku" : "",
-        niftyFilterData,
-        pageNo: currentPage,
-      });
-      //console.log("newData---", newData)
-      typeof newData?.recoData?.[0].data != "undefined" &&
-        setRecosDetailJSON((prevData: any) => [
-          ...prevData,
-          ...newData?.recoData?.[0].data,
-        ]);
-      setCurrentPageData(newData); // Set data for the current page
-      setHasMore(
-        typeof newData?.recoData?.[0].data != "undefined" &&
-          newData?.recoData?.[0].data?.length == 30,
-      ); // Simulating 3 pages of data
+  const urlFilterHandle = useCallback(() => {
+    return niftyFilterData?.indexId ? `?filter=${niftyFilterData.indexId}` : "";
+  }, [niftyFilterData]);
 
-      console.log("fetchDataOnLazyLoad hit", currentPage, hasMore);
-    }, 1000);
-  };
+  const fetchDataOnLazyLoad = useCallback(
+    async (currentPage: any) => {
+      if (activeApi !== "overview" && page > 1) {
+        setTimeout(async () => {
+          const newData: any = await getStockRecosDetail({
+            getApiType: activeApi,
+            slug,
+            ssoid: isLogin ? "ce1tl8rz8t1lk96gdlrxwquku" : "",
+            niftyFilterData,
+            pageNo: currentPage,
+          });
+          if (newData?.recoData?.[0].data) {
+            setRecosDetailJSON((prevData: any) => [
+              ...prevData,
+              ...newData.recoData[0].data,
+            ]);
+            setHasMore(
+              typeof newData?.recoData?.[0].data !== "undefined" &&
+                newData?.recoData?.[0].data?.length === 30,
+            );
+          }
+        }, 1000);
+      }
+    },
+    [activeApi, slug, page, isLogin, niftyFilterData],
+  );
 
   useEffect(() => {
     fetchDataOnLazyLoad(page);
-  }, [page]);
+  }, [fetchDataOnLazyLoad, page]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(handleObserver, {
@@ -99,11 +109,8 @@ const StockRecosListing = (props: any) => {
   }, []);
 
   useEffect(() => {
-    setPage(1);
-    setHasMore(true);
     async function recosWatchList() {
       if (pathName.indexOf("recos-on-your-watchlist") != -1) {
-        console.log(activeApi + "===" + slug);
         const recosDetailResult = await getStockRecosDetail({
           getApiType: activeApi,
           slug,
@@ -114,13 +121,17 @@ const StockRecosListing = (props: any) => {
 
         console.log(recosDetailResult);
 
-        setRecosDetailJSON(recosDetailResult?.recoData?.[0].data);
+        setRecosDetailJSON(
+          activeApi == "overview"
+            ? recosDetailResult
+            : recosDetailResult?.recoData?.[0].data,
+        );
       }
     }
 
     recosWatchList();
     console.log("path changed", pathName);
-  }, [pathName]);
+  }, []);
 
   useEffect(() => {
     async function recosDetail() {
@@ -132,22 +143,32 @@ const StockRecosListing = (props: any) => {
         pageNo: page,
       });
 
-      setRecosDetailJSON(recosDetailResult?.recoData?.[0].data);
+      setRecosDetailJSON(
+        activeApi == "overview"
+          ? recosDetailResult
+          : recosDetailResult?.recoData?.[0].data,
+      );
     }
-    if (searchParams.has("filter")) {
-      recosDetail();
-      console.log("searchParams changed", searchParams);
+
+    if (
+      !initialSearchParamsRef.current ||
+      initialSearchParamsRef.current.toString() !== searchParams.toString()
+    ) {
+      if (searchParams.has("filter")) {
+        recosDetail();
+        console.log("searchParams changed", searchParams);
+      }
     }
-  }, [searchParams]);
+  }, [searchParams, initialSearchParamsRef.current]);
 
   const handleObserver = useCallback(
     (entries: any) => {
       const target = entries[0];
-      if (target.isIntersecting && hasMore) {
+      if (target.isIntersecting && hasMore && activeApi != "overview") {
         setPage((prevPage) => prevPage + 1);
       }
 
-      console.log("recosDetailJSON----", recosDetailJSON);
+      console.log("recosDetailJSON---handleObserver-", recosDetailJSON);
     },
     [hasMore],
   );
@@ -161,7 +182,8 @@ const StockRecosListing = (props: any) => {
         activeTab={slug?.[0]}
         slug={slug}
         niftyFilterData={niftyFilterData}
-        filterDataChangeHander={filterDataChangeHander}
+        filterDataChangeHander={filterDataChangeHandler}
+        urlFilterHandle={urlFilterHandle}
       />
       {activeApi == "FHDetail" && (
         <div className={styles.brokerageWrap}>
@@ -214,24 +236,45 @@ const StockRecosListing = (props: any) => {
             activeApi={activeApi}
             slug={slug}
             niftyFilterData={niftyFilterData}
+            urlFilterHandle={urlFilterHandle}
           />
         )}
         {slug?.[0] == "overview" ? (
-          <Overview data={recosDetailJSON} urlFilterHandle={urlFilterHandle} />
+          <Overview
+            data={recosDetailJSON}
+            urlFilterHandle={urlFilterHandle}
+            activeApi={activeApi}
+          />
         ) : typeof recosDetailJSON != "undefined" ? (
-          viewType == "grid" ? (
-            <Grid
-              recosDetailResult={recosDetailJSON}
-              activeApi={activeApi}
-              urlFilterHandle={urlFilterHandle}
-            />
-          ) : (
-            <Listing
-              recosDetailResult={recosDetailJSON}
-              activeApi={activeApi}
-              urlFilterHandle={urlFilterHandle}
-            />
-          )
+          <div className={styles.contentViewWrap}>
+            {viewType == "grid" ? (
+              <Grid
+                recosDetailResult={recosDetailJSON}
+                activeApi={activeApi}
+                urlFilterHandle={urlFilterHandle}
+              />
+            ) : (
+              <Listing
+                recosDetailResult={recosDetailJSON}
+                activeApi={activeApi}
+                urlFilterHandle={urlFilterHandle}
+              />
+            )}
+            {typeof recosDetailJSON != "undefined" &&
+              activeApi != "overview" &&
+              hasMore && (
+                <div
+                  ref={loader}
+                  style={{ margin: "20px auto", textAlign: "center" }}
+                >
+                  <div className={styles.loaderFacebook}>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+              )}
+          </div>
         ) : (
           <div className={`${styles.listingWrap} ${styles.noDataFound}`}>
             {activeApi == "recoOnWatchlist" && !isLogin ? (
@@ -242,11 +285,6 @@ const StockRecosListing = (props: any) => {
           </div>
         )}
       </div>
-      {typeof recosDetailJSON != "undefined" && hasMore && (
-        <div ref={loader} style={{ margin: "20px auto", textAlign: "center" }}>
-          Loading...
-        </div>
-      )}
     </>
   );
 };

@@ -3,6 +3,9 @@ import styles from "./MarketMood.module.scss";
 const ScrollableBarsTableMarketMood = ({ tableData, type }: any) => {
   return (
     <div id="scrollableTable" className={styles.scrollableWrapper}>
+      <div className={`${styles.horizontalLine} ${styles.withMaxWidth}`}>
+        <span>Showing No. of Stocks</span>
+      </div>
       <table className={styles.marketsCustomTable}>
         <thead>
           <tr>
@@ -46,7 +49,7 @@ const ScrollableBarsTableMarketMood = ({ tableData, type }: any) => {
                       {data.others.up > 0 && (
                         <div
                           className={styles.up}
-                          style={{ width: data.others.upChg + "%" }}
+                          style={{ width: data.others.upChg }}
                         >
                           <span>{data.others.up}</span>
                         </div>
@@ -54,7 +57,7 @@ const ScrollableBarsTableMarketMood = ({ tableData, type }: any) => {
                       {data.others.down > 0 && (
                         <div
                           className={styles.down}
-                          style={{ width: data.others.downChg + "%" }}
+                          style={{ width: data.others.downChg }}
                         >
                           <span>{data.others.down}</span>
                         </div>
@@ -62,7 +65,7 @@ const ScrollableBarsTableMarketMood = ({ tableData, type }: any) => {
                       {data.others.neutral > 0 && (
                         <div
                           className={styles.neutralGray}
-                          style={{ width: data.others.neutralChg + "%" }}
+                          style={{ width: data.others.neutralChg }}
                         >
                           <span>{data.others.neutral}</span>
                         </div>
@@ -74,7 +77,7 @@ const ScrollableBarsTableMarketMood = ({ tableData, type }: any) => {
                     {data.others.down > 0 && (
                       <div
                         className={styles.down}
-                        style={{ width: data.others.downChg + "%" }}
+                        style={{ width: data.others.downChg }}
                       >
                         <span>{data.others.down}</span>
                       </div>
@@ -82,7 +85,7 @@ const ScrollableBarsTableMarketMood = ({ tableData, type }: any) => {
                     {data.others.neutral > 0 && (
                       <div
                         className={styles.neutral}
-                        style={{ width: data.others.neutralChg + "%" }}
+                        style={{ width: data.others.neutralChg }}
                       >
                         <span>{data.others.neutral}</span>
                       </div>
@@ -90,7 +93,7 @@ const ScrollableBarsTableMarketMood = ({ tableData, type }: any) => {
                     {data.others.up > 0 && (
                       <div
                         className={styles.up}
-                        style={{ width: data.others.upChg + "%" }}
+                        style={{ width: data.others.upChg }}
                       >
                         <span>{data.others.up}</span>
                       </div>

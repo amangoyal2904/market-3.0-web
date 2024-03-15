@@ -5,17 +5,23 @@
   justify-content: space-between;
   align-items: center;
   .head {
+    display: flex;
     font-size: 24px;
     line-height: 30px;
     font-weight: 700;
+    align-items: center;
+    gap: 10px;
     .subHeading {
       font-size: 18px;
       line-height: 22px;
       font-weight: 400;
       color: $gray-30;
       border-left: 1px solid #cbcbcb;
-      margin-left: 15px;
+      margin-left: 5px;
       padding-left: 15px;
+    }
+    i {
+      cursor: pointer;
     }
   }
   .options {
@@ -68,6 +74,36 @@
         }
       }
     }
+  }
+}
+
+.horizontalLine {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  background: $white;
+  padding: 12px 5% 8px;
+  z-index: 2;
+  &.withMaxWidth {
+    max-width: 625px;
+    margin: 0;
+  }
+  span {
+    padding: 0 10px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+    color: $yellow-80;
+  }
+  &:before,
+  &:after {
+    content: "";
+    flex-grow: 1;
+    height: 1px;
+    background-color: $gray-80;
   }
 }
 
@@ -134,6 +170,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
+    &.extraCell {
+      padding: 0 10px 4px 0;
+      height: 20px;
+      border-top: 0;
+    }
     &.noData {
       padding: 0;
     }
@@ -146,6 +187,11 @@
         display: none;
       }
     }
+  }
+
+  .noBottomBorder th {
+    border-bottom: 0;
+    padding-bottom: 5px;
   }
 
   .firstTh {
@@ -249,7 +295,7 @@
 .DARK_GREEN {
   background: $green-30;
 }
-.RED {
+.DARK_RED {
   background: $red-30;
 }
 .LIGHT_RED {
@@ -261,11 +307,20 @@
   list-style: none;
   column-gap: 10px;
   justify-content: flex-end;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: $black;
+  li {
+    display: flex;
+    align-items: center;
+  }
   span {
     display: inline-flex;
     width: 12px;
     height: 12px;
     border-radius: 2px;
+    margin: 0 3px;
     &.down {
       background: $red-50;
     }
@@ -328,4 +383,81 @@
       transform: translateX(-50%);
     }
   }
+}
+
+.popUp {
+  position: absolute;
+  background: $white;
+  border: 1px solid $gray_90;
+  border-radius: 8px;
+  width: 360px;
+  top: 40px;
+  left: -180px;
+  z-index: 100;
+  .header {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+    padding: 10px 0;
+    border-bottom: 1px solid $gray_80;
+    i {
+      position: absolute;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+  }
+  .wrapper {
+    padding: 16px;
+    .zone {
+      .head {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 700;
+        color: $black;
+        gap: 4;
+
+        span {
+          display: inline-flex;
+          width: 12px;
+          height: 12px;
+          border-radius: 2px;
+          &.low {
+            background: $red-50;
+          }
+          &.mid {
+            background: $yellow-50;
+          }
+          &.high {
+            background: $green-50;
+          }
+        }
+      }
+      p {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+      }
+      & + .zone {
+        border-top: 1px solid $gray_90;
+        margin-top: 8px;
+        padding-top: 8px;
+      }
+    }
+  }
+}
+.popUpOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 99;
+  cursor: pointer;
 }

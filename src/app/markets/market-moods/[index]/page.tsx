@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import MarketMoodsClient from "../clients";
 import { cookies } from "next/headers";
 import {
+  fetchSelectedFilter,
   getAdvanceDeclineData,
-  getFilterDataBySeoName,
   getOverviewData,
   getPeriodicData,
 } from "@/utils/utility";
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 const MarketMoods = async ({ params }: any) => {
   const cookieStore = cookies();
   const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
-  const niftyFilterData = await getFilterDataBySeoName(params.index);
+  const niftyFilterData = await fetchSelectedFilter(params.index);
   let overviewData,
     advanceDeclineData,
     periodicData = null;
@@ -37,7 +37,7 @@ const MarketMoods = async ({ params }: any) => {
       overviewData={overviewData}
       advanceDeclineData={advanceDeclineData}
       periodicData={periodicData}
-      niftyFilterData={niftyFilterData}
+      selectedFilter={niftyFilterData}
     />
   );
 };

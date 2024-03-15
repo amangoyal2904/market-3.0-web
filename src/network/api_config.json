@@ -304,5 +304,9 @@
   "SaveScreenerAPI": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/saveUserScreener",
     "production": "https://screener.indiatimes.com/screener/saveUserScreener"
+  },
+  "GetScreenerBySSOID": {
+    "development": "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterData",
+    "production": "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterData"
   }
 }

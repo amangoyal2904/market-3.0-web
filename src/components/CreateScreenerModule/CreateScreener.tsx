@@ -22,7 +22,6 @@ const CreateScreenerModule = ({
   const [searchListItems, setSearchListItems] = useState([]);
   const [selectedView, setSelectedView]: any = useState([]);
   const searchRef = useRef<HTMLDivElement>(null);
-  const viewWraperRef = useRef<HTMLDivElement>(null);
   const [viewNameModule, setViewNameModule] = useState(false);
   const [sateUpdate, setSateUpdate] = useState(true);
   const [queryInput, setQueryInput] = useState(query);
@@ -200,10 +199,8 @@ const CreateScreenerModule = ({
   const editViewNameHandler = () => {
     setViewNameModule(true);
   };
-  const handleEscapeKey = (event: any) => {
-    if (event.key === "Escape") {
-      closeModuleScreenerNew(false);
-    }
+  const popUpClose = () => {
+    closeModuleScreenerNew(false);
   };
   //console.log('whatis', selectedView)
   useEffect(() => {
@@ -213,25 +210,6 @@ const CreateScreenerModule = ({
     };
   }, [searchRef]);
 
-  useEffect(() => {
-    const handleClickOutsidePopup = (e: any) => {
-      //console.log('___________')
-      if (
-        viewWraperRef.current &&
-        !viewWraperRef.current.contains(e.target) &&
-        e.target.classList[0] !== "refRemoveList"
-      ) {
-        //console.log('___________++++++++',viewWraperRef.current, !viewWraperRef.current.contains(e.target), "sateUpdate",sateUpdate)
-        closeModuleScreenerNew(false);
-      }
-    };
-    document.addEventListener("click", handleClickOutsidePopup);
-    document.addEventListener("keydown", handleEscapeKey);
-    return () => {
-      document.removeEventListener("click", handleClickOutsidePopup);
-      document.removeEventListener("keydown", handleEscapeKey);
-    };
-  }, [viewWraperRef, closeModuleScreenerNew]);
   useEffect(() => {
     setScreenerLoading(true);
     ViewDataAPICall();
@@ -258,7 +236,13 @@ const CreateScreenerModule = ({
       <div
         className={`customeModule ${styles.wraper} ${!editmode.mode ? styles.newCreate : ""}`}
       >
-        <div className={`moduleWrap ${styles.perWrap}`} ref={viewWraperRef}>
+        {editmode.mode ? (
+          <div className={styles.overlay} onClick={cancelScreenerCreate}></div>
+        ) : (
+          ""
+        )}
+
+        <div className={`moduleWrap ${styles.perWrap}`}>
           {screenerLoading ? (
             <div className="customLoader">
               <div className="loading">
@@ -270,6 +254,14 @@ const CreateScreenerModule = ({
           )}
           <div className={`moduleBody ${styles.body}`}>
             <div className={styles.bodySec}>
+              {editmode.mode ? (
+                <div
+                  className={styles.closeIcon}
+                  onClick={cancelScreenerCreate}
+                ></div>
+              ) : (
+                ""
+              )}
               <div className={styles.filterSec}>
                 <div className={styles.leftSec}>
                   <h2>Query</h2>
