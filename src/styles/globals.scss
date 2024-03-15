@@ -259,6 +259,15 @@ table {
   line-height: normal;
 }
 
+.two-line-ellipsis {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Number of lines to show */
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  text-overflow: ellipsis;
+}
+
 /* Here Only Module Css start here */
 .customeScroll {
   overflow-y: scroll;

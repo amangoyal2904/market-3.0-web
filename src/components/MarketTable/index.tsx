@@ -233,17 +233,9 @@ const MarketTable = (props: propsType) => {
 
   useEffect(() => {
     const parent = document.querySelector("#scrollableTable");
-    if (parent) {
-      setParentHasScroll(parent.scrollWidth > parent.clientWidth);
-    }
-  });
-
-  useEffect(() => {
-    const parent = document.querySelector("#scrollableTable");
-    if (parent) {
-      setParentHasScroll(parent.scrollWidth > parent.clientWidth);
-    }
-  });
+    const hasScroll = parent ? parent.scrollWidth > parent.clientWidth : false;
+    setParentHasScroll(hasScroll);
+  }, [tableHeaderData]);
 
   useEffect(() => {
     if (data?.length || apiSuccess) {
@@ -329,6 +321,7 @@ const MarketTable = (props: propsType) => {
       {tableDataList.length == 0 && tableHeaderData.length != 0 && (
         <Blocker type={"noDataFound"} updateTableHander={updateTableHander} />
       )}
+      {!loaderOff && loader && <Loader loaderType={loaderType} />}
     </>
   );
 };

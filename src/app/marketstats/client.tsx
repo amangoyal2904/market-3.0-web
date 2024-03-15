@@ -285,6 +285,7 @@ const MarketStats = ({
       setMetaData(metaData);
       setTechnicalCategory(technicalCategory);
     }
+    setProcessingLoader(false);
   }, [searchParams]);
 
   return (
