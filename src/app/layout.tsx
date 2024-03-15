@@ -19,6 +19,7 @@ import { Metadata } from "next";
 const montserrat = Montserrat({
   subsets: ["latin"],
   display: "swap",
+  variable: "--font-montserrat",
 });
 
 const lato = Lato({
@@ -67,7 +68,10 @@ export default async function RootLayout({
   const leftNavResult = await leftNavPromise?.json();
 
   return (
-    <html lang="en" className={`${montserrat.className} h-full bg-gray-50`}>
+    <html
+      lang="en"
+      className={`${montserrat.variable} ${lato.variable} h-full bg-gray-50`}
+    >
       <body className="h-full">
         <NextTopLoader />
         <StateProvider>
