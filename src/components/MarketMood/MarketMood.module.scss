@@ -128,10 +128,6 @@
     text-align: right;
     text-overflow: ellipsis;
     white-space: nowrap;
-    &:first-child {
-      font-weight: 600;
-      text-align: left;
-    }
     &.noData {
       padding: 0;
     }
@@ -225,6 +221,10 @@
       position: relative;
       z-index: 1;
     }
+    td:first-child {
+      font-weight: 600;
+      text-align: left;
+    }
   }
 
   .fixedTD {
@@ -278,6 +278,7 @@
 }
 
 .tiles {
+  font-family: var(--font-lato);
   display: block;
   text-align: center;
   padding: 8px 0;
@@ -373,6 +374,7 @@
       background: $gray_80;
     }
     span {
+      font-family: var(--font-lato);
       position: absolute;
       top: -18px;
       font-size: 12px;
