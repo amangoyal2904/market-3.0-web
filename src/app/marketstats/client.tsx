@@ -82,7 +82,7 @@ const MarketStats = ({
     const responseData: any = await fetchViewTable(
       { ..._payload },
       isTechnical ? "MARKETSTATS_TECHNICALS" : "MARKETSTATS_INTRADAY",
-      getCookie("isprimeuser") ? true : false,
+      getCookie("isprimeuser") == "true" ? true : false,
       getCookie("ssoid"),
     );
     const _pageSummary = !!responseData.pageSummary

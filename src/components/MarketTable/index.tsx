@@ -251,7 +251,7 @@ const MarketTable = (props: propsType) => {
       setPageSummary({});
     }
     setHeaderSticky(0);
-    const isPrime = getCookie("isprimeuser") ? true : false;
+    const isPrime = getCookie("isprimeuser") == "true" ? true : false;
     setPrime(isPrime);
   }, [apiSuccess, data, pageSummary, _sortData, filters, loaderOff]);
 

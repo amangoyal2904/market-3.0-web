@@ -153,7 +153,7 @@ export const fetchViewTable = async (
 
 export const fetchTableData = async (viewId: any, params?: any) => {
   const ssoid = window.objUser?.ssoid;
-  const isprimeuser = getCookie("isprimeuser") ? true : false;
+  const isprimeuser = getCookie("isprimeuser") == "true" ? true : false;
   const apiUrl = `${(APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE[APP_ENV]}`;
   const response = await Service.post({
     url: apiUrl,
