@@ -14,7 +14,11 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
   const cookieStore = cookies();
-  const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
+  const isprimeuser =
+    cookieStore.get("isprimeuser") &&
+    cookieStore.get("isprimeuser")?.value == "true"
+      ? true
+      : false;
   const ssoid = cookieStore.get("ssoid")?.value;
   const myList = params.scrid;
   const scridElement = myList.find((element: any) => element.includes("scrid"));
