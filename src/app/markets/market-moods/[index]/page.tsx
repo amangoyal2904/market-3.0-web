@@ -16,7 +16,11 @@ export const metadata: Metadata = {
 
 const MarketMoods = async ({ params }: any) => {
   const cookieStore = cookies();
-  const isprimeuser = cookieStore.get("isprimeuser") ? true : false;
+  const isprimeuser =
+    cookieStore.get("isprimeuser") &&
+    cookieStore.get("isprimeuser")?.value == "true"
+      ? true
+      : false;
   const niftyFilterData = await fetchSelectedFilter(params.index);
   let overviewData,
     advanceDeclineData,
