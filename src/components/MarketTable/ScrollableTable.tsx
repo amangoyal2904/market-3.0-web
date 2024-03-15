@@ -48,6 +48,7 @@ const ScrollableTable = (props: any) => {
               (thead: any, index: number) =>
                 index >= fixedCol && (
                   <th
+                    title={thead.keyText}
                     className={
                       isSorting &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
@@ -62,7 +63,7 @@ const ScrollableTable = (props: any) => {
                     }}
                     key={thead.keyId}
                   >
-                    {thead.keyText}
+                    <span className="two-line-ellipsis">{thead.keyText}</span>
                     {isSorting &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
                         <span className={`${styles.sortIcons}`}>

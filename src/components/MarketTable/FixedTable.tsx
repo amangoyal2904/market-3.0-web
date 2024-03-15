@@ -60,13 +60,14 @@ const FixedTable = (props: any) => {
               (thead: any, index: number) =>
                 index < fixedCol && (
                   <th
+                    title={thead.keyText}
                     onClick={() => {
                       isSorting ? handleSort(thead.keyId) : null;
                     }}
                     className={`${thead.keyId == "name" || thead.keyId == "shortName" || thead.keyId == "shortNameKeyword" ? styles.firstTh : isSorting ? styles.enableSort : ""}`}
                     key={thead.keyId}
                   >
-                    {thead.keyText}
+                    <span className="two-line-ellipsis">{thead.keyText}</span>
                     {isSorting && thead.keyId && (
                       <span className={`${styles.sortIcons}`}>
                         <span

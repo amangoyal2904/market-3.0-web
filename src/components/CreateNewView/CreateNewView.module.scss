@@ -71,7 +71,7 @@
   padding: 0;
   .leftSec {
     padding: 16px 5px 16px 24px;
-    width: 300px;
+    width: 250px;
     h2 {
       font-size: 12px;
       font-style: normal;
@@ -83,7 +83,7 @@
   .rightSec {
     padding: 0px;
     border-left: solid 1px #cdcdcd;
-    width: calc(100% - 300px);
+    width: calc(100% - 250px);
     min-height: 350px;
   }
 }
@@ -127,7 +127,6 @@
       border-bottom: solid 2px transparent;
     }
     .active {
-      border-color: #000;
       .catHead {
         font-weight: bold;
       }
