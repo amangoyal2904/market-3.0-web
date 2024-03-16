@@ -8,7 +8,11 @@ const QueryComponets = ({
 }: any) => {
   const editScreenerModeHandler = () => {
     showModal(true);
-    setScreenerEditMode({ ...screenerEditMode, mode: true });
+    setScreenerEditMode({
+      ...screenerEditMode,
+      mode: true,
+      screenerStage: "popup",
+    });
   };
   return (
     <>
