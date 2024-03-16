@@ -308,5 +308,9 @@
   "GetScreenerBySSOID": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterData",
     "production": "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterData"
+  },
+  "RemoveScreenerBySSOID": {
+    "development": "https://qcbselivefeeds.indiatimes.com/screener/removeviewbyid",
+    "production": "https://qcbselivefeeds.indiatimes.com/screener/removeviewbyid"
   }
 }

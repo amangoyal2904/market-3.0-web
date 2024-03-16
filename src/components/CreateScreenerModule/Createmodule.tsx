@@ -6,6 +6,7 @@ const ScreenerNameViewPopup = ({
   editMode,
   updateViewNameHandler,
   closePopUp,
+  screenerEditMode,
 }: any) => {
   const [name, setName] = useState(screenerName);
   const createViewHandler = () => {
@@ -55,21 +56,13 @@ const ScreenerNameViewPopup = ({
             >
               Cancel
             </span>
-            {editMode && editMode !== "" ? (
-              <span
-                className={`${styles.updateBtn}`}
-                onClick={updateViewHandler}
-              >
-                Update view
-              </span>
-            ) : (
-              <span
-                className={`${styles.updateBtn}`}
-                onClick={createViewHandler}
-              >
-                Create view
-              </span>
-            )}
+            <span className={`${styles.updateBtn}`} onClick={createViewHandler}>
+              {screenerEditMode.userMode === "USER" &&
+              (screenerEditMode.screenerStage === "popup" ||
+                screenerEditMode.screenerStage === "")
+                ? "Update view"
+                : "Create view"}
+            </span>
           </div>
         </div>
       </div>

@@ -116,13 +116,11 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
     );
 
   const title =
-    screenerDetail && screenerDetail?.name
-      ? screenerDetail.name
-      : "Screener no name";
+    screenerDetail && screenerDetail?.name ? screenerDetail.name : "";
   const desc =
     screenerDetail && screenerDetail?.description
       ? screenerDetail.description
-      : "no description";
+      : "";
 
   const meta = {
     title: title,
