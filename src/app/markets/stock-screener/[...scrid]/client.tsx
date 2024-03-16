@@ -75,8 +75,9 @@ const StockScreeners = ({
   const [createScreenerNamePopup, setCeateScreenerNamePopup] = useState(false);
   const [createModuleScreener, setCreateModuleScreener] = useState(false);
   const [screenerEditMode, setScreenerEditMode] = useState({
-    mode: false,
+    mode: _screenerDetail.screenerType === "USER" ? true : false,
     viewId: "",
+    screenerStage: "",
   });
   const [editQueryScreener, setEditQueryScreener] = useState(false);
   const [screenerLoading, setScreenerLoading] = useState(false);
@@ -84,7 +85,6 @@ const StockScreeners = ({
   const [modalBodyText, setModalBodyText] = useState({
     title: "You have Successfully created your personalise view",
   });
-
   const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
     setMetaData(metaData);
@@ -221,7 +221,6 @@ const StockScreeners = ({
     //setProcessingLoader(true);
     //setPayload({ ..._payload, queryCondition:query.trim(), pageno: 1 });
     setScreenerLoading(true);
-
     const API_URL = (APIS_CONFIG as any)?.["screenerGetViewById"][APP_ENV];
     const bodyparams = {
       queryCondition: query.trim(),
@@ -253,6 +252,11 @@ const StockScreeners = ({
           title: "Unsaved Screener",
           saveMode: "true",
         });
+        setScreenerEditMode({
+          ...screenerEditMode,
+          screenerStage: "screener",
+          mode: _screenerDetail.screenerType === "USER" ? true : false,
+        });
       }
       // ===== edit mode
       setPayload({ ..._payload, queryCondition: query.trim() });
@@ -263,14 +267,23 @@ const StockScreeners = ({
   };
   const createNewScreenerFun = () => {
     setCreateModuleScreener(true);
+    setScreenerEditMode({
+      ...screenerEditMode,
+      mode: false,
+      screenerStage: "",
+    });
   };
   const cancelScreenerCreateFun = () => {
     if (screenerEditMode.mode) {
       setEditQueryScreener(false);
-      setScreenerEditMode({ ...screenerEditMode, mode: false });
     } else {
       setCreateModuleScreener(false);
     }
+    setScreenerEditMode({
+      ...screenerEditMode,
+      mode: _screenerDetail.screenerType === "USER" ? true : false,
+      screenerStage: "",
+    });
   };
   const closeModuleScreerHandler = () => {
     setCreateModuleScreener(false);
@@ -291,14 +304,32 @@ const StockScreeners = ({
     const screenerPayload = {
       ssoEmailID: userInfo?.info?.loginId || "",
       ssoid: userInfo?.ssoid || "",
-      name: _metaData?.title || "",
+      name: value || "",
       displayQuery: _screenerDetail?.displayQuery || "",
       isActive: "1",
       screenerType: "USER",
       screenerId: "",
     };
+    if (screenerEditMode.mode && _screenerDetail.screenerType === "USER") {
+      screenerPayload.screenerId = scrid;
+    }
     const resData = await createNewScreener(screenerPayload);
     setProcessingLoader(false);
+    if (
+      resData &&
+      resData.screenerId &&
+      parseInt(resData.screenerId) !== parseInt(scrid)
+    ) {
+      router.push(
+        `/markets/stock-screener/${resData.seoName || "test-seo-name"}/screens/scrid-${resData.screenerId}`,
+        { scroll: false },
+      );
+      // console.log('refresh---',resData.screenerId === parseInt(scrid))
+    } else if (parseInt(resData?.screenerId) === parseInt(scrid)) {
+      window.location.reload();
+      // console.log('refresh')
+      // router.refresh();
+    }
   };
   const updateTableData = async () => {
     const responseData: any = await fetchViewTable(
@@ -325,6 +356,26 @@ const StockScreeners = ({
     setProcessingLoader(false);
     setScreenerDetail(_screenerDetails);
   };
+  const saveEditUpdateModeBtn = () => {
+    if (screenerEditMode.mode && _screenerDetail.screenerType === "USER") {
+      return screenerEditMode.mode &&
+        _screenerDetail.screenerType === "USER" ? (
+        <span onClick={saveScreenerhandler} className={styles.saveMode}>
+          <i className="eticon_save" /> Update{" "}
+        </span>
+      ) : (
+        <span onClick={saveScreenerhandler} className={styles.saveMode}>
+          <i
+            className="eticon_save
+        "
+          />
+          Save
+        </span>
+      );
+    } else {
+      return "";
+    }
+  };
   useEffect(() => {
     onSearchParamChange();
   }, [searchParams]);
@@ -336,25 +387,33 @@ const StockScreeners = ({
     }, parseInt(refeshConfig.stocksScreener));
     return () => clearInterval(intervalId);
   }, [_payload]);
-
+  //console.log("+________screenerDetail.screenerType === ", _screenerDetail.screenerType === "USER")
   return (
     <>
       <h1 className={styles.heading}>
         {!createModuleScreener ? _metaData.title : "New Screener"}
-        {_metaData && _metaData.saveMode ? (
+
+        {saveEditUpdateModeBtn()}
+
+        {/* {screenerEditMode.mode ? (
           <span onClick={saveScreenerhandler} className={styles.saveMode}>
-            {" "}
+          <i className="eticon_save" />  Update </span>
+        ) : (
+          <span onClick={saveScreenerhandler} className={styles.saveMode}>
             <i
               className="eticon_save
           "
             />
             Save
           </span>
-        ) : (
-          ""
-        )}
+        )} */}
+
+        {/* {
+           _screenerDetail.screenerType === "USER" && !createModuleScreener ? <span onClick={saveScreenerhandler} className={styles.saveMode}>
+           <i className="eticon_save" />  Update </span> : ""
+        } */}
       </h1>
-      {createModuleScreener ? (
+      {createModuleScreener || _screenerDetail.screenerType === "USER" ? (
         ""
       ) : _metaData && _metaData.saveMode ? (
         ""
@@ -435,7 +494,7 @@ const StockScreeners = ({
         <ScreenerNameViewPopup
           closePopUp={setCeateScreenerNamePopup}
           screenerName={_metaData.title}
-          setScreenerName={screenerNameUpdateHandler}
+          // setScreenerName={screenerNameUpdateHandler}
           createViewNameHandler={createViewNameHandlerHandler}
         />
       )}

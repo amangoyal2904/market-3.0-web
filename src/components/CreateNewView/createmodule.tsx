@@ -55,6 +55,7 @@ const NameViewComponent = ({
                 value={screenerName}
                 onChange={(e: any) => setScreenerName(e.target.value)}
                 placeholder="Enter a name..."
+                maxLength={100}
               />
             </div>
           </div>

@@ -97,13 +97,11 @@
     cursor: pointer;
     padding: 10px 16px;
     border: solid 2px #000;
-    &:hover {
-      color: #000000;
-      background: #ffffff;
-    }
   }
   .cancelBtn {
     margin-right: 20px;
+    color: #000000;
+    background: #ffffff;
   }
   .removeBtn {
     margin-right: 20px;
