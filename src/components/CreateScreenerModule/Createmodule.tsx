@@ -1,23 +1,23 @@
 import styles from "./styles.module.scss";
-
+import { useState } from "react";
 const ScreenerNameViewPopup = ({
   createViewNameHandler,
   screenerName,
-  setScreenerName,
   editMode,
   updateViewNameHandler,
   closePopUp,
 }: any) => {
+  const [name, setName] = useState(screenerName);
   const createViewHandler = () => {
     if (screenerName && screenerName !== "") {
-      createViewNameHandler(screenerName.trim());
+      createViewNameHandler(name.trim());
     } else {
       alert("Plase fill your screener name");
     }
   };
   const updateViewHandler = () => {
-    if (screenerName && screenerName !== "") {
-      updateViewNameHandler(screenerName.trim());
+    if (name && name !== "") {
+      updateViewNameHandler(name.trim());
     } else {
       alert("Plase fill your screener name");
     }
@@ -41,9 +41,10 @@ const ScreenerNameViewPopup = ({
             <div className={styles.createFormGoup}>
               <input
                 type="text"
-                value={screenerName}
-                onChange={(e: any) => setScreenerName(e.target.value)}
+                value={name}
+                onChange={(e: any) => setName(e.target.value)}
                 placeholder="Enter a name..."
+                maxLength={100}
               />
             </div>
           </div>

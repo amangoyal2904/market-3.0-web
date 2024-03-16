@@ -284,6 +284,7 @@ const CreateScreenerModule = ({
                         className={styles.serchInput}
                         value={searchNode}
                         onChange={handleInputChange}
+                        maxLength={100}
                       />
                       {searchListItems.length > 0 ? (
                         <ul

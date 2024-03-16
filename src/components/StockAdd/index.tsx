@@ -298,11 +298,17 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
                 value={searchNode}
                 onChange={(e) => handleInputChange(e)}
                 placeholder="Search & Add Stocks"
+                maxLength={100}
               />
             </div>
           </div>
           <div className={styles.bodySec}>
-            <h3 className={styles.comHead}>Companies</h3>
+            {viewStocks.length > 0 ? (
+              <h3 className={styles.comHead}>Companies</h3>
+            ) : (
+              ""
+            )}
+
             {viewStocks.length > 0 ? (
               viewDataListSet(viewStocks)
             ) : (
