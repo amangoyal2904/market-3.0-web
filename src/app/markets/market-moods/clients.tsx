@@ -79,14 +79,18 @@ const MarketMoodsClient = ({
   const handleDuration = async (item: string) => {
     setLoading(true);
     setDuration(item);
-    periodicData = await getPeriodicData(niftyFilterData.indexId, item, 1);
+    const periodicData = await getPeriodicData(
+      niftyFilterData.indexId,
+      item,
+      1,
+    );
     setPeriodicData(periodicData);
     setLoading(false);
   };
 
   const handleMonthlyDaily = async (item: string) => {
     setMonthlyDaily(item);
-    advanceDeclineData = await getAdvanceDeclineData(
+    const advanceDeclineData = await getAdvanceDeclineData(
       niftyFilterData.indexId,
       item,
       1,
@@ -146,10 +150,6 @@ const MarketMoodsClient = ({
   useEffect(() => {
     setLoading(false);
   }, [pathname, searchParams]);
-
-  useEffect(() => {
-    router.refresh();
-  }, [isPrime]);
 
   return (
     <>
