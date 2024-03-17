@@ -1,7 +1,7 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from "./MarketMoods.module.scss";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import MarketMoodHeader from "@/components/MarketMood/SectionHeader";
 import FixedTableMarketMood from "@/components/MarketMood/FixedTable";
 import ScrollableTableMarketMood from "@/components/MarketMood/ScrollableTable";
@@ -35,12 +35,11 @@ const MarketMoodsClient = ({
   selectedFilter = {},
 }: any) => {
   const { state } = useStateContext();
-  const { isLogin } = state.login;
+  const { isLogin, isPrime } = state.login;
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
-  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [_overviewData, setOverviewData] = useState(overviewData);
   const [_advanceDeclineData, setAdvanceDeclineData] =
     useState(advanceDeclineData);
@@ -50,6 +49,7 @@ const MarketMoodsClient = ({
   const [duration, setDuration] = useState("1M");
   const [monthlyDaily, setMonthlyDaily] = useState("daily");
   const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const niftyFilterData = useMemo(() => selectedFilter, [selectedFilter]);
 
   const scrollToActiveContent = () => {
     const element = document.getElementById(activeItem);
@@ -147,6 +147,10 @@ const MarketMoodsClient = ({
     setLoading(false);
   }, [pathname, searchParams]);
 
+  useEffect(() => {
+    router.refresh();
+  }, [isPrime]);
+
   return (
     <>
       <div className={styles.logo}>
@@ -185,8 +189,10 @@ const MarketMoodsClient = ({
           })}
         </ul>
       </div>
-      <div className={`${styles.wrapper} ${!isprimeuser ? styles.center : ""}`}>
-        {isprimeuser ? (
+      <div
+        className={`${styles.wrapper} ${!(isprimeuser || isPrime) ? styles.center : ""}`}
+      >
+        {isprimeuser || isPrime ? (
           <>
             {!!loading && <Loader loaderType="container" />}
             <div
