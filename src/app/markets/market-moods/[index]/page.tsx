@@ -21,17 +21,11 @@ const MarketMoods = async ({ params }: any) => {
   const cookieStore = cookies();
   const isprimeuser = cookieStore.get("isprimeuser")?.value === "true";
   const niftyFilterData = await fetchSelectedFilter(params.index);
-  let overviewData = null,
-    advanceDeclineData = null,
-    periodicData = null;
-
-  if (isprimeuser) {
-    [overviewData, advanceDeclineData, periodicData] = await Promise.all([
-      getOverviewData(niftyFilterData.indexId, 1),
-      getAdvanceDeclineData(niftyFilterData.indexId, "daily", 1),
-      getPeriodicData(niftyFilterData.indexId, "1M", 1),
-    ]);
-  }
+  const [overviewData, advanceDeclineData, periodicData] = await Promise.all([
+    getOverviewData(niftyFilterData.indexId, 1),
+    getAdvanceDeclineData(niftyFilterData.indexId, "daily", 1),
+    getPeriodicData(niftyFilterData.indexId, "1M", 1),
+  ]);
 
   return (
     <MarketMoodsClient
