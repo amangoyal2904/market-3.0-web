@@ -139,6 +139,7 @@ const Search = () => {
             handleFocus(e.target.value);
           }}
           ref={ref}
+          maxLength={100}
         />
         {searchEnable && (
           <>
