@@ -109,11 +109,7 @@ const Technicals = async ({ params, searchParams }: any) => {
   }
 
   const cookieStore = cookies();
-  const isprimeuser =
-    cookieStore.get("isprimeuser") &&
-    cookieStore.get("isprimeuser")?.value == "true"
-      ? true
-      : false;
+  const isprimeuser = cookieStore.get("isprimeuser")?.value === "true";
   const ssoid = cookieStore.get("ssoid")?.value;
   const filter = !!intFilter ? [intFilter] : [];
   const pagesize = 100;

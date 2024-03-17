@@ -19,13 +19,13 @@ export const metadata: Metadata = {
 // MarketMoods function
 const MarketMoods = async ({ params }: any) => {
   const cookieStore = cookies();
-  const isPrimeUser = cookieStore.get("isprimeuser")?.value === "true";
+  const isprimeuser = cookieStore.get("isprimeuser")?.value === "true";
   const niftyFilterData = await fetchSelectedFilter(params.index);
   let overviewData = null,
     advanceDeclineData = null,
     periodicData = null;
 
-  if (isPrimeUser) {
+  if (isprimeuser) {
     [overviewData, advanceDeclineData, periodicData] = await Promise.all([
       getOverviewData(niftyFilterData.indexId, 1),
       getAdvanceDeclineData(niftyFilterData.indexId, "daily", 1),
@@ -35,7 +35,7 @@ const MarketMoods = async ({ params }: any) => {
 
   return (
     <MarketMoodsClient
-      isprimeuser={isPrimeUser}
+      isprimeuser={isprimeuser}
       overviewData={overviewData}
       advanceDeclineData={advanceDeclineData}
       periodicData={periodicData}
