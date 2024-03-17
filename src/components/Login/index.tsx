@@ -289,11 +289,7 @@ const Login = () => {
                     <span className="path4"></span>
                     <span className="path5"></span>
                   </span>
-                  <a
-                    href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}marketstats/pageno-1,pid-501.cms`}
-                    rel="nofollow noreferrer"
-                    target="_blank"
-                  >
+                  <a href="/watchlist" rel="nofollow noreferrer">
                     My Watchlist
                   </a>
                 </li>
