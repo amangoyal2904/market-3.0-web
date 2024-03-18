@@ -101,10 +101,14 @@ const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
             <div
               className={`${styles.overviewBlockerWrap} ${styles.listingWrap} ${styles.noDataFound}`}
             >
-              {activeApi == "recoOnWatchlist" && isLogin ? (
-                <Blocker type="noDataFound" />
+              {obj.apiType == "recoOnWL" ? (
+                !isLogin ? (
+                  <Blocker type="loginBlocker" />
+                ) : (
+                  <Blocker type={"noDataFound"} />
+                )
               ) : (
-                <Blocker type={"loginBlocker"} />
+                <Blocker type={"noDataFound"} />
               )}
             </div>
           )}

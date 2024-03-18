@@ -291,8 +291,12 @@ const StockRecosListing = (props: any) => {
           </div>
         ) : (
           <div className={`${styles.listingWrap} ${styles.noDataFound}`}>
-            {activeApi == "recoOnWatchlist" && !isLogin ? (
-              <Blocker type="loginBlocker" />
+            {activeApi == "recoOnWatchlist" ? (
+              !isLogin ? (
+                <Blocker type="loginBlocker" />
+              ) : (
+                <Blocker type={"noDataFound"} />
+              )
             ) : (
               <Blocker type={"noDataFound"} />
             )}
