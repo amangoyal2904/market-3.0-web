@@ -1,9 +1,16 @@
 import styles from "./MarketMood.module.scss";
 
 const FixedTableMarketMood = ({
-  tableData = null,
+  tableData = [],
   extraHeader = false,
+  showAll = false,
+  type = null,
 }: any) => {
+  let displayedData = tableData;
+  if (!showAll) {
+    const limit = type === "overview" ? 13 : 6;
+    displayedData = tableData.slice(0, limit); // Update displayedData with sliced array
+  }
   return (
     <div id="fixedTable" className={styles.fixedWrapper}>
       <div className={styles.horizontalLine}>
@@ -25,7 +32,7 @@ const FixedTableMarketMood = ({
           )}
         </thead>
         <tbody>
-          {tableData.map((item: any, index: number) => {
+          {displayedData.map((item: any, index: number) => {
             return (
               <tr key={index}>
                 <td className={styles.firstTd}>{item.date}</td>
