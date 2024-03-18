@@ -24,7 +24,7 @@ export async function generateMetadata(
     desc: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
     keywords: `market moods, ${niftyFilterData.seoname}, ${niftyFilterData.name}`,
     pathname: pageUrl,
-    index: pageUrl,
+    index: niftyFilterData.indexId == 0 ? false : true,
   };
   return fnGenerateMetaData(meta);
 }
