@@ -25,6 +25,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useStateContext } from "@/store/StateContext";
 import Blocker from "@/components/Blocker";
+import dynamic from "next/dynamic";
+
+const StockFilterNifty = dynamic(
+  () => import("@/components/StockFilterNifty"),
+  { ssr: false },
+);
 
 const MarketMoodsClient = ({
   selectedFilter = {},
@@ -52,6 +58,7 @@ const MarketMoodsClient = ({
   const [countPercentage, setCountPercentage] = useState("count");
   const [duration, setDuration] = useState("1M");
   const [monthlyDaily, setMonthlyDaily] = useState("daily");
+  const [showFilter, setShowFilter] = useState(false);
   const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const tabRefs = useRef<{ [key: string]: HTMLLIElement | null }>({});
   const observer = useRef<IntersectionObserver | null>(null);
@@ -68,6 +75,7 @@ const MarketMoodsClient = ({
 
   const filterDataChangeHander = async (id: any) => {
     setLoading(true);
+    setShowFilter(false);
     const selectedFilter = await fetchSelectedFilter(id);
     const newUrl = "/markets/market-moods/" + selectedFilter.seoname;
     router.prefetch(newUrl);
@@ -81,6 +89,10 @@ const MarketMoodsClient = ({
 
   const handleCountPercentage = (widgetType: string) => {
     setCountPercentage(widgetType);
+  };
+
+  const showFilterMenu = (value: boolean) => {
+    setShowFilter(value);
   };
 
   const handleDuration = async (item: string) => {
@@ -152,6 +164,7 @@ const MarketMoodsClient = ({
     if (hash && tabData.some((item) => item.key === hash)) {
       // If there is, set the active item to the hash value
       setActiveItem(hash);
+      setActiveItemFromClick(hash);
     }
   }, []);
 
@@ -237,6 +250,14 @@ const MarketMoodsClient = ({
             );
           })}
         </ul>
+        {isPrime && (
+          <span
+            className={`${styles.roundBtn} ${styles.filterNseBse}`}
+            onClick={() => showFilterMenu(true)}
+          >
+            <i className="eticon_filter"></i> {niftyFilterData?.name}
+          </span>
+        )}
       </div>
       <div className={`${styles.wrapper} ${!isPrime ? styles.center : ""}`}>
         {!!loading && <Loader loaderType="container" />}
@@ -294,12 +315,10 @@ const MarketMoodsClient = ({
             >
               <MarketMoodHeader
                 heading="Overview"
-                filterMenuData={allFilterData}
                 niftyFilterData={niftyFilterData}
                 config={MarketMoodTabConfig["overview"]}
                 countPercentage={countPercentage}
                 handleCountPercentage={handleCountPercentage}
-                filterDataChange={filterDataChangeHander}
               />
 
               {overviewData?.dataList?.length > 0 ? (
@@ -339,12 +358,10 @@ const MarketMoodsClient = ({
             >
               <MarketMoodHeader
                 heading="Periodic High/Low"
-                filterMenuData={allFilterData}
                 niftyFilterData={niftyFilterData}
                 config={MarketMoodTabConfig["periodic"]}
                 duration={duration}
                 handleDuration={handleDuration}
-                filterDataChange={filterDataChangeHander}
               />
 
               {periodicData?.dataList?.length > 0 ? (
@@ -382,12 +399,10 @@ const MarketMoodsClient = ({
             >
               <MarketMoodHeader
                 heading="Advance/Decline"
-                filterMenuData={allFilterData}
                 niftyFilterData={niftyFilterData}
                 config={MarketMoodTabConfig["advanceDecline"]}
                 monthlyDaily={monthlyDaily}
                 handleMonthlyDaily={handleMonthlyDaily}
-                filterDataChange={filterDataChangeHander}
               />
 
               {advanceDeclineData?.dataList?.length > 0 ? (
@@ -436,6 +451,17 @@ const MarketMoodsClient = ({
           })}
         </div>
       </div>
+
+      {showFilter && (
+        <StockFilterNifty
+          data={allFilterData}
+          onclick={showFilterMenu}
+          showFilter={showFilter}
+          valuechange={filterDataChangeHander}
+          selectTab={niftyFilterData.exchange}
+          childMenuTabActive={niftyFilterData.indexId}
+        />
+      )}
     </>
   );
 };
