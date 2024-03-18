@@ -50,14 +50,11 @@ export const fnGenerateMetaData = (meta?: any) => {
     metadataBase: new URL("https://economictimes.indiatimes.com/"),
     alternates: {
       canonical: "https://economictimes.indiatimes.com" + meta?.pathname,
-      languages: {
-        "en-IN": "/en-IN",
-      },
     },
     openGraph: {
       title: meta?.title,
       description: meta?.desc,
-      url: "https://economictimes.indiatimes.com/",
+      url: "https://economictimes.indiatimes.com" + meta?.pathname,
       siteName: "ET Markets",
       images: [
         {
