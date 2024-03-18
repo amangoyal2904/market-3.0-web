@@ -446,6 +446,7 @@ const StockScreeners = ({
   };
   const removeScreener = async () => {
     //const data = await
+    setProcessingLoader(true);
     const userSsoId = window?.objUser?.ssoid || getCookie("ssoid");
     setScreenerLoading(true);
     const API_URL = `${(APIS_CONFIG as any)?.["RemoveScreenerBySSOID"][APP_ENV]}?screenerid=${scrid}&ssoId=${userSsoId}`;
@@ -463,6 +464,7 @@ const StockScreeners = ({
       const linkHref = `/markets/stock-screener/${firstScreenerData.seoName ? firstScreenerData.seoName : "test-seo-page"}/screens/scrid-${firstScreenerData.screenerId}`;
       router.push(linkHref);
     }
+    setProcessingLoader(false);
   };
   const H1HeadingSection = () => {
     if (screenerEditMode.screenerStage === "new") {
@@ -548,7 +550,7 @@ const StockScreeners = ({
       );
       l3UserNav = filteredArrays[0];
     }
-    console.log("userEffect call adatal3UserNav___ ", l3UserNav);
+    //console.log("userEffect call adatal3UserNav___ ", l3UserNav);
     setL3UserNav(l3UserNav);
   };
   useEffect(() => {

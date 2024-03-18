@@ -51,7 +51,8 @@ const fetchViewTable = async (
     body: JSON.stringify({ ...bodyParams }),
     params: {},
   });
-  return response?.json();
+  const resJson = response?.json();
+  return resJson;
 };
 
 export const getCustomViewsTab = async ({
@@ -96,7 +97,7 @@ export const getCustomViewTable = async (
   let pageSummary = null;
   let tableData = [];
   let tableHeaderData = [];
-
+  //console.log('____resresponseDataponse', {bodyParams})
   if (responseData?.pageSummary) {
     pageSummary = responseData.pageSummary;
   }
