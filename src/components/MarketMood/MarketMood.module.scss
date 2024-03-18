@@ -16,11 +16,13 @@
       line-height: 22px;
       font-weight: 400;
       color: $gray-30;
-      border-left: 1px solid #cbcbcb;
+      border-left: 1px solid $gray_80;
       margin-left: 5px;
       padding-left: 15px;
     }
     i {
+      display: flex;
+      align-items: center;
       cursor: pointer;
     }
   }
@@ -33,7 +35,7 @@
       display: flex;
       cursor: pointer;
       border-radius: 15px;
-      border: 1px solid #000;
+      border: 1px solid $black;
       font-size: 12px;
       line-height: 18px;
       font-style: normal;
@@ -51,7 +53,7 @@
       list-style: none;
       cursor: pointer;
       border-radius: 15px;
-      border: 1px solid #000;
+      border: 1px solid $black;
       font-size: 12px;
       line-height: 18px;
       font-style: normal;
@@ -69,8 +71,8 @@
           border-bottom-right-radius: 15px;
         }
         &.active {
-          background-color: #000;
-          color: #fff;
+          background-color: $black;
+          color: $white;
         }
       }
     }
@@ -82,13 +84,13 @@
   display: flex;
   align-items: center;
   width: 100%;
-  margin: 0 auto;
+  margin: 0;
   background: $white;
   padding: 12px 5% 8px;
+  max-width: 725px;
   z-index: 2;
   &.withMaxWidth {
     max-width: 625px;
-    margin: 0;
   }
   span {
     padding: 0 10px;
@@ -108,14 +110,13 @@
 }
 
 .marketsCustomTable {
-  //   border: solid 1px #ddd;
   width: 100%;
   border-collapse: collapse;
   overflow-x: auto;
 
   td {
-    padding: 10px 15px;
-    border-right: 1px solid $gray_95;
+    padding: 14px 15px;
+    border-left: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
     background: $white;
     text-align: left;
@@ -130,9 +131,10 @@
     white-space: nowrap;
     &.noData {
       padding: 0;
+      border-left: none;
     }
     &.withTiles {
-      padding: 3px 8px;
+      padding: 7px 8px;
       width: 142px;
     }
     &.withBar {
@@ -154,11 +156,10 @@
   th {
     position: relative;
     white-space: nowrap;
-    padding: 15px 30px 15px 10px;
+    padding: 15px;
     background-color: $gray_95;
-    border-right: 1px solid $gray_95;
+    border-left: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
-    border-right-style: solid;
     font-weight: 600;
     color: $gray_30;
     font-size: 12px;
@@ -173,6 +174,7 @@
     }
     &.noData {
       padding: 0;
+      border-left: none;
     }
     &.enableSort {
       cursor: pointer;
@@ -192,6 +194,7 @@
 
   .firstTh {
     text-align: left;
+    border-left: none;
   }
 
   tr {
@@ -209,21 +212,23 @@
   max-width: max-content;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  box-shadow: 1px 0px 12px 0px rgba(0, 0, 0, 0.06);
   z-index: 1;
 
   table {
     width: 400px;
     border-collapse: collapse;
     overflow: auto;
-    border-left: 1px solid $gray-95;
     thead {
       position: relative;
       z-index: 1;
     }
-    td:first-child {
+    td.firstTd {
       font-weight: 600;
       text-align: left;
+      border-left: none;
+    }
+    th {
+      text-align: right;
     }
   }
 
@@ -259,22 +264,6 @@
   overflow-y: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
-.sortIcons {
-  position: absolute;
-  right: 10px;
-  span {
-    font-size: 16px;
-    margin-right: -8px;
-    color: $gray_60;
-  }
-  .asc {
-    color: $black;
-  }
-  .desc {
-    color: $black;
-  }
 }
 
 .tiles {
@@ -339,7 +328,7 @@
 
 .bar {
   display: flex;
-  margin-top: 11px;
+  margin-top: 10px;
   gap: 2px;
   div {
     position: relative;
@@ -406,6 +395,7 @@
     border-bottom: 1px solid $gray_80;
     i {
       position: absolute;
+      top: 10px;
       right: 10px;
       width: 20px;
       height: 20px;
@@ -422,8 +412,7 @@
         line-height: 18px;
         font-weight: 700;
         color: $black;
-        gap: 4;
-
+        margin-bottom: 4px;
         span {
           display: inline-flex;
           width: 12px;
@@ -447,8 +436,8 @@
       }
       & + .zone {
         border-top: 1px solid $gray_90;
-        margin-top: 8px;
-        padding-top: 8px;
+        margin-top: 12px;
+        padding-top: 12px;
       }
     }
   }
