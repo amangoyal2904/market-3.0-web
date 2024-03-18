@@ -568,14 +568,19 @@ export const getStockRecosDetail = async ({
   const recosDetailResult = await recosDetailPromise?.json();
   return recosDetailResult;
 };
-export const formatNumber = (number: number): string => {
+
+export const formatNumber = (
+  number: number,
+  uptoDecimal: number = 2,
+): string => {
   const formatter = new Intl.NumberFormat("en-IN", {
     style: "decimal",
-    maximumFractionDigits: 2,
+    minimumFractionDigits: uptoDecimal, // Ensure at least 2 decimal places
+    maximumFractionDigits: uptoDecimal, // Allow maximum of 2 decimal places
   });
 
   const formattedNumber = formatter.format(number);
-  return formattedNumber.replace(/(\d)(?=(\d\d)+\d$)/g, "$1,");
+  return formattedNumber.replace(/(\d)(?=(\d{3})+\.)/g, "$1,"); // Add commas for thousands separators
 };
 
 export const areObjectsNotEqual = (

@@ -18,7 +18,6 @@ import MarketMoodTabConfig from "@/components/MarketMood/tabConfig.json";
 import {
   fetchSelectedFilter,
   getAdvanceDeclineData,
-  getOverviewData,
   getPeriodicData,
 } from "@/utils/utility";
 import Loader from "@/components/Loader";
@@ -26,30 +25,45 @@ import Image from "next/image";
 import Link from "next/link";
 import { useStateContext } from "@/store/StateContext";
 import Blocker from "@/components/Blocker";
+import dynamic from "next/dynamic";
+
+const StockFilterNifty = dynamic(
+  () => import("@/components/StockFilterNifty"),
+  { ssr: false },
+);
 
 const MarketMoodsClient = ({
-  isprimeuser = false,
-  overviewData = {},
-  advanceDeclineData = {},
-  periodicData = {},
   selectedFilter = {},
+  overview = {},
+  advanceDecline = {},
+  periodic = {},
+  allFilters = {},
 }: any) => {
   const { state } = useStateContext();
-  const { isLogin, isPrime } = state.login;
+  const { isLogin, isPrime = true } = state.login;
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [_overviewData, setOverviewData] = useState(overviewData);
-  const [_advanceDeclineData, setAdvanceDeclineData] =
-    useState(advanceDeclineData);
-  const [_periodicData, setPeriodicData] = useState(periodicData);
+  const [overviewData, setOverviewData] = useState<any>(overview);
+  const [advanceDeclineData, setAdvanceDeclineData] =
+    useState<any>(advanceDecline);
+  const [periodicData, setPeriodicData] = useState<any>(periodic);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [showAllOverview, setShowAllOverview] = useState<boolean>(false);
+  const [showAllAdvanceDecline, setShowAllAdvanceDecline] =
+    useState<boolean>(false);
+  const [showAllPeriodic, setShowAllPeriodic] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<string>("");
+  const [activeItemFromClick, setActiveItemFromClick] = useState<string>("");
   const [countPercentage, setCountPercentage] = useState("count");
   const [duration, setDuration] = useState("1M");
   const [monthlyDaily, setMonthlyDaily] = useState("daily");
+  const [showFilter, setShowFilter] = useState(false);
   const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const tabRefs = useRef<{ [key: string]: HTMLLIElement | null }>({});
+  const observer = useRef<IntersectionObserver | null>(null);
   const niftyFilterData = useMemo(() => selectedFilter, [selectedFilter]);
+  const allFilterData = useMemo(() => allFilters, [allFilters]);
 
   const scrollToActiveContent = () => {
     const element = document.getElementById(activeItem);
@@ -58,8 +72,10 @@ const MarketMoodsClient = ({
       window.scrollTo({ top: offset, behavior: "smooth" });
     }
   };
+
   const filterDataChangeHander = async (id: any) => {
     setLoading(true);
+    setShowFilter(false);
     const selectedFilter = await fetchSelectedFilter(id);
     const newUrl = "/markets/market-moods/" + selectedFilter.seoname;
     router.prefetch(newUrl);
@@ -67,70 +83,79 @@ const MarketMoodsClient = ({
   };
 
   const handleItemClick = (item: string) => {
+    setActiveItemFromClick(item); // Set the state to indicate that active tab change is due to click
     setActiveItem(item);
   };
 
   const handleCountPercentage = (widgetType: string) => {
-    setLoading(true);
     setCountPercentage(widgetType);
-    setLoading(false);
+  };
+
+  const showFilterMenu = (value: boolean) => {
+    setShowFilter(value);
   };
 
   const handleDuration = async (item: string) => {
     setLoading(true);
     setDuration(item);
-    const periodicData = await getPeriodicData(
+    const newPeriodicData = await getPeriodicData(
       niftyFilterData.indexId,
       item,
       1,
     );
-    setPeriodicData(periodicData);
-    setLoading(false);
+    setPeriodicData(newPeriodicData);
+    setLoading(false); // Set loading to false after data is fetched
   };
 
   const handleMonthlyDaily = async (item: string) => {
     setMonthlyDaily(item);
-    const advanceDeclineData = await getAdvanceDeclineData(
+    const newAdvanceDeclineData = await getAdvanceDeclineData(
       niftyFilterData.indexId,
       item,
       1,
     );
-    setAdvanceDeclineData(advanceDeclineData);
+    setAdvanceDeclineData(newAdvanceDeclineData);
   };
 
-  const loadMoreData = async (pageno: number, type: string) => {
-    setLoading(true);
-    let prevData, newData;
-    if (type == "overview") {
-      prevData = !!_overviewData ? _overviewData : overviewData;
-      newData = await getOverviewData(niftyFilterData.indexId, pageno + 1);
-    } else if (type == "periodic") {
-      prevData = !!_periodicData ? _periodicData : periodicData;
-      newData = await getPeriodicData(
-        niftyFilterData.indexId,
-        duration,
-        pageno + 1,
-      );
-    } else if (type == "advanceDecline") {
-      prevData = !!_advanceDeclineData
-        ? _advanceDeclineData
-        : advanceDeclineData;
-      newData = await getAdvanceDeclineData(
-        niftyFilterData.indexId,
-        monthlyDaily,
-        pageno + 1,
-      );
+  const loadMoreData = async (type: string) => {
+    switch (type) {
+      case "overview":
+        setShowAllOverview(!showAllOverview);
+        if (!showAllOverview) {
+          setActiveItem("overview");
+        }
+        break;
+      case "advanceDecline":
+        setShowAllAdvanceDecline(!showAllAdvanceDecline);
+        if (!showAllAdvanceDecline) {
+          setActiveItem("advanceDecline");
+        }
+        break;
+      case "periodic":
+        setShowAllPeriodic(!showAllPeriodic);
+        if (!showAllPeriodic) {
+          setActiveItem("periodic");
+        }
+        break;
+      default:
+        break;
     }
-    if (!!newData && !!prevData)
-      newData.dataList = [...prevData.dataList, ...newData.dataList];
-    if (type == "overview") {
-      setOverviewData(newData);
-    } else if (type == "periodic") {
-      setPeriodicData(newData);
-    } else if (type == "advanceDecline") {
-      setAdvanceDeclineData(newData);
+
+    if (
+      (type === "overview" && showAllOverview) ||
+      (type === "advanceDecline" && showAllAdvanceDecline) ||
+      (type === "periodic" && showAllPeriodic)
+    ) {
+      // Scroll to the "Load More" button of the active item's section
+      setTimeout(() => {
+        const element = document.getElementById(type);
+
+        if (element) {
+          const offset = element.offsetTop + 120;
+          window.scrollTo({ top: offset, behavior: "smooth" });
+        }
+      }, 100);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -139,17 +164,58 @@ const MarketMoodsClient = ({
     if (hash && tabData.some((item) => item.key === hash)) {
       // If there is, set the active item to the hash value
       setActiveItem(hash);
+      setActiveItemFromClick(hash);
     }
   }, []);
 
   useEffect(() => {
     // Scroll to the active item's content when activeItem changes
-    scrollToActiveContent();
-  }, [activeItem]);
+    if (activeItemFromClick !== "") {
+      scrollToActiveContent();
+      setActiveItemFromClick("");
+    }
+  }, [activeItemFromClick]);
 
   useEffect(() => {
     setLoading(false);
   }, [pathname, searchParams]);
+
+  useEffect(() => {
+    observer.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+            setActiveItem(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.5 }, // Adjust threshold as needed
+    );
+
+    return () => {
+      if (observer.current) {
+        observer.current.disconnect();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    Object.values(contentRefs.current).forEach((ref) => {
+      if (ref && observer.current) {
+        observer.current.observe(ref);
+      }
+    });
+
+    return () => {
+      if (observer.current) {
+        Object.values(contentRefs.current).forEach((ref) => {
+          if (ref) {
+            observer.current!.unobserve(ref);
+          }
+        });
+      }
+    };
+  }, [contentRefs.current]);
 
   return (
     <>
@@ -171,154 +237,33 @@ const MarketMoodsClient = ({
 
       <div className={styles.tabsWrap}>
         <ul className={styles.tabsList}>
-          {tabData.map((item: any, index: number) => {
+          {tabData.map((item: any) => {
             return (
               <li
                 key={item.key}
+                ref={(el) => (tabRefs.current[item.key] = el)}
                 onClick={() => handleItemClick(item.key)}
-                className={
-                  activeItem === item.key ||
-                  (activeItem == "" && item.key == "overview")
-                    ? styles.active
-                    : ""
-                }
+                className={activeItem === item.key ? styles.active : ""}
               >
                 {item.label}
               </li>
             );
           })}
         </ul>
+        {isPrime && (
+          <span
+            className={`${styles.roundBtn} ${styles.filterNseBse}`}
+            onClick={() => showFilterMenu(true)}
+          >
+            <i className="eticon_filter"></i> {niftyFilterData?.name}
+          </span>
+        )}
       </div>
-      <div
-        className={`${styles.wrapper} ${!(isprimeuser || isPrime) ? styles.center : ""}`}
-      >
-        {isprimeuser || isPrime ? (
+      <div className={`${styles.wrapper} ${!isPrime ? styles.center : ""}`}>
+        {!!loading && <Loader loaderType="container" />}
+        {!isPrime ? (
           <>
-            {!!loading && <Loader loaderType="container" />}
-            <div
-              id="overview"
-              className={styles.section}
-              ref={(ref) => (contentRefs.current["overview"] = ref)}
-            >
-              <MarketMoodHeader
-                heading="Overview"
-                niftyFilterData={niftyFilterData}
-                config={MarketMoodTabConfig["overview"]}
-                countPercentage={countPercentage}
-                handleCountPercentage={handleCountPercentage}
-                filterDataChange={filterDataChangeHander}
-              />
-              <div className={styles.tableWrapper}>
-                <FixedTableMarketMood
-                  tableData={_overviewData?.dataList}
-                  extraHeader="true"
-                />
-                <ScrollableTableMarketMood
-                  tableHeader={_overviewData?.labels}
-                  tableData={_overviewData?.dataList}
-                  type={countPercentage}
-                />
-              </div>
-              {_overviewData?.dataList?.length == 0 && (
-                <div className={styles.blocker}>
-                  <Blocker type="noDataMinimal" />
-                </div>
-              )}
-              {_overviewData?.pageSummary?.pageno <
-                _overviewData?.pageSummary?.totalpages && (
-                <div
-                  className={styles.loadMore}
-                  onClick={() =>
-                    loadMoreData(_overviewData?.pageSummary?.pageno, "overview")
-                  }
-                >
-                  Load More...
-                </div>
-              )}
-            </div>
-            <div
-              id="periodic"
-              className={styles.section}
-              ref={(ref) => (contentRefs.current["periodic"] = ref)}
-            >
-              <MarketMoodHeader
-                heading="Periodic High/Low"
-                niftyFilterData={niftyFilterData}
-                config={MarketMoodTabConfig["periodic"]}
-                duration={duration}
-                handleDuration={handleDuration}
-                filterDataChange={filterDataChangeHander}
-              />
-              <div className={styles.tableWrapper}>
-                <FixedTableMarketMood tableData={_periodicData?.dataList} />
-                <ScrollableBarsTableMarketMood
-                  tableData={_periodicData?.dataList}
-                  type="periodic"
-                />
-              </div>
-              {_periodicData?.dataList?.length == 0 && (
-                <div className={styles.blocker}>
-                  <Blocker type="noDataMinimal" />
-                </div>
-              )}
-              {_periodicData?.pageSummary?.pageno <
-                _periodicData?.pageSummary?.totalpages && (
-                <div
-                  className={styles.loadMore}
-                  onClick={() =>
-                    loadMoreData(_periodicData?.pageSummary?.pageno, "periodic")
-                  }
-                >
-                  Load More...
-                </div>
-              )}
-            </div>
-            <div
-              id="advanceDecline"
-              className={styles.section}
-              ref={(ref) => (contentRefs.current["advanceDecline"] = ref)}
-            >
-              <MarketMoodHeader
-                heading="Advance/Decline"
-                niftyFilterData={niftyFilterData}
-                config={MarketMoodTabConfig["advanceDecline"]}
-                monthlyDaily={monthlyDaily}
-                handleMonthlyDaily={handleMonthlyDaily}
-                filterDataChange={filterDataChangeHander}
-              />
-              <div className={styles.tableWrapper}>
-                <FixedTableMarketMood
-                  tableData={_advanceDeclineData?.dataList}
-                />
-                <ScrollableBarsTableMarketMood
-                  tableData={_advanceDeclineData?.dataList}
-                  type="advanceDecline"
-                />
-              </div>
-              {_advanceDeclineData?.dataList?.length == 0 && (
-                <div className={styles.blocker}>
-                  <Blocker type="noDataMinimal" />
-                </div>
-              )}
-              {_advanceDeclineData?.pageSummary?.pageno <
-                _advanceDeclineData?.pageSummary?.totalpages && (
-                <div
-                  className={styles.loadMore}
-                  onClick={() =>
-                    loadMoreData(
-                      _advanceDeclineData?.pageSummary?.pageno,
-                      "advanceDecline",
-                    )
-                  }
-                >
-                  Load More...
-                </div>
-              )}
-            </div>
-          </>
-        ) : (
-          payWallMarketMood.map((item: any, index: number) => {
-            return (
+            {payWallMarketMood.map((item: any, index: number) => (
               <div
                 key={index}
                 id={item.key}
@@ -332,7 +277,7 @@ const MarketMoodsClient = ({
                 )}
                 <Image
                   src={item.img}
-                  width={index == 0 ? 515 : 545}
+                  width={index === 0 ? 515 : 545}
                   height={245}
                   alt={`Market Moods ${item.heading}`}
                 />
@@ -359,8 +304,136 @@ const MarketMoodsClient = ({
                   )}
                 </div>
               </div>
-            );
-          })
+            ))}
+          </>
+        ) : (
+          <>
+            <div
+              id="overview"
+              className={styles.section}
+              ref={(ref) => (contentRefs.current["overview"] = ref)}
+            >
+              <MarketMoodHeader
+                heading="Overview"
+                niftyFilterData={niftyFilterData}
+                config={MarketMoodTabConfig["overview"]}
+                countPercentage={countPercentage}
+                handleCountPercentage={handleCountPercentage}
+              />
+
+              {overviewData?.dataList?.length > 0 ? (
+                <>
+                  <div className={styles.tableWrapper}>
+                    <FixedTableMarketMood
+                      tableData={overviewData?.dataList}
+                      extraHeader="true"
+                      showAll={showAllOverview}
+                      type="overview"
+                    />
+                    <ScrollableTableMarketMood
+                      tableHeader={overviewData?.labels}
+                      tableData={overviewData?.dataList}
+                      type={countPercentage}
+                      showAll={showAllOverview}
+                    />
+                  </div>
+                  <div
+                    id="overview-load-more"
+                    className={styles.loadMore}
+                    onClick={() => loadMoreData("overview")}
+                  >
+                    {showAllOverview ? "Load Less..." : "Load More..."}
+                  </div>
+                </>
+              ) : (
+                <div className={styles.blocker}>
+                  <Blocker type="noDataMinimal" />
+                </div>
+              )}
+            </div>
+            <div
+              id="periodic"
+              className={styles.section}
+              ref={(ref) => (contentRefs.current["periodic"] = ref)}
+            >
+              <MarketMoodHeader
+                heading="Periodic High/Low"
+                niftyFilterData={niftyFilterData}
+                config={MarketMoodTabConfig["periodic"]}
+                duration={duration}
+                handleDuration={handleDuration}
+              />
+
+              {periodicData?.dataList?.length > 0 ? (
+                <>
+                  <div className={styles.tableWrapper}>
+                    <FixedTableMarketMood
+                      tableData={periodicData?.dataList}
+                      showAll={showAllPeriodic}
+                      type="periodic"
+                    />
+                    <ScrollableBarsTableMarketMood
+                      tableData={periodicData?.dataList}
+                      type="periodic"
+                      showAll={showAllPeriodic}
+                    />
+                  </div>
+                  <div
+                    id="periodic-load-more"
+                    className={styles.loadMore}
+                    onClick={() => loadMoreData("periodic")}
+                  >
+                    {showAllPeriodic ? "Load Less..." : "Load More..."}
+                  </div>
+                </>
+              ) : (
+                <div className={styles.blocker}>
+                  <Blocker type="noDataMinimal" />
+                </div>
+              )}
+            </div>
+            <div
+              id="advanceDecline"
+              className={styles.section}
+              ref={(ref) => (contentRefs.current["advanceDecline"] = ref)}
+            >
+              <MarketMoodHeader
+                heading="Advance/Decline"
+                niftyFilterData={niftyFilterData}
+                config={MarketMoodTabConfig["advanceDecline"]}
+                monthlyDaily={monthlyDaily}
+                handleMonthlyDaily={handleMonthlyDaily}
+              />
+
+              {advanceDeclineData?.dataList?.length > 0 ? (
+                <>
+                  <div className={styles.tableWrapper}>
+                    <FixedTableMarketMood
+                      tableData={advanceDeclineData?.dataList}
+                      showAll={showAllAdvanceDecline}
+                      type="advanceDecline"
+                    />
+                    <ScrollableBarsTableMarketMood
+                      tableData={advanceDeclineData?.dataList}
+                      type="advanceDecline"
+                      showAll={showAllAdvanceDecline}
+                    />
+                  </div>
+                  <div
+                    id="advanceDecline-load-more"
+                    className={styles.loadMore}
+                    onClick={() => loadMoreData("advanceDecline")}
+                  >
+                    {showAllAdvanceDecline ? "Load Less..." : "Load More..."}
+                  </div>
+                </>
+              ) : (
+                <div className={styles.blocker}>
+                  <Blocker type="noDataMinimal" />
+                </div>
+              )}
+            </div>
+          </>
         )}
         <div
           id="faq"
@@ -378,6 +451,17 @@ const MarketMoodsClient = ({
           })}
         </div>
       </div>
+
+      {showFilter && (
+        <StockFilterNifty
+          data={allFilterData}
+          onclick={showFilterMenu}
+          showFilter={showFilter}
+          valuechange={filterDataChangeHander}
+          selectTab={niftyFilterData.exchange}
+          childMenuTabActive={niftyFilterData.indexId}
+        />
+      )}
     </>
   );
 };

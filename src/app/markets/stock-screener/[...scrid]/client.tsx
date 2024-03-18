@@ -18,6 +18,7 @@ import { createNewScreener } from "@/utils/screeners";
 import { getScreenerTabViewData } from "@/utils/customViewAndTables";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
+import Service from "@/network/service";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -87,6 +88,7 @@ const StockScreeners = ({
   const [modalBodyText, setModalBodyText] = useState({
     title: "You have Successfully created your personalise view",
   });
+  const [_ssoid, setSooid] = useState(ssoid);
   const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
     setMetaData(metaData);
@@ -444,22 +446,25 @@ const StockScreeners = ({
   };
   const removeScreener = async () => {
     //const data = await
-    setScreenerLoading(true);
-    const API_URL = `${(APIS_CONFIG as any)?.["RemoveScreenerBySSOID"][APP_ENV]}?viewid=${scrid}`;
+    setProcessingLoader(true);
     const userSsoId = window?.objUser?.ssoid || getCookie("ssoid");
+    setScreenerLoading(true);
+    const API_URL = `${(APIS_CONFIG as any)?.["RemoveScreenerBySSOID"][APP_ENV]}?screenerid=${scrid}&ssoId=${userSsoId}`;
+
     const data = await fetch(API_URL, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         ssoid: userSsoId,
       },
     });
     const responseData = await data.json();
-    console.log("_____", responseData);
     if (responseData && responseData.responseCode) {
-      const message = responseData.response;
-      alert(message);
+      const firstScreenerData: any = l3Nav[0]?.listScreenerMaster[0];
+      const linkHref = `/markets/stock-screener/${firstScreenerData.seoName ? firstScreenerData.seoName : "test-seo-page"}/screens/scrid-${firstScreenerData.screenerId}`;
+      router.push(linkHref);
     }
+    setProcessingLoader(false);
   };
   const H1HeadingSection = () => {
     if (screenerEditMode.screenerStage === "new") {
@@ -516,6 +521,38 @@ const StockScreeners = ({
       return <h1 className={styles.heading}>{_metaData.title}</h1>;
     }
   };
+  const l3UesrNavAPICall = async () => {
+    const userSSOID = getCookie("ssoid") || "";
+    const apiParams = `?ssoId=${userSSOID}&screenercount=100`;
+    const apiUrl = `${(APIS_CONFIG as any)?.["GetScreenerBySSOID"][APP_ENV]}${apiParams}`;
+    const response = await Service.get({
+      url: apiUrl,
+      params: {},
+      cache: "no-store",
+    });
+    const resJson = await response?.json();
+
+    let l3UserNav: any[] = [];
+    if (
+      resJson &&
+      resJson?.datainfo &&
+      resJson?.datainfo?.screenerCollectionMasterInfo &&
+      resJson?.datainfo?.screenerCollectionMasterInfo
+        ?.listScreenerCollectionMasterDataInfo
+    ) {
+      const listDataInfo = [
+        ...resJson.datainfo.screenerCollectionMasterInfo
+          .listScreenerCollectionMasterDataInfo,
+      ];
+      const collectionId = 0;
+      const filteredArrays = listDataInfo.filter(
+        (item: any) => item.collectionId === collectionId,
+      );
+      l3UserNav = filteredArrays[0];
+    }
+    //console.log("userEffect call adatal3UserNav___ ", l3UserNav);
+    setL3UserNav(l3UserNav);
+  };
   useEffect(() => {
     onSearchParamChange();
   }, [searchParams]);
@@ -527,7 +564,13 @@ const StockScreeners = ({
     }, parseInt(refeshConfig.stocksScreener));
     return () => clearInterval(intervalId);
   }, [_payload]);
-  //console.log("+________screenerDetail.screenerType === ", _screenerDetail.screenerType === "USER")
+  useEffect(() => {
+    const userSSOID = getCookie("ssoid");
+    if (userSSOID) {
+      l3UesrNavAPICall();
+    }
+  }, [ssoid]);
+  //console.log("+l3Nav.screenerType === ",l3Nav[0].listScreenerMaster[0] )
   return (
     <>
       {H1HeadingSection()}

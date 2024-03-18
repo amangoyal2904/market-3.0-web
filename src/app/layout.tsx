@@ -16,6 +16,7 @@ import { StateProvider } from "@/store/StateContext";
 import NextTopLoader from "nextjs-toploader";
 import { Metadata } from "next";
 import Disclaimer from "@/components/StockRecosListing/Disclaimer";
+import NoInternetConnection from "@/components/NoInternetConnection";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -61,7 +62,7 @@ export default async function RootLayout({
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
 
-  console.log("headersList----", headersList);
+  //console.log("headersList----", headersList);
 
   // =====  Get Left Nav Data =======
   const leftNavApi = (APIS_CONFIG as any)["LEFT_NAV"][APP_ENV];

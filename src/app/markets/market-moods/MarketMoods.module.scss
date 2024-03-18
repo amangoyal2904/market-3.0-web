@@ -36,7 +36,7 @@
   position: relative;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px 10px 0;
+  padding: 10px 0;
   column-gap: 30px;
   position: sticky;
   background: #fff;
@@ -47,9 +47,10 @@
     padding: 0;
     list-style-type: none;
     display: flex;
-    column-gap: 15px;
+    column-gap: 20px;
     width: calc(100% - 400px);
     li {
+      position: relative;
       font-size: 14px;
       font-style: normal;
       font-weight: 400;
@@ -70,6 +71,23 @@
           border-bottom: solid 2px #000000;
         }
       }
+    }
+  }
+  .roundBtn {
+    display: flex;
+    cursor: pointer;
+    border-radius: 15px;
+    border: 1px solid $black;
+    font-size: 12px;
+    line-height: 18px;
+    font-style: normal;
+    font-weight: 600;
+    padding: 3px 10px;
+    white-space: nowrap;
+    align-items: center;
+    i {
+      font-size: 18px;
+      margin-right: 4px;
     }
   }
 }
@@ -101,7 +119,7 @@
 
 .faq {
   background: #f4f4f4;
-  padding: 25px 15px;
+  padding: 25px;
   border-radius: 5px;
   .head {
     font-size: 24px;

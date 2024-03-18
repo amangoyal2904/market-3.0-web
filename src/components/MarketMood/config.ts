@@ -32,19 +32,23 @@ export const tabData = [
 export const faqData = [
   {
     ques: "What is Market Mood?",
-    ans: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
+    ans: "Market Mood is a premium feature introduced by ETMarkets which gives an overall performance of the stocks in different indices over different time periods. It is segmented into three parts: 1) Overview 2) Periodic High/Low and 3) Advance/Decline",
   },
   {
-    ques: "How to read Market Mood?",
-    ans: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
+    ques: "How to read the Overview tab of Market Mood?",
+    ans: "If the count or per cent is high, it is shaded in green, in yellow if it is neutral and in shades of red for a low count. Green shades indicate an uptrend, yellow shades indicate a neutral outlook and red shades indicate a downtrend. This gives the users an overall idea of the price trends in the market and where it is headed in the future. ",
   },
   {
-    ques: "How it will help you in your investment Journey ?",
-    ans: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
+    ques: "How to read the Periodic High/Low tab of Market Mood?",
+    ans: "Periodic high/ low refers to the high and low reached in a given time period. Users can view the count of stocks that are trading near their periodic high or low for different time periods. When a security is trading at a value which is within 20% of its High-Low range, it qualifies to be shown in the Period High/Low Analysis. When the count of stocks trading near periodic high is increasing consistently, an uptrend in the market is indicated and when the per cent or count of stocks trading near the periodic low is constantly increasing, a downtrend is indicated. Users can use this segment to see where the stocks lie relative to their periodic high/low values.",
   },
   {
-    ques: "What value will Market Mood add to my decision making?",
-    ans: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
+    ques: "How to read the Advance/Decline Tab of Market Mood?",
+    ans: "Advance refers to the number of stocks that have closed above their previous close and Decline refers to the number of stocks that have closed below their previous low. The bar chart shows the advance/decline for the selected index for different time periods. If advances are greater than declines consistently, an uptrend is indicated and if declines are greater than advances consistently, a downtrend is indicated. As the number of Advances increases, it indicates that stocks are performing better comparatively and an overall uptrend will come by.",
+  },
+  {
+    ques: "How will it help you in your investment Journey?",
+    ans: "This feature aims to provide users information about market trends in a very comprehensive manner. An overall look at any of the segments will help users form an opinion on market trends. Equity Research will become more efficient and faster if users use this feature efficiently",
   },
 ];
 

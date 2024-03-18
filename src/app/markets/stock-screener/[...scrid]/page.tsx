@@ -7,8 +7,63 @@ import {
 } from "@/utils/customViewAndTables";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
+import { fnGenerateMetaData } from "@/utils/utility";
 import Service from "@/network/service";
 import StockScreeners from "./client";
+import { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(
+  { searchParams }: any,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
+  const cookieStore = cookies();
+  const isprimeuser = cookieStore.get("isprimeuser")?.value === "true";
+  const ssoid = cookieStore.get("ssoid")?.value;
+  const regex = /scrid-(\d+)/;
+  const match = pageUrl.match(regex);
+  let scrid = "";
+  if (match) {
+    scrid = match[1];
+  } else {
+    console.log("scrid value not found");
+  }
+
+  const pagesize = 1;
+  const pageno = 1;
+  const sort: any = [];
+  const deviceId = "web";
+  const filterType = "index";
+  const bodyParams = {
+    viewId: 239,
+    sort,
+    pagesize,
+    pageno,
+    deviceId,
+    filterType,
+    filterValue: [],
+    screenerId: scrid,
+  };
+  const { screenerDetail } = await getCustomViewTable(
+    bodyParams,
+    isprimeuser,
+    ssoid,
+    "screenerGetViewById",
+  );
+  //console.log("screenerDetail",screenerDetail)
+
+  const seo_title = screenerDetail?.seoTitle || screenerDetail?.name;
+  const seo_desc = screenerDetail?.seoDescription;
+  const seo_keywords = `et, etmarkets, economictimes, ${screenerDetail?.name}`;
+  const meta = {
+    title: seo_title,
+    desc: seo_desc,
+    keywords: seo_keywords,
+    pathname: pageUrl,
+  };
+  return fnGenerateMetaData(meta);
+}
 
 const ScreenerIneerpage = async ({ params, searchParams }: any) => {
   const headersList = headers();
@@ -110,7 +165,6 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
       ssoid,
       "screenerGetViewById",
     );
-
   const title =
     screenerDetail && screenerDetail?.name ? screenerDetail.name : "";
   const desc =

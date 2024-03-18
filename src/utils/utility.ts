@@ -457,7 +457,7 @@ export const fetchIndustryFilters = async (query: string) => {
 
 export const getOverviewData = async (indexid: number, pageno: number) => {
   const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.MARKETMOODS_OVERVIEW[APP_ENV]}?indexid=${indexid}&pageno=${pageno}&pagesize=13`,
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_OVERVIEW[APP_ENV]}?indexid=${indexid}&pageno=${pageno}&pagesize=30`,
     params: {},
   });
   const originalJson = await response?.json();
@@ -466,7 +466,7 @@ export const getOverviewData = async (indexid: number, pageno: number) => {
     dataList: originalJson.dataList.map((item: any) => ({
       date: dateFormat(item.date, "%d %MMM"),
       indexPrice: formatNumber(item.indexPrice),
-      percentChange: item.percentChange,
+      percentChange: item.percentChange.toFixed(2),
       trend:
         item.percentChange > 0
           ? "up"
@@ -489,7 +489,7 @@ export const getAdvanceDeclineData = async (
   pageno: number,
 ) => {
   const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.MARKETMOODS_ADVANCEDECLINE[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=6`,
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_ADVANCEDECLINE[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=100`,
     params: {},
   });
   const originalJson = await response?.json();
@@ -497,7 +497,7 @@ export const getAdvanceDeclineData = async (
     dataList: originalJson.searchresult.map((item: any) => ({
       date: dateFormat(item.dateTime, "%d %MMM"),
       indexPrice: formatNumber(item.currentIndexValue),
-      percentChange: item.percentChange,
+      percentChange: item.percentChange.toFixed(2),
       trend:
         item.percentChange > 0
           ? "up"
@@ -523,7 +523,7 @@ export const getPeriodicData = async (
   pageno: number,
 ) => {
   const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.MARKETMOODS_PERIODIC[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=6`,
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_PERIODIC[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=100`,
     params: {},
   });
   const originalJson = await response?.json();
@@ -533,7 +533,7 @@ export const getPeriodicData = async (
       return {
         date: dateFormat(item.dateTime, "%d %MMM"),
         indexPrice: formatNumber(item.currentIndexValue),
-        percentChange: item.percentChange,
+        percentChange: item.percentChange.toFixed(2),
         trend:
           item.percentChange > 0
             ? "up"
