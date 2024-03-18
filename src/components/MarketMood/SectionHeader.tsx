@@ -16,6 +16,7 @@ const StockFilterNifty = dynamic(
 
 const MarketMoodHeader = ({
   heading,
+  filterMenuData,
   niftyFilterData,
   config,
   countPercentage,
@@ -33,7 +34,6 @@ const MarketMoodHeader = ({
     showMonthlyDaily,
     showHelp,
   } = config;
-  const [filterMenuData, setFilterMenuData]: any = useState("");
   const [showFilter, setShowFilter] = useState(false);
   const [showPeriodicPopup, setShowPeriodicPopup] = useState(false);
   const showFilterMenu = (value: boolean) => {
@@ -48,16 +48,6 @@ const MarketMoodHeader = ({
     setShowFilter(false);
     filterDataChange(id, name, selectedTab);
   };
-
-  const filterApiCall = async () => {
-    const data = await fetchFilters({});
-    setFilterMenuData(data);
-  };
-  useEffect(() => {
-    if (showIndexFilter) {
-      filterApiCall();
-    }
-  }, []);
 
   return (
     <>

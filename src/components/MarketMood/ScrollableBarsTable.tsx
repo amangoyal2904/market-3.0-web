@@ -1,6 +1,14 @@
 import styles from "./MarketMood.module.scss";
 
-const ScrollableBarsTableMarketMood = ({ tableData, type }: any) => {
+const ScrollableBarsTableMarketMood = ({
+  tableData = [],
+  type = null,
+  showAll = false,
+}: any) => {
+  let displayedData = tableData;
+  if (!showAll) {
+    displayedData = tableData.slice(0, 6);
+  }
   return (
     <div id="scrollableTable" className={styles.scrollableWrapper}>
       <div className={`${styles.horizontalLine} ${styles.withMaxWidth}`}>
@@ -40,7 +48,7 @@ const ScrollableBarsTableMarketMood = ({ tableData, type }: any) => {
           </tr>
         </thead>
         <tbody>
-          {tableData.map((data: any, index: number) => (
+          {displayedData.map((data: any, index: number) => (
             <tr key={index}>
               <td className={styles.withBar}>
                 {type == "advanceDecline" ? (

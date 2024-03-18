@@ -1,6 +1,15 @@
 import styles from "./MarketMood.module.scss";
 
-const ScrollableTableMarketMood = ({ tableHeader, tableData, type }: any) => {
+const ScrollableTableMarketMood = ({
+  tableHeader = null,
+  tableData = [],
+  type = null,
+  showAll = false,
+}: any) => {
+  let displayedData = tableData;
+  if (!showAll) {
+    displayedData = tableData.slice(0, 13);
+  }
   return (
     <div id="scrollableTable" className={styles.scrollableWrapper}>
       <div className={styles.horizontalLine}>
@@ -34,7 +43,7 @@ const ScrollableTableMarketMood = ({ tableHeader, tableData, type }: any) => {
           </tr>
         </thead>
         <tbody>
-          {tableData.map((data: any, index: number) => (
+          {displayedData.map((data: any, index: number) => (
             <tr key={index}>
               {data.others.map((item: any, itemIndex: number) => (
                 <td key={itemIndex} className={styles.withTiles}>
