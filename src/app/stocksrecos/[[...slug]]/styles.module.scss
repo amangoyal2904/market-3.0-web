@@ -6,6 +6,19 @@
     .hdg {
       font-size: 32px;
       line-height: 39.01px;
+
+      &.FHDetailHead {
+        span:last-child {
+          font-size: 24px;
+          font-weight: 600;
+          text-transform: capitalize;
+        }
+
+        .pipe {
+          color: $gray_80;
+          font-weight: 400;
+        }
+      }
     }
     .desc {
       font-size: 12px;

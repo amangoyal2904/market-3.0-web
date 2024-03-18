@@ -148,7 +148,7 @@ const Subhead = (props: any) => {
           onclick={showFilterMenu}
           showFilter={showFilter}
           valuechange={handleChangeData}
-          selectTab={niftyFilterData.exchange}
+          selectTab={niftyFilterData.exchange || "nse"}
           childMenuTabActive={niftyFilterData.indexId}
         />
       )}

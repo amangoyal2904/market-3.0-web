@@ -39,7 +39,12 @@ const StockRecosListing = (props: any) => {
   );
   const [currentPageData, setCurrentPageData] = useState([]); // State to hold data for the current page
   const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(
+    activeApi != "overview" &&
+      recosDetailResult?.recoData?.[0].data?.length === 30
+      ? true
+      : false,
+  );
   const loader = useRef(null);
   const initialSearchParamsRef = useRef<URLSearchParams>(
     new URLSearchParams(searchParams.toString()),
@@ -52,6 +57,7 @@ const StockRecosListing = (props: any) => {
       const selectedFilter = await fetchSelectedFilter(id);
       setNiftyFilterData(selectedFilter);
       router.push(newUrl, { scroll: false });
+      initialSearchParamsRef.current = new URLSearchParams("filter=" + id);
 
       setPage(1);
       setHasMore(true);
@@ -168,7 +174,7 @@ const StockRecosListing = (props: any) => {
         setPage((prevPage) => prevPage + 1);
       }
 
-      console.log("recosDetailJSON---handleObserver-", recosDetailJSON);
+      console.log("recosDetailJSON---handleObserver-", recosDetailResult);
     },
     [hasMore],
   );
@@ -214,15 +220,21 @@ const StockRecosListing = (props: any) => {
           </div>
           <div className={styles.addWrap}>
             <span className={styles.addTitle}>Add</span>
-            <span className={styles.addVal}>-</span>
+            <span className={styles.addVal}>
+              {recosDetailResult.recoData?.[0].topSection.addCount}
+            </span>
           </div>
           <div className={styles.accumulateWrap}>
             <span className={styles.accumulateTitle}>Accumulate</span>
-            <span className={styles.accumulateVal}>-</span>
+            <span className={styles.accumulateVal}>
+              {recosDetailResult.recoData?.[0].topSection.accumulateCount}
+            </span>
           </div>
           <div className={styles.neutralWrap}>
             <span className={styles.neutralTitle}>Neutral</span>
-            <span className={styles.neutralVal}>-</span>
+            <span className={styles.neutralVal}>
+              {recosDetailResult.recoData?.[0].topSection.neutralCount}
+            </span>
           </div>
         </div>
       )}
@@ -246,7 +258,9 @@ const StockRecosListing = (props: any) => {
             activeApi={activeApi}
           />
         ) : typeof recosDetailJSON != "undefined" ? (
-          <div className={styles.contentViewWrap}>
+          <div
+            className={`${styles.contentViewWrap} ${activeApi == "newRecos" || activeApi == "FHDetail" || activeApi == "recoByFH" ? styles.gridViewWrap : ""}`}
+          >
             {viewType == "grid" ? (
               <Grid
                 recosDetailResult={recosDetailJSON}
