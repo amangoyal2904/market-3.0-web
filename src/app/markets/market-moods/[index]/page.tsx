@@ -1,25 +1,40 @@
 // Import statements
-import { Metadata } from "next";
+import { Metadata, ResolvingMetadata } from "next";
+import { notFound } from "next/navigation";
 import MarketMoodsClient from "../clients";
-import { cookies } from "next/headers";
+import { headers } from "next/headers";
 import {
   fetchFilters,
   fetchSelectedFilter,
+  fnGenerateMetaData,
   getAdvanceDeclineData,
   getOverviewData,
   getPeriodicData,
 } from "@/utils/utility";
 
-// Metadata definition
-export const metadata: Metadata = {
-  title: "Market Moods",
-  description:
-    "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
-};
+export async function generateMetadata(
+  { params }: any,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const headersList = headers();
+  const niftyFilterData = await fetchSelectedFilter(params.index);
+  const pageUrl = headersList.get("x-url") || "";
+  const meta = {
+    title: "Market Moods | " + niftyFilterData.name,
+    desc: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
+    keywords: `market moods, ${niftyFilterData.seoname}, ${niftyFilterData.name}`,
+    pathname: pageUrl,
+    index: pageUrl,
+  };
+  return fnGenerateMetaData(meta);
+}
 
 // MarketMoods function
 const MarketMoods = async ({ params }: any) => {
   const niftyFilterData = await fetchSelectedFilter(params.index);
+  if (niftyFilterData.indexId == 0) {
+    notFound();
+  }
   const [overviewData, advanceDeclineData, periodicData, allFilters] =
     await Promise.all([
       getOverviewData(niftyFilterData.indexId, 1),
