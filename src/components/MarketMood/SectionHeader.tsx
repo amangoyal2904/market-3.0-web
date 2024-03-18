@@ -1,22 +1,14 @@
 "use client";
-import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./MarketMood.module.scss";
 import {
   countPercentageOptions,
   durationOptions,
   monthlyDailyOptions,
 } from "./config";
-import { fetchFilters } from "@/utils/utility";
-
-const StockFilterNifty = dynamic(
-  () => import("@/components/StockFilterNifty"),
-  { ssr: false },
-);
 
 const MarketMoodHeader = ({
   heading,
-  filterMenuData,
   niftyFilterData,
   config,
   countPercentage,
@@ -25,28 +17,14 @@ const MarketMoodHeader = ({
   handleDuration,
   monthlyDaily,
   handleMonthlyDaily,
-  filterDataChange,
 }: any) => {
-  const {
-    showIndexFilter,
-    showDuration,
-    showCountPercentage,
-    showMonthlyDaily,
-    showHelp,
-  } = config;
-  const [showFilter, setShowFilter] = useState(false);
+  const { showDuration, showCountPercentage, showMonthlyDaily, showHelp } =
+    config;
+
   const [showPeriodicPopup, setShowPeriodicPopup] = useState(false);
-  const showFilterMenu = (value: boolean) => {
-    setShowFilter(value);
-  };
 
   const togglePeriodicPopup = (value: boolean) => {
     setShowPeriodicPopup(value);
-  };
-
-  const handleChangeData = (id: any, name: string, selectedTab: string) => {
-    setShowFilter(false);
-    filterDataChange(id, name, selectedTab);
   };
 
   return (
@@ -113,15 +91,6 @@ const MarketMoodHeader = ({
           )}
         </div>
         <div className={styles.options}>
-          {showIndexFilter && (
-            <span
-              className={`${styles.roundBtn} ${styles.filterNseBse}`}
-              onClick={() => showFilterMenu(true)}
-            >
-              <i className="eticon_filter"></i> {niftyFilterData?.name}
-            </span>
-          )}
-
           {showDuration && (
             <ul className={styles.btnGroup}>
               {durationOptions.map((item: any) => {
@@ -173,17 +142,6 @@ const MarketMoodHeader = ({
           )}
         </div>
       </div>
-
-      {showFilter && (
-        <StockFilterNifty
-          data={filterMenuData}
-          onclick={showFilterMenu}
-          showFilter={showFilter}
-          valuechange={handleChangeData}
-          selectTab={niftyFilterData.exchange}
-          childMenuTabActive={niftyFilterData.indexId}
-        />
-      )}
     </>
   );
 };
