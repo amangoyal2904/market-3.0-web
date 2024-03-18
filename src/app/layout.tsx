@@ -16,6 +16,7 @@ import { StateProvider } from "@/store/StateContext";
 import NextTopLoader from "nextjs-toploader";
 import { Metadata } from "next";
 import Disclaimer from "@/components/StockRecosListing/Disclaimer";
+import NoInternetConnection from "@/components/NoInternetConnection";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -78,24 +79,26 @@ export default async function RootLayout({
       className={`${montserrat.variable} ${lato.variable} h-full bg-gray-50`}
     >
       <body className="h-full">
-        <NextTopLoader />
-        <StateProvider>
-          <main>
-            <Headers />
-            <Header />
-            <div className="container">
-              <Suspense fallback={<p>Loading...</p>}>
-                <LeftNav leftNavResult={leftNavResult} />
-              </Suspense>
-              <div className="main_container">{children}</div>
-            </div>
-            <Scripts objVc={versionControl} isprimeuser={isprimeuser} />
-            <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
-              <div id="ssoLogin" className="ssoLoginElm" />
-            </div>
-            <RedeemVoucher />
-          </main>
-        </StateProvider>
+        <NoInternetConnection>
+          <NextTopLoader />
+          <StateProvider>
+            <main>
+              <Headers />
+              <Header />
+              <div className="container">
+                <Suspense fallback={<p>Loading...</p>}>
+                  <LeftNav leftNavResult={leftNavResult} />
+                </Suspense>
+                <div className="main_container">{children}</div>
+              </div>
+              <Scripts objVc={versionControl} isprimeuser={isprimeuser} />
+              <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
+                <div id="ssoLogin" className="ssoLoginElm" />
+              </div>
+              <RedeemVoucher />
+            </main>
+          </StateProvider>
+        </NoInternetConnection>
       </body>
     </html>
   );
