@@ -28,7 +28,7 @@ const FixedTableMarketMood = ({
           {tableData.map((item: any, index: number) => {
             return (
               <tr key={index}>
-                <td>{item.date}</td>
+                <td className={styles.firstTd}>{item.date}</td>
                 <td className="numberFonts">{item.indexPrice}</td>
                 <td className={`${item.trend} numberFonts`}>
                   {item.percentChange}%
