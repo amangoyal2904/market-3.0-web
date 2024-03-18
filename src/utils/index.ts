@@ -533,7 +533,7 @@ export const getStockRecosDetail = async ({
   const fundHouseInfo = getFundHouseInfo("", slug);
   const headers = {
     "Content-Type": "application/json",
-    ssoid: ssoid || getCookie("ssoid"),
+    ssoid: ssoid,
   };
   const payload = {
     apiType: getApiType,

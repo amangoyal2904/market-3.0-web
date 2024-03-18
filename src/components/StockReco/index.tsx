@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./StockReco.module.scss"; // Import your CSS styles
 import WatchlistAddition from "../WatchlistAddition";
 import Link from "next/link";
+import { formatNumber } from "@/utils";
 
 interface Props {
   data: any; // Define the type of data correctly
@@ -72,20 +73,28 @@ const StockComponent: React.FC<Props> = ({
             <div className={styles.updownTargetBox}>
               <div className={styles.potensialBox}>
                 <h3>Total Recos</h3>
-                <h4>{data.totalCount}</h4>
+                <h4 className={`numberFonts`}>
+                  {formatNumber(data.totalCount)}
+                </h4>
               </div>
               <ul className={styles.targetBox}>
                 <li>
                   <span>Buy</span>
-                  <span>{data.buyCount}</span>
+                  <span className={`numberFonts ${styles.buyCount}`}>
+                    {formatNumber(data.buyCount)}
+                  </span>
                 </li>
                 <li>
                   <span>Sell</span>
-                  <span>{data.sellCount}</span>
+                  <span className={`numberFonts ${styles.sellCount}`}>
+                    {formatNumber(data.sellCount)}
+                  </span>
                 </li>
                 <li>
                   <span>Hold</span>
-                  <span>{data.holdCount}</span>
+                  <span className={`numberFonts ${styles.holdCount}`}>
+                    {formatNumber(data.holdCount)}
+                  </span>
                 </li>
               </ul>
             </div>
@@ -105,7 +114,7 @@ const StockComponent: React.FC<Props> = ({
                     ? "Sell"
                     : data.recoType}
               </span>
-              {activeTab == "newRecos" && (
+              {(activeTab == "newRecos" || activeTab == "FHDetail") && (
                 <span className={styles.callDateBox}>
                   <span className={styles.callDateTitle}>Call Date:</span>
                   <span className={styles.callDate}>{formattedDate}</span>
@@ -134,32 +143,42 @@ const StockComponent: React.FC<Props> = ({
             <div className={styles.updownTargetBox}>
               <div className={styles.potensialBox}>
                 <h3>{data.potentialText}</h3>
-                <h4>{data.potentialValue}%</h4>
+                <h4 className={`numberFonts`}>{data.potentialValue}%</h4>
               </div>
-              {activeTab == "newRecos" ? (
+              {activeTab == "newRecos" || activeTab == "FHDetail" ? (
                 <ul className={styles.targetBox}>
                   <li>
                     <span>Target</span>
-                    <span>{data.target}</span>
+                    <span className={`numberFonts`}>
+                      {formatNumber(data.target)}
+                    </span>
                   </li>
                   <li>
                     <span>Price at Reco</span>
-                    <span>{data.priceAtRecos}</span>
+                    <span className={`numberFonts`}>
+                      {formatNumber(data.priceAtRecos)}
+                    </span>
                   </li>
                   <li>
                     <span>Current Price</span>
-                    <span>{data.currentPrice}</span>
+                    <span className={`numberFonts`}>
+                      {formatNumber(data.currentPrice)}
+                    </span>
                   </li>
                 </ul>
               ) : (
                 <ul className={styles.targetBox}>
                   <li>
                     <span>Avg. Target</span>
-                    <span>{data.target}</span>
+                    <span className={`numberFonts`}>
+                      {formatNumber(data.target)}
+                    </span>
                   </li>
                   <li>
                     <span>Current Price</span>
-                    <span>{data.currentPrice}</span>
+                    <span className={`numberFonts`}>
+                      {formatNumber(data.currentPrice)}
+                    </span>
                   </li>
                 </ul>
               )}
@@ -199,20 +218,28 @@ const StockComponent: React.FC<Props> = ({
                 <div className={styles.buySellBox}>
                   <div className={styles.buyBox}>
                     <span>Buy:</span>
-                    <span>{data.buyCount}</span>
+                    <span className={`numberFonts`}>
+                      {formatNumber(data.buyCount)}
+                    </span>
                   </div>
                   <div className={styles.sellBox}>
                     <span>Sell:</span>
-                    <span>{data.sellCount}</span>
+                    <span className={`numberFonts`}>
+                      {formatNumber(data.sellCount)}
+                    </span>
                   </div>
                   <div className={styles.holdBox}>
                     <span>Hold:</span>
-                    <span>{data.holdCount}</span>
+                    <span className={`numberFonts`}>
+                      {formatNumber(data.holdCount)}
+                    </span>
                   </div>
                 </div>
                 <div className={styles.totalCountBox}>
                   <span>Total:</span>
-                  <span>{data.totalCount}</span>
+                  <span className={`numberFonts`}>
+                    {formatNumber(data.totalCount)}
+                  </span>
                 </div>
               </div>
             ))}
