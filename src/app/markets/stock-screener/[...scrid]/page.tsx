@@ -18,6 +18,9 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
+  const cookieStore = cookies();
+  const isprimeuser = cookieStore.get("isprimeuser")?.value === "true";
+  const ssoid = cookieStore.get("ssoid")?.value;
   const regex = /scrid-(\d+)/;
   const match = pageUrl.match(regex);
   let scrid = "";
@@ -44,8 +47,8 @@ export async function generateMetadata(
   };
   const { screenerDetail } = await getCustomViewTable(
     bodyParams,
-    false,
-    false,
+    isprimeuser,
+    ssoid,
     "screenerGetViewById",
   );
   //console.log("screenerDetail",screenerDetail)
@@ -162,7 +165,6 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
       ssoid,
       "screenerGetViewById",
     );
-
   const title =
     screenerDetail && screenerDetail?.name ? screenerDetail.name : "";
   const desc =
