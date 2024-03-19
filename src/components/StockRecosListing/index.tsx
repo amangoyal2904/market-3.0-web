@@ -125,7 +125,7 @@ const StockRecosListing = (props: any) => {
           pageNo: page,
         });
 
-        console.log(recosDetailResult);
+        // console.log(recosDetailResult);
 
         setRecosDetailJSON(
           activeApi == "overview"
@@ -136,7 +136,7 @@ const StockRecosListing = (props: any) => {
     }
 
     recosWatchList();
-    console.log("path changed", pathName);
+    // console.log("path changed", pathName);
   }, []);
 
   useEffect(() => {
@@ -162,7 +162,7 @@ const StockRecosListing = (props: any) => {
     ) {
       if (searchParams.has("filter")) {
         recosDetail();
-        console.log("searchParams changed", searchParams);
+        // console.log("searchParams changed", searchParams);
       }
     }
   }, [searchParams, initialSearchParamsRef.current]);
@@ -174,7 +174,7 @@ const StockRecosListing = (props: any) => {
         setPage((prevPage) => prevPage + 1);
       }
 
-      console.log("recosDetailJSON---handleObserver-", recosDetailResult);
+      // console.log("recosDetailJSON---handleObserver-", recosDetailResult);
     },
     [hasMore],
   );

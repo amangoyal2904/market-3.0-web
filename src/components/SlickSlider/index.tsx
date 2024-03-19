@@ -32,13 +32,11 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
   const sliderRef = useRef<Slider>(null);
 
   const settings: Settings = {
-    speed: 1000,
+    speed: 500,
     arrows: false,
     dots: true,
-    focusOnSelect: true,
-    infinite: false,
+    infinite: true,
     swipe: true,
-    swipeToSlide: true,
     slidesToShow: slidesToShow || 5,
     slidesToScroll: slidesToScroll || 5,
     rows: rows || 1,
