@@ -15,7 +15,7 @@ export default async function stocksrecos({
   };
   searchParams: any;
 }) {
-  console.log("params.slug ----> ", params.slug);
+  // console.log("params.slug ----> ", params.slug);
   const intFilter = searchParams?.filter ? parseInt(searchParams.filter) : 0;
   const selectedFilter = await fetchSelectedFilter(intFilter);
 
@@ -63,7 +63,7 @@ export default async function stocksrecos({
     niftyFilterData: any,
     slug: any,
   ) => {
-    console.log("StockRecosHeadTitle----", activeApi, niftyFilterData, slug);
+    // console.log("StockRecosHeadTitle----", activeApi, niftyFilterData, slug);
     const fundHouseInfo = getFundHouseInfo("", slug);
     switch (activeApi) {
       case "overview":

@@ -14,7 +14,7 @@ const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, ssoid } = state.login;
 
-  console.log("recos-", data);
+  // console.log("recos-", data);
 
   const responsive = [
     {
