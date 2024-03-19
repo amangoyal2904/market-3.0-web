@@ -38,9 +38,10 @@ const MarketMoodsClient = ({
   advanceDecline = {},
   periodic = {},
   allFilters = {},
+  isprimeuser = false,
 }: any) => {
   const { state } = useStateContext();
-  const { isLogin, isPrime = true } = state.login;
+  const { isLogin, isPrime } = state.login;
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -163,7 +164,6 @@ const MarketMoodsClient = ({
     const hash = window.location.hash.substr(1);
     if (hash && tabData.some((item) => item.key === hash)) {
       // If there is, set the active item to the hash value
-      setActiveItem(hash);
       setActiveItemFromClick(hash);
     }
   }, []);
@@ -237,20 +237,24 @@ const MarketMoodsClient = ({
 
       <div className={styles.tabsWrap}>
         <ul className={styles.tabsList}>
-          {tabData.map((item: any) => {
+          {tabData.map((item: any, index: number) => {
             return (
               <li
                 key={item.key}
                 ref={(el) => (tabRefs.current[item.key] = el)}
                 onClick={() => handleItemClick(item.key)}
-                className={activeItem === item.key ? styles.active : ""}
+                className={
+                  activeItem === item.key || (activeItem === "" && index == 0)
+                    ? styles.active
+                    : ""
+                }
               >
                 {item.label}
               </li>
             );
           })}
         </ul>
-        {isPrime && (
+        {(isPrime || isprimeuser) && (
           <span
             className={`${styles.roundBtn} ${styles.filterNseBse}`}
             onClick={() => showFilterMenu(true)}
@@ -259,9 +263,11 @@ const MarketMoodsClient = ({
           </span>
         )}
       </div>
-      <div className={`${styles.wrapper} ${!isPrime ? styles.center : ""}`}>
+      <div
+        className={`${styles.wrapper} ${!(isPrime || isprimeuser) ? styles.center : ""}`}
+      >
         {!!loading && <Loader loaderType="container" />}
-        {!isPrime ? (
+        {!(isPrime || isprimeuser) ? (
           <>
             {payWallMarketMood.map((item: any, index: number) => (
               <div
