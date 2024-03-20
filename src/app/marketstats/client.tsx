@@ -52,6 +52,7 @@ const MarketStats = ({
   const router = useRouter();
   const { state, dispatch } = useStateContext();
   const { isLogin, isPrime } = state.login;
+  const [resetSort, setResetSort] = useState("");
   const [_payload, setPayload] = useState(payload);
   const [_tabData, setTabData] = useState(tabData);
   const [_l3Nav, setL3Nav] = useState(l3Nav);
@@ -132,7 +133,6 @@ const MarketStats = ({
       (config: any) => config.field === field,
     );
     let newSortConfig;
-
     if (isFieldSorted) {
       newSortConfig = sortConfig.map((config: any) =>
         config.field === field
@@ -148,61 +148,68 @@ const MarketStats = ({
   const onTabViewUpdate = async (viewId: any) => {
     setProcessingLoader(true);
     setActiveViewId(viewId);
-    setPayload({ ..._payload, viewId: viewId, pageno: 1 });
+    setResetSort(viewId);
+    setPayload({ ..._payload, viewId: viewId, sort: [], pageno: 1 });
   };
 
   const filterDataChangeHander = async (id: any) => {
     setProcessingLoader(true);
     const url = actualUrl;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
-    router.push(newUrl, { scroll: false });
     const filter =
       id !== undefined && !isNaN(Number(id))
         ? parseInt(id)
         : id !== undefined
           ? id
           : 0;
-    const filterType =
-      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap";
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     updateL3NAV(id, _payload.duration);
-    setPayload({
-      ..._payload,
-      filterValue: [filter],
-      filterType: filterType,
-      pageno: 1,
-    });
+    router.push(newUrl, { scroll: false });
   };
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
     setProcessingLoader(true);
+    setResetSort(value);
     if (l3NavSubItem == "gainers" || l3NavSubItem == "losers") {
       const url = actualUrl;
       const newDuration = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
-      router.push(newUrl, { scroll: false });
       updateL3NAV(_payload.filterValue[0], newDuration);
-      setPayload({ ..._payload, duration: newDuration, pageno: 1 });
+      router.push(newUrl, { scroll: false });
     } else if (l3NavSubItem == "volume-shockers") {
       const url = actualUrl;
       const newTimespan = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "timespan", newTimespan);
       router.push(newUrl, { scroll: false });
-      setPayload({ ..._payload, timespan: value.toUpperCase(), pageno: 1 });
     } else if (
       l3NavSubItem == "hourly-gainers" ||
       l3NavSubItem == "hourly-losers"
     ) {
-      setPayload({ ..._payload, timespan: value.toUpperCase(), pageno: 1 });
+      setPayload({
+        ..._payload,
+        timespan: value.toUpperCase(),
+        pageno: 1,
+      });
     }
   };
 
-  const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
+  const tabsChangeHandler = async (tabIdActive: any) => {
     setProcessingLoader(true);
     const { tabData } = await getCustomViewsTab({
-      L3NavSubItem: l3NavSubItem,
+      L3NavSubItem: !isTechnical ? l3NavSubItem : null,
+      firstOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.firstOperand
+        : null,
+      operationType: isTechnical
+        ? technicalCategory?.selectedFilter?.operationType
+        : null,
+      secondOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.secondOperand
+        : null,
+      ssoid: getCookie("ssoid"),
     });
+    setResetSort(tabIdActive);
     setTabData(tabData);
     setActiveViewId(tabIdActive);
   };
@@ -223,7 +230,16 @@ const MarketStats = ({
     }
 
     const { tabData, activeViewId } = await getCustomViewsTab({
-      L3NavSubItem: l3NavSubItem,
+      L3NavSubItem: !isTechnical ? l3NavSubItem : null,
+      firstOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.firstOperand
+        : null,
+      operationType: isTechnical
+        ? technicalCategory?.selectedFilter?.operationType
+        : null,
+      secondOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.secondOperand
+        : null,
       ssoid: getCookie("ssoid"),
     });
 
@@ -260,6 +276,7 @@ const MarketStats = ({
     );
     const descTxt = `Discover the stocks in the Indian stock market with ${technicalCategory?.selectedFilterLabel?.firstOperand} ${technicalCategory?.selectedFilterLabel?.operationType} ${technicalCategory?.selectedFilterLabel?.secondOperand} exclusively on The Economic Times`;
     setMetaData({ ..._metaData, desc: descTxt });
+
     setPayload({
       ..._payload,
       firstOperand: firstOperand,
@@ -305,36 +322,36 @@ const MarketStats = ({
   useEffect(() => {
     setProcessingLoader(true);
     if (areObjectsNotEqual(_payload, payload)) {
-      let newPaylaod = { viewId: "" };
       if (isTechnical) {
-        const { firstOperand, operationType, secondOperand } =
-          technicalCategory?.selectedFilter;
-        newPaylaod = {
-          ..._payload,
-          firstOperand,
-          operationType,
-          secondOperand,
-        };
         setTechnicalCategory(technicalCategory);
-      } else {
-        if (_payload.apiType != payload.apiType) {
-          newPaylaod = {
-            ...payload,
-          };
+        if (payload.apiType != _payload.apiType) {
+          tabsChangeHandler(payload.viewId);
+          setPayload({ ...payload, sort: [] });
         } else {
-          newPaylaod = {
-            ..._payload,
-          };
+          setPayload({
+            ...payload,
+            viewId: _payload.viewId,
+            sort: _payload.sort,
+          });
         }
+      } else {
         setDayFilterData(getSelectedDuration);
+        if (payload.apiType != _payload.apiType) {
+          tabsChangeHandler(payload.viewId);
+          setPayload({ ...payload, sort: [] });
+        } else {
+          setPayload({
+            ...payload,
+            viewId: _payload.viewId,
+            sort:
+              _payload.duration != payload.duration ||
+              _payload.timespan != payload.timespan
+                ? []
+                : _payload.sort,
+          });
+        }
       }
-      TabsAndTableDataChangeHandler(newPaylaod.viewId);
       setMetaData(metaData);
-      setPayload({
-        ...newPaylaod,
-        pageno: 1,
-        sort: [],
-      });
     } else {
       setProcessingLoader(false);
     }
@@ -342,13 +359,7 @@ const MarketStats = ({
 
   return (
     <>
-      <h1
-        data-ssoid={ssoid}
-        data-prime={isprimeuser}
-        className={styles.heading}
-      >
-        {_metaData.title}
-      </h1>
+      <h1 className={styles.heading}>{_metaData.title}</h1>
       <p className={styles.desc}>{_metaData.desc}</p>
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
@@ -373,8 +384,6 @@ const MarketStats = ({
             />
             <MarketFiltersTab
               data={_tabData}
-              activeViewId={_activeViewId}
-              tabsViewIdUpdate={onTabViewUpdate}
               filterDataChange={filterDataChangeHander}
               niftyFilterData={niftyFilterData}
               dayFitlerHanlderChange={dayFitlerHanlderChange}
@@ -389,6 +398,7 @@ const MarketStats = ({
           <MarketTable
             data={_tableData}
             tableHeaders={_tableHeaderData}
+            tabsViewIdUpdate={resetSort}
             pageSummary={_pageSummary}
             tableConfig={tableConfig}
             handleSortServerSide={onServerSideSort}
