@@ -3,17 +3,17 @@
 .stocksMain {
   position: relative;
   display: flex;
-  min-width: 380px;
+  // min-width: 342px;
   flex-direction: column;
   align-items: flex-start;
-  margin-right: 20px;
-  margin-bottom: 40px;
+  // margin-right: 20px;
+  margin-bottom: 20px;
   border-radius: 8px;
   border: 1px solid #b3b3b3;
   background: #ffffff;
-  &.stockGap {
-    // gap: 32px;
-  }
+  // &.stockGap {
+  //   gap: 32px;
+  // }
 
   // Apply red color if stocksMain has class sellStock
   &.sellStock {

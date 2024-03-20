@@ -38,8 +38,8 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
     {
       breakpoint: 1921,
       settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToShow: 4,
+        slidesToScroll: 4,
       },
     },
     {
@@ -50,7 +50,7 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
       },
     },
     {
-      breakpoint: 1361,
+      breakpoint: 1281,
       settings: {
         slidesToShow: 2,
         slidesToScroll: 2,

@@ -53,7 +53,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
       },
     },
     {
-      breakpoint: 1361,
+      breakpoint: 1281,
       settings: {
         slidesToShow: 2,
         slidesToScroll: 2,
