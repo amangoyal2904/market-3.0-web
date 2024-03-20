@@ -63,7 +63,7 @@ const StockComponent: React.FC<Props> = ({
           className={`${pageName == "stockRecosPage" ? styles.stockRecosPage : ""} ${styles.stocksMain} ${styles.GreyStock}`}
         >
           <div className={styles.stocksBox}>
-            <h2 className={styles.stocksTitle}>
+            <h2 title={data.organisation} className={styles.stocksTitle}>
               <Link
                 href={`/stocksrecos/fundhousedetails/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" && urlFilterHandle()}`}
               >
@@ -133,7 +133,7 @@ const StockComponent: React.FC<Props> = ({
             </div>
             {/* )} */}
 
-            <h2 className={styles.stocksTitle}>
+            <h2 title={data.companyName} className={styles.stocksTitle}>
               <Link
                 href={`https://economictimes.indiatimes.com/${data.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${data.companyId}.cms`}
               >

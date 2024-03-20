@@ -22,6 +22,7 @@ const Subhead = (props: any) => {
     filterDataChangeHander,
     niftyFilterData,
     urlFilterHandle,
+    activeApi,
   } = props;
   const [showFilter, setShowFilter] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
@@ -32,7 +33,7 @@ const Subhead = (props: any) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  console.log("niftyFilterData--", niftyFilterData);
+  console.log("activeApi--", activeApi);
 
   // const filterDataChangeHander = async (id: any) => {
   //   //setProcessingLoader(true);
@@ -107,9 +108,7 @@ const Subhead = (props: any) => {
           ))}
         </ul>
         <div className={styles.actionBarWrap}>
-          {(slug?.[0] != "fundhousedetails" ||
-            slug.length > 1 ||
-            slug?.[0] == "overview") && (
+          {activeApi != "recoOnWatchlist" && activeApi != "recoByFH" && (
             <div
               onClick={() => showFilterMenu(true)}
               className={styles.niftyWrap}

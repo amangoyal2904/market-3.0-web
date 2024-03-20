@@ -103,7 +103,7 @@ export default async function stocksrecos({
           </h1>
         );
       case "recoOnWatchlist":
-        return <h1 className={styles.hdg}>Reco on Your Watchlist</h1>;
+        return <h1 className={styles.hdg}>Recos on Your Watchlist</h1>;
       case "recoByFH":
         return <h1 className={styles.hdg}>Recos by Brokerages</h1>;
       case "FHDetail":
