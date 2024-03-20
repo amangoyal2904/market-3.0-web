@@ -160,10 +160,10 @@ const StockRecosListing = (props: any) => {
       !initialSearchParamsRef.current ||
       initialSearchParamsRef.current.toString() !== searchParams.toString()
     ) {
-      if (searchParams.has("filter")) {
-        recosDetail();
-        // console.log("searchParams changed", searchParams);
-      }
+      //if (searchParams.has("filter")) {
+      recosDetail();
+      // console.log("searchParams changed", searchParams);
+      //}
     }
   }, [searchParams, initialSearchParamsRef.current]);
 
