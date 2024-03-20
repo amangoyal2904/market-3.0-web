@@ -305,25 +305,36 @@ const MarketStats = ({
   useEffect(() => {
     setProcessingLoader(true);
     if (areObjectsNotEqual(_payload, payload)) {
-      let newPaylaod = {
-        ...payload,
-        pageno: 1,
-      };
+      let newPaylaod = { viewId: "" };
       if (isTechnical) {
         const { firstOperand, operationType, secondOperand } =
           technicalCategory?.selectedFilter;
         newPaylaod = {
-          ...newPaylaod,
+          ..._payload,
           firstOperand,
           operationType,
           secondOperand,
         };
+        setTechnicalCategory(technicalCategory);
       } else {
+        if (_payload.apiType != payload.apiType) {
+          newPaylaod = {
+            ...payload,
+          };
+        } else {
+          newPaylaod = {
+            ..._payload,
+          };
+        }
         setDayFilterData(getSelectedDuration);
       }
+      TabsAndTableDataChangeHandler(newPaylaod.viewId);
       setMetaData(metaData);
-      setTechnicalCategory(technicalCategory);
-      setPayload(newPaylaod);
+      setPayload({
+        ...newPaylaod,
+        pageno: 1,
+        sort: [],
+      });
     } else {
       setProcessingLoader(false);
     }
@@ -367,7 +378,6 @@ const MarketStats = ({
               filterDataChange={filterDataChangeHander}
               niftyFilterData={niftyFilterData}
               dayFitlerHanlderChange={dayFitlerHanlderChange}
-              tabsUpdateHandler={TabsAndTableDataChangeHandler}
               tabConfig={tabConfig}
               dayFilterData={dayFilterData}
               setDayFilterData={setDayFilterData}
