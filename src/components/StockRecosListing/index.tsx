@@ -190,6 +190,7 @@ const StockRecosListing = (props: any) => {
         niftyFilterData={niftyFilterData}
         filterDataChangeHander={filterDataChangeHandler}
         urlFilterHandle={urlFilterHandle}
+        activeApi={activeApi}
       />
       {activeApi == "FHDetail" && (
         <div className={styles.brokerageWrap}>
