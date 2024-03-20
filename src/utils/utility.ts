@@ -509,7 +509,7 @@ export const fetchIndustryFilters = async (query: string) => {
 
 export const getOverviewData = async (indexid: number, pageno: number) => {
   const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.MARKETMOODS_OVERVIEW[APP_ENV]}?indexid=${indexid}&pageno=${pageno}&pagesize=30`,
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_OVERVIEW[APP_ENV]}?indexid=${indexid}&pageno=${pageno}&pagesize=100`,
     params: {},
   });
   const originalJson = await response?.json();
