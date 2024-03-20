@@ -20,22 +20,22 @@ const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
     {
       breakpoint: 1921,
       settings: {
-        slidesToShow: 5,
-        slidesToScroll: 1,
+        slidesToShow: 4,
+        slidesToScroll: 4,
       },
     },
     {
       breakpoint: 1601,
       settings: {
         slidesToShow: 3,
-        slidesToScroll: 1,
+        slidesToScroll: 3,
       },
     },
     {
-      breakpoint: 1361,
+      breakpoint: 1281,
       settings: {
         slidesToShow: 2,
-        slidesToScroll: 1,
+        slidesToScroll: 2,
       },
     },
   ];

@@ -145,7 +145,12 @@ a {
 .space-between {
   justify-content: space-between;
 }
-
+.slick-list {
+  margin: 0 -10px !important;
+}
+.slick-slide {
+  padding: 0 10px;
+}
 .slick-dots {
   top: 0;
   right: 0;
