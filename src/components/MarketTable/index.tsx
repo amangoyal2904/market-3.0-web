@@ -228,7 +228,8 @@ const MarketTable = (props: propsType) => {
   };
   useEffect(() => {
     setFilters({});
-    _setSortData({ field: null, order: "ASC" });
+    setSortData({ field: null, order: "DESC" });
+    _setSortData({ field: null, order: "DESC" });
   }, [tabsViewIdUpdate]);
 
   useEffect(() => {
