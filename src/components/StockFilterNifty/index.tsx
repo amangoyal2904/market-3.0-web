@@ -1,8 +1,14 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import styles from "./styles.module.scss";
 
 interface StockSRFilterProps {
-  data: { keyIndices: any; sectoralIndices: any; otherIndices: any; all: any };
+  data: {
+    keyIndices: any;
+    sectoralIndices: any;
+    otherIndices: any;
+    marketcap?: any;
+    all: any;
+  };
   onclick: (value: boolean) => void;
   valuechange: (id: string, name: string, selectedTab: string) => void;
   selectTab: string;
@@ -19,55 +25,75 @@ export default function StockFilterNifty({
   showFilter,
 }: StockSRFilterProps) {
   const activeFilterValue = childMenuTabActive;
-  const activeIndex =
-    (!!activeFilterValue &&
-      data.keyIndices.nse.some(
-        (obj: any) => obj.indexId == activeFilterValue,
-      )) ||
-    data?.keyIndices.bse.some((obj: any) => obj.indexId == activeFilterValue)
-      ? 0
-      : data.sectoralIndices.nse.some(
-            (obj: any) => obj.indexId == activeFilterValue,
-          ) ||
-          data.sectoralIndices.bse.some(
-            (obj: any) => obj.indexId == activeFilterValue,
-          )
-        ? 1
-        : data.otherIndices.nse.some(
-              (obj: any) => obj.indexId == activeFilterValue,
-            ) ||
-            data.otherIndices.bse.some(
-              (obj: any) => obj.indexId == activeFilterValue,
-            )
-          ? 2
-          : 3;
+  const activeIndex = useMemo(() => {
+    if (!activeFilterValue) return 4;
+    const { keyIndices, sectoralIndices, otherIndices, marketcap } = data;
+    if (
+      keyIndices.nse.some((obj: any) => obj.indexId === activeFilterValue) ||
+      keyIndices.bse.some((obj: any) => obj.indexId === activeFilterValue)
+    ) {
+      return 0;
+    } else if (
+      sectoralIndices.nse.some(
+        (obj: any) => obj.indexId === activeFilterValue,
+      ) ||
+      sectoralIndices.bse.some((obj: any) => obj.indexId === activeFilterValue)
+    ) {
+      return 1;
+    } else if (
+      otherIndices.nse.some((obj: any) => obj.indexId === activeFilterValue) ||
+      otherIndices.bse.some((obj: any) => obj.indexId === activeFilterValue)
+    ) {
+      return 2;
+    } else if (
+      marketcap?.nse.some((obj: any) => obj.indexId === activeFilterValue) ||
+      marketcap?.bse.some((obj: any) => obj.indexId === activeFilterValue)
+    ) {
+      return 3;
+    } else {
+      return 4;
+    }
+  }, [activeFilterValue, data]);
+
   const [nseBseMenuSelect, setNseBseMenuSelect] = useState(selectTab);
   const [activeItem, setActiveItem] = useState<number | null>(activeIndex);
-  // const childTabMenuActive =
-  //   childMenuTabActive && childMenuTabActive !== "" ? childMenuTabActive : "";
   const popupRef = useRef<HTMLDivElement | null>(null);
-  const handleClickOutside = (event: any) => {
-    if (popupRef.current && !popupRef.current.contains(event.target)) {
-      onclick(false);
-    }
-  };
 
-  const handleEscapeKey = (event: any) => {
-    if (event.key === "Escape") {
-      onclick(false);
-    }
-  };
-  const nseBseMenu = (e: any) => {
+  const handleClickOutside = useCallback(
+    (event: any) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        onclick(false);
+      }
+    },
+    [onclick],
+  );
+
+  const handleEscapeKey = useCallback(
+    (event: any) => {
+      if (event.key === "Escape") {
+        onclick(false);
+      }
+    },
+    [onclick],
+  );
+
+  const nseBseMenu = useCallback((e: any) => {
     const selectedMenu = e.target.textContent.toLowerCase();
     setNseBseMenuSelect(selectedMenu);
-  };
-  const handleItemClick = (index: number) => {
+  }, []);
+
+  const handleItemClick = useCallback((index: number) => {
     setActiveItem(index);
-  };
-  const clickFilterMenu = (name: any, indexid: any) => {
-    const selectedTab = nseBseMenuSelect;
-    valuechange(indexid, name, selectedTab);
-  };
+  }, []);
+
+  const clickFilterMenu = useCallback(
+    (name: any, indexid: any) => {
+      const selectedTab = nseBseMenuSelect;
+      valuechange(indexid, name, selectedTab);
+    },
+    [nseBseMenuSelect, valuechange],
+  );
+
   useEffect(() => {
     if (showFilter) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -77,13 +103,59 @@ export default function StockFilterNifty({
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEscapeKey);
     };
-  }, [showFilter]);
+  }, [showFilter, handleClickOutside, handleEscapeKey]);
+
+  const renderSection = (sectionData: any, sectionIndex: number) => {
+    return (
+      <li
+        onClick={() => handleItemClick(sectionIndex)}
+        className={activeItem === sectionIndex ? styles.active : ""}
+      >
+        <div className={styles.subMenu}>
+          <div className={styles.mainTxt}>
+            {sectionData.name} <i className="eticon_caret_right"></i>
+          </div>
+          <ul className={styles.subMenuItem}>
+            {(sectionData.nse || []).map((item: any, i: any) => (
+              <li
+                key={i}
+                onClick={() => clickFilterMenu(item.name, item.indexId)}
+                className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""}`}
+              >
+                {item.name}{" "}
+                {childMenuTabActive === item.indexId && (
+                  <span className={styles.selectedMenu}>
+                    <i className="eticon_tick"></i>
+                  </span>
+                )}
+              </li>
+            ))}
+            {(sectionData.bse || []).map((item: any, i: any) => (
+              <li
+                key={i}
+                onClick={() => clickFilterMenu(item.name, item.indexId)}
+                className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""}`}
+              >
+                {item.name}
+                {childMenuTabActive === item.indexId && (
+                  <span className={styles.selectedMenu}>
+                    <i className="eticon_tick"></i>
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </li>
+    );
+  };
+
   return (
     <div className={styles.moduleWrap}>
       <div className={styles.filterWrap} ref={popupRef}>
         <div className={styles.topSec}>
           <div className={styles.leftSec}>
-            <span>Filter</span>
+            <span>Filters</span>
           </div>
           <div className={styles.rightSec}>
             <ul className={styles.menuNseBse}>
@@ -104,156 +176,28 @@ export default function StockFilterNifty({
         </div>
         <div className={styles.bottomSec}>
           <ul className={styles.filterMenu}>
-            {data && data.keyIndices && (
+            {(data?.keyIndices || {}).nse &&
+              (data?.keyIndices || {}).bse &&
+              renderSection(data.keyIndices, 0)}
+            {(data?.sectoralIndices || {}).nse &&
+              (data?.sectoralIndices || {}).bse &&
+              renderSection(data.sectoralIndices, 1)}
+            {(data?.otherIndices || {}).nse &&
+              (data?.otherIndices || {}).bse &&
+              renderSection(data.otherIndices, 2)}
+            {(data?.marketcap || {}).nse &&
+              (data?.marketcap || {}).bse &&
+              renderSection(data.marketcap, 3)}
+            {(data?.all || {}).name && (
               <li
-                onClick={() => handleItemClick(0)}
-                className={activeItem === 0 ? styles.active : ""}
-              >
-                <div className={styles.subMenu}>
-                  <div className={styles.mainTxt}>{data.keyIndices.name}</div>
-                  <ul className={`${styles.subMenuItem} customeScroll}`}>
-                    {data.keyIndices.nse.map((item: any, i: any) => {
-                      return (
-                        <li
-                          key={i}
-                          onClick={() =>
-                            clickFilterMenu(item.name, item.indexId)
-                          }
-                          className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                            childMenuTabActive === item.indexId
-                              ? styles.selectedMenu
-                              : ""
-                          }`}
-                        >
-                          {item.name}
-                        </li>
-                      );
-                    })}
-                    {data.keyIndices.bse.map((item: any, i: any) => {
-                      return (
-                        <li
-                          key={i}
-                          onClick={() =>
-                            clickFilterMenu(item.name, item.indexId)
-                          }
-                          className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                            childMenuTabActive === item.indexId
-                              ? styles.selectedMenu
-                              : ""
-                          }`}
-                        >
-                          {item.name}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              </li>
-            )}
-            {data && data.sectoralIndices && (
-              <li
-                onClick={() => handleItemClick(1)}
-                className={activeItem === 1 ? styles.active : ""}
-              >
-                <div className={styles.subMenu}>
-                  <div className={styles.mainTxt}>
-                    {data.sectoralIndices.name}
-                  </div>
-                  <ul className={`${styles.subMenuItem} customeScroll}`}>
-                    {data.sectoralIndices.nse.map((item: any, i: any) => {
-                      return (
-                        <li
-                          key={i}
-                          onClick={() =>
-                            clickFilterMenu(item.name, item.indexId)
-                          }
-                          className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                            childMenuTabActive === item.indexId
-                              ? styles.selectedMenu
-                              : ""
-                          }`}
-                        >
-                          {item.name}
-                        </li>
-                      );
-                    })}
-                    {data.sectoralIndices.bse.map((item: any, i: any) => {
-                      return (
-                        <li
-                          key={i}
-                          onClick={() =>
-                            clickFilterMenu(item.name, item.indexId)
-                          }
-                          className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                            childMenuTabActive === item.indexId
-                              ? styles.selectedMenu
-                              : ""
-                          }`}
-                        >
-                          {item.name}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              </li>
-            )}
-            {data && data.otherIndices && (
-              <li
-                onClick={() => handleItemClick(2)}
-                className={activeItem === 2 ? styles.active : ""}
-              >
-                <div className={styles.subMenu}>
-                  <div className={styles.mainTxt}>{data.otherIndices.name}</div>
-                  <ul className={`${styles.subMenuItem} customeScroll}`}>
-                    {data.otherIndices.nse.map((item: any, i: any) => {
-                      return (
-                        <li
-                          key={i}
-                          onClick={() =>
-                            clickFilterMenu(item.name, item.indexId)
-                          }
-                          className={`${nseBseMenuSelect === "nse" ? styles.activelist : ""} ${
-                            childMenuTabActive === item.indexId
-                              ? styles.selectedMenu
-                              : ""
-                          }`}
-                        >
-                          {item.name}
-                        </li>
-                      );
-                    })}
-                    {data.otherIndices.bse.map((item: any, i: any) => {
-                      return (
-                        <li
-                          key={i}
-                          onClick={() =>
-                            clickFilterMenu(item.name, item.indexId)
-                          }
-                          className={`${nseBseMenuSelect === "bse" ? styles.activelist : ""} ${
-                            childMenuTabActive === item.indexId
-                              ? styles.selectedMenu
-                              : ""
-                          }`}
-                        >
-                          {item.name}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              </li>
-            )}
-            {data && data.all && (
-              <li
-                onClick={() => handleItemClick(3)}
-                className={activeItem === 3 ? styles.active : ""}
+                onClick={() => handleItemClick(4)}
+                className={activeItem === 4 ? styles.active : ""}
               >
                 <div
                   className={styles.subMenu}
-                  onClick={() => clickFilterMenu(`${data.all.name} Stocks`, 0)}
+                  onClick={() => clickFilterMenu(data.all.name, 0)}
                 >
-                  <div className={styles.mainTxt}>{data.all.name} Stocks</div>
+                  <div className={styles.mainTxt}>{data.all.name}</div>
                 </div>
               </li>
             )}

@@ -25,25 +25,35 @@ export async function generateMetadata(
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
   const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
-  let L3NavSubItem, duration, intFilter, actualUrl;
+  let L3NavSubItem, duration, _filter, actualUrl;
   if (shortUrl) {
     actualUrl = pageData?.longURL;
     const requestParams = getSearchParams(actualUrl);
     L3NavSubItem = pageData?.requestParams?.type;
     duration = requestParams?.duration;
-    intFilter = requestParams.filter ? parseInt(requestParams.filter) : 0;
+    _filter =
+      requestParams.filter !== undefined && !isNaN(Number(requestParams.filter))
+        ? parseInt(requestParams.filter)
+        : requestParams.filter !== undefined
+          ? requestParams.filter
+          : 0;
   } else {
     L3NavSubItem = searchParams?.type?.toLowerCase();
     duration = searchParams.duration
       ? searchParams.duration.toUpperCase()
       : null;
-    intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
+    _filter =
+      searchParams.filter !== undefined && !isNaN(Number(searchParams.filter))
+        ? parseInt(searchParams.filter)
+        : searchParams.filter !== undefined
+          ? searchParams.filter
+          : 0;
     actualUrl = pageUrl;
   }
 
   const { metaData } = await getMarketStatsNav({
     L3NavSubItem,
-    intFilter,
+    _filter,
     duration,
   });
 
@@ -66,35 +76,45 @@ const Intraday = async ({ searchParams }: any) => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
   const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
-  let L3NavMenuItem, L3NavSubItem, duration, intFilter, actualUrl;
+  let L3NavMenuItem, L3NavSubItem, duration, _filter, actualUrl;
   if (shortUrl) {
     actualUrl = pageData?.longURL;
     const requestParams = getSearchParams(actualUrl);
     L3NavMenuItem = pageData?.l3NavMenuItem;
     L3NavSubItem = requestParams?.type;
     duration = requestParams?.duration;
-    intFilter = requestParams.filter ? parseInt(requestParams.filter) : 0;
+    _filter =
+      requestParams.filter !== undefined && !isNaN(Number(requestParams.filter))
+        ? parseInt(requestParams.filter)
+        : requestParams.filter !== undefined
+          ? requestParams.filter
+          : 0;
   } else {
     L3NavMenuItem = "intraday";
     L3NavSubItem = searchParams?.type?.toLowerCase();
     duration = searchParams.duration
       ? searchParams.duration.toUpperCase()
       : null;
-    intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
+    _filter =
+      searchParams.filter !== undefined && !isNaN(Number(searchParams.filter))
+        ? parseInt(searchParams.filter)
+        : searchParams.filter !== undefined
+          ? searchParams.filter
+          : 0;
     actualUrl = pageUrl;
   }
 
   const cookieStore = cookies();
   const isprimeuser = cookieStore.get("isprimeuser")?.value === "true";
   const ssoid = cookieStore.get("ssoid")?.value;
-  const filter = !!intFilter ? [intFilter] : [];
+  const filter = !!_filter ? [_filter] : [];
   const pagesize = 100;
   const pageno = 1;
   const sort: any = [];
 
   const { l3Nav, metaData } = await getMarketStatsNav({
     L3NavSubItem,
-    intFilter,
+    _filter,
     duration,
   });
 
@@ -108,7 +128,8 @@ const Intraday = async ({ searchParams }: any) => {
     apiType: L3NavSubItem,
     ...(duration ? { duration } : {}), // Conditional inclusion of duration
     filterValue: filter,
-    filterType: !!filter && filter.length ? "index" : null,
+    filterType:
+      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
     sort,
     pagesize,
     pageno,
@@ -122,7 +143,7 @@ const Intraday = async ({ searchParams }: any) => {
       "MARKETSTATS_INTRADAY",
     );
 
-  const selectedFilter = await fetchSelectedFilter(intFilter);
+  const selectedFilter = await fetchSelectedFilter(_filter);
 
   const title = !!shortUrl ? pageData?.heading : metaData[0]?.title;
   const desc = !!shortUrl ? pageData?.desc : metaData[0]?.desc;

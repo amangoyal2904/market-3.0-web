@@ -31,30 +31,23 @@ const DayFitler = ({ selectedDay, setDayFilterShow, filterHandler }: any) => {
   }, [setDayFilterShow]);
   return (
     <>
-      <div className={`${styles.dayFilter}`}>
-        <div className={`${styles.wrap}`} ref={popupRef}>
-          <div className={`${styles.header}`}>Select Date Range</div>
-          <div className={`moduleBody ${styles.body}`}>
-            <ul>
-              {FilterRadioData.map((item: any) => {
-                return (
-                  <li key={item.id}>
-                    <input
-                      id={item.id}
-                      onChange={() =>
-                        dayOnChangeHandler(item.value, item.label)
-                      }
-                      type="radio"
-                      checked={selectedDay.value === item.value}
-                      name="dayFilter"
-                      value={item.value}
-                    />
-                    <label htmlFor={item.id}>{item.label}</label>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+      <div className={`${styles.dayFilter}`} ref={popupRef}>
+        <div className={`moduleBody ${styles.body}`}>
+          <ul>
+            {FilterRadioData.map((item: any, index: number) => {
+              return (
+                <li
+                  key={index}
+                  onClick={() => dayOnChangeHandler(item.value, item.label)}
+                  className={
+                    selectedDay.value === item.value ? styles.active : ""
+                  }
+                >
+                  {item.label}
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </>

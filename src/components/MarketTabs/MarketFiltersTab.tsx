@@ -135,7 +135,6 @@ const MarketFiltersTab = ({
     setAddStockShow(true);
   };
   const dayFilterHandler = () => {
-    console.log("you write here you filer rule");
     setDayFilterShow(true);
   };
   const filterChangeHandler = (value: any, label: any) => {
@@ -153,7 +152,7 @@ const MarketFiltersTab = ({
     filterDataChange(id, name, selectedTab);
   };
   const filterApiCall = async () => {
-    const data = await fetchFilters({ all: true });
+    const data = await fetchFilters({ all: true, marketcap: true });
     setFilterMenuData(data);
   };
   useEffect(() => {
@@ -209,11 +208,13 @@ const MarketFiltersTab = ({
           ""
         )}
         {showDuration && !!dayFilterData.value ? (
-          <div
-            className={`${styles.roundBtn} ${styles.fitlerDay}`}
-            onClick={() => dayFilterHandler()}
-          >
-            {dayFilterData.label} <i className="eticon_caret_down"></i>
+          <div className="prel">
+            <span
+              className={`${styles.roundBtn} ${styles.fitlerDay}`}
+              onClick={() => dayFilterHandler()}
+            >
+              {dayFilterData.label} <i className="eticon_caret_down"></i>
+            </span>
             {dayFilterShow ? (
               <DayFitler
                 setDayFilterShow={setDayFilterShow}
