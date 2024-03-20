@@ -292,7 +292,7 @@ const MarketMoodsClient = ({
             );
           })}
         </ul>
-        {(isLogin || isprimeuser) && (
+        {(isPrime || isprimeuser) && (
           <span
             className={`${styles.roundBtn} ${styles.filterNseBse}`}
             onClick={() => showFilterMenu(true)}
@@ -303,11 +303,11 @@ const MarketMoodsClient = ({
       </div>
       <div
         className={`${styles.wrapper} ${
-          !(isLogin || isprimeuser) ? styles.center : ""
+          !(isPrime || isprimeuser) ? styles.center : ""
         }`}
       >
         {loading && <Loader loaderType="container" />}
-        {!(isLogin || isprimeuser) ? (
+        {!(isPrime || isprimeuser) ? (
           <>
             {payWallMarketMood.map((item: any, index: number) => (
               <div
@@ -337,7 +337,7 @@ const MarketMoodsClient = ({
                   >
                     Subscribe
                   </Link>
-                  {!isLogin && (
+                  {!isPrime && (
                     <p className={styles.defaultLink}>
                       Already a Member?
                       <span
