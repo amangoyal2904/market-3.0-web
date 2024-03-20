@@ -1,9 +1,13 @@
-import { durationOptions } from "@/utils/utility";
 import styles from "./DayFilter.module.scss";
 import { useRef, useEffect, useState } from "react";
 
-const DayFitler = ({ selectedDay, setDayFilterShow, filterHandler }: any) => {
-  const FilterRadioData = durationOptions;
+const DayFitler = ({
+  selectedDay,
+  setDayFilterShow,
+  filterHandler,
+  intradayDurationOptions,
+}: any) => {
+  const FilterRadioData = intradayDurationOptions;
   const popupRef = useRef<HTMLDivElement | null>(null);
   const handleClickOutside = (event: any) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {

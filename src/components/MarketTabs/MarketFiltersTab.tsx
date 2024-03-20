@@ -41,12 +41,12 @@ const MarketFiltersTab = ({
   removePersonaliseView,
   createNewScreener,
   getIndustryFilterValue,
+  intradayDurationOptions,
 }: any) => {
   const {
     showAddStock,
     showEditStock,
     showIndexFilter,
-    showDuration,
     showPersonalize,
     showExport,
     showCreateScreener,
@@ -207,7 +207,7 @@ const MarketFiltersTab = ({
         ) : (
           ""
         )}
-        {showDuration && !!dayFilterData.value ? (
+        {!!intradayDurationOptions && intradayDurationOptions.length ? (
           <div className="prel">
             <span
               className={`${styles.roundBtn} ${styles.fitlerDay}`}
@@ -220,6 +220,7 @@ const MarketFiltersTab = ({
                 setDayFilterShow={setDayFilterShow}
                 selectedDay={dayFilterData}
                 filterHandler={filterChangeHandler}
+                intradayDurationOptions={intradayDurationOptions}
               />
             ) : (
               ""

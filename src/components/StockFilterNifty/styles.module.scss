@@ -114,6 +114,9 @@
           }
           .activelist {
             display: block;
+            & + .activelist {
+              border-top: dashed 1px $gray-70;
+            }
           }
         }
       }
@@ -177,7 +180,6 @@
       font-weight: 500;
       line-height: normal;
       padding: 15px 24px 15px 15px;
-      border-bottom: dashed 1px $gray-70;
       cursor: pointer;
       &:last-child {
         border-bottom: none;
