@@ -19,6 +19,8 @@ export const durationOptions = [
   { label: "3 Months", value: "3M", id: 4 },
   { label: "6 Months", value: "6M", id: 5 },
   { label: "1 Year", value: "1Y", id: 6 },
+  { label: "3 Years", value: "3Y", id: 7 },
+  { label: "5 Years", value: "5Y", id: 8 },
 ];
 
 export const updateOrAddParamToPath = (
@@ -395,12 +397,15 @@ export const fetchSelectedFilter = async (
     ...data.marketcap.bse,
   ];
   let foundIndex;
-  if (!isNaN(seoNameOrIndexId as number)) {
+  if (
+    !isNaN(seoNameOrIndexId as number) ||
+    typeof seoNameOrIndexId === "string"
+  ) {
     foundIndex = allIndices.find(
-      (index) => index.indexId == (seoNameOrIndexId as number),
+      (index) =>
+        index.indexId === String(seoNameOrIndexId) ||
+        index.seoname === seoNameOrIndexId,
     );
-  } else if (typeof seoNameOrIndexId === "string") {
-    foundIndex = allIndices.find((index) => index.seoname == seoNameOrIndexId);
   }
 
   if (foundIndex) {
@@ -428,7 +433,7 @@ export const fetchSelectedFilter = async (
       exchange: exchange,
     };
   } else {
-    return { name: "All Stocks", indexId: 0, seoname: "", selectedTab: "nse" };
+    return { name: "All Stocks", indexId: 0, seoname: "", exchange: "nse" };
   }
 };
 

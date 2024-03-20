@@ -145,10 +145,23 @@ const MarketStats = ({
     const url = actualUrl;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
     router.push(newUrl, { scroll: false });
-    const selectedFilter = await fetchSelectedFilter(id);
+    const filter =
+      id !== undefined && !isNaN(Number(id))
+        ? parseInt(id)
+        : id !== undefined
+          ? id
+          : 0;
+    const filterType =
+      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap";
+    const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     updateL3NAV(id, _payload.duration);
-    setPayload({ ..._payload, filterValue: [id], pageno: 1 });
+    setPayload({
+      ..._payload,
+      filterValue: [filter],
+      filterType: filterType,
+      pageno: 1,
+    });
   };
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
