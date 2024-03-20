@@ -148,14 +148,13 @@ const MarketStats = ({
   const onTabViewUpdate = async (viewId: any) => {
     setProcessingLoader(true);
     setActiveViewId(viewId);
-    setPayload({ ..._payload, viewId: viewId, pageno: 1 });
+    setPayload({ ..._payload, viewId: viewId, sort: [], pageno: 1 });
   };
 
   const filterDataChangeHander = async (id: any) => {
     setProcessingLoader(true);
     const url = actualUrl;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
-    router.push(newUrl, { scroll: false });
     const filter =
       id !== undefined && !isNaN(Number(id))
         ? parseInt(id)
@@ -167,12 +166,7 @@ const MarketStats = ({
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     updateL3NAV(id, _payload.duration);
-    setPayload({
-      ..._payload,
-      filterValue: [filter],
-      filterType: filterType,
-      pageno: 1,
-    });
+    router.push(newUrl, { scroll: false });
   };
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
@@ -181,27 +175,40 @@ const MarketStats = ({
       const url = actualUrl;
       const newDuration = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
-      router.push(newUrl, { scroll: false });
       updateL3NAV(_payload.filterValue[0], newDuration);
-      setPayload({ ..._payload, duration: newDuration, pageno: 1 });
+      router.push(newUrl, { scroll: false });
     } else if (l3NavSubItem == "volume-shockers") {
       const url = actualUrl;
       const newTimespan = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "timespan", newTimespan);
       router.push(newUrl, { scroll: false });
-      setPayload({ ..._payload, timespan: value.toUpperCase(), pageno: 1 });
     } else if (
       l3NavSubItem == "hourly-gainers" ||
       l3NavSubItem == "hourly-losers"
     ) {
-      setPayload({ ..._payload, timespan: value.toUpperCase(), pageno: 1 });
+      setPayload({
+        ..._payload,
+        timespan: value.toUpperCase(),
+        sort: [],
+        pageno: 1,
+      });
     }
   };
 
-  const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
+  const tabsChangeHandler = async (tabIdActive: any) => {
     setProcessingLoader(true);
     const { tabData } = await getCustomViewsTab({
-      L3NavSubItem: l3NavSubItem,
+      L3NavSubItem: !isTechnical ? l3NavSubItem : null,
+      firstOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.firstOperand
+        : null,
+      operationType: isTechnical
+        ? technicalCategory?.selectedFilter?.operationType
+        : null,
+      secondOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.secondOperand
+        : null,
+      ssoid: getCookie("ssoid"),
     });
     setTabData(tabData);
     setActiveViewId(tabIdActive);
@@ -223,7 +230,16 @@ const MarketStats = ({
     }
 
     const { tabData, activeViewId } = await getCustomViewsTab({
-      L3NavSubItem: l3NavSubItem,
+      L3NavSubItem: !isTechnical ? l3NavSubItem : null,
+      firstOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.firstOperand
+        : null,
+      operationType: isTechnical
+        ? technicalCategory?.selectedFilter?.operationType
+        : null,
+      secondOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.secondOperand
+        : null,
       ssoid: getCookie("ssoid"),
     });
 
@@ -265,6 +281,7 @@ const MarketStats = ({
       firstOperand: firstOperand,
       operationType: operationType,
       secondOperand: secondOperand,
+      sort: [],
       pageno: 1,
     });
   };
@@ -305,36 +322,26 @@ const MarketStats = ({
   useEffect(() => {
     setProcessingLoader(true);
     if (areObjectsNotEqual(_payload, payload)) {
-      let newPaylaod = { viewId: "" };
       if (isTechnical) {
         const { firstOperand, operationType, secondOperand } =
           technicalCategory?.selectedFilter;
-        newPaylaod = {
-          ..._payload,
-          firstOperand,
-          operationType,
-          secondOperand,
-        };
         setTechnicalCategory(technicalCategory);
-      } else {
-        if (_payload.apiType != payload.apiType) {
-          newPaylaod = {
-            ...payload,
-          };
+        if (payload.apiType != _payload.apiType) {
+          tabsChangeHandler(payload.viewId);
+          setPayload({ ...payload });
         } else {
-          newPaylaod = {
-            ..._payload,
-          };
+          setPayload({ ...payload, viewId: _payload.viewId });
         }
+      } else {
         setDayFilterData(getSelectedDuration);
+        if (payload.apiType != _payload.apiType) {
+          tabsChangeHandler(payload.viewId);
+          setPayload({ ...payload });
+        } else {
+          setPayload({ ...payload, viewId: _payload.viewId });
+        }
       }
-      TabsAndTableDataChangeHandler(newPaylaod.viewId);
       setMetaData(metaData);
-      setPayload({
-        ...newPaylaod,
-        pageno: 1,
-        sort: [],
-      });
     } else {
       setProcessingLoader(false);
     }
