@@ -53,60 +53,74 @@ const ScrollableBarsTableMarketMood = ({
               <td className={styles.withBar}>
                 {type == "advanceDecline" ? (
                   <>
-                    <div className={styles.bar}>
-                      {data.others.up > 0 && (
-                        <div
-                          className={styles.up}
-                          style={{ width: data.others.upChg }}
-                        >
-                          <span>{data.others.up}</span>
-                        </div>
-                      )}
-                      {data.others.down > 0 && (
-                        <div
-                          className={styles.down}
-                          style={{ width: data.others.downChg }}
-                        >
-                          <span>{data.others.down}</span>
-                        </div>
-                      )}
-                      {data.others.neutral > 0 && (
-                        <div
-                          className={styles.neutralGray}
-                          style={{ width: data.others.neutralChg }}
-                        >
-                          <span>{data.others.neutral}</span>
-                        </div>
-                      )}
-                    </div>
+                    {data.others.up == 0 &&
+                    data.others.down == 0 &&
+                    data.others.neutral == 0 ? (
+                      <div className={styles.noDataFound}>No Data Found</div>
+                    ) : (
+                      <div className={styles.bar}>
+                        {data.others.up > 0 && (
+                          <div
+                            className={styles.up}
+                            style={{ width: data.others.upChg }}
+                          >
+                            <span>{data.others.up}</span>
+                          </div>
+                        )}
+                        {data.others.down > 0 && (
+                          <div
+                            className={styles.down}
+                            style={{ width: data.others.downChg }}
+                          >
+                            <span>{data.others.down}</span>
+                          </div>
+                        )}
+                        {data.others.neutral > 0 && (
+                          <div
+                            className={styles.neutralGray}
+                            style={{ width: data.others.neutralChg }}
+                          >
+                            <span>{data.others.neutral}</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </>
                 ) : (
-                  <div className={styles.bar}>
-                    {data.others.down > 0 && (
-                      <div
-                        className={styles.down}
-                        style={{ width: data.others.downChg }}
-                      >
-                        <span>{data.others.down}</span>
+                  <>
+                    {data.others.up == 0 &&
+                    data.others.down == 0 &&
+                    data.others.neutral == 0 ? (
+                      <div className={styles.noDataFound}>No Data Found</div>
+                    ) : (
+                      <div className={styles.bar}>
+                        {data.others.down > 0 && (
+                          <div
+                            className={styles.down}
+                            style={{ width: data.others.downChg }}
+                          >
+                            <span>{data.others.down}</span>
+                          </div>
+                        )}
+                        {data.others.neutral > 0 && (
+                          <div
+                            className={styles.neutral}
+                            style={{ width: data.others.neutralChg }}
+                          >
+                            <span>{data.others.neutral}</span>
+                          </div>
+                        )}
+                        {data.others.up > 0 && (
+                          <div
+                            className={styles.up}
+                            style={{ width: data.others.upChg }}
+                          >
+                            <span>{data.others.up}</span>
+                          </div>
+                        )}
                       </div>
                     )}
-                    {data.others.neutral > 0 && (
-                      <div
-                        className={styles.neutral}
-                        style={{ width: data.others.neutralChg }}
-                      >
-                        <span>{data.others.neutral}</span>
-                      </div>
-                    )}
-                    {data.others.up > 0 && (
-                      <div
-                        className={styles.up}
-                        style={{ width: data.others.upChg }}
-                      >
-                        <span>{data.others.up}</span>
-                      </div>
-                    )}
-                  </div>
+                  </>
                 )}
               </td>
               <td className={styles.noData}></td>

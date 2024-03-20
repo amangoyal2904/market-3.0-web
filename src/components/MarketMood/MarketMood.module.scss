@@ -178,6 +178,11 @@
     }
     &.withBar {
       width: 625px;
+      .noDataFound {
+        font-size: 12px;
+        font-weight: 400;
+        text-align: center;
+      }
     }
     &.fullWidth {
       width: 100%;

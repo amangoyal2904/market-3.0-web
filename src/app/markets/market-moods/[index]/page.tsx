@@ -52,7 +52,7 @@ const MarketMoods = async ({ params }: any) => {
       advanceDecline={advanceDeclineData}
       periodic={periodicData}
       allFilters={allFilters}
-      isprimeuser={isprimeuser}
+      isprimeuser={true}
     />
   );
 };

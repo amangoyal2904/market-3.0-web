@@ -546,25 +546,28 @@ export const getAdvanceDeclineData = async (
   });
   const originalJson = await response?.json();
   return {
-    dataList: originalJson.searchresult.map((item: any) => ({
-      date: dateFormat(item.dateTime, "%d %MMM"),
-      indexPrice: formatNumber(item.currentIndexValue),
-      percentChange: item.percentChange.toFixed(2),
-      trend:
-        item.percentChange > 0
-          ? "up"
-          : item.percentChange < 0
-            ? "down"
-            : "neutral",
-      others: {
-        up: item.advances,
-        upChg: item.advancesPercentange + "%",
-        down: item.declines,
-        downChg: item.declinesPercentange + "%",
-        neutral: item.noChange,
-        neutralChg: item.noChangePercentage + "%",
-      },
-    })),
+    dataList: originalJson.searchresult.map((item: any) => {
+      const totalZonesSum = item.advances + item.declines + item.noChange;
+      return {
+        date: dateFormat(item.dateTime, "%d %MMM"),
+        indexPrice: formatNumber(item.currentIndexValue),
+        percentChange: item.percentChange.toFixed(2),
+        trend:
+          item.percentChange > 0
+            ? "up"
+            : item.percentChange < 0
+              ? "down"
+              : "neutral",
+        others: {
+          up: item.advances,
+          upChg: (item.advances / totalZonesSum) * 100 + "%",
+          down: item.declines,
+          downChg: (item.declines / totalZonesSum) * 100 + "%",
+          neutral: item.noChange,
+          neutralChg: (item.noChange / totalZonesSum) * 100 + "%",
+        },
+      };
+    }),
     pageSummary: originalJson.pagesummary,
   };
 };
