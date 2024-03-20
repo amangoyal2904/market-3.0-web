@@ -7,10 +7,62 @@ import {
 } from "@/utils/index";
 import { getCookie } from "@/utils/index";
 import Fingerprint2 from "fingerprintjs2";
-import { setCookies } from "./index";
 import Service from "@/network/service";
 
 const API_SOURCE = 0;
+
+export const getCurrentMarketStatus = async () => {
+  const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
+  const res = await Service.get({ url, params: {} });
+  if (res?.status === 200) {
+    return res?.json();
+  }
+};
+
+export const generateIntradayDurations = async (type: string) => {
+  const noDuration: any = [];
+  if (type == "gainers" || type == "losers") {
+    return durationOptions;
+  } else if (type == "hourly-gainers" || type == "hourly-losers") {
+    const { currentMarketStatus } = await getCurrentMarketStatus();
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+
+    if (
+      currentHour <= 9 ||
+      currentHour >= 15 ||
+      currentMarketStatus.toUpperCase() != "LIVE"
+    ) {
+      // If current time is before 09:00 or after 16:00 and if market is closed, return all items
+      return [
+        { label: "Current Hour", value: "" },
+        { label: "9:00 and 10:00", value: "9-10" },
+        { label: "10:00 and 11:00", value: "10-11" },
+        { label: "11:00 and 12:00", value: "11-12" },
+        { label: "13:00 and 14:00", value: "13-14" },
+        { label: "14:00 and 15:00", value: "14-15" },
+      ];
+    } else {
+      const hourOptions = [];
+      for (let i = 9; i < currentHour; i++) {
+        hourOptions.push({
+          label: `${i}:00 and ${i + 1}:00`,
+          value: `${i}-${i + 1}`,
+        });
+      }
+      return [{ label: "Current Hour", value: "" }, ...hourOptions];
+    }
+  } else if (type == "volume-shockers") {
+    return volumeShockersDurations;
+  }
+  return noDuration;
+};
+
+export const volumeShockersDurations = [
+  { label: "3 Days", value: "3D" },
+  { label: "7 Days", value: "7D" },
+  { label: "15 Days", value: "15D" },
+];
 
 export const durationOptions = [
   { label: "1 Day", value: "1D", id: 1 },

@@ -4,6 +4,7 @@ import { cookies, headers } from "next/headers";
 import {
   fetchSelectedFilter,
   fnGenerateMetaData,
+  generateIntradayDurations,
   getSearchParams,
 } from "@/utils/utility";
 import { Metadata, ResolvingMetadata } from "next";
@@ -25,12 +26,13 @@ export async function generateMetadata(
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
   const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
-  let L3NavSubItem, duration, _filter, actualUrl;
+  let L3NavSubItem, duration, timespan, _filter, actualUrl;
   if (shortUrl) {
     actualUrl = pageData?.longURL;
     const requestParams = getSearchParams(actualUrl);
     L3NavSubItem = pageData?.requestParams?.type;
     duration = requestParams?.duration;
+    timespan = requestParams?.timespan;
     _filter =
       requestParams.filter !== undefined && !isNaN(Number(requestParams.filter))
         ? parseInt(requestParams.filter)
@@ -41,6 +43,9 @@ export async function generateMetadata(
     L3NavSubItem = searchParams?.type?.toLowerCase();
     duration = searchParams.duration
       ? searchParams.duration.toUpperCase()
+      : null;
+    timespan = searchParams.timespan
+      ? searchParams.timespan.toUpperCase()
       : null;
     _filter =
       searchParams.filter !== undefined && !isNaN(Number(searchParams.filter))
@@ -76,13 +81,14 @@ const Intraday = async ({ searchParams }: any) => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
   const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
-  let L3NavMenuItem, L3NavSubItem, duration, _filter, actualUrl;
+  let L3NavMenuItem, L3NavSubItem, duration, timespan, _filter, actualUrl;
   if (shortUrl) {
     actualUrl = pageData?.longURL;
     const requestParams = getSearchParams(actualUrl);
     L3NavMenuItem = pageData?.l3NavMenuItem;
     L3NavSubItem = requestParams?.type;
     duration = requestParams?.duration;
+    timespan = requestParams?.timespan;
     _filter =
       requestParams.filter !== undefined && !isNaN(Number(requestParams.filter))
         ? parseInt(requestParams.filter)
@@ -94,6 +100,9 @@ const Intraday = async ({ searchParams }: any) => {
     L3NavSubItem = searchParams?.type?.toLowerCase();
     duration = searchParams.duration
       ? searchParams.duration.toUpperCase()
+      : null;
+    timespan = searchParams.timespan
+      ? searchParams.timespan.toUpperCase()
       : null;
     _filter =
       searchParams.filter !== undefined && !isNaN(Number(searchParams.filter))
@@ -127,6 +136,7 @@ const Intraday = async ({ searchParams }: any) => {
     viewId: activeViewId,
     apiType: L3NavSubItem,
     ...(duration ? { duration } : {}), // Conditional inclusion of duration
+    ...(timespan ? { timespan } : {}), // Conditional inclusion of timespan
     filterValue: filter,
     filterType:
       filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
@@ -153,7 +163,7 @@ const Intraday = async ({ searchParams }: any) => {
   };
 
   const shortUrlMapping = await getAllShortUrls();
-
+  const intradayDurationOptions = await generateIntradayDurations(L3NavSubItem);
   return (
     <>
       <MarketStats
@@ -176,6 +186,7 @@ const Intraday = async ({ searchParams }: any) => {
         l3NavSubItem={L3NavSubItem}
         actualUrl={actualUrl}
         shortUrlMapping={shortUrlMapping}
+        intradayDurationOptions={intradayDurationOptions}
       />
     </>
   );

@@ -14,11 +14,7 @@ import {
 import ToasterPopup from "@/components/ToasterPopup";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useStateContext } from "@/store/StateContext";
-import {
-  durationOptions,
-  fetchViewTable,
-  updateOrAddParamToPath,
-} from "@/utils/utility";
+import { fetchViewTable, updateOrAddParamToPath } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import TechincalOperands from "@/components/TechincalOperands";
@@ -48,17 +44,14 @@ const MarketStats = ({
   l3NavSubItem = null,
   actualUrl = null,
   shortUrlMapping = [],
+  intradayDurationOptions = [],
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [dayFilterData, setDayFilterData] = useState({
-    value: payload?.duration,
-    label: durationOptions.find((option) => option.value === payload?.duration)
-      ?.label,
-  });
+
   const { state, dispatch } = useStateContext();
-  const { isLogin, userInfo, ssoReady, isPrime } = state.login;
+  const { isLogin, isPrime } = state.login;
   const [_payload, setPayload] = useState(payload);
   const [_tabData, setTabData] = useState(tabData);
   const [_l3Nav, setL3Nav] = useState(l3Nav);
@@ -78,6 +71,23 @@ const MarketStats = ({
   const [modalBodyText, setModalBodyText] = useState({
     title: "You have Successfully created your personalise view",
   });
+  const getSelectedDuration = () => {
+    if (intradayDurationOptions.length) {
+      let label = intradayDurationOptions[0]?.label;
+      let value = payload?.duration;
+      const isExist = intradayDurationOptions.find(
+        (option: any) => option.value === value,
+      );
+      if (isExist && isExist.length) {
+        label = isExist?.label;
+      } else {
+        value = intradayDurationOptions[0]?.value;
+      }
+      return { value, label };
+    }
+    return { value: "", label: "" };
+  };
+  const [dayFilterData, setDayFilterData] = useState(getSelectedDuration);
   const updateTableData = async () => {
     const responseData: any = await fetchViewTable(
       { ..._payload },
@@ -166,12 +176,25 @@ const MarketStats = ({
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
     setProcessingLoader(true);
-    const url = actualUrl;
-    const newDuration = value.toUpperCase();
-    const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
-    router.push(newUrl, { scroll: false });
-    updateL3NAV(_payload.filterValue[0], newDuration);
-    setPayload({ ..._payload, duration: newDuration, pageno: 1 });
+    if (l3NavSubItem == "gainers" || l3NavSubItem == "losers") {
+      const url = actualUrl;
+      const newDuration = value.toUpperCase();
+      const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
+      router.push(newUrl, { scroll: false });
+      updateL3NAV(_payload.filterValue[0], newDuration);
+      setPayload({ ..._payload, duration: newDuration, pageno: 1 });
+    } else if (l3NavSubItem == "volume-shockers") {
+      const url = actualUrl;
+      const newTimespan = value.toUpperCase();
+      const newUrl = updateOrAddParamToPath(url, "timespan", newTimespan);
+      router.push(newUrl, { scroll: false });
+      setPayload({ ..._payload, timespan: value.toUpperCase(), pageno: 1 });
+    } else if (
+      l3NavSubItem == "hourly-gainers" ||
+      l3NavSubItem == "hourly-losers"
+    ) {
+      setPayload({ ..._payload, timespan: value.toUpperCase(), pageno: 1 });
+    }
   };
 
   const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
@@ -345,6 +368,7 @@ const MarketStats = ({
               setDayFilterData={setDayFilterData}
               onPersonalizeHandler={onPersonalizeHandlerfun}
               removePersonaliseView={removePersonaliseViewFun}
+              intradayDurationOptions={intradayDurationOptions}
             />
           </div>
           <MarketTable
