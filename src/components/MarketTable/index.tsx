@@ -249,6 +249,7 @@ const MarketTable = (props: propsType) => {
       setTableDataList([]);
       setTableHeaderData([]);
       setPageSummary({});
+      if (!loaderOff) setLoaderOff(true);
     }
     setHeaderSticky(0);
     const isPrime = getCookie("isprimeuser") == "true" ? true : false;
@@ -305,10 +306,13 @@ const MarketTable = (props: propsType) => {
         )}
       </div>
       {tableDataList.length == 0 && tableHeaderData.length == 0 ? (
-        <Blocker
-          type={tableConfig.name == "watchList" ? "noStocks" : "noDataFound"}
-          updateTableHander={updateTableHander}
-        />
+        <div className="prel">
+          {!!processingLoader && <Loader loaderType="container" />}
+          <Blocker
+            type={tableConfig.name == "watchList" ? "noStocks" : "noDataFound"}
+            updateTableHander={updateTableHander}
+          />
+        </div>
       ) : (
         _pageSummary &&
         _pageSummary.totalpages > 1 && (
@@ -319,7 +323,10 @@ const MarketTable = (props: propsType) => {
         )
       )}
       {tableDataList.length == 0 && tableHeaderData.length != 0 && (
-        <Blocker type={"noDataFound"} updateTableHander={updateTableHander} />
+        <div className="prel">
+          {!!processingLoader && <Loader loaderType="container" />}
+          <Blocker type={"noDataFound"} updateTableHander={updateTableHander} />
+        </div>
       )}
       {!loaderOff && loader && <Loader loaderType={loaderType} />}
     </>

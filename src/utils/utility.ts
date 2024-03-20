@@ -24,16 +24,16 @@ export const generateIntradayDurations = async (type: string) => {
   if (type == "gainers" || type == "losers") {
     return durationOptions;
   } else if (type == "hourly-gainers" || type == "hourly-losers") {
-    const { currentMarketStatus } = await getCurrentMarketStatus();
+    const { marketStatus } = await getCurrentMarketStatus();
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
 
     if (
       currentHour <= 9 ||
-      currentHour >= 15 ||
-      currentMarketStatus.toUpperCase() != "LIVE"
+      currentHour >= 16 ||
+      marketStatus.toUpperCase() != "ON"
     ) {
-      // If current time is before 09:00 or after 16:00 and if market is closed, return all items
+      // If current time is before 09:00 or after 16:00 and if market is off, return all items
       return [
         { label: "Current Hour", value: "" },
         { label: "9:00 and 10:00", value: "9-10" },
@@ -41,6 +41,7 @@ export const generateIntradayDurations = async (type: string) => {
         { label: "11:00 and 12:00", value: "11-12" },
         { label: "13:00 and 14:00", value: "13-14" },
         { label: "14:00 and 15:00", value: "14-15" },
+        { label: "15:00 and 16:00", value: "15-16" },
       ];
     } else {
       const hourOptions = [];

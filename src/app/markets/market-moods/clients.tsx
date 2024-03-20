@@ -38,10 +38,10 @@ const MarketMoodsClient = ({
   advanceDecline = {},
   periodic = {},
   allFilters = {},
-  isprimeuser = false,
+  isprimeuser = true,
 }: any) => {
   const { state } = useStateContext();
-  const { isLogin, isPrime } = state.login;
+  const { isLogin, isPrime = true } = state.login;
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

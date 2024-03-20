@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { areObjectsNotEqual, getCookie } from "@/utils";
 import {
   fetchSelectedFilter,
+  generateIntradayDurations,
   removePersonalizeViewById,
 } from "@/utils/utility";
 import ToasterPopup from "@/components/ToasterPopup";
@@ -49,7 +50,6 @@ const MarketStats = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-
   const { state, dispatch } = useStateContext();
   const { isLogin, isPrime } = state.login;
   const [_payload, setPayload] = useState(payload);
@@ -71,14 +71,15 @@ const MarketStats = ({
   const [modalBodyText, setModalBodyText] = useState({
     title: "You have Successfully created your personalise view",
   });
+
   const getSelectedDuration = () => {
     if (intradayDurationOptions.length) {
       let label = intradayDurationOptions[0]?.label;
-      let value = payload?.duration;
+      let value = payload?.duration || payload?.timespan;
       const isExist = intradayDurationOptions.find(
         (option: any) => option.value === value,
       );
-      if (isExist && isExist.length) {
+      if (!!isExist) {
         label = isExist?.label;
       } else {
         value = intradayDurationOptions[0]?.value;
@@ -205,6 +206,7 @@ const MarketStats = ({
     setTabData(tabData);
     setActiveViewId(tabIdActive);
   };
+
   const onPersonalizeHandlerfun = async (newActiveId: any = "", mode = "") => {
     if (mode === "update") {
       setModalBodyText({
@@ -219,7 +221,7 @@ const MarketStats = ({
       });
       setShowModalMessage(true);
     }
-    setProcessingLoader(true);
+
     const { tabData, activeViewId } = await getCustomViewsTab({
       L3NavSubItem: l3NavSubItem,
       ssoid: getCookie("ssoid"),
@@ -293,7 +295,6 @@ const MarketStats = ({
     }
   };
   useEffect(() => {
-    setProcessingLoader(true);
     updateTableData();
     const intervalId = setInterval(() => {
       updateTableData();
@@ -302,6 +303,7 @@ const MarketStats = ({
   }, [_payload]);
 
   useEffect(() => {
+    setProcessingLoader(true);
     if (areObjectsNotEqual(_payload, payload)) {
       let newPaylaod = {
         ...payload,
@@ -316,12 +318,15 @@ const MarketStats = ({
           operationType,
           secondOperand,
         };
+      } else {
+        setDayFilterData(getSelectedDuration);
       }
-      setPayload(newPaylaod);
       setMetaData(metaData);
       setTechnicalCategory(technicalCategory);
+      setPayload(newPaylaod);
+    } else {
+      setProcessingLoader(false);
     }
-    setProcessingLoader(false);
   }, [searchParams]);
 
   return (
