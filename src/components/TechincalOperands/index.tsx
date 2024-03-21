@@ -1,8 +1,7 @@
-"use client";
 import { useEffect, useState } from "react";
 import styles from "./TechnicalOperands.module.scss";
 
-const TechincalOperands = ({
+const TechnicalOperands = ({
   technicalCategory,
   handleTechnicalOperands,
 }: any) => {
@@ -16,27 +15,45 @@ const TechincalOperands = ({
     technicalCategory.selectedFilter.secondOperand,
   );
 
-  const handleFirstOperandChange = (event: any) => {
-    setFirstOperand(event.target.value);
+  const handleFirstOperandChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    const selectedValue = event.target.value;
+    setFirstOperand(selectedValue);
+    // Disable selected option in second operand
+    setSecondOperand((prevSecondOperand: any) =>
+      prevSecondOperand === selectedValue ? "" : prevSecondOperand,
+    );
   };
 
-  const handleOperationTypeChange = (event: any) => {
+  const handleOperationTypeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
     setOperationType(event.target.value);
   };
 
-  const handleSecondOperandChange = (event: any) => {
-    setSecondOperand(event.target.value);
+  const handleSecondOperandChange = (
+    event:
+      | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const selectedValue = event.target.value;
+    setSecondOperand(selectedValue);
+    // Disable selected option in first operand
+    setFirstOperand((prevFirstOperand: any) =>
+      prevFirstOperand === selectedValue ? "" : prevFirstOperand,
+    );
   };
 
-  const handleTextChange = (e: any) => {
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    const validNum = /^\d+$/;
+    const validNum = /^\d*$/;
     if (validNum.test(value) || value === "") {
       setSecondOperand(value);
     }
   };
 
-  const onSumbitHandler = () => {
+  const handleSubmit = () => {
     handleTechnicalOperands({ firstOperand, secondOperand, operationType });
   };
 
@@ -55,7 +72,11 @@ const TechincalOperands = ({
       >
         {technicalCategory.firstOperands &&
           technicalCategory.firstOperands.map((item: any) => (
-            <option value={item.fieldName} key={item.fieldID}>
+            <option
+              value={item.fieldName}
+              key={item.fieldID}
+              disabled={secondOperand === item.fieldName}
+            >
               {item.displayName}
             </option>
           ))}
@@ -80,7 +101,11 @@ const TechincalOperands = ({
           onChange={handleSecondOperandChange}
         >
           {technicalCategory.secondOperands.map((item: any) => (
-            <option value={item.fieldName} key={item.fieldID}>
+            <option
+              value={item.fieldName}
+              key={item.fieldID}
+              disabled={firstOperand === item.fieldName}
+            >
               {item.displayName}
             </option>
           ))}
@@ -93,11 +118,11 @@ const TechincalOperands = ({
           onChange={handleTextChange}
         />
       )}
-      <div className={styles.blackCTA} onClick={onSumbitHandler}>
+      <div className={styles.blackCTA} onClick={handleSubmit}>
         Submit
       </div>
     </div>
   );
 };
 
-export default TechincalOperands;
+export default TechnicalOperands;

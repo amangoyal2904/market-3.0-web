@@ -62,20 +62,24 @@
     "production": "https://etapipre.indiatimes.com/api/indexfilters"
   },
   "MARKETS_CUSTOM_TAB": {
-    "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
-    "production": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview"
+    "development": "https://screener.indiatimes.com/screener/getwatchlistview",
+    "production": "https://screener.indiatimes.com/screener/getwatchlistview"
   },
   "MARKETS_CUSTOM_TABLE": {
-    "development": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData",
-    "production": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData"
+    "development": "https://screener.indiatimes.com/screener/watchlistData",
+    "production": "https://screener.indiatimes.com/screener/watchlistData"
   },
   "MARKETSTATS_TECHNICALS": {
-    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/technical-data",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/technical-data"
+    "development": "https://etapi.indiatimes.com/et-screener/technical-data",
+    "production": "https://etapi.indiatimes.com/et-screener/technical-data"
   },
   "MARKETSTATS_INTRADAY": {
-    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"
+    "development": "https://etapi.indiatimes.com/et-screener/intraday-stats",
+    "production": "https://etapi.indiatimes.com/et-screener/intraday-stats"
+  },
+  "MARKET_STATS_TECHNICAL_OPERANDS": {
+    "development": "https://etapi.indiatimes.com/et-screener/operands-data",
+    "production": "https://etapi.indiatimes.com/et-screener/operands-data"
   },
   "MARKETMOODS_OVERVIEW": {
     "development": "https://screener.indiatimes.com/screener/marketbreadth/overview",
@@ -220,10 +224,6 @@
     "production": [
       "https://marketservices.indiatimes.com/marketservices/companyshortdata"
     ]
-  },
-  "MARKET_STATS_TECHNICAL_OPERANDS": {
-    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/operands-data",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/operands-data"
   },
   "MARKET_STATS_SHORTURLS_MAPPING": {
     "development": "https://etapipre.indiatimes.com/api/shorturlmapping/marketstats",

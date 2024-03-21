@@ -193,7 +193,7 @@ const MarketStats = ({
     ) {
       setPayload({
         ..._payload,
-        timespan: value.toUpperCase(),
+        timespan: !!value ? value.toUpperCase() : null,
         pageno: 1,
       });
     }

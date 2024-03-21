@@ -41,14 +41,24 @@ export async function generateMetadata(
     firstOperand = requestParams?.firstoperand;
     operationType = requestParams?.operationtype;
     secondOperand = requestParams?.secondoperand;
-    intFilter = requestParams.filter ? parseInt(requestParams.filter) : 0;
+    intFilter =
+      requestParams.filter !== undefined && !isNaN(Number(requestParams.filter))
+        ? parseInt(requestParams.filter)
+        : requestParams.filter !== undefined
+          ? requestParams.filter
+          : 0;
   } else {
     L3NavMenuItem = params.technicals[0];
     L3NavSubItem = searchParams?.type?.toLowerCase();
     firstOperand = searchParams?.firstoperand;
     operationType = searchParams?.operationtype;
     secondOperand = searchParams?.secondoperand;
-    intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
+    intFilter =
+      searchParams.filter !== undefined && !isNaN(Number(searchParams.filter))
+        ? parseInt(searchParams.filter)
+        : searchParams.filter !== undefined
+          ? searchParams.filter
+          : 0;
     actualUrl = pageUrl;
   }
 
@@ -97,14 +107,24 @@ const Technicals = async ({ params, searchParams }: any) => {
     firstOperand = requestParams?.firstoperand;
     operationType = requestParams?.operationtype;
     secondOperand = requestParams?.secondoperand;
-    intFilter = requestParams.filter ? parseInt(requestParams.filter) : 0;
+    intFilter =
+      requestParams.filter !== undefined && !isNaN(Number(requestParams.filter))
+        ? parseInt(requestParams.filter)
+        : requestParams.filter !== undefined
+          ? requestParams.filter
+          : 0;
   } else {
     L3NavMenuItem = params.technicals[0];
     L3NavSubItem = searchParams?.type?.toLowerCase();
     firstOperand = searchParams?.firstoperand;
     operationType = searchParams?.operationtype;
     secondOperand = searchParams?.secondoperand;
-    intFilter = searchParams.filter ? parseInt(searchParams.filter) : 0;
+    intFilter =
+      searchParams.filter !== undefined && !isNaN(Number(searchParams.filter))
+        ? parseInt(searchParams.filter)
+        : searchParams.filter !== undefined
+          ? searchParams.filter
+          : 0;
     actualUrl = pageUrl;
   }
 
@@ -135,7 +155,8 @@ const Technicals = async ({ params, searchParams }: any) => {
     operationType,
     secondOperand,
     filterValue: filter,
-    filterType: !!filter && filter.length ? "index" : null,
+    filterType:
+      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
     sort,
     pagesize,
     pageno,
