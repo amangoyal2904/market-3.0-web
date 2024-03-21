@@ -549,7 +549,10 @@ export const getAdvanceDeclineData = async (
     dataList: originalJson.searchresult.map((item: any) => {
       const totalZonesSum = item.advances + item.declines + item.noChange;
       return {
-        date: dateFormat(item.dateTime, "%d %MMM"),
+        date:
+          duration == "monthly"
+            ? dateFormat(item.dateTime, "%MMM %Y")
+            : dateFormat(item.dateTime, "%d %MMM"),
         indexPrice: formatNumber(item.currentIndexValue),
         percentChange: item.percentChange.toFixed(2),
         trend:
