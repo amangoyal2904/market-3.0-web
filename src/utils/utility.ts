@@ -35,13 +35,13 @@ export const generateIntradayDurations = async (type: string) => {
     ) {
       // If current time is before 09:00 or after 16:00 and if market is off, return all items
       return [
-        { label: "Current Hour", value: "" },
         { label: "9:00 and 10:00", value: "9-10" },
         { label: "10:00 and 11:00", value: "10-11" },
         { label: "11:00 and 12:00", value: "11-12" },
         { label: "13:00 and 14:00", value: "13-14" },
         { label: "14:00 and 15:00", value: "14-15" },
         { label: "15:00 and 16:00", value: "15-16" },
+        { label: "Current Hour", value: "" },
       ];
     } else {
       const hourOptions = [];
@@ -51,7 +51,7 @@ export const generateIntradayDurations = async (type: string) => {
           value: `${i}-${i + 1}`,
         });
       }
-      return [{ label: "Current Hour", value: "" }, ...hourOptions];
+      return [...hourOptions, { label: "Current Hour", value: "" }];
     }
   } else if (type == "volume-shockers") {
     return volumeShockersDurations;

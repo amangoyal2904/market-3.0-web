@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import { areObjectsNotEqual, getCookie } from "@/utils";
 import {
   fetchSelectedFilter,
-  generateIntradayDurations,
   removePersonalizeViewById,
 } from "@/utils/utility";
 import ToasterPopup from "@/components/ToasterPopup";
@@ -75,7 +74,10 @@ const MarketStats = ({
 
   const getSelectedDuration = () => {
     if (intradayDurationOptions.length) {
-      let label = intradayDurationOptions[0]?.label;
+      let label =
+        l3NavSubItem == "hourly-gainers" || l3NavSubItem == "hourly-losers"
+          ? intradayDurationOptions[intradayDurationOptions.length - 1]?.label
+          : intradayDurationOptions[0]?.label;
       let value = payload?.duration || payload?.timespan;
       const isExist = intradayDurationOptions.find(
         (option: any) => option.value === value,
@@ -83,7 +85,10 @@ const MarketStats = ({
       if (!!isExist) {
         label = isExist?.label;
       } else {
-        value = intradayDurationOptions[0]?.value;
+        value =
+          l3NavSubItem == "hourly-gainers" || l3NavSubItem == "hourly-losers"
+            ? intradayDurationOptions[intradayDurationOptions.length - 1]?.value
+            : intradayDurationOptions[0]?.value;
       }
       return { value, label };
     }
