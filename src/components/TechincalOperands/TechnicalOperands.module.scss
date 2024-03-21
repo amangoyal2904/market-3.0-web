@@ -19,6 +19,9 @@
     line-height: 16px;
     font-weight: 400;
     padding: 8px 16px;
+    &:disabled {
+      display: none;
+    }
   }
 }
 .blackCTA {
