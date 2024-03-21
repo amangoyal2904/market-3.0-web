@@ -67,16 +67,7 @@ const FixedTable = (props: any) => {
                         ? handleSort(thead.keyId)
                         : null;
                     }}
-                    className={`${
-                      thead.keyId == "name" ||
-                      thead.keyId == "shortName" ||
-                      thead.keyId == "shortNameKeyword"
-                        ? styles.firstTh
-                        : isSorting &&
-                            (!thead.primeFlag || (isPrime && thead.primeFlag))
-                          ? handleSort(thead.keyId)
-                          : null
-                    }`}
+                    className={`${thead.keyId == "name" || thead.keyId == "shortName" || thead.keyId == "shortNameKeyword" ? styles.firstTh : isSorting && (!thead.primeFlag || (isPrime && thead.primeFlag)) ? styles.enableSort : ""}`}
                     key={thead.keyId}
                   >
                     <span className="two-line-ellipsis">{thead.keyText}</span>
