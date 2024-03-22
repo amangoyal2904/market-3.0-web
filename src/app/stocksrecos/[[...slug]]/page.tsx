@@ -5,6 +5,8 @@ import { APP_ENV, getFundHouseInfo, getStockRecosDetail } from "@/utils";
 import service from "@/network/service";
 import { fetchSelectedFilter, getSearchParams } from "@/utils/utility";
 import Disclaimer from "@/components/StockRecosListing/Disclaimer";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 export default async function stocksrecos({
   params,
@@ -15,7 +17,14 @@ export default async function stocksrecos({
   };
   searchParams: any;
 }) {
-  // console.log("params.slug ----> ", params.slug);
+  console.log("params.slug ----> ", searchParams);
+  const headersList = headers();
+  // read the custom x-url header
+  const header_url = headersList.get("x-url") || "";
+
+  console.log("headersList---", headersList);
+  console.log("header_url---", header_url);
+
   const intFilter = searchParams?.filter ? parseInt(searchParams.filter) : 0;
   const selectedFilter = await fetchSelectedFilter(intFilter);
 
@@ -123,6 +132,18 @@ export default async function stocksrecos({
         return <h1 className={styles.hdg}>Stock Recommendations</h1>;
     }
   };
+
+  if (getApiType() == "FHDetail") {
+    const topSection = recosDetailResult?.recoData?.[0].topSection;
+    const fundHouseStr = `${topSection?.seoName}-${topSection?.omId}`;
+
+    if (fundHouseStr.indexOf("undefined") != -1) {
+      redirect("/not-found");
+    } else if (header_url.indexOf(fundHouseStr) == -1) {
+      const newPath = header_url.replace(slug[1], fundHouseStr);
+      redirect(newPath);
+    }
+  }
 
   return (
     <>
