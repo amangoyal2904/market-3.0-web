@@ -1,14 +1,24 @@
 @import "@/styles/variables.scss";
 
 .header {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   .head {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     font-size: 24px;
     line-height: 30px;
     font-weight: 700;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: 10px;
     .subHeading {
@@ -21,17 +31,31 @@
       padding-left: 15px;
     }
     i {
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
       align-items: center;
       cursor: pointer;
     }
   }
   .options {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
     justify-content: flex-end;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-column-gap: 10px;
+    -moz-column-gap: 10px;
     column-gap: 10px;
     .roundBtn {
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
       cursor: pointer;
       border-radius: 15px;
@@ -42,6 +66,8 @@
       font-weight: 600;
       padding: 3px 10px;
       white-space: nowrap;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
       align-items: center;
       i {
         font-size: 18px;
@@ -49,6 +75,8 @@
       }
     }
     .btnGroup {
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
       list-style: none;
       cursor: pointer;
@@ -59,6 +87,8 @@
       font-style: normal;
       font-weight: 600;
       white-space: nowrap;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
       align-items: center;
       li {
         padding: 3px 10px;
@@ -81,7 +111,11 @@
 
 .horizontalLine {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   width: 100%;
   margin: 0;
@@ -103,6 +137,8 @@
   &:before,
   &:after {
     content: "";
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
     flex-grow: 1;
     height: 1px;
     background-color: $gray-80;
@@ -123,12 +159,15 @@
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
-    height: 40px;
+    height: 47px;
     font-style: normal;
     line-height: 18px;
     text-align: right;
+    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     white-space: nowrap;
+    overflow: hidden;
+    vertical-align: top;
     &.noData {
       padding: 0;
       border-left: none;
@@ -139,6 +178,11 @@
     }
     &.withBar {
       width: 625px;
+      .noDataFound {
+        font-size: 12px;
+        font-weight: 400;
+        text-align: center;
+      }
     }
     &.fullWidth {
       width: 100%;
@@ -165,11 +209,12 @@
     font-size: 12px;
     line-height: 16px;
     overflow: hidden;
+    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
     &.extraCell {
       padding: 0 10px 4px 0;
-      height: 20px;
+      height: 21px;
       border-top: 0;
     }
     &.noData {
@@ -197,9 +242,6 @@
     border-left: none;
   }
 
-  tr {
-    background-color: $white;
-  }
   .hideThead {
     visibility: hidden;
   }
@@ -208,7 +250,11 @@
 .fixedWrapper {
   overflow: auto;
   width: 100%;
+  min-width: -webkit-max-content;
+  min-width: -moz-max-content;
   min-width: max-content;
+  max-width: -webkit-max-content;
+  max-width: -moz-max-content;
   max-width: max-content;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -294,19 +340,31 @@
 }
 
 .legend {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   list-style: none;
+  -webkit-column-gap: 10px;
+  -moz-column-gap: 10px;
   column-gap: 10px;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
   justify-content: flex-end;
   font-size: 12px;
   line-height: 16px;
   font-weight: 400;
   color: $black;
   li {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
   }
   span {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
     display: inline-flex;
     width: 12px;
     height: 12px;
@@ -328,6 +386,8 @@
 }
 
 .bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   margin-top: 10px;
   gap: 2px;
@@ -339,6 +399,8 @@
       border-bottom-left-radius: 2px;
       span {
         left: 0;
+        -webkit-transform: none;
+        -ms-transform: none;
         transform: none;
       }
     }
@@ -348,6 +410,8 @@
       span {
         left: auto;
         right: 0;
+        -webkit-transform: none;
+        -ms-transform: none;
         transform: none;
       }
     }
@@ -372,6 +436,8 @@
       line-height: 15px;
       color: $gray-40;
       left: 50%;
+      -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
       transform: translateX(-50%);
     }
   }
@@ -407,7 +473,11 @@
     padding: 16px;
     .zone {
       .head {
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
         align-items: center;
         font-size: 14px;
         line-height: 18px;
@@ -415,6 +485,8 @@
         color: $black;
         margin-bottom: 4px;
         span {
+          display: -webkit-inline-box;
+          display: -ms-inline-flexbox;
           display: inline-flex;
           width: 12px;
           height: 12px;

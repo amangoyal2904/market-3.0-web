@@ -46,11 +46,11 @@
     }
   }
   .primeTd {
-    color: $blue-80;
+    color: $blue-80 !important;
     text-align: center;
     text-overflow: ellipsis;
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 600 !important;
     line-height: 16px;
     cursor: pointer;
   }

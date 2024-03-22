@@ -1,14 +1,19 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from "./MarketMoods.module.scss";
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback,
+} from "react";
 import MarketMoodHeader from "@/components/MarketMood/SectionHeader";
 import FixedTableMarketMood from "@/components/MarketMood/FixedTable";
 import ScrollableTableMarketMood from "@/components/MarketMood/ScrollableTable";
 import ScrollableBarsTableMarketMood from "@/components/MarketMood/ScrollableBarsTable";
 import { APP_ENV, initSSOWidget } from "@/utils";
 import GLOBAL_CONFIG from "@/network/global_config.json";
-
 import {
   faqData,
   tabData,
@@ -38,7 +43,7 @@ const MarketMoodsClient = ({
   advanceDecline = {},
   periodic = {},
   allFilters = {},
-  isprimeuser = false,
+  isprimeuser,
 }: any) => {
   const { state } = useStateContext();
   const { isLogin, isPrime } = state.login;
@@ -66,13 +71,13 @@ const MarketMoodsClient = ({
   const niftyFilterData = useMemo(() => selectedFilter, [selectedFilter]);
   const allFilterData = useMemo(() => allFilters, [allFilters]);
 
-  const scrollToActiveContent = () => {
-    const element = document.getElementById(activeItem);
+  const scrollToActiveContent = useCallback(() => {
+    const element = document.getElementById(activeItem!);
     if (element) {
       const offset = element.offsetTop + 120;
       window.scrollTo({ top: offset, behavior: "smooth" });
     }
-  };
+  }, [activeItem]);
 
   const filterDataChangeHander = async (id: any) => {
     setLoading(true);
@@ -83,81 +88,89 @@ const MarketMoodsClient = ({
     router.push(newUrl, { scroll: false });
   };
 
-  const handleItemClick = (item: string) => {
+  const handleItemClick = useCallback((item: string) => {
     setActiveItemFromClick(item); // Set the state to indicate that active tab change is due to click
     setActiveItem(item);
-  };
+  }, []);
 
-  const handleCountPercentage = (widgetType: string) => {
+  const handleCountPercentage = useCallback((widgetType: string) => {
     setCountPercentage(widgetType);
-  };
+  }, []);
 
-  const showFilterMenu = (value: boolean) => {
+  const showFilterMenu = useCallback((value: boolean) => {
     setShowFilter(value);
-  };
+  }, []);
 
-  const handleDuration = async (item: string) => {
-    setLoading(true);
-    setDuration(item);
-    const newPeriodicData = await getPeriodicData(
-      niftyFilterData.indexId,
-      item,
-      1,
-    );
-    setPeriodicData(newPeriodicData);
-    setLoading(false); // Set loading to false after data is fetched
-  };
+  const handleDuration = useCallback(
+    async (item: string) => {
+      setLoading(true);
+      setDuration(item);
+      const newPeriodicData = await getPeriodicData(
+        niftyFilterData.indexId,
+        item,
+        1,
+      );
+      setPeriodicData(newPeriodicData);
+      setLoading(false); // Set loading to false after data is fetched
+    },
+    [niftyFilterData],
+  );
 
-  const handleMonthlyDaily = async (item: string) => {
-    setMonthlyDaily(item);
-    const newAdvanceDeclineData = await getAdvanceDeclineData(
-      niftyFilterData.indexId,
-      item,
-      1,
-    );
-    setAdvanceDeclineData(newAdvanceDeclineData);
-  };
+  const handleMonthlyDaily = useCallback(
+    async (item: string) => {
+      setMonthlyDaily(item);
+      const newAdvanceDeclineData = await getAdvanceDeclineData(
+        niftyFilterData.indexId,
+        item,
+        1,
+      );
+      setAdvanceDeclineData(newAdvanceDeclineData);
+    },
+    [niftyFilterData],
+  );
 
-  const loadMoreData = async (type: string) => {
-    switch (type) {
-      case "overview":
-        setShowAllOverview(!showAllOverview);
-        if (!showAllOverview) {
-          setActiveItem("overview");
-        }
-        break;
-      case "advanceDecline":
-        setShowAllAdvanceDecline(!showAllAdvanceDecline);
-        if (!showAllAdvanceDecline) {
-          setActiveItem("advanceDecline");
-        }
-        break;
-      case "periodic":
-        setShowAllPeriodic(!showAllPeriodic);
-        if (!showAllPeriodic) {
-          setActiveItem("periodic");
-        }
-        break;
-      default:
-        break;
-    }
+  const loadMoreData = useCallback(
+    async (type: string) => {
+      switch (type) {
+        case "overview":
+          setShowAllOverview(!showAllOverview);
+          if (!showAllOverview) {
+            setActiveItem("overview");
+          }
+          break;
+        case "advanceDecline":
+          setShowAllAdvanceDecline(!showAllAdvanceDecline);
+          if (!showAllAdvanceDecline) {
+            setActiveItem("advanceDecline");
+          }
+          break;
+        case "periodic":
+          setShowAllPeriodic(!showAllPeriodic);
+          if (!showAllPeriodic) {
+            setActiveItem("periodic");
+          }
+          break;
+        default:
+          break;
+      }
 
-    if (
-      (type === "overview" && showAllOverview) ||
-      (type === "advanceDecline" && showAllAdvanceDecline) ||
-      (type === "periodic" && showAllPeriodic)
-    ) {
-      // Scroll to the "Load More" button of the active item's section
-      setTimeout(() => {
-        const element = document.getElementById(type);
+      if (
+        (type === "overview" && showAllOverview) ||
+        (type === "advanceDecline" && showAllAdvanceDecline) ||
+        (type === "periodic" && showAllPeriodic)
+      ) {
+        setTimeout(() => {
+          const element = document.getElementById(type);
 
-        if (element) {
-          const offset = element.offsetTop + 120;
-          window.scrollTo({ top: offset, behavior: "smooth" });
-        }
-      }, 100);
-    }
-  };
+          if (element) {
+            const offset = element.offsetTop + 120;
+            window.scrollTo({ top: offset, behavior: "smooth" });
+          }
+        }, 100);
+      }
+    },
+    [showAllOverview, showAllAdvanceDecline, showAllPeriodic],
+  );
 
   useEffect(() => {
     // Check if there's a hash in the URL
@@ -170,11 +183,11 @@ const MarketMoodsClient = ({
 
   useEffect(() => {
     // Scroll to the active item's content when activeItem changes
-    if (activeItemFromClick !== "") {
+    if (activeItemFromClick) {
       scrollToActiveContent();
       setActiveItemFromClick("");
     }
-  }, [activeItemFromClick]);
+  }, [activeItemFromClick, scrollToActiveContent]);
 
   useEffect(() => {
     setLoading(false);
@@ -201,21 +214,46 @@ const MarketMoodsClient = ({
 
   useEffect(() => {
     Object.values(contentRefs.current).forEach((ref) => {
-      if (ref && observer.current) {
-        observer.current.observe(ref);
+      if (ref) {
+        observer.current!.observe(ref);
       }
     });
 
     return () => {
-      if (observer.current) {
-        Object.values(contentRefs.current).forEach((ref) => {
-          if (ref) {
-            observer.current!.unobserve(ref);
-          }
-        });
-      }
+      Object.values(contentRefs.current).forEach((ref) => {
+        if (ref) {
+          observer.current!.unobserve(ref);
+        }
+      });
     };
   }, [contentRefs.current]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const tabSections = Object.values(contentRefs.current).filter(Boolean);
+      const activeTab = tabSections.find((ref) => {
+        const top = ref?.offsetTop;
+        const height = ref?.offsetHeight;
+        return (
+          top !== undefined &&
+          height !== undefined &&
+          scrollPosition >= top &&
+          scrollPosition < top + height
+        );
+      });
+
+      if (activeTab) {
+        setActiveItem(activeTab.id);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
@@ -244,7 +282,7 @@ const MarketMoodsClient = ({
                 ref={(el) => (tabRefs.current[item.key] = el)}
                 onClick={() => handleItemClick(item.key)}
                 className={
-                  activeItem === item.key || (activeItem === "" && index == 0)
+                  activeItem === item.key || (activeItem === "" && index === 0)
                     ? styles.active
                     : ""
                 }
@@ -264,9 +302,11 @@ const MarketMoodsClient = ({
         )}
       </div>
       <div
-        className={`${styles.wrapper} ${!(isPrime || isprimeuser) ? styles.center : ""}`}
+        className={`${styles.wrapper} ${
+          !(isPrime || isprimeuser) ? styles.center : ""
+        }`}
       >
-        {!!loading && <Loader loaderType="container" />}
+        {loading && <Loader loaderType="container" />}
         {!(isPrime || isprimeuser) ? (
           <>
             {payWallMarketMood.map((item: any, index: number) => (
@@ -297,7 +337,7 @@ const MarketMoodsClient = ({
                   >
                     Subscribe
                   </Link>
-                  {!isLogin && (
+                  {!isPrime && (
                     <p className={styles.defaultLink}>
                       Already a Member?
                       <span

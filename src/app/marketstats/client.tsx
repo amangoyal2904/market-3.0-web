@@ -14,11 +14,7 @@ import {
 import ToasterPopup from "@/components/ToasterPopup";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { useStateContext } from "@/store/StateContext";
-import {
-  durationOptions,
-  fetchViewTable,
-  updateOrAddParamToPath,
-} from "@/utils/utility";
+import { fetchViewTable, updateOrAddParamToPath } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import TechincalOperands from "@/components/TechincalOperands";
@@ -48,17 +44,14 @@ const MarketStats = ({
   l3NavSubItem = null,
   actualUrl = null,
   shortUrlMapping = [],
+  intradayDurationOptions = [],
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [dayFilterData, setDayFilterData] = useState({
-    value: payload?.duration,
-    label: durationOptions.find((option) => option.value === payload?.duration)
-      ?.label,
-  });
   const { state, dispatch } = useStateContext();
-  const { isLogin, userInfo, ssoReady, isPrime } = state.login;
+  const { isLogin, isPrime } = state.login;
+  const [resetSort, setResetSort] = useState("");
   const [_payload, setPayload] = useState(payload);
   const [_tabData, setTabData] = useState(tabData);
   const [_l3Nav, setL3Nav] = useState(l3Nav);
@@ -78,6 +71,30 @@ const MarketStats = ({
   const [modalBodyText, setModalBodyText] = useState({
     title: "You have Successfully created your personalise view",
   });
+
+  const getSelectedDuration = () => {
+    if (intradayDurationOptions.length) {
+      let label =
+        l3NavSubItem == "hourly-gainers" || l3NavSubItem == "hourly-losers"
+          ? intradayDurationOptions[intradayDurationOptions.length - 1]?.label
+          : intradayDurationOptions[0]?.label;
+      let value = payload?.duration || payload?.timespan;
+      const isExist = intradayDurationOptions.find(
+        (option: any) => option.value === value,
+      );
+      if (!!isExist) {
+        label = isExist?.label;
+      } else {
+        value =
+          l3NavSubItem == "hourly-gainers" || l3NavSubItem == "hourly-losers"
+            ? intradayDurationOptions[intradayDurationOptions.length - 1]?.value
+            : intradayDurationOptions[0]?.value;
+      }
+      return { value, label };
+    }
+    return { value: "", label: "" };
+  };
+  const [dayFilterData, setDayFilterData] = useState(getSelectedDuration);
   const updateTableData = async () => {
     const responseData: any = await fetchViewTable(
       { ..._payload },
@@ -121,7 +138,6 @@ const MarketStats = ({
       (config: any) => config.field === field,
     );
     let newSortConfig;
-
     if (isFieldSorted) {
       newSortConfig = sortConfig.map((config: any) =>
         config.field === field
@@ -137,51 +153,72 @@ const MarketStats = ({
   const onTabViewUpdate = async (viewId: any) => {
     setProcessingLoader(true);
     setActiveViewId(viewId);
-    setPayload({ ..._payload, viewId: viewId, pageno: 1 });
+    setResetSort(viewId);
+    setPayload({ ..._payload, viewId: viewId, sort: [], pageno: 1 });
   };
 
   const filterDataChangeHander = async (id: any) => {
     setProcessingLoader(true);
     const url = actualUrl;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
-    router.push(newUrl, { scroll: false });
     const filter =
       id !== undefined && !isNaN(Number(id))
         ? parseInt(id)
         : id !== undefined
           ? id
           : 0;
-    const filterType =
-      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap";
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     updateL3NAV(id, _payload.duration);
-    setPayload({
-      ..._payload,
-      filterValue: [filter],
-      filterType: filterType,
-      pageno: 1,
-    });
+    router.push(newUrl, { scroll: false });
   };
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
     setProcessingLoader(true);
-    const url = actualUrl;
-    const newDuration = value.toUpperCase();
-    const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
-    router.push(newUrl, { scroll: false });
-    updateL3NAV(_payload.filterValue[0], newDuration);
-    setPayload({ ..._payload, duration: newDuration, pageno: 1 });
+    setResetSort(value);
+    if (l3NavSubItem == "gainers" || l3NavSubItem == "losers") {
+      const url = actualUrl;
+      const newDuration = value.toUpperCase();
+      const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
+      updateL3NAV(_payload.filterValue[0], newDuration);
+      router.push(newUrl, { scroll: false });
+    } else if (l3NavSubItem == "volume-shockers") {
+      const url = actualUrl;
+      const newTimespan = value.toUpperCase();
+      const newUrl = updateOrAddParamToPath(url, "timespan", newTimespan);
+      router.push(newUrl, { scroll: false });
+    } else if (
+      l3NavSubItem == "hourly-gainers" ||
+      l3NavSubItem == "hourly-losers"
+    ) {
+      setPayload({
+        ..._payload,
+        timespan: !!value ? value.toUpperCase() : null,
+        pageno: 1,
+      });
+    }
   };
 
-  const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
+  const tabsChangeHandler = async (tabIdActive: any) => {
     setProcessingLoader(true);
     const { tabData } = await getCustomViewsTab({
-      L3NavSubItem: l3NavSubItem,
+      L3NavSubItem: !isTechnical ? l3NavSubItem : null,
+      firstOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.firstOperand
+        : null,
+      operationType: isTechnical
+        ? technicalCategory?.selectedFilter?.operationType
+        : null,
+      secondOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.secondOperand
+        : null,
+      ssoid: getCookie("ssoid"),
     });
+    setResetSort(tabIdActive);
     setTabData(tabData);
     setActiveViewId(tabIdActive);
   };
+
   const onPersonalizeHandlerfun = async (newActiveId: any = "", mode = "") => {
     if (mode === "update") {
       setModalBodyText({
@@ -196,9 +233,18 @@ const MarketStats = ({
       });
       setShowModalMessage(true);
     }
-    setProcessingLoader(true);
+
     const { tabData, activeViewId } = await getCustomViewsTab({
-      L3NavSubItem: l3NavSubItem,
+      L3NavSubItem: !isTechnical ? l3NavSubItem : null,
+      firstOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.firstOperand
+        : null,
+      operationType: isTechnical
+        ? technicalCategory?.selectedFilter?.operationType
+        : null,
+      secondOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.secondOperand
+        : null,
       ssoid: getCookie("ssoid"),
     });
 
@@ -235,6 +281,7 @@ const MarketStats = ({
     );
     const descTxt = `Discover the stocks in the Indian stock market with ${technicalCategory?.selectedFilterLabel?.firstOperand} ${technicalCategory?.selectedFilterLabel?.operationType} ${technicalCategory?.selectedFilterLabel?.secondOperand} exclusively on The Economic Times`;
     setMetaData({ ..._metaData, desc: descTxt });
+
     setPayload({
       ..._payload,
       firstOperand: firstOperand,
@@ -270,7 +317,6 @@ const MarketStats = ({
     }
   };
   useEffect(() => {
-    setProcessingLoader(true);
     updateTableData();
     const intervalId = setInterval(() => {
       updateTableData();
@@ -279,37 +325,46 @@ const MarketStats = ({
   }, [_payload]);
 
   useEffect(() => {
+    setProcessingLoader(true);
     if (areObjectsNotEqual(_payload, payload)) {
-      let newPaylaod = {
-        ...payload,
-        pageno: 1,
-      };
       if (isTechnical) {
-        const { firstOperand, operationType, secondOperand } =
-          technicalCategory?.selectedFilter;
-        newPaylaod = {
-          ...newPaylaod,
-          firstOperand,
-          operationType,
-          secondOperand,
-        };
+        setTechnicalCategory(technicalCategory);
+        if (payload.apiType != _payload.apiType) {
+          tabsChangeHandler(payload.viewId);
+          setPayload({ ...payload, sort: [] });
+        } else {
+          setPayload({
+            ...payload,
+            viewId: _payload.viewId,
+            sort: _payload.sort,
+          });
+        }
+      } else {
+        setDayFilterData(getSelectedDuration);
+        if (payload.apiType != _payload.apiType) {
+          tabsChangeHandler(payload.viewId);
+          setPayload({ ...payload, sort: [] });
+        } else {
+          setPayload({
+            ...payload,
+            viewId: _payload.viewId,
+            sort:
+              _payload.duration != payload.duration ||
+              _payload.timespan != payload.timespan
+                ? []
+                : _payload.sort,
+          });
+        }
       }
-      setPayload(newPaylaod);
       setMetaData(metaData);
-      setTechnicalCategory(technicalCategory);
+    } else {
+      setProcessingLoader(false);
     }
-    setProcessingLoader(false);
   }, [searchParams]);
 
   return (
     <>
-      <h1
-        data-ssoid={ssoid}
-        data-prime={isprimeuser}
-        className={styles.heading}
-      >
-        {_metaData.title}
-      </h1>
+      <h1 className={styles.heading}>{_metaData.title}</h1>
       <p className={styles.desc}>{_metaData.desc}</p>
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
@@ -334,22 +389,21 @@ const MarketStats = ({
             />
             <MarketFiltersTab
               data={_tabData}
-              activeViewId={_activeViewId}
-              tabsViewIdUpdate={onTabViewUpdate}
               filterDataChange={filterDataChangeHander}
               niftyFilterData={niftyFilterData}
               dayFitlerHanlderChange={dayFitlerHanlderChange}
-              tabsUpdateHandler={TabsAndTableDataChangeHandler}
               tabConfig={tabConfig}
               dayFilterData={dayFilterData}
               setDayFilterData={setDayFilterData}
               onPersonalizeHandler={onPersonalizeHandlerfun}
               removePersonaliseView={removePersonaliseViewFun}
+              intradayDurationOptions={intradayDurationOptions}
             />
           </div>
           <MarketTable
             data={_tableData}
             tableHeaders={_tableHeaderData}
+            tabsViewIdUpdate={resetSort}
             pageSummary={_pageSummary}
             tableConfig={tableConfig}
             handleSortServerSide={onServerSideSort}

@@ -7,10 +7,63 @@ import {
 } from "@/utils/index";
 import { getCookie } from "@/utils/index";
 import Fingerprint2 from "fingerprintjs2";
-import { setCookies } from "./index";
 import Service from "@/network/service";
 
 const API_SOURCE = 0;
+
+export const getCurrentMarketStatus = async () => {
+  const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
+  const res = await Service.get({ url, params: {} });
+  if (res?.status === 200) {
+    return res?.json();
+  }
+};
+
+export const generateIntradayDurations = async (type: string) => {
+  const noDuration: any = [];
+  if (type == "gainers" || type == "losers") {
+    return durationOptions;
+  } else if (type == "hourly-gainers" || type == "hourly-losers") {
+    const { marketStatus } = await getCurrentMarketStatus();
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+
+    if (
+      currentHour <= 9 ||
+      currentHour >= 16 ||
+      marketStatus.toUpperCase() != "ON"
+    ) {
+      // If current time is before 09:00 or after 16:00 and if market is off, return all items
+      return [
+        { label: "9:00 and 10:00", value: "9-10" },
+        { label: "10:00 and 11:00", value: "10-11" },
+        { label: "11:00 and 12:00", value: "11-12" },
+        { label: "13:00 and 14:00", value: "13-14" },
+        { label: "14:00 and 15:00", value: "14-15" },
+        { label: "15:00 and 16:00", value: "15-16" },
+        { label: "Current Hour", value: "" },
+      ];
+    } else {
+      const hourOptions = [];
+      for (let i = 9; i < currentHour; i++) {
+        hourOptions.push({
+          label: `${i}:00 and ${i + 1}:00`,
+          value: `${i}-${i + 1}`,
+        });
+      }
+      return [...hourOptions, { label: "Current Hour", value: "" }];
+    }
+  } else if (type == "volume-shockers") {
+    return volumeShockersDurations;
+  }
+  return noDuration;
+};
+
+export const volumeShockersDurations = [
+  { label: "3 Days", value: "3D" },
+  { label: "7 Days", value: "7D" },
+  { label: "15 Days", value: "15D" },
+];
 
 export const durationOptions = [
   { label: "1 Day", value: "1D", id: 1 },
@@ -133,9 +186,6 @@ export const fetchViewTable = async (
   ssoid: any,
 ) => {
   const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
-  if (apiType == "MARKETSTATS_TECHNICALS") {
-    delete requestObj.apiType;
-  }
   const response = await Service.post({
     url: apiUrl,
     headers: {
@@ -459,7 +509,7 @@ export const fetchIndustryFilters = async (query: string) => {
 
 export const getOverviewData = async (indexid: number, pageno: number) => {
   const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.MARKETMOODS_OVERVIEW[APP_ENV]}?indexid=${indexid}&pageno=${pageno}&pagesize=30`,
+    url: `${(APIS_CONFIG as any)?.MARKETMOODS_OVERVIEW[APP_ENV]}?indexid=${indexid}&pageno=${pageno}&pagesize=100`,
     params: {},
   });
   const originalJson = await response?.json();
@@ -496,25 +546,31 @@ export const getAdvanceDeclineData = async (
   });
   const originalJson = await response?.json();
   return {
-    dataList: originalJson.searchresult.map((item: any) => ({
-      date: dateFormat(item.dateTime, "%d %MMM"),
-      indexPrice: formatNumber(item.currentIndexValue),
-      percentChange: item.percentChange.toFixed(2),
-      trend:
-        item.percentChange > 0
-          ? "up"
-          : item.percentChange < 0
-            ? "down"
-            : "neutral",
-      others: {
-        up: item.advances,
-        upChg: item.advancesPercentange + "%",
-        down: item.declines,
-        downChg: item.declinesPercentange + "%",
-        neutral: item.noChange,
-        neutralChg: item.noChangePercentage + "%",
-      },
-    })),
+    dataList: originalJson.searchresult.map((item: any) => {
+      const totalZonesSum = item.advances + item.declines + item.noChange;
+      return {
+        date:
+          duration == "monthly"
+            ? dateFormat(item.dateTime, "%MMM %Y")
+            : dateFormat(item.dateTime, "%d %MMM"),
+        indexPrice: formatNumber(item.currentIndexValue),
+        percentChange: item.percentChange.toFixed(2),
+        trend:
+          item.percentChange > 0
+            ? "up"
+            : item.percentChange < 0
+              ? "down"
+              : "neutral",
+        others: {
+          up: item.advances,
+          upChg: (item.advances / totalZonesSum) * 100 + "%",
+          down: item.declines,
+          downChg: (item.declines / totalZonesSum) * 100 + "%",
+          neutral: item.noChange,
+          neutralChg: (item.noChange / totalZonesSum) * 100 + "%",
+        },
+      };
+    }),
     pageSummary: originalJson.pagesummary,
   };
 };

@@ -20,7 +20,7 @@
   border-radius: 15px;
   background: $white;
   text-align: left;
-  width: 420px;
+  width: 450px;
 }
 .topSec {
   display: flex;
@@ -114,6 +114,9 @@
           }
           .activelist {
             display: block;
+            & + .activelist {
+              border-top: dashed 1px $gray-70;
+            }
           }
         }
       }
@@ -176,8 +179,7 @@
       font-style: normal;
       font-weight: 500;
       line-height: normal;
-      padding: 15px 24px 15px 15px;
-      border-bottom: dashed 1px $gray-70;
+      padding: 15px 25px 15px 15px;
       cursor: pointer;
       &:last-child {
         border-bottom: none;

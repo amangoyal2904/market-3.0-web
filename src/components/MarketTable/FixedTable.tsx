@@ -62,32 +62,36 @@ const FixedTable = (props: any) => {
                   <th
                     title={thead.keyText}
                     onClick={() => {
-                      isSorting ? handleSort(thead.keyId) : null;
+                      isSorting &&
+                      (!thead.primeFlag || (isPrime && thead.primeFlag))
+                        ? handleSort(thead.keyId)
+                        : null;
                     }}
-                    className={`${thead.keyId == "name" || thead.keyId == "shortName" || thead.keyId == "shortNameKeyword" ? styles.firstTh : isSorting ? styles.enableSort : ""}`}
+                    className={`${thead.keyId == "name" || thead.keyId == "shortName" || thead.keyId == "shortNameKeyword" ? styles.firstTh : isSorting && (!thead.primeFlag || (isPrime && thead.primeFlag)) ? styles.enableSort : ""}`}
                     key={thead.keyId}
                   >
                     <span className="two-line-ellipsis">{thead.keyText}</span>
-                    {isSorting && thead.keyId && (
-                      <span className={`${styles.sortIcons}`}>
-                        <span
-                          className={`${
-                            sortData.field == thead.keyId &&
-                            sortData.order == "ASC"
-                              ? styles.asc
-                              : ""
-                          } eticon_up_arrow`}
-                        ></span>
-                        <span
-                          className={`${
-                            sortData.field == thead.keyId &&
-                            sortData.order == "DESC"
-                              ? styles.desc
-                              : ""
-                          } eticon_down_arrow`}
-                        ></span>
-                      </span>
-                    )}
+                    {isSorting &&
+                      (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
+                        <span className={`${styles.sortIcons}`}>
+                          <span
+                            className={`${
+                              sortData.field == thead.keyId &&
+                              sortData.order == "ASC"
+                                ? styles.asc
+                                : ""
+                            } eticon_up_arrow`}
+                          ></span>
+                          <span
+                            className={`${
+                              sortData.field == thead.keyId &&
+                              sortData.order == "DESC"
+                                ? styles.desc
+                                : ""
+                            } eticon_down_arrow`}
+                          ></span>
+                        </span>
+                      )}
                   </th>
                 ),
             )}
