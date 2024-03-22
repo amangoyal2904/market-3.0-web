@@ -19,7 +19,12 @@ const ScrollableTableMarketMood = ({
         <thead>
           <tr className={styles.noBottomBorder}>
             {tableHeader.map((item: any, index: number) => (
-              <th key={index}>{item.replace(/\n/g, " ")}</th>
+              <th
+                key={index}
+                title="SMA 20 averages the last 20 days' closing prices, indicating short-term trends"
+              >
+                {item.replace(/\n/g, " ")}
+              </th>
             ))}
             <th className={styles.noData}></th>
           </tr>

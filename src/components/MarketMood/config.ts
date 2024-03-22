@@ -36,11 +36,11 @@ export const faqData = [
   },
   {
     ques: "How to read the Overview tab of Market Mood?",
-    ans: "If the count or per cent is high, it is shaded in green, in yellow if it is neutral and in shades of red for a low count. Green shades indicate an uptrend, yellow shades indicate a neutral outlook and red shades indicate a downtrend. This gives the users an overall idea of the price trends in the market and where it is headed in the future. ",
+    ans: "If the count or percent is high, it is shaded in green, in yellow if it is neutral and in shades of red for a low count. Green shades indicate an uptrend, yellow shades indicate a neutral outlook and red shades indicate a downtrend. This gives the users an overall idea of the price trends in the market and where it is headed in the future. ",
   },
   {
     ques: "How to read the Periodic High/Low tab of Market Mood?",
-    ans: "Periodic high/ low refers to the high and low reached in a given time period. Users can view the count of stocks that are trading near their periodic high or low for different time periods. When a security is trading at a value which is within 20% of its High-Low range, it qualifies to be shown in the Period High/Low Analysis. When the count of stocks trading near periodic high is increasing consistently, an uptrend in the market is indicated and when the per cent or count of stocks trading near the periodic low is constantly increasing, a downtrend is indicated. Users can use this segment to see where the stocks lie relative to their periodic high/low values.",
+    ans: "Periodic high/ low refers to the high and low reached in a given time period. Users can view the count of stocks that are trading near their periodic high or low for different time periods. When a security is trading at a value which is within 20% of its High-Low range, it qualifies to be shown in the Period High/Low Analysis. When the count of stocks trading near periodic high is increasing consistently, an uptrend in the market is indicated and when the percent or count of stocks trading near the periodic low is constantly increasing, a downtrend is indicated. Users can use this segment to see where the stocks lie relative to their periodic high/low values.",
   },
   {
     ques: "How to read the Advance/Decline Tab of Market Mood?",
