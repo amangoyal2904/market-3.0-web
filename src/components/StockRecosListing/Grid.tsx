@@ -171,7 +171,7 @@ const TableHtml = (props: any) => {
                 : obj.recoType}
           </div>
           <span className={styles.callDateBox}>
-            <span className={styles.callDateTitle}>Call Date:</span>
+            {/* <span className={styles.callDateTitle}>Call Date: </span> */}
             <span className={styles.callDate}>
               {dateFormat(obj.priceAtRecosDate, "%MMM %d, %Y")}
             </span>

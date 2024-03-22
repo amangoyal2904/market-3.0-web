@@ -128,7 +128,7 @@
   .contentViewWrap {
     width: 100%;
     &.gridViewWrap {
-      width: calc(100% - 180px);
+      width: calc(100% - 196px);
     }
   }
 
@@ -651,7 +651,7 @@
   background-color: $gray-95;
   font-weight: 400;
   color: $gray-30;
-  margin-top: 105px;
+  margin-top: 40px;
 }
 
 @keyframes loader-facebook {

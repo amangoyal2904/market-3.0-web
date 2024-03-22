@@ -573,14 +573,23 @@ export const formatNumber = (
   number: number,
   uptoDecimal: number = 2,
 ): string => {
-  const formatter = new Intl.NumberFormat("en-IN", {
-    style: "decimal",
-    minimumFractionDigits: uptoDecimal, // Ensure at least 2 decimal places
-    maximumFractionDigits: uptoDecimal, // Allow maximum of 2 decimal places
-  });
+  console.log("number-----", number);
 
-  const formattedNumber = formatter.format(number);
-  return formattedNumber.replace(/(\d)(?=(\d{3})+\.)/g, "$1,"); // Add commas for thousands separators
+  const isInteger = Number.isInteger(Number(number));
+  console.log("number---isInteger--", isInteger);
+
+  if (isInteger) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  } else {
+    const formatter = new Intl.NumberFormat("en-IN", {
+      style: "decimal",
+      minimumFractionDigits: uptoDecimal, // Ensure at least 2 decimal places
+      maximumFractionDigits: uptoDecimal, // Allow maximum of 2 decimal places
+    });
+
+    const formattedNumber = formatter.format(number);
+    return formattedNumber.replace(/(\d)(?=(\d{3})+\.)/g, "$1,"); // Add commas for thousands separators
+  }
 };
 
 export const areObjectsNotEqual = (
