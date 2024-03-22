@@ -264,9 +264,9 @@
 
 .stockRecosPage {
   &.stocksMain {
-    width: 32%;
+    width: 23%;
     margin-right: 2%;
-    min-width: auto;
+    min-width: 340px;
     gap: unset;
     .stocksBox {
       gap: unset;
@@ -279,7 +279,7 @@
       }
     }
   }
-  &.stocksMain:nth-child(3n) {
+  &.stocksMain:nth-child(4n) {
     margin-right: 0;
   }
 }
@@ -296,6 +296,66 @@
       .updownTargetBox {
         margin-top: 20px;
       }
+    }
+  }
+}
+@media only screen and (max-width: 1882px) {
+  .stockRecosPage {
+    &.stockRecoByFHClass {
+      width: 32%;
+      &:nth-child(4n) {
+        margin-right: 2%;
+      }
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 1686px) {
+  .stockRecosPage {
+    &.stocksMain {
+      width: 32%;
+      &:nth-child(4n) {
+        margin-right: 2%;
+      }
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 1498px) {
+  .stockRecosPage {
+    &.stockRecoByFHClass {
+      width: 49%;
+      &:nth-child(3n) {
+        margin-right: 2%;
+      }
+      &:nth-child(2n) {
+        margin-right: 0;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 1302px) {
+  .stockRecosPage {
+    &.stocksMain {
+      width: 49%;
+      &:nth-child(3n) {
+        margin-right: 2%;
+      }
+      &:nth-child(2n) {
+        margin-right: 0;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 1129px) {
+  .stockRecosPage {
+    &.stockRecoByFHClass {
+      width: 98%;
+      margin-right: 0;
     }
   }
 }
