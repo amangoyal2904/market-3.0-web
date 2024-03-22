@@ -10,14 +10,14 @@
     "X_SITE_CODE": "c21b937c35b0d7cc7c6659d3b57e3d4a"
   },
   "production": {
-    "ssoWidget": "https://jssocdnstg.indiatimes.com/crosswalk/156/widget/main.bundle.js",
-    "jssoSDK": "https://jssocdnstg.indiatimes.com/crosswalk_sdk/sdk/jsso_crosswalk_0.7.92.js",
+    "ssoWidget": "https://jssocdn.indiatimes.com/crosswalk/41/widget/main.bundle.min.js",
+    "jssoSDK": "https://jssocdn.indiatimes.com/crosswalk_sdk/sdk/jsso_crosswalk_legacy_0.7.95.min.js",
     "ET_WEB_URL": "https://economictimes.indiatimes.com/",
     "ET_WAP_URL": "https://spmdev8243.economictimes.com/",
     "MY_SUBS": "https://buy.indiatimes.com/ET/mysubscription?fornav=1",
     "Plan_PAGE": "https://buy.indiatimes.com/ET/plans",
-    "X_CLIENT_ID": "w2a8e883ec676f417520f422068a4741",
-    "X_SITE_CODE": "c21b937c35b0d7cc7c6659d3b57e3d4a"
+    "X_CLIENT_ID": "b2a8e883ec676f417520f422068a4742",
+    "X_SITE_CODE": "d8bf11298a038d8f20be2c4486c3c728"
   },
   "gaId": "UA-198011-5",
   "grxId": "g7af6dd9d",
