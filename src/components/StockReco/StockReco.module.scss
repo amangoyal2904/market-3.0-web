@@ -62,7 +62,7 @@
     .stocksCallDates {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 17px;
       align-self: stretch;
       .buySellTitle {
         font-size: 14px;
@@ -71,11 +71,22 @@
       }
 
       .callDateBox {
+        position: relative;
         display: flex;
         font-size: 12px;
         font-weight: 400;
         line-height: 16px;
         gap: 8px;
+        &::before {
+          content: "";
+          position: absolute;
+          left: -9px;
+          top: 0;
+          width: 1px;
+          height: 16px;
+          opacity: 0.4;
+          background-color: $gray_40;
+        }
       }
     }
     .stocksTitle {
