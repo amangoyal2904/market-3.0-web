@@ -534,22 +534,24 @@ export const getStockRecosDetail = async ({
   const payload = {
     apiType: getApiType,
     filterType:
-      getApiType == "FHDetail"
-        ? "fundhouse"
-        : getApiType != "recoByFH" && niftyFilterData?.indexId
-          ? "index"
-          : "",
-    filterValue:
-      getApiType == "FHDetail"
+      getApiType == "FHDetail" && niftyFilterData?.indexId
+        ? "index"
+        : getApiType == "FHDetail"
+          ? "fundhouse"
+          : getApiType != "recoByFH" && niftyFilterData?.indexId
+            ? "index"
+            : "",
+    filterValue: niftyFilterData?.indexId
+      ? [niftyFilterData.indexId]
+      : getApiType == "FHDetail"
         ? [fundHouseInfo.fundHouseId]
-        : getApiType != "recoByFH" && niftyFilterData?.indexId
-          ? [niftyFilterData.indexId]
-          : [],
+        : [],
     recoType: (getApiType == "FHDetail" ? slug?.[2] : slug?.[1]) || "all",
     pageSize:
       getApiType == "recoByFH" ? 100 : getApiType == "overview" ? 6 : 30,
     pageNumber: pageNo || 1,
     ...(getApiType == "overview" && { deviceId: "web" }),
+    ...(getApiType == "FHDetail" && { orgId: [fundHouseInfo.fundHouseId] }),
   };
 
   console.log("payload----", payload);

@@ -51,11 +51,11 @@
   },
   "AUTH_TOKEN": {
     "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web",
-    "production": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web"
+    "production": "https://oauth2.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web"
   },
   "LOGOUT_AUTH_TOKEN": {
     "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout",
-    "production": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout"
+    "production": "https://oauth2.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout"
   },
   "INDEX_FILTERS": {
     "development": "https://etapipre.indiatimes.com/api/indexfilters",
