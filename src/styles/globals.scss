@@ -276,7 +276,7 @@ table {
 
 /* Here Only Module Css start here */
 .customeScroll {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .customeScroll::-webkit-scrollbar {
   width: 6px;

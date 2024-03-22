@@ -55,12 +55,12 @@ const StockComponent: React.FC<Props> = ({
     default:
       stockMainClass = styles.buyStock;
   }
-  //console.log("##" + activeTab + "--- >", data);
+  // console.log("##" + activeTab + "--- >", activeTab);
   return (
     <>
       {activeTab == "recoByFH" ? (
         <div
-          className={`${pageName == "stockRecosPage" ? styles.stockRecosPage : ""} ${styles.stocksMain} ${styles.GreyStock}`}
+          className={`${pageName == "stockRecosPage" ? styles.stockRecosPage : ""} ${styles.stockRecoByFHClass} ${styles.stocksMain} ${styles.GreyStock}`}
         >
           <div className={styles.stocksBox}>
             <h2 title={data.organisation} className={styles.stocksTitle}>
@@ -102,7 +102,7 @@ const StockComponent: React.FC<Props> = ({
         </div>
       ) : (
         <div
-          className={`${styles[pageName]} ${activeTab === "newRecos" ? `${styles.stocksMain} ${stockMainClass} ${styles.stockGap}` : `${styles.stocksMain} ${stockMainClass}`}`}
+          className={`${styles[pageName]} ${activeTab === "newRecos" ? `${styles.stocksMain} ${styles.stockRecoByFHClass} ${stockMainClass} ${styles.stockGap}` : `${styles.stocksMain} ${stockMainClass}`}`}
         >
           <div className={styles.stocksBox}>
             {/* {activeTab == "newRecos" && ( */}
@@ -144,7 +144,13 @@ const StockComponent: React.FC<Props> = ({
             <div className={styles.updownTargetBox}>
               <div className={styles.potensialBox}>
                 <h3>{data.potentialText}</h3>
-                <h4 className={`numberFonts`}>{data.potentialValue}%</h4>
+                {data.potentialValue > 0 ? (
+                  <h4 className={`numberFonts`}>{data.potentialValue}%</h4>
+                ) : (
+                  <h4 className={`numberFonts ${styles.targetMet}`}>
+                    Target Met
+                  </h4>
+                )}
               </div>
               {activeTab == "newRecos" || activeTab == "FHDetail" ? (
                 <ul className={styles.targetBox}>

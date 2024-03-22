@@ -45,8 +45,9 @@ const MarketMoodsClient = ({
   allFilters = {},
   isprimeuser,
 }: any) => {
-  const { state } = useStateContext();
+  const { state, dispatch } = useStateContext();
   const { isLogin, isPrime } = state.login;
+  const { countPercentage, duration, monthlyDaily } = state.MarketMoodStatus;
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -61,15 +62,30 @@ const MarketMoodsClient = ({
   const [showAllPeriodic, setShowAllPeriodic] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<string>("");
   const [activeItemFromClick, setActiveItemFromClick] = useState<string>("");
-  const [countPercentage, setCountPercentage] = useState("count");
-  const [duration, setDuration] = useState("1M");
-  const [monthlyDaily, setMonthlyDaily] = useState("daily");
   const [showFilter, setShowFilter] = useState(false);
   const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const tabRefs = useRef<{ [key: string]: HTMLLIElement | null }>({});
   const observer = useRef<IntersectionObserver | null>(null);
   const niftyFilterData = useMemo(() => selectedFilter, [selectedFilter]);
   const allFilterData = useMemo(() => allFilters, [allFilters]);
+
+  const updatePeriodic = async (duration: string) => {
+    const newPeriodicData = await getPeriodicData(
+      niftyFilterData.indexId,
+      duration,
+      1,
+    );
+    setPeriodicData(newPeriodicData);
+  };
+
+  const updateAdvanceDecline = async (monthlyDaily: string) => {
+    const newAdvanceDeclineData = await getAdvanceDeclineData(
+      niftyFilterData.indexId,
+      monthlyDaily,
+      1,
+    );
+    setAdvanceDeclineData(newAdvanceDeclineData);
+  };
 
   const scrollToActiveContent = useCallback(() => {
     const element = document.getElementById(activeItem!);
@@ -94,7 +110,12 @@ const MarketMoodsClient = ({
   }, []);
 
   const handleCountPercentage = useCallback((widgetType: string) => {
-    setCountPercentage(widgetType);
+    dispatch({
+      type: "UPDATE_VIEWTYPES",
+      payload: {
+        countPercentage: widgetType,
+      },
+    });
   }, []);
 
   const showFilterMenu = useCallback((value: boolean) => {
@@ -104,13 +125,13 @@ const MarketMoodsClient = ({
   const handleDuration = useCallback(
     async (item: string) => {
       setLoading(true);
-      setDuration(item);
-      const newPeriodicData = await getPeriodicData(
-        niftyFilterData.indexId,
-        item,
-        1,
-      );
-      setPeriodicData(newPeriodicData);
+      dispatch({
+        type: "UPDATE_VIEWTYPES",
+        payload: {
+          duration: item,
+        },
+      });
+      updatePeriodic(item);
       setLoading(false); // Set loading to false after data is fetched
     },
     [niftyFilterData],
@@ -118,13 +139,13 @@ const MarketMoodsClient = ({
 
   const handleMonthlyDaily = useCallback(
     async (item: string) => {
-      setMonthlyDaily(item);
-      const newAdvanceDeclineData = await getAdvanceDeclineData(
-        niftyFilterData.indexId,
-        item,
-        1,
-      );
-      setAdvanceDeclineData(newAdvanceDeclineData);
+      dispatch({
+        type: "UPDATE_VIEWTYPES",
+        payload: {
+          monthlyDaily: item,
+        },
+      });
+      updateAdvanceDecline(item);
     },
     [niftyFilterData],
   );
@@ -190,6 +211,12 @@ const MarketMoodsClient = ({
   }, [activeItemFromClick, scrollToActiveContent]);
 
   useEffect(() => {
+    if (duration != "1M") {
+      updatePeriodic(duration);
+    }
+    if (monthlyDaily != "daily") {
+      updateAdvanceDecline(monthlyDaily);
+    }
     setLoading(false);
   }, [pathname, searchParams]);
 
@@ -333,11 +360,11 @@ const MarketMoodsClient = ({
                   <Link
                     className={styles.subscribeBtn}
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`}
-                    data-ga-onclick="Subscription Flow#SYFT#ATF - url"
+                    data-ga-onclick="Subscription Flow#SYFT#Market Mood - url"
                   >
-                    Subscribe
+                    Subscribe Now
                   </Link>
-                  {!isPrime && (
+                  {!isLogin && (
                     <p className={styles.defaultLink}>
                       Already a Member?
                       <span
