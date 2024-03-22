@@ -114,7 +114,7 @@ const Subhead = (props: any) => {
               className={styles.niftyWrap}
             >
               <div className={styles.niftyBtn}>
-                <span className="eticon_filter"></span>
+                <span className={`eticon_filter ${styles.filterIcon}`}></span>
                 <span>{niftyFilterData?.name}</span>
               </div>
             </div>
@@ -127,14 +127,18 @@ const Subhead = (props: any) => {
                   className={viewType === "card" ? styles.active : ""}
                   onClick={() => handleViewType("card")}
                 >
-                  <span className="eticon_grid_view"></span>
+                  <span
+                    className={`eticon_grid_view ${styles.listingIcon}`}
+                  ></span>
                 </li>
                 <li
                   key="listytpe_view"
                   className={viewType === "grid" ? styles.active : ""}
                   onClick={() => handleViewType("grid")}
                 >
-                  <span className="eticon_list_view"></span>
+                  <span
+                    className={`eticon_list_view ${styles.listingIcon}`}
+                  ></span>
                 </li>
               </ul>
             </div>

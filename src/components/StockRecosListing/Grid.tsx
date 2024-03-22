@@ -203,7 +203,7 @@ const TableHtml = (props: any) => {
                 </span>
               ) : (
                 <span
-                  className={`numberFonts ${styles.neutral} ${styles.potential}`}
+                  className={`${styles.neutral} ${styles.potential} ${styles.targetMet}`}
                 >
                   Target Met
                 </span>
@@ -279,7 +279,7 @@ const TableHtml = (props: any) => {
                 </span>
               ) : (
                 <span
-                  className={`numberFonts ${styles.neutral} ${styles.potential}`}
+                  className={`${styles.neutral} ${styles.potential} ${styles.targetMet}`}
                 >
                   Target Met
                 </span>
