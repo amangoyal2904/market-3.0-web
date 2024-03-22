@@ -193,11 +193,22 @@ const TableHtml = (props: any) => {
               <span className={`eticon_down_arrow ${styles.icons}`}></span>
             </span>
           ) : (
-            <span
-              className={`numberFonts ${styles.neutral} ${styles.potential}`}
-            >
-              {obj.potentialValue}% <span className={`${styles.icons}`}></span>
-            </span>
+            <>
+              {obj.potentialValue > 0 ? (
+                <span
+                  className={`numberFonts ${styles.neutral} ${styles.potential}`}
+                >
+                  {obj.potentialValue}%{" "}
+                  <span className={`${styles.icons}`}></span>
+                </span>
+              ) : (
+                <span
+                  className={`numberFonts ${styles.neutral} ${styles.potential}`}
+                >
+                  Target Met
+                </span>
+              )}
+            </>
           )}
         </td>
         <td>
@@ -258,9 +269,22 @@ const TableHtml = (props: any) => {
               <span className={`eticon_down_arrow ${styles.icons}`}></span>
             </span>
           ) : (
-            <span className={`${styles.neutral} ${styles.potential}`}>
-              {obj.potentialValue}% <span className={`${styles.icons}`}></span>
-            </span>
+            <>
+              {obj.potentialValue > 0 ? (
+                <span
+                  className={`numberFonts ${styles.neutral} ${styles.potential}`}
+                >
+                  {obj.potentialValue}%{" "}
+                  <span className={`${styles.icons}`}></span>
+                </span>
+              ) : (
+                <span
+                  className={`numberFonts ${styles.neutral} ${styles.potential}`}
+                >
+                  Target Met
+                </span>
+              )}
+            </>
           )}
         </td>
         <td>
