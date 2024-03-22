@@ -193,11 +193,7 @@ export const ssoLoginWidget = () => {
       }
       sc.src = s;
       document.getElementsByTagName("head")[0].appendChild(sc);
-    })(
-      window,
-      "https://jssocdnstg.indiatimes.com/crosswalk/156/widget/main.bundle.js",
-      "ssoWidget",
-    );
+    })(window, (GLOBAL_CONFIG as any)[APP_ENV]["ssoWidget"], "ssoWidget");
   }
 };
 
