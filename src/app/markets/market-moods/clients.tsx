@@ -362,7 +362,7 @@ const MarketMoodsClient = ({
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`}
                     data-ga-onclick="Subscription Flow#SYFT#Market Mood - url"
                   >
-                    Subscribe now
+                    Subscribe Now
                   </Link>
                   {!isLogin && (
                     <p className={styles.defaultLink}>
