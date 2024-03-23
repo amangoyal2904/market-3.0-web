@@ -7,7 +7,6 @@ import React, {
   useRef,
   useMemo,
   useCallback,
-  RefObject,
 } from "react";
 import MarketMoodHeader from "@/components/MarketMood/SectionHeader";
 import FixedTableMarketMood from "@/components/MarketMood/FixedTable";
@@ -35,7 +34,7 @@ import dynamic from "next/dynamic";
 
 const StockFilterNifty = dynamic(
   () => import("@/components/StockFilterNifty"),
-  { ssr: false }
+  { ssr: false },
 );
 
 const MarketMoodsClient = ({
@@ -64,14 +63,8 @@ const MarketMoodsClient = ({
   const [activeItem, setActiveItem] = useState<string>("");
   const [activeItemFromClick, setActiveItemFromClick] = useState<string>("");
   const [showFilter, setShowFilter] = useState(false);
-  const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({
-    overview: null,
-    periodic: null,
-    advanceDecline: null,
-    faq: null,
-  });
+  const contentRefs = useRef<HTMLDivElement>(null);
   const activeListItemRef = useRef<HTMLLIElement>(null);
-  const observer = useRef<IntersectionObserver | null>(null);
   const niftyFilterData = useMemo(() => selectedFilter, [selectedFilter]);
   const allFilterData = useMemo(() => allFilters, [allFilters]);
 
@@ -79,7 +72,7 @@ const MarketMoodsClient = ({
     const newPeriodicData = await getPeriodicData(
       niftyFilterData.indexId,
       duration,
-      1
+      1,
     );
     setPeriodicData(newPeriodicData);
   };
@@ -88,7 +81,7 @@ const MarketMoodsClient = ({
     const newAdvanceDeclineData = await getAdvanceDeclineData(
       niftyFilterData.indexId,
       monthlyDaily,
-      1
+      1,
     );
     setAdvanceDeclineData(newAdvanceDeclineData);
   };
@@ -140,7 +133,7 @@ const MarketMoodsClient = ({
       updatePeriodic(item);
       setLoading(false); // Set loading to false after data is fetched
     },
-    [niftyFilterData]
+    [niftyFilterData],
   );
 
   const handleMonthlyDaily = useCallback(
@@ -153,7 +146,7 @@ const MarketMoodsClient = ({
       });
       updateAdvanceDecline(item);
     },
-    [niftyFilterData]
+    [niftyFilterData],
   );
 
   const loadMoreData = useCallback(
@@ -196,8 +189,36 @@ const MarketMoodsClient = ({
         }, 100);
       }
     },
-    [showAllOverview, showAllAdvanceDecline, showAllPeriodic]
+    [showAllOverview, showAllAdvanceDecline, showAllPeriodic],
   );
+
+  const handleIntersection = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveItem(entry.target.id);
+        }
+      });
+    },
+    [],
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleIntersection, {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.5, // Adjust threshold as needed
+    });
+
+    const sections = document.querySelectorAll(".sections");
+    sections.forEach((section) => {
+      observer.observe(section);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [handleIntersection, isprimeuser, isPrime]);
 
   useEffect(() => {
     // Check if there's a hash in the URL
@@ -225,68 +246,6 @@ const MarketMoodsClient = ({
     }
     setLoading(false);
   }, [pathname, searchParams]);
-
-  useEffect(() => {
-    observer.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-            setActiveItem(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.5 } // Adjust threshold as needed
-    );
-
-    return () => {
-      if (observer.current) {
-        observer.current.disconnect();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    Object.values(contentRefs.current).forEach((ref) => {
-      if (ref) {
-        observer.current!.observe(ref);
-      }
-    });
-
-    return () => {
-      Object.values(contentRefs.current).forEach((ref) => {
-        if (ref) {
-          observer.current!.unobserve(ref);
-        }
-      });
-    };
-  }, [contentRefs.current]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const tabSections = Object.values(contentRefs.current).filter(Boolean);
-      const activeTab = tabSections.find((ref) => {
-        const top = ref?.offsetTop;
-        const height = ref?.offsetHeight;
-        return (
-          top !== undefined &&
-          height !== undefined &&
-          scrollPosition >= top &&
-          scrollPosition < top + height
-        );
-      });
-
-      if (activeTab) {
-        setActiveItem(activeTab.id);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   return (
     <>
@@ -346,8 +305,8 @@ const MarketMoodsClient = ({
               <div
                 key={index}
                 id={item.key}
-                className={styles.section}
-                ref={(ref) => (contentRefs.current[item.key] = ref)}
+                className={`${styles.section} sections`}
+                ref={contentRefs}
               >
                 {item.heading && (
                   <div className={styles.header}>
@@ -389,8 +348,8 @@ const MarketMoodsClient = ({
           <>
             <div
               id="overview"
-              className={styles.section}
-              ref={(ref) => (contentRefs.current["overview"] = ref)}
+              className={`${styles.section} sections`}
+              ref={contentRefs}
             >
               <MarketMoodHeader
                 heading="Overview"
@@ -434,8 +393,8 @@ const MarketMoodsClient = ({
             </div>
             <div
               id="periodic"
-              className={styles.section}
-              ref={(ref) => (contentRefs.current["periodic"] = ref)}
+              className={`${styles.section} sections`}
+              ref={contentRefs}
             >
               <MarketMoodHeader
                 heading="Periodic High/Low"
@@ -477,8 +436,8 @@ const MarketMoodsClient = ({
             </div>
             <div
               id="advanceDecline"
-              className={styles.section}
-              ref={(ref) => (contentRefs.current["advanceDecline"] = ref)}
+              className={`${styles.section} sections`}
+              ref={contentRefs}
             >
               <MarketMoodHeader
                 heading="Advance/Decline"
@@ -520,11 +479,7 @@ const MarketMoodsClient = ({
             </div>
           </>
         )}
-        <div
-          id="faq"
-          className={styles.faq}
-          ref={(ref) => (contentRefs.current["faq"] = ref)}
-        >
+        <div id="faq" className={`${styles.faq} sections`} ref={contentRefs}>
           <div className={styles.head}>Frequently Asked Questions</div>
           {faqData.map((item: any, index: number) => {
             return (
