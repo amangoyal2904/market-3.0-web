@@ -410,13 +410,15 @@ const MarketMoodsClient = ({
                       showAll={showAllOverview}
                     />
                   </div>
-                  <div
-                    id="overview-load-more"
-                    className={styles.loadMore}
-                    onClick={() => loadMoreData("overview")}
-                  >
-                    {showAllOverview ? "Load Less..." : "Load More..."}
-                  </div>
+                  {overviewData?.dataList?.length > 13 && (
+                    <div
+                      id="overview-load-more"
+                      className={styles.loadMore}
+                      onClick={() => loadMoreData("overview")}
+                    >
+                      {showAllOverview ? "Load Less..." : "Load More..."}
+                    </div>
+                  )}
                 </>
               ) : (
                 <div className={styles.blocker}>
@@ -451,13 +453,15 @@ const MarketMoodsClient = ({
                       showAll={showAllPeriodic}
                     />
                   </div>
-                  <div
-                    id="periodic-load-more"
-                    className={styles.loadMore}
-                    onClick={() => loadMoreData("periodic")}
-                  >
-                    {showAllPeriodic ? "Load Less..." : "Load More..."}
-                  </div>
+                  {periodicData?.dataList?.length > 6 && (
+                    <div
+                      id="periodic-load-more"
+                      className={styles.loadMore}
+                      onClick={() => loadMoreData("periodic")}
+                    >
+                      {showAllPeriodic ? "Load Less..." : "Load More..."}
+                    </div>
+                  )}
                 </>
               ) : (
                 <div className={styles.blocker}>
@@ -492,13 +496,15 @@ const MarketMoodsClient = ({
                       showAll={showAllAdvanceDecline}
                     />
                   </div>
-                  <div
-                    id="advanceDecline-load-more"
-                    className={styles.loadMore}
-                    onClick={() => loadMoreData("advanceDecline")}
-                  >
-                    {showAllAdvanceDecline ? "Load Less..." : "Load More..."}
-                  </div>
+                  {advanceDeclineData?.dataList?.length > 6 && (
+                    <div
+                      id="advanceDecline-load-more"
+                      className={styles.loadMore}
+                      onClick={() => loadMoreData("advanceDecline")}
+                    >
+                      {showAllAdvanceDecline ? "Load Less..." : "Load More..."}
+                    </div>
+                  )}
                 </>
               ) : (
                 <div className={styles.blocker}>
