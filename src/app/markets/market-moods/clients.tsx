@@ -7,6 +7,7 @@ import React, {
   useRef,
   useMemo,
   useCallback,
+  RefObject,
 } from "react";
 import MarketMoodHeader from "@/components/MarketMood/SectionHeader";
 import FixedTableMarketMood from "@/components/MarketMood/FixedTable";
@@ -64,7 +65,9 @@ const MarketMoodsClient = ({
   const [activeItemFromClick, setActiveItemFromClick] = useState<string>("");
   const [showFilter, setShowFilter] = useState(false);
   const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const tabRefs = useRef<{ [key: string]: HTMLLIElement | null }>({});
+  const tabRefs = useRef<{
+    [key: string]: React.RefObject<HTMLLIElement> | null;
+  }>({});
   const observer = useRef<IntersectionObserver | null>(null);
   const niftyFilterData = useMemo(() => selectedFilter, [selectedFilter]);
   const allFilterData = useMemo(() => allFilters, [allFilters]);
@@ -306,7 +309,11 @@ const MarketMoodsClient = ({
             return (
               <li
                 key={item.key}
-                ref={(el) => (tabRefs.current[item.key] = el)}
+                ref={(el) =>
+                  (tabRefs.current[item.key] = el
+                    ? React.createRef<HTMLLIElement>()
+                    : null)
+                }
                 onClick={() => handleItemClick(item.key)}
                 className={
                   activeItem === item.key || (activeItem === "" && index === 0)
