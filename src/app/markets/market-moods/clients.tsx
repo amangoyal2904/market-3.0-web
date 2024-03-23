@@ -31,6 +31,7 @@ import Link from "next/link";
 import { useStateContext } from "@/store/StateContext";
 import Blocker from "@/components/Blocker";
 import dynamic from "next/dynamic";
+import useDebounce from "@/hooks/useDebounce";
 
 const StockFilterNifty = dynamic(
   () => import("@/components/StockFilterNifty"),
@@ -67,7 +68,7 @@ const MarketMoodsClient = ({
   const activeListItemRef = useRef<HTMLLIElement>(null);
   const niftyFilterData = useMemo(() => selectedFilter, [selectedFilter]);
   const allFilterData = useMemo(() => allFilters, [allFilters]);
-
+  const { debounce } = useDebounce();
   const updatePeriodic = async (duration: string) => {
     const newPeriodicData = await getPeriodicData(
       niftyFilterData.indexId,
@@ -192,42 +193,31 @@ const MarketMoodsClient = ({
     [showAllOverview, showAllAdvanceDecline, showAllPeriodic],
   );
 
-  const handleIntersection = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveItem(entry.target.id);
+  useEffect(() => {
+    const handleScroll = debounce(() => {
+      const contentRefs = document.querySelectorAll(".sections");
+      const scrollPosition = window.scrollY;
+
+      contentRefs.forEach((ref) => {
+        const section = ref as HTMLElement;
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+
+        if (
+          scrollPosition >= sectionTop &&
+          scrollPosition < sectionTop + sectionHeight
+        ) {
+          setActiveItem(section.id);
         }
       });
-    },
-    [],
-  );
+    }, 10);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(handleIntersection, {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.5, // Adjust threshold as needed
-    });
-
-    const sections = document.querySelectorAll(".sections");
-    sections.forEach((section) => {
-      observer.observe(section);
-    });
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [handleIntersection, isprimeuser, isPrime]);
-
-  useEffect(() => {
-    // Check if there's a hash in the URL
-    const hash = window.location.hash.substr(1);
-    if (hash && tabData.some((item) => item.key === hash)) {
-      // If there is, set the active item to the hash value
-      setActiveItemFromClick(hash);
-    }
-  }, []);
+  }, [debounce]);
 
   useEffect(() => {
     // Scroll to the active item's content when activeItem changes
