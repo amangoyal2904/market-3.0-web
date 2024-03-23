@@ -35,7 +35,7 @@ import dynamic from "next/dynamic";
 
 const StockFilterNifty = dynamic(
   () => import("@/components/StockFilterNifty"),
-  { ssr: false },
+  { ssr: false }
 );
 
 const MarketMoodsClient = ({
@@ -64,7 +64,12 @@ const MarketMoodsClient = ({
   const [activeItem, setActiveItem] = useState<string>("");
   const [activeItemFromClick, setActiveItemFromClick] = useState<string>("");
   const [showFilter, setShowFilter] = useState(false);
-  const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({
+    overview: null,
+    periodic: null,
+    advanceDecline: null,
+    faq: null,
+  });
   const activeListItemRef = useRef<HTMLLIElement>(null);
   const observer = useRef<IntersectionObserver | null>(null);
   const niftyFilterData = useMemo(() => selectedFilter, [selectedFilter]);
@@ -74,7 +79,7 @@ const MarketMoodsClient = ({
     const newPeriodicData = await getPeriodicData(
       niftyFilterData.indexId,
       duration,
-      1,
+      1
     );
     setPeriodicData(newPeriodicData);
   };
@@ -83,7 +88,7 @@ const MarketMoodsClient = ({
     const newAdvanceDeclineData = await getAdvanceDeclineData(
       niftyFilterData.indexId,
       monthlyDaily,
-      1,
+      1
     );
     setAdvanceDeclineData(newAdvanceDeclineData);
   };
@@ -135,7 +140,7 @@ const MarketMoodsClient = ({
       updatePeriodic(item);
       setLoading(false); // Set loading to false after data is fetched
     },
-    [niftyFilterData],
+    [niftyFilterData]
   );
 
   const handleMonthlyDaily = useCallback(
@@ -148,7 +153,7 @@ const MarketMoodsClient = ({
       });
       updateAdvanceDecline(item);
     },
-    [niftyFilterData],
+    [niftyFilterData]
   );
 
   const loadMoreData = useCallback(
@@ -191,7 +196,7 @@ const MarketMoodsClient = ({
         }, 100);
       }
     },
-    [showAllOverview, showAllAdvanceDecline, showAllPeriodic],
+    [showAllOverview, showAllAdvanceDecline, showAllPeriodic]
   );
 
   useEffect(() => {
@@ -230,7 +235,7 @@ const MarketMoodsClient = ({
           }
         });
       },
-      { threshold: 0.5 }, // Adjust threshold as needed
+      { threshold: 0.5 } // Adjust threshold as needed
     );
 
     return () => {
