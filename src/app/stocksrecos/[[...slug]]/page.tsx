@@ -87,7 +87,7 @@ export default async function stocksrecos({
       case "newRecos":
         return (
           <h1 className={styles.hdg}>
-            New Recos{" "}
+            New {slug?.[1] != "all" && slug?.[1]} Recos{" "}
             {niftyFilterData.name != "All Stocks"
               ? " in " + niftyFilterData.name
               : ""}

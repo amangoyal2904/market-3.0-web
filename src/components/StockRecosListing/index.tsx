@@ -58,9 +58,9 @@ const StockRecosListing = (props: any) => {
       setNiftyFilterData(selectedFilter);
       router.push(newUrl, { scroll: false });
       initialSearchParamsRef.current = new URLSearchParams("filter=" + id);
-
+      console.log("recosDetailJSON----", recosDetailResult);
       setPage(1);
-      setHasMore(true);
+      //setHasMore(true);
     },
     [pathName, searchParams, router],
   );
@@ -71,6 +71,7 @@ const StockRecosListing = (props: any) => {
 
   const fetchDataOnLazyLoad = useCallback(
     async (currentPage: any) => {
+      console.log("page-----", page + "===" + hasMore);
       if (activeApi !== "overview" && page > 1) {
         setTimeout(async () => {
           const newData: any = await getStockRecosDetail({
@@ -132,6 +133,10 @@ const StockRecosListing = (props: any) => {
             ? recosDetailResult
             : recosDetailResult?.recoData?.[0].data,
         );
+        setHasMore(
+          typeof recosDetailResult?.recoData?.[0].data !== "undefined" &&
+            recosDetailResult?.recoData?.[0].data?.length === 30,
+        );
       }
     }
 
@@ -153,6 +158,10 @@ const StockRecosListing = (props: any) => {
         activeApi == "overview"
           ? recosDetailResult
           : recosDetailResult?.recoData?.[0].data,
+      );
+      setHasMore(
+        typeof recosDetailResult?.recoData?.[0].data !== "undefined" &&
+          recosDetailResult?.recoData?.[0].data?.length === 30,
       );
     }
 

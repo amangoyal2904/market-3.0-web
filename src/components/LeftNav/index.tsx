@@ -13,8 +13,9 @@ const LeftNav = (props: any) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [isL2Expanded, setIsL2Expanded] = useState(false);
   const pathname = usePathname();
+  console.log("left Nav pathname---", pathname);
 
-  //console.log("pathname---", pathname);
+  useEffect(() => {}, [pathname]);
 
   const toggleMenu = () => {
     setIsExpanded(!isExpanded);
@@ -43,6 +44,20 @@ const LeftNav = (props: any) => {
     }
   };
 
+  const hasCommonSubstring = (
+    str2: string,
+    str3: string,
+    avoidStr: string = "markets",
+  ) => {
+    const parts2 = str2.split("/").filter((part) => part !== "");
+    const parts3 = str3.split("/").filter((part) => part !== "");
+
+    const filteredParts2 = parts2.filter((part) => !part.startsWith(avoidStr));
+    const filteredParts3 = parts3.filter((part) => !part.startsWith(avoidStr));
+
+    return filteredParts2.some((part) => filteredParts3.includes(part));
+  };
+
   return (
     <div
       className={`${styles.navWrap} ${isExpanded ? styles.expanded : styles.collapsed}`}
@@ -62,7 +77,10 @@ const LeftNav = (props: any) => {
                   key={`market_nav_${index}`}
                 >
                   {value.link ? (
-                    <Link href={value.link} className={styles.mainTabWrap}>
+                    <Link
+                      href={value.link}
+                      className={`${styles.mainTabWrap} ${hasCommonSubstring(value.link, pathname) ? styles.active : ""}`}
+                    >
                       <span
                         className={`${value.icon} ${styles.navIcon}`}
                       ></span>
@@ -133,7 +151,10 @@ const LeftNav = (props: any) => {
                     className={styles.navListWrap}
                     key={`market_pro_nav_${index}`}
                   >
-                    <Link href={value.link} className={styles.mainTabWrap}>
+                    <Link
+                      href={value.link}
+                      className={`${styles.mainTabWrap} ${hasCommonSubstring(value.link, pathname) ? styles.active : ""}`}
+                    >
                       <span
                         className={`${value.icon} ${styles.navIcon}`}
                       ></span>
