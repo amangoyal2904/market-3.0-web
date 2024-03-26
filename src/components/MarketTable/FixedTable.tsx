@@ -3,7 +3,7 @@ import styles from "./MarketTable.module.scss";
 import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
-import { APP_ENV } from "@/utils";
+import { APP_ENV, dateFormat } from "@/utils";
 import WatchlistAddition from "../WatchlistAddition";
 
 const FixedTable = (props: any) => {
@@ -63,15 +63,27 @@ const FixedTable = (props: any) => {
                     title={thead.keyText}
                     onClick={() => {
                       isSorting &&
+                      thead.valueType != "date" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? handleSort(thead.keyId)
                         : null;
                     }}
-                    className={`${thead.keyId == "name" || thead.keyId == "shortName" || thead.keyId == "shortNameKeyword" ? styles.firstTh : isSorting && (!thead.primeFlag || (isPrime && thead.primeFlag)) ? styles.enableSort : ""}`}
+                    className={`${
+                      thead.keyId == "name" ||
+                      thead.keyId == "shortName" ||
+                      thead.keyId == "shortNameKeyword"
+                        ? styles.firstTh
+                        : isSorting &&
+                            thead.valueType != "date" &&
+                            (!thead.primeFlag || (isPrime && thead.primeFlag))
+                          ? styles.enableSort
+                          : ""
+                    }`}
                     key={thead.keyId}
                   >
                     <span className="two-line-ellipsis">{thead.keyText}</span>
                     {isSorting &&
+                      thead.valueType != "date" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
                         <span className={`${styles.sortIcons}`}>
                           <span
@@ -226,7 +238,9 @@ const FixedTable = (props: any) => {
                             </Link>
                           ) : (
                             <>
-                              {tdData.value.replaceAll(" ", "")}
+                              {tdData.valueType == "date"
+                                ? dateFormat(tdData.value, "%d %MMM %Y")
+                                : tdData.value.replaceAll(" ", "")}
                               {tdData.trend && (
                                 <span
                                   className={`${styles.arrowIcons} ${

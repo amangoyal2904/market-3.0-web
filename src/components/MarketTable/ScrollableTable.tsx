@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./MarketTable.module.scss";
 import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
-import { APP_ENV } from "@/utils";
+import { APP_ENV, dateFormat } from "@/utils";
 
 const ScrollableTable = (props: any) => {
   const {
@@ -51,12 +51,14 @@ const ScrollableTable = (props: any) => {
                     title={thead.keyText}
                     className={
                       isSorting &&
+                      thead.valueType != "date" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? styles.enableSort
                         : ""
                     }
                     onClick={() => {
                       isSorting &&
+                      thead.valueType != "date" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? handleSort(thead.keyId)
                         : null;
@@ -65,6 +67,7 @@ const ScrollableTable = (props: any) => {
                   >
                     <span className="two-line-ellipsis">{thead.keyText}</span>
                     {isSorting &&
+                      thead.valueType != "date" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
                         <span className={`${styles.sortIcons}`}>
                           <span
@@ -150,7 +153,9 @@ const ScrollableTable = (props: any) => {
                           </Link>
                         ) : (
                           <>
-                            {tdData.value.replaceAll(" ", "")}
+                            {tdData.valueType == "date"
+                              ? dateFormat(tdData.value, "%d %MMM %Y")
+                              : tdData.value.replaceAll(" ", "")}
                             {tdData.trend && (
                               <span
                                 className={`${styles.arrowIcons} ${
