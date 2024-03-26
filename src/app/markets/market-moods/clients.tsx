@@ -31,6 +31,7 @@ import Link from "next/link";
 import { useStateContext } from "@/store/StateContext";
 import Blocker from "@/components/Blocker";
 import dynamic from "next/dynamic";
+import useDebounce from "@/hooks/useDebounce";
 
 const StockFilterNifty = dynamic(
   () => import("@/components/StockFilterNifty"),
@@ -63,12 +64,11 @@ const MarketMoodsClient = ({
   const [activeItem, setActiveItem] = useState<string>("");
   const [activeItemFromClick, setActiveItemFromClick] = useState<string>("");
   const [showFilter, setShowFilter] = useState(false);
-  const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const tabRefs = useRef<{ [key: string]: HTMLLIElement | null }>({});
-  const observer = useRef<IntersectionObserver | null>(null);
+  const contentRefs = useRef<HTMLDivElement>(null);
+  const activeListItemRef = useRef<HTMLLIElement>(null);
   const niftyFilterData = useMemo(() => selectedFilter, [selectedFilter]);
   const allFilterData = useMemo(() => allFilters, [allFilters]);
-
+  const { debounce } = useDebounce();
   const updatePeriodic = async (duration: string) => {
     const newPeriodicData = await getPeriodicData(
       niftyFilterData.indexId,
@@ -194,13 +194,30 @@ const MarketMoodsClient = ({
   );
 
   useEffect(() => {
-    // Check if there's a hash in the URL
-    const hash = window.location.hash.substr(1);
-    if (hash && tabData.some((item) => item.key === hash)) {
-      // If there is, set the active item to the hash value
-      setActiveItemFromClick(hash);
-    }
-  }, []);
+    const handleScroll = debounce(() => {
+      const contentRefs = document.querySelectorAll(".sections");
+      const scrollPosition = window.scrollY;
+
+      contentRefs.forEach((ref) => {
+        const section = ref as HTMLElement;
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+
+        if (
+          scrollPosition >= sectionTop &&
+          scrollPosition < sectionTop + sectionHeight
+        ) {
+          setActiveItem(section.id);
+        }
+      });
+    }, 10);
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [debounce]);
 
   useEffect(() => {
     // Scroll to the active item's content when activeItem changes
@@ -219,68 +236,6 @@ const MarketMoodsClient = ({
     }
     setLoading(false);
   }, [pathname, searchParams]);
-
-  useEffect(() => {
-    observer.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-            setActiveItem(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.5 }, // Adjust threshold as needed
-    );
-
-    return () => {
-      if (observer.current) {
-        observer.current.disconnect();
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    Object.values(contentRefs.current).forEach((ref) => {
-      if (ref) {
-        observer.current!.observe(ref);
-      }
-    });
-
-    return () => {
-      Object.values(contentRefs.current).forEach((ref) => {
-        if (ref) {
-          observer.current!.unobserve(ref);
-        }
-      });
-    };
-  }, [contentRefs.current]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const tabSections = Object.values(contentRefs.current).filter(Boolean);
-      const activeTab = tabSections.find((ref) => {
-        const top = ref?.offsetTop;
-        const height = ref?.offsetHeight;
-        return (
-          top !== undefined &&
-          height !== undefined &&
-          scrollPosition >= top &&
-          scrollPosition < top + height
-        );
-      });
-
-      if (activeTab) {
-        setActiveItem(activeTab.id);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   return (
     <>
@@ -306,7 +261,7 @@ const MarketMoodsClient = ({
             return (
               <li
                 key={item.key}
-                ref={(el) => (tabRefs.current[item.key] = el)}
+                ref={activeItem === item.key ? activeListItemRef : null}
                 onClick={() => handleItemClick(item.key)}
                 className={
                   activeItem === item.key || (activeItem === "" && index === 0)
@@ -340,8 +295,8 @@ const MarketMoodsClient = ({
               <div
                 key={index}
                 id={item.key}
-                className={styles.section}
-                ref={(ref) => (contentRefs.current[item.key] = ref)}
+                className={`${styles.section} sections`}
+                ref={contentRefs}
               >
                 {item.heading && (
                   <div className={styles.header}>
@@ -383,8 +338,8 @@ const MarketMoodsClient = ({
           <>
             <div
               id="overview"
-              className={styles.section}
-              ref={(ref) => (contentRefs.current["overview"] = ref)}
+              className={`${styles.section} sections`}
+              ref={contentRefs}
             >
               <MarketMoodHeader
                 heading="Overview"
@@ -410,13 +365,15 @@ const MarketMoodsClient = ({
                       showAll={showAllOverview}
                     />
                   </div>
-                  <div
-                    id="overview-load-more"
-                    className={styles.loadMore}
-                    onClick={() => loadMoreData("overview")}
-                  >
-                    {showAllOverview ? "Load Less..." : "Load More..."}
-                  </div>
+                  {overviewData?.dataList?.length > 13 && (
+                    <div
+                      id="overview-load-more"
+                      className={styles.loadMore}
+                      onClick={() => loadMoreData("overview")}
+                    >
+                      {showAllOverview ? "Load Less..." : "Load More..."}
+                    </div>
+                  )}
                 </>
               ) : (
                 <div className={styles.blocker}>
@@ -426,8 +383,8 @@ const MarketMoodsClient = ({
             </div>
             <div
               id="periodic"
-              className={styles.section}
-              ref={(ref) => (contentRefs.current["periodic"] = ref)}
+              className={`${styles.section} sections`}
+              ref={contentRefs}
             >
               <MarketMoodHeader
                 heading="Periodic High/Low"
@@ -451,13 +408,15 @@ const MarketMoodsClient = ({
                       showAll={showAllPeriodic}
                     />
                   </div>
-                  <div
-                    id="periodic-load-more"
-                    className={styles.loadMore}
-                    onClick={() => loadMoreData("periodic")}
-                  >
-                    {showAllPeriodic ? "Load Less..." : "Load More..."}
-                  </div>
+                  {periodicData?.dataList?.length > 6 && (
+                    <div
+                      id="periodic-load-more"
+                      className={styles.loadMore}
+                      onClick={() => loadMoreData("periodic")}
+                    >
+                      {showAllPeriodic ? "Load Less..." : "Load More..."}
+                    </div>
+                  )}
                 </>
               ) : (
                 <div className={styles.blocker}>
@@ -467,8 +426,8 @@ const MarketMoodsClient = ({
             </div>
             <div
               id="advanceDecline"
-              className={styles.section}
-              ref={(ref) => (contentRefs.current["advanceDecline"] = ref)}
+              className={`${styles.section} sections`}
+              ref={contentRefs}
             >
               <MarketMoodHeader
                 heading="Advance/Decline"
@@ -492,13 +451,15 @@ const MarketMoodsClient = ({
                       showAll={showAllAdvanceDecline}
                     />
                   </div>
-                  <div
-                    id="advanceDecline-load-more"
-                    className={styles.loadMore}
-                    onClick={() => loadMoreData("advanceDecline")}
-                  >
-                    {showAllAdvanceDecline ? "Load Less..." : "Load More..."}
-                  </div>
+                  {advanceDeclineData?.dataList?.length > 6 && (
+                    <div
+                      id="advanceDecline-load-more"
+                      className={styles.loadMore}
+                      onClick={() => loadMoreData("advanceDecline")}
+                    >
+                      {showAllAdvanceDecline ? "Load Less..." : "Load More..."}
+                    </div>
+                  )}
                 </>
               ) : (
                 <div className={styles.blocker}>
@@ -508,11 +469,7 @@ const MarketMoodsClient = ({
             </div>
           </>
         )}
-        <div
-          id="faq"
-          className={styles.faq}
-          ref={(ref) => (contentRefs.current["faq"] = ref)}
-        >
+        <div id="faq" className={`${styles.faq} sections`} ref={contentRefs}>
           <div className={styles.head}>Frequently Asked Questions</div>
           {faqData.map((item: any, index: number) => {
             return (

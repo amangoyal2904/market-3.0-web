@@ -51,6 +51,7 @@ const MarketStats = ({
   const router = useRouter();
   const { state, dispatch } = useStateContext();
   const { isLogin, isPrime } = state.login;
+  const { currentMarketStatus } = state.marketStatus;
   const [resetSort, setResetSort] = useState("");
   const [_payload, setPayload] = useState(payload);
   const [_tabData, setTabData] = useState(tabData);
@@ -318,11 +319,13 @@ const MarketStats = ({
   };
   useEffect(() => {
     updateTableData();
-    const intervalId = setInterval(() => {
-      updateTableData();
-    }, parseInt(refeshConfig.marketstats));
-    return () => clearInterval(intervalId);
-  }, [_payload]);
+    if (!!currentMarketStatus && currentMarketStatus != "CLOSED") {
+      const intervalId = setInterval(() => {
+        updateTableData();
+      }, parseInt(refeshConfig.marketstats));
+      return () => clearInterval(intervalId);
+    }
+  }, [_payload, currentMarketStatus]);
 
   useEffect(() => {
     setProcessingLoader(true);

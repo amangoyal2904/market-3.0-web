@@ -72,7 +72,7 @@
     text-align: left;
     font-size: 14px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 500;
     height: 40px;
     font-style: normal;
     line-height: 18px;
@@ -80,6 +80,18 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    span {
+      padding: 2px 4px;
+      &.upBg,
+      &.noBg {
+        background: #7dc37c36;
+        color: #1aae55;
+      }
+      &.downBg {
+        background: #ed193b1c;
+        color: #ed193b;
+      }
+    }
     &.fullWidth {
       width: 100%;
       &.hide {

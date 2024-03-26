@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./MarketTable.module.scss";
 import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
-import { APP_ENV } from "@/utils";
+import { APP_ENV, dateFormat } from "@/utils";
 import WatchlistAddition from "../WatchlistAddition";
 
 const FixedTable = (props: any) => {
@@ -30,6 +30,21 @@ const FixedTable = (props: any) => {
     isHeaderSticky = true,
     showWatchlistIcon = true,
   } = tableConfig || {};
+  const prevTableDataListRef = useRef<any>([]);
+
+  useEffect(() => {
+    prevTableDataListRef.current = tableDataList;
+    const timer = setTimeout(() => {
+      const spanElements = document.querySelectorAll("td > span");
+      spanElements.forEach((span) => {
+        span.classList.remove(styles.upBg, styles.downBg, styles.noBg);
+      });
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [tableDataList]);
+
+  const prevTableDataList = prevTableDataListRef.current;
 
   return (
     <div
@@ -63,15 +78,27 @@ const FixedTable = (props: any) => {
                     title={thead.keyText}
                     onClick={() => {
                       isSorting &&
+                      thead.valueType != "date" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? handleSort(thead.keyId)
                         : null;
                     }}
-                    className={`${thead.keyId == "name" || thead.keyId == "shortName" || thead.keyId == "shortNameKeyword" ? styles.firstTh : isSorting && (!thead.primeFlag || (isPrime && thead.primeFlag)) ? styles.enableSort : ""}`}
+                    className={`${
+                      thead.keyId == "name" ||
+                      thead.keyId == "shortName" ||
+                      thead.keyId == "shortNameKeyword"
+                        ? styles.firstTh
+                        : isSorting &&
+                            thead.valueType != "date" &&
+                            (!thead.primeFlag || (isPrime && thead.primeFlag))
+                          ? styles.enableSort
+                          : ""
+                    }`}
                     key={thead.keyId}
                   >
                     <span className="two-line-ellipsis">{thead.keyText}</span>
                     {isSorting &&
+                      thead.valueType != "date" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
                         <span className={`${styles.sortIcons}`}>
                           <span
@@ -142,12 +169,12 @@ const FixedTable = (props: any) => {
               {tableDataList.map((item: any, index: number) => (
                 <tr key={index} className={styles.fixedTr}>
                   {item.data.map(
-                    (tdData: any, index: number) =>
-                      index < fixedCol &&
+                    (tdData: any, tdIndex: number) =>
+                      tdIndex < fixedCol &&
                       (tdData.keyId == "name" ||
                       tdData.keyId == "shortName" ||
                       tdData.keyId == "shortNameKeyword" ? (
-                        <td key={index} className={styles.fixedTD}>
+                        <td key={tdIndex} className={styles.fixedTD}>
                           <div className={styles.tdColWrap}>
                             {showRemoveCheckbox ? (
                               <div className={styles.formGroup}>
@@ -213,7 +240,7 @@ const FixedTable = (props: any) => {
                                 ? styles.primeTd
                                 : ""
                           }`}
-                          key={index}
+                          key={tdIndex}
                         >
                           {!isPrime && tdData.primeFlag ? (
                             <Link
@@ -226,7 +253,36 @@ const FixedTable = (props: any) => {
                             </Link>
                           ) : (
                             <>
-                              {tdData.value.replaceAll(" ", "")}
+                              {tdData.valueType == "date" ? (
+                                dateFormat(tdData.value, "%d %MMM %Y")
+                              ) : tdData.keyId == "lastTradedPrice" ? (
+                                <span
+                                  className={
+                                    prevTableDataList[index]?.data[tdIndex]
+                                      ?.filterFormatValue
+                                      ? parseFloat(tdData.filterFormatValue) >
+                                        parseFloat(
+                                          prevTableDataList[index]?.data[
+                                            tdIndex
+                                          ]?.filterFormatValue,
+                                        )
+                                        ? styles.upBg
+                                        : parseFloat(tdData.filterFormatValue) <
+                                            parseFloat(
+                                              prevTableDataList[index]?.data[
+                                                tdIndex
+                                              ]?.filterFormatValue,
+                                            )
+                                          ? styles.downBg
+                                          : styles.noBg
+                                      : styles.noBg
+                                  }
+                                >
+                                  {tdData.value.replaceAll(" ", "")}
+                                </span>
+                              ) : (
+                                tdData.value.replaceAll(" ", "")
+                              )}
                               {tdData.trend && (
                                 <span
                                   className={`${styles.arrowIcons} ${
