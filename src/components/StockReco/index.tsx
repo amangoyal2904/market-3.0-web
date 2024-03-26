@@ -196,12 +196,18 @@ const StockComponent: React.FC<Props> = ({
                 className={styles.viewReportBox}
                 target="_blank"
               >
-                <span className={`eticon_pdf ${styles.pdfIcon}`}>
+                <img
+                  src="/icon_pdf.svg"
+                  className={styles.pdfIcon}
+                  width="28"
+                  height="28"
+                />
+                {/* <span className={`eticon_pdf ${styles.pdfIcon}`}>
                   <span className="path1"></span>
                   <span className="path2"></span>
                   <span className="path3"></span>
                   <span className="path4"></span>
-                </span>
+                </span> */}
                 <span className={styles.viewReport}>View Report</span>
               </a>
             </div>

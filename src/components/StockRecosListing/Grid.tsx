@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./styles.module.scss";
 import WatchlistAddition from "../WatchlistAddition";
 import Blocker from "../Blocker";
@@ -9,6 +9,47 @@ import GLOBAL_CONFIG from "@/network/global_config.json";
 
 const TableHtml = (props: any) => {
   const { recosDetailResult, activeApi, urlFilterHandle } = props;
+  const fixedTheadRef = useRef<HTMLTableSectionElement>(null);
+  const scrollableTheadRef = useRef<HTMLTableSectionElement>(null);
+
+  const handleScroll = () => {
+    //console.log(12345, fixedTableRef.current, scrollableTableRef.current)
+    let scrollTopValue =
+      window.pageYOffset || document.documentElement.scrollTop;
+    console.log("scrollTopValue---", scrollTopValue);
+    const element = document.querySelector(`.${styles["gridMainBox"]}`);
+    let topValue = element instanceof HTMLElement ? element.offsetTop : 0;
+    let finalScrollTopValue =
+      scrollTopValue > topValue ? scrollTopValue - topValue : 0;
+
+    if (
+      finalScrollTopValue > 0 &&
+      fixedTheadRef.current &&
+      scrollableTheadRef.current
+    ) {
+      fixedTheadRef.current.style.transform = `translateY(${finalScrollTopValue}px)`;
+      fixedTheadRef.current.style.top = `100px`;
+      scrollableTheadRef.current.style.transform = `translateY(${finalScrollTopValue}px)`;
+      scrollableTheadRef.current.style.top = `100px`;
+    } else if (
+      finalScrollTopValue == 0 &&
+      fixedTheadRef.current &&
+      scrollableTheadRef.current
+    ) {
+      fixedTheadRef.current.style.transform = `translateY(${finalScrollTopValue}px)`;
+      fixedTheadRef.current.style.top = `0px`;
+      scrollableTheadRef.current.style.transform = `translateY(${finalScrollTopValue}px)`;
+      scrollableTheadRef.current.style.top = `0px`;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const tableHead = (tableType: any) => {
     let activeTabHead: any = [];
@@ -242,12 +283,13 @@ const TableHtml = (props: any) => {
         )}
         <td className={styles.pdfIcon}>
           <a href={obj.pdfUrl} target="_blank">
-            <span className={`eticon_pdf`}>
+            <img src="/icon_pdf.svg" width="20" height="20" />
+            {/* <span className={`eticon_pdf`}>
               <span className="path1"></span>
               <span className="path2"></span>
               <span className="path3"></span>
               <span className="path4"></span>
-            </span>
+            </span> */}
           </a>
         </td>
       </>
@@ -324,8 +366,11 @@ const TableHtml = (props: any) => {
   return (
     <>
       <div id="fixedTable" className={styles.fixedWrap}>
-        <table>
-          <thead>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead
+            ref={fixedTheadRef}
+            style={{ position: "sticky", top: "0", zIndex: "1" }}
+          >
             <tr>{tableHead("fixed")}</tr>
           </thead>
           <tbody>
@@ -379,8 +424,11 @@ const TableHtml = (props: any) => {
         </table>
       </div>
       <div id="scrollableTable" className={styles.scrollWrap}>
-        <table>
-          <thead>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead
+            ref={scrollableTheadRef}
+            style={{ position: "sticky", top: "0", zIndex: "1" }}
+          >
             <tr>
               {tableHead("scroll")}
               <th className={styles.lastMaxTD}></th>
