@@ -162,7 +162,7 @@ const TableHtml = (props: any) => {
       <>
         <td className={styles.recommendation}>
           <div
-            className={`${styles.buySellTitle} ${activeApi == "mostBuy" || obj.recoType == "Buy" ? styles.green : activeApi == "mostSell" || obj.recoType == "Sell" ? styles.red : styles.gray}`}
+            className={`${styles.buySellTitle} ${obj.potentialDirection == "Up" ? styles.green : obj.potentialDirection == "Down" ? styles.red : obj.potentialDirection == "Neutral" ? styles.gray : styles.green}`}
           >
             {activeApi == "mostBuy"
               ? "Buy"
@@ -203,7 +203,7 @@ const TableHtml = (props: any) => {
                 </span>
               ) : (
                 <span
-                  className={`numberFonts ${styles.neutral} ${styles.potential}`}
+                  className={`${styles.neutral} ${styles.potential} ${styles.targetMet}`}
                 >
                   Target Met
                 </span>
@@ -279,7 +279,7 @@ const TableHtml = (props: any) => {
                 </span>
               ) : (
                 <span
-                  className={`numberFonts ${styles.neutral} ${styles.potential}`}
+                  className={`${styles.neutral} ${styles.potential} ${styles.targetMet}`}
                 >
                   Target Met
                 </span>
@@ -362,6 +362,7 @@ const TableHtml = (props: any) => {
                         />
                         <Link
                           title={obj.companyName}
+                          target="_blank"
                           href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/${obj.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${obj.companyId}.cms`}
                         >
                           <span className={styles.companyName}>

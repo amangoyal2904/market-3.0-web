@@ -43,12 +43,15 @@
 
   &.GreyStock {
     .buySellTitle {
-      color: #666666;
+      color: $gray_40;
     }
     .potensialBox {
-      background-color: #f4f4f4;
+      background-color: $gray_95;
       h4 {
-        color: #666666;
+        color: $gray_40;
+      }
+      .targetMet {
+        font-size: 13px;
       }
     }
   }
@@ -110,6 +113,7 @@
         padding: 12px 16px;
         flex-direction: column;
         gap: 16px;
+        min-height: 98px;
         h3 {
           font-size: 14px;
           font-weight: 600;
@@ -120,6 +124,10 @@
           font-size: 18px;
           font-weight: 700;
           line-height: normal;
+
+          &.targetMet {
+            font-size: 13px;
+          }
         }
       }
       .targetBox {
@@ -264,8 +272,8 @@
 
 .stockRecosPage {
   &.stocksMain {
-    width: 23%;
-    margin-right: 16px;
+    // width: 23%;
+    // margin-right: 16px;
     min-width: 340px;
     gap: unset;
     .stocksBox {
@@ -280,7 +288,7 @@
     }
   }
   &.stocksMain:nth-child(4n) {
-    margin-right: 0;
+    // margin-right: 0;
   }
 }
 
@@ -302,12 +310,12 @@
 @media only screen and (max-width: 1882px) {
   .stockRecosPage {
     &.stockRecoByFHClass {
-      width: 32%;
+      // width: 32%;
       &:nth-child(4n) {
-        margin-right: 16px;
+        // margin-right: 16px;
       }
       &:nth-child(3n) {
-        margin-right: 0;
+        // margin-right: 0;
       }
     }
   }
@@ -315,12 +323,12 @@
 @media only screen and (max-width: 1686px) {
   .stockRecosPage {
     &.stocksMain {
-      width: 32%;
+      // width: 32%;
       &:nth-child(4n) {
-        margin-right: 16px;
+        // margin-right: 16px;
       }
       &:nth-child(3n) {
-        margin-right: 0;
+        // margin-right: 0;
       }
     }
   }
@@ -328,12 +336,12 @@
 @media only screen and (max-width: 1498px) {
   .stockRecosPage {
     &.stockRecoByFHClass {
-      width: 49%;
+      // width: 49%;
       &:nth-child(3n) {
-        margin-right: 16px;
+        // margin-right: 16px;
       }
       &:nth-child(2n) {
-        margin-right: 0;
+        // margin-right: 0;
       }
     }
   }
@@ -341,12 +349,12 @@
 @media only screen and (max-width: 1302px) {
   .stockRecosPage {
     &.stocksMain {
-      width: 49%;
+      // width: 49%;
       &:nth-child(3n) {
-        margin-right: 16px;
+        // margin-right: 16px;
       }
       &:nth-child(2n) {
-        margin-right: 0;
+        // margin-right: 0;
       }
     }
   }
@@ -354,8 +362,8 @@
 @media only screen and (max-width: 1129px) {
   .stockRecosPage {
     &.stockRecoByFHClass {
-      width: 98%;
-      margin-right: 0;
+      // width: 98%;
+      // margin-right: 0;
     }
   }
 }

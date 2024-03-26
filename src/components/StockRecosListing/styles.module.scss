@@ -63,7 +63,7 @@
       padding: 0 4px;
       margin-right: 10px;
       .niftyBtn {
-        font-size: 12px;
+        font-size: 14px;
         font-weight: 600;
         line-height: 16px;
         padding: 2px 8px;
@@ -72,6 +72,10 @@
         display: flex;
         align-items: center;
         cursor: pointer;
+
+        .filterIcon {
+          font-size: 20px;
+        }
       }
     }
 
@@ -89,6 +93,11 @@
 
         &.active {
           background-color: $salmon-40;
+        }
+
+        .listingIcon {
+          font-size: 20px;
+          vertical-align: middle;
         }
       }
     }
@@ -109,6 +118,7 @@
     width: 180px;
     box-sizing: border-box;
     cursor: pointer;
+    font-size: 14px;
 
     &.active {
       font-weight: 600;
@@ -179,11 +189,15 @@
 }
 
 .listingWrap {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  // margin-left: 16px;
-  width: 100%;
+  // display: flex;
+  // flex-wrap: wrap;
+  // justify-content: flex-start;
+  // // margin-left: 16px;
+  // width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 20px;
 
   &.noDataFound {
     width: 100%;
@@ -301,6 +315,12 @@
                 font-weight: 400;
               }
             }
+            .targetMet {
+              background-color: $gray_95;
+              color: $gray_40;
+              font-weight: 700;
+              font-size: 12px;
+            }
             .tdColWrap {
               position: relative;
               display: flex;
@@ -333,10 +353,16 @@
               font-weight: 700;
               color: $gray-20;
               font-size: 14px;
+              display: flex;
+              justify-content: flex-end;
+              align-items: center;
             }
             .currentPriceVal {
               color: $gray-05;
               font-size: 14px;
+              display: flex;
+              justify-content: flex-end;
+              align-items: center;
             }
             .buyCountVal {
               color: $green-80;
@@ -354,11 +380,15 @@
             .recosPriceVal,
             .organisationName {
               color: $gray-30;
+              display: flex;
+              justify-content: flex-end;
+              align-items: center;
             }
             .organisationName {
               color: $gray-05;
               font-size: 10px;
               font-weight: 400;
+              justify-content: flex-start;
             }
 
             &.pdfIcon {
@@ -370,9 +400,9 @@
       }
 
       [data-name="Total Recos"] {
-        width: 160px;
+        width: 120px;
         text-align: right;
-        min-width: 160px;
+        min-width: 120px;
       }
 
       [data-name="Buy"],
@@ -452,7 +482,7 @@
     font-size: 12px;
 
     .organisationNavName {
-      padding-bottom: 8px;
+      padding-bottom: 0px;
     }
 
     &.allBrokeragesTab {
@@ -664,5 +694,12 @@
   100% {
     top: 19px;
     height: 26px;
+  }
+}
+
+@supports not (display: grid) {
+  .listingWrap {
+    display: flex;
+    flex-wrap: wrap;
   }
 }

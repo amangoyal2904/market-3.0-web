@@ -135,6 +135,7 @@ const StockComponent: React.FC<Props> = ({
 
             <h2 title={data.companyName} className={styles.stocksTitle}>
               <Link
+                target="_blank"
                 href={`https://economictimes.indiatimes.com/${data.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${data.companyId}.cms`}
               >
                 {data.companyName}
@@ -146,9 +147,7 @@ const StockComponent: React.FC<Props> = ({
                 {data.potentialValue > 0 ? (
                   <h4 className={`numberFonts`}>{data.potentialValue}%</h4>
                 ) : (
-                  <h4 className={`numberFonts ${styles.targetMet}`}>
-                    Target Met
-                  </h4>
+                  <h4 className={`${styles.targetMet}`}>Target Met</h4>
                 )}
               </div>
               {activeTab == "newRecos" || activeTab == "FHDetail" ? (
