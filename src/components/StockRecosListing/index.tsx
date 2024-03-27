@@ -125,7 +125,7 @@ const StockRecosListing = (props: any) => {
         const recosDetailResult = await getStockRecosDetail({
           getApiType: activeApi,
           slug,
-          ssoid: isLogin ? "ce1tl8rz8t1lk96gdlrxwquku" : "",
+          ssoid: isLogin ? ssoid : "",
           niftyFilterData,
           pageNo: page,
         });
