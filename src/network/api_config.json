@@ -164,7 +164,7 @@
       "https://etua-stg.economictimes.indiatimes.com/users/api/logdata/uuid/resolve"
     ],
     "production": [
-      "https://etua-stg.economictimes.indiatimes.com/users/api/logdata/uuid/resolve"
+      "https://idm.economictimes.indiatimes.com/users/api/logdata/uuid/resolve"
     ]
   },
   "stockSearch": {
