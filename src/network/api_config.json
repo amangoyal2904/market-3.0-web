@@ -115,7 +115,7 @@
         "https://qcbselivefeeds.indiatimes.com/screener/saveOrderViewWatch"
       ],
       "production": [
-        "https://qcbselivefeeds.indiatimes.com/screener/saveOrderViewWatch"
+        "https://screener.indiatimes.com/screener/saveOrderViewWatch"
       ]
     },
     "AllScreenerCategory": {
@@ -131,7 +131,7 @@
         "https://qcbselivefeeds.indiatimes.com/screener/saveViewName"
       ],
       "production": [
-        "https://qcbselivefeeds.indiatimes.com/screener/saveViewName"
+        "https://screener.indiatimes.com/screener/saveViewName"
       ]
     },
     "getScreenerMapping": {
@@ -147,7 +147,7 @@
         "https://qcbselivefeeds.indiatimes.com/screener/getViewById?viewid="
       ],
       "production": [
-        "https://qcbselivefeeds.indiatimes.com/screener/getViewById?viewid="
+        "https://screener.indiatimes.com/screener/getViewById?viewid="
       ]
     },
     "screenerRemoveviewbyid": {
@@ -155,7 +155,7 @@
         "https://qcbselivefeeds.indiatimes.com/screener/removeviewbyid?viewid="
       ],
       "production": [
-        "https://qcbselivefeeds.indiatimes.com/screener/removeviewbyid?viewid="
+        "https://screener.indiatimes.com/screener/removeviewbyid?viewid="
       ]
     }
   },
@@ -259,12 +259,12 @@
         "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
       ],
       "production": [
-        "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
+        "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
       ]
     },
     "screenerListTab": {
       "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
-      "production": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview"
+      "production": "https://screener.indiatimes.com/screener/getwatchlistview"
     },
     "getAllScreenerNextJsAPI": {
       "development": ["http://localhost:3009/api/screener"],
@@ -277,17 +277,17 @@
         "https://qcbselivefeeds.indiatimes.com/screener/getScreenerByScreenerId"
       ],
       "production": [
-        "https://qcbselivefeeds.indiatimes.com/screener/getScreenerByScreenerId"
+        "https://screener.indiatimes.com/screener/getScreenerByScreenerId"
       ]
     }
   },
   "screenerGetViewById": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/screenerByScreenerIdForWeb",
-    "production": "https://qcbselivefeeds.indiatimes.com/screener/screenerByScreenerIdForWeb"
+    "production": "https://screener.indiatimes.com/screener/screenerByScreenerIdForWeb"
   },
   "screenerL3Nav": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType",
-    "production": "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
+    "production": "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
   },
   "industryFilter": {
     "development": "https://json.bselivefeeds.indiatimes.com/ET_Community/sectors",
@@ -295,14 +295,14 @@
   },
   "SaveScreenerAPI": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/saveUserScreener",
-    "production": "https://qcbselivefeeds.indiatimes.com/screener/saveUserScreener"
+    "production": "https://screener.indiatimes.com/screener/saveUserScreener"
   },
   "GetScreenerBySSOID": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterData",
-    "production": "https://qcbselivefeeds.indiatimes.com/screener/getScreenerCollectionMasterData"
+    "production": "https://screener.indiatimes.com/screener/getScreenerCollectionMasterData"
   },
   "RemoveScreenerBySSOID": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/removescreenerbyid",
-    "production": "https://qcbselivefeeds.indiatimes.com/screener/removescreenerbyid"
+    "production": "https://screener.indiatimes.com/screener/removescreenerbyid"
   }
 }
