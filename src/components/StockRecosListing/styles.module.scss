@@ -115,6 +115,7 @@
 
   .newRecosSSList {
     padding: 4px 8px;
+    margin-bottom: 4px;
     width: 180px;
     box-sizing: border-box;
     cursor: pointer;
@@ -425,8 +426,12 @@
         text-align: left;
         min-width: 140px;
       }
-
-      [data-name="Potential Upside/Downside"],
+      [data-name="Potential Upside/Downside"]{
+        min-width: 130px;
+        text-align: left;
+        min-width: 130px;
+      }
+      
       [data-name="Target Price"] {
         min-width: 130px;
         text-align: right;
@@ -677,7 +682,7 @@
 }
 
 .disclaimer {
-  padding: 32px 80px;
+  padding: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
