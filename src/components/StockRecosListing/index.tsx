@@ -117,11 +117,15 @@ const StockRecosListing = (props: any) => {
 
   useEffect(() => {
     async function recosWatchList() {
-      if (pathName.indexOf("recos-on-your-watchlist") != -1) {
+      if (
+        (pathName.indexOf("recos-on-your-watchlist") != -1 ||
+          pathName.indexOf("overview") != -1) &&
+        isLogin
+      ) {
         const recosDetailResult = await getStockRecosDetail({
           getApiType: activeApi,
           slug,
-          ssoid: isLogin ? ssoid : "",
+          ssoid: isLogin ? "ce1tl8rz8t1lk96gdlrxwquku" : "",
           niftyFilterData,
           pageNo: page,
         });

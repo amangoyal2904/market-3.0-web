@@ -161,7 +161,10 @@
       }
 
       .overViewCardWrap {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        grid-gap: 20px;
+        gap: 20px;
       }
 
       .overviewViewAll {
