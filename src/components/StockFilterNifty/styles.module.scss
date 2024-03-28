@@ -7,7 +7,7 @@
   top: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.2);
-  z-index: 99;
+  z-index: 999;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -179,7 +179,7 @@
       font-style: normal;
       font-weight: 500;
       line-height: normal;
-      padding: 15px 25px 15px 15px;
+      padding: 15px 35px 15px 15px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -194,11 +194,11 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      right: 10px;
-      width: 16px;
-      height: 16px;
-      background: $blue-50;
-      color: $white;
+      font-size: 20px;
+      right: 15px;
+      width: 24px;
+      height: 24px;
+      color: $blue-50;
     }
   }
 }
