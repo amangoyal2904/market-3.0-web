@@ -30,7 +30,7 @@ const Login = () => {
       });
     } else if (data?.length > 0) {
       watchlistArr = data.map((entry: any) => {
-        return entry.companyType && entry.id;
+        return entry.companyType && entry.prefDataVal;
       });
     }
 
