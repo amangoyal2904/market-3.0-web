@@ -13,8 +13,9 @@ interface Props {
 const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, ssoid } = state.login;
+  const { watchlist } = state.watchlistStatus;
 
-  // console.log("recos-", data);
+  console.log("-", activeApi);
 
   const responsive = [
     {

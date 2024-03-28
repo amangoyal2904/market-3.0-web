@@ -90,6 +90,8 @@ const StockRecosListing = (props: any) => {
               typeof newData?.recoData?.[0].data !== "undefined" &&
                 newData?.recoData?.[0].data?.length === 30,
             );
+          } else {
+            setHasMore(false);
           }
         }, 1000);
       }
@@ -99,6 +101,7 @@ const StockRecosListing = (props: any) => {
 
   useEffect(() => {
     fetchDataOnLazyLoad(page);
+    console.log("fetchDataOnLazyLoad", page);
   }, [fetchDataOnLazyLoad, page]);
 
   useEffect(() => {
@@ -119,7 +122,7 @@ const StockRecosListing = (props: any) => {
     async function recosWatchList() {
       if (
         (pathName.indexOf("recos-on-your-watchlist") != -1 ||
-          pathName.indexOf("overview") != -1) &&
+          activeApi == "overview") &&
         isLogin
       ) {
         const recosDetailResult = await getStockRecosDetail({
@@ -137,16 +140,29 @@ const StockRecosListing = (props: any) => {
             ? recosDetailResult
             : recosDetailResult?.recoData?.[0].data,
         );
+
+        console.log(
+          "watchList ",
+          recosDetailResult?.recoData?.[0].data?.length === 30,
+        );
         setHasMore(
           typeof recosDetailResult?.recoData?.[0].data !== "undefined" &&
             recosDetailResult?.recoData?.[0].data?.length === 30,
         );
+
+        if (
+          activeApi == "recoOnWatchlist" &&
+          recosDetailResult?.recoData?.[0].data !== "undefined" &&
+          recosDetailResult?.recoData?.[0].data?.length === 30
+        ) {
+          setPage(2);
+        }
       }
     }
 
     recosWatchList();
     // console.log("path changed", pathName);
-  }, []);
+  }, [isLogin]);
 
   useEffect(() => {
     async function recosDetail() {
@@ -182,12 +198,13 @@ const StockRecosListing = (props: any) => {
 
   const handleObserver = useCallback(
     (entries: any) => {
+      console.log(1221);
       const target = entries[0];
       if (target.isIntersecting && hasMore && activeApi != "overview") {
         setPage((prevPage) => prevPage + 1);
       }
 
-      // console.log("recosDetailJSON---handleObserver-", recosDetailResult);
+      console.log("recosDetailJSON---handleObserver-", recosDetailResult);
     },
     [hasMore],
   );
