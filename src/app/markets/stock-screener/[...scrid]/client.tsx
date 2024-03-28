@@ -13,12 +13,13 @@ import ToasterPopup from "@/components/ToasterPopup";
 import StocksScreenerNav from "@/components/ScreenersAsideNav";
 import { removePersonalizeViewById } from "@/utils/utility";
 import { fetchViewTable } from "@/utils/utility";
-import { getCookie } from "@/utils";
+import { getCookie, initSSOWidget } from "@/utils";
 import { createNewScreener } from "@/utils/screeners";
 import { getScreenerTabViewData } from "@/utils/customViewAndTables";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
 import Service from "@/network/service";
+import { useStateContext } from "@/store/StateContext";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -89,6 +90,8 @@ const StockScreeners = ({
     title: "You have Successfully created your personalise view",
   });
   const [_ssoid, setSooid] = useState(ssoid);
+  const { state } = useStateContext();
+  const { isLogin } = state.login;
   const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
     setMetaData(metaData);
@@ -324,12 +327,16 @@ const StockScreeners = ({
     setScreenerLoading(false);
   };
   const createNewScreenerFun = () => {
-    setCreateModuleScreener(true);
-    setScreenerEditMode({
-      ...screenerEditMode,
-      mode: false,
-      screenerStage: "new",
-    });
+    if (isLogin) {
+      setCreateModuleScreener(true);
+      setScreenerEditMode({
+        ...screenerEditMode,
+        mode: false,
+        screenerStage: "new",
+      });
+    } else {
+      initSSOWidget();
+    }
   };
   const cancelScreenerCreateFun = () => {
     if (screenerEditMode.mode) {
