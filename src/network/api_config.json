@@ -181,7 +181,7 @@
         "https://etusersqc2.economictimes.indiatimes.com/et/getpref"
       ],
       "production": [
-        "https://etusersqc2.economictimes.indiatimes.com/et/getpref"
+        "https://etup.economictimes.indiatimes.com/et/getpref"
       ]
     },
     "getAllWatchlistNextJsAPI": {
@@ -193,7 +193,7 @@
         "https://etusersqc2.economictimes.indiatimes.com/et/savesettings/json"
       ],
       "production": [
-        "https://etusersqc2.economictimes.indiatimes.com/et/savesettings/json"
+        "https://etup.economictimes.indiatimes.com/et/savesettings/json"
       ]
     },
     "addWatchListNextJsAPI": {
