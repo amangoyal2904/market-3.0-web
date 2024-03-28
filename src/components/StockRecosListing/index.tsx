@@ -27,6 +27,7 @@ const StockRecosListing = (props: any) => {
   } = props;
   const { state, dispatch } = useStateContext();
   const { isLogin, ssoid } = state.login;
+  const { watchlist } = state.watchlistStatus;
   const { viewType } = state.StockRecosStatus;
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const pathName = usePathname();
@@ -162,7 +163,7 @@ const StockRecosListing = (props: any) => {
 
     recosWatchList();
     // console.log("path changed", pathName);
-  }, [isLogin]);
+  }, [isLogin, watchlist]);
 
   useEffect(() => {
     async function recosDetail() {
