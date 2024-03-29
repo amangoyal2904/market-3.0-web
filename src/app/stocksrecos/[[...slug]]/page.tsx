@@ -10,7 +10,7 @@ import {
 } from "@/utils/utility";
 import Disclaimer from "@/components/StockRecosListing/Disclaimer";
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
+import { headers, cookies } from "next/headers";
 import { Metadata, ResolvingMetadata } from "next";
 
 const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
@@ -174,6 +174,8 @@ export default async function stocksrecos({
 }) {
   const headersList = headers();
   const header_url = headersList.get("x-url") || "";
+  const cookieStore = cookies();
+  const ssoidCookie = cookieStore.get("ssoid");
 
   const intFilter = searchParams?.filter ? parseInt(searchParams.filter) : 0;
   const selectedFilter = await fetchSelectedFilter(intFilter);
@@ -204,6 +206,7 @@ export default async function stocksrecos({
     getApiType: getApiType(),
     slug,
     niftyFilterData: selectedFilter,
+    ssoid: ssoidCookie,
   });
 
   const navListData =
