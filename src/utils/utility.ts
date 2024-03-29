@@ -351,7 +351,6 @@ export const createPfuuid = async (fpid: any) => {
     const data = await res.json();
     console.log("res", res, data);
     if (data && data.id != 0) {
-      console.log("@@@@--->>>>>", data);
       var pfuuid = data.id;
       setCookieToSpecificTime("pfuuid", pfuuid, 365, 0, 0);
     }
@@ -363,7 +362,6 @@ export const createPfuuid = async (fpid: any) => {
 export const createPeuuid = async (fpid: any) => {
   let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
   url = url + `?type=0&source=${API_SOURCE}`;
-  console.log("@@@@@-->inpfuuid", url);
   const res: any = await fetch(url, {
     method: "GET",
     credentials: "include",
@@ -375,7 +373,6 @@ export const createPeuuid = async (fpid: any) => {
   console.log("res", res, data);
   if (data && data.id != 0) {
     const peuuid: any = data.id;
-    console.log("@@@@--->>>>>2", data);
     setCookieToSpecificTime("peuuid", peuuid, 365, 0, 0);
   }
 };
