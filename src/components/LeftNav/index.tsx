@@ -140,8 +140,21 @@ const LeftNav = (props: any) => {
           </ul>
           <div className={styles.marketProWrap}>
             <h3 className={styles.proHeading}>
-              <span className={styles.expandTitle}>{markets_pro.heading}</span>
-              <span className={styles.collapsedTitle}>PRO</span>
+              <span className={styles.expandTitle}>
+                <span className="eticon_prime_logo">
+                  <span className="path1"></span>
+                  <span className="path2"></span>
+                  <span className="path3"></span>
+                </span>
+                <span className={styles.etprimeLogoText}>ETPrime</span>
+              </span>
+              <span className={styles.collapsedTitle}>
+                <span className="eticon_prime_logo">
+                  <span className="path1"></span>
+                  <span className="path2"></span>
+                  <span className="path3"></span>
+                </span>
+              </span>
               {/* {isExpanded ?  : } */}
             </h3>
             <ul>
