@@ -27,12 +27,9 @@ export const TVChartContainer = (
       symbol: props.symbol,
       // BEWARE: no trailing slash is expected in feed URL
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(
-        "https://priceapi.moneycontrol.com//techCharts/indianMarket/stock",
-        undefined,
-        {
-          maxResponseLength: 1000,
-          expectedOrder: "latestFirst",
-        },
+        "https://priceapi.moneycontrol.com/techCharts/indianMarket/stock",
+        1000 * 20,
+        "Y",
       ),
       timeframe: props.timeframe,
       interval: props.interval as ResolutionString,

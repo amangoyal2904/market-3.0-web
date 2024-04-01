@@ -54,7 +54,7 @@ const ScrollableTable = (props: any) => {
                       thead.valueType != "date" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? styles.enableSort
-                        : ""
+                        : styles.center
                     }
                     onClick={() => {
                       isSorting &&
@@ -63,7 +63,7 @@ const ScrollableTable = (props: any) => {
                         ? handleSort(thead.keyId)
                         : null;
                     }}
-                    key={thead.keyId}
+                    key={index}
                   >
                     <span className="two-line-ellipsis">{thead.keyText}</span>
                     {isSorting &&

@@ -287,9 +287,7 @@ const CreateScreenerModule = ({
                         maxLength={100}
                       />
                       {searchListItems.length > 0 ? (
-                        <ul
-                          className={`customeScroll ${styles.searchItemList}`}
-                        >
+                        <ul className={`customScroll ${styles.searchItemList}`}>
                           {searchListItems.map((item: any) => {
                             return (
                               <li
@@ -426,7 +424,7 @@ const CreateScreenerModule = ({
                                 {subItem.screenerCategoryFields &&
                                   subItem.screenerCategoryFields.length > 0 && (
                                     <ul
-                                      className={`customeScroll ${styles.innerList}`}
+                                      className={`customScroll ${styles.innerList}`}
                                     >
                                       {subItem.screenerCategoryFields.map(
                                         (childSubItem: any) => (

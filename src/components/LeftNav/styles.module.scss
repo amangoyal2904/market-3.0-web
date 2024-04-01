@@ -95,13 +95,13 @@
     .mainTabWrap {
       display: flex;
       align-items: center;
-      padding: 8px 0;
+      padding: 6px 0;
       position: relative;
       margin: 0 4px;
 
       .l1LabelName {
-        font-size: 14px;
-        line-height: 18px;
+        font-size: 12px;
+        line-height: 16px;
         white-space: nowrap;
         font-weight: 600;
       }
@@ -177,14 +177,14 @@
   }
 
   .toggleMenuWrap {
-    padding: 8px 0;
+    padding: 6px 0;
     margin-bottom: 8px;
     .toggleMenu {
-      font-size: 14px;
+      font-size: 12px;
       border-radius: 50%;
       background-color: $salmon-60;
       font-weight: 700;
-      margin-left: 18px;
+      margin-left: 16px;
       cursor: pointer;
       padding: 4px;
       // border: 1px solid;
