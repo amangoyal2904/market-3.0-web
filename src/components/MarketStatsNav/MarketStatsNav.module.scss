@@ -1,10 +1,15 @@
 @import "@/styles/variables.scss";
 .navWrap {
   width: 180px;
+  height: calc(100vh - 100px);
   transition: width 0.1s ease;
   box-sizing: border-box;
   position: sticky;
   top: 60px;
+  overflow: hidden;
+  &:hover {
+    overflow-y: scroll;
+  }
   .navWrapLi {
     list-style-type: none;
     padding: 7px 15px 7px 0;

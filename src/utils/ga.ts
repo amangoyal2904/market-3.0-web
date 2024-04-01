@@ -169,7 +169,13 @@ export const growthRxInit = () => {
   // window.grx("init", Config.GA.GRX_ID);
 };
 
-export const grxEvent = (type, data, gaEvent = 0) => {
+export const grxEvent = (type, data) => {
+  if (window.dataLayer) {
+    let _gtmEventDimension = {};
+    _gtmEventDimension["event"] = type;
+    _gtmEventDimension = Object.assign(_gtmEventDimension, data);
+    window.dataLayer.push(_gtmEventDimension);
+  }
   if (window.grx && data) {
     const grxDimension = data;
     // let localobjVc = objVc || {};
@@ -192,22 +198,16 @@ export const grxEvent = (type, data, gaEvent = 0) => {
         }
       }
     }
-    /* if (typeof e$ != "undefined" && e$.jStorage) {
-          var objProf = e$.jStorage.get('et_subscription_profile');
-          if(objProf) {
-              for (var attrname in objProf) { grxDimension[attrname] = objProf[attrname]; }
-          }
-      } */
     window.grx("track", type, grxDimension);
-    if (gaEvent && window.ga && type == "event") {
-      window.ga(
-        "send",
-        "event",
-        data.event_category,
-        data.event_action,
-        data.event_label,
-        window.customDimension,
-      );
-    }
+    // if (gaEvent && window.ga && type == "event") {
+    //   window.ga(
+    //     "send",
+    //     "event",
+    //     data.event_category,
+    //     data.event_action,
+    //     data.event_label,
+    //     window.customDimension,
+    //   );
+    // }
   }
 };

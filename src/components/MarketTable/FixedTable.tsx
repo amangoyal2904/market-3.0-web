@@ -92,9 +92,9 @@ const FixedTable = (props: any) => {
                             thead.valueType != "date" &&
                             (!thead.primeFlag || (isPrime && thead.primeFlag))
                           ? styles.enableSort
-                          : ""
+                          : styles.center
                     }`}
-                    key={thead.keyId}
+                    key={index}
                   >
                     <span className="two-line-ellipsis">{thead.keyText}</span>
                     {isSorting &&
