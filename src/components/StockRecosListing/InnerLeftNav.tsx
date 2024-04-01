@@ -20,7 +20,7 @@ const InnerLeftNav = (props: any) => {
           return (
             <>
               {item.apiType == "newRecos" && item?.ss.length > 0 && (
-                <ul className={`customeScroll ${styles.newRecosWrap}`}>
+                <ul className={`customScroll ${styles.newRecosWrap}`}>
                   {item.ss.map((ssItem: any, ssindex: any) => {
                     return (
                       <>
@@ -45,7 +45,7 @@ const InnerLeftNav = (props: any) => {
         })}
       {slug.includes("fundhousedetails") && (
         <div>
-          <ul className={`customeScroll ${styles.fundHousesLeftNavWrap}`}>
+          <ul className={`customScroll ${styles.fundHousesLeftNavWrap}`}>
             <li
               className={`${styles.fundHousesLeftNav} ${styles.allBrokeragesTab} ${activeApi == "recoByFH" ? styles.active : ""}`}
             >

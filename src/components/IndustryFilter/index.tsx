@@ -30,7 +30,7 @@ const IndustryFilter = ({
         <div className={`${styles.wrap}`}>
           <div className={`${styles.header}`}>Select Industry Filter</div>
           <div className={`moduleBody ${styles.body}`}>
-            <ul className="customeScroll">
+            <ul className="customScroll">
               {filteData && filteData.length > 0
                 ? filteData.map((item: any, index: number) => {
                     return (

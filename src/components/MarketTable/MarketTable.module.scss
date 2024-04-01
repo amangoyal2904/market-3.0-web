@@ -101,7 +101,7 @@
     max-width: 140px;
     height: 53px;
     position: relative;
-    text-align: left;
+    text-align: right;
     padding: 10px 30px 10px 10px;
     background-color: $gray_95;
     border-right: 1px solid $gray_95;
@@ -114,6 +114,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
+    &.center {
+      text-align: center;
+      padding-right: 10px;
+    }
     &.enableSort {
       cursor: pointer;
     }
@@ -147,7 +151,7 @@
   max-width: max-content;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  box-shadow: 1px 0px 12px 0px rgba(0, 0, 0, 0.06);
+  box-shadow: 1px 0px 12px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 
   table {
@@ -254,6 +258,8 @@
   ul {
     display: flex;
     align-items: center;
+    border: 1px solid $gray_90;
+    border-radius: 4px;
     .pageList {
       font-size: 12px;
       font-weight: 600;
@@ -265,13 +271,10 @@
       line-height: 24px;
       min-width: 24px;
       align-items: center;
+      justify-content: center;
       cursor: pointer;
       & + .pageList {
-        margin: 0 2px;
-      }
-      &.withBorder {
         border-left: 1px solid $gray_90;
-        border-right: 1px solid $gray_90;
       }
       i {
         font-size: 20px;
@@ -279,7 +282,6 @@
       }
       &.active {
         background: $black;
-        border-radius: 2px;
         color: $white;
       }
       &.disabled {

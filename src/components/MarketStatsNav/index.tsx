@@ -62,7 +62,7 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
 
   return (
     <>
-      <div className={styles.navWrap}>
+      <div className={`${styles.navWrap} customScroll`}>
         {leftNavResult &&
           leftNavResult.nav.map((item: any, index: number) => {
             return (

@@ -275,21 +275,21 @@ table {
 }
 
 /* Here Only Module Css start here */
-.customeScroll {
+.customScroll {
   overflow-y: auto;
 }
-.customeScroll::-webkit-scrollbar {
+.customScroll::-webkit-scrollbar {
   width: 6px;
 }
-.customeScroll::-webkit-scrollbar-track {
+.customScroll::-webkit-scrollbar-track {
   background: #cdcdcd;
   border-radius: 5px;
 }
-.customeScroll::-webkit-scrollbar-thumb {
+.customScroll::-webkit-scrollbar-thumb {
   background: rgb(140, 140, 140);
   border-radius: 5px;
 }
-.customeScroll::-webkit-scrollbar-thumb:hover {
+.customScroll::-webkit-scrollbar-thumb:hover {
   background: rgb(87, 87, 87);
 }
 .customeModule {
