@@ -33,7 +33,7 @@
   }
 
   .marketProWrap {
-    margin-top: 20px;
+    margin-top: 6px;
     background-color: $salmon-60;
     padding-bottom: 10px;
 
@@ -95,7 +95,7 @@
     .mainTabWrap {
       display: flex;
       align-items: center;
-      padding: 8px 0;
+      padding: 6px 0;
       position: relative;
       margin: 0 4px;
 
@@ -125,7 +125,7 @@
       max-height: calc(100vh - 538px);
       overflow: auto;
       border-radius: 0 8px 8px 0;
-      padding: 8px 4px;
+      padding: 0 4px 8px;
 
       .l2ListWrapName {
         padding: 10px 16px;
@@ -178,7 +178,7 @@
 
   .toggleMenuWrap {
     padding: 8px 0;
-    margin-bottom: 8px;
+    // margin-bottom: 8px;
     .toggleMenu {
       font-size: 14px;
       border-radius: 50%;
@@ -299,4 +299,10 @@
       }
     }
   }
+}
+.etprimeLogoText {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  margin-left: 2px;
 }
