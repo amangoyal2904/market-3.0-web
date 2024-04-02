@@ -14,6 +14,10 @@
   overflow-y: "scroll";
   justify-content: flex-start;
 
+  .primeCell {
+    background: $salmon-05;
+  }
+
   .inputWrapper {
     text-align: center;
     padding: 8px 12px;
