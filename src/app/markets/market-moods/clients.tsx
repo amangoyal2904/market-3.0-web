@@ -305,9 +305,10 @@ const MarketMoodsClient = ({
                 )}
                 <Image
                   src={item.img}
-                  width={index === 0 ? 515 : 545}
-                  height={245}
+                  width={index === 0 ? 792 : 586}
+                  height={index === 0 ? 370 : 273}
                   alt={`Market Moods ${item.heading}`}
+                  loading="lazy"
                 />
                 <p className={styles.title}>{item.title}</p>
                 <p className={styles.desc}>{item.desc}</p>
