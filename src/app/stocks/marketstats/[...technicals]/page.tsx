@@ -162,12 +162,7 @@ const Technicals = async ({ params, searchParams }: any) => {
     pageno,
   };
   const { tableHeaderData, tableData, pageSummary, payload } =
-    await getCustomViewTable(
-      bodyParams,
-      isprimeuser,
-      ssoid,
-      "MARKETSTATS_TECHNICALS",
-    );
+    await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_TECHNICALS");
 
   const selectedFilter = await fetchSelectedFilter(intFilter);
   const technicalCategory = await getTechincalOperands(
