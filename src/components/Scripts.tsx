@@ -1,10 +1,11 @@
 "use client";
 import { log } from "console";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Script from "next/script";
 import { FC, useEffect } from "react";
 import { APP_ENV, verifyLogin } from "../utils";
 import GLOBAL_CONFIG from "../network/global_config.json";
+import { trackingEvent } from "@/utils/ga";
 
 interface Props {
   isprimeuser?: number | boolean;
@@ -19,6 +20,7 @@ declare global {
       getUserDetails?: any;
       signOutUser?: any;
     };
+    dataLayer: [];
     ssoWidget?: any;
     verifyLoginSuccess?: any;
     objUser: {
@@ -39,7 +41,7 @@ declare var JssoCrosswalk: any;
 
 const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   console.log(APP_ENV);
-  const router = useRouter();
+  const router = usePathname();
   const searchParams = useSearchParams();
 
   //console.log({ searchParams });
@@ -48,12 +50,19 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   const jsDomain = "https://etdev8243.indiatimes.com"; //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
   const jsIntsURL = `${jsDomain}/js_ints_web.cms`;
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // (window.dataLayer as any).push({
+    //   event: 'page_view',
+    //   pagePath: window.location.pathname
+    // });
+    trackingEvent("page_view", { url: window.location.pathname });
+  }, [router]);
 
   return (
     <>
       <Script id="main-script">
         {`
+          window.dataLayer = window.dataLayer || [];
           window.__APP = {
               env: "${APP_ENV}"
           }
@@ -136,7 +145,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
         strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `
-            window.dataLayer = window.dataLayer || [];
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -180,11 +188,11 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               `,
             }}
           />
-          <Script
+          {/* <Script
             id="tag-manager"
             strategy="lazyOnload"
             src={`https://www.googletagmanager.com/gtag/js?id=GTM-WV452H7`}
-          />
+          /> */}
         </>
       )}
     </>

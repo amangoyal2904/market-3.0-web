@@ -19,6 +19,7 @@ import {
   getCustomViewTable,
   getCustomViewsTab,
 } from "@/utils/customViewAndTables";
+import { trackingEvent } from "@/utils/ga";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -202,7 +203,17 @@ const WatchListClient = () => {
     if (isLogin === true) {
       fetchWatchListData();
       setShowBlocker(false);
+      trackingEvent("event", {
+        event_category: "Watchlist",
+        event_action: "Desktop-Logged In",
+        event_label: "-",
+      });
     } else if (isLogin === false) {
+      trackingEvent("event", {
+        event_category: "Watchlist",
+        event_action: "Desktop-NOT Logged In",
+        event_label: "-",
+      });
       setShowBlocker(true);
     }
   }, [isLogin]);
