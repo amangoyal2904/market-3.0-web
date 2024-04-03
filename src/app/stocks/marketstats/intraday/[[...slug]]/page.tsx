@@ -145,12 +145,7 @@ const Intraday = async ({ searchParams }: any) => {
   };
 
   const { tableHeaderData, tableData, pageSummary, payload } =
-    await getCustomViewTable(
-      bodyParams,
-      isprimeuser,
-      ssoid,
-      "MARKETSTATS_INTRADAY",
-    );
+    await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
 
   const selectedFilter = await fetchSelectedFilter(intFilter);
 

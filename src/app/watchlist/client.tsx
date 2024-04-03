@@ -86,14 +86,8 @@ const WatchListClient = () => {
   };
   const updateTableData = async () => {
     const bodyParams = requestPayload;
-    const isprimeuser = !!isPrime ? isPrime : false;
     const { tableHeaderData, tableData, pageSummary, payload } =
-      await getCustomViewTable(
-        bodyParams,
-        isprimeuser,
-        ssoid,
-        "MARKETS_CUSTOM_TABLE",
-      );
+      await getCustomViewTable(bodyParams, true, ssoid, "MARKETS_CUSTOM_TABLE");
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
     setProcessingLoader(false);
@@ -107,14 +101,8 @@ const WatchListClient = () => {
     });
 
     const bodyParams = { type: "STOCK", viewId: activeViewId, deviceId: "web" };
-    const isprimeuser = !!isPrime ? isPrime : false;
     const { tableHeaderData, tableData, pageSummary, payload } =
-      await getCustomViewTable(
-        bodyParams,
-        isprimeuser,
-        ssoid,
-        "MARKETS_CUSTOM_TABLE",
-      );
+      await getCustomViewTable(bodyParams, true, ssoid, "MARKETS_CUSTOM_TABLE");
 
     setTabData(tabData);
     setActiveViewId(activeViewId);
