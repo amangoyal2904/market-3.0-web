@@ -149,15 +149,6 @@ const RedeemVoucher = () => {
   };
 
   const continueReading = () => {
-    if (typeof window.ga != "undefined") {
-      window.ga(
-        "send",
-        "event",
-        "Voucher Redemption",
-        "Continue Reading",
-        window.location.href,
-      );
-    }
     if (isParams) {
       window.location.replace(window.location.pathname);
     } else {
