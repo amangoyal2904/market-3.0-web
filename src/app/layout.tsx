@@ -61,7 +61,6 @@ export default async function RootLayout({
   const isprimeuser = cookies().get("isprimeuser") ? true : false;
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
-
   //console.log("headersList----", headersList);
 
   // =====  Get Left Nav Data =======

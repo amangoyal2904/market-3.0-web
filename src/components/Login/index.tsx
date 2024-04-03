@@ -47,7 +47,6 @@ const Login = () => {
   const verifyLoginSuccessCallback = async () => {
     try {
       fetchWatchListStocks();
-
       const primeRes = await loadPrimeApi();
       //console.log(permissionRes.)
 
@@ -57,7 +56,6 @@ const Login = () => {
           primeRes.data.permissions.some(function (item: any) {
             return !item.includes("etadfree") && item.includes("subscribed");
           });
-
         window.objUser.permissions = primeRes.data.permissions || [];
         window.objUser.accessibleFeatures =
           primeRes.data.accessibleFeatures || [];
@@ -74,7 +72,6 @@ const Login = () => {
         window.objUser.primeInfo = {};
         window.objUser.isPrime = false;
         delete_cookie("isprimeuser");
-
         if (primeRes && primeRes.token) {
           delete_cookie("OTR");
         }
