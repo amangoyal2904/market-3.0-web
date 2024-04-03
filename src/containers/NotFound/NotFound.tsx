@@ -16,7 +16,7 @@ const NotFound = () => {
         </Link>
         <Link
           className="default-btn"
-          href="/marketstats/intraday?type=gainers&duration=1d&filter=2369"
+          href="/stocks/marketstats/intraday/top-gainers"
         >
           Marketstats Intraday
         </Link>
