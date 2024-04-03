@@ -2,7 +2,7 @@
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import MarketMoodsClient from "../clients";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 import {
   fetchFilters,
   fetchSelectedFilter,
@@ -29,11 +29,8 @@ export async function generateMetadata(
   return fnGenerateMetaData(meta);
 }
 
-// MarketMoods function
 const MarketMoods = async ({ params }: any) => {
   const niftyFilterData = await fetchSelectedFilter(params.index);
-  const cookieStore = cookies();
-  const isprimeuser = cookieStore.get("isprimeuser")?.value === "true";
   if (niftyFilterData.indexId == 0) {
     notFound();
   }
@@ -52,7 +49,6 @@ const MarketMoods = async ({ params }: any) => {
       advanceDecline={advanceDeclineData}
       periodic={periodicData}
       allFilters={allFilters}
-      isprimeuser={isprimeuser}
     />
   );
 };

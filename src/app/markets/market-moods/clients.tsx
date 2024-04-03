@@ -44,7 +44,6 @@ const MarketMoodsClient = ({
   advanceDecline = {},
   periodic = {},
   allFilters = {},
-  isprimeuser,
 }: any) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, isPrime } = state.login;
@@ -274,7 +273,7 @@ const MarketMoodsClient = ({
             );
           })}
         </ul>
-        {(isPrime || isprimeuser) && (
+        {isPrime && (
           <span
             className={`${styles.roundBtn} ${styles.filterNseBse}`}
             onClick={() => showFilterMenu(true)}
@@ -283,13 +282,9 @@ const MarketMoodsClient = ({
           </span>
         )}
       </div>
-      <div
-        className={`${styles.wrapper} ${
-          !(isPrime || isprimeuser) ? styles.center : ""
-        }`}
-      >
+      <div className={`${styles.wrapper} ${!isPrime ? styles.center : ""}`}>
         {loading && <Loader loaderType="container" />}
-        {!(isPrime || isprimeuser) ? (
+        {!isPrime ? (
           <>
             {payWallMarketMood.map((item: any, index: number) => (
               <div
@@ -305,9 +300,10 @@ const MarketMoodsClient = ({
                 )}
                 <Image
                   src={item.img}
-                  width={index === 0 ? 515 : 545}
-                  height={245}
+                  width={792}
+                  height={370}
                   alt={`Market Moods ${item.heading}`}
+                  loading="lazy"
                 />
                 <p className={styles.title}>{item.title}</p>
                 <p className={styles.desc}>{item.desc}</p>

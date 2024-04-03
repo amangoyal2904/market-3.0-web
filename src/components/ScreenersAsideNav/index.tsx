@@ -56,7 +56,7 @@ const StocksScreenerNav: React.FC<PageProps> = (props) => {
   };
   return (
     <>
-      <div className={`customeScroll ${styles.navWrap}`}>
+      <div className={`customScroll ${styles.navWrap}`}>
         {l3UserNav &&
         l3UserNav.listScreenerMaster &&
         l3UserNav.listScreenerMaster.length > 0 ? (

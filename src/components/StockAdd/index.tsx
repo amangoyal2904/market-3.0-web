@@ -232,7 +232,7 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
 
   const viewDataListSet = (data: any) => {
     return (
-      <ul className={`customeScroll ${styles.lsitItem}`}>
+      <ul className={`customScroll ${styles.lsitItem}`}>
         {data.map((item: any, index: any) => {
           return (
             <li

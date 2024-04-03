@@ -49,13 +49,13 @@ const ScrollableTable = (props: any) => {
                 index >= fixedCol && (
                   <th
                     title={thead.keyText}
-                    className={
+                    className={`${
                       isSorting &&
                       thead.valueType != "date" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? styles.enableSort
-                        : ""
-                    }
+                        : styles.center
+                    } ${isPrime && thead.primeFlag ? styles.primeCell : ""}`}
                     onClick={() => {
                       isSorting &&
                       thead.valueType != "date" &&
@@ -63,9 +63,18 @@ const ScrollableTable = (props: any) => {
                         ? handleSort(thead.keyId)
                         : null;
                     }}
-                    key={thead.keyId}
+                    key={index}
                   >
-                    <span className="two-line-ellipsis">{thead.keyText}</span>
+                    <span className="two-line-ellipsis">
+                      {isPrime && thead.primeFlag ? (
+                        <span className="eticon_prime_logo">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
+                          <span className="path3"></span>
+                        </span>
+                      ) : null}{" "}
+                      {thead.keyText}
+                    </span>
                     {isSorting &&
                       thead.valueType != "date" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
@@ -139,7 +148,7 @@ const ScrollableTable = (props: any) => {
                             : tdData.primeFlag
                               ? styles.primeTd
                               : ""
-                        }`}
+                        } ${isPrime && tdData.primeFlag ? styles.primeCell : ""}`}
                         key={index}
                       >
                         {!isPrime && tdData.primeFlag ? (

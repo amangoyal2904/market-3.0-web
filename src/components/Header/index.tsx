@@ -10,7 +10,7 @@ import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import dynamic from "next/dynamic";
 
-import ETLogo from "../../../public/et-markets-logo.png";
+import ETLogo from "../../../public/et_markets_logo.svg";
 
 const LiveMarketData = dynamic(() => import("../LiveMarketData"), {
   ssr: false,

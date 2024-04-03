@@ -92,11 +92,20 @@ const FixedTable = (props: any) => {
                             thead.valueType != "date" &&
                             (!thead.primeFlag || (isPrime && thead.primeFlag))
                           ? styles.enableSort
-                          : ""
-                    }`}
-                    key={thead.keyId}
+                          : styles.center
+                    } ${isPrime && thead.primeFlag ? styles.primeCell : ""}`}
+                    key={index}
                   >
-                    <span className="two-line-ellipsis">{thead.keyText}</span>
+                    <span className="two-line-ellipsis">
+                      {isPrime && thead.primeFlag ? (
+                        <span className="eticon_prime_logo">
+                          <span className="path1"></span>
+                          <span className="path2"></span>
+                          <span className="path3"></span>
+                        </span>
+                      ) : null}{" "}
+                      {thead.keyText}
+                    </span>
                     {isSorting &&
                       thead.valueType != "date" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
@@ -239,7 +248,7 @@ const FixedTable = (props: any) => {
                               : tdData.primeFlag
                                 ? styles.primeTd
                                 : ""
-                          }`}
+                          } ${isPrime && tdData.primeFlag ? styles.primeCell : ""}`}
                           key={tdIndex}
                         >
                           {!isPrime && tdData.primeFlag ? (
