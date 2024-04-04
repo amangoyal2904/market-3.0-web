@@ -164,7 +164,9 @@ const ScrollableTable = (props: any) => {
                           <>
                             {tdData.valueType == "date"
                               ? dateFormat(tdData.value, "%d %MMM %Y")
-                              : tdData.value.replaceAll(" ", "")}
+                              : tdData.valueType == "number"
+                                ? tdData.value.replaceAll(" ", "")
+                                : tdData.value}
                             {tdData.trend && (
                               <span
                                 className={`${styles.arrowIcons} ${

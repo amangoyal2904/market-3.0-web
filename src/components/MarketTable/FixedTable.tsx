@@ -289,10 +289,14 @@ const FixedTable = (props: any) => {
                                       : styles.noBg
                                   }
                                 >
-                                  {tdData.value.replaceAll(" ", "")}
+                                  {tdData.valueType == "number"
+                                    ? tdData.value.replaceAll(" ", "")
+                                    : tdData.value}
                                 </span>
-                              ) : (
+                              ) : tdData.valueType == "number" ? (
                                 tdData.value.replaceAll(" ", "")
+                              ) : (
+                                tdData.value
                               )}
                               {tdData.trend && (
                                 <span
