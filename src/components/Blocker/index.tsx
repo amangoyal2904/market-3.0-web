@@ -7,7 +7,7 @@ import AddStockComponent from "../StockAdd";
 
 interface propsType {
   type: any;
-  updateTableHander?: any;
+  updateTableHandler?: any;
 }
 
 const handleLoginToggle = (): void => {
@@ -54,7 +54,7 @@ const blockerList: any = {
 };
 const Blocker = (props: propsType) => {
   const [addStockShow, setAddStockShow] = useState(false);
-  const { type, updateTableHander } = props;
+  const { type, updateTableHandler } = props;
   const { message, cta, action, icon, id } = blockerList[type] || {};
 
   const moduelClose = () => {
@@ -83,7 +83,7 @@ const Blocker = (props: propsType) => {
       {addStockShow ? (
         <AddStockComponent
           moduelClose={setAddStockShow}
-          updateTableHander={updateTableHander}
+          updateTableHandler={updateTableHandler}
         />
       ) : null}
     </>
