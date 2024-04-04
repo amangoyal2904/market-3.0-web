@@ -318,7 +318,13 @@ const MarketTable = (props: propsType) => {
       {(tableDataList.length === 0 && tableHeaderData.length === 0) ||
       (tableDataList.length === 0 && tableHeaderData.length !== 0) ? (
         <div className="prel">
-          {processingLoader && <Loader loaderType="container" />}
+          {processingLoader && (
+            <Loader
+              loaderType={
+                tableConfig.name === "watchList" ? "containerBg" : "container"
+              }
+            />
+          )}
           <Blocker
             type={tableConfig.name === "watchList" ? "noStocks" : "noDataFound"}
             updateTableHandler={updateTableHandler}

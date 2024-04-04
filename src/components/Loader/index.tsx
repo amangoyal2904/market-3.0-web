@@ -9,7 +9,9 @@ const Loader = ({ loaderType }: any) => {
             ? styles.innerLoading_layer
             : loaderType == "container"
               ? styles.container_layer
-              : styles.loading_layer
+              : loaderType == "containerBg"
+                ? styles.container_whitelayer
+                : styles.loading_layer
         }
         id="loading_layer"
       >

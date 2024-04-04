@@ -25,6 +25,18 @@
     top: 15%;
   }
 }
+.container_whitelayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $white;
+  z-index: 4;
+  .spinner {
+    top: 15%;
+  }
+}
 .spinner {
   display: inline-block;
   position: absolute;
