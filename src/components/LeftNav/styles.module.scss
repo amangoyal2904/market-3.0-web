@@ -7,7 +7,7 @@
   top: 56px;
   left: 0;
   height: calc(100vh - 56px);
-  transition: width 0.1s ease;
+  transition: width 0.3s ease;
   box-shadow: 1px 0px 4px 0px #0000001a;
   box-sizing: border-box;
   z-index: 99;
@@ -28,7 +28,7 @@
   }
 
   .marketNavWrap {
-    max-height: calc(100vh - 348px);
+    max-height: calc(100vh - 312px);
     overflow: auto;
   }
 
@@ -122,7 +122,7 @@
     .l2ListWrap {
       margin-left: 35px;
       list-style: none;
-      max-height: calc(100vh - 538px);
+      max-height: calc(100vh - 438px);
       overflow: auto;
       border-radius: 0 8px 8px 0;
       padding: 0 4px 8px;
@@ -224,6 +224,8 @@
       width: 100%;
       background-color: $salmon-50;
       height: 100%;
+      transition: width 0.2s ease;
+
       .marketNavWrap {
         overflow: unset;
         .l2Expanded {
@@ -303,6 +305,6 @@
 .etprimeLogoText {
   font-size: 14px;
   font-weight: 600;
-  line-height: 18px;
+  line-height: 12px;
   margin-left: 2px;
 }
