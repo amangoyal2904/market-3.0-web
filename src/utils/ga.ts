@@ -4,7 +4,10 @@ import * as Config from "./common";
 import * as utils from ".";
 import { useStateContext } from "@/store/StateContext";
 import { getCookie } from "@/utils";
-
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils/index";
+import Service from "../network/service";
+import GLOBAL_CONFIG from "../network/global_config.json";
 declare global {
   interface Window {
     // ga: (eventType: string, event?: string, category?: string, action?: string, label?: string, dimension?: object) => void;
@@ -141,14 +144,112 @@ declare global {
 //   window.grx("init", window.objVc.growthRxId || "gc2744074");
 //   // window.grx("init", Config.GA.GRX_ID);
 // };
+export const goToPlansPage = (type, data) => {
+  if (window.dataLayer) {
+    let _gtmEventDimension = {};
+    const pageUrl = window.location.pathname;
+    const pageElem = window.location.pathname.split("/");
+    let site_section = pageElem.toString();
+    _gtmEventDimension["feature_name"] = "ET Market";
+    _gtmEventDimension["site_section"] = site_section.slice(1);
+    _gtmEventDimension["platform"] = "Web";
+    _gtmEventDimension["level_1"] = window.location.pathname.substring(
+      window.location.pathname.lastIndexOf("/") + 1,
+    );
+    _gtmEventDimension["event"] = type;
+    let items = [];
+    items.push(data);
+    _gtmEventDimension["items"] = items;
+    //_gtmEventDimension = Object.assign(_gtmEventDimension, data);
+    window.dataLayer.push(_gtmEventDimension);
+    trackPushData(_gtmEventDimension);
+  }
+};
+
+export const trackPushData = (planDim: any) => {
+  let url = (APIS_CONFIG as any)?.PUSHDATA[APP_ENV],
+    //grxMapObj = JSON.parse(JSON.stringify(window.objVc.growthRxDimension)),
+    grxMapObj = {},
+    newGrxMapObj = {},
+    objUserData = {},
+    ga4Items = {};
+
+  // for(const ele in grxMapObj) {
+  //     newGrxMapObj['dimension'+ele.split('d')[1]] = grxMapObj[ele]
+  // }
+
+  if (window.objUser && window.objUser.info.isLogged) {
+    const { primaryEmail, mobile, firstName, lastName } = window.objUser.info;
+    const fullName = firstName + (lastName ? " " + lastName : "");
+    objUserData.email = primaryEmail;
+    objUserData.mobile = mobile;
+    objUserData.fname = firstName;
+    objUserData.fullname = fullName;
+  }
+  console.log("objUser", window.objUser, objUserData);
+  const dataToPost = {
+    ET: {},
+    grxMappingObj: newGrxMapObj,
+    objUserData: objUserData,
+    analytics_cdp: {},
+    ga4Items: planDim,
+  };
+  const pushData = {
+    logdata: JSON.stringify(dataToPost),
+    merchantType: "ET",
+    grxId: getCookie("_grx"),
+  };
+  const ticketId = getCookie("encTicket")
+    ? `&ticketid=${getCookie("encTicket")}`
+    : "";
+  const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
+  const newPlanUrl =
+    planUrl +
+    (planUrl.indexOf("?") == -1 ? "?" : "&") +
+    "ru=" +
+    encodeURI(window.location.href) +
+    "&grxId=" +
+    getCookie("_grx") +
+    ticketId;
+  console.log("grxPushData", url, pushData, planUrl, newPlanUrl);
+
+  // const response = await Service.post({
+  //   url,
+  //   headers,
+  //   payload: pushData,
+  //   params: {},
+  // });
+  // console.log('res------->', response?.json());
+
+  Service.post({ url, headers: {}, payload: pushData, params: {} })
+    .then((res) => {
+      console.log("res------->", res);
+      //window.location.href = newPlanUrl;
+    })
+    .catch((err) => {
+      //window.location.href = newPlanUrl;
+    });
+};
 
 export const trackingEvent = (type, data) => {
   if (window.dataLayer) {
     let _gtmEventDimension = {};
+    const pageUrl = window.location.pathname;
+    const pageElem = window.location.pathname.split("/");
+    let site_section = pageElem.toString();
+    // pageElem.forEach((element) => {site_section+=element;});
+    console.log("site_section--->", site_section);
     _gtmEventDimension["feature_name"] = "ET Market";
+    _gtmEventDimension["site_section"] = site_section.slice(1);
     _gtmEventDimension["login_status"] =
       typeof window.objUser != "undefined" ? "Yes" : "No";
-    _gtmEventDimension["subscription_status"] = "ET Market";
+    _gtmEventDimension["subscription_status"] = window?.objUser?.isPrime
+      ? window.objUser.isPrime
+      : "";
+    _gtmEventDimension["feature_permission"] = window?.objUser?.primeInfo
+      ?.accessibleFeatures
+      ? window?.objUser?.primeInfo?.accessibleFeatures
+      : "";
     _gtmEventDimension["user_id"] =
       typeof window.objUser != "undefined" && window.objUser.ssoid
         ? window.objUser.ssoid
@@ -157,7 +258,10 @@ export const trackingEvent = (type, data) => {
     _gtmEventDimension["user_grx_id"] = getCookie("_grx")
       ? getCookie("_grx")
       : "";
-    _gtmEventDimension["platform"] = "web";
+    _gtmEventDimension["platform"] = "Web";
+    _gtmEventDimension["level_1"] = window.location.pathname.substring(
+      window.location.pathname.lastIndexOf("/") + 1,
+    );
     _gtmEventDimension["event"] = type;
     _gtmEventDimension = Object.assign(_gtmEventDimension, data);
     window.dataLayer.push(_gtmEventDimension);
