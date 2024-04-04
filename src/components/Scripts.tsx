@@ -6,7 +6,7 @@ import { FC, useEffect } from "react";
 import { APP_ENV, verifyLogin } from "../utils";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
-
+import APIS_CONFIG from "@/network/api_config.json";
 interface Props {
   isprimeuser?: number | boolean;
   objVc?: object;
@@ -43,18 +43,9 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   console.log(APP_ENV);
   const router = usePathname();
   const searchParams = useSearchParams();
-
-  //console.log({ searchParams });
-
   const minifyJS = APP_ENV === "development" ? 0 : 1;
   const jsDomain = "https://etdev8243.indiatimes.com"; //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
-  const jsIntsURL = `${jsDomain}/js_ints_web.cms`;
-
   useEffect(() => {
-    // (window.dataLayer as any).push({
-    //   event: 'page_view',
-    //   pagePath: window.location.pathname
-    // });
     trackingEvent("page_view", { url: window.location.pathname });
   }, [router]);
 

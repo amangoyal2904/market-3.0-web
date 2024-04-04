@@ -5,7 +5,7 @@ import { initSSOWidget } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
-import { trackingEvent } from "@/utils/ga";
+import { goToPlansPage, trackingEvent } from "@/utils/ga";
 
 const WatchlistAddition = ({
   companyName,
@@ -121,6 +121,11 @@ const WatchlistAddition = ({
         event_action: "Login success",
         event_label: "-",
       });
+      goToPlansPage("event", {
+        item_category: "WatchList Addition",
+        item_brand: "Login success",
+        event_label: "-",
+      });
       console.log("watchlist----------", watchlist);
       const watchlistStatus = watchlist.includes(companyId.toString()) ? 0 : 1;
       console.log("watchlistStatus---", watchlistStatus);
@@ -128,6 +133,11 @@ const WatchlistAddition = ({
       addStockInWatchlistHandler(watchlistStatus);
     } else {
       trackingEvent("event", {
+        event_category: "WatchList Addition",
+        event_action: "Not Login success",
+        event_label: "-",
+      });
+      goToPlansPage("event", {
         event_category: "WatchList Addition",
         event_action: "Not Login success",
         event_label: "-",
