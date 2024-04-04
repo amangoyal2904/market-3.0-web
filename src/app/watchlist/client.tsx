@@ -194,7 +194,7 @@ const WatchListClient = () => {
     }
   };
 
-  const updateTableHanderFun = () => {
+  const updateTableHandlerFun = () => {
     setProcessingLoader(true);
     onTabViewUpdate(activeViewId);
   };
@@ -260,7 +260,7 @@ const WatchListClient = () => {
                   }
                   tabConfig={tabConfig["watchList"]}
                   onPersonalizeHandler={onPersonalizeHandlerfun}
-                  updateTableHander={updateTableHanderFun}
+                  updateTableHandler={updateTableHandlerFun}
                   watchlistDataLength={tableData.length}
                   removePersonaliseView={removePersonaliseViewFun}
                 />
@@ -268,6 +268,7 @@ const WatchListClient = () => {
             )}
             <MarketTable
               data={tableData}
+              highlightLtp={false}
               tableHeaders={tableHeaderData}
               tabsViewIdUpdate={onTabViewUpdate}
               apiSuccess={apiSuccess}
@@ -275,7 +276,7 @@ const WatchListClient = () => {
               multipleStockCollect={multipleStockCollect}
               pageSummary={pageSummary}
               tableConfig={config}
-              updateTableHander={updateTableHanderFun}
+              updateTableHandler={updateTableHandlerFun}
               processingLoader={processingLoader}
             />
           </>

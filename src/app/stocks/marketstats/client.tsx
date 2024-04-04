@@ -405,6 +405,9 @@ const MarketStats = ({
           </div>
           <MarketTable
             data={_tableData}
+            highlightLtp={
+              !!currentMarketStatus && currentMarketStatus != "CLOSED"
+            }
             tableHeaders={_tableHeaderData}
             tabsViewIdUpdate={resetSort}
             pageSummary={_pageSummary}

@@ -33,7 +33,7 @@ const MarketFiltersTab = ({
   filterDataChange,
   dayFitlerHanlderChange,
   tabConfig,
-  updateTableHander,
+  updateTableHandler,
   onPersonalizeHandler,
   dayFilterData,
   setDayFilterData,
@@ -301,7 +301,7 @@ const MarketFiltersTab = ({
       {addStockShow ? (
         <AddStockComponent
           moduelClose={setAddStockShow}
-          updateTableHander={updateTableHander}
+          updateTableHandler={updateTableHandler}
         />
       ) : null}
       {showFilter && (

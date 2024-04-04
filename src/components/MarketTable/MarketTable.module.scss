@@ -67,6 +67,7 @@
   overflow-x: auto;
 
   td {
+    min-width: 140px;
     max-width: 200px;
     padding: 10px 12px;
     border-right: 1px solid $gray_95;

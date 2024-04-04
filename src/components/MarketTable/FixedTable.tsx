@@ -8,6 +8,7 @@ import WatchlistAddition from "../WatchlistAddition";
 
 const FixedTable = (props: any) => {
   const {
+    highlightLtp,
     tableHeaderData,
     scrollLeftPos,
     headerSticky,
@@ -267,6 +268,7 @@ const FixedTable = (props: any) => {
                               ) : tdData.keyId == "lastTradedPrice" ? (
                                 <span
                                   className={
+                                    !!highlightLtp &&
                                     prevTableDataList[index]?.data[tdIndex]
                                       ?.filterFormatValue
                                       ? parseFloat(tdData.filterFormatValue) >
