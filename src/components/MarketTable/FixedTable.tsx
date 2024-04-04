@@ -251,6 +251,9 @@ const FixedTable = (props: any) => {
                                 : ""
                           } ${isPrime && tdData.primeFlag ? styles.primeCell : ""}`}
                           key={tdIndex}
+                          title={
+                            tdData.valueType == "text" ? tdData.value : null
+                          }
                         >
                           {!isPrime && tdData.primeFlag ? (
                             <Link
@@ -289,9 +292,7 @@ const FixedTable = (props: any) => {
                                       : styles.noBg
                                   }
                                 >
-                                  {tdData.valueType == "number"
-                                    ? tdData.value.replaceAll(" ", "")
-                                    : tdData.value}
+                                  {tdData.value.replaceAll(" ", "")}
                                 </span>
                               ) : tdData.valueType == "number" ? (
                                 tdData.value.replaceAll(" ", "")

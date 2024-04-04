@@ -275,7 +275,13 @@ const MarketTable = (props: propsType) => {
   return (
     <>
       <div className={styles.tableWrapper} id="table">
-        {!!processingLoader && <Loader loaderType="container" />}
+        {!!processingLoader && (
+          <Loader
+            loaderType={
+              tableConfig.name === "watchList" ? "containerBg" : "container"
+            }
+          />
+        )}
         {tableHeaderData.length > 0 && (
           <>
             <FixedTable

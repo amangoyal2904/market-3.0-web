@@ -150,6 +150,7 @@ const ScrollableTable = (props: any) => {
                               : ""
                         } ${isPrime && tdData.primeFlag ? styles.primeCell : ""}`}
                         key={index}
+                        title={tdData.valueType == "text" ? tdData.value : null}
                       >
                         {!isPrime && tdData.primeFlag ? (
                           <Link
