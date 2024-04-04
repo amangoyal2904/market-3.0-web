@@ -233,6 +233,7 @@ const MarketMoodsClient = ({
     if (monthlyDaily != "daily") {
       updateAdvanceDecline(monthlyDaily);
     }
+    window.scrollTo(0, 0);
     setLoading(false);
   }, [pathname, searchParams]);
 

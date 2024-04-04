@@ -18,6 +18,7 @@ const LeftNav = (props: any) => {
   useEffect(() => {}, [pathname]);
 
   const toggleMenu = () => {
+    console.log("toggleMenu---");
     setIsExpanded(!isExpanded);
     setIsL2Expanded(!isL2Expanded);
   };
