@@ -11,6 +11,7 @@ import GLOBAL_CONFIG from "../../network/global_config.json";
 import dynamic from "next/dynamic";
 
 import ETLogo from "../../../public/et_markets_logo.svg";
+import { goToPlansPage } from "@/utils/ga";
 
 const LiveMarketData = dynamic(() => import("../LiveMarketData"), {
   ssr: false,
@@ -58,10 +59,9 @@ const Header = () => {
               My Watchlist
             </Link>
             {!isPrime && (
-              <Link
+              <span
                 className={`default-btn ${styles.subscribeBtn}`}
-                href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`}
-                data-ga-onclick="Subscription Flow#SYFT#ATF - url"
+                onClick={goToPlansPage}
               >
                 <img
                   src="/prime_icon.svg"
@@ -70,7 +70,7 @@ const Header = () => {
                   className={styles.prime_icon}
                 />
                 Subscribe
-              </Link>
+              </span>
             )}
             <Login />
           </div>
