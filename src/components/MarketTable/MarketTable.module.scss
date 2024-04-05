@@ -61,7 +61,6 @@
 }
 
 .marketsCustomTable {
-  //   border: solid 1px #ddd;
   width: 100%;
   border-collapse: collapse;
   overflow-x: auto;
@@ -85,14 +84,17 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     span {
-      &.upBg,
-      &.noBg {
+      &.upBg {
         background: #7dc37c36;
         color: #1aae55;
       }
       &.downBg {
         background: #ed193b1c;
         color: #ed193b;
+      }
+      &.noBg {
+        background: inherit;
+        color: inherit;
       }
     }
     &.fullWidth {
