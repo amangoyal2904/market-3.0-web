@@ -144,27 +144,57 @@ declare global {
 //   window.grx("init", window.objVc.growthRxId || "gc2744074");
 //   // window.grx("init", Config.GA.GRX_ID);
 // };
-export const goToPlansPage = (type, data) => {
-  if (window.dataLayer) {
-    let _gtmEventDimension = {};
-    const pageUrl = window.location.pathname;
-    const pageElem = window.location.pathname.split("/");
-    let site_section = pageElem.toString();
-    _gtmEventDimension["feature_name"] = "ET Market";
-    _gtmEventDimension["site_section"] = site_section.slice(1);
-    _gtmEventDimension["platform"] = "Web";
-    _gtmEventDimension["level_1"] = window.location.pathname.substring(
-      window.location.pathname.lastIndexOf("/") + 1,
-    );
-    _gtmEventDimension["event"] = type;
-    let items = [];
-    items.push(data);
-    _gtmEventDimension["items"] = items;
-    //_gtmEventDimension = Object.assign(_gtmEventDimension, data);
-    window.dataLayer.push(_gtmEventDimension);
-    trackPushData(_gtmEventDimension);
-  }
+
+export const goToPlansPage = () => {
+  const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
+  const ticketId = getCookie("encTicket")
+    ? `&ticketid=${getCookie("encTicket")}`
+    : "";
+  const newPlanUrl =
+    planUrl +
+    (planUrl.indexOf("?") == -1 ? "?" : "&") +
+    "ru=" +
+    encodeURI(window.location.href) +
+    "&grxId=" +
+    getCookie("_grx") +
+    ticketId;
+  window.location.href = newPlanUrl;
 };
+
+// export const goToPlansPage = (type, data) => {
+//   const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
+//   const ticketId = getCookie("encTicket")
+//     ? `&ticketid=${getCookie("encTicket")}`
+//     : "";
+//   const newPlanUrl =
+//     planUrl +
+//     (planUrl.indexOf("?") == -1 ? "?" : "&") +
+//     "ru=" +
+//     encodeURI(window.location.href) +
+//     "&grxId=" +
+//     getCookie("_grx") +
+//     ticketId;
+//   window.location.href = newPlanUrl;
+// if (window.dataLayer) {
+//   let _gtmEventDimension = {};
+//   const pageUrl = window.location.pathname;
+//   const pageElem = window.location.pathname.split("/");
+//   let site_section = pageElem.toString();
+//   _gtmEventDimension["feature_name"] = "ET Market";
+//   _gtmEventDimension["site_section"] = site_section.slice(1);
+//   _gtmEventDimension["platform"] = "Web";
+//   _gtmEventDimension["level_1"] = window.location.pathname.substring(
+//     window.location.pathname.lastIndexOf("/") + 1,
+//   );
+//   _gtmEventDimension["event"] = type;
+//   let items = [];
+//   items.push(data);
+//   _gtmEventDimension["items"] = items;
+//   //_gtmEventDimension = Object.assign(_gtmEventDimension, data);
+//   window.dataLayer.push(_gtmEventDimension);
+//   trackPushData(data);
+// }
+//};
 
 export const trackPushData = (planDim: any) => {
   let url = (APIS_CONFIG as any)?.PUSHDATA[APP_ENV],
@@ -177,7 +207,11 @@ export const trackPushData = (planDim: any) => {
   // for(const ele in grxMapObj) {
   //     newGrxMapObj['dimension'+ele.split('d')[1]] = grxMapObj[ele]
   // }
-
+  const pageElem = window.location.pathname.split("/");
+  let site_section = pageElem.toString();
+  planDim["item_brand"] = "market_tools";
+  planDim["feature_name"] = "ET Market";
+  planDim["site_section"] = site_section.slice(1);
   if (window.objUser && window.objUser.info.isLogged) {
     const { primaryEmail, mobile, firstName, lastName } = window.objUser.info;
     const fullName = firstName + (lastName ? " " + lastName : "");
@@ -186,7 +220,7 @@ export const trackPushData = (planDim: any) => {
     objUserData.fname = firstName;
     objUserData.fullname = fullName;
   }
-  console.log("objUser", window.objUser, objUserData);
+  //console.log("objUser", window.objUser, objUserData);
   const dataToPost = {
     ET: {},
     grxMappingObj: newGrxMapObj,
@@ -211,23 +245,22 @@ export const trackPushData = (planDim: any) => {
     "&grxId=" +
     getCookie("_grx") +
     ticketId;
-  console.log("grxPushData", url, pushData, planUrl, newPlanUrl);
-
-  // const response = await Service.post({
-  //   url,
-  //   headers,
-  //   payload: pushData,
-  //   params: {},
-  // });
-  // console.log('res------->', response?.json());
-
-  Service.post({ url, headers: {}, payload: pushData, params: {} })
+  console.log("grxPushData-----------", planDim);
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  Service.post({
+    url,
+    headers: headers,
+    body: JSON.stringify(pushData),
+    params: {},
+  })
     .then((res) => {
       console.log("res------->", res);
-      //window.location.href = newPlanUrl;
+      window.location.href = newPlanUrl;
     })
     .catch((err) => {
-      //window.location.href = newPlanUrl;
+      window.location.href = newPlanUrl;
     });
 };
 
