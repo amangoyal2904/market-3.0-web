@@ -61,7 +61,7 @@ const MarketTable = (props: propsType) => {
     const { name, value } = e.target;
     const inputType = e.target.dataset["type"];
     const textAlphanumericRegex = /^(?:[a-zA-Z0-9]+(?:\s|$))+$/;
-    const numericExpressionRegex = /^[><]?=?\s*\d*\.?\d*$/;
+    const numericExpressionRegex = /^[><]?=?\s*-?\d*\.?\d*$/;
     if (
       inputType == "number" &&
       (numericExpressionRegex.test(value) || value === "")
@@ -98,7 +98,7 @@ const MarketTable = (props: propsType) => {
     if (Object.keys(filters).length) {
       Object.keys(filters).forEach((keyId) => {
         filterData = filterData.filter((item: any) => {
-          const validExpression = /^[><=]\d*\.?\d+$/;
+          const validExpression = /^[><=]-?\d*\.?\d+$/;
           const cellValue = filters[keyId];
           const inputType = item.data.find(
             (element: any) => element.keyId == keyId,
@@ -117,7 +117,7 @@ const MarketTable = (props: propsType) => {
           } else if (validExpression.test(cellValue.replaceAll(" ", ""))) {
             const [operator, comparisonValue] = cellValue
               .replaceAll(" ", "")
-              .match(/([><=]+)(\d*\.?\d+)/)
+              .match(/([><=]+)(-?\d*\.?\d+)/)
               .slice(1);
             switch (operator) {
               case ">":
