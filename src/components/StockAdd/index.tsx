@@ -6,7 +6,7 @@ import {
   fetchAllWatchListData,
   saveStockInWatchList,
 } from "../../utils/utility";
-const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
+const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   const [viewStocks, setViewStocks]: any = useState([]);
   const [mostStocks, setMostStocks]: any = useState([]);
   const [loading, setLoading] = useState(false);
@@ -174,7 +174,7 @@ const AddStockComponent = ({ moduelClose, updateTableHander }: any) => {
       });
       setViewStocks(addFollowFlag);
     }
-    updateTableHander();
+    updateTableHandler();
   };
   const fetchWatchListStocks = async () => {
     const data = await fetchAllWatchListData("Follow", 11);

@@ -150,6 +150,7 @@ const ScrollableTable = (props: any) => {
                               : ""
                         } ${isPrime && tdData.primeFlag ? styles.primeCell : ""}`}
                         key={index}
+                        title={tdData.valueType == "text" ? tdData.value : null}
                       >
                         {!isPrime && tdData.primeFlag ? (
                           <Link
@@ -164,7 +165,9 @@ const ScrollableTable = (props: any) => {
                           <>
                             {tdData.valueType == "date"
                               ? dateFormat(tdData.value, "%d %MMM %Y")
-                              : tdData.value.replaceAll(" ", "")}
+                              : tdData.valueType == "number"
+                                ? tdData.value.replaceAll(" ", "")
+                                : tdData.value}
                             {tdData.trend && (
                               <span
                                 className={`${styles.arrowIcons} ${

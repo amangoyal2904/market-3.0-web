@@ -8,6 +8,7 @@ import WatchlistAddition from "../WatchlistAddition";
 
 const FixedTable = (props: any) => {
   const {
+    highlightLtp,
     tableHeaderData,
     scrollLeftPos,
     headerSticky,
@@ -250,6 +251,9 @@ const FixedTable = (props: any) => {
                                 : ""
                           } ${isPrime && tdData.primeFlag ? styles.primeCell : ""}`}
                           key={tdIndex}
+                          title={
+                            tdData.valueType == "text" ? tdData.value : null
+                          }
                         >
                           {!isPrime && tdData.primeFlag ? (
                             <Link
@@ -267,6 +271,7 @@ const FixedTable = (props: any) => {
                               ) : tdData.keyId == "lastTradedPrice" ? (
                                 <span
                                   className={
+                                    !!highlightLtp &&
                                     prevTableDataList[index]?.data[tdIndex]
                                       ?.filterFormatValue
                                       ? parseFloat(tdData.filterFormatValue) >
@@ -289,8 +294,10 @@ const FixedTable = (props: any) => {
                                 >
                                   {tdData.value.replaceAll(" ", "")}
                                 </span>
-                              ) : (
+                              ) : tdData.valueType == "number" ? (
                                 tdData.value.replaceAll(" ", "")
+                              ) : (
+                                tdData.value
                               )}
                               {tdData.trend && (
                                 <span

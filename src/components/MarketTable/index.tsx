@@ -10,6 +10,7 @@ import { getCookie } from "@/utils";
 
 interface propsType {
   data: any[];
+  highlightLtp?: boolean;
   apiSuccess?: boolean;
   tableHeaders: any[];
   tabsViewIdUpdate?: any;
@@ -20,7 +21,7 @@ interface propsType {
   pageSummary?: any;
   handleSortServerSide?: any;
   handlePageChange?: any;
-  updateTableHander?: any;
+  updateTableHandler?: any;
   processingLoader?: boolean;
   fixedCol?: number;
 }
@@ -28,6 +29,7 @@ interface propsType {
 const MarketTable = (props: propsType) => {
   const {
     data,
+    highlightLtp = true,
     apiSuccess = false,
     tableHeaders = [],
     tabsViewIdUpdate,
@@ -37,12 +39,12 @@ const MarketTable = (props: propsType) => {
     pageSummary = {},
     handleSortServerSide,
     handlePageChange,
-    updateTableHander,
+    updateTableHandler,
     processingLoader,
     fixedCol = 3,
   } = props || {};
   const { loader = false, loaderType } = tableConfig || {};
-  const [_pageSummary, setPageSummary] = useState(pageSummary);
+  const [pageSummaryData, setPageSummaryData] = useState(pageSummary);
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
@@ -54,6 +56,7 @@ const MarketTable = (props: propsType) => {
   const [isPrime, setPrime] = useState(false);
   const [hideThead, setHideThead] = useState(false);
   const [parentHasScroll, setParentHasScroll] = useState(false);
+  const [shouldShowLoader, setShouldShowLoader] = useState(false);
   const handleFilterChange = (e: any) => {
     const { name, value } = e.target;
     const inputType = e.target.dataset["type"];
@@ -244,12 +247,12 @@ const MarketTable = (props: propsType) => {
       const sortedData = sortTableData(filteredData);
       setTableDataList((tableDataList) => [...sortedData]);
       setTableHeaderData(tableHeaders);
-      setPageSummary(pageSummary);
+      setPageSummaryData(pageSummary);
       if (!loaderOff) setLoaderOff(true);
     } else if (data?.length === 0) {
       setTableDataList([]);
       setTableHeaderData([]);
-      setPageSummary({});
+      setPageSummaryData({});
       if (!loaderOff) setLoaderOff(true);
     }
     setHeaderSticky(0);
@@ -261,16 +264,28 @@ const MarketTable = (props: propsType) => {
     window.addEventListener("scroll", handleScroll, { passive: true });
   }, []);
 
-  if (!loaderOff && loader) {
-    return <Loader loaderType={loaderType} />;
-  }
+  useEffect(() => {
+    if (!loaderOff && loader) {
+      setShouldShowLoader(true);
+    } else {
+      setShouldShowLoader(false);
+    }
+  }, [loaderOff, loader]);
+
   return (
     <>
       <div className={styles.tableWrapper} id="table">
-        {!!processingLoader && <Loader loaderType="container" />}
+        {!!processingLoader && (
+          <Loader
+            loaderType={
+              tableConfig.name === "watchList" ? "containerBg" : "container"
+            }
+          />
+        )}
         {tableHeaderData.length > 0 && (
           <>
             <FixedTable
+              highlightLtp={highlightLtp}
               tableHeaderData={tableHeaderData}
               tableDataList={tableDataList}
               scrollLeftPos={scrollLeftPos}
@@ -306,30 +321,31 @@ const MarketTable = (props: propsType) => {
           </>
         )}
       </div>
-      {tableDataList.length == 0 && tableHeaderData.length == 0 ? (
+      {(tableDataList.length === 0 && tableHeaderData.length === 0) ||
+      (tableDataList.length === 0 && tableHeaderData.length !== 0) ? (
         <div className="prel">
-          {!!processingLoader && <Loader loaderType="container" />}
+          {processingLoader && (
+            <Loader
+              loaderType={
+                tableConfig.name === "watchList" ? "containerBg" : "container"
+              }
+            />
+          )}
           <Blocker
-            type={tableConfig.name == "watchList" ? "noStocks" : "noDataFound"}
-            updateTableHander={updateTableHander}
+            type={tableConfig.name === "watchList" ? "noStocks" : "noDataFound"}
+            updateTableHandler={updateTableHandler}
           />
         </div>
       ) : (
-        _pageSummary &&
-        _pageSummary.totalpages > 1 && (
+        pageSummaryData &&
+        pageSummaryData.totalpages > 1 && (
           <Pagination
-            pageSummary={_pageSummary}
+            pageSummary={pageSummaryData}
             onPageChange={handlePageChange}
           />
         )
       )}
-      {tableDataList.length == 0 && tableHeaderData.length != 0 && (
-        <div className="prel">
-          {!!processingLoader && <Loader loaderType="container" />}
-          <Blocker type={"noDataFound"} updateTableHander={updateTableHander} />
-        </div>
-      )}
-      {!loaderOff && loader && <Loader loaderType={loaderType} />}
+      {shouldShowLoader && <Loader loaderType={loaderType} />}
     </>
   );
 };
