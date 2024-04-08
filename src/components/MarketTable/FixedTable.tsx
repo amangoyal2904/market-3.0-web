@@ -23,6 +23,7 @@ const FixedTable = (props: any) => {
     showRemoveCheckbox = false,
     removeCheckBoxHandle,
     tableConfig = {},
+    parentHasScroll = false,
     fixedCol = 3,
   } = props || {};
   const {
@@ -50,7 +51,7 @@ const FixedTable = (props: any) => {
   return (
     <div
       id="fixedTable"
-      className={styles.fixedWrapper}
+      className={`${styles.fixedWrapper} ${parentHasScroll ? styles.withShadow : ""}`}
       onScroll={scrollLeftPos}
     >
       <table className={styles.marketsCustomTable}>
