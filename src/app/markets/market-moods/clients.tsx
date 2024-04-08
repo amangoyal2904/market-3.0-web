@@ -32,6 +32,7 @@ import { useStateContext } from "@/store/StateContext";
 import Blocker from "@/components/Blocker";
 import dynamic from "next/dynamic";
 import useDebounce from "@/hooks/useDebounce";
+import { goToPlansPage } from "@/utils/ga";
 
 const StockFilterNifty = dynamic(
   () => import("@/components/StockFilterNifty"),
@@ -309,13 +310,9 @@ const MarketMoodsClient = ({
                 <p className={styles.title}>{item.title}</p>
                 <p className={styles.desc}>{item.desc}</p>
                 <div className={styles.plan}>
-                  <Link
-                    className={styles.subscribeBtn}
-                    href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`}
-                    data-ga-onclick="Subscription Flow#SYFT#Market Mood - url"
-                  >
+                  <span className={styles.subscribeBtn} onClick={goToPlansPage}>
                     Subscribe Now
-                  </Link>
+                  </span>
                   {!isLogin && (
                     <p className={styles.defaultLink}>
                       Already a Member?

@@ -62,11 +62,11 @@
     "production": "https://etapipre.indiatimes.com/api/indexfilters"
   },
   "MARKETS_CUSTOM_TAB": {
-    "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
+    "development": "https://screener.indiatimes.com/screener/getwatchlistview",
     "production": "https://screener.indiatimes.com/screener/getwatchlistview"
   },
   "MARKETS_CUSTOM_TABLE": {
-    "development": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData",
+    "development": "https://screener.indiatimes.com/screener/watchlistData",
     "production": "https://screener.indiatimes.com/screener/watchlistData"
   },
   "MARKETSTATS_TECHNICALS": {
