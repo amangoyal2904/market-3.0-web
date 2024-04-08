@@ -1,6 +1,10 @@
 "use client";
 import styles from "./Toaster.module.scss";
-const ToasterPopup = ({ toasterCloseHandler, data }: any) => {
+const ToasterPopup = ({
+  toasterCloseHandler,
+  data,
+  messageNCloseBtn = "no",
+}: any) => {
   const title =
     data && data.title && data.title !== ""
       ? data.title
@@ -20,14 +24,16 @@ const ToasterPopup = ({ toasterCloseHandler, data }: any) => {
               onClick={() => closeToaster(false)}
               className={styles.primaryBtn}
             >
-              Cancel
+              {messageNCloseBtn === "no" ? "Cancel" : "Close"}
             </span>
-            <span
-              onClick={() => closeToaster(true)}
-              className={styles.secondaryBtn}
-            >
-              Continue
-            </span>
+            {messageNCloseBtn === "no" && (
+              <span
+                onClick={() => closeToaster(true)}
+                className={styles.secondaryBtn}
+              >
+                Continue
+              </span>
+            )}
           </div>
         </div>
       </div>
