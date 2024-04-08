@@ -17,8 +17,8 @@ const handleLoginToggle = (): void => {
 const blockerList: any = {
   loginBlocker: {
     id: 1,
-    message: "To access watchlist data please login here",
-    cta: "Login",
+    message: "Stay informed on your favourite stocks",
+    cta: "Login to manage your Watchlist",
     action: handleLoginToggle,
     icon: 107522568,
   },

@@ -208,7 +208,7 @@ const FixedTable = (props: any) => {
                             ) : (
                               ""
                             )}
-                            {showWatchlistIcon && (
+                            {showWatchlistIcon && item.assetId && (
                               <WatchlistAddition
                                 companyName={item.assetName}
                                 companyId={item.assetId}
@@ -230,13 +230,13 @@ const FixedTable = (props: any) => {
                                 item.assetType,
                               )}
                               target="_blank"
-                              title={`${tdData?.value} ${
+                              title={`${!!tdData.value ? tdData.value : item.assetName} ${
                                 item?.assetType?.toLowerCase() != "equity"
                                   ? `(${item?.assetType?.toUpperCase()})`
                                   : ""
                               }`}
                             >
-                              {tdData.value}{" "}
+                              {!!tdData.value ? tdData.value : item.assetName}{" "}
                               {item.assetType != "" &&
                               item?.assetType?.toLowerCase() != "equity"
                                 ? `(${item?.assetType?.toUpperCase()})`
@@ -291,12 +291,20 @@ const FixedTable = (props: any) => {
                                       : styles.noBg
                                   }
                                 >
-                                  {tdData.value.replaceAll(" ", "")}
+                                  {!!tdData.value
+                                    ? tdData.value.replaceAll(" ", "")
+                                    : "-"}
                                 </span>
                               ) : tdData.valueType == "number" ? (
-                                tdData.value.replaceAll(" ", "")
-                              ) : (
+                                !!tdData.value ? (
+                                  tdData.value.replaceAll(" ", "")
+                                ) : (
+                                  "-"
+                                )
+                              ) : !!tdData.value ? (
                                 tdData.value
+                              ) : (
+                                "-"
                               )}
                               {tdData.trend && (
                                 <span
