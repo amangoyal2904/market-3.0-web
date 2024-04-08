@@ -77,6 +77,7 @@ const StockScreeners = ({
     useState(false);
   const [createScreenerNamePopup, setCeateScreenerNamePopup] = useState(false);
   const [createModuleScreener, setCreateModuleScreener] = useState(false);
+  const [toasterInvalideQuery, setToasterInvalideQuery] = useState(false);
   const [screenerEditMode, setScreenerEditMode] = useState({
     userMode: _screenerDetail.screenerType,
     mode: false,
@@ -264,9 +265,20 @@ const StockScreeners = ({
       // ===== edit mode
       setPayload({ ..._payload, queryCondition: query.trim() });
     } else {
-      alert("Error : Incorrect Query");
+      //alert("Error : Incorrect Query");
+      setToasterConfirmData({
+        title: "Error : Incorrect Query",
+      });
+      setToasterInvalideQuery(true);
+      setTimeout(() => {
+        toasterInvalidQueryCloseFun();
+      }, 3000);
     }
     setScreenerLoading(false);
+  };
+  const toasterInvalidQueryCloseFun = () => {
+    setToasterInvalideQuery(false);
+    setToasterConfirmData({});
   };
   const runQueryHandlerFunPopUp = async (query: any) => {
     setScreenerLoading(true);
@@ -322,7 +334,14 @@ const StockScreeners = ({
       // ===== edit mode
       setPayload({ ..._payload, queryCondition: query.trim() });
     } else {
-      alert("Error : Incorrect Query");
+      //alert("Error : Incorrect Query");
+      setToasterConfirmData({
+        title: "Error : Incorrect Query",
+      });
+      setToasterInvalideQuery(true);
+      setTimeout(() => {
+        toasterInvalidQueryCloseFun();
+      }, 3000);
     }
     setScreenerLoading(false);
   };
@@ -690,6 +709,14 @@ const StockScreeners = ({
           screenerLoading={screenerLoading}
           setScreenerLoading={setScreenerLoading}
           query={_query}
+        />
+      )}
+      {toasterInvalideQuery && (
+        <ToasterPopup
+          data={toasterConfirmData}
+          messageNCloseBtn="yes"
+          errorModule={true}
+          toasterCloseHandler={toasterInvalidQueryCloseFun}
         />
       )}
     </>

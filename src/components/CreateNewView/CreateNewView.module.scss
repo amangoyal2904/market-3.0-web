@@ -84,7 +84,7 @@
     padding: 0px;
     border-left: solid 1px #cdcdcd;
     width: calc(100% - 250px);
-    min-height: 350px;
+    min-height: 70vh;
   }
 }
 
@@ -159,7 +159,7 @@
     border-top: none;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
-    max-height: 220px;
+    max-height: calc(70vh - 175px);
     overflow-y: auto;
     li {
       padding: 10px;
