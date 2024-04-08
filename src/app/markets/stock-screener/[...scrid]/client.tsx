@@ -334,7 +334,14 @@ const StockScreeners = ({
       // ===== edit mode
       setPayload({ ..._payload, queryCondition: query.trim() });
     } else {
-      alert("Error : Incorrect Query");
+      //alert("Error : Incorrect Query");
+      setToasterConfirmData({
+        title: "Error : Incorrect Query",
+      });
+      setToasterInvalideQuery(true);
+      setTimeout(() => {
+        toasterInvalidQueryCloseFun();
+      }, 3000);
     }
     setScreenerLoading(false);
   };
@@ -708,6 +715,7 @@ const StockScreeners = ({
         <ToasterPopup
           data={toasterConfirmData}
           messageNCloseBtn="yes"
+          errorModule={true}
           toasterCloseHandler={toasterInvalidQueryCloseFun}
         />
       )}

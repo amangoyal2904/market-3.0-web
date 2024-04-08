@@ -4,6 +4,7 @@ const ToasterPopup = ({
   toasterCloseHandler,
   data,
   messageNCloseBtn = "no",
+  errorModule = false,
 }: any) => {
   const title =
     data && data.title && data.title !== ""
@@ -14,7 +15,7 @@ const ToasterPopup = ({
   };
   return (
     <>
-      <div className={`${styles.wraper}`}>
+      <div className={`${styles.wraper} ${errorModule ? styles.errorSec : ""}`}>
         <div className={styles.section}>
           <div className={styles.topSec}>
             <h6>{title}</h6>

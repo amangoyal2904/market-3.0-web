@@ -8,6 +8,11 @@
   text-align: center;
   z-index: 999;
 }
+.wraper.errorSec {
+  .section {
+    border-color: $red-60;
+  }
+}
 .section {
   min-width: 400px;
   display: inline-block;
