@@ -45,10 +45,30 @@ const LeftNav = (props: any) => {
     }
   };
 
+  const handleMainHover = () => {
+    const element = document.querySelector(`.${styles.navWrap}`);
+    let hoverTimeout: any;
+
+    element?.addEventListener("mouseenter", function () {
+      hoverTimeout = setTimeout(function () {
+        element.classList.add(styles.hovered);
+      }, 200); // 500 milliseconds delay
+    });
+
+    element?.addEventListener("mouseleave", function () {
+      clearTimeout(hoverTimeout);
+      element?.classList.remove(styles.hovered);
+    });
+  };
+
+  useEffect(() => {
+    handleMainHover();
+  }, []);
+
   const hasCommonSubstring = (
     str2: string,
     str3: string,
-    avoidStr: string = "markets",
+    avoidStr: string = "/markets",
   ) => {
     const parts2 = str2.split("/").filter((part) => part !== "");
     const parts3 = str3.split("/").filter((part) => part !== "");
@@ -64,12 +84,13 @@ const LeftNav = (props: any) => {
       className={`${styles.navWrap} ${isExpanded ? styles.expanded : styles.collapsed}`}
     >
       <div className={styles.navInnerWrap}>
-        <div className={styles.toggleMenuWrap} onClick={toggleMenu}>
+        <div className={styles.toggleMenuWrap}>
           <span
             className={`${styles.toggleMenu} ${isExpanded ? "eticon_prev" : "eticon_next"}`}
+            onClick={toggleMenu}
           ></span>
         </div>
-        <div>
+        <div className={styles.navOptWrap}>
           <ul className={styles.marketNavWrap}>
             {markets?.nav?.map((value: any, index: any) => {
               return (
