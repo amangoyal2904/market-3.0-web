@@ -2,16 +2,21 @@
 
 .ellipses {
   overflow: hidden;
+  -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .tableWrapper {
   margin-top: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   position: relative;
   overflow: auto;
   overflow-y: "scroll";
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
   justify-content: flex-start;
 
   .theading {
@@ -61,6 +66,7 @@
   .primeTd {
     color: $blue-80 !important;
     text-align: center;
+    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     font-size: 12px;
     font-weight: 600 !important;
@@ -90,21 +96,32 @@
     line-height: 18px;
     text-align: right;
     overflow: hidden;
+    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     white-space: nowrap;
     .thead {
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
       align-items: center;
+      -webkit-box-pack: end;
+      -ms-flex-pack: end;
       justify-content: flex-end;
     }
     &.left {
       text-align: left;
       .thead {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
         justify-content: flex-start;
       }
     }
     &.center {
       text-align: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
       justify-content: center;
     }
     span {
@@ -145,22 +162,33 @@
     font-size: 12px;
     line-height: 16px;
     overflow: hidden;
+    -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
     .thead {
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
       align-items: center;
+      -webkit-box-pack: end;
+      -ms-flex-pack: end;
       justify-content: flex-end;
     }
     &.left {
       text-align: left;
       .thead {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
         justify-content: flex-start;
       }
     }
     &.center {
       text-align: center;
       .thead {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
         justify-content: center;
       }
     }
@@ -196,12 +224,17 @@
 .fixedWrapper {
   overflow: auto;
   width: 100%;
+  min-width: -webkit-max-content;
+  min-width: -moz-max-content;
   min-width: max-content;
+  max-width: -webkit-max-content;
+  max-width: -moz-max-content;
   max-width: max-content;
   -ms-overflow-style: none;
   scrollbar-width: none;
   z-index: 1;
   &.withShadow {
+    -webkit-box-shadow: 1px 0px 12px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 1px 0px 12px 0px rgba(0, 0, 0, 0.2);
   }
 
@@ -286,8 +319,12 @@
 }
 .tdColWrap {
   margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   gap: 10px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   .formGroup {
     padding-right: 5px;
@@ -307,7 +344,11 @@
     line-height: 16px;
   }
   ul {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     border: 1px solid $gray_90;
     border-radius: 4px;
@@ -317,11 +358,17 @@
       line-height: 1;
       background: $white;
       color: $black;
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
       padding: 0 8px;
       line-height: 24px;
       min-width: 24px;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
       align-items: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
       justify-content: center;
       cursor: pointer;
       & + .pageList {

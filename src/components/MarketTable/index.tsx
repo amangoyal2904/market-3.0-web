@@ -236,7 +236,7 @@ const MarketTable = (props: propsType) => {
 
   useEffect(() => {
     const parent = document.querySelector("#scrollableTable");
-    const theadElement = parent?.querySelector("thead");
+    const theadElement = parent?.querySelector("thead > tr > th");
     const fixedTable = document.querySelector("#fixedTable");
     const hasScroll = parent ? parent.scrollWidth > parent.clientWidth : false;
 

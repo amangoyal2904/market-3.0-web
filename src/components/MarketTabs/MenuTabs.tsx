@@ -19,31 +19,15 @@ const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate }: any) => {
     let currentWidth = 0;
     const newVisibleTabs: any[] = [];
     const newHiddenTabs: any[] = [];
-    let activeTab: any = null;
-
     for (const tab of filterData) {
       const tabWidth = tab.name.length * 10; // Adjust the width calculation as per your requirement
-      if (activeViewId === tab.viewId) {
-        // Ensure active tab is always visible
-        activeTab = tab;
-      } else if (currentWidth + tabWidth < tabsListWidth) {
+      if (currentWidth + tabWidth < tabsListWidth) {
         newVisibleTabs.push(tab);
         currentWidth += tabWidth;
       } else {
         newHiddenTabs.push(tab);
       }
     }
-
-    // Adjust visibility based on active tab's width
-    if (
-      activeTab &&
-      currentWidth + activeTab.name.length * 10 <= tabsListWidth
-    ) {
-      newVisibleTabs.unshift(activeTab); // Add active tab to the beginning
-    } else if (activeTab) {
-      newHiddenTabs.unshift(activeTab); // Add active tab to the hidden tabs
-    }
-
     setVisibleTabs(newVisibleTabs);
     setHiddenTabs(newHiddenTabs);
   };
