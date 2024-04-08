@@ -208,6 +208,7 @@
       .plan {
         margin: 5px auto 30px;
         .subscribeBtn {
+          position: relative;
           display: inline-block;
           background: $red-50;
           border: 1px solid $red-50;
@@ -217,6 +218,7 @@
           line-height: 18px;
           font-weight: 600;
           color: $white;
+          cursor: pointer;
         }
         .defaultLink {
           margin-top: 10px;

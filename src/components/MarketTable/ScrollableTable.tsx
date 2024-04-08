@@ -3,6 +3,7 @@ import styles from "./MarketTable.module.scss";
 import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 import { APP_ENV, dateFormat } from "@/utils";
+import { goToPlansPage } from "@/utils/ga";
 
 const ScrollableTable = (props: any) => {
   const {
@@ -65,38 +66,38 @@ const ScrollableTable = (props: any) => {
                     }}
                     key={index}
                   >
-                    <span className="two-line-ellipsis">
+                    <div className="dflex">
                       {isPrime && thead.primeFlag ? (
                         <span className="eticon_prime_logo">
                           <span className="path1"></span>
                           <span className="path2"></span>
                           <span className="path3"></span>
                         </span>
-                      ) : null}{" "}
-                      {thead.keyText}
-                    </span>
-                    {isSorting &&
-                      thead.valueType != "date" &&
-                      (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
-                        <span className={`${styles.sortIcons}`}>
-                          <span
-                            className={`${
-                              sortData.field == thead.keyId &&
-                              sortData.order == "ASC"
-                                ? styles.asc
-                                : ""
-                            } eticon_up_arrow`}
-                          ></span>
-                          <span
-                            className={`${
-                              sortData.field == thead.keyId &&
-                              sortData.order == "DESC"
-                                ? styles.desc
-                                : ""
-                            } eticon_down_arrow`}
-                          ></span>
-                        </span>
-                      )}
+                      ) : null}
+                      <span className="two-line-ellipsis">{thead.keyText}</span>
+                      {isSorting &&
+                        thead.valueType != "date" &&
+                        (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
+                          <span className={`${styles.sortIcons}`}>
+                            <span
+                              className={`${
+                                sortData.field == thead.keyId &&
+                                sortData.order == "ASC"
+                                  ? styles.asc
+                                  : ""
+                              } eticon_up_arrow`}
+                            ></span>
+                            <span
+                              className={`${
+                                sortData.field == thead.keyId &&
+                                sortData.order == "DESC"
+                                  ? styles.desc
+                                  : ""
+                              } eticon_down_arrow`}
+                            ></span>
+                          </span>
+                        )}
+                    </div>
                   </th>
                 ),
             )}
@@ -153,14 +154,7 @@ const ScrollableTable = (props: any) => {
                         title={tdData.valueType == "text" ? tdData.value : null}
                       >
                         {!isPrime && tdData.primeFlag ? (
-                          <Link
-                            href={`${
-                              (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]
-                            }`}
-                            data-ga-onclick="Subscription Flow#Upgrade to Prime#table - url"
-                          >
-                            Upgrade to Prime
-                          </Link>
+                          <span onClick={goToPlansPage}>Upgrade to Prime</span>
                         ) : (
                           <>
                             {tdData.valueType == "date"
