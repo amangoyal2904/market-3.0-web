@@ -62,11 +62,11 @@
     "production": "https://etapipre.indiatimes.com/api/indexfilters"
   },
   "MARKETS_CUSTOM_TAB": {
-    "development": "https://screener.indiatimes.com/screener/getwatchlistview",
+    "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
     "production": "https://screener.indiatimes.com/screener/getwatchlistview"
   },
   "MARKETS_CUSTOM_TABLE": {
-    "development": "https://screener.indiatimes.com/screener/watchlistData",
+    "development": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData",
     "production": "https://screener.indiatimes.com/screener/watchlistData"
   },
   "MARKETSTATS_TECHNICALS": {
@@ -120,7 +120,7 @@
     },
     "AllScreenerCategory": {
       "development": [
-        "https://screener.indiatimes.com//screener/getScreenerSelectCategoryFieldMapping"
+        "https://qcbselivefeeds.indiatimes.com//screener/getScreenerSelectCategoryFieldMapping"
       ],
       "production": [
         "https://screener.indiatimes.com//screener/getScreenerSelectCategoryFieldMapping"
@@ -134,7 +134,7 @@
     },
     "getScreenerMapping": {
       "development": [
-        "https://screener.indiatimes.com/screener/getScreenerDBCategoryFieldMapping?searchtext="
+        "https://qcbselivefeeds.indiatimes.com/screener/getScreenerDBCategoryFieldMapping?searchtext="
       ],
       "production": [
         "https://screener.indiatimes.com/screener/getScreenerDBCategoryFieldMapping?searchtext="

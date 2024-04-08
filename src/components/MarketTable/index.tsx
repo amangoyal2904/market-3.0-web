@@ -30,7 +30,7 @@ const MarketTable = (props: propsType) => {
   const {
     data,
     highlightLtp = true,
-    apiSuccess = false,
+    apiSuccess = true,
     tableHeaders = [],
     tabsViewIdUpdate,
     showTableCheckBox = false,
@@ -55,6 +55,7 @@ const MarketTable = (props: propsType) => {
   const [loaderOff, setLoaderOff] = useState(false);
   const [isPrime, setPrime] = useState(false);
   const [hideThead, setHideThead] = useState(false);
+  const [parentHasScroll, setParentHasScroll] = useState(false);
   const [shouldShowLoader, setShouldShowLoader] = useState(false);
   const handleFilterChange = (e: any) => {
     const { name, value } = e.target;
@@ -75,7 +76,6 @@ const MarketTable = (props: propsType) => {
       delete filters[name];
       setFilters({ ...filters });
     }
-    //console.log({ filters });
   };
 
   const sortHandler = (key: any) => {
@@ -238,15 +238,10 @@ const MarketTable = (props: propsType) => {
     const parent = document.querySelector("#scrollableTable");
     const theadElement = parent?.querySelector("thead > tr > th");
     const fixedTable = document.querySelector("#fixedTable");
-    const hasScroll = parent ? parent.scrollWidth > parent.clientWidth : false;
-
-    if (fixedTable) {
-      if (hasScroll) {
-        fixedTable?.classList.add(styles.withShadow);
-      } else {
-        fixedTable?.classList.remove(styles.withShadow);
-      }
-    }
+    const hasScroll = parent
+      ? parent.scrollWidth - 110 > parent.clientWidth
+      : false;
+    setParentHasScroll(hasScroll);
 
     if (theadElement) {
       const height = theadElement.getBoundingClientRect().height;
@@ -316,6 +311,7 @@ const MarketTable = (props: propsType) => {
               showRemoveCheckbox={showTableCheckBox}
               removeCheckBoxHandle={removeCheckBoxHandleFun}
               tableConfig={tableConfig}
+              parentHasScroll={parentHasScroll}
               fixedCol={fixedCol}
             />
             <ScrollableTable
@@ -331,6 +327,7 @@ const MarketTable = (props: propsType) => {
               isPrime={isPrime}
               hideThead={hideThead}
               tableConfig={tableConfig}
+              parentHasScroll={parentHasScroll}
               fixedCol={fixedCol}
             />
           </>
@@ -346,10 +343,14 @@ const MarketTable = (props: propsType) => {
               }
             />
           )}
-          <Blocker
-            type={tableConfig.name === "watchList" ? "noStocks" : "noDataFound"}
-            updateTableHandler={updateTableHandler}
-          />
+          {apiSuccess && (
+            <Blocker
+              type={
+                tableConfig.name === "watchList" ? "noStocks" : "noDataFound"
+              }
+              updateTableHandler={updateTableHandler}
+            />
+          )}
         </div>
       ) : (
         pageSummaryData &&

@@ -51,7 +51,7 @@ const WatchListClient = () => {
   const onTabViewUpdate = async (viewId: any) => {
     if (viewId && viewId != "") {
       setProcessingLoader(true);
-      setAPISuccess(false);
+      setAPISuccess(true);
       setActiveViewId(viewId);
       setRequestPayload({ ...requestPayload, viewId: viewId });
     }
@@ -221,10 +221,6 @@ const WatchListClient = () => {
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    // const intervalId = setInterval(() => {
-    //   updateTableData();
-    // }, parseInt(refeshConfig.watchlist));
-    // return () => clearInterval(intervalId);
   }, [requestPayload]);
 
   return (
