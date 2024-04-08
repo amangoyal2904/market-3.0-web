@@ -55,7 +55,6 @@ const MarketTable = (props: propsType) => {
   const [loaderOff, setLoaderOff] = useState(false);
   const [isPrime, setPrime] = useState(false);
   const [hideThead, setHideThead] = useState(false);
-  const [parentHasScroll, setParentHasScroll] = useState(false);
   const [shouldShowLoader, setShouldShowLoader] = useState(false);
   const handleFilterChange = (e: any) => {
     const { name, value } = e.target;
@@ -237,8 +236,25 @@ const MarketTable = (props: propsType) => {
 
   useEffect(() => {
     const parent = document.querySelector("#scrollableTable");
+    const theadElement = parent?.querySelector("thead");
+    const fixedTable = document.querySelector("#fixedTable");
     const hasScroll = parent ? parent.scrollWidth > parent.clientWidth : false;
-    setParentHasScroll(hasScroll);
+
+    if (fixedTable) {
+      if (hasScroll) {
+        fixedTable?.classList.add(styles.withShadow);
+      } else {
+        fixedTable?.classList.remove(styles.withShadow);
+      }
+    }
+
+    if (theadElement) {
+      const height = theadElement.getBoundingClientRect().height;
+      const thElements = fixedTable?.querySelectorAll("th");
+      thElements?.forEach((th) => {
+        th.style.height = `${height}px`;
+      });
+    }
   }, [tableHeaderData]);
 
   useEffect(() => {
@@ -315,7 +331,6 @@ const MarketTable = (props: propsType) => {
               isPrime={isPrime}
               hideThead={hideThead}
               tableConfig={tableConfig}
-              parentHasScroll={parentHasScroll}
               fixedCol={fixedCol}
             />
           </>

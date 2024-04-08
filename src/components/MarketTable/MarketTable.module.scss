@@ -14,8 +14,17 @@
   overflow-y: "scroll";
   justify-content: flex-start;
 
+  .theading {
+    font-size: 12px;
+  }
   .primeCell {
     background: $salmon-05;
+    .theading {
+      color: $blue-50;
+      .primeIcon {
+        margin-right: 4px;
+      }
+    }
   }
 
   .inputWrapper {
@@ -83,6 +92,21 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    .thead {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    &.left {
+      text-align: left;
+      .thead {
+        justify-content: flex-start;
+      }
+    }
+    &.center {
+      text-align: center;
+      justify-content: center;
+    }
     span {
       &.upBg {
         background: #7dc37c36;
@@ -108,10 +132,10 @@
   th {
     min-width: 140px;
     max-width: 200px;
-    height: 53px;
+    height: 54px;
     position: relative;
     text-align: right;
-    padding: 10px 30px 10px 10px;
+    padding: 10px;
     background-color: $gray_95;
     border-right: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
@@ -123,9 +147,22 @@
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
+    .thead {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    &.left {
+      text-align: left;
+      .thead {
+        justify-content: flex-start;
+      }
+    }
     &.center {
       text-align: center;
-      padding-right: 10px;
+      .thead {
+        justify-content: center;
+      }
     }
     &.enableSort {
       cursor: pointer;
@@ -135,6 +172,9 @@
       &.hide {
         display: none;
       }
+    }
+    &.primeCell {
+      background: $salmon-20;
     }
   }
 
@@ -160,8 +200,10 @@
   max-width: max-content;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  box-shadow: 1px 0px 12px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
+  &.withShadow {
+    box-shadow: 1px 0px 12px 0px rgba(0, 0, 0, 0.2);
+  }
 
   table {
     border-collapse: collapse;
@@ -212,9 +254,11 @@
 
 .sortIcons {
   position: relative;
+  margin-left: 2px;
+  top: 1px;
   span {
     font-size: 16px;
-    margin-right: -8px;
+    margin-right: -9px;
     color: $gray_60;
   }
   .asc {

@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./MarketTable.module.scss";
 import { getStockUrl } from "@/utils/utility";
-import Link from "next/link";
-import GLOBAL_CONFIG from "@/network/global_config.json";
-import { APP_ENV, dateFormat } from "@/utils";
+import { dateFormat } from "@/utils";
 import WatchlistAddition from "../WatchlistAddition";
 import { goToPlansPage } from "@/utils/ga";
+import Image from "next/image";
 
 const FixedTable = (props: any) => {
   const {
@@ -95,18 +94,22 @@ const FixedTable = (props: any) => {
                             (!thead.primeFlag || (isPrime && thead.primeFlag))
                           ? styles.enableSort
                           : styles.center
-                    } ${isPrime && thead.primeFlag ? styles.primeCell : ""}`}
+                    } ${isPrime && thead.primeFlag ? styles.primeCell : thead.valueType == "date" || thead.valueType == "text" ? styles.left : ""}`}
                     key={index}
                   >
-                    <div className="dflex">
-                      {isPrime && thead.primeFlag ? (
-                        <span className="eticon_prime_logo">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                          <span className="path3"></span>
-                        </span>
-                      ) : null}
-                      <span className="two-line-ellipsis">{thead.keyText}</span>
+                    <div className={styles.thead}>
+                      <div className={styles.theading}>
+                        {isPrime && thead.primeFlag ? (
+                          <Image
+                            src="/prime_icon.svg"
+                            width={10}
+                            height={10}
+                            alt="ETPrime"
+                            className={styles.primeIcon}
+                          />
+                        ) : null}
+                        {thead.keyText}
+                      </div>
                       {isSorting &&
                         thead.valueType != "date" &&
                         (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
@@ -250,7 +253,7 @@ const FixedTable = (props: any) => {
                               : tdData.primeFlag
                                 ? styles.primeTd
                                 : ""
-                          } ${isPrime && tdData.primeFlag ? styles.primeCell : ""}`}
+                          } ${isPrime && tdData.primeFlag ? styles.primeCell : tdData.valueType == "date" || tdData.valueType == "text" ? styles.left : ""}`}
                           key={tdIndex}
                           title={
                             tdData.valueType == "text" ? tdData.value : null

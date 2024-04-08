@@ -1,9 +1,8 @@
 import React from "react";
 import styles from "./MarketTable.module.scss";
-import Link from "next/link";
-import GLOBAL_CONFIG from "@/network/global_config.json";
-import { APP_ENV, dateFormat } from "@/utils";
+import { dateFormat } from "@/utils";
 import { goToPlansPage } from "@/utils/ga";
+import Image from "next/image";
 
 const ScrollableTable = (props: any) => {
   const {
@@ -19,7 +18,6 @@ const ScrollableTable = (props: any) => {
     isPrime = false,
     hideThead = false,
     tableConfig = {},
-    parentHasScroll = false,
     fixedCol = 3,
   } = props || {};
   const {
@@ -56,7 +54,7 @@ const ScrollableTable = (props: any) => {
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? styles.enableSort
                         : styles.center
-                    } ${isPrime && thead.primeFlag ? styles.primeCell : ""}`}
+                    } ${isPrime && thead.primeFlag ? styles.primeCell : thead.valueType == "date" || thead.valueType == "text" ? styles.left : ""}`}
                     onClick={() => {
                       isSorting &&
                       thead.valueType != "date" &&
@@ -66,15 +64,19 @@ const ScrollableTable = (props: any) => {
                     }}
                     key={index}
                   >
-                    <div className="dflex">
-                      {isPrime && thead.primeFlag ? (
-                        <span className="eticon_prime_logo">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                          <span className="path3"></span>
-                        </span>
-                      ) : null}
-                      <span className="two-line-ellipsis">{thead.keyText}</span>
+                    <div className={styles.thead}>
+                      <div className={styles.theading}>
+                        {isPrime && thead.primeFlag ? (
+                          <Image
+                            src="/prime_icon.svg"
+                            width={10}
+                            height={10}
+                            alt="ETPrime"
+                            className={styles.primeIcon}
+                          />
+                        ) : null}
+                        {thead.keyText}
+                      </div>
                       {isSorting &&
                         thead.valueType != "date" &&
                         (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
@@ -101,9 +103,6 @@ const ScrollableTable = (props: any) => {
                   </th>
                 ),
             )}
-            <th
-              className={`${styles.fullWidth} ${parentHasScroll ? styles.hide : null}`}
-            ></th>
           </tr>
           {showFilterInput && (
             <tr>
@@ -128,9 +127,6 @@ const ScrollableTable = (props: any) => {
                     </td>
                   ),
               )}
-              <td
-                className={`${styles.fullWidth} ${parentHasScroll ? styles.hide : null}`}
-              ></td>
             </tr>
           )}
         </thead>
@@ -149,7 +145,7 @@ const ScrollableTable = (props: any) => {
                             : tdData.primeFlag
                               ? styles.primeTd
                               : ""
-                        } ${isPrime && tdData.primeFlag ? styles.primeCell : ""}`}
+                        } ${isPrime && tdData.primeFlag ? styles.primeCell : tdData.valueType == "date" || tdData.valueType == "text" ? styles.left : ""}`}
                         key={index}
                         title={tdData.valueType == "text" ? tdData.value : null}
                       >
@@ -178,9 +174,6 @@ const ScrollableTable = (props: any) => {
                       </td>
                     ),
                 )}
-                <td
-                  className={`${styles.fullWidth} ${parentHasScroll ? styles.hide : null}`}
-                ></td>
               </tr>
             ))}
           </tbody>
