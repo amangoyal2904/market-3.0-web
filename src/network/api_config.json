@@ -82,15 +82,15 @@
     "production": "https://etapi.indiatimes.com/et-screener/operands-data"
   },
   "MARKETMOODS_OVERVIEW": {
-    "development": "https://qcbselivefeeds.indiatimes.com/screener/marketbreadth/overview",
+    "development": "https://screener.indiatimes.com/screener/marketbreadth/overview",
     "production": "https://screener.indiatimes.com/screener/marketbreadth/overview"
   },
   "MARKETMOODS_ADVANCEDECLINE": {
-    "development": "https://qcbselivefeeds.indiatimes.com/screener/advancedecline",
+    "development": "https://screener.indiatimes.com/screener/advancedecline",
     "production": "https://screener.indiatimes.com/screener/advancedecline"
   },
   "MARKETMOODS_PERIODIC": {
-    "development": "https://qcbselivefeeds.indiatimes.com/screener/periodic",
+    "development": "https://screener.indiatimes.com/screener/periodic",
     "production": "https://screener.indiatimes.com/screener/periodic"
   },
   "liveStream": {

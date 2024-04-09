@@ -47,7 +47,7 @@ const MarketMoodsClient = ({
   allFilters = {},
 }: any) => {
   const { state, dispatch } = useStateContext();
-  const { isLogin, isPrime } = state.login;
+  const { isLogin, isPrime = true } = state.login;
   const { countPercentage, duration, monthlyDaily } = state.MarketMoodStatus;
   const router = useRouter();
   const pathname = usePathname();
@@ -402,7 +402,7 @@ const MarketMoodsClient = ({
                       showAll={showAllPeriodic}
                     />
                   </div>
-                  {periodicData?.dataList?.length > 6 && (
+                  {periodicData?.dataList?.length > 13 && (
                     <div
                       id="periodic-load-more"
                       className={styles.loadMore}
@@ -445,7 +445,7 @@ const MarketMoodsClient = ({
                       showAll={showAllAdvanceDecline}
                     />
                   </div>
-                  {advanceDeclineData?.dataList?.length > 6 && (
+                  {advanceDeclineData?.dataList?.length > 13 && (
                     <div
                       id="advanceDecline-load-more"
                       className={styles.loadMore}
