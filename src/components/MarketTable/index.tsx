@@ -239,7 +239,7 @@ const MarketTable = (props: propsType) => {
     const theadElement = parent?.querySelector("thead > tr > th");
     const fixedTable = document.querySelector("#fixedTable");
     const hasScroll = parent
-      ? parent.scrollWidth - 110 > parent.clientWidth
+      ? parent.scrollWidth > parent.clientWidth - 4
       : false;
     setParentHasScroll(hasScroll);
 
