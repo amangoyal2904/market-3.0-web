@@ -262,9 +262,9 @@ const MarketTable = (props: propsType) => {
       setTableDataList([]);
       setTableHeaderData([]);
       setPageSummaryData({});
+      setHeaderSticky(0);
       if (!loaderOff) setLoaderOff(true);
     }
-    setHeaderSticky(0);
   }, [apiSuccess, data, pageSummary, _sortData, filters, loaderOff]);
 
   useEffect(() => {
