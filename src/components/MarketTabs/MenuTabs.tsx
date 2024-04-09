@@ -34,7 +34,7 @@ const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate }: any) => {
     const found = newHiddenTabs.find(
       (item: any) => item.viewId == activeViewId,
     );
-    setIsAnyInnerActive(found);
+    setIsAnyInnerActive(!!found);
   };
 
   useEffect(() => {
@@ -44,8 +44,6 @@ const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate }: any) => {
   useEffect(() => {
     const handleResize = debounce(() => {
       updateTabsVisibility();
-      // Update isAnyInnerActive based on the visibility of hidden tabs
-      setIsAnyInnerActive(hiddenTabs.length > 0);
     }, 300); // Adjust the debounce delay as needed
 
     window.addEventListener("resize", handleResize);
