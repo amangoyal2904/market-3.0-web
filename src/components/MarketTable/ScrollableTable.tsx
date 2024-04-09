@@ -105,7 +105,7 @@ const ScrollableTable = (props: any) => {
                 ),
             )}
             <th
-              className={`${styles.fullWidth} ${parentHasScroll ? styles.hide : null}`}
+              className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
             ></th>
           </tr>
           {showFilterInput && (
@@ -132,7 +132,7 @@ const ScrollableTable = (props: any) => {
                   ),
               )}
               <td
-                className={`${styles.fullWidth} ${parentHasScroll ? styles.hide : null}`}
+                className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
               ></td>
             </tr>
           )}
@@ -186,7 +186,7 @@ const ScrollableTable = (props: any) => {
                     ),
                 )}
                 <td
-                  className={`${styles.fullWidth} ${parentHasScroll ? styles.hide : null}`}
+                  className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
                 ></td>
               </tr>
             ))}

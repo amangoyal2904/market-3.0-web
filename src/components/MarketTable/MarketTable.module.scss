@@ -140,6 +140,7 @@
     }
     &.fullWidth {
       width: 100%;
+      min-width: 110px;
       &.hide {
         display: none;
       }
@@ -197,6 +198,7 @@
     }
     &.fullWidth {
       width: 100%;
+      min-width: 110px;
       &.hide {
         display: none;
       }

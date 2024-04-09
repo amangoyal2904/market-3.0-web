@@ -51,7 +51,7 @@ const FixedTable = (props: any) => {
   return (
     <div
       id="fixedTable"
-      className={`${styles.fixedWrapper} ${parentHasScroll ? styles.withShadow : ""}`}
+      className={`${styles.fixedWrapper} ${!!parentHasScroll ? styles.withShadow : ""}`}
       onScroll={scrollLeftPos}
     >
       <table className={styles.marketsCustomTable}>
