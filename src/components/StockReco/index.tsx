@@ -66,6 +66,7 @@ const StockComponent: React.FC<Props> = ({
             <h2 title={data.organisation} className={styles.stocksTitle}>
               <Link
                 href={`/stocksrecos/fundhousedetails/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" && urlFilterHandle()}`}
+                className="linkHover"
               >
                 {data.organisation}
               </Link>
@@ -137,6 +138,7 @@ const StockComponent: React.FC<Props> = ({
               <Link
                 target="_blank"
                 href={`https://economictimes.indiatimes.com/${data.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${data.companyId}.cms`}
+                className="linkHover"
               >
                 {data.companyName}
               </Link>
@@ -219,6 +221,7 @@ const StockComponent: React.FC<Props> = ({
                 <span>
                   <Link
                     href={`/stocksrecos/fundhousedetails/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle() : ""}`}
+                    className="linkHover"
                   >
                     {data.organisation}
                   </Link>
