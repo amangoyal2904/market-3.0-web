@@ -6,7 +6,6 @@ import ScrollableTable from "./ScrollableTable";
 import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
 import Pagination from "./Pagination";
-import { getCookie } from "@/utils";
 
 interface propsType {
   data: any[];
@@ -24,6 +23,7 @@ interface propsType {
   updateTableHandler?: any;
   processingLoader?: boolean;
   fixedCol?: number;
+  isprimeuser?: boolean;
 }
 
 const MarketTable = (props: propsType) => {
@@ -42,6 +42,7 @@ const MarketTable = (props: propsType) => {
     updateTableHandler,
     processingLoader,
     fixedCol = 3,
+    isprimeuser = false,
   } = props || {};
   const { loader = false, loaderType } = tableConfig || {};
   const [pageSummaryData, setPageSummaryData] = useState(pageSummary);
@@ -53,7 +54,6 @@ const MarketTable = (props: propsType) => {
   const [headerSticky, setHeaderSticky] = useState(0);
   const [topScrollHeight, setTopScrollHeight] = useState(162);
   const [loaderOff, setLoaderOff] = useState(false);
-  const [isPrime, setPrime] = useState(false);
   const [hideThead, setHideThead] = useState(false);
   const [parentHasScroll, setParentHasScroll] = useState(false);
   const [shouldShowLoader, setShouldShowLoader] = useState(false);
@@ -267,8 +267,6 @@ const MarketTable = (props: propsType) => {
       if (!loaderOff) setLoaderOff(true);
     }
     setHeaderSticky(0);
-    const isPrime = getCookie("isprimeuser") == "true" ? true : false;
-    setPrime(isPrime);
   }, [apiSuccess, data, pageSummary, _sortData, filters, loaderOff]);
 
   useEffect(() => {
@@ -306,7 +304,7 @@ const MarketTable = (props: propsType) => {
               sortData={sortData}
               filters={filters}
               handleFilterChange={handleFilterChange}
-              isPrime={isPrime}
+              isPrime={isprimeuser}
               hideThead={hideThead}
               showRemoveCheckbox={showTableCheckBox}
               removeCheckBoxHandle={removeCheckBoxHandleFun}
@@ -324,7 +322,7 @@ const MarketTable = (props: propsType) => {
               sortData={sortData}
               filters={filters}
               handleFilterChange={handleFilterChange}
-              isPrime={isPrime}
+              isPrime={isprimeuser}
               hideThead={hideThead}
               tableConfig={tableConfig}
               parentHasScroll={parentHasScroll}

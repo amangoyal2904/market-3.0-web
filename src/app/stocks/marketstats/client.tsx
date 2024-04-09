@@ -6,7 +6,7 @@ import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
-import { areObjectsNotEqual, getCookie } from "@/utils";
+import { areObjectsNotEqual } from "@/utils";
 import {
   fetchSelectedFilter,
   removePersonalizeViewById,
@@ -38,8 +38,6 @@ const MarketStats = ({
   tableConfig = {},
   tabConfig = {},
   payload = {},
-  ssoid = null,
-  isprimeuser = false,
   l3NavMenuItem = null,
   l3NavSubItem = null,
   actualUrl = null,
@@ -49,8 +47,8 @@ const MarketStats = ({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { state, dispatch } = useStateContext();
-  const { isLogin, isPrime } = state.login;
+  const { state } = useStateContext();
+  const { isPrime, ssoid } = state.login;
   const { currentMarketStatus } = state.marketStatus;
   const [resetSort, setResetSort] = useState("");
   const [_payload, setPayload] = useState(payload);
@@ -100,8 +98,8 @@ const MarketStats = ({
     const responseData: any = await fetchViewTable(
       { ..._payload },
       isTechnical ? "MARKETSTATS_TECHNICALS" : "MARKETSTATS_INTRADAY",
-      getCookie("isprimeuser") == "true" ? true : false,
-      getCookie("ssoid"),
+      isPrime,
+      ssoid,
     );
     const _pageSummary = !!responseData.pageSummary
       ? responseData.pageSummary
@@ -213,7 +211,7 @@ const MarketStats = ({
       secondOperand: isTechnical
         ? technicalCategory?.selectedFilter?.secondOperand
         : null,
-      ssoid: getCookie("ssoid"),
+      ssoid: ssoid,
     });
     setResetSort(tabIdActive);
     setTabData(tabData);
@@ -246,7 +244,7 @@ const MarketStats = ({
       secondOperand: isTechnical
         ? technicalCategory?.selectedFilter?.secondOperand
         : null,
-      ssoid: getCookie("ssoid"),
+      ssoid: ssoid,
     });
 
     setTabData(tabData);
@@ -325,7 +323,7 @@ const MarketStats = ({
       }, parseInt(refeshConfig.marketstats));
       return () => clearInterval(intervalId);
     }
-  }, [_payload, currentMarketStatus]);
+  }, [_payload, currentMarketStatus, isPrime]);
 
   useEffect(() => {
     setProcessingLoader(true);
@@ -415,6 +413,7 @@ const MarketStats = ({
             handleSortServerSide={onServerSideSort}
             handlePageChange={onPaginationChange}
             processingLoader={processingLoader}
+            isprimeuser={isPrime}
           />
         </div>
       </div>

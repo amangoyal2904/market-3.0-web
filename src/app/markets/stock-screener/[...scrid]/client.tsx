@@ -659,6 +659,7 @@ const StockScreeners = ({
                 handlePageChange={onPaginationChange}
                 processingLoader={processingLoader}
                 fixedCol={1}
+                isprimeuser={getCookie("isprimeuser") == "true" ? true : false}
               />
               <div className="">
                 <QueryComponets

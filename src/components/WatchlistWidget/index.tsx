@@ -13,7 +13,7 @@ const WatchlistWidget = () => {
   const [tableData, setTableData] = useState<any>([]);
   const { state } = useStateContext();
   const [pageSummary, setPageSummary] = useState(false);
-  const { isLogin, userInfo } = state.login;
+  const { isLogin, userInfo, isPrime } = state.login;
   const config = tableConfig["watchListWidget"];
 
   const fetchWatchListData = async (activeViewId: any = "") => {
@@ -59,6 +59,7 @@ const WatchlistWidget = () => {
             apiSuccess={apiSuccess}
             tableConfig={config}
             pageSummary={pageSummary}
+            isprimeuser={isPrime}
           />
           <ViewAllLink text="View All Stocks" link="/watchlist" />
         </>

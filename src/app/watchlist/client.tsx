@@ -274,6 +274,7 @@ const WatchListClient = () => {
               tableConfig={config}
               updateTableHandler={updateTableHandlerFun}
               processingLoader={processingLoader}
+              isprimeuser={isPrime}
             />
           </>
         )}
