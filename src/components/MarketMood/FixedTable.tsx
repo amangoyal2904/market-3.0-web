@@ -8,7 +8,7 @@ const FixedTableMarketMood = ({
 }: any) => {
   let displayedData = tableData;
   if (!showAll) {
-    const limit = type === "overview" ? 13 : 6;
+    const limit = 13;
     displayedData = tableData.slice(0, limit); // Update displayedData with sliced array
   }
   return (

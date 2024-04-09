@@ -7,7 +7,7 @@ const ScrollableBarsTableMarketMood = ({
 }: any) => {
   let displayedData = tableData;
   if (!showAll) {
-    displayedData = tableData.slice(0, 6);
+    displayedData = tableData.slice(0, 13);
   }
   return (
     <div id="scrollableTable" className={styles.scrollableWrapper}>
