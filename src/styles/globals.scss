@@ -252,6 +252,10 @@ table {
   display: flex;
 }
 
+.linkHover:hover {
+  text-decoration: underline;
+}
+
 .main_container {
   padding: 20px;
   flex-grow: 1;

@@ -275,6 +275,7 @@ const TableHtml = (props: any) => {
             <div className={styles.organisationName}>
               <Link
                 href={`/stocksrecos/fundhousedetails/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
+                className="linkHover"
               >
                 {obj.organisation}
               </Link>
@@ -383,8 +384,9 @@ const TableHtml = (props: any) => {
                         <Link
                           title={obj.organisation}
                           href={`/stocksrecos/fundhousedetails/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
+                          className="linkHover"
                         >
-                          <span className={styles.companyName}>
+                          <span className={`${styles.companyName} linkHover`}>
                             {obj.organisation}
                           </span>
                         </Link>
@@ -409,8 +411,9 @@ const TableHtml = (props: any) => {
                           title={obj.companyName}
                           target="_blank"
                           href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/${obj.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${obj.companyId}.cms`}
+                          className="linkHover"
                         >
-                          <span className={styles.companyName}>
+                          <span className={`${styles.companyName} linkHover`}>
                             {obj.companyName}
                           </span>
                         </Link>
