@@ -35,6 +35,7 @@ const ScrollableTable = (props: any) => {
       <table className={styles.marketsCustomTable}>
         <thead
           style={{
+            transition: "transform 0.1s ease 0s",
             transform: `translateY(${isHeaderSticky ? (headerSticky > topScrollHeight ? headerSticky - topScrollHeight : 0) : 0}px)`,
           }}
           className={
