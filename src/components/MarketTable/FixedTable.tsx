@@ -211,7 +211,6 @@ const FixedTable = (props: any) => {
                                 customStyle={{
                                   width: "18px",
                                   height: "18px",
-                                  fontSize: "inherit",
                                 }}
                               />
                             )}

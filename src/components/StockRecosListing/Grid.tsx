@@ -404,7 +404,6 @@ const TableHtml = (props: any) => {
                             marginRight: "10px",
                             width: "16px",
                             height: "16px",
-                            fontSize: "14px",
                           }}
                         />
                         <Link
