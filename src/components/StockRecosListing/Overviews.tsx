@@ -49,12 +49,10 @@ const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
         return "/stocksrecos/mostbuy";
       case "mostSell":
         return "/stocksrecos/mostsell";
-      case "recoOnWatchlist":
+      case "recoOnWL":
         return "/stocksrecos/recos-on-your-watchlist";
       case "recoByFH":
         return "/stocksrecos/fundhousedetails";
-      default:
-        return "/stocksrecos/overview";
     }
   };
   return (
