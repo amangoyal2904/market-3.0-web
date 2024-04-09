@@ -140,7 +140,9 @@
     }
     &.fullWidth {
       width: 100%;
-      min-width: 110px;
+      padding: 0;
+      margin: 0;
+      min-width: 0;
       &.hide {
         display: none;
       }
@@ -198,7 +200,9 @@
     }
     &.fullWidth {
       width: 100%;
-      min-width: 110px;
+      padding: 0;
+      margin: 0;
+      min-width: 0;
       &.hide {
         display: none;
       }
