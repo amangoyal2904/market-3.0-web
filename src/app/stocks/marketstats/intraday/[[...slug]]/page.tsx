@@ -114,7 +114,6 @@ const Intraday = async ({ searchParams }: any) => {
   }
 
   const cookieStore = cookies();
-  const isprimeuser = cookieStore.get("isprimeuser")?.value === "true";
   const ssoid = cookieStore.get("ssoid")?.value;
   const filter = !!intFilter ? [intFilter] : [];
   const pagesize = 100;
@@ -175,7 +174,6 @@ const Intraday = async ({ searchParams }: any) => {
         tabConfig={tabConfig["marketStatsIntrday"]}
         payload={payload}
         ssoid={ssoid}
-        isprimeuser={isprimeuser}
         l3NavMenuItem={L3NavMenuItem}
         l3NavSubItem={L3NavSubItem}
         actualUrl={actualUrl}

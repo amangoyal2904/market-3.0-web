@@ -6,7 +6,7 @@ const fetchTitleAndDesc = async (navData: any, L3NavSubItem: any) => {
   const results: { title: string; desc: string }[] = [];
   navData.forEach((navItem: any) => {
     navItem.sub_nav.forEach((subNavItem: any) => {
-      if (subNavItem.type.toLowerCase() === L3NavSubItem) {
+      if (subNavItem?.type?.toLowerCase() === L3NavSubItem) {
         const { title, desc } = subNavItem;
         results.push({ title, desc });
       }
@@ -27,17 +27,7 @@ const fetchL3Nav = async ({ duration, intFilter }: any) => {
   return response?.json();
 };
 
-const fetchTechnicalCategory = async (
-  L3NavMenuItem: any,
-  L3NavSubItem: any,
-) => {
-  if (L3NavMenuItem == "moving-averages") {
-    L3NavMenuItem =
-      L3NavSubItem == "ema-ema-crossovers" ||
-      L3NavSubItem == "price-ema-crossovers"
-        ? "ema-ema-crossovers"
-        : "sma-sma-crossovers";
-  }
+const fetchTechnicalCategory = async (L3NavMenuItem: any) => {
   const apiUrl = `${(APIS_CONFIG as any)?.["MARKET_STATS_TECHNICAL_OPERANDS"][APP_ENV]}?category=${L3NavMenuItem}`;
   const response = await Service.get({
     url: apiUrl,
@@ -61,12 +51,11 @@ export const getMarketStatsNav = async ({
 
 export const getTechincalOperands = async (
   L3NavMenuItem: any,
-  L3NavSubItem: any,
   firstOperand: any,
   operationType: any,
   secondOperand: any,
 ) => {
-  const response = await fetchTechnicalCategory(L3NavMenuItem, L3NavSubItem);
+  const response = await fetchTechnicalCategory(L3NavMenuItem);
 
   return {
     ...response,

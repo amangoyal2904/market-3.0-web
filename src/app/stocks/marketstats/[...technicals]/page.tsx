@@ -27,7 +27,6 @@ export async function generateMetadata(
   const pageUrl = headersList.get("x-url") || "";
   const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
   let L3NavMenuItem,
-    L3NavSubItem,
     firstOperand,
     operationType,
     secondOperand,
@@ -37,7 +36,6 @@ export async function generateMetadata(
     actualUrl = pageData?.longURL;
     const requestParams = getSearchParams(actualUrl);
     L3NavMenuItem = pageData?.l3NavMenuItem;
-    L3NavSubItem = requestParams?.type;
     firstOperand = requestParams?.firstoperand;
     operationType = requestParams?.operationtype;
     secondOperand = requestParams?.secondoperand;
@@ -49,7 +47,6 @@ export async function generateMetadata(
           : 0;
   } else {
     L3NavMenuItem = params.technicals[0];
-    L3NavSubItem = searchParams?.type?.toLowerCase();
     firstOperand = searchParams?.firstoperand;
     operationType = searchParams?.operationtype;
     secondOperand = searchParams?.secondoperand;
@@ -62,11 +59,15 @@ export async function generateMetadata(
     actualUrl = pageUrl;
   }
 
-  const { metaData } = await getMarketStatsNav({ L3NavSubItem, intFilter });
+  const { metaData } = await getMarketStatsNav({
+    firstOperand,
+    operationType,
+    secondOperand,
+    intFilter,
+  });
 
   const technicalCategory = await getTechincalOperands(
     L3NavMenuItem,
-    L3NavSubItem,
     firstOperand,
     operationType,
     secondOperand,
@@ -77,7 +78,7 @@ export async function generateMetadata(
     : `Discover the stocks in the Indian stock market with ${technicalCategory?.selectedFilterLabel?.firstOperand} ${technicalCategory?.selectedFilterLabel?.operationType} ${technicalCategory?.selectedFilterLabel?.secondOperand} exclusively on The Economic Times`;
   const seo_keywords = !!shortUrl
     ? pageData?.keywords
-    : `et, etmarkets, economictimes, ${L3NavMenuItem}, ${L3NavSubItem}, ${firstOperand}, ${operationType}, ${secondOperand}`;
+    : `et, etmarkets, economictimes, ${L3NavMenuItem}, ${firstOperand}, ${operationType}, ${secondOperand}`;
   const meta = {
     title: seo_title,
     desc: seo_desc,
@@ -93,7 +94,6 @@ const Technicals = async ({ params, searchParams }: any) => {
   const pageUrl = headersList.get("x-url") || "";
   const { shortUrl, pageData } = await getShortUrlMapping(pageUrl);
   let L3NavMenuItem,
-    L3NavSubItem,
     firstOperand,
     operationType,
     secondOperand,
@@ -103,7 +103,6 @@ const Technicals = async ({ params, searchParams }: any) => {
     actualUrl = pageData?.longURL;
     const requestParams = getSearchParams(actualUrl);
     L3NavMenuItem = pageData?.l3NavMenuItem;
-    L3NavSubItem = requestParams?.type?.toLowerCase();
     firstOperand = requestParams?.firstoperand;
     operationType = requestParams?.operationtype;
     secondOperand = requestParams?.secondoperand;
@@ -115,7 +114,6 @@ const Technicals = async ({ params, searchParams }: any) => {
           : 0;
   } else {
     L3NavMenuItem = params.technicals[0];
-    L3NavSubItem = searchParams?.type?.toLowerCase();
     firstOperand = searchParams?.firstoperand;
     operationType = searchParams?.operationtype;
     secondOperand = searchParams?.secondoperand;
@@ -129,7 +127,6 @@ const Technicals = async ({ params, searchParams }: any) => {
   }
 
   const cookieStore = cookies();
-  const isprimeuser = cookieStore.get("isprimeuser")?.value === "true";
   const ssoid = cookieStore.get("ssoid")?.value;
   const filter = !!intFilter ? [intFilter] : [];
   const pagesize = 100;
@@ -137,7 +134,9 @@ const Technicals = async ({ params, searchParams }: any) => {
   const sort: any = [];
 
   const { l3Nav, metaData } = await getMarketStatsNav({
-    L3NavSubItem,
+    firstOperand,
+    operationType,
+    secondOperand,
     intFilter,
   });
 
@@ -150,7 +149,6 @@ const Technicals = async ({ params, searchParams }: any) => {
 
   const bodyParams = {
     viewId: activeViewId,
-    apiType: L3NavSubItem,
     firstOperand,
     operationType,
     secondOperand,
@@ -167,7 +165,6 @@ const Technicals = async ({ params, searchParams }: any) => {
   const selectedFilter = await fetchSelectedFilter(intFilter);
   const technicalCategory = await getTechincalOperands(
     L3NavMenuItem,
-    L3NavSubItem,
     firstOperand,
     operationType,
     secondOperand,
@@ -202,9 +199,7 @@ const Technicals = async ({ params, searchParams }: any) => {
         tabConfig={tabConfig["marketStatsTechnical"]}
         payload={payload}
         ssoid={ssoid}
-        isprimeuser={isprimeuser}
         l3NavMenuItem={L3NavMenuItem}
-        l3NavSubItem={L3NavSubItem}
         actualUrl={actualUrl}
         shortUrlMapping={shortUrlMapping}
       />

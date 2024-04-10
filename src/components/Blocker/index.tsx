@@ -17,8 +17,9 @@ const handleLoginToggle = (): void => {
 const blockerList: any = {
   loginBlocker: {
     id: 1,
-    message: "Stay informed on your favourite stocks",
-    cta: "Login to manage your Watchlist",
+    message:
+      "Stay Informed on your Favourite Stocks <br /> Login to Manage your Watchlist",
+    cta: "Login",
     action: handleLoginToggle,
     icon: 107522568,
   },
@@ -75,7 +76,7 @@ const Blocker = (props: propsType) => {
             src={(GLOBAL_CONFIG as any).ET_IMG_DOMAIN + `/photo/${icon}.cms`}
           />
         )}
-        {message && <p>{message}</p>}
+        {message && <p dangerouslySetInnerHTML={{ __html: message }} />}
         {cta && (
           <button onClick={id == 3 ? handleAddStocks : action}>{cta}</button>
         )}

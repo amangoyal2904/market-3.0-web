@@ -273,7 +273,6 @@ const MarketStats = ({
 
     const technicalCategory = await getTechincalOperands(
       l3NavMenuItem,
-      l3NavSubItem,
       firstOperand,
       operationType,
       secondOperand,
@@ -371,7 +370,23 @@ const MarketStats = ({
         <aside className={styles.lhs}>
           <MarketStatsNav
             leftNavResult={_l3Nav}
-            type={l3NavSubItem}
+            type={l3NavMenuItem}
+            subType={!isTechnical ? l3NavSubItem : null}
+            firstOperand={
+              isTechnical
+                ? technicalCategory?.selectedFilter?.firstOperand
+                : null
+            }
+            operationType={
+              isTechnical
+                ? technicalCategory?.selectedFilter?.operationType
+                : null
+            }
+            secondOperand={
+              isTechnical
+                ? technicalCategory?.selectedFilter?.secondOperand
+                : null
+            }
             shortUrlMapping={shortUrlMapping}
           />
         </aside>
