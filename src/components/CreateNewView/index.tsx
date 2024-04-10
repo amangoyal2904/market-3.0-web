@@ -4,6 +4,8 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import NameViewComponent from "./createmodule";
+import ToasterPopup from "../ToasterPopup/OnlyInfo";
+
 const CreateNewViewComponent = ({
   closePopCreateView,
   editmode,
@@ -26,6 +28,19 @@ const CreateNewViewComponent = ({
   const [visibleTabs, setVisibleTabs] = useState<any[]>([]);
   const [hiddenTabs, setHiddenTabs] = useState<any[]>([]);
   const tabsListRef = useRef<HTMLUListElement>(null);
+  const [showToaster, setShowToaster] = useState(false);
+  console.log("showToaster", showToaster);
+  const [toasterData, setToasterData] = useState({
+    title: "",
+    errorModule: "",
+  });
+  const closeToaster = () => {
+    setShowToaster(false);
+  };
+  const CreateViewNameModalClose = () => {
+    setViewNameModule(false);
+    closePopCreateView(false);
+  };
   //console.log('editmode', editmode)
   const ViewDataAPICall = async () => {
     setLoading(true);
@@ -60,14 +75,24 @@ const CreateNewViewComponent = ({
   };
   const saveUserPersonalise = () => {
     if (!selectedView.length) {
-      alert("Please select at least one view");
+      setShowToaster(true);
+      setToasterData({
+        title: "Please select at least one view",
+        errorModule: "error",
+      });
+      //alert("Please select at least one view");
     } else if (
       editmode &&
       editmode.mode &&
       editmode.viewId &&
       screenerName === ""
     ) {
-      alert("Please enter screener name");
+      //alert("Please enter screener name ---");
+      setShowToaster(true);
+      setToasterData({
+        title: "Please enter screener name",
+        errorModule: "error",
+      });
     } else if (screenerName === "") {
       setViewNameModule(true);
       const randomNumber = Math.floor(Math.random() * 100) + 1;
@@ -327,7 +352,7 @@ const CreateNewViewComponent = ({
         e.target.classList[0] !== "refRemoveList"
       ) {
         //console.log('___________++++++++',viewWraperRef.current, !viewWraperRef.current.contains(e.target), "sateUpdate",sateUpdate)
-        closePopCreateView(false);
+        // closePopCreateView(false);
       }
     };
     document.addEventListener("click", handleClickOutsidePopup);
@@ -362,6 +387,10 @@ const CreateNewViewComponent = ({
   return (
     <>
       <div className={`customeModule ${styles.wraper}`}>
+        <div
+          className={styles.divOverlya}
+          onClick={() => closePopCreateView(false)}
+        ></div>
         <div className={`moduleWrap ${styles.perWrap}`} ref={viewWraperRef}>
           <div className={`hideSecElement ${styles.header}`}>
             <span>
@@ -670,7 +699,7 @@ const CreateNewViewComponent = ({
               editMode={editmode.viewId}
               updateViewNameHandler={updateViewNameHandler}
               setScreenerName={setScreenerName}
-              closeViewNamePopup={setViewNameModule}
+              closeViewNamePopup={CreateViewNameModalClose}
             />
           ) : null}
           {loading ? (
@@ -682,6 +711,11 @@ const CreateNewViewComponent = ({
           )}
         </div>
       </div>
+      {showToaster ? (
+        <ToasterPopup data={toasterData} toasterCloseHandler={closeToaster} />
+      ) : (
+        ""
+      )}
     </>
   );
 };

@@ -1,4 +1,6 @@
 import styles from "./CreateNewView.module.scss";
+import { useState } from "react";
+import ToasterPopup from "../ToasterPopup/OnlyInfo";
 
 const NameViewComponent = ({
   createViewNameHandler,
@@ -8,18 +10,37 @@ const NameViewComponent = ({
   updateViewNameHandler,
   closeViewNamePopup,
 }: any) => {
+  const [showToaster, setShowToaster] = useState(false);
+  console.log("showToaster", showToaster);
+  const [toasterData, setToasterData] = useState({
+    title: "",
+    errorModule: "",
+  });
+  const closeToaster = () => {
+    setShowToaster(false);
+  };
   const viewActionBtnHandler = () => {
     const viewScreenerName: any = screenerName.trim();
     if (editMode && editMode !== "") {
       updateViewNameHandler(viewScreenerName);
     } else if (viewScreenerName === "") {
-      alert("Please fill screener name");
+      setShowToaster(true);
+      setToasterData({
+        title: "Please fill screener name",
+        errorModule: "error",
+      });
+      //alert("Please fill screener name");
     } else {
       createViewNameHandler(viewScreenerName);
     }
   };
   const closeNameViewModule = () => {
-    closeViewNamePopup(false);
+    const viewScreenerName: any = screenerName.trim();
+    if (viewScreenerName === "") {
+      closeViewNamePopup(false);
+    } else {
+      createViewNameHandler(viewScreenerName);
+    }
   };
   // const createViewHandler = () => {
   //   if (screenerName && screenerName !== "") {
@@ -40,14 +61,14 @@ const NameViewComponent = ({
       <div className={`customeModule ${styles.wraperSmall}`}>
         <div
           className={`refRemoveList ${styles.overlaySmall}`}
-          onClick={viewActionBtnHandler}
+          onClick={closeNameViewModule}
         ></div>
         <div className={`moduleWrap ${styles.perWrap}`}>
           <div className={styles.header}>
             Name your custom view
             <span
               className={`refRemoveList ${styles.closeIcon}`}
-              onClick={viewActionBtnHandler}
+              onClick={closeNameViewModule}
             ></span>
           </div>
           <div className={styles.body}>
@@ -71,6 +92,11 @@ const NameViewComponent = ({
           </div>
         </div>
       </div>
+      {showToaster ? (
+        <ToasterPopup data={toasterData} toasterCloseHandler={closeToaster} />
+      ) : (
+        ""
+      )}
     </>
   );
 };
