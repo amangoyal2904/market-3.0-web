@@ -42,6 +42,7 @@ const MarketFiltersTab = ({
   createNewScreener,
   getIndustryFilterValue,
   intradayDurationOptions,
+  editRemoveStockBtnReset,
 }: any) => {
   const {
     showAddStock,
@@ -76,6 +77,7 @@ const MarketFiltersTab = ({
       ? data.filter((item: any) => item.viewType === "USER").length + 1
       : 0;
   const userPersonaliseHandle = () => {
+    editRemoveStockBtnReset();
     if (isLogin) {
       setOpenPersonaliseModal(true);
     } else {
@@ -135,6 +137,7 @@ const MarketFiltersTab = ({
     setIndustryFilterShow(false);
   };
   const addStockHandler = () => {
+    editRemoveStockBtnReset();
     setAddStockShow(true);
   };
   const dayFilterHandler = () => {
