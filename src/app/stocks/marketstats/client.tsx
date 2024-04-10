@@ -334,14 +334,14 @@ const MarketStats = ({
     }
   };
   useEffect(() => {
-    if (!!isPrime) updateTableData();
+    updateTableData();
     if (!!currentMarketStatus && currentMarketStatus == "LIVE") {
       const intervalId = setInterval(() => {
         updateTableData();
       }, parseInt(refeshConfig.marketstats));
       return () => clearInterval(intervalId);
     }
-  }, [_payload, currentMarketStatus, isPrime]);
+  }, [_payload, isPrime, currentMarketStatus]);
 
   useEffect(() => {
     setProcessingLoader(true);
