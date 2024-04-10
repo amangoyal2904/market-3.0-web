@@ -42,6 +42,7 @@
   .actionBarWrap {
     display: flex;
     align-items: center;
+    gap: 14px;
 
     .sortByWrap {
       .sortByText {
@@ -60,8 +61,8 @@
     }
 
     .niftyWrap {
-      padding: 0 4px;
-      margin-right: 10px;
+      // padding: 0 4px;
+      // margin-right: 10px;
       .niftyBtn {
         font-size: 14px;
         font-weight: 600;
@@ -139,7 +140,7 @@
   .contentViewWrap {
     width: 100%;
     &.gridViewWrap {
-      width: calc(100% - 196px);
+      width: calc(100% - 202px);
     }
   }
 
@@ -426,12 +427,12 @@
         text-align: left;
         min-width: 140px;
       }
-      [data-name="Potential Upside/Downside"]{
+      [data-name="Potential Upside/Downside"] {
         min-width: 130px;
         text-align: left;
         min-width: 130px;
       }
-      
+
       [data-name="Target Price"] {
         min-width: 130px;
         text-align: right;

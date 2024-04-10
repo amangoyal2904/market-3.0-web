@@ -51,7 +51,7 @@ const WatchListClient = () => {
   const onTabViewUpdate = async (viewId: any) => {
     if (viewId && viewId != "") {
       setProcessingLoader(true);
-      setAPISuccess(false);
+      setAPISuccess(true);
       setActiveViewId(viewId);
       setRequestPayload({ ...requestPayload, viewId: viewId });
     }
@@ -168,6 +168,10 @@ const WatchListClient = () => {
       setShowTableCheckBox(false);
     }
   };
+  const editRemoveStockBtnReset = () => {
+    setUnFollowStocksList([]);
+    setShowTableCheckBox(false);
+  };
   const removeMultipleStockInWathclist = async () => {
     if (unFollowStocksList.length > 0) {
       setToasterConfirmBoxShow(true);
@@ -221,10 +225,6 @@ const WatchListClient = () => {
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    // const intervalId = setInterval(() => {
-    //   updateTableData();
-    // }, parseInt(refeshConfig.watchlist));
-    // return () => clearInterval(intervalId);
   }, [requestPayload]);
 
   return (
@@ -263,6 +263,7 @@ const WatchListClient = () => {
                   updateTableHandler={updateTableHandlerFun}
                   watchlistDataLength={tableData.length}
                   removePersonaliseView={removePersonaliseViewFun}
+                  editRemoveStockBtnReset={editRemoveStockBtnReset}
                 />
               </div>
             )}
@@ -278,6 +279,7 @@ const WatchListClient = () => {
               tableConfig={config}
               updateTableHandler={updateTableHandlerFun}
               processingLoader={processingLoader}
+              isprimeuser={isPrime}
             />
           </>
         )}

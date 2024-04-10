@@ -5,6 +5,7 @@ import MarketTable from "../MarketTable";
 import tableConfig from "@/utils/tableConfig.json";
 import { fetchTableData } from "./ApiCalls";
 import ViewAllLink from "../ViewAllLink";
+import { useStateContext } from "@/store/StateContext";
 
 interface propsType {
   tabsData: any[];
@@ -21,6 +22,8 @@ function MarketDashBoard(props: propsType) {
     type,
     linkClass,
   } = props || {};
+  const { state } = useStateContext();
+  const { isLogin, ssoid, isPrime } = state.login;
   const [dashBoardTableData, setDashBoardTableData] = useState(tableData || []);
   const [duration, setDuration] = useState("1M");
   const [activeViewID, setActiveViewID] = useState(activeViewId);
@@ -86,6 +89,7 @@ function MarketDashBoard(props: propsType) {
         data={dashBoardTableData}
         tableHeaders={tableHeaderData}
         tableConfig={config}
+        isprimeuser={isPrime}
       />
       {dashBoardTableData.length ? (
         <ViewAllLink text="View All Stocks" link="/watchlist" />

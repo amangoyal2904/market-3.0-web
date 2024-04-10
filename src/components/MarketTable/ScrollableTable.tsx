@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./MarketTable.module.scss";
-import Link from "next/link";
-import GLOBAL_CONFIG from "@/network/global_config.json";
-import { APP_ENV, dateFormat } from "@/utils";
+import { dateFormat } from "@/utils";
+import { goToPlansPage } from "@/utils/ga";
+import Image from "next/image";
 
 const ScrollableTable = (props: any) => {
   const {
@@ -35,6 +35,7 @@ const ScrollableTable = (props: any) => {
       <table className={styles.marketsCustomTable}>
         <thead
           style={{
+            transition: "transform 0.1s ease 0s",
             transform: `translateY(${isHeaderSticky ? (headerSticky > topScrollHeight ? headerSticky - topScrollHeight : 0) : 0}px)`,
           }}
           className={
@@ -55,7 +56,7 @@ const ScrollableTable = (props: any) => {
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? styles.enableSort
                         : styles.center
-                    } ${isPrime && thead.primeFlag ? styles.primeCell : ""}`}
+                    } ${isPrime && thead.primeFlag ? styles.primeCell : thead.valueType == "date" || thead.valueType == "text" ? styles.left : ""}`}
                     onClick={() => {
                       isSorting &&
                       thead.valueType != "date" &&
@@ -65,43 +66,47 @@ const ScrollableTable = (props: any) => {
                     }}
                     key={index}
                   >
-                    <span className="two-line-ellipsis">
-                      {isPrime && thead.primeFlag ? (
-                        <span className="eticon_prime_logo">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                          <span className="path3"></span>
-                        </span>
-                      ) : null}{" "}
-                      {thead.keyText}
-                    </span>
-                    {isSorting &&
-                      thead.valueType != "date" &&
-                      (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
-                        <span className={`${styles.sortIcons}`}>
-                          <span
-                            className={`${
-                              sortData.field == thead.keyId &&
-                              sortData.order == "ASC"
-                                ? styles.asc
-                                : ""
-                            } eticon_up_arrow`}
-                          ></span>
-                          <span
-                            className={`${
-                              sortData.field == thead.keyId &&
-                              sortData.order == "DESC"
-                                ? styles.desc
-                                : ""
-                            } eticon_down_arrow`}
-                          ></span>
-                        </span>
-                      )}
+                    <div className={styles.thead}>
+                      <div className={styles.theading}>
+                        {isPrime && thead.primeFlag ? (
+                          <Image
+                            src="/prime_icon.svg"
+                            width={10}
+                            height={10}
+                            alt="ETPrime"
+                            className={styles.primeIcon}
+                          />
+                        ) : null}
+                        {thead.keyText}
+                      </div>
+                      {isSorting &&
+                        thead.valueType != "date" &&
+                        (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
+                          <span className={`${styles.sortIcons}`}>
+                            <span
+                              className={`${
+                                sortData.field == thead.keyId &&
+                                sortData.order == "ASC"
+                                  ? styles.asc
+                                  : ""
+                              } eticon_up_arrow`}
+                            ></span>
+                            <span
+                              className={`${
+                                sortData.field == thead.keyId &&
+                                sortData.order == "DESC"
+                                  ? styles.desc
+                                  : ""
+                              } eticon_down_arrow`}
+                            ></span>
+                          </span>
+                        )}
+                    </div>
                   </th>
                 ),
             )}
             <th
-              className={`${styles.fullWidth} ${parentHasScroll ? styles.hide : null}`}
+              className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
             ></th>
           </tr>
           {showFilterInput && (
@@ -128,7 +133,7 @@ const ScrollableTable = (props: any) => {
                   ),
               )}
               <td
-                className={`${styles.fullWidth} ${parentHasScroll ? styles.hide : null}`}
+                className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
               ></td>
             </tr>
           )}
@@ -148,26 +153,23 @@ const ScrollableTable = (props: any) => {
                             : tdData.primeFlag
                               ? styles.primeTd
                               : ""
-                        } ${isPrime && tdData.primeFlag ? styles.primeCell : ""}`}
+                        } ${isPrime && tdData.primeFlag ? styles.primeCell : tdData.valueType == "date" || tdData.valueType == "text" ? styles.left : ""}`}
                         key={index}
                         title={tdData.valueType == "text" ? tdData.value : null}
                       >
                         {!isPrime && tdData.primeFlag ? (
-                          <Link
-                            href={`${
-                              (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]
-                            }`}
-                            data-ga-onclick="Subscription Flow#Upgrade to Prime#table - url"
-                          >
-                            Upgrade to Prime
-                          </Link>
+                          <span onClick={goToPlansPage}>Upgrade to Prime</span>
                         ) : (
                           <>
                             {tdData.valueType == "date"
                               ? dateFormat(tdData.value, "%d %MMM %Y")
                               : tdData.valueType == "number"
-                                ? tdData.value.replaceAll(" ", "")
-                                : tdData.value}
+                                ? !!tdData.value
+                                  ? tdData.value.replaceAll(" ", "")
+                                  : "-"
+                                : !!tdData.value
+                                  ? tdData.value
+                                  : "-"}
                             {tdData.trend && (
                               <span
                                 className={`${styles.arrowIcons} ${
@@ -185,7 +187,7 @@ const ScrollableTable = (props: any) => {
                     ),
                 )}
                 <td
-                  className={`${styles.fullWidth} ${parentHasScroll ? styles.hide : null}`}
+                  className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
                 ></td>
               </tr>
             ))}

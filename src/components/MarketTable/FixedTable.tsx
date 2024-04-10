@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./MarketTable.module.scss";
 import { getStockUrl } from "@/utils/utility";
-import Link from "next/link";
-import GLOBAL_CONFIG from "@/network/global_config.json";
-import { APP_ENV, dateFormat } from "@/utils";
+import { dateFormat } from "@/utils";
 import WatchlistAddition from "../WatchlistAddition";
+import { goToPlansPage } from "@/utils/ga";
+import Image from "next/image";
 
 const FixedTable = (props: any) => {
   const {
@@ -23,6 +23,7 @@ const FixedTable = (props: any) => {
     showRemoveCheckbox = false,
     removeCheckBoxHandle,
     tableConfig = {},
+    parentHasScroll = false,
     fixedCol = 3,
   } = props || {};
   const {
@@ -50,12 +51,13 @@ const FixedTable = (props: any) => {
   return (
     <div
       id="fixedTable"
-      className={styles.fixedWrapper}
+      className={`${styles.fixedWrapper} ${!!parentHasScroll ? styles.withShadow : ""}`}
       onScroll={scrollLeftPos}
     >
       <table className={styles.marketsCustomTable}>
         <thead
           style={{
+            transition: "transform 0.1s ease 0s",
             transform: `translateY(${
               isHeaderSticky
                 ? headerSticky > topScrollHeight
@@ -94,41 +96,45 @@ const FixedTable = (props: any) => {
                             (!thead.primeFlag || (isPrime && thead.primeFlag))
                           ? styles.enableSort
                           : styles.center
-                    } ${isPrime && thead.primeFlag ? styles.primeCell : ""}`}
+                    } ${isPrime && thead.primeFlag ? styles.primeCell : thead.valueType == "date" || thead.valueType == "text" ? styles.left : ""}`}
                     key={index}
                   >
-                    <span className="two-line-ellipsis">
-                      {isPrime && thead.primeFlag ? (
-                        <span className="eticon_prime_logo">
-                          <span className="path1"></span>
-                          <span className="path2"></span>
-                          <span className="path3"></span>
-                        </span>
-                      ) : null}{" "}
-                      {thead.keyText}
-                    </span>
-                    {isSorting &&
-                      thead.valueType != "date" &&
-                      (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
-                        <span className={`${styles.sortIcons}`}>
-                          <span
-                            className={`${
-                              sortData.field == thead.keyId &&
-                              sortData.order == "ASC"
-                                ? styles.asc
-                                : ""
-                            } eticon_up_arrow`}
-                          ></span>
-                          <span
-                            className={`${
-                              sortData.field == thead.keyId &&
-                              sortData.order == "DESC"
-                                ? styles.desc
-                                : ""
-                            } eticon_down_arrow`}
-                          ></span>
-                        </span>
-                      )}
+                    <div className={styles.thead}>
+                      <div className={styles.theading}>
+                        {isPrime && thead.primeFlag ? (
+                          <Image
+                            src="/prime_icon.svg"
+                            width={10}
+                            height={10}
+                            alt="ETPrime"
+                            className={styles.primeIcon}
+                          />
+                        ) : null}
+                        {thead.keyText}
+                      </div>
+                      {isSorting &&
+                        thead.valueType != "date" &&
+                        (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
+                          <span className={`${styles.sortIcons}`}>
+                            <span
+                              className={`${
+                                sortData.field == thead.keyId &&
+                                sortData.order == "ASC"
+                                  ? styles.asc
+                                  : ""
+                              } eticon_up_arrow`}
+                            ></span>
+                            <span
+                              className={`${
+                                sortData.field == thead.keyId &&
+                                sortData.order == "DESC"
+                                  ? styles.desc
+                                  : ""
+                              } eticon_down_arrow`}
+                            ></span>
+                          </span>
+                        )}
+                    </div>
                   </th>
                 ),
             )}
@@ -204,7 +210,7 @@ const FixedTable = (props: any) => {
                             ) : (
                               ""
                             )}
-                            {showWatchlistIcon && (
+                            {showWatchlistIcon && item.assetId && (
                               <WatchlistAddition
                                 companyName={item.assetName}
                                 companyId={item.assetId}
@@ -212,7 +218,6 @@ const FixedTable = (props: any) => {
                                 customStyle={{
                                   width: "18px",
                                   height: "18px",
-                                  fontSize: "inherit",
                                 }}
                               />
                             )}
@@ -226,13 +231,13 @@ const FixedTable = (props: any) => {
                                 item.assetType,
                               )}
                               target="_blank"
-                              title={`${tdData?.value} ${
+                              title={`${!!tdData.value ? tdData.value : item.assetName} ${
                                 item?.assetType?.toLowerCase() != "equity"
                                   ? `(${item?.assetType?.toUpperCase()})`
                                   : ""
                               }`}
                             >
-                              {tdData.value}{" "}
+                              {!!tdData.value ? tdData.value : item.assetName}{" "}
                               {item.assetType != "" &&
                               item?.assetType?.toLowerCase() != "equity"
                                 ? `(${item?.assetType?.toUpperCase()})`
@@ -249,21 +254,16 @@ const FixedTable = (props: any) => {
                               : tdData.primeFlag
                                 ? styles.primeTd
                                 : ""
-                          } ${isPrime && tdData.primeFlag ? styles.primeCell : ""}`}
+                          } ${isPrime && tdData.primeFlag ? styles.primeCell : tdData.valueType == "date" || tdData.valueType == "text" ? styles.left : ""}`}
                           key={tdIndex}
                           title={
                             tdData.valueType == "text" ? tdData.value : null
                           }
                         >
                           {!isPrime && tdData.primeFlag ? (
-                            <Link
-                              href={`${
-                                (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]
-                              }`}
-                              data-ga-onclick="Subscription Flow#Upgrade to Prime#table - url"
-                            >
+                            <span onClick={goToPlansPage}>
                               Upgrade to Prime
-                            </Link>
+                            </span>
                           ) : (
                             <>
                               {tdData.valueType == "date" ? (
@@ -292,12 +292,20 @@ const FixedTable = (props: any) => {
                                       : styles.noBg
                                   }
                                 >
-                                  {tdData.value.replaceAll(" ", "")}
+                                  {!!tdData.value
+                                    ? tdData.value.replaceAll(" ", "")
+                                    : "-"}
                                 </span>
                               ) : tdData.valueType == "number" ? (
-                                tdData.value.replaceAll(" ", "")
-                              ) : (
+                                !!tdData.value ? (
+                                  tdData.value.replaceAll(" ", "")
+                                ) : (
+                                  "-"
+                                )
+                              ) : !!tdData.value ? (
                                 tdData.value
+                              ) : (
+                                "-"
                               )}
                               {tdData.trend && (
                                 <span

@@ -6,11 +6,23 @@ import Link from "next/link";
 interface PageProps {
   leftNavResult: any;
   type: any;
+  subType: any;
   shortUrlMapping: [];
+  firstOperand: any;
+  operationType: any;
+  secondOperand: any;
 }
 
 const MarketStatsNav: React.FC<PageProps> = (props) => {
-  const { leftNavResult, type, shortUrlMapping } = props;
+  const {
+    leftNavResult,
+    type,
+    subType,
+    firstOperand,
+    operationType,
+    secondOperand,
+    shortUrlMapping,
+  } = props;
   const toggleL2Menu = (e: any) => {
     try {
       e.stopPropagation();
@@ -66,11 +78,9 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
         {leftNavResult &&
           leftNavResult.nav.map((item: any, index: number) => {
             return (
-              <Fragment key={item.id}>
+              <Fragment key={index}>
                 <div
-                  key={item.id}
-                  id={item.id}
-                  className={`${styles.navWrapLi} ${item.sub_nav.some((obj: any) => obj.type == type) ? styles.expanded : styles.collapsed}`}
+                  className={`${styles.navWrapLi} ${item.type == type ? styles.expanded : styles.collapsed}`}
                   onClick={(e) => {
                     item.sub_nav && toggleL2Menu(e);
                   }}
@@ -84,11 +94,10 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
                 </div>
                 {item.sub_nav && (
                   <ul className={styles.subNavWrap}>
-                    {item.sub_nav.map((subItem: any, index: any) => (
+                    {item.sub_nav.map((subItem: any, subNavindex: any) => (
                       <li
-                        key={subItem.id}
-                        id={subItem.id}
-                        className={`${styles.subNavWrapLi} ${type == subItem.type ? styles.active : null}`}
+                        key={`${index}_${subNavindex}`}
+                        className={`${styles.subNavWrapLi} ${(!!subType && subType == subItem.type) || (!!firstOperand && !!operationType && !!secondOperand && firstOperand == subItem.firstoperand && operationType == subItem.operationtype && secondOperand == subItem.secondoperand) ? styles.active : ""}`}
                         onClick={(e) => handleClick(e)}
                       >
                         {renderLink(subItem)}

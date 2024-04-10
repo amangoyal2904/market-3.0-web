@@ -177,7 +177,9 @@
   }
 
   .toggleMenuWrap {
-    padding: 8px 0;
+    padding: 8px 19px;
+    display: flex;
+    justify-content: flex-end;
     // margin-bottom: 8px;
     .toggleMenu {
       font-size: 12px;
@@ -276,27 +278,29 @@
 
     &:hover {
       // width: 56px;
-      .navInnerWrap {
-        width: 200px;
-      }
-      .marketProWrap {
-        .collapsedTitle {
-          display: none;
+      &.hovered {
+        .navInnerWrap {
+          width: 200px;
         }
-        .expandTitle {
-          display: block;
-        }
-      }
-
-      .mainTabWrap {
-        // justify-content: normal;
-        .l1LabelName {
-          &.hide {
+        .marketProWrap {
+          .collapsedTitle {
+            display: none;
+          }
+          .expandTitle {
             display: block;
           }
         }
-        .caret_right {
-          display: block;
+
+        .mainTabWrap {
+          // justify-content: normal;
+          .l1LabelName {
+            &.hide {
+              display: block;
+            }
+          }
+          .caret_right {
+            display: block;
+          }
         }
       }
     }

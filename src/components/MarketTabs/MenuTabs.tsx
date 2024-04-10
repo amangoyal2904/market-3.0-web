@@ -7,6 +7,7 @@ const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate }: any) => {
   const tabsListRef = useRef<HTMLUListElement>(null);
   const [visibleTabs, setVisibleTabs] = useState<any[]>([]);
   const [hiddenTabs, setHiddenTabs] = useState<any[]>([]);
+  const [isAnyInnerActive, setIsAnyInnerActive] = useState(false);
   const tabClick = (viewId: any) => {
     tabsViewIdUpdate(viewId);
   };
@@ -30,6 +31,10 @@ const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate }: any) => {
     }
     setVisibleTabs(newVisibleTabs);
     setHiddenTabs(newHiddenTabs);
+    const found = newHiddenTabs.find(
+      (item: any) => item.viewId == activeViewId,
+    );
+    setIsAnyInnerActive(!!found);
   };
 
   useEffect(() => {
@@ -45,7 +50,7 @@ const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate }: any) => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [debounce]);
+  }, [debounce, hiddenTabs]);
 
   useEffect(() => {
     updateTabsVisibility();
@@ -57,17 +62,22 @@ const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate }: any) => {
       {visibleTabs.map((item: any, index: number) => (
         <li
           key={item.id + index}
-          onClick={() => tabClick(item.viewId)}
+          onClick={() => {
+            tabClick(item.viewId);
+            setIsAnyInnerActive(false);
+          }}
           className={activeViewId === item.viewId ? styles.active : ""}
         >
           {item.name}
         </li>
       ))}
       {hiddenTabs.length > 0 && (
-        <li className={styles.moreTabsListData}>
+        <li
+          className={`${styles.moreTabsListData} ${isAnyInnerActive ? styles.active : ""}`}
+        >
           <div className={styles.moreTabWrap}>
             <div className={styles.moreSec}>
-              More{" "}
+              More
               <span
                 className={`eticon_caret_down ${styles.moreCaretDown}`}
               ></span>
@@ -76,7 +86,10 @@ const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate }: any) => {
               {hiddenTabs.map((item: any, index: number) => (
                 <li
                   key={item.id + index}
-                  onClick={() => tabClick(item.viewId)}
+                  onClick={() => {
+                    tabClick(item.viewId);
+                    setIsAnyInnerActive(true);
+                  }}
                   className={activeViewId === item.viewId ? styles.active : ""}
                 >
                   {item.name}

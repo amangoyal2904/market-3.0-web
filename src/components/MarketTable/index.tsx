@@ -6,7 +6,6 @@ import ScrollableTable from "./ScrollableTable";
 import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
 import Pagination from "./Pagination";
-import { getCookie } from "@/utils";
 
 interface propsType {
   data: any[];
@@ -24,13 +23,14 @@ interface propsType {
   updateTableHandler?: any;
   processingLoader?: boolean;
   fixedCol?: number;
+  isprimeuser?: boolean;
 }
 
 const MarketTable = (props: propsType) => {
   const {
     data,
     highlightLtp = true,
-    apiSuccess = false,
+    apiSuccess = true,
     tableHeaders = [],
     tabsViewIdUpdate,
     showTableCheckBox = false,
@@ -42,6 +42,7 @@ const MarketTable = (props: propsType) => {
     updateTableHandler,
     processingLoader,
     fixedCol = 3,
+    isprimeuser = false,
   } = props || {};
   const { loader = false, loaderType } = tableConfig || {};
   const [pageSummaryData, setPageSummaryData] = useState(pageSummary);
@@ -53,7 +54,6 @@ const MarketTable = (props: propsType) => {
   const [headerSticky, setHeaderSticky] = useState(0);
   const [topScrollHeight, setTopScrollHeight] = useState(162);
   const [loaderOff, setLoaderOff] = useState(false);
-  const [isPrime, setPrime] = useState(false);
   const [hideThead, setHideThead] = useState(false);
   const [parentHasScroll, setParentHasScroll] = useState(false);
   const [shouldShowLoader, setShouldShowLoader] = useState(false);
@@ -61,7 +61,7 @@ const MarketTable = (props: propsType) => {
     const { name, value } = e.target;
     const inputType = e.target.dataset["type"];
     const textAlphanumericRegex = /^(?:[a-zA-Z0-9]+(?:\s|$))+$/;
-    const numericExpressionRegex = /^[><]?=?\s*\d*\.?\d*$/;
+    const numericExpressionRegex = /^[><]?=?\s*-?\d*\.?\d*$/;
     if (
       inputType == "number" &&
       (numericExpressionRegex.test(value) || value === "")
@@ -76,7 +76,6 @@ const MarketTable = (props: propsType) => {
       delete filters[name];
       setFilters({ ...filters });
     }
-    //console.log({ filters });
   };
 
   const sortHandler = (key: any) => {
@@ -98,7 +97,7 @@ const MarketTable = (props: propsType) => {
     if (Object.keys(filters).length) {
       Object.keys(filters).forEach((keyId) => {
         filterData = filterData.filter((item: any) => {
-          const validExpression = /^[><=]\d*\.?\d+$/;
+          const validExpression = /^[><=]-?\d*\.?\d+$/;
           const cellValue = filters[keyId];
           const inputType = item.data.find(
             (element: any) => element.keyId == keyId,
@@ -117,7 +116,7 @@ const MarketTable = (props: propsType) => {
           } else if (validExpression.test(cellValue.replaceAll(" ", ""))) {
             const [operator, comparisonValue] = cellValue
               .replaceAll(" ", "")
-              .match(/([><=]+)(\d*\.?\d+)/)
+              .match(/([><=]+)(-?\d*\.?\d+)/)
               .slice(1);
             switch (operator) {
               case ">":
@@ -237,8 +236,18 @@ const MarketTable = (props: propsType) => {
 
   useEffect(() => {
     const parent = document.querySelector("#scrollableTable");
+    const theadElement = parent?.querySelector("thead > tr > th");
+    const fixedTable = document.querySelector("#fixedTable");
     const hasScroll = parent ? parent.scrollWidth > parent.clientWidth : false;
     setParentHasScroll(hasScroll);
+
+    if (theadElement) {
+      const height = theadElement.getBoundingClientRect().height;
+      const thElements = fixedTable?.querySelectorAll("th");
+      thElements?.forEach((th) => {
+        th.style.height = `${height}px`;
+      });
+    }
   }, [tableHeaderData]);
 
   useEffect(() => {
@@ -253,11 +262,9 @@ const MarketTable = (props: propsType) => {
       setTableDataList([]);
       setTableHeaderData([]);
       setPageSummaryData({});
+      setHeaderSticky(0);
       if (!loaderOff) setLoaderOff(true);
     }
-    setHeaderSticky(0);
-    const isPrime = getCookie("isprimeuser") == "true" ? true : false;
-    setPrime(isPrime);
   }, [apiSuccess, data, pageSummary, _sortData, filters, loaderOff]);
 
   useEffect(() => {
@@ -295,11 +302,12 @@ const MarketTable = (props: propsType) => {
               sortData={sortData}
               filters={filters}
               handleFilterChange={handleFilterChange}
-              isPrime={isPrime}
+              isPrime={isprimeuser}
               hideThead={hideThead}
               showRemoveCheckbox={showTableCheckBox}
               removeCheckBoxHandle={removeCheckBoxHandleFun}
               tableConfig={tableConfig}
+              parentHasScroll={parentHasScroll}
               fixedCol={fixedCol}
             />
             <ScrollableTable
@@ -312,7 +320,7 @@ const MarketTable = (props: propsType) => {
               sortData={sortData}
               filters={filters}
               handleFilterChange={handleFilterChange}
-              isPrime={isPrime}
+              isPrime={isprimeuser}
               hideThead={hideThead}
               tableConfig={tableConfig}
               parentHasScroll={parentHasScroll}
@@ -331,10 +339,16 @@ const MarketTable = (props: propsType) => {
               }
             />
           )}
-          <Blocker
-            type={tableConfig.name === "watchList" ? "noStocks" : "noDataFound"}
-            updateTableHandler={updateTableHandler}
-          />
+          {apiSuccess && (
+            <Blocker
+              type={
+                tableConfig.name === "watchList" && tableHeaderData.length === 0
+                  ? "noStocks"
+                  : "noDataFound"
+              }
+              updateTableHandler={updateTableHandler}
+            />
+          )}
         </div>
       ) : (
         pageSummaryData &&

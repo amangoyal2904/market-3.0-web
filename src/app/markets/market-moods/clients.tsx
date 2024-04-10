@@ -32,6 +32,7 @@ import { useStateContext } from "@/store/StateContext";
 import Blocker from "@/components/Blocker";
 import dynamic from "next/dynamic";
 import useDebounce from "@/hooks/useDebounce";
+import { goToPlansPage } from "@/utils/ga";
 
 const StockFilterNifty = dynamic(
   () => import("@/components/StockFilterNifty"),
@@ -46,7 +47,7 @@ const MarketMoodsClient = ({
   allFilters = {},
 }: any) => {
   const { state, dispatch } = useStateContext();
-  const { isLogin, isPrime } = state.login;
+  const { isLogin, isPrime = true } = state.login;
   const { countPercentage, duration, monthlyDaily } = state.MarketMoodStatus;
   const router = useRouter();
   const pathname = usePathname();
@@ -309,13 +310,9 @@ const MarketMoodsClient = ({
                 <p className={styles.title}>{item.title}</p>
                 <p className={styles.desc}>{item.desc}</p>
                 <div className={styles.plan}>
-                  <Link
-                    className={styles.subscribeBtn}
-                    href={`${(GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"]}`}
-                    data-ga-onclick="Subscription Flow#SYFT#Market Mood - url"
-                  >
+                  <span className={styles.subscribeBtn} onClick={goToPlansPage}>
                     Subscribe Now
-                  </Link>
+                  </span>
                   {!isLogin && (
                     <p className={styles.defaultLink}>
                       Already a Member?
@@ -405,7 +402,7 @@ const MarketMoodsClient = ({
                       showAll={showAllPeriodic}
                     />
                   </div>
-                  {periodicData?.dataList?.length > 6 && (
+                  {periodicData?.dataList?.length > 13 && (
                     <div
                       id="periodic-load-more"
                       className={styles.loadMore}
@@ -448,7 +445,7 @@ const MarketMoodsClient = ({
                       showAll={showAllAdvanceDecline}
                     />
                   </div>
-                  {advanceDeclineData?.dataList?.length > 6 && (
+                  {advanceDeclineData?.dataList?.length > 13 && (
                     <div
                       id="advanceDecline-load-more"
                       className={styles.loadMore}

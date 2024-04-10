@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./StockAdd.module.scss";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
+import WatchlistAddition from "../WatchlistAddition";
 import {
   fetchAllWatchListData,
   saveStockInWatchList,
@@ -177,6 +178,7 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
     updateTableHandler();
   };
   const fetchWatchListStocks = async () => {
+    setLoading(true);
     const data = await fetchAllWatchListData("Follow", 11);
     if (data?.resData?.length > 0) {
       setWatchlistStock(data.resData);
@@ -187,8 +189,10 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
     } else {
       fetchMostPopularStocks();
     }
+    setLoading(false);
   };
   const fetchMostPopularStocks = async (watchListUserData: any = []) => {
+    setLoading(true);
     try {
       const API_URL = (APIS_CONFIG as any)?.SEARCH.mostPopular[APP_ENV];
       fetch(API_URL)
@@ -221,12 +225,15 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
               : [];
           setMostStocks(addFollowFlag); // set for all most view stocks popular
           setViewStocks(addFollowFlag);
+          setLoading(false);
         })
         .catch((err) => {
           console.log(err);
+          setLoading(false);
         });
     } catch (error) {
       console.log("most search api error ", error);
+      setLoading(false);
     }
   };
 
@@ -237,16 +244,26 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
           return (
             <li
               key={`${item.tagId}--${index}`}
-              onClick={() =>
-                addStockInWatchlistHandler(item, item?.follow == "yes" ? 0 : 1)
-              }
+              // onClick={() =>
+              //   addStockInWatchlistHandler(item, item?.follow == "yes" ? 0 : 1)
+              // }
             >
               <span>{item.tagName}</span>
+              <WatchlistAddition
+                companyName={item.companyname}
+                companyId={item.companyid}
+                companyType={item.companytype}
+                customStyle={{
+                  width: "18px",
+                  height: "18px",
+                }}
+              />
+              {/* <span>{item.tagName}</span>
               {item?.follow === "yes" ? (
                 <span className={styles.removeRemove}></span>
               ) : (
                 <span className={styles.addRemove}></span>
-              )}
+              )} */}
             </li>
           );
         })}
@@ -254,21 +271,7 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
     );
   };
   // console.log('___WatchlistStock',watchlistStock)
-  useEffect(() => {
-    const handleClickOutsidePopup = (e: any) => {
-      if (
-        viewWraperRef.current &&
-        !viewWraperRef.current.contains(e.target) &&
-        e.target.classList[0] !== "refRemoveList"
-      ) {
-        moduelClose(false);
-      }
-    };
-    document.addEventListener("click", handleClickOutsidePopup);
-    return () => {
-      document.removeEventListener("click", handleClickOutsidePopup);
-    };
-  }, [viewWraperRef, moduelClose]);
+
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       setDebouncedSearchTerm(searchNode);
@@ -289,6 +292,10 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   return (
     <>
       <div className={`customeModule ${styles.addStockWrap}`}>
+        <div
+          className={styles.divOverlya}
+          onClick={() => moduelClose(false)}
+        ></div>
         <div className={`moduleWrap ${styles.stockSec}`} ref={viewWraperRef}>
           <div className={`moduleHeader ${styles.header}`}>
             <div className={styles.formGroup}>

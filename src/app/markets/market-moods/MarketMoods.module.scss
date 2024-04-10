@@ -61,7 +61,7 @@
     -webkit-column-gap: 20px;
     -moz-column-gap: 20px;
     column-gap: 20px;
-    width: calc(100% - 400px);
+    width: calc(100% - 480px);
     li {
       position: relative;
       font-size: 14px;
@@ -208,6 +208,7 @@
       .plan {
         margin: 5px auto 30px;
         .subscribeBtn {
+          position: relative;
           display: inline-block;
           background: $red-50;
           border: 1px solid $red-50;
@@ -217,6 +218,7 @@
           line-height: 18px;
           font-weight: 600;
           color: $white;
+          cursor: pointer;
         }
         .defaultLink {
           margin-top: 10px;
