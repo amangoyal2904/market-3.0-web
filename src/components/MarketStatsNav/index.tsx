@@ -29,7 +29,7 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
       const elm = e.currentTarget;
       if (elm.classList.contains(styles["collapsed"])) {
         const navExpandedAll = document.querySelectorAll(
-          `.${styles["expanded"]}`
+          `.${styles["expanded"]}`,
         );
         navExpandedAll.forEach((item: any) => {
           item.classList.remove(styles["expanded"]);
@@ -66,7 +66,7 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
 
   const renderLink = (subItem: any) => {
     const isExist: any = shortUrlMapping.find(
-      (item: any) => item.longURL == subItem.link
+      (item: any) => item.longURL == subItem.link,
     );
     const linkHref = isExist ? isExist.shortUrl : subItem.link;
     return <Link href={linkHref}>{subItem.label}</Link>;
@@ -97,7 +97,7 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
                     {item.sub_nav.map((subItem: any, subNavindex: any) => (
                       <li
                         key={`${index}_${subNavindex}`}
-                        className={`${styles.subNavWrapLi} ${(!!subType && subType == subItem.type) || (!!firstOperand && !!operationType && !!secondOperand && firstOperand == subItem.firstOperand && operationType == subItem.operationType && secondOperand == subItem.secondOperand) ? styles.active : ""}`}
+                        className={`${styles.subNavWrapLi} ${(!!subType && subType == subItem.type) || (!!firstOperand && !!operationType && !!secondOperand && firstOperand == subItem.firstoperand && operationType == subItem.operationtype && secondOperand == subItem.secondoperand) ? styles.active : ""}`}
                         onClick={(e) => handleClick(e)}
                       >
                         {renderLink(subItem)}
