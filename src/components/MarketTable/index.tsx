@@ -342,7 +342,9 @@ const MarketTable = (props: propsType) => {
           {apiSuccess && (
             <Blocker
               type={
-                tableConfig.name === "watchList" ? "noStocks" : "noDataFound"
+                tableConfig.name === "watchList" && tableHeaderData.length === 0
+                  ? "noStocks"
+                  : "noDataFound"
               }
               updateTableHandler={updateTableHandler}
             />
