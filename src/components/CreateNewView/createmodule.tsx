@@ -12,6 +12,8 @@ const NameViewComponent = ({
     const viewScreenerName: any = screenerName.trim();
     if (editMode && editMode !== "") {
       updateViewNameHandler(viewScreenerName);
+    } else if (viewScreenerName === "") {
+      alert("Please fill screener name");
     } else {
       createViewNameHandler(viewScreenerName);
     }
@@ -55,7 +57,7 @@ const NameViewComponent = ({
                 value={screenerName}
                 onChange={(e: any) => setScreenerName(e.target.value)}
                 placeholder="Enter a name..."
-                maxLength={100}
+                maxLength={50}
               />
             </div>
           </div>

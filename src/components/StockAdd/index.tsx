@@ -177,6 +177,7 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
     updateTableHandler();
   };
   const fetchWatchListStocks = async () => {
+    setLoading(true);
     const data = await fetchAllWatchListData("Follow", 11);
     if (data?.resData?.length > 0) {
       setWatchlistStock(data.resData);
@@ -187,8 +188,10 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
     } else {
       fetchMostPopularStocks();
     }
+    setLoading(false);
   };
   const fetchMostPopularStocks = async (watchListUserData: any = []) => {
+    setLoading(true);
     try {
       const API_URL = (APIS_CONFIG as any)?.SEARCH.mostPopular[APP_ENV];
       fetch(API_URL)
@@ -221,12 +224,15 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
               : [];
           setMostStocks(addFollowFlag); // set for all most view stocks popular
           setViewStocks(addFollowFlag);
+          setLoading(false);
         })
         .catch((err) => {
           console.log(err);
+          setLoading(false);
         });
     } catch (error) {
       console.log("most search api error ", error);
+      setLoading(false);
     }
   };
 

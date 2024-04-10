@@ -13,10 +13,10 @@ const PersonaliseModel = ({
   loading = false,
 }: any) => {
   const dataLis = data && data.length > 0 ? data : [];
+  //console.log('data',userCustomeViewNo)
   const [listData, setListData] = useState(dataLis);
   const popupRef = useRef<HTMLDivElement | null>(null);
   const handleOnDragEnd = (result: any) => {
-    //console.log('result',result)
     if (!result.destination) return; // Dropped outside the list
 
     const updatedListData = [...listData];

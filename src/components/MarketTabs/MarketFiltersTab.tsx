@@ -71,7 +71,10 @@ const MarketFiltersTab = ({
     useState([]);
   const { state } = useStateContext();
   const { isLogin } = state.login;
-
+  const userCustomeViewNo =
+    data && data.length > 0
+      ? data.filter((item: any) => item.viewType === "USER").length + 1
+      : 0;
   const userPersonaliseHandle = () => {
     if (isLogin) {
       setOpenPersonaliseModal(true);
@@ -294,6 +297,7 @@ const MarketFiltersTab = ({
           onPersonalizeHandler={onPersonalizeHandler}
           editmode={editMode}
           removePersonaliseView={removePersonaliseView}
+          userCustomeViewNo={userCustomeViewNo}
         />
       ) : (
         ""
