@@ -77,7 +77,10 @@ export const getTechincalOperands = async (
 ) => {
   let category = L3NavMenuItem;
   if (category == "moving-averages") {
-    if (firstOperand.includes("ema") || secondOperand.includes("ema")) {
+    if (
+      firstOperand?.toLowerCase().includes("ema") ||
+      secondOperand?.toLowerCase().includes("ema")
+    ) {
       category = "ema-ema-crossovers";
     } else {
       category = "sma-sma-crossovers";
