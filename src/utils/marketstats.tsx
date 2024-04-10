@@ -2,16 +2,31 @@ import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import Service from "@/network/service";
 
-const fetchTitleAndDesc = async (navData: any, L3NavSubItem: any) => {
+const fetchTitleAndDesc = async (
+  navData: any,
+  L3NavSubItem: any,
+  L3NavMenuItem: any,
+) => {
   const results: { title: string; desc: string }[] = [];
-  navData.forEach((navItem: any) => {
-    navItem.sub_nav.forEach((subNavItem: any) => {
-      if (subNavItem?.type?.toLowerCase() === L3NavSubItem) {
-        const { title, desc } = subNavItem;
+
+  if (!!L3NavSubItem) {
+    navData.forEach((navItem: any) => {
+      navItem.sub_nav.forEach((subNavItem: any) => {
+        if (subNavItem?.type?.toLowerCase() === L3NavSubItem) {
+          const { title, desc } = subNavItem;
+          results.push({ title, desc });
+        }
+      });
+    });
+  } else {
+    navData.forEach((navItem: any) => {
+      if (navItem?.type?.toLowerCase() === L3NavMenuItem) {
+        const { title, desc } = navItem;
         results.push({ title, desc });
       }
     });
-  });
+  }
+
   return results;
 };
 
@@ -37,12 +52,17 @@ const fetchTechnicalCategory = async (L3NavMenuItem: any) => {
 };
 
 export const getMarketStatsNav = async ({
+  L3NavMenuItem,
   L3NavSubItem,
   intFilter,
   duration = null,
 }: any) => {
   const l3Nav = await fetchL3Nav({ duration, intFilter });
-  const metaData = await fetchTitleAndDesc(l3Nav.nav, L3NavSubItem);
+  const metaData = await fetchTitleAndDesc(
+    l3Nav.nav,
+    L3NavSubItem,
+    L3NavMenuItem,
+  );
   return {
     l3Nav,
     metaData,
@@ -55,7 +75,15 @@ export const getTechincalOperands = async (
   operationType: any,
   secondOperand: any,
 ) => {
-  const response = await fetchTechnicalCategory(L3NavMenuItem);
+  let category = L3NavMenuItem;
+  if (category == "moving-averages") {
+    if (firstOperand.includes("ema") || secondOperand.includes("ema")) {
+      category = "ema-ema-crossovers";
+    } else {
+      category = "sma-sma-crossovers";
+    }
+  }
+  const response = await fetchTechnicalCategory(category);
 
   return {
     ...response,

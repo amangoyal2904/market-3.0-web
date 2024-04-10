@@ -60,9 +60,7 @@ export async function generateMetadata(
   }
 
   const { metaData } = await getMarketStatsNav({
-    firstOperand,
-    operationType,
-    secondOperand,
+    L3NavMenuItem,
     intFilter,
   });
 
@@ -134,9 +132,7 @@ const Technicals = async ({ params, searchParams }: any) => {
   const sort: any = [];
 
   const { l3Nav, metaData } = await getMarketStatsNav({
-    firstOperand,
-    operationType,
-    secondOperand,
+    L3NavMenuItem,
     intFilter,
   });
 
