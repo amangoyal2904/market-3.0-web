@@ -1,9 +1,21 @@
 .wraper {
   margin: 0;
+  background: transparent;
+}
+.divOverlya {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  text-align: center;
 }
 .perWrap {
   margin: 0;
   width: 70vw;
+  z-index: 3;
 }
 .header {
   border-bottom: solid 1px #cdcdcd;
@@ -107,6 +119,8 @@
 }
 .resultSec {
   margin: 0;
+  overflow-x: auto;
+  margin-right: 20px;
   .topLevelList {
     display: flex;
     list-style-type: none;
@@ -296,6 +310,7 @@
       label {
         padding-left: 5px;
         cursor: pointer;
+        display: flex;
         .checkBoxStyle {
           width: 16px;
           height: 16px;
@@ -498,5 +513,17 @@
         bottom: 0;
       }
     }
+  }
+}
+
+@media (max-height: 650px) {
+  .filterSec {
+    .rightSec {
+      height: 60vh;
+      min-height: auto;
+    }
+  }
+  .innerListContainer li {
+    max-height: calc(60vh - 175px);
   }
 }
