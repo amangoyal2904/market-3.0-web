@@ -168,6 +168,10 @@ const WatchListClient = () => {
       setShowTableCheckBox(false);
     }
   };
+  const editRemoveStockBtnReset = () => {
+    setUnFollowStocksList([]);
+    setShowTableCheckBox(false);
+  };
   const removeMultipleStockInWathclist = async () => {
     if (unFollowStocksList.length > 0) {
       setToasterConfirmBoxShow(true);
@@ -259,6 +263,7 @@ const WatchListClient = () => {
                   updateTableHandler={updateTableHandlerFun}
                   watchlistDataLength={tableData.length}
                   removePersonaliseView={removePersonaliseViewFun}
+                  editRemoveStockBtnReset={editRemoveStockBtnReset}
                 />
               </div>
             )}
