@@ -102,7 +102,7 @@ const MarketStats = ({
     const responseData: any = await fetchViewTable(
       { ..._payload },
       isTechnical ? "MARKETSTATS_TECHNICALS" : "MARKETSTATS_INTRADAY",
-      isPrime,
+      !!isPrime ? isPrime : false,
       ssoid,
     );
     if (!!responseData) {
