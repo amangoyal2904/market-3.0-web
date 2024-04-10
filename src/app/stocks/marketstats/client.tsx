@@ -102,22 +102,24 @@ const MarketStats = ({
     const responseData: any = await fetchViewTable(
       { ..._payload },
       isTechnical ? "MARKETSTATS_TECHNICALS" : "MARKETSTATS_INTRADAY",
-      isPrime,
+      !!isPrime ? isPrime : false,
       ssoid,
     );
-    const _pageSummary = !!responseData.pageSummary
-      ? responseData.pageSummary
-      : {};
-    const _tableData = responseData?.dataList ? responseData.dataList : [];
+    if (!!responseData) {
+      const _pageSummary = !!responseData.pageSummary
+        ? responseData.pageSummary
+        : {};
+      const _tableData = responseData?.dataList ? responseData.dataList : [];
 
-    const _tableHeaderData =
-      _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
-        ? _tableData[0]?.data
-        : [];
-    setTableData(_tableData);
-    setTableHeaderData(_tableHeaderData);
-    setPageSummary(_pageSummary);
-    setProcessingLoader(false);
+      const _tableHeaderData =
+        _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
+          ? _tableData[0]?.data
+          : [];
+      setTableData(_tableData);
+      setTableHeaderData(_tableHeaderData);
+      setPageSummary(_pageSummary);
+      setProcessingLoader(false);
+    }
   };
 
   const updateL3NAV = async (intFilter: any, duration: any) => {
@@ -333,7 +335,7 @@ const MarketStats = ({
   };
   useEffect(() => {
     updateTableData();
-    if (!!currentMarketStatus && currentMarketStatus != "CLOSED") {
+    if (!!currentMarketStatus && currentMarketStatus == "LIVE") {
       const intervalId = setInterval(() => {
         updateTableData();
       }, parseInt(refeshConfig.marketstats));
