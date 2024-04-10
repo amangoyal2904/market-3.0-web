@@ -238,7 +238,6 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   };
 
   const viewDataListSet = (data: any) => {
-    console.log(data);
     return (
       <ul className={`customScroll ${styles.lsitItem}`}>
         {data.map((item: any, index: any) => {
