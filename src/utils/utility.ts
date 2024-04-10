@@ -97,7 +97,7 @@ export const updateOrAddParamToPath = (
 
 export const fnGenerateMetaData = (meta?: any) => {
   return {
-    title: `${meta?.title} | ET Markets`,
+    title: `${meta?.title} | The Economic Times`,
     description: meta?.desc,
     generator: "ET Markets",
     applicationName: "ET Markets",

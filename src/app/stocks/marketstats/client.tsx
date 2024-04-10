@@ -18,7 +18,11 @@ import { fetchViewTable, updateOrAddParamToPath } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import TechincalOperands from "@/components/TechincalOperands";
-import { getMarketStatsNav, getTechincalOperands } from "@/utils/marketstats";
+import {
+  getMarketStatsNav,
+  getShortUrlMapping,
+  getTechincalOperands,
+} from "@/utils/marketstats";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -118,6 +122,7 @@ const MarketStats = ({
 
   const updateL3NAV = async (intFilter: any, duration: any) => {
     const { l3Nav } = await getMarketStatsNav({
+      l3NavMenuItem,
       l3NavSubItem,
       intFilter,
       duration,
@@ -169,7 +174,11 @@ const MarketStats = ({
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     updateL3NAV(id, _payload.duration);
-    router.push(newUrl, { scroll: false });
+    const isExist: any = shortUrlMapping.find(
+      (item: any) => item.longURL == newUrl,
+    );
+    const updatedUrl = isExist ? isExist.shortUrl : newUrl;
+    router.push(updatedUrl, { scroll: false });
   };
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
@@ -180,12 +189,20 @@ const MarketStats = ({
       const newDuration = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
       updateL3NAV(_payload.filterValue[0], newDuration);
-      router.push(newUrl, { scroll: false });
+      const isExist: any = shortUrlMapping.find(
+        (item: any) => item.longURL == newUrl,
+      );
+      const updatedUrl = isExist ? isExist.shortUrl : newUrl;
+      router.push(updatedUrl, { scroll: false });
     } else if (l3NavSubItem == "volume-shockers") {
       const url = actualUrl;
       const newTimespan = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "timespan", newTimespan);
-      router.push(newUrl, { scroll: false });
+      const isExist: any = shortUrlMapping.find(
+        (item: any) => item.longURL == newUrl,
+      );
+      const updatedUrl = isExist ? isExist.shortUrl : newUrl;
+      router.push(updatedUrl, { scroll: false });
     } else if (
       l3NavSubItem == "hourly-gainers" ||
       l3NavSubItem == "hourly-losers"
@@ -262,15 +279,15 @@ const MarketStats = ({
     operationType,
   }: any) => {
     setProcessingLoader(true);
-    let url = `${pathname}?${searchParams}`;
-    if (l3NavSubItem == "golden-cross" || l3NavSubItem == "death-cross") {
-      url = updateOrAddParamToPath(url, "type", "sma-sma-crossovers");
-    }
+    let url = !!actualUrl ? actualUrl : `${pathname}?${searchParams}`;
     (url = updateOrAddParamToPath(url, "firstoperand", firstOperand)),
       (url = updateOrAddParamToPath(url, "secondoperand", secondOperand)),
       (url = updateOrAddParamToPath(url, "operationtype", operationType));
-    router.push(url, { scroll: false });
-
+    const isExist: any = shortUrlMapping.find(
+      (item: any) => item.longURL == url,
+    );
+    const newUrl = isExist ? isExist.shortUrl : url;
+    router.push(newUrl, { scroll: false });
     const technicalCategory = await getTechincalOperands(
       l3NavMenuItem,
       firstOperand,
