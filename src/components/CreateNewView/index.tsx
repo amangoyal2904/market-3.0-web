@@ -9,6 +9,7 @@ const CreateNewViewComponent = ({
   editmode,
   onPersonalizeHandler,
   removePersonaliseView,
+  userCustomeViewNo,
 }: any) => {
   const [viewData, setViewData]: any = useState([]);
   const [screenerName, setScreenerName]: any = useState("");
@@ -27,6 +28,7 @@ const CreateNewViewComponent = ({
   const tabsListRef = useRef<HTMLUListElement>(null);
   //console.log('editmode', editmode)
   const ViewDataAPICall = async () => {
+    setLoading(true);
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.AllScreenerCategory[
       APP_ENV
     ];
@@ -48,6 +50,7 @@ const CreateNewViewComponent = ({
     });
     tabDataFitlerBaseOnWidth(tabDataFilterDo);
     setViewData(viewDataSet);
+    setLoading(false);
   };
   const hideElementsByClass = (className: any) => {
     const elements = document.querySelectorAll(`.${className}`);
@@ -58,10 +61,17 @@ const CreateNewViewComponent = ({
   const saveUserPersonalise = () => {
     if (!selectedView.length) {
       alert("Please select at least one view");
+    } else if (
+      editmode &&
+      editmode.mode &&
+      editmode.viewId &&
+      screenerName === ""
+    ) {
+      alert("Please enter screener name");
     } else if (screenerName === "") {
       setViewNameModule(true);
       const randomNumber = Math.floor(Math.random() * 100) + 1;
-      setScreenerName(`my${randomNumber}-view`);
+      setScreenerName(`Custom View ${userCustomeViewNo}`);
       //closePopCreateView(false);
       hideElementsByClass("hideSecElement");
     } else {
