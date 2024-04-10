@@ -334,7 +334,7 @@ const MarketStats = ({
     }
   };
   useEffect(() => {
-    updateTableData();
+    if (!!isPrime) updateTableData();
     if (!!currentMarketStatus && currentMarketStatus == "LIVE") {
       const intervalId = setInterval(() => {
         updateTableData();
