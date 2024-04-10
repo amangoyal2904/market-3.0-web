@@ -272,7 +272,9 @@ export const trackingEvent = (type, data) => {
     let site_section = pageElem.toString();
     // pageElem.forEach((element) => {site_section+=element;});
     console.log("site_section--->", site_section);
+    console.log("COOOKIIIIEEEE---->", getCookie("pfuuid"), getCookie("peuuid"));
     _gtmEventDimension["feature_name"] = "ET Market";
+    _gtmEventDimension["et_product"] = "ET Market";
     _gtmEventDimension["site_section"] = site_section.slice(1);
     _gtmEventDimension["login_status"] =
       typeof window.objUser != "undefined" ? "Yes" : "No";
@@ -291,11 +293,28 @@ export const trackingEvent = (type, data) => {
     _gtmEventDimension["user_grx_id"] = getCookie("_grx")
       ? getCookie("_grx")
       : "";
+    _gtmEventDimension["et_uuid"] = getCookie("peuuid")
+      ? getCookie("peuuid")
+      : getCookie("pfuuid");
+    _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
+    _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
     _gtmEventDimension["platform"] = "Web";
     _gtmEventDimension["level_1"] = window.location.pathname.substring(
       window.location.pathname.lastIndexOf("/") + 1,
     );
     _gtmEventDimension["event"] = type;
+    _gtmEventDimension["referral_url"] = document.referrer;
+    _gtmEventDimension["loggedin"] =
+      typeof window.objUser != "undefined" ? "Yes" : "No";
+    _gtmEventDimension["email"] = window?.objUser?.info?.primaryEmail
+      ? window?.objUser?.primeInfo?.primaryEmail
+      : "";
+    _gtmEventDimension["first_name"] = window?.objUser?.info?.firstName
+      ? window?.objUser?.primeInfo?.firstName
+      : "";
+    _gtmEventDimension["last_name"] = window?.objUser?.info?.lastName
+      ? window?.objUser?.primeInfo?.lastName
+      : "";
     _gtmEventDimension = Object.assign(_gtmEventDimension, data);
     window.dataLayer.push(_gtmEventDimension);
   }
