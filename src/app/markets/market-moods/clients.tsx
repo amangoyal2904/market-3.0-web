@@ -12,8 +12,7 @@ import MarketMoodHeader from "@/components/MarketMood/SectionHeader";
 import FixedTableMarketMood from "@/components/MarketMood/FixedTable";
 import ScrollableTableMarketMood from "@/components/MarketMood/ScrollableTable";
 import ScrollableBarsTableMarketMood from "@/components/MarketMood/ScrollableBarsTable";
-import { APP_ENV, initSSOWidget } from "@/utils";
-import GLOBAL_CONFIG from "@/network/global_config.json";
+import { initSSOWidget } from "@/utils";
 import {
   faqData,
   tabData,
@@ -27,7 +26,6 @@ import {
 } from "@/utils/utility";
 import Loader from "@/components/Loader";
 import Image from "next/image";
-import Link from "next/link";
 import { useStateContext } from "@/store/StateContext";
 import Blocker from "@/components/Blocker";
 import dynamic from "next/dynamic";
@@ -47,7 +45,7 @@ const MarketMoodsClient = ({
   allFilters = {},
 }: any) => {
   const { state, dispatch } = useStateContext();
-  const { isLogin, isPrime = true } = state.login;
+  const { isLogin, isPrime } = state.login;
   const { countPercentage, duration, monthlyDaily } = state.MarketMoodStatus;
   const router = useRouter();
   const pathname = usePathname();
