@@ -307,6 +307,9 @@ const MarketStats = ({
       pageno: 1,
     });
   };
+  const editRemoveStockBtnReset = () => {
+    // ===
+  };
   const removePersonaliseViewFun = (viewId: any) => {
     setToasterPersonaliseViewRemove(true);
     const confirmData = {
@@ -341,7 +344,7 @@ const MarketStats = ({
       }, parseInt(refeshConfig.marketstats));
       return () => clearInterval(intervalId);
     }
-  }, [_payload, currentMarketStatus, isPrime]);
+  }, [_payload, isPrime, currentMarketStatus]);
 
   useEffect(() => {
     setProcessingLoader(true);
@@ -433,6 +436,7 @@ const MarketStats = ({
               onPersonalizeHandler={onPersonalizeHandlerfun}
               removePersonaliseView={removePersonaliseViewFun}
               intradayDurationOptions={intradayDurationOptions}
+              editRemoveStockBtnReset={editRemoveStockBtnReset}
             />
           </div>
           <MarketTable

@@ -95,8 +95,8 @@ const CreateNewViewComponent = ({
       });
     } else if (screenerName === "") {
       setViewNameModule(true);
-      const randomNumber = Math.floor(Math.random() * 100) + 1;
-      setScreenerName(`Custom View ${userCustomeViewNo}`);
+      // const randomNumber = Math.floor(Math.random() * 100) + 1;
+      // setScreenerName(`Custom View ${userCustomeViewNo}`);
       //closePopCreateView(false);
       hideElementsByClass("hideSecElement");
     } else {
@@ -134,11 +134,22 @@ const CreateNewViewComponent = ({
     });
     const resData = await res.json();
     setLoading(false);
-    if (resData && resData.responseCode === 200) {
+    if (
+      resData &&
+      resData.responseCode === 200 &&
+      resData.response === "Data Saved"
+    ) {
       const viewId: any = resData.viewId || "";
       closePopCreateView(false);
       //alert(resData.response)
       onPersonalizeHandler(viewId, modeOfPersonaliseView);
+    } else if (resData && resData.responseCode === 200) {
+      //alert(resData.response);
+      setShowToaster(true);
+      setToasterData({
+        title: resData.response,
+        errorModule: "error",
+      });
     } else {
       alert("some error please check api or code");
     }
@@ -182,7 +193,13 @@ const CreateNewViewComponent = ({
     const isChecked = e.target.checked;
     console.log("selectedView", selectedView);
     if (selectedView.length >= 20 && isChecked) {
-      alert("You have only 20 selected not more ");
+      setShowToaster(true);
+      setToasterData({
+        title:
+          "You have selected only 20 fields. You cannot select more than this limit",
+        errorModule: "error",
+      });
+      //alert("You have only 20 selected not more ");
       return;
     }
     if (isChecked) {
@@ -291,7 +308,7 @@ const CreateNewViewComponent = ({
   };
   const viewNameHandlerFun = (viewName: string) => {
     if (viewName !== "") {
-      setViewNameModule(false);
+      // setViewNameModule(false);
       saveUserPersonalise();
     }
   };
@@ -386,7 +403,7 @@ const CreateNewViewComponent = ({
   }, [debouncedSearchTerm]);
   return (
     <>
-      <div className={`customeModule ${styles.wraper}`}>
+      <div className={`customModule ${styles.wraper}`}>
         <div
           className={styles.divOverlya}
           onClick={() => closePopCreateView(false)}

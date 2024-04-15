@@ -57,7 +57,6 @@ const WatchlistAddition = ({
       data.ltp = ltp;
       data.exchange = exch;
     }
-    console.log("getMoreDetailsStockWatchList---", data);
     saveStockInWatchListHandler(action, data, type);
   };
 
@@ -96,8 +95,18 @@ const WatchlistAddition = ({
     if (addWathlistResAPI?.status === "success") {
       const newWatchList =
         action == 1
-          ? [...watchlist, data.companyId.toString()]
-          : watchlist.filter((item: any) => item != data.companyId.toString());
+          ? [
+              ...watchlist,
+              {
+                companyId: data.companyId.toString(),
+                companyType: data.companyType,
+              },
+            ]
+          : watchlist.filter(
+              (item: any) =>
+                item.companyId != data.companyId.toString() &&
+                item.companyType === data.companyType,
+            );
 
       dispatch({
         type: "UPDATE_MSID",
@@ -123,7 +132,6 @@ const WatchlistAddition = ({
       });
       console.log("watchlist----------", watchlist);
       const watchlistStatus = watchlist.includes(companyId.toString()) ? 0 : 1;
-      console.log("watchlistStatus---", watchlistStatus);
       setLoadingStatus(true);
       addStockInWatchlistHandler(watchlistStatus);
     } else {
@@ -153,7 +161,11 @@ const WatchlistAddition = ({
             <div className={styles.loading}>
               <div className={styles.loader}></div>
             </div>
-          ) : watchlist.includes(companyId.toString()) ? (
+          ) : watchlist.some(
+              (item: any) =>
+                item.id === companyId.toString() &&
+                item.companyType === companyType,
+            ) ? (
             <span className="eticon_tick"></span>
           ) : (
             <span className="eticon_add"></span>

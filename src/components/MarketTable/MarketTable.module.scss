@@ -60,7 +60,7 @@
 
     .filterInputFirst {
       max-width: 190px;
-      min-width: 140px;
+      min-width: 110px;
     }
   }
   .primeTd {
@@ -119,6 +119,7 @@
       }
     }
     &.center {
+      min-width: 140px;
       text-align: center;
       -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -150,7 +151,7 @@
   }
 
   th {
-    min-width: 140px;
+    min-width: 110px;
     max-width: 200px;
     height: 54px;
     position: relative;
@@ -188,6 +189,7 @@
       }
     }
     &.center {
+      min-width: 140px;
       text-align: center;
       .thead {
         -webkit-box-pack: center;

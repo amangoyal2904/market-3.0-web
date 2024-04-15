@@ -1,4 +1,3 @@
-// Import statements
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import MarketMoodsClient from "../clients";
@@ -12,7 +11,16 @@ import {
   getPeriodicData,
 } from "@/utils/utility";
 
-export async function generateMetadata(
+async function fetchData(indexId: number) {
+  return Promise.all([
+    getOverviewData(indexId, 1),
+    getAdvanceDeclineData(indexId, "daily", 1),
+    getPeriodicData(indexId, "1M", 1),
+    fetchFilters({}),
+  ]);
+}
+
+async function generateMetadata(
   { params }: any,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
@@ -35,13 +43,7 @@ const MarketMoods = async ({ params }: any) => {
     notFound();
   }
   const [overviewData, advanceDeclineData, periodicData, allFilters] =
-    await Promise.all([
-      getOverviewData(niftyFilterData.indexId, 1),
-      getAdvanceDeclineData(niftyFilterData.indexId, "daily", 1),
-      getPeriodicData(niftyFilterData.indexId, "1M", 1),
-      fetchFilters({}),
-    ]);
-
+    await fetchData(niftyFilterData.indexId);
   return (
     <MarketMoodsClient
       selectedFilter={niftyFilterData}
@@ -53,4 +55,4 @@ const MarketMoods = async ({ params }: any) => {
   );
 };
 
-export default MarketMoods;
+export { generateMetadata, MarketMoods as default };

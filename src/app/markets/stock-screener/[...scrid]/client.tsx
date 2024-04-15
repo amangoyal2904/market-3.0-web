@@ -444,6 +444,9 @@ const StockScreeners = ({
     setProcessingLoader(false);
     setScreenerDetail(_screenerDetails);
   };
+  const editRemoveStockBtnReset = () => {
+    // ===
+  };
   const removeScreenerhandler = () => {
     console.log("Remove Icon");
     setToastRemoveScreener(true);
@@ -578,6 +581,7 @@ const StockScreeners = ({
     }
     //console.log("userEffect call adatal3UserNav___ ", l3UserNav);
     setL3UserNav(l3UserNav);
+    setProcessingLoader(false);
   };
   useEffect(() => {
     onSearchParamChange();
@@ -634,6 +638,7 @@ const StockScreeners = ({
                   data={_tabData}
                   activeViewId={_activeViewId}
                   tabsViewIdUpdate={onTabViewUpdate}
+                  page="stockScreener"
                 />
                 <MarketFiltersTab
                   data={_tabData}
@@ -648,6 +653,7 @@ const StockScreeners = ({
                   removePersonaliseView={removePersonaliseViewFun}
                   createNewScreener={createNewScreenerFun}
                   getIndustryFilterValue={industryFilerValueHandler}
+                  editRemoveStockBtnReset={editRemoveStockBtnReset}
                 />
               </div>
               <MarketTable

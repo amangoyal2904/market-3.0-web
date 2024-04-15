@@ -58,7 +58,7 @@ const NameViewComponent = ({
   // };
   return (
     <>
-      <div className={`customeModule ${styles.wraperSmall}`}>
+      <div className={`customModule ${styles.wraperSmall}`}>
         <div
           className={`refRemoveList ${styles.overlaySmall}`}
           onClick={closeNameViewModule}
@@ -77,7 +77,7 @@ const NameViewComponent = ({
                 type="text"
                 value={screenerName}
                 onChange={(e: any) => setScreenerName(e.target.value)}
-                placeholder="Enter a name..."
+                placeholder="Custome View "
                 maxLength={50}
               />
             </div>

@@ -550,7 +550,7 @@ export const getStockRecosDetail = async ({
     pageSize:
       getApiType == "recoByFH" ? 100 : getApiType == "overview" ? 6 : 30,
     pageNumber: pageNo || 1,
-    ...(getApiType == "overview" && { deviceId: "web" }),
+    ...(getApiType == "overview" && { deviceId: "web", apiVersion: 2 }),
     ...(getApiType == "FHDetail" && { orgId: [fundHouseInfo.fundHouseId] }),
   };
 
