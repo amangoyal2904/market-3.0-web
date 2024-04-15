@@ -26,11 +26,21 @@ const Login = () => {
     let watchlistArr = "";
     if (data?.resData?.length > 0) {
       watchlistArr = data?.resData.map((entry: any) => {
-        return entry.companyType && entry.id;
+        return (
+          entry.companyType && {
+            companyId: entry.prefDataVal,
+            companyType: entry.id,
+          }
+        );
       });
     } else if (data?.length > 0) {
       watchlistArr = data.map((entry: any) => {
-        return entry.companyType && entry.prefDataVal;
+        return (
+          entry.companyType && {
+            companyId: entry.prefDataVal,
+            companyType: entry.companyType,
+          }
+        );
       });
     }
 
