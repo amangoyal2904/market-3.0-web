@@ -250,9 +250,9 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
             >
               <span>{item.tagName}</span>
               <WatchlistAddition
-                companyName={item.companyname}
-                companyId={item.companyid}
-                companyType={item.companytype}
+                companyName={item.companyname || item.tagName}
+                companyId={item.companyid || item.tagId}
+                companyType={item.companytype || item.entityType}
                 customStyle={{
                   width: "18px",
                   height: "18px",
