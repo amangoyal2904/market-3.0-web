@@ -1,37 +1,36 @@
 "use client";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import styles from "./Header.module.scss";
+import React, { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import Search from "../Search";
-import Login from "../Login";
-import { APP_ENV } from "../../utils";
-import { useStateContext } from "../../store/StateContext";
-import GLOBAL_CONFIG from "../../network/global_config.json";
+import Image from "next/image";
 import dynamic from "next/dynamic";
-
+import { useStateContext } from "../../store/StateContext";
 import ETLogo from "../../../public/et_markets_logo.svg";
 import { goToPlansPage } from "@/utils/ga";
+import styles from "./Header.module.scss";
+import Login from "../Login";
+import Search from "../Search";
 
 const LiveMarketData = dynamic(() => import("../LiveMarketData"), {
   ssr: false,
 });
 
 const Header = () => {
-  const { state, dispatch } = useStateContext();
-  const { isLogin, isPrime, ssoReady } = state.login;
-  const [windowWidth, setWindowWidth] = useState<number>();
-  const shouldRenderComponent = !!windowWidth ? windowWidth >= 1280 : true;
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", handleResize);
+  const { state } = useStateContext();
+  const { isPrime } = state.login;
+  const [shouldRenderComponent, setShouldRenderComponent] = useState(false);
 
+  const handleResize = useCallback(() => {
+    setShouldRenderComponent(window.innerWidth >= 1280);
+  }, []);
+
+  useEffect(() => {
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [handleResize]);
+
   return (
     <header id={styles.pageTopbar}>
       <div className={styles.navbarHeader} id="header">
