@@ -273,6 +273,7 @@ export const trackingEvent = (type, data) => {
     // pageElem.forEach((element) => {site_section+=element;});
     console.log("site_section--->", site_section);
     console.log("COOOKIIIIEEEE---->", getCookie("pfuuid"), getCookie("peuuid"));
+    console.log("Permissions Array---------->", window.objUser.permissions);
     _gtmEventDimension["feature_name"] = "ET Market";
     _gtmEventDimension["et_product"] = "ET Market";
     _gtmEventDimension["site_section"] = site_section.slice(1);
@@ -281,10 +282,11 @@ export const trackingEvent = (type, data) => {
     _gtmEventDimension["subscription_status"] = window?.objUser?.permissions
       ? getUserType(window.objUser.permissions)
       : "";
-    _gtmEventDimension["feature_permission"] = window?.objUser
-      ?.accessibleFeatures
-      ? window?.objUser?.accessibleFeatures
-      : "";
+    _gtmEventDimension["feature_permission"] =
+      window?.objUser?.accessibleFeatures &&
+      window?.objUser?.accessibleFeatures > 0
+        ? window.objUser.accessibleFeatures
+        : "";
     _gtmEventDimension["user_id"] =
       typeof window.objUser != "undefined" && window.objUser.ssoid
         ? window.objUser.ssoid
@@ -343,6 +345,7 @@ export const trackingEvent = (type, data) => {
 export const getUserType = (permissionsArr) => {
   try {
     var userType = "New";
+    console.log("Permissions Array---->", permissionsArr);
     if (permissionsArr.length > 0) {
       if (permissionsArr.some((str) => str.includes("expired_subscription"))) {
         userType = "expired";
