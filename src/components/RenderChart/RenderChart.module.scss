@@ -1,0 +1,163 @@
+.center_hv {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: inherit;
+}
+
+.dark .center_hv {
+  color: #fafafa;
+}
+
+.up {
+  color: #00935c !important;
+}
+
+.down {
+  color: #ed193b !important;
+}
+
+.highchart-live-blinker,
+#RenderChart .highcharts-point {
+  -webkit-animation: blinker 1.5s linear infinite;
+  animation: blinker 1.5s linear infinite;
+}
+
+@-webkit-keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes throbber-loader {
+  0% {
+    background: #dde2e7;
+  }
+
+  10% {
+    background: #000;
+  }
+
+  40% {
+    background: #dde2e7;
+  }
+}
+
+@keyframes throbber-loader {
+  0% {
+    background: #dde2e7;
+  }
+
+  10% {
+    background: #000;
+  }
+
+  40% {
+    background: #dde2e7;
+  }
+}
+
+.throbber-loader:not(:required) {
+  -webkit-animation: throbber-loader 2000ms 900ms infinite ease-out;
+  animation: throbber-loader 2000ms 900ms infinite ease-out;
+  background: #dde2e7;
+  display: inline-block;
+  position: relative;
+  text-indent: -9999px;
+  width: 7px;
+  height: 7px;
+  margin-left: 30px;
+}
+
+.throbber-loader:not(:required):before,
+.throbber-loader:not(:required):after {
+  background: #dde2e7;
+  content: "\x200B";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  position: absolute;
+  top: 0;
+}
+
+.throbber-loader:not(:required):before {
+  -webkit-animation: throbber-loader 2000ms 100ms infinite ease-out;
+  animation: throbber-loader 2000ms 100ms infinite ease-out;
+  left: -1.6em;
+}
+
+.throbber-loader:not(:required):after {
+  -webkit-animation: throbber-loader 2000ms 1700ms infinite ease-out;
+  animation: throbber-loader 2000ms 1700ms infinite ease-out;
+  right: -1.6em;
+}
+
+div.loadingDiv {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: inherit;
+  font-size: 0.875rem;
+  color: #000;
+  margin: 0 auto;
+  font-weight: bold;
+}
+
+.hc-plotline {
+  display: inline-block;
+  font-family: Montserrat;
+  font-size: 11px;
+  font-weight: 500;
+  color: #686868;
+}
+
+.hc-plotline span {
+  display: block;
+  padding-top: 3px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #3b3b3b;
+}
+
+.dark .hc-plotline span.strong {
+  color: #e4e4e4;
+}
+
+.dark .hc-plotline {
+  color: #e4e4e4;
+}
+
+.pricechart-tooltip {
+  display: block;
+  background-color: #fff;
+  padding: 10px 9px 9px 10px;
+  margin-left: 1px;
+  margin-top: 1px;
+}
+
+.dark .no-data-msg,
+.dark .loadingDiv {
+  color: #e4e4e4;
+}
+
+#renderChart .highcharts-tooltip {
+  z-index: 999;
+}
