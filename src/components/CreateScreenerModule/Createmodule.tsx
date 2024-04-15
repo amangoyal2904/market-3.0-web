@@ -10,7 +10,7 @@ const ScreenerNameViewPopup = ({
 }: any) => {
   const [name, setName] = useState(screenerName);
   const createViewHandler = () => {
-    if (screenerName && screenerName !== "") {
+    if (name && name.trim() !== "") {
       createViewNameHandler(name.trim());
     } else {
       alert("Plase fill your screener name");
@@ -45,7 +45,7 @@ const ScreenerNameViewPopup = ({
                 value={name}
                 onChange={(e: any) => setName(e.target.value)}
                 placeholder="Enter a name..."
-                maxLength={100}
+                maxLength={50}
               />
             </div>
           </div>
