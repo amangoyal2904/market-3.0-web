@@ -143,7 +143,9 @@
       ]
     },
     "saveViewName": {
-      "development": ["https://screener.indiatimes.com/screener/saveViewName"],
+      "development": [
+        "https://qcbselivefeeds.indiatimes.com/screener/saveViewName"
+      ],
       "production": ["https://screener.indiatimes.com/screener/saveViewName"]
     },
     "getScreenerMapping": {
