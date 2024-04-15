@@ -58,7 +58,7 @@ const NameViewComponent = ({
   // };
   return (
     <>
-      <div className={`customeModule ${styles.wraperSmall}`}>
+      <div className={`customModule ${styles.wraperSmall}`}>
         <div
           className={`refRemoveList ${styles.overlaySmall}`}
           onClick={closeNameViewModule}

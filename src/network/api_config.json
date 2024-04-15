@@ -81,6 +81,22 @@
     "development": "https://etapi.indiatimes.com/et-screener/operands-data",
     "production": "https://etapi.indiatimes.com/et-screener/operands-data"
   },
+  "INDICES_OVERVIEW": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/index-summary",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/index-summary"
+  },
+  "INDICES_TECHNICALS": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/technical-analysis",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/technical-analysis"
+  },
+  "INDICES_CONSITUENTS": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"
+  },
+  "INDICES_OTHER": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/other-indices",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/other-indices"
+  },
   "MARKETMOODS_OVERVIEW": {
     "development": "https://screener.indiatimes.com/screener/marketbreadth/overview",
     "production": "https://screener.indiatimes.com/screener/marketbreadth/overview"

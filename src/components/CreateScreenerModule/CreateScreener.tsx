@@ -234,7 +234,7 @@ const CreateScreenerModule = ({
   return (
     <>
       <div
-        className={`customeModule ${styles.wraper} ${!editmode.mode ? styles.newCreate : ""}`}
+        className={`customModule ${styles.wraper} ${!editmode.mode ? styles.newCreate : ""}`}
       >
         {editmode.mode ? (
           <div className={styles.overlay} onClick={cancelScreenerCreate}></div>

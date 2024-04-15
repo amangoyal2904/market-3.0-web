@@ -205,6 +205,42 @@ a {
   text-align: center;
   justify-content: center;
 }
+
+.live-blinker {
+  height: 6px;
+  position: relative;
+  display: inline-block;
+  width: 6px;
+  background: $red-50;
+  border-radius: 50%;
+  margin: 0 10px 0 3px;
+  bottom: 1px;
+  &:before,
+  &:after {
+    -webkit-animation: pulse 2s linear infinite;
+    animation: pulse 2s linear infinite;
+    border: $red-50 solid 1px;
+    border-radius: 50%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    content: " ";
+    height: 8px;
+    width: 8px;
+    left: -1px;
+    opacity: 0.6;
+    position: absolute;
+    top: -1px;
+    -webkit-transform: scale(0.714);
+    -ms-transform: scale(0.714);
+    transform: scale(0.714);
+    z-index: 1;
+  }
+  &:after {
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s;
+  }
+}
+
 .ssoLoginWrap {
   position: fixed;
   top: 0;
@@ -295,7 +331,7 @@ table {
 .customScroll::-webkit-scrollbar-thumb:hover {
   background: rgb(87, 87, 87);
 }
-.customeModule {
+.customModule {
   position: fixed;
   left: 0;
   right: 0;
@@ -305,7 +341,7 @@ table {
   z-index: 999;
   text-align: center;
 }
-.customeModule .moduleWrap {
+.customModule .moduleWrap {
   position: relative;
   display: inline-block;
   vertical-align: top;
@@ -315,7 +351,7 @@ table {
   min-width: 420px;
   margin-top: 80px;
 }
-.customeModule .moduleHeader {
+.customModule .moduleHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -328,7 +364,7 @@ table {
   font-weight: 700;
   line-height: 18px;
 }
-.customeModule .moduleBody {
+.customModule .moduleBody {
   margin: 0;
   max-height: 70vh;
   position: relative;

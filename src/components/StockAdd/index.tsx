@@ -291,7 +291,7 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   }, []);
   return (
     <>
-      <div className={`customeModule ${styles.addStockWrap}`}>
+      <div className={`customModule ${styles.addStockWrap}`}>
         <div
           className={styles.divOverlya}
           onClick={() => moduelClose(false)}
