@@ -7,6 +7,9 @@
   padding: 0 20px 10px 0;
   column-gap: 30px;
 }
+.tabsList.stockScreener {
+  width: calc(100% - 550px);
+}
 .tabsList {
   margin: 0;
   padding: 0;

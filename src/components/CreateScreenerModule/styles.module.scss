@@ -504,3 +504,68 @@
 .valTxt {
   cursor: pointer;
 }
+
+.moreTabsListData {
+  margin: 0;
+}
+.moreTabWrap {
+  margin: 0 0 0 5px;
+  position: relative;
+  .moreSec {
+    position: relative;
+    padding-right: 20px;
+    line-height: 30px;
+    .moreCaretDown {
+      display: inline-block;
+      vertical-align: top;
+      position: absolute;
+      top: 5px;
+      right: 2px;
+      font-size: 18px;
+    }
+  }
+}
+.topLevelList li {
+  &:hover {
+    .moreListItem {
+      display: block;
+    }
+  }
+  .moreListItem {
+    list-style-type: none;
+    position: absolute;
+    z-index: 5;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    border: solid 1px #f3f3f3;
+    background-color: #fff;
+    top: 22px;
+    left: 0;
+    padding: 2px 0 0 0;
+    display: none;
+    li {
+      display: block;
+      padding: 2px 14px 2px 8px;
+      margin: 0;
+      cursor: pointer;
+      border-bottom: solid 1px #f3f3f3;
+    }
+    .active {
+      &::after {
+        bottom: 0;
+      }
+    }
+  }
+}
+
+@media (max-height: 650px) {
+  .filterSec {
+    .rightSec {
+      height: 60vh;
+      min-height: auto;
+    }
+  }
+  .innerListContainer li {
+    max-height: calc(60vh - 175px);
+  }
+}

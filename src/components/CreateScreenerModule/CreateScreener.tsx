@@ -24,6 +24,9 @@ const CreateScreenerModule = ({
   const searchRef = useRef<HTMLDivElement>(null);
   const [viewNameModule, setViewNameModule] = useState(false);
   const [sateUpdate, setSateUpdate] = useState(true);
+  const [visibleTabs, setVisibleTabs] = useState<any[]>([]);
+  const [hiddenTabs, setHiddenTabs] = useState<any[]>([]);
+  const tabsListRef = useRef<HTMLUListElement>(null);
   const [queryInput, setQueryInput] = useState(query);
   //console.log('editmode', editmode)
   const ViewDataAPICall = async () => {
@@ -39,10 +42,39 @@ const CreateScreenerModule = ({
       resData.datainfo.screenerCategoryLevelZero.screenerCategoryLevelOne
         ? resData.datainfo.screenerCategoryLevelZero.screenerCategoryLevelOne
         : [];
+    const tabDataFilterDo: any[] = [];
+    viewDataSet.map((item: any) => {
+      return tabDataFilterDo.push({
+        categoryMappingID: item.categoryMappingID,
+        displayName: item.displayName,
+      });
+    });
+    tabDataFitlerBaseOnWidth(tabDataFilterDo);
     setViewData(viewDataSet);
     setScreenerLoading(false);
   };
-
+  const tabDataFitlerBaseOnWidth = (data: any) => {
+    //console.log("___data", data);
+    const tabsListWidth = tabsListRef.current?.offsetWidth;
+    if (tabsListWidth != null) {
+      let currentWidth = 0;
+      const filterData = data || [];
+      const newVisibleTabs: any[] = [];
+      const newHiddenTabs: any[] = [];
+      for (const tab of filterData) {
+        //console.log("tab", tab);
+        const tabWidth = tab.displayName.length * 10; // Adjust the width calculation as per your requirement
+        if (currentWidth + tabWidth < tabsListWidth) {
+          newVisibleTabs.push(tab);
+          currentWidth += tabWidth;
+        } else {
+          newHiddenTabs.push(tab);
+        }
+      }
+      setVisibleTabs(newVisibleTabs);
+      setHiddenTabs(newHiddenTabs);
+    }
+  };
   const saveUserPersonalise = () => {
     if (!queryInput) {
       alert("Please select at least one query");
@@ -382,9 +414,9 @@ const CreateScreenerModule = ({
                     </span>
                   </div>
                   <div className={styles.resultSec}>
-                    <ul className={styles.topLevelList}>
-                      {viewData.length > 0 ? (
-                        viewData.map((item: any, index: number) => (
+                    <ul className={styles.topLevelList} ref={tabsListRef}>
+                      {visibleTabs.length > 0 ? (
+                        visibleTabs.map((item: any, index: number) => (
                           <li
                             key={item.categoryMappingID}
                             className={index === activeTab ? styles.active : ""}
@@ -396,8 +428,41 @@ const CreateScreenerModule = ({
                           </li>
                         ))
                       ) : (
-                        <div>No data found</div>
+                        <li>No data found</li>
                       )}
+                      {hiddenTabs && hiddenTabs.length > 0 ? (
+                        <li className={styles.moreTabsListData}>
+                          <div className={styles.moreTabWrap}>
+                            <div className={styles.moreSec}>
+                              More{" "}
+                              <span
+                                className={`eticon_caret_down ${styles.moreCaretDown}`}
+                              ></span>
+                            </div>
+                            <ul className={styles.moreListItem}>
+                              {hiddenTabs.map((item: any, index: number) => {
+                                return (
+                                  <li
+                                    key={item.categoryMappingID}
+                                    className={
+                                      visibleTabs.length + index === activeTab
+                                        ? styles.active
+                                        : ""
+                                    }
+                                    onClick={() =>
+                                      handleTabClick(visibleTabs.length + index)
+                                    }
+                                  >
+                                    <div className={styles.catHead}>
+                                      {item.displayName}
+                                    </div>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        </li>
+                      ) : null}
                     </ul>
 
                     {viewData.length > 0 && (

@@ -3,7 +3,7 @@ import styles from "./MarketTabs.module.scss";
 import ShimmerMenu from "@/components/Shimmer/shimmerMenu";
 import useDebounce from "@/hooks/useDebounce";
 
-const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate }: any) => {
+const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate, page }: any) => {
   const tabsListRef = useRef<HTMLUListElement>(null);
   const [visibleTabs, setVisibleTabs] = useState<any[]>([]);
   const [hiddenTabs, setHiddenTabs] = useState<any[]>([]);
@@ -57,7 +57,10 @@ const LeftMenuTabs = ({ data, activeViewId, tabsViewIdUpdate }: any) => {
   }, [tabsListRef.current?.offsetWidth]);
 
   return (
-    <ul className={styles.tabsList} ref={tabsListRef}>
+    <ul
+      className={`${styles.tabsList} ${page !== "" ? styles[page] : ""}`}
+      ref={tabsListRef}
+    >
       {!visibleTabs.length && !hiddenTabs.length && <ShimmerMenu />}
       {visibleTabs.map((item: any, index: number) => (
         <li
