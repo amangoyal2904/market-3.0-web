@@ -131,7 +131,13 @@ const WatchlistAddition = ({
         event_label: "-",
       });
       console.log("watchlist----------", watchlist);
-      const watchlistStatus = watchlist.includes(companyId.toString()) ? 0 : 1;
+      const watchlistStatus = watchlist.some(
+        (item: any) =>
+          item.companyId === companyId.toString() &&
+          item.companyType === companyType,
+      )
+        ? 0
+        : 1;
       setLoadingStatus(true);
       addStockInWatchlistHandler(watchlistStatus);
     } else {
@@ -163,7 +169,7 @@ const WatchlistAddition = ({
             </div>
           ) : watchlist.some(
               (item: any) =>
-                item.id === companyId.toString() &&
+                item.companyId === companyId.toString() &&
                 item.companyType === companyType,
             ) ? (
             <span className="eticon_tick"></span>
