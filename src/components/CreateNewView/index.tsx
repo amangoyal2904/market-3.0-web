@@ -193,7 +193,13 @@ const CreateNewViewComponent = ({
     const isChecked = e.target.checked;
     console.log("selectedView", selectedView);
     if (selectedView.length >= 20 && isChecked) {
-      alert("You have only 20 selected not more ");
+      setShowToaster(true);
+      setToasterData({
+        title:
+          "You have selected only 20 fields. You cannot select more than this limit",
+        errorModule: "error",
+      });
+      //alert("You have only 20 selected not more ");
       return;
     }
     if (isChecked) {
