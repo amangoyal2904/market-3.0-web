@@ -574,3 +574,17 @@
     max-height: calc(60vh - 175px);
   }
 }
+@media (max-width: 1240px) {
+  .topSearchSec {
+    flex-wrap: wrap;
+    row-gap: 20px;
+    .symble {
+      padding:6px 12px;
+    }
+  }
+  .innerListContainer{
+    ul{
+      max-height:calc(59vh - 240px);
+    }
+  }
+}
