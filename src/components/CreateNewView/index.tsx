@@ -386,7 +386,7 @@ const CreateNewViewComponent = ({
   }, [debouncedSearchTerm]);
   return (
     <>
-      <div className={`customeModule ${styles.wraper}`}>
+      <div className={`customModule ${styles.wraper}`}>
         <div
           className={styles.divOverlya}
           onClick={() => closePopCreateView(false)}
