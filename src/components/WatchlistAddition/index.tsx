@@ -105,7 +105,7 @@ const WatchlistAddition = ({
           : watchlist.filter(
               (item: any) =>
                 item.companyId != data.companyId.toString() &&
-                item.companyType === companyType,
+                item.companyType === data.companyType,
             );
 
       dispatch({
