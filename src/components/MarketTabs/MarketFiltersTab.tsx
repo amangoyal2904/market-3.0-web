@@ -4,7 +4,10 @@ import dynamic from "next/dynamic";
 
 import styles from "./MarketTabs.module.scss";
 
-import PersonaliseModel from "@/components/PersonaliseModel";
+const PersonaliseModel = dynamic(
+  () => import("@/components/PersonaliseModel"),
+  { ssr: false },
+);
 import CreateNewViewComponent from "@/components/CreateNewView";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV, initSSOWidget } from "@/utils";

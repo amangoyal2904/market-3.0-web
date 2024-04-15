@@ -3,6 +3,8 @@ import styles from "./PersonaliseModel.module.scss";
 import { useRef, useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ToasterPopup from "../ToasterPopup/ConfirmBox";
+import { getCustomViewsTab } from "@/utils/customViewAndTables";
+import { useStateContext } from "@/store/StateContext";
 
 const PersonaliseModel = ({
   setOpenPersonaliseModal,
@@ -12,10 +14,14 @@ const PersonaliseModel = ({
   createNewViewHandler,
   editmode,
   loading = false,
+  setloading,
 }: any) => {
+  const { state } = useStateContext();
+  const { isLogin, ssoid, isPrime } = state.login;
+  const __dataList = data && data.length > 0 ? data : [];
   const dataLis = data && data.length > 0 ? data : [];
-  //console.log('data',data)
-  const [listData, setListData] = useState(dataLis);
+  //console.log('data_____dataLis',__dataList)
+  const [listData, setListData]: any = useState([]);
   const [userTouchField, setUserTouchField] = useState(false);
   const [showToaster, setShowToaster] = useState(false);
   //console.log('showToaster',showToaster)
@@ -75,7 +81,6 @@ const PersonaliseModel = ({
       return item;
     });
     setListData(updatedListData);
-    console.log(updatedListData);
   };
   const editModeHandler = (viewId: any) => {
     console.log("click to edit mode");
@@ -86,9 +91,11 @@ const PersonaliseModel = ({
     setOpenPersonaliseModal(false);
     createNewViewHandler(true);
   };
+  //console.log('__outer_____ListData_',listData)
   const toasterActionFun = (action = "") => {
     if (action === "closemodal") {
       setOpenPersonaliseModal(false);
+      //console.log('___clar blank ____ListData_',listData)
     } else if (action === "createnew") {
       editmode({
         mode: false,
@@ -117,6 +124,25 @@ const PersonaliseModel = ({
       createNewViewHandler(true);
     }
   };
+  const callCustomeViewData = async () => {
+    setloading(true);
+    const { tabData } = await getCustomViewsTab({
+      L3NavSubItem: "watchlist",
+      ssoid: ssoid,
+    });
+    const personaliseDataListItem =
+      tabData && tabData.length > 0
+        ? tabData.filter((item: any, index: number) => index !== 0)
+        : [];
+    setloading(false);
+    setListData([...personaliseDataListItem]);
+  };
+  useEffect(() => {
+    callCustomeViewData();
+    return () => {
+      setListData([]);
+    };
+  }, []);
   return (
     <>
       <div className={`customeModule ${styles.wraper}`}>

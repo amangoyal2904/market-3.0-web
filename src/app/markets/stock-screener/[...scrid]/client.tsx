@@ -444,6 +444,9 @@ const StockScreeners = ({
     setProcessingLoader(false);
     setScreenerDetail(_screenerDetails);
   };
+  const editRemoveStockBtnReset = () => {
+    // ===
+  };
   const removeScreenerhandler = () => {
     console.log("Remove Icon");
     setToastRemoveScreener(true);
@@ -648,6 +651,7 @@ const StockScreeners = ({
                   removePersonaliseView={removePersonaliseViewFun}
                   createNewScreener={createNewScreenerFun}
                   getIndustryFilterValue={industryFilerValueHandler}
+                  editRemoveStockBtnReset={editRemoveStockBtnReset}
                 />
               </div>
               <MarketTable
