@@ -2,11 +2,12 @@
 import { log } from "console";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import Script from "next/script";
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { APP_ENV, verifyLogin } from "../utils";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 import APIS_CONFIG from "@/network/api_config.json";
+import { useStateContext } from "@/store/StateContext";
 interface Props {
   isprimeuser?: number | boolean;
   objVc?: object;
@@ -42,12 +43,17 @@ declare var JssoCrosswalk: any;
 const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   console.log(APP_ENV);
   const router = usePathname();
+  const [prevPath, setPrevPath] = useState<any>(null);
   const searchParams = useSearchParams();
   const minifyJS = APP_ENV === "development" ? 0 : 1;
+  const { state, dispatch } = useStateContext();
+  const { isLogin, userInfo, ssoReady, isPrime } = state.login;
   const jsDomain = "https://etdev8243.indiatimes.com"; //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
   useEffect(() => {
-    trackingEvent("page_view", { url: window.location.pathname });
-  }, [router]);
+    prevPath !== null &&
+      trackingEvent("page_view", { url: window.location.pathname });
+    setPrevPath(router);
+  }, [router, isLogin]);
 
   return (
     <>
