@@ -278,12 +278,12 @@ export const trackingEvent = (type, data) => {
     _gtmEventDimension["site_section"] = site_section.slice(1);
     _gtmEventDimension["login_status"] =
       typeof window.objUser != "undefined" ? "Yes" : "No";
-    _gtmEventDimension["subscription_status"] = window?.objUser?.isPrime
-      ? window.objUser.isPrime
+    _gtmEventDimension["subscription_status"] = window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
       : "";
-    _gtmEventDimension["feature_permission"] = window?.objUser?.primeInfo
+    _gtmEventDimension["feature_permission"] = window?.objUser
       ?.accessibleFeatures
-      ? window?.objUser?.primeInfo?.accessibleFeatures
+      ? window?.objUser?.accessibleFeatures
       : "";
     _gtmEventDimension["user_id"] =
       typeof window.objUser != "undefined" && window.objUser.ssoid
@@ -307,13 +307,13 @@ export const trackingEvent = (type, data) => {
     _gtmEventDimension["loggedin"] =
       typeof window.objUser != "undefined" ? "Yes" : "No";
     _gtmEventDimension["email"] = window?.objUser?.info?.primaryEmail
-      ? window?.objUser?.primeInfo?.primaryEmail
+      ? window?.objUser?.info?.primaryEmail
       : "";
     _gtmEventDimension["first_name"] = window?.objUser?.info?.firstName
-      ? window?.objUser?.primeInfo?.firstName
+      ? window?.objUser?.info?.firstName
       : "";
     _gtmEventDimension["last_name"] = window?.objUser?.info?.lastName
-      ? window?.objUser?.primeInfo?.lastName
+      ? window?.objUser?.info?.lastName
       : "";
     _gtmEventDimension = Object.assign(_gtmEventDimension, data);
     window.dataLayer.push(_gtmEventDimension);
@@ -338,4 +338,37 @@ export const trackingEvent = (type, data) => {
   //     window.ga("send", "event", data.event_category, data.event_action, data.event_label, window.customDimension);
   //   }
   // }
+};
+
+export const getUserType = (permissionsArr) => {
+  try {
+    var userType = "New";
+    if (permissionsArr.length > 0) {
+      if (permissionsArr.some((str) => str.includes("expired_subscription"))) {
+        userType = "expired";
+      } else if (
+        permissionsArr.some((str) => str.includes("subscribed")) &&
+        permissionsArr.some((str) => str.includes("cancelled_subscription")) &&
+        permissionsArr.some((str) => str.includes("can_buy_subscription"))
+      ) {
+        userType = "trial";
+      } else if (
+        permissionsArr.some((str) => str.includes("cancelled_subscription"))
+      ) {
+        userType = "cancelled";
+      } else if (
+        permissionsArr.some((str) => str.includes("active_subscription")) ||
+        permissionsArr.some((str) => str.includes("subscribed"))
+      ) {
+        userType = "Paid";
+      } else if (
+        permissionsArr.some((str) => str.includes("can_buy_subscription"))
+      ) {
+        userType = "free";
+      }
+    }
+    return userType;
+  } catch (e) {
+    console.log("checkUserPermissions:" + e);
+  }
 };

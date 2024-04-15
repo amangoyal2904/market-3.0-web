@@ -62,7 +62,7 @@ const LiveMarketData = () => {
               <div
                 className={`numberFonts ${styles.indexChange} ${Number(marketData[0]?.sensex.NetChange) > 0 ? styles.green : styles.red}`}
               >
-                {marketData[0]?.sensex.PercentChange}
+                {marketData[0]?.sensex.PercentChange}%
                 <i
                   className={
                     Number(marketData[0]?.sensex.NetChange) > 0
@@ -80,7 +80,7 @@ const LiveMarketData = () => {
               <div
                 className={`numberFonts ${styles.indexChange} ${Number(marketData[0]?.nifty.NetChange) > 0 ? styles.green : styles.red}`}
               >
-                {marketData[0]?.nifty.PercentChange}
+                {marketData[0]?.nifty.PercentChange}%
                 <i
                   className={
                     Number(marketData[0]?.nifty.NetChange) > 0

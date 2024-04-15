@@ -134,10 +134,8 @@ const Login = () => {
 
   useEffect(() => {
     document.addEventListener("jssoLoaded", jssoLoadedCallback);
-
     document.addEventListener("verifyLoginSuccess", verifyLoginSuccessCallback);
     document.addEventListener("verifyLoginFail", authFailCallback);
-
     document.addEventListener(
       "getUserDetailsSuccess",
       getUserDetailsSuccessCallback,
