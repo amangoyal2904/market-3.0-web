@@ -60,7 +60,10 @@ const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
       {data?.recoData?.map((obj: any, index: any) => (
         <div key={`"overView"${index} `} className={styles.overviewMain}>
           <h2 className={styles.title} key={index}>
-            <Link href={`${redirectLink(obj.apiType)}${urlFilterHandle()}`}>
+            <Link
+              className="linkHover"
+              href={`${redirectLink(obj.apiType)}${urlFilterHandle()}`}
+            >
               {obj.name}
             </Link>
           </h2>
@@ -116,7 +119,7 @@ const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
           {obj?.data.length > 3 && (
             <div className={styles.overviewViewAll}>
               <Link href={`${redirectLink(obj.apiType)}${urlFilterHandle()}`}>
-                <span>View all {obj.name} </span>
+                <span className="linkHover">View all {obj.name} </span>
                 <span className={`eticon_next ${styles.arrowIcon}`}></span>
               </Link>
             </div>
