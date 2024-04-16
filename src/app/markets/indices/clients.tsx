@@ -22,71 +22,47 @@ const tabData = [
   { label: "FAQs", key: "faqs" },
 ];
 
-const IndicesClient = ({
-  overview = {},
-  technicals = {},
-  others = {},
-}: any) => {
+const DEBOUNCE_DELAY = 10;
+
+const IndicesClient = ({ overview = {}, technicals = {} }: any) => {
   const { state } = useStateContext();
   const { currentMarketStatus } = state.marketStatus;
-  const [activeItem, setActiveItem] = useState<string>("");
-  const [activeItemFromClick, setActiveItemFromClick] = useState<string>("");
+  const [activeItem, setActiveItem] = useState<string>("keymetrics");
   const [overviewData, setOverviewData] = useState(overview);
   const contentRefs = useRef<HTMLDivElement>(null);
-  const activeListItemRef = useRef<HTMLLIElement>(null);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [scrollByItemClick, setScrollByItemClick] = useState(false); // New state to track scroll triggered by item click
   const { debounce } = useDebounce();
   const indexId = overview.assetId;
   const indexName = overview.assetName;
   const symbol = "SENSEX";
   const exchange = overview.assetExchangeId == 50 ? "NSE" : "BSE";
   const exchangeId = overview.assetExchangeId;
+
   const refreshOverviewData = async () => {
     const data = await getIndicesOverview(indexId);
     setOverviewData(data);
   };
 
-  const scrollToActiveContent = useCallback(() => {
-    const element = document.getElementById(activeItem!);
-    if (element) {
-      const offset = element.offsetTop + 120;
-      window.scrollTo({ top: offset, behavior: "smooth" });
-    }
-  }, [activeItem]);
-
-  const handleItemClick = useCallback((item: string) => {
-    setActiveItemFromClick(item); // Set the state to indicate that active tab change is due to click
-    setActiveItem(item);
-  }, []);
-
-  useEffect(() => {
-    //if (!!currentMarketStatus && currentMarketStatus.toUpperCase() == "LIVE") {
-    refreshOverviewData();
-    const intervalId = setInterval(() => {
-      refreshOverviewData();
-    }, parseInt(refeshConfig.indicesDetail));
-    return () => clearInterval(intervalId);
-    //}
-  }, [currentMarketStatus]);
-
-  useEffect(() => {
-    const handleScroll = debounce(() => {
+  const handleScroll = debounce(() => {
+    if (!scrollByItemClick) {
+      // Only execute when scrolling is not triggered by item click
       const contentRefs = document.querySelectorAll(".sections");
-      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
 
       contentRefs.forEach((ref) => {
         const section = ref as HTMLElement;
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
+        const sectionRect = section.getBoundingClientRect();
+        const tolerance = windowHeight * 0.2;
 
-        if (
-          scrollPosition >= sectionTop &&
-          scrollPosition < sectionTop + sectionHeight
-        ) {
+        if (sectionRect.top <= tolerance && sectionRect.bottom >= tolerance) {
           setActiveItem(section.id);
         }
       });
-    }, 10);
+    }
+  }, DEBOUNCE_DELAY);
 
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
 
     return () => {
@@ -94,13 +70,38 @@ const IndicesClient = ({
     };
   }, [debounce]);
 
-  useEffect(() => {
-    // Scroll to the active item's content when activeItem changes
-    if (activeItemFromClick) {
-      scrollToActiveContent();
-      setActiveItemFromClick("");
+  const scrollToActiveContent = useCallback((itemId: string) => {
+    const element = document.getElementById(itemId);
+    if (element) {
+      const elementRect = element.getBoundingClientRect();
+      const offset = elementRect.top + window.pageYOffset - 120; // Adjust offset as needed
+      window.scrollTo({ top: offset, behavior: "smooth" });
     }
-  }, [activeItemFromClick, scrollToActiveContent]);
+  }, []);
+
+  const handleItemClick = useCallback(
+    (item: string) => {
+      setScrollByItemClick(true); // Set flag to indicate scrolling triggered by item click
+      window.removeEventListener("scroll", handleScroll); // Remove scroll event listener
+      setActiveItem(item);
+      scrollToActiveContent(item); // Scroll to the clicked tab's section
+
+      setTimeout(() => {
+        window.addEventListener("scroll", handleScroll); // Add scroll event listener after a small delay
+        setScrollByItemClick(false); // Reset flag after scrolling is done
+      }, 1000);
+    },
+    [scrollToActiveContent, handleScroll],
+  );
+
+  useEffect(() => {
+    refreshOverviewData();
+    const intervalId = setInterval(
+      refreshOverviewData,
+      parseInt(refeshConfig.indicesDetail),
+    );
+    return () => clearInterval(intervalId);
+  }, [currentMarketStatus]);
 
   return (
     <>
@@ -113,62 +114,46 @@ const IndicesClient = ({
       />
       <div className={styles.tabsWrap}>
         <ul className={styles.tabsList}>
-          {tabData.map((item: any, index: number) => {
-            return (
-              <li
-                key={item.key}
-                ref={activeItem === item.key ? activeListItemRef : null}
-                onClick={() => handleItemClick(item.key)}
-                className={
-                  activeItem === item.key || (activeItem === "" && index === 0)
-                    ? styles.active
-                    : ""
-                }
-              >
-                {item.label}
-              </li>
-            );
-          })}
+          {tabData.map((item: any) => (
+            <li
+              key={item.key}
+              onClick={() => handleItemClick(item.key)}
+              className={activeItem === item.key ? styles.active : ""}
+            >
+              {item.label}
+            </li>
+          ))}
         </ul>
       </div>
       <div className={styles.wrapper}>
-        {tabData.map((item: any, index: number) => {
-          return (
-            <div
-              id={item.key}
-              key={index}
-              className={`${styles.section} sections`}
-              ref={contentRefs}
-            >
-              {item.key == "keymetrics" && (
-                <KeyMetricsIndices data={overviewData.keyMetrics} />
-              )}
-
-              {item.key == "returns" && (
-                <IndicesReturns data={overviewData.returns} />
-              )}
-
-              {item.key == "performance" && (
-                <IndicesPerformance
-                  data={overviewData.returns}
-                  indexName={indexName}
-                />
-              )}
-
-              {item.key == "technicalanalysis" && (
-                <IndicesTechnicalAnalysis data={technicals} />
-              )}
-
-              {item.key == "consitutents" && (
-                <IndicesConstituents data={overviewData.returns} />
-              )}
-
-              {item.key == "faqs" && (
-                <IndicesFaqs data={overviewData.returns} />
-              )}
-            </div>
-          );
-        })}
+        {tabData.map((item: any) => (
+          <div
+            id={item.key}
+            key={item.key}
+            className={`${styles.section} sections`}
+            ref={contentRefs}
+          >
+            {item.key === "keymetrics" && (
+              <KeyMetricsIndices data={overviewData.keyMetrics} />
+            )}
+            {item.key === "returns" && (
+              <IndicesReturns data={overviewData.returns} />
+            )}
+            {item.key === "performance" && (
+              <IndicesPerformance
+                data={overviewData.returns}
+                indexName={indexName}
+              />
+            )}
+            {item.key === "technicalanalysis" && (
+              <IndicesTechnicalAnalysis data={technicals} />
+            )}
+            {item.key === "consitutents" && (
+              <IndicesConstituents data={overviewData.returns} />
+            )}
+            {item.key === "faqs" && <IndicesFaqs data={overviewData.returns} />}
+          </div>
+        ))}
       </div>
     </>
   );
