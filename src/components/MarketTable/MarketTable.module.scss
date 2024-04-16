@@ -249,16 +249,9 @@
   }
 
   table {
+    width: 100%;
     border-collapse: collapse;
-    overflow: auto;
-    border-left: 1px solid rgb(244, 244, 244);
-    thead {
-      position: relative;
-      z-index: 1;
-    }
-    td:nth-child(2) {
-      color: $black;
-    }
+    overflow-x: auto;
   }
 
   .fixedTD {

@@ -40,15 +40,15 @@ const Indices = async ({ params }: any) => {
   if (niftyFilterData.indexId == 0) {
     notFound();
   }
-  const [overview, technicals, others] = await fetchData(
+  const [overviewData, technicalsData, othersData] = await fetchData(
     niftyFilterData.indexId,
   );
+
   return (
     <IndicesClient
-      overview={overview}
-      technicals={technicals}
-      others={others}
-      indexId={niftyFilterData.indexId}
+      overview={overviewData}
+      technicals={technicalsData}
+      others={othersData}
     />
   );
 };
