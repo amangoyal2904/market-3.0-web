@@ -67,6 +67,7 @@ const StockScreeners = ({
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
   const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
+  const [resetSort, setResetSort] = useState("");
   const [_payload, setPayload] = useState(payload);
   const [_query, setQuery] = useState(screenerDetail.displayQuery);
   const [_screenerDetail, setScreenerDetail] = useState(screenerDetail);
@@ -105,7 +106,8 @@ const StockScreeners = ({
   const onTabViewUpdate = async (viewId: any) => {
     setProcessingLoader(true);
     setActiveViewId(viewId);
-    setPayload({ ..._payload, viewId: viewId, pageno: 1 });
+    setResetSort(viewId);
+    setPayload({ ..._payload, viewId: viewId, sort: [], pageno: 1 });
   };
 
   const updateOrAddParamToPath = (pathname: any, param: any, value: any) => {
@@ -124,6 +126,7 @@ const StockScreeners = ({
   };
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
+    setResetSort(value);
     const url = `${pathname}?${searchParams}`;
     const newUrl = updateOrAddParamToPath(url, label, value);
     router.push(newUrl, { scroll: false });
@@ -659,6 +662,7 @@ const StockScreeners = ({
               <MarketTable
                 data={_tableData}
                 tableHeaders={_tableHeaderData}
+                tabsViewIdUpdate={resetSort}
                 pageSummary={_pageSummary}
                 tableConfig={tableConfig}
                 handleSortServerSide={onServerSideSort}

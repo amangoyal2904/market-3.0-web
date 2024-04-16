@@ -60,14 +60,14 @@ export const generateIntradayDurations = async (type: string) => {
 };
 
 export const chartIntervals = [
-  { label: "1D", value: "1D" },
-  { label: "1W", value: "1W" },
-  { label: "1M", value: "1M" },
-  { label: "3M", value: "3M" },
-  { label: "6M", value: "6M" },
-  { label: "1Y", value: "1Y" },
-  { label: "3Y", value: "3Y" },
-  { label: "5Y", value: "5Y" },
+  { label: "1D", value: "1d" },
+  { label: "1W", value: "1w" },
+  { label: "1M", value: "1m" },
+  { label: "3M", value: "3m" },
+  { label: "6M", value: "6m" },
+  { label: "1Y", value: "1y" },
+  { label: "3Y", value: "3y" },
+  { label: "5Y", value: "5y" },
 ];
 
 export const volumeShockersDurations = [

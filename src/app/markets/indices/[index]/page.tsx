@@ -48,6 +48,7 @@ const Indices = async ({ params }: any) => {
       overview={overview}
       technicals={technicals}
       others={others}
+      indexId={niftyFilterData.indexId}
     />
   );
 };
