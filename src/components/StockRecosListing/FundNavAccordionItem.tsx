@@ -19,7 +19,7 @@ const FundNavAccordionItem = ({
   };
 
   const fundHouseSeoName = (item: any) => {
-    return item?.toLowerCase().replace(/ /g, "-");
+    return item?.trim().toLowerCase().replace(/ /g, "-");
   };
 
   //getFundHouseDetailFromURL()
@@ -41,10 +41,10 @@ const FundNavAccordionItem = ({
               return (
                 <li
                   key={`fundnav_filterList_${index}`}
-                  className={`${fundHouseSeoName(getFundHouseInfo.fundHounseName) == fundHouseSeoName(item.organisation) && slug?.[2] == fundHouseSeoName(filter) ? styles.active : ""} ${styles.fundFilter}`}
+                  className={`${fundHouseSeoName(getFundHouseInfo.fundHounseName) == fundHouseSeoName(item?.organisation) && slug?.[2] == fundHouseSeoName(filter) ? styles.active : ""} ${styles.fundFilter}`}
                 >
                   <Link
-                    href={`/stocksrecos/fundhousedetails/${fundHouseSeoName(item.organisation)}-${item.omId}/${fundHouseSeoName(filter)}${urlFilterHandle()}`}
+                    href={`/stocksrecos/fundhousedetails/${fundHouseSeoName(item?.organisation)}-${item.omId}/${fundHouseSeoName(filter)}${urlFilterHandle()}`}
                   >
                     {filter}
                   </Link>
