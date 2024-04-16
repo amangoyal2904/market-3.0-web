@@ -571,7 +571,7 @@ export const formatNumber = (
   number: number,
   uptoDecimal: number = 2,
 ): string => {
-  console.log("number-----", number);
+  //console.log("number-----", number);
 
   const isInteger = Number.isInteger(Number(number));
   // console.log("number---isInteger--", isInteger);

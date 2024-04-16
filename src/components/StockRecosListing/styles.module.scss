@@ -137,6 +137,11 @@
   margin-top: 32px;
   display: flex;
 
+  .noDataFound {
+    width: calc(100% - 202px) !important;
+    margin: 0 auto;
+  }
+
   .contentViewWrap {
     width: 100%;
     &.gridViewWrap {
