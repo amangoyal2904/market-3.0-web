@@ -3,13 +3,19 @@ import { notFound } from "next/navigation";
 import IndicesClient from "../clients";
 import { headers } from "next/headers";
 import {
-  fetchFilters,
   fetchSelectedFilter,
   fnGenerateMetaData,
+  getIndicesOverview,
+  getIndicesTechnicals,
+  getOtherIndices,
 } from "@/utils/utility";
 
 async function fetchData(indexId: number) {
-  return Promise.all([fetchFilters({})]);
+  return Promise.all([
+    getIndicesOverview(indexId),
+    getIndicesTechnicals(indexId),
+    getOtherIndices(indexId),
+  ]);
 }
 
 async function generateMetadata(
@@ -34,8 +40,16 @@ const Indices = async ({ params }: any) => {
   if (niftyFilterData.indexId == 0) {
     notFound();
   }
-  const [allFilters] = await fetchData(niftyFilterData.indexId);
-  return <IndicesClient allFilters={allFilters} />;
+  const [overview, technicals, others] = await fetchData(
+    niftyFilterData.indexId,
+  );
+  return (
+    <IndicesClient
+      overview={overview}
+      technicals={technicals}
+      others={others}
+    />
+  );
 };
 
 export { generateMetadata, Indices as default };
