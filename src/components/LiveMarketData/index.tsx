@@ -19,23 +19,33 @@ const LiveMarketData = () => {
   }, []);
   console.log("--------->", state.marketStatus, currentMarketStatus);
   const getMarketStatus = async () => {
-    const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
-    const res = await Service.get({ url, params: {} });
-    if (res?.status === 200) {
-      const result = await res.json();
-      dispatch({
-        type: "MARKET_STATUS",
-        payload: {
-          currentMarketStatus: result.currentMarketStatus,
-        },
-      });
+    try {
+      const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
+      const res = await Service.get({ url, params: {} });
+      if (res?.status === 200) {
+        const result = await res.json();
+        dispatch({
+          type: "MARKET_STATUS",
+          payload: {
+            currentMarketStatus: result.currentMarketStatus,
+          },
+        });
+      }
+    } catch (err) {
+      console.log("Error in getting market Status ", err);
     }
   };
   const getLiveMarketData = async () => {
-    const url = (APIS_CONFIG as any)?.LIVE_MARKET_DATA[APP_ENV];
-    const res = await Service.get({ url, params: {} });
-    if (res?.status === 200) {
-      marketlivedata(await res.text());
+    try {
+      const url = (APIS_CONFIG as any)?.LIVE_MARKET_DATA[APP_ENV];
+      const res = await Service.get({ url, params: {} });
+      if (res?.status === 200) {
+        marketlivedata(await res.text());
+      } else {
+        clearInterval(x);
+      }
+    } catch (err) {
+      console.log("Error in Live Market Live ", err);
     }
   };
   const marketlivedata = (data: any) => {
@@ -44,7 +54,7 @@ const LiveMarketData = () => {
     const jsonString = data.substring(jsonStartIndex, jsonEndIndex + 1);
     console.log("live Data==============?????", currentMarketStatus);
     setMarketData(JSON.parse(jsonString));
-    if (currentMarketStatus !== "CLOSED") {
+    if (currentMarketStatus == "CLOSED") {
       clearInterval(x);
     }
   };
