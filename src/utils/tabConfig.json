@@ -35,7 +35,7 @@
     "showIndexFilter": false,
     "showDuration": false,
     "showPersonalize": true,
-    "showExport": true,
+    "showExport": false,
     "showCreateScreener": true,
     "showIndustryFilter": true
   }
