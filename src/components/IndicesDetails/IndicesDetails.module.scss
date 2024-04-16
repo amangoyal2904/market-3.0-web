@@ -1,0 +1,325 @@
+@import "@/styles/variables.scss";
+
+.overview {
+  position: relative;
+  margin: -20px;
+  padding: 20px;
+  background: $salmon-10;
+  .headline {
+    display: inline-block;
+    font-weight: 700;
+    color: $black;
+    font-size: 32px;
+  }
+
+  .viewAll {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 700;
+    color: $blue-50;
+    text-decoration: none;
+    border-left: 1px solid #d6d6d6;
+    margin-left: 20px;
+    padding-left: 20px;
+  }
+
+  .indexOpts {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    .ltp {
+      font-family: var(--font-lato);
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 40px;
+      margin-right: 10px;
+    }
+    .change {
+      font-family: var(--font-lato);
+      font-size: 24px;
+      line-height: 30px;
+      font-weight: 400;
+      &.up {
+        color: $green-80;
+      }
+      &.red {
+        color: $red-60;
+      }
+      .arrowIcons {
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .marketStatus {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 600;
+    color: $red-50;
+    margin-right: 15px;
+    text-transform: uppercase;
+  }
+
+  .updatetime {
+    color: $gray_40;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+  }
+
+  .chartOpts {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #cccccc;
+    margin-top: 25px;
+    margin-bottom: 5px;
+    span {
+      font-size: 18px;
+    }
+    .interval {
+      list-style: none;
+      li {
+        position: relative;
+        display: inline-block;
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 400;
+        color: #4f4f4f;
+        padding: 5px;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        & + li {
+          margin-left: 15px;
+        }
+        &.active,
+        &:hover {
+          border-bottom: 2px solid #000;
+        }
+        &.active {
+          color: $black;
+          font-weight: 800;
+        }
+      }
+    }
+  }
+  .bottomWidgets {
+    display: flex;
+    gap: 6px;
+    margin: 15px auto;
+    .widget {
+      flex: 1;
+      border: 1px solid $gray-70;
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 112px;
+      &:first-child {
+        .bottom {
+          margin-top: 24px;
+        }
+      }
+      .bottom {
+        position: relative;
+        margin-top: 36px;
+      }
+      .gap2 {
+        gap: 2px;
+      }
+      .gap10 {
+        gap: 10px;
+      }
+      .title {
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 700;
+      }
+      .desc {
+        font-size: 10px;
+        line-height: 12px;
+        font-weight: 400;
+      }
+      .head {
+        font-family: var(--font-lato);
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 20px;
+      }
+      .label {
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 400;
+      }
+      .up {
+        color: $green-80;
+      }
+      .down {
+        color: $red-60;
+      }
+      .bar {
+        position: relative;
+        flex: 1;
+        height: 8px;
+        border-radius: 2px;
+        background: $blue-20;
+        .currentPosition {
+          position: absolute;
+          top: -2px;
+          width: 4px;
+          height: 10px;
+          background: $black;
+          &:after {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            left: -6px;
+            top: -10px;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid $black;
+          }
+        }
+        &.up {
+          background: $green-80;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+        &.down {
+          background: $red-60;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+      }
+    }
+  }
+}
+
+.heading {
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.metrics {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .metric {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    p {
+      padding: 10px 0 0;
+    }
+    .up {
+      color: $green-80;
+    }
+    .down {
+      color: $red-60;
+    }
+  }
+}
+
+.marketsCustomTable {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+  td {
+    max-width: 110px;
+    padding: 10px 12px;
+    border-right: 1px solid $gray_95;
+    border-bottom: 1px solid $gray_80;
+    color: $gray_40;
+    background: $white;
+    text-align: left;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    height: 40px;
+    font-style: normal;
+    line-height: 18px;
+    text-align: right;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    .thead {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: end;
+      -ms-flex-pack: end;
+      justify-content: flex-end;
+    }
+    &.left {
+      text-align: left;
+      .thead {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+      }
+    }
+    &.center {
+      text-align: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+    }
+  }
+
+  th {
+    min-width: 110px;
+    max-width: 200px;
+    height: 54px;
+    position: relative;
+    text-align: right;
+    padding: 10px;
+    background-color: $gray_95;
+    border-right: 1px solid $gray_95;
+    border-bottom: 1px solid $gray_80;
+    border-right-style: solid;
+    font-weight: 600;
+    color: $gray_30;
+    font-size: 12px;
+    line-height: 16px;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    .thead {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: end;
+      -ms-flex-pack: end;
+      justify-content: flex-end;
+    }
+    &.left {
+      text-align: left;
+      .thead {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+      }
+    }
+    &.center {
+      text-align: center;
+      .thead {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+      }
+    }
+  }
+  tr {
+    background-color: $white;
+  }
+}

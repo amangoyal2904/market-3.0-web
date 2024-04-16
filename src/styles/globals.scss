@@ -207,7 +207,7 @@ a {
   justify-content: center;
 }
 
-.live-blinker {
+.liveBlinker {
   height: 6px;
   position: relative;
   display: inline-block;
@@ -408,5 +408,13 @@ table {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  to {
+    opacity: 0;
+    -webkit-transform: scale(2.8);
+    transform: scale(2.8);
   }
 }

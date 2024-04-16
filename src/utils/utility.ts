@@ -59,6 +59,17 @@ export const generateIntradayDurations = async (type: string) => {
   return noDuration;
 };
 
+export const chartIntervals = [
+  { label: "1D", value: "1d" },
+  { label: "1W", value: "1w" },
+  { label: "1M", value: "1m" },
+  { label: "3M", value: "3m" },
+  { label: "6M", value: "6m" },
+  { label: "1Y", value: "1y" },
+  { label: "3Y", value: "3y" },
+  { label: "5Y", value: "5y" },
+];
+
 export const volumeShockersDurations = [
   { label: "3 Days", value: "3D" },
   { label: "7 Days", value: "7D" },
@@ -414,6 +425,7 @@ export const removeMultipleStockInWatchList = async (followData: any) => {
     throw error;
   }
 };
+
 export const removePersonalizeViewById = async (viewId: any) => {
   const ssoid = window.objUser?.ssoid;
   const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.screenerRemoveviewbyid[
@@ -607,4 +619,33 @@ export const getPeriodicData = async (
     }),
     pageSummary: originalJson.pagesummary,
   };
+};
+
+export const getIndicesOverview = async (indexid: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.INDICES_OVERVIEW[APP_ENV]}?indexId=${indexid}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
+export const getIndicesTechnicals = async (indexid: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.INDICES_TECHNICALS[APP_ENV]}?indexId=${indexid}`,
+    params: {},
+    cache: "no-store",
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
+export const getOtherIndices = async (indexid: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.INDICES_OTHER[APP_ENV]}?indexId=${indexid}`,
+    params: {},
+    cache: "no-store",
+  });
+  const originalJson = await response?.json();
+  return originalJson;
 };

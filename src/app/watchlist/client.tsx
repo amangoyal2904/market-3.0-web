@@ -207,17 +207,7 @@ const WatchListClient = () => {
     if (isLogin === true) {
       fetchWatchListData();
       setShowBlocker(false);
-      trackingEvent("event", {
-        event_category: "Watchlist",
-        event_action: "Desktop-Logged In",
-        event_label: "-",
-      });
     } else if (isLogin === false) {
-      trackingEvent("event", {
-        event_category: "Watchlist",
-        event_action: "Desktop-NOT Logged In",
-        event_label: "-",
-      });
       setShowBlocker(true);
     }
   }, [isLogin]);

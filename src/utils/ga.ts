@@ -269,52 +269,74 @@ export const trackingEvent = (type, data) => {
     let _gtmEventDimension = {};
     const pageUrl = window.location.pathname;
     const pageElem = window.location.pathname.split("/");
-    let site_section = pageElem.toString();
+    let site_section = pageElem.toString().slice(1);
+    let lastSlash = site_section.lastIndexOf(",");
     // pageElem.forEach((element) => {site_section+=element;});
     console.log("site_section--->", site_section);
-    console.log("COOOKIIIIEEEE---->", getCookie("pfuuid"), getCookie("peuuid"));
-    _gtmEventDimension["feature_name"] = "ET Market";
-    _gtmEventDimension["et_product"] = "ET Market";
-    _gtmEventDimension["site_section"] = site_section.slice(1);
+    console.log("Permissions Array---------->", window?.objUser?.permissions);
+    console.log(
+      "AccessibleFeatures---------->",
+      window?.objUser?.accessibleFeatures,
+    );
+    _gtmEventDimension["feature_name"] = site_section.substring(
+      0,
+      site_section.indexOf(","),
+    );
+    _gtmEventDimension["site_section"] = site_section.substring(
+      0,
+      site_section.indexOf(","),
+    );
     _gtmEventDimension["login_status"] =
       typeof window.objUser != "undefined" ? "Yes" : "No";
-    _gtmEventDimension["subscription_status"] = window?.objUser?.permissions
-      ? getUserType(window.objUser.permissions)
-      : "";
-    _gtmEventDimension["feature_permission"] = window?.objUser
-      ?.accessibleFeatures
-      ? window?.objUser?.accessibleFeatures
-      : "";
     _gtmEventDimension["user_id"] =
-      typeof window.objUser != "undefined" && window.objUser.ssoid
+      typeof window.objUser != "undefined" && window.objUser?.ssoid
         ? window.objUser.ssoid
         : "";
-    _gtmEventDimension["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
+    _gtmEventDimension["site_sub_section"] = site_section.substring(
+      site_section.indexOf(",") + 1,
+    );
     _gtmEventDimension["user_grx_id"] = getCookie("_grx")
       ? getCookie("_grx")
       : "";
-    _gtmEventDimension["et_uuid"] = getCookie("peuuid")
-      ? getCookie("peuuid")
-      : getCookie("pfuuid");
-    _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
-    _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
+    _gtmEventDimension["subscription_status"] =
+      typeof window.objUser != "undefined" && window?.objUser?.permissions
+        ? getUserType(window.objUser.permissions)
+        : "";
     _gtmEventDimension["platform"] = "Web";
-    _gtmEventDimension["level_1"] = window.location.pathname.substring(
-      window.location.pathname.lastIndexOf("/") + 1,
-    );
-    _gtmEventDimension["event"] = type;
-    _gtmEventDimension["referral_url"] = document.referrer;
-    _gtmEventDimension["loggedin"] =
-      typeof window.objUser != "undefined" ? "Yes" : "No";
+    _gtmEventDimension["page_template"] = site_section.substring(lastSlash + 1);
+    _gtmEventDimension["feature_permission"] =
+      typeof window.objUser != "undefined" &&
+      window.objUser.accessibleFeatures &&
+      window.objUser.accessibleFeatures > 0
+        ? window.objUser.accessibleFeatures
+        : "";
+    _gtmEventDimension["country"] = window?.geoinfo.CountryCode;
     _gtmEventDimension["email"] = window?.objUser?.info?.primaryEmail
       ? window?.objUser?.info?.primaryEmail
       : "";
+    _gtmEventDimension["et_product"] = site_section.substring(
+      0,
+      site_section.indexOf(","),
+    );
+    _gtmEventDimension["et_uuid"] = getCookie("peuuid")
+      ? getCookie("peuuid")
+      : getCookie("pfuuid");
     _gtmEventDimension["first_name"] = window?.objUser?.info?.firstName
       ? window?.objUser?.info?.firstName
       : "";
+    _gtmEventDimension["internal_source"] = "Direct";
     _gtmEventDimension["last_name"] = window?.objUser?.info?.lastName
       ? window?.objUser?.info?.lastName
       : "";
+    _gtmEventDimension["loggedin"] =
+      typeof window.objUser != "undefined" ? "Yes" : "No";
+    _gtmEventDimension["pageTitle"] = document.title;
+    _gtmEventDimension["referral_url"] = document.referrer;
+    _gtmEventDimension["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
+    _gtmEventDimension["user_region"] = window?.geoinfo.region_code;
+    _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
+    _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
+    _gtmEventDimension["event"] = type;
     _gtmEventDimension = Object.assign(_gtmEventDimension, data);
     window.dataLayer.push(_gtmEventDimension);
   }
@@ -343,6 +365,7 @@ export const trackingEvent = (type, data) => {
 export const getUserType = (permissionsArr) => {
   try {
     var userType = "New";
+    console.log("Permissions Array---->", permissionsArr);
     if (permissionsArr.length > 0) {
       if (permissionsArr.some((str) => str.includes("expired_subscription"))) {
         userType = "expired";
