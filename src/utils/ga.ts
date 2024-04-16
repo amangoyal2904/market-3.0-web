@@ -273,7 +273,7 @@ export const trackingEvent = (type, data) => {
     // pageElem.forEach((element) => {site_section+=element;});
     console.log("site_section--->", site_section);
     console.log("COOOKIIIIEEEE---->", getCookie("pfuuid"), getCookie("peuuid"));
-    console.log("Permissions Array---------->", window.objUser.permissions);
+    console.log("Permissions Array---------->", window?.objUser?.permissions);
     _gtmEventDimension["feature_name"] = "ET Market";
     _gtmEventDimension["et_product"] = "ET Market";
     _gtmEventDimension["site_section"] = site_section.slice(1);
