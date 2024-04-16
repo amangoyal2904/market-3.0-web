@@ -53,7 +53,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
     prevPath !== null &&
       trackingEvent("page_view", { url: window.location.pathname });
     setPrevPath(router);
-  }, [router, isLogin]);
+  }, [router, isPrime]);
 
   return (
     <>

@@ -623,7 +623,7 @@ export const getPeriodicData = async (
 
 export const getIndicesOverview = async (indexid: number) => {
   const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.INDICES_OVERVIEW[APP_ENV]}?indexid=${indexid}`,
+    url: `${(APIS_CONFIG as any)?.INDICES_OVERVIEW[APP_ENV]}?indexId=${indexid}`,
     params: {},
   });
   const originalJson = await response?.json();
@@ -632,8 +632,9 @@ export const getIndicesOverview = async (indexid: number) => {
 
 export const getIndicesTechnicals = async (indexid: number) => {
   const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.INDICES_TECHNICALS[APP_ENV]}?indexid=${indexid}`,
+    url: `${(APIS_CONFIG as any)?.INDICES_TECHNICALS[APP_ENV]}?indexId=${indexid}`,
     params: {},
+    cache: "no-store",
   });
   const originalJson = await response?.json();
   return originalJson;
@@ -641,8 +642,9 @@ export const getIndicesTechnicals = async (indexid: number) => {
 
 export const getOtherIndices = async (indexid: number) => {
   const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.INDICES_OTHER[APP_ENV]}?indexid=${indexid}`,
+    url: `${(APIS_CONFIG as any)?.INDICES_OTHER[APP_ENV]}?indexId=${indexid}`,
     params: {},
+    cache: "no-store",
   });
   const originalJson = await response?.json();
   return originalJson;

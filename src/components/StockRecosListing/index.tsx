@@ -190,16 +190,13 @@ const StockRecosListing = (props: any) => {
       !initialSearchParamsRef.current ||
       initialSearchParamsRef.current.toString() !== searchParams.toString()
     ) {
-      //if (searchParams.has("filter")) {
+      window.scrollTo(0, 0); // Scroll to top
       recosDetail();
-      // console.log("searchParams changed", searchParams);
-      //}
     }
   }, [searchParams, initialSearchParamsRef.current]);
 
   const handleObserver = useCallback(
     (entries: any) => {
-      console.log(1221);
       const target = entries[0];
       if (target.isIntersecting && hasMore && activeApi != "overview") {
         setPage((prevPage) => prevPage + 1);

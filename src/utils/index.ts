@@ -572,23 +572,20 @@ export const formatNumber = (
   uptoDecimal: number = 2,
   noData?: string,
 ): string => {
-  if (!!number) {
-    const isInteger = Number.isInteger(Number(number));
-
-    if (isInteger) {
-      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    } else {
-      const formatter = new Intl.NumberFormat("en-IN", {
-        style: "decimal",
-        minimumFractionDigits: uptoDecimal, // Ensure at least 2 decimal places
-        maximumFractionDigits: uptoDecimal, // Allow maximum of 2 decimal places
-      });
-
-      const formattedNumber = formatter.format(number);
-      return formattedNumber.replace(/(\d)(?=(\d{3})+\.)/g, "$1,"); // Add commas for thousands separators
-    }
+  if ((!!number && isNaN(number)) || number == null)
+    return !!noData ? noData : "-";
+  const isInteger = Number.isInteger(Number(number));
+  if (isInteger) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
-    return noData ? noData : "-";
+    const formatter = new Intl.NumberFormat("en-IN", {
+      style: "decimal",
+      minimumFractionDigits: uptoDecimal, // Ensure at least 2 decimal places
+      maximumFractionDigits: uptoDecimal, // Allow maximum of 2 decimal places
+    });
+
+    const formattedNumber = formatter.format(number);
+    return formattedNumber.replace(/(\d)(?=(\d{3})+\.)/g, "$1,"); // Add commas for thousands separators
   }
 };
 

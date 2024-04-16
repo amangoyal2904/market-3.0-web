@@ -26,21 +26,20 @@ const IndicesClient = ({
   overview = {},
   technicals = {},
   others = {},
-  indexId = 2369,
 }: any) => {
   const { state } = useStateContext();
   const { currentMarketStatus } = state.marketStatus;
   const [activeItem, setActiveItem] = useState<string>("");
   const [activeItemFromClick, setActiveItemFromClick] = useState<string>("");
   const [overviewData, setOverviewData] = useState(overview);
+  const contentRefs = useRef<HTMLDivElement>(null);
+  const activeListItemRef = useRef<HTMLLIElement>(null);
+  const { debounce } = useDebounce();
+  const indexId = overview.assetId;
   const indexName = overview.assetName;
   const symbol = "SENSEX";
   const exchange = overview.assetExchangeId == 50 ? "NSE" : "BSE";
   const exchangeId = overview.assetExchangeId;
-  const contentRefs = useRef<HTMLDivElement>(null);
-  const activeListItemRef = useRef<HTMLLIElement>(null);
-  const { debounce } = useDebounce();
-
   const refreshOverviewData = async () => {
     const data = await getIndicesOverview(indexId);
     setOverviewData(data);
@@ -60,12 +59,13 @@ const IndicesClient = ({
   }, []);
 
   useEffect(() => {
-    if (!!currentMarketStatus && currentMarketStatus.toUpperCase() == "LIVE") {
-      const intervalId = setInterval(() => {
-        refreshOverviewData();
-      }, parseInt(refeshConfig.indicesDetail));
-      return () => clearInterval(intervalId);
-    }
+    //if (!!currentMarketStatus && currentMarketStatus.toUpperCase() == "LIVE") {
+    refreshOverviewData();
+    const intervalId = setInterval(() => {
+      refreshOverviewData();
+    }, parseInt(refeshConfig.indicesDetail));
+    return () => clearInterval(intervalId);
+    //}
   }, [currentMarketStatus]);
 
   useEffect(() => {

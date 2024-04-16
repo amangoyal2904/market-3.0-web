@@ -241,6 +241,15 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
     return (
       <ul className={`customScroll ${styles.lsitItem}`}>
         {data.map((item: any, index: any) => {
+          const commpanyName = item.companyname || item.tagName;
+          const companyId = item.companyid || item.tagId;
+          const companyType =
+            item.companytype ||
+            (item.subType && item.subType !== ""
+              ? item.subType
+              : item.entityType === "company"
+                ? "equity"
+                : item.entityType);
           return (
             <li
               key={`${item.tagId}--${index}`}
@@ -250,9 +259,9 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
             >
               <span>{item.tagName}</span>
               <WatchlistAddition
-                companyName={item.companyname || item.tagName}
-                companyId={item.companyid || item.tagId}
-                companyType={item.companytype || item.entityType}
+                companyName={commpanyName}
+                companyId={companyId}
+                companyType={companyType}
                 customStyle={{
                   width: "18px",
                   height: "18px",
