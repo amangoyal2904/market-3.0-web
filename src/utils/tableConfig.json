@@ -77,7 +77,7 @@
     "loader": false,
     "showFilterInput": false,
     "isSorting": true,
-    "serverSideSort": false,
+    "serverSideSort": true,
     "isHeaderSticky": true,
     "pagination": true,
     "loaderType": "inner",
