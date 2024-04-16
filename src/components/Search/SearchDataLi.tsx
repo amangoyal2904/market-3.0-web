@@ -89,7 +89,7 @@ const SearchDataLi: React.FC<Props> = ({ item, entity, count, query }) => {
                   </div>
                 )}
               </a>
-              {entity == "Companies" && (
+              {/* {entity == "Companies" && (
                 <div
                   className={styles.st_options}
                   data-url={getStockUrl(
@@ -264,7 +264,7 @@ const SearchDataLi: React.FC<Props> = ({ item, entity, count, query }) => {
                     About
                   </span>
                 </div>
-              )}
+              )} */}
             </li>
           ),
       )}

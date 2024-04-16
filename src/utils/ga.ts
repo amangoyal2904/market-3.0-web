@@ -273,9 +273,11 @@ export const trackingEvent = (type, data) => {
     let lastSlash = site_section.lastIndexOf(",");
     // pageElem.forEach((element) => {site_section+=element;});
     console.log("site_section--->", site_section);
-    console.log("COOOKIIIIEEEE---->", getCookie("pfuuid"), getCookie("peuuid"));
     console.log("Permissions Array---------->", window?.objUser?.permissions);
-    console.log("objUser.info---------->", window?.objUser?.primeInfo);
+    console.log(
+      "AccessibleFeatures---------->",
+      window?.objUser?.accessibleFeatures,
+    );
     _gtmEventDimension["feature_name"] = site_section.substring(
       0,
       site_section.indexOf(","),
@@ -303,8 +305,9 @@ export const trackingEvent = (type, data) => {
     _gtmEventDimension["platform"] = "Web";
     _gtmEventDimension["page_template"] = site_section.substring(lastSlash + 1);
     _gtmEventDimension["feature_permission"] =
-      window?.objUser?.accessibleFeatures &&
-      window?.objUser?.accessibleFeatures > 0
+      typeof window.objUser != "undefined" &&
+      window.objUser.accessibleFeatures &&
+      window.objUser.accessibleFeatures > 0
         ? window.objUser.accessibleFeatures
         : "";
     _gtmEventDimension["country"] = window?.geoinfo.CountryCode;
