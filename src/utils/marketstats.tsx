@@ -121,11 +121,16 @@ export const getAllShortUrls = async () => {
 };
 
 export const getShortUrlMapping = async (pathname: any) => {
-  const urlList = await getAllShortUrls();
-  const isExist = urlList.some((item: any) => item.shortUrl == pathname);
-  if (isExist) {
-    const pageData = urlList.find((item: any) => item.shortUrl == pathname);
-    return { shortUrl: true, pageData };
+  try {
+    const urlList = await getAllShortUrls();
+    const isExist = urlList.some((item: any) => item.shortUrl == pathname);
+    if (isExist) {
+      const pageData = urlList.find((item: any) => item.shortUrl == pathname);
+      return { shortUrl: true, pageData };
+    }
+    return { shortUrl: false };
+  } catch (error) {
+    console.error("Error fetching filters:", error);
+    return { shortUrl: false };
   }
-  return { shortUrl: false };
 };

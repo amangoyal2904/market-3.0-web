@@ -1,19 +1,27 @@
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import IndicesClient from "../clients";
-import { headers } from "next/headers";
+import tabConfig from "@/utils/tabConfig.json";
+import tableConfig from "@/utils/tableConfig.json";
+import { cookies, headers } from "next/headers";
 import {
   fetchSelectedFilter,
   fnGenerateMetaData,
   getIndicesOverview,
   getIndicesTechnicals,
   getOtherIndices,
+  getPeerIndices,
 } from "@/utils/utility";
+import {
+  getCustomViewTable,
+  getCustomViewsTab,
+} from "@/utils/customViewAndTables";
 
 async function fetchData(indexId: number) {
   return Promise.all([
     getIndicesOverview(indexId),
     getIndicesTechnicals(indexId),
+    getPeerIndices(indexId),
     getOtherIndices(indexId),
   ]);
 }
@@ -36,19 +44,52 @@ async function generateMetadata(
 }
 
 const Indices = async ({ params }: any) => {
+  const cookieStore = cookies();
+  const ssoid = cookieStore.get("ssoid")?.value;
   const niftyFilterData = await fetchSelectedFilter(params.index);
   if (niftyFilterData.indexId == 0) {
     notFound();
   }
-  const [overview, technicals, others] = await fetchData(
+  const [overviewData, technicalsData, peersData, othersData] = await fetchData(
     niftyFilterData.indexId,
   );
+  const { tabData, activeViewId } = await getCustomViewsTab({
+    L3NavSubItem: "watchlist",
+    ssoid,
+  });
+  const pagesize = 13;
+  const pageno = 1;
+  const sort: any = [];
+
+  const bodyParams = {
+    viewId: activeViewId,
+    apiType: "index-constituents",
+    filterValue: [niftyFilterData.indexId],
+    filterType: "index",
+    sectorId: null,
+    sort,
+    pagesize,
+    pageno,
+  };
+
+  const { tableHeaderData, tableData, pageSummary, payload } =
+    await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
+
   return (
     <IndicesClient
-      overview={overview}
-      technicals={technicals}
-      others={others}
-      indexId={niftyFilterData.indexId}
+      overview={overviewData}
+      technicals={technicalsData}
+      peers={peersData}
+      others={othersData}
+      tabData={tabData}
+      activeViewId={activeViewId}
+      tableHeaderData={tableHeaderData}
+      tableData={tableData}
+      pageSummary={pageSummary}
+      tableConfig={tableConfig["indicesConstituents"]}
+      tabConfig={tabConfig["indicesConstituents"]}
+      payload={payload}
+      ssoid={ssoid}
     />
   );
 };

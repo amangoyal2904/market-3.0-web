@@ -570,14 +570,11 @@ export const getStockRecosDetail = async ({
 export const formatNumber = (
   number: number,
   uptoDecimal: number = 2,
+  noData?: string,
 ): string => {
-  console.log("number-----", number);
-
+  if ((!!number && isNaN(number)) || number == null)
+    return !!noData ? noData : "-";
   const isInteger = Number.isInteger(Number(number));
-  // console.log("number---isInteger--", isInteger);
-
-  if (isNaN(number)) return "-";
-
   if (isInteger) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {

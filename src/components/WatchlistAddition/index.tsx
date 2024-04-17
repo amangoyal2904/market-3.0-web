@@ -150,7 +150,7 @@ const WatchlistAddition = ({
     }
   };
   const defaultStyle = {
-    position: "relative",
+    position: "inherit",
   };
   const mergedStyle = { ...defaultStyle, ...customStyle };
 
