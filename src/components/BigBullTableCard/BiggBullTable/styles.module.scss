@@ -1,0 +1,178 @@
+@import "@/styles/variables.scss";
+
+.bibBullCustomTable {
+  margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+
+  td {
+    max-width: 150px;
+    padding: 10px 12px;
+    border-right: 1px solid $gray_95;
+    border-bottom: 1px solid $gray_80;
+    color: $gray_40;
+    background: $white;
+    text-align: left;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    height: 40px;
+    font-style: normal;
+    line-height: 18px;
+    .thead {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: end;
+      -ms-flex-pack: end;
+      justify-content: flex-end;
+    }
+    &.left {
+      max-width: 160px;
+      text-align: left;
+      .thead {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+      }
+    }
+    &.center {
+      min-width: 140px;
+      text-align: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+    }
+    span {
+      &.upBg {
+        background: #7dc37c36;
+        color: #1aae55;
+      }
+      &.downBg {
+        background: #ed193b1c;
+        color: #ed193b;
+      }
+      &.noBg {
+        background: inherit;
+        color: inherit;
+      }
+    }
+    &.fullWidth {
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      min-width: 0;
+      &.hide {
+        display: none;
+      }
+    }
+  }
+
+  th {
+    min-width: 110px;
+    max-width: 200px;
+    height: 54px;
+    position: relative;
+    text-align: right;
+    padding: 10px;
+    background-color: $gray_95;
+    border-right: 1px solid $gray_95;
+    border-bottom: 1px solid $gray_80;
+    border-right-style: solid;
+    font-weight: 600;
+    color: $gray_30;
+    font-size: 12px;
+    line-height: 16px;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    .thead {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: end;
+      -ms-flex-pack: end;
+      justify-content: flex-end;
+    }
+    &.left {
+      min-width: 160px;
+      text-align: left;
+      .thead {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+      }
+    }
+    &.center {
+      min-width: 140px;
+      text-align: center;
+      .thead {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+      }
+    }
+    &.enableSort {
+      cursor: pointer;
+    }
+    &.fullWidth {
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      min-width: 0;
+      &.hide {
+        display: none;
+      }
+    }
+    &.primeCell {
+      background: $salmon-20;
+    }
+  }
+
+  .firstTh {
+    width: 200px;
+    min-width: 200px;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  tr {
+    background-color: $white;
+  }
+  .hideThead {
+    visibility: hidden;
+  }
+  .investNameImg {
+    display: flex;
+    justify-content: space-between;
+    .nameTxt {
+      width: calc(100% - 60px);
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}
+.sortIcons {
+  position: relative;
+  margin-left: 2px;
+  top: 1px;
+  span {
+    font-size: 16px;
+    margin-right: -9px;
+    color: $gray_60;
+  }
+  .asc {
+    color: $black;
+  }
+  .desc {
+    color: $black;
+  }
+}

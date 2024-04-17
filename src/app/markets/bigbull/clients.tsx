@@ -5,11 +5,26 @@ import Link from "next/link";
 import BigBullTabs from "../../../components/BigBullTabs";
 import BigBullSection from "../../../components/BigBullSection";
 import BigBullTableCard from "../../../components/BigBullTableCard";
+import { fetchSelectedFilter } from "@/utils/utility";
 
-const BigBullClientPage = ({ data }: any) => {
+const BigBullClientPage = ({ data, selectedFilter }: any) => {
   const [tabName, setTabName] = useState("overview");
+  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const tabHandlerClick = (id: string) => {
     setTabName(id);
+  };
+  const filterDataChangeHander = async (id: any) => {
+    //setProcessingLoader(true);
+
+    const filter =
+      id !== undefined && !isNaN(Number(id))
+        ? parseInt(id)
+        : id !== undefined
+          ? id
+          : 0;
+    const selectedFilter = await fetchSelectedFilter(filter);
+    setNiftyFilterData(selectedFilter);
+    //updateL3NAV(id, _payload.duration);
   };
   const TabContentModule = () => {
     if (tabName === "overview") {
@@ -32,7 +47,10 @@ const BigBullClientPage = ({ data }: any) => {
     } else if (tabName === "allInvestors") {
       return (
         <>
-          <BigBullTableCard />
+          <BigBullTableCard
+            niftyFilterData={niftyFilterData}
+            filterDataChange={filterDataChangeHander}
+          />
         </>
       );
     } else {

@@ -1,10 +1,15 @@
 import styles from "./styles.module.scss";
 import TopTabs from "./TopTabs";
+import BiggBullTable from "./BiggBullTable";
 
-const BigBullTableCard = () => {
+const BigBullTableCard = ({ niftyFilterData, filterDataChange }: any) => {
   return (
     <>
-      <TopTabs />
+      <TopTabs
+        niftyFilterData={niftyFilterData}
+        filterDataChange={filterDataChange}
+      />
+      <BiggBullTable />
     </>
   );
 };
