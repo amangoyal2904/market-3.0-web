@@ -93,6 +93,10 @@
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats",
     "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"
   },
+  "INDICES_PEER": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/peer-indices",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/peer-indices"
+  },
   "INDICES_OTHER": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/other-indices",
     "production": "https://qcbselivefeeds.indiatimes.com/et-screener/other-indices"

@@ -47,7 +47,10 @@ const IndicesTechnicalAnalysis = ({ data }: any) => {
               {movingAverageData.map((data: any, index: number) => (
                 <tr key={index}>
                   {data.map((value: any, i: number) => (
-                    <td key={i} className={`{${styles.center} numberFonts}`}>
+                    <td
+                      key={i}
+                      className={`${i === 0 ? styles.left : `${styles.center} numberFonts`}`}
+                    >
                       {i === 0 ? value : formatNumber(value)}
                     </td>
                   ))}
@@ -63,7 +66,10 @@ const IndicesTechnicalAnalysis = ({ data }: any) => {
           <thead>
             <tr>
               {pl_labels.map((label, index) => (
-                <th key={index} className={styles.center}>
+                <th
+                  key={index}
+                  className={`${styles.center} ${index == 4 ? styles.primeCell : ""}`}
+                >
                   {label}
                 </th>
               ))}
@@ -73,7 +79,10 @@ const IndicesTechnicalAnalysis = ({ data }: any) => {
             {pivotLevelData.map((data: any, index: number) => (
               <tr key={index}>
                 {data.map((value: any, i: number) => (
-                  <td key={i} className={`{${styles.center} numberFonts}`}>
+                  <td
+                    key={i}
+                    className={`${i === 0 ? styles.left : `${styles.center} numberFonts`} ${i == 4 ? styles.primeCell : ""}`}
+                  >
                     {i === 0 ? value : formatNumber(value)}
                   </td>
                 ))}

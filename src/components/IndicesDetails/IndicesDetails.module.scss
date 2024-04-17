@@ -227,7 +227,6 @@
   border-collapse: collapse;
   overflow-x: auto;
   td {
-    max-width: 110px;
     padding: 10px 12px;
     border-right: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
@@ -270,11 +269,12 @@
       -ms-flex-pack: center;
       justify-content: center;
     }
+    &.primeCell {
+      background: $salmon-05;
+    }
   }
 
   th {
-    min-width: 110px;
-    max-width: 200px;
     height: 54px;
     position: relative;
     text-align: right;
@@ -317,6 +317,9 @@
         -ms-flex-pack: center;
         justify-content: center;
       }
+    }
+    &.primeCell {
+      background: $salmon-20;
     }
   }
   tr {
