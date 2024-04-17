@@ -39,7 +39,7 @@ const IndicesClient = ({
   const { debounce } = useDebounce();
   const indexId = overview.assetId;
   const indexName = overview.assetName;
-  const symbol = "SENSEX";
+  const symbol = overview.assetSymbol;
   const exchange = overview.assetExchangeId == 50 ? "NSE" : "BSE";
   const exchangeId = overview.assetExchangeId;
 
@@ -147,7 +147,7 @@ const IndicesClient = ({
               <IndicesPerformance data={peers} indexName={indexName} />
             )}
             {item.key === "technicalanalysis" && (
-              <IndicesTechnicalAnalysis data={technicals} />
+              <IndicesTechnicalAnalysis data={technicals} symbol={symbol} />
             )}
             {item.key === "consitutents" && (
               <IndicesConstituents data={others} />
