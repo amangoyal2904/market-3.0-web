@@ -82,5 +82,17 @@
     "pagination": true,
     "loaderType": "inner",
     "showWatchlistIcon": true
+  },
+  "indicesConstituents": {
+    "name": "indicesConstituents",
+    "tabs": true,
+    "loader": false,
+    "showFilterInput": false,
+    "isSorting": true,
+    "serverSideSort": true,
+    "isHeaderSticky": false,
+    "pagination": true,
+    "loaderType": "inner",
+    "showWatchlistIcon": false
   }
 }
