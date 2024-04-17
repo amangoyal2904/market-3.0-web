@@ -24,13 +24,17 @@ const tabData = [
 
 const DEBOUNCE_DELAY = 10;
 
-const IndicesClient = ({ overview = {}, technicals = {} }: any) => {
+const IndicesClient = ({
+  overview = {},
+  technicals = {},
+  peers = {},
+  others = {},
+}: any) => {
   const { state } = useStateContext();
   const { currentMarketStatus } = state.marketStatus;
   const [activeItem, setActiveItem] = useState<string>("keymetrics");
   const [overviewData, setOverviewData] = useState(overview);
   const contentRefs = useRef<HTMLDivElement>(null);
-  const [isScrolling, setIsScrolling] = useState(false);
   const [scrollByItemClick, setScrollByItemClick] = useState(false); // New state to track scroll triggered by item click
   const { debounce } = useDebounce();
   const indexId = overview.assetId;
@@ -140,16 +144,13 @@ const IndicesClient = ({ overview = {}, technicals = {} }: any) => {
               <IndicesReturns data={overviewData.returns} />
             )}
             {item.key === "performance" && (
-              <IndicesPerformance
-                data={overviewData.returns}
-                indexName={indexName}
-              />
+              <IndicesPerformance data={peers} indexName={indexName} />
             )}
             {item.key === "technicalanalysis" && (
               <IndicesTechnicalAnalysis data={technicals} />
             )}
             {item.key === "consitutents" && (
-              <IndicesConstituents data={overviewData.returns} />
+              <IndicesConstituents data={others} />
             )}
             {item.key === "faqs" && <IndicesFaqs data={overviewData.returns} />}
           </div>

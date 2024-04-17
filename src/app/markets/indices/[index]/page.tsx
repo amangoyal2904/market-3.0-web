@@ -8,12 +8,14 @@ import {
   getIndicesOverview,
   getIndicesTechnicals,
   getOtherIndices,
+  getPeerIndices,
 } from "@/utils/utility";
 
 async function fetchData(indexId: number) {
   return Promise.all([
     getIndicesOverview(indexId),
     getIndicesTechnicals(indexId),
+    getPeerIndices(indexId),
     getOtherIndices(indexId),
   ]);
 }
@@ -40,7 +42,7 @@ const Indices = async ({ params }: any) => {
   if (niftyFilterData.indexId == 0) {
     notFound();
   }
-  const [overviewData, technicalsData, othersData] = await fetchData(
+  const [overviewData, technicalsData, peersData, othersData] = await fetchData(
     niftyFilterData.indexId,
   );
 
@@ -48,6 +50,7 @@ const Indices = async ({ params }: any) => {
     <IndicesClient
       overview={overviewData}
       technicals={technicalsData}
+      peers={peersData}
       others={othersData}
     />
   );

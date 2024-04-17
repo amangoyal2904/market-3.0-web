@@ -444,54 +444,59 @@ export const removePersonalizeViewById = async (viewId: any) => {
 export const fetchSelectedFilter = async (
   seoNameOrIndexId?: string | number,
 ) => {
-  const data = await fetchFilters({ marketcap: true });
-  const allIndices = [
-    ...data.keyIndices.nse,
-    ...data.keyIndices.bse,
-    ...data.sectoralIndices.nse,
-    ...data.sectoralIndices.bse,
-    ...data.otherIndices.nse,
-    ...data.otherIndices.bse,
-    ...data.marketcap.nse,
-    ...data.marketcap.bse,
-  ];
-  let foundIndex;
-  if (
-    !isNaN(seoNameOrIndexId as number) ||
-    typeof seoNameOrIndexId === "string"
-  ) {
-    foundIndex = allIndices.find(
-      (index) =>
-        index.indexId === String(seoNameOrIndexId) ||
-        index.seoname === seoNameOrIndexId,
-    );
-  }
-
-  if (foundIndex) {
-    let exchange = "";
+  try {
+    const data = await fetchFilters({ marketcap: true });
+    const allIndices = [
+      ...data.keyIndices.nse,
+      ...data.keyIndices.bse,
+      ...data.sectoralIndices.nse,
+      ...data.sectoralIndices.bse,
+      ...data.otherIndices.nse,
+      ...data.otherIndices.bse,
+      ...data.marketcap.nse,
+      ...data.marketcap.bse,
+    ];
+    let foundIndex;
     if (
-      data.keyIndices.nse.includes(foundIndex) ||
-      data.sectoralIndices.nse.includes(foundIndex) ||
-      data.otherIndices.nse.includes(foundIndex) ||
-      data.marketcap.nse.includes(foundIndex)
+      !isNaN(seoNameOrIndexId as number) ||
+      typeof seoNameOrIndexId === "string"
     ) {
-      exchange = "nse";
-    } else if (
-      data.keyIndices.bse.includes(foundIndex) ||
-      data.sectoralIndices.bse.includes(foundIndex) ||
-      data.otherIndices.bse.includes(foundIndex) ||
-      data.marketcap.bse.includes(foundIndex)
-    ) {
-      exchange = "bse";
+      foundIndex = allIndices.find(
+        (index) =>
+          index.indexId === String(seoNameOrIndexId) ||
+          index.seoname === seoNameOrIndexId,
+      );
     }
 
-    return {
-      name: foundIndex.name,
-      indexId: foundIndex.indexId,
-      seoname: foundIndex.seoname,
-      exchange: exchange,
-    };
-  } else {
+    if (foundIndex) {
+      let exchange = "";
+      if (
+        data.keyIndices.nse.includes(foundIndex) ||
+        data.sectoralIndices.nse.includes(foundIndex) ||
+        data.otherIndices.nse.includes(foundIndex) ||
+        data.marketcap.nse.includes(foundIndex)
+      ) {
+        exchange = "nse";
+      } else if (
+        data.keyIndices.bse.includes(foundIndex) ||
+        data.sectoralIndices.bse.includes(foundIndex) ||
+        data.otherIndices.bse.includes(foundIndex) ||
+        data.marketcap.bse.includes(foundIndex)
+      ) {
+        exchange = "bse";
+      }
+
+      return {
+        name: foundIndex.name,
+        indexId: foundIndex.indexId,
+        seoname: foundIndex.seoname,
+        exchange: exchange,
+      };
+    } else {
+      return { name: "All Stocks", indexId: 0, seoname: "", exchange: "nse" };
+    }
+  } catch (error) {
+    console.error("Error fetching filters:", error);
     return { name: "All Stocks", indexId: 0, seoname: "", exchange: "nse" };
   }
 };
@@ -634,7 +639,15 @@ export const getIndicesTechnicals = async (indexid: number) => {
   const response = await Service.get({
     url: `${(APIS_CONFIG as any)?.INDICES_TECHNICALS[APP_ENV]}?indexId=${indexid}`,
     params: {},
-    cache: "no-store",
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
+export const getPeerIndices = async (indexid: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.INDICES_PEER[APP_ENV]}?indexId=${indexid}`,
+    params: {},
   });
   const originalJson = await response?.json();
   return originalJson;
@@ -644,7 +657,6 @@ export const getOtherIndices = async (indexid: number) => {
   const response = await Service.get({
     url: `${(APIS_CONFIG as any)?.INDICES_OTHER[APP_ENV]}?indexId=${indexid}`,
     params: {},
-    cache: "no-store",
   });
   const originalJson = await response?.json();
   return originalJson;
