@@ -429,6 +429,7 @@ const StockScreeners = ({
       getCookie("isprimeuser") == "true" ? true : false,
       getCookie("ssoid"),
     );
+    setProcessingLoader(false);
     const _pageSummary = !!responseData.pageSummary
       ? responseData.pageSummary
       : {};
@@ -444,7 +445,6 @@ const StockScreeners = ({
     setTableData(_tableData);
     setTableHeaderData(_tableHeaderData);
     setPageSummary(_pageSummary);
-    setProcessingLoader(false);
     setScreenerDetail(_screenerDetails);
   };
   const editRemoveStockBtnReset = () => {
