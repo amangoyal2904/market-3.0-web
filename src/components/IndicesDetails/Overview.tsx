@@ -144,8 +144,14 @@ const IndicesDetailsOverview = ({
             <div
               className={`dflex align-item-center space-between ${styles.gap2}`}
             >
-              <div className={`${styles.bar} ${styles.up}`}></div>
-              <div className={`${styles.bar} ${styles.down}`}></div>
+              <div
+                className={`${styles.bar} ${styles.up}`}
+                style={{ width: overviewData.advancesPercentage + "%" }}
+              ></div>
+              <div
+                className={`${styles.bar} ${styles.down}`}
+                style={{ width: overviewData.declinesPercentage + "%" }}
+              ></div>
             </div>
             <div className="dflex align-item-center space-between">
               <span className={styles.label}>

@@ -653,6 +653,15 @@ export const getPeerIndices = async (indexid: number) => {
   return originalJson;
 };
 
+export const getIndicesNews = async (indexid: number, exchangeid: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.INDICES_NEWS[APP_ENV]}?feedtype=etjson&indexid=${indexid}&exchange=${exchangeid}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
 export const getOtherIndices = async (indexid: number) => {
   const response = await Service.get({
     url: `${(APIS_CONFIG as any)?.INDICES_OTHER[APP_ENV]}?indexId=${indexid}`,

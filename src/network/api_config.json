@@ -62,11 +62,11 @@
     "production": "https://etapipre.indiatimes.com/api/indexfilters"
   },
   "MARKETS_CUSTOM_TAB": {
-    "development": "https://screener.indiatimes.com/screener/getwatchlistview",
+    "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
     "production": "https://screener.indiatimes.com/screener/getwatchlistview"
   },
   "MARKETS_CUSTOM_TABLE": {
-    "development": "https://screener.indiatimes.com/screener/watchlistData",
+    "development": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData",
     "production": "https://screener.indiatimes.com/screener/watchlistData"
   },
   "MARKETSTATS_TECHNICALS": {
@@ -96,6 +96,10 @@
   "INDICES_PEER": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/peer-indices",
     "production": "https://qcbselivefeeds.indiatimes.com/et-screener/peer-indices"
+  },
+  "INDICES_NEWS": {
+    "development": "https://etdev8243.indiatimes.com/indicesnewsfeed.cms",
+    "production": "https://economictimes.indiatimes.com/indicesnewsfeed.cms"
   },
   "INDICES_OTHER": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/other-indices",
