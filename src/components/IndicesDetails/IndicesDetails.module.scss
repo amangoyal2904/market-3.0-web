@@ -502,3 +502,59 @@
     }
   }
 }
+
+#faq {
+  position: relative;
+  list-style: none;
+  display: block;
+  padding-top: 10px;
+  .faq {
+    position: relative;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid $gray_90;
+    cursor: pointer;
+    .heading {
+      display: flex;
+      margin: 5px auto;
+      font-size: 18px;
+      line-height: 22px;
+      font-weight: 600;
+      align-items: center;
+      justify-content: space-between;
+      .navigate {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #737373;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        font-size: 20px;
+      }
+    }
+    .desc {
+      display: none;
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+      ul {
+        margin: 8px auto;
+        > li {
+          list-style: disc;
+          list-style-position: inside;
+          line-height: 1.5;
+        }
+      }
+    }
+    &.active {
+      .desc {
+        display: block;
+        padding-right: 50px;
+      }
+      .navigate {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}

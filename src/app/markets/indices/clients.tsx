@@ -180,7 +180,7 @@ const IndicesClient = ({
                 indicesNews={indicesNews}
               />
             )}
-            {item.key === "faqs" && <IndicesFaqs data={overviewData.returns} />}
+            {item.key === "faqs" && <IndicesFaqs />}
           </div>
         ))}
       </div>
