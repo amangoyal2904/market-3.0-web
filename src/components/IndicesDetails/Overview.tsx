@@ -133,14 +133,8 @@ const IndicesDetailsOverview = ({
       </div>
       <div className={styles.bottomWidgets}>
         <div className={styles.widget}>
-          <div className="dflex align-item-center space-between">
+          <div className="dflex align-item-center">
             <p className={styles.title}>Advance/Decline</p>
-            <span className={styles.desc}>
-              {dateFormat(
-                parseInt(overviewData?.dateTime) * 1000,
-                " %MMM %d, %Y",
-              )}
-            </span>
           </div>
           <div className={styles.bottom}>
             <div className="dflex align-item-center space-between">
