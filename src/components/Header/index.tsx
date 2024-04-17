@@ -5,7 +5,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useStateContext } from "../../store/StateContext";
 import ETLogo from "../../../public/et_markets_logo.svg";
-import { goToPlansPage } from "@/utils/ga";
+import { goToPlansPage, goToPlansPage1 } from "@/utils/ga";
 import styles from "./Header.module.scss";
 import Login from "../Login";
 import Search from "../Search";
@@ -30,7 +30,16 @@ const Header = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [handleResize]);
-
+  const redirectToPlanPage = () => {
+    const obj = {
+      item_name: "atf_Header",
+      item_brand: "product_interventions",
+      item_category: "atf_offer_cta",
+      item_category3: "atf_cta",
+      item_category4: "Subscribe Now",
+    };
+    goToPlansPage1("select_item", obj);
+  };
   return (
     <header id={styles.pageTopbar}>
       <div className={styles.navbarHeader} id="header">
@@ -60,7 +69,7 @@ const Header = () => {
             {!isPrime && (
               <span
                 className={`default-btn ${styles.subscribeBtn}`}
-                onClick={goToPlansPage}
+                onClick={redirectToPlanPage}
               >
                 <img
                   src="/prime_icon.svg"
