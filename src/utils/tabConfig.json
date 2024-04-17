@@ -38,5 +38,15 @@
     "showExport": false,
     "showCreateScreener": true,
     "showIndustryFilter": true
+  },
+  "indicesConstituents": {
+    "showAddStock": false,
+    "showEditStock": false,
+    "showIndexFilter": false,
+    "showDuration": false,
+    "showPersonalize": true,
+    "showExport": false,
+    "showCreateScreener": false,
+    "showIndustryFilter": false
   }
 }

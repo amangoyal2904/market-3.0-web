@@ -13,7 +13,7 @@ import IndicesTechnicalAnalysis from "@/components/IndicesDetails/TechnicalAnaly
 import IndicesConstituents from "@/components/IndicesDetails/Constituents";
 import IndicesPerformance from "@/components/IndicesDetails/Performance";
 
-const tabData = [
+const pageTabData = [
   { label: "Key Metrics", key: "keymetrics" },
   { label: "Returns", key: "returns" },
   { label: "Performance", key: "performance" },
@@ -29,6 +29,14 @@ const IndicesClient = ({
   technicals = {},
   peers = {},
   others = {},
+  tabData = [],
+  activeViewId = null,
+  tableHeaderData = [],
+  tableData = [],
+  pageSummary = {},
+  tableConfig = {},
+  tabConfig = {},
+  payload = {},
 }: any) => {
   const { state } = useStateContext();
   const { currentMarketStatus } = state.marketStatus;
@@ -118,7 +126,7 @@ const IndicesClient = ({
       />
       <div className={styles.tabsWrap}>
         <ul className={styles.tabsList}>
-          {tabData.map((item: any) => (
+          {pageTabData.map((item: any) => (
             <li
               key={item.key}
               onClick={() => handleItemClick(item.key)}
@@ -130,7 +138,7 @@ const IndicesClient = ({
         </ul>
       </div>
       <div className={styles.wrapper}>
-        {tabData.map((item: any) => (
+        {pageTabData.map((item: any) => (
           <div
             id={item.key}
             key={item.key}
@@ -150,7 +158,17 @@ const IndicesClient = ({
               <IndicesTechnicalAnalysis data={technicals} symbol={symbol} />
             )}
             {item.key === "consitutents" && (
-              <IndicesConstituents data={others} />
+              <IndicesConstituents
+                otherIndices={others}
+                tabData={tabData}
+                activeViewId={activeViewId}
+                tableHeaderData={tableHeaderData}
+                tableData={tableData}
+                pageSummary={pageSummary}
+                tableConfig={tableConfig}
+                tabConfig={tabConfig}
+                payload={payload}
+              />
             )}
             {item.key === "faqs" && <IndicesFaqs data={overviewData.returns} />}
           </div>
