@@ -158,7 +158,7 @@
       }
       .bar {
         position: relative;
-        flex: 1;
+        flex: auto;
         height: 8px;
         border-radius: 2px;
         background: $blue-20;
@@ -233,6 +233,11 @@
   width: 100%;
   border-collapse: collapse;
   overflow-x: auto;
+  .link {
+    position: relative;
+    color: $blue-50;
+    cursor: pointer;
+  }
   td {
     padding: 10px 12px;
     border-right: 1px solid $gray_95;
@@ -278,6 +283,12 @@
     }
     &.primeCell {
       background: $salmon-05;
+    }
+    &.up {
+      color: $green-80;
+    }
+    &.down {
+      color: $red-60;
     }
   }
 
@@ -340,10 +351,108 @@
   height: 475px;
 }
 
+#otherIndices {
+  position: relative;
+  border: 1px solid $gray_80;
+  border-radius: 16px;
+  padding: 0 15px;
+}
+
 .wrapper {
   position: relative;
   display: block;
   margin: 15px auto;
+  &.highlightedSection {
+    background: $salmon-10;
+    padding: 20px;
+  }
+  .otherIndicesCard {
+    position: relative;
+    padding: 15px 0;
+    .title {
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .ltp {
+      font-family: var(--font-lato);
+      font-size: 24px;
+      line-height: 30px;
+      font-weight: 700;
+    }
+    .otherStats {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+      &.up {
+        color: $green-80;
+      }
+      &.down {
+        color: $red-60;
+      }
+    }
+    .bottom {
+      position: relative;
+      margin-top: 8px;
+      .head {
+        font-family: var(--font-lato);
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 15px;
+      }
+      .label {
+        font-size: 12px;
+        line-height: 15px;
+        font-weight: 400;
+      }
+      .up {
+        color: $green-80;
+      }
+      .down {
+        color: $red-60;
+      }
+      .bar {
+        position: relative;
+        flex: auto;
+        height: 8px;
+        border-radius: 2px;
+        background: $blue-20;
+        &.up {
+          background: $green-80;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+        &.down {
+          background: $red-60;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+      }
+    }
+  }
+  .newsCard {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    .content {
+      .headline {
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 600;
+      }
+      span {
+        display: inline-flex;
+        margin-top: 6px;
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 400;
+        color: $gray_40;
+      }
+    }
+  }
   .gaugeChart {
     display: inline-block;
     width: 400px;
