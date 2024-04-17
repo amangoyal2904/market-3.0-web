@@ -3,6 +3,7 @@ import styles from "./style.module.scss";
 import Service from "@/network/service";
 import { APP_ENV } from "../../../utils/index";
 import BigBullClientPage from "./clients";
+import { fetchSelectedFilter } from "@/utils/utility";
 
 const BigBullPage = async () => {
   const bigBullData = {
@@ -15,6 +16,7 @@ const BigBullPage = async () => {
       { title: "Most Held", id: "mostHeld", url: "" },
     ],
   };
+  const selectedFilter = await fetchSelectedFilter(0);
   return (
     <div className={styles.wraper}>
       <div className={styles.topSec}>
@@ -29,7 +31,7 @@ const BigBullPage = async () => {
       </div>
 
       <div className={styles.container}>
-        <BigBullClientPage data={bigBullData} />
+        <BigBullClientPage data={bigBullData} selectedFilter={selectedFilter} />
       </div>
     </div>
   );
