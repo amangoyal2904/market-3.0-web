@@ -185,6 +185,9 @@ a {
 #slider-otherindices {
   .slick-slide + .slick-slide {
     border-left: 1px solid $gray_80;
+    &.slick-current {
+      border-left: none;
+    }
   }
 }
 
