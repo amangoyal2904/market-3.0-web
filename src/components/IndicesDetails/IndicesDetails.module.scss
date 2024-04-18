@@ -382,10 +382,13 @@
     position: relative;
     padding: 15px 0;
     .title {
+      position: relative;
+      display: inline-block;
       font-size: 14px;
       line-height: 18px;
       font-weight: 600;
       margin-bottom: 6px;
+      cursor: pointer;
     }
     .ltp {
       font-family: var(--font-lato);

@@ -88,7 +88,7 @@ const MarketFiltersTab = ({
       ? data.filter((item: any) => item.viewType === "USER").length + 1
       : 0;
   const userPersonaliseHandle = () => {
-    editRemoveStockBtnReset();
+    typeof editRemoveStockBtnReset != "undefined" && editRemoveStockBtnReset();
     if (isLogin) {
       setOpenPersonaliseModal(true);
     } else {
