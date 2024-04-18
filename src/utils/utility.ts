@@ -246,25 +246,29 @@ export const fetchTableData = async (viewId: any, params?: any) => {
 };
 
 export const getStockUrl = (id: string, seoName: string, stockType: string) => {
-  if (seoName?.indexOf(" ") >= 0) {
-    seoName = seoName
-      .replaceAll(" ", "-")
-      .replaceAll("&", "")
-      .replaceAll(".", "")
-      .toLowerCase();
+  if (stockType == "index") {
+    return "/markets/indices/" + seoName;
+  } else {
+    if (seoName?.indexOf(" ") >= 0) {
+      seoName = seoName
+        .replaceAll(" ", "-")
+        .replaceAll("&", "")
+        .replaceAll(".", "")
+        .toLowerCase();
+    }
+    if ((stockType == "dvr" || stockType == "pp") && id.includes("1111")) {
+      id = id.substring(0, id.length - 4);
+    }
+    let stockUrl =
+      (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+      seoName +
+      "/stocks/companyid-" +
+      id +
+      ".cms";
+    if (stockType != "equity" && stockType !== "" && stockType !== "company")
+      stockUrl = stockUrl + "?companytype=" + stockType?.toLowerCase();
+    return stockUrl;
   }
-  if ((stockType == "dvr" || stockType == "pp") && id.includes("1111")) {
-    id = id.substring(0, id.length - 4);
-  }
-  let stockUrl =
-    (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-    seoName +
-    "/stocks/companyid-" +
-    id +
-    ".cms";
-  if (stockType != "equity" && stockType !== "" && stockType !== "company")
-    stockUrl = stockUrl + "?companytype=" + stockType?.toLowerCase();
-  return stockUrl;
 };
 
 export const fetchAllWatchListData = async (
@@ -666,6 +670,32 @@ export const getPeriodicData = async (
       };
     }),
     pageSummary: originalJson.pagesummary,
+  };
+};
+
+export const getAllIndices = async (exchange: string) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.ALLINDICES[APP_ENV]}?exchange=${exchange}`,
+    params: {},
+  });
+  const responseData = await response?.json();
+  let tableData = [];
+  let tableHeaderData = [];
+  if (responseData?.dataList) {
+    tableData = responseData.dataList;
+    if (tableData.length > 0 && tableData[0].data) {
+      tableHeaderData = tableData[0].data;
+    }
+  } else {
+    tableData = responseData;
+    if (tableData?.length > 0 && tableData[0]?.data) {
+      tableHeaderData = tableData[0].data;
+    }
+  }
+  return {
+    tableHeaderData,
+    tableData,
+    exchange,
   };
 };
 

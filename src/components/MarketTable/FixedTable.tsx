@@ -87,6 +87,7 @@ const FixedTable = (props: any) => {
                         : null;
                     }}
                     className={`${
+                      thead.keyId == "assetName" ||
                       thead.keyId == "name" ||
                       thead.keyId == "shortName" ||
                       thead.keyId == "shortNameKeyword"
@@ -146,11 +147,12 @@ const FixedTable = (props: any) => {
                   index < fixedCol && (
                     <td
                       key={index}
-                      className={`${styles.inputWrapper} ${tdData.keyId == "name" || tdData.keyId == "shortName" || tdData.keyId == "shortNameKeyword" ? styles.firstInput : ""}`}
+                      className={`${styles.inputWrapper} ${tdData.keyId == "assetName" || tdData.keyId == "name" || tdData.keyId == "shortName" || tdData.keyId == "shortNameKeyword" ? styles.firstInput : ""}`}
                     >
                       <span className={styles.searchWrapper}>
                         <input
                           className={`${styles.filterInput} ${
+                            tdData.keyId == "assetName" ||
                             tdData.keyId == "name" ||
                             tdData.keyId == "shortName" ||
                             tdData.keyId == "shortNameKeyword"
@@ -164,6 +166,7 @@ const FixedTable = (props: any) => {
                           onChange={handleFilterChange}
                           maxLength={20}
                           placeholder={
+                            tdData.keyId == "assetName" ||
                             tdData.keyId == "name" ||
                             tdData.keyId == "shortName" ||
                             tdData.keyId == "shortNameKeyword"
@@ -187,7 +190,8 @@ const FixedTable = (props: any) => {
                   {item.data.map(
                     (tdData: any, tdIndex: number) =>
                       tdIndex < fixedCol &&
-                      (tdData.keyId == "name" ||
+                      (tdData.keyId == "assetName" ||
+                      tdData.keyId == "name" ||
                       tdData.keyId == "shortName" ||
                       tdData.keyId == "shortNameKeyword" ? (
                         <td key={tdIndex} className={styles.fixedTD}>

@@ -1,6 +1,6 @@
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
-import IndicesClient from "../clients";
+import IndicesDetailsClient from "./clients";
 import tabConfig from "@/utils/tabConfig.json";
 import tableConfig from "@/utils/tableConfig.json";
 import { cookies, headers } from "next/headers";
@@ -88,7 +88,7 @@ const Indices = async ({ params }: any) => {
     await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
 
   return (
-    <IndicesClient
+    <IndicesDetailsClient
       overview={overviewData}
       technicals={technicalsData}
       peers={peersData}

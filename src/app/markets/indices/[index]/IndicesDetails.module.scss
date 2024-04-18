@@ -1,0 +1,61 @@
+@import "@/styles/variables.scss";
+
+.tabsWrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-column-gap: 30px;
+  -moz-column-gap: 30px;
+  column-gap: 30px;
+  position: sticky;
+  background: $blue-80;
+  top: 55px;
+  z-index: 4;
+  .tabsList {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-column-gap: 20px;
+    -moz-column-gap: 20px;
+    column-gap: 20px;
+    padding: 8px 8px 0px;
+    li {
+      position: relative;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 24px;
+      color: $white;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 8px 8px 12px;
+      border-radius: 4px 4px 0px 0px;
+    }
+    li {
+      &.active {
+        font-weight: 700;
+        position: relative;
+        background: $white;
+        color: $black;
+      }
+    }
+  }
+}
+
+.wrapper {
+  position: relative;
+  .section {
+    position: relative;
+    margin: 20px auto 50px;
+  }
+}

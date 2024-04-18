@@ -5,5 +5,6 @@
   "livemarketdata": "20000",
   "watchlist": "30000",
   "stocksScreener": "600000",
-  "indicesDetail": "30000"
+  "indicesDetail": "30000",
+  "indicesListing": "30000"
 }
