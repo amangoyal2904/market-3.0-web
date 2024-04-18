@@ -153,6 +153,15 @@ export const fnGenerateMetaData = (meta?: any) => {
   };
 };
 
+export const fetchIndices = async () => {
+  const apiUrl = (APIS_CONFIG as any)?.["INDICES_LIST"][APP_ENV];
+  const response = await Service.get({
+    url: apiUrl,
+    params: {},
+  });
+  return response?.json();
+};
+
 export const fetchFilters = async ({
   all = false,
   watchlist = false,
@@ -441,6 +450,33 @@ export const removePersonalizeViewById = async (viewId: any) => {
   return resData;
 };
 
+export const fetchSelectedIndex = async (
+  seoNameOrIndexId?: string | number,
+) => {
+  try {
+    const data = await fetchIndices();
+    let filteredIndex;
+    if (seoNameOrIndexId) {
+      filteredIndex = data.find((item: any) => {
+        return (
+          item.assetSeoName === seoNameOrIndexId ||
+          item.assetId === seoNameOrIndexId
+        );
+      });
+    }
+    return (
+      filteredIndex || {
+        name: "All Stocks",
+        indexId: 0,
+        seoname: "",
+        exchange: "nse",
+      }
+    );
+  } catch (error) {
+    console.error("Error fetching filters:", error);
+    return { name: "All Stocks", indexId: 0, seoname: "", exchange: "nse" };
+  }
+};
 export const fetchSelectedFilter = async (
   seoNameOrIndexId?: string | number,
 ) => {

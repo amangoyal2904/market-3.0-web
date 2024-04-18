@@ -9,7 +9,12 @@ export const IndicesNewsCard = ({ data }: any) => {
     return "https://img.etimg.com" + newUrl;
   };
   return (
-    <Link className={styles.newsCard} href={data.wu} target="_blank">
+    <Link
+      className={styles.newsCard}
+      href={data.wu}
+      target="_blank"
+      title={data.hl}
+    >
       <div className={styles.content}>
         <p className={styles.headline}>{data.hl}</p>
         <span>{dateFormat(data.da, "%d %MMM, %Y")}</span>

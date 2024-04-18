@@ -57,6 +57,10 @@
     "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout",
     "production": "https://oauth2.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout"
   },
+  "INDICES_LIST": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/indices-data",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/indices-data"
+  },
   "INDEX_FILTERS": {
     "development": "https://etapipre.indiatimes.com/api/indexfilters",
     "production": "https://etapipre.indiatimes.com/api/indexfilters"
