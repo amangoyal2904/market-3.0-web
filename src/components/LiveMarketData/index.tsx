@@ -13,16 +13,15 @@ const LiveMarketData = () => {
   //const [marketStatus, setMarketStatus] = useState<any>({})
   let x: any = null,
     y: any = null;
-  useEffect(() => {
-    getLiveMarketData();
-    //x = setInterval(getLiveMarketData, 5000);
-  }, [currentMarketStatus]);
+  // useEffect(() => {
+  //   getLiveMarketData();
+  // }, [currentMarketStatus]);
 
   useEffect(() => {
     getMarketStatus();
-    y = setInterval(getMarketStatus, 5000);
+    y = setInterval(getMarketStatus, 4000);
   }, []);
-  console.log("--------->", state.marketStatus, currentMarketStatus);
+  //console.log("--------->", state.marketStatus, currentMarketStatus);
 
   const getMarketStatus = async () => {
     try {
@@ -30,51 +29,51 @@ const LiveMarketData = () => {
       const res = await Service.get({ url, params: {} });
       if (res?.status === 200) {
         const result = await res.json();
-        if (result.currentMarketStatus == "CLOSED") {
-          clearInterval(y);
-        }
+        console.log("Market Status-----> ", result.currentMarketStatus);
         dispatch({
           type: "MARKET_STATUS",
           payload: {
             currentMarketStatus: result.currentMarketStatus,
           },
         });
+        if (result.currentMarketStatus == "CLOSED") {
+          clearInterval(y);
+        } else {
+          getLiveMarketData(result.currentMarketStatus);
+        }
       } else {
+        console.log("Market Status-----> Error in response");
         clearInterval(y);
       }
     } catch (err) {
       console.log("Error in getting market Status ", err);
     }
   };
-  const getLiveMarketData = async () => {
+  const getLiveMarketData = async (marketStatus: any) => {
     try {
       const url = (APIS_CONFIG as any)?.LIVE_MARKET_DATA[APP_ENV];
       const res = await Service.get({ url, params: {} });
       if (res?.status === 200) {
-        marketlivedata(await res.text());
+        marketlivedata(await res.text(), marketStatus);
       } else {
-        console.log(
-          "live Data=========>>>>>>>",
-          state.marketStatus,
-          currentMarketStatus,
-        );
+        // console.log(
+        //   "live Data=========>>>>>>>",
+        //   state.marketStatus,
+        //   currentMarketStatus,
+        // );
         clearInterval(x);
       }
     } catch (err) {
       console.log("Error in Live Market Live ", err);
     }
   };
-  const marketlivedata = (data: any) => {
+  const marketlivedata = (data: any, marketStatus: any) => {
     const jsonStartIndex = data.indexOf("[");
     const jsonEndIndex = data.lastIndexOf("]");
     const jsonString = data.substring(jsonStartIndex, jsonEndIndex + 1);
-    console.log(
-      "live Data==============?????",
-      state.marketStatus,
-      currentMarketStatus,
-    );
+    console.log("live Data==============?????", marketStatus);
     setMarketData(JSON.parse(jsonString));
-    if (currentMarketStatus == "CLOSED") {
+    if (marketStatus == "CLOSED") {
       console.log("Market Closed----->");
       clearInterval(x);
     }

@@ -235,22 +235,6 @@ const MarketTable = (props: propsType) => {
   }, [tabsViewIdUpdate]);
 
   useEffect(() => {
-    const parent = document.querySelector("#scrollableTable");
-    const theadElement = parent?.querySelector("thead > tr > th");
-    const fixedTable = document.querySelector("#fixedTable");
-    const hasScroll = parent ? parent.scrollWidth > parent.clientWidth : false;
-    setParentHasScroll(hasScroll);
-
-    if (theadElement) {
-      const height = theadElement.getBoundingClientRect().height;
-      const thElements = fixedTable?.querySelectorAll("th");
-      thElements?.forEach((th) => {
-        th.style.height = `${height}px`;
-      });
-    }
-  }, [tableHeaderData]);
-
-  useEffect(() => {
     if (data?.length || apiSuccess) {
       const filteredData = filterTableData(data);
       const sortedData = sortTableData(filteredData);
@@ -266,6 +250,22 @@ const MarketTable = (props: propsType) => {
       if (!loaderOff) setLoaderOff(true);
     }
   }, [apiSuccess, data, pageSummary, _sortData, filters, loaderOff]);
+
+  useEffect(() => {
+    const parent = document.querySelector("#scrollableTable");
+    const theadElement = parent?.querySelector("thead > tr > th");
+    const fixedTable = document.querySelector("#fixedTable");
+    const hasScroll = parent ? parent.scrollWidth > parent.clientWidth : false;
+    setParentHasScroll(hasScroll);
+
+    if (theadElement) {
+      const height = theadElement.getBoundingClientRect().height;
+      const thElements = fixedTable?.querySelectorAll("th");
+      thElements?.forEach((th) => {
+        th.style.height = `${height}px`;
+      });
+    }
+  }, [tableHeaderData, parentHasScroll]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });

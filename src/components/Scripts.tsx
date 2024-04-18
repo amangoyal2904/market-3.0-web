@@ -41,7 +41,7 @@ declare global {
 declare var JssoCrosswalk: any;
 
 const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
-  console.log(APP_ENV);
+  //console.log(APP_ENV);
   const router = usePathname();
   const [prevPath, setPrevPath] = useState<any>(null);
   const searchParams = useSearchParams();

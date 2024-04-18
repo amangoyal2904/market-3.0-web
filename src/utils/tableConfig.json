@@ -93,6 +93,6 @@
     "isHeaderSticky": false,
     "pagination": true,
     "loaderType": "inner",
-    "showWatchlistIcon": false
+    "showWatchlistIcon": true
   }
 }
