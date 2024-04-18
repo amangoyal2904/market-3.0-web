@@ -361,7 +361,7 @@
 .wrapper {
   position: relative;
   display: block;
-  margin: 15px auto;
+  margin: 20px auto 50px;
   &.highlightedSection {
     background: $salmon-10;
     padding: 20px;
@@ -369,6 +369,14 @@
   .otherIndicesCard {
     position: relative;
     padding: 15px 0;
+    &:after {
+      content: "";
+      position: absolute;
+      width: 1px;
+      background: $gray_80;
+      top: 0;
+      bottom: 0;
+    }
     .title {
       font-size: 14px;
       line-height: 18px;
@@ -457,17 +465,6 @@
     display: inline-block;
     width: 400px;
     text-align: center;
-    .chartType {
-      display: inline-block;
-      background: $green-05;
-      color: $green-80;
-      padding: 6px;
-      border-radius: 3px;
-      font-size: 18px;
-      line-height: 22px;
-      font-weight: 700;
-      margin: 0 auto;
-    }
   }
 
   .maTable {
@@ -556,5 +553,14 @@
         transform: rotate(180deg);
       }
     }
+  }
+}
+
+@media only screen and (max-width: 1270px) {
+  .maTable,
+  .gaugeChart {
+    display: block;
+    width: 100%;
+    text-align: center;
   }
 }

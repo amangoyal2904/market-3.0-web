@@ -1,0 +1,172 @@
+@import "@/styles/variables.scss";
+
+.chartType {
+  display: inline-block;
+  color: $white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 700;
+  margin: 0 auto;
+  &[data-score="1"] {
+    background: $red-60;
+  }
+  &[data-score="2"] {
+    background: $red-30;
+  }
+  &[data-score="3"] {
+    background: $gray-70;
+  }
+  &[data-score="4"] {
+    background: $green-20;
+  }
+  &[data-score="5"] {
+    background: $green-80;
+  }
+}
+
+.guageWrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12px;
+  width: 375px;
+  height: 135px;
+  .innerWrapper {
+    position: relative;
+    width: 204px;
+    height: 102px;
+    overflow: hidden;
+    border-top-left-radius: 160px;
+    border-top-right-radius: 160px;
+    .guageBar {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: bottom center;
+      &[data-i="0"] {
+        transform: rotate(144deg);
+        background: $green-80;
+      }
+      &[data-i="1"] {
+        transform: rotate(-36deg);
+        background: $green-20;
+      }
+      &[data-i="2"] {
+        transform: rotate(-72deg);
+        background: $gray-70;
+      }
+      &[data-i="3"] {
+        transform: rotate(-108deg);
+        background: $red-30;
+      }
+      &[data-i="4"] {
+        transform: rotate(-144deg);
+        background: $red-60;
+      }
+    }
+    .guageSeparator {
+      position: absolute;
+      height: 106px;
+      width: 0.25rem;
+      background: #fff;
+      bottom: 0;
+      left: 100px;
+      transform-origin: bottom center;
+      &[data-i="0"] {
+        transform: rotate(54deg);
+      }
+      &[data-i="1"] {
+        transform: rotate(18deg);
+      }
+      &[data-i="2"] {
+        transform: rotate(-18deg);
+      }
+      &[data-i="3"] {
+        transform: rotate(-54deg);
+      }
+    }
+    .indicator {
+      background: #fff;
+      position: absolute;
+      width: 174px;
+      height: 174px;
+      top: 15px;
+      left: 15px;
+      border-radius: 50%;
+      .targetArrow {
+        position: absolute;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-bottom: 80px solid #323232;
+        transform: rotate(0);
+        bottom: 90px;
+        left: 84px;
+        transform-origin: bottom center;
+        transition: all 0.3s;
+        &[data-score="1"] {
+          transform: rotate(-76deg);
+        }
+        &[data-score="2"] {
+          transform: rotate(-38deg);
+        }
+        &[data-score="3"] {
+          transform: rotate(0);
+        }
+        &[data-score="4"] {
+          transform: rotate(38deg);
+        }
+        &[data-score="5"] {
+          transform: rotate(76deg);
+        }
+      }
+    }
+  }
+  .guageCircle {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #323232;
+    position: absolute;
+    bottom: 19px;
+    top: 108px;
+    border: 2px solid $white;
+  }
+  .guageLabels {
+    position: absolute;
+    color: $black;
+    width: 52px;
+    font-weight: 500;
+    font-size: 8px;
+    line-height: 10px;
+    text-transform: uppercase;
+    &.extremelyBearish {
+      text-align: right;
+      left: 0.875rem;
+      bottom: 19px;
+    }
+    &.bearish {
+      text-align: right;
+      left: 37px;
+      top: 19px;
+    }
+    &.neutral {
+      text-align: center;
+      top: -11px;
+    }
+    &.bullish {
+      text-align: left;
+      right: 38px;
+      top: 15px;
+    }
+    &.extremelyBullish {
+      text-align: left;
+      right: 0.875rem;
+      bottom: 19px;
+    }
+  }
+}
