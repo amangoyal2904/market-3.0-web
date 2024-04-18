@@ -30,6 +30,13 @@ const IndicesConstituents = ({
 
   const newsResponsive = [
     {
+      breakpoint: 2561,
+      settings: {
+        slidesToShow: 7,
+        slidesToScroll: 1,
+      },
+    },
+    {
       breakpoint: 1921,
       settings: {
         slidesToShow: 5,
@@ -53,6 +60,13 @@ const IndicesConstituents = ({
   ];
 
   const indicesResponsive = [
+    {
+      breakpoint: 2561,
+      settings: {
+        slidesToShow: 8,
+        slidesToScroll: 1,
+      },
+    },
     {
       breakpoint: 1921,
       settings: {
@@ -258,7 +272,7 @@ const IndicesConstituents = ({
             }))}
             key={`indicesNews}`}
             sliderId={`slider-news`}
-            slidesToShow={7}
+            slidesToShow={4}
             slidesToScroll={1}
             rows={1}
             topSpaceClass="indicesNews"
@@ -277,7 +291,7 @@ const IndicesConstituents = ({
               }))}
               key={`otherIndices}`}
               sliderId={`slider-otherindices`}
-              slidesToShow={8}
+              slidesToShow={5}
               slidesToScroll={1}
               rows={1}
               topSpaceClass="otherIndices"
