@@ -8,11 +8,11 @@ const SectorFilter = ({
   sectorFilterHandler,
 }: any) => {
   const [sectorOptions, setSectorOptions]: any[] = useState([]);
-  const [selectedSector, setSelectedSector]: any[] = useState(null);
   const fetchSectorData = async () => {
     const data = await fetchSectorFilters();
     if (data && data.searchresult && data.searchresult.length > 0) {
-      setSectorOptions(data.searchresult);
+      const options = { sectorid: 0, sectorname: "All Sectors" };
+      setSectorOptions([options, ...data.searchresult]);
     }
   };
   const popupRef = useRef<HTMLDivElement | null>(null);
@@ -28,7 +28,6 @@ const SectorFilter = ({
     }
   };
   const sectorOnChangeHandler = (sectorid: number, sectorname: string) => {
-    setSelectedSector(sectorid);
     sectorFilterHandler(sectorid, sectorname);
   };
 
