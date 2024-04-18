@@ -308,7 +308,7 @@
     "production": "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
   },
   "industryFilter": {
-    "development": "https://json.bselivefeeds.indiatimes.com/ET_Community/sectors",
+    "development": "https://bselivefeeds.indiatimes.com/ET_Community/sectors",
     "production": "https://json.bselivefeeds.indiatimes.com/ET_Community/sectors"
   },
   "SaveScreenerAPI": {
