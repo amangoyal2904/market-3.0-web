@@ -28,8 +28,14 @@
 
 .guageWrapper {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
   width: 375px;
   height: 135px;
@@ -47,24 +53,36 @@
       position: absolute;
       top: 0;
       left: 0;
+      -webkit-transform-origin: bottom center;
+      -ms-transform-origin: bottom center;
       transform-origin: bottom center;
       &[data-i="0"] {
+        -webkit-transform: rotate(144deg);
+        -ms-transform: rotate(144deg);
         transform: rotate(144deg);
         background: $green-80;
       }
       &[data-i="1"] {
+        -webkit-transform: rotate(-36deg);
+        -ms-transform: rotate(-36deg);
         transform: rotate(-36deg);
         background: $green-20;
       }
       &[data-i="2"] {
+        -webkit-transform: rotate(-72deg);
+        -ms-transform: rotate(-72deg);
         transform: rotate(-72deg);
         background: $gray-70;
       }
       &[data-i="3"] {
+        -webkit-transform: rotate(-108deg);
+        -ms-transform: rotate(-108deg);
         transform: rotate(-108deg);
         background: $red-30;
       }
       &[data-i="4"] {
+        -webkit-transform: rotate(-144deg);
+        -ms-transform: rotate(-144deg);
         transform: rotate(-144deg);
         background: $red-60;
       }
@@ -76,22 +94,40 @@
       background: #fff;
       bottom: 0;
       left: 100px;
+      -webkit-transform-origin: bottom center;
+      -ms-transform-origin: bottom center;
       transform-origin: bottom center;
       &[data-i="0"] {
+        -webkit-transform: rotate(54deg);
+        -ms-transform: rotate(54deg);
         transform: rotate(54deg);
       }
       &[data-i="1"] {
+        -webkit-transform: rotate(18deg);
+        -ms-transform: rotate(18deg);
         transform: rotate(18deg);
       }
       &[data-i="2"] {
+        -webkit-transform: rotate(-18deg);
+        -ms-transform: rotate(-18deg);
         transform: rotate(-18deg);
       }
       &[data-i="3"] {
+        -webkit-transform: rotate(-54deg);
+        -ms-transform: rotate(-54deg);
         transform: rotate(-54deg);
       }
     }
     .indicator {
-      background: #fff;
+      background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(#f8f8f8),
+        color-stop(48.96%, #ffffff)
+      );
+      background: -o-linear-gradient(top, #f8f8f8 0%, #ffffff 48.96%);
+      background: linear-gradient(180deg, #f8f8f8 0%, #ffffff 48.96%);
       position: absolute;
       width: 174px;
       height: 174px;
@@ -103,24 +139,40 @@
         border-left: 4px solid transparent;
         border-right: 4px solid transparent;
         border-bottom: 80px solid #323232;
+        -webkit-transform: rotate(0);
+        -ms-transform: rotate(0);
         transform: rotate(0);
         bottom: 90px;
         left: 84px;
+        -webkit-transform-origin: bottom center;
+        -ms-transform-origin: bottom center;
         transform-origin: bottom center;
+        -webkit-transition: all 0.3s;
+        -o-transition: all 0.3s;
         transition: all 0.3s;
         &[data-score="1"] {
+          -webkit-transform: rotate(-76deg);
+          -ms-transform: rotate(-76deg);
           transform: rotate(-76deg);
         }
         &[data-score="2"] {
+          -webkit-transform: rotate(-38deg);
+          -ms-transform: rotate(-38deg);
           transform: rotate(-38deg);
         }
         &[data-score="3"] {
+          -webkit-transform: rotate(0);
+          -ms-transform: rotate(0);
           transform: rotate(0);
         }
         &[data-score="4"] {
+          -webkit-transform: rotate(38deg);
+          -ms-transform: rotate(38deg);
           transform: rotate(38deg);
         }
         &[data-score="5"] {
+          -webkit-transform: rotate(76deg);
+          -ms-transform: rotate(76deg);
           transform: rotate(76deg);
         }
       }

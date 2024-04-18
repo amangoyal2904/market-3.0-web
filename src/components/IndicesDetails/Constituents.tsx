@@ -32,8 +32,8 @@ const IndicesConstituents = ({
     {
       breakpoint: 1921,
       settings: {
-        slidesToShow: 5,
-        slidesToScroll: 5,
+        slidesToShow: 6,
+        slidesToScroll: 6,
       },
     },
     {
@@ -56,8 +56,8 @@ const IndicesConstituents = ({
     {
       breakpoint: 1921,
       settings: {
-        slidesToShow: 6,
-        slidesToScroll: 6,
+        slidesToShow: 7,
+        slidesToScroll: 7,
       },
     },
     {

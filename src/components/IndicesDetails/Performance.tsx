@@ -84,7 +84,7 @@ const IndicesPerformance = ({ data, indexName, niftyFilterData = {} }: any) => {
         </thead>
         <tbody>
           {peersData.map((item: any, index: number) => (
-            <tr key={index}>
+            <tr key={index} className={index == 0 ? styles.primeCell : ""}>
               <td className={styles.left}>
                 <div className="dflex align-item-ceter space-between">
                   {item.indexName}

@@ -1,3 +1,4 @@
+import { dateFormat } from "@/utils";
 import styles from "./IndicesDetails.module.scss";
 import Link from "next/link";
 export const IndicesNewsCard = ({ data }: any) => {
@@ -11,7 +12,7 @@ export const IndicesNewsCard = ({ data }: any) => {
     <Link className={styles.newsCard} href={data.wu} target="_blank">
       <div className={styles.content}>
         <p className={styles.headline}>{data.hl}</p>
-        <span>03 Oct, 2023</span>
+        <span>{dateFormat(data.da, "%d %MMM, %Y")}</span>
       </div>
       <img
         src={updateURLDimensions(data.im)}
