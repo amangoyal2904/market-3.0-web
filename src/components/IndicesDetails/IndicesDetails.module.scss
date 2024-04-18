@@ -106,7 +106,7 @@
   }
   .bottomWidgets {
     display: flex;
-    gap: 6px;
+    gap: 12px;
     margin: 15px auto;
     .widget {
       flex: 1;
@@ -256,6 +256,10 @@
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     white-space: nowrap;
+    i {
+      position: relative;
+      cursor: pointer;
+    }
     .thead {
       display: -webkit-box;
       display: -ms-flexbox;
@@ -361,7 +365,7 @@
 .wrapper {
   position: relative;
   display: block;
-  margin: 15px auto;
+  margin: 20px auto 50px;
   &.highlightedSection {
     background: $salmon-10;
     padding: 20px;
@@ -438,6 +442,7 @@
     justify-content: center;
     gap: 10px;
     .content {
+      width: calc(100% - 70px);
       .headline {
         font-size: 14px;
         line-height: 18px;
@@ -452,22 +457,15 @@
         color: $gray_40;
       }
     }
+    img {
+      width: 66px;
+      height: 55px;
+    }
   }
   .gaugeChart {
     display: inline-block;
     width: 400px;
     text-align: center;
-    .chartType {
-      display: inline-block;
-      background: $green-05;
-      color: $green-80;
-      padding: 6px;
-      border-radius: 3px;
-      font-size: 18px;
-      line-height: 22px;
-      font-weight: 700;
-      margin: 0 auto;
-    }
   }
 
   .maTable {
@@ -554,6 +552,21 @@
       }
       .navigate {
         transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+@media (max-width: 1270px) {
+  .wrapper {
+    .maTable,
+    .gaugeChart {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin: 15px auto;
+      .legend {
+        justify-content: center;
       }
     }
   }
