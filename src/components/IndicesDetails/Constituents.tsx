@@ -32,22 +32,22 @@ const IndicesConstituents = ({
     {
       breakpoint: 1921,
       settings: {
-        slidesToShow: 6,
-        slidesToScroll: 6,
+        slidesToShow: 5,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1601,
       settings: {
         slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1361,
       settings: {
         slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToScroll: 1,
       },
     },
   ];
@@ -56,22 +56,22 @@ const IndicesConstituents = ({
     {
       breakpoint: 1921,
       settings: {
-        slidesToShow: 7,
-        slidesToScroll: 7,
+        slidesToShow: 6,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1601,
       settings: {
         slidesToShow: 5,
-        slidesToScroll: 5,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1361,
       settings: {
         slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToScroll: 1,
       },
     },
   ];
@@ -258,8 +258,8 @@ const IndicesConstituents = ({
             }))}
             key={`indicesNews}`}
             sliderId={`slider-news`}
-            slidesToShow={4}
-            slidesToScroll={4}
+            slidesToShow={7}
+            slidesToScroll={1}
             rows={1}
             topSpaceClass="indicesNews"
             responsive={newsResponsive}
@@ -277,8 +277,8 @@ const IndicesConstituents = ({
               }))}
               key={`otherIndices}`}
               sliderId={`slider-otherindices`}
-              slidesToShow={5}
-              slidesToScroll={5}
+              slidesToShow={8}
+              slidesToScroll={1}
               rows={1}
               topSpaceClass="otherIndices"
               responsive={indicesResponsive}
