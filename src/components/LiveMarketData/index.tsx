@@ -13,14 +13,13 @@ const LiveMarketData = () => {
   //const [marketStatus, setMarketStatus] = useState<any>({})
   let x: any = null,
     y: any = null;
-  useEffect(() => {
-    getLiveMarketData();
-    //x = setInterval(getLiveMarketData, 5000);
-  }, [currentMarketStatus]);
+  // useEffect(() => {
+  //   getLiveMarketData();
+  // }, [currentMarketStatus]);
 
   useEffect(() => {
     getMarketStatus();
-    y = setInterval(getMarketStatus, 5000);
+    y = setInterval(getMarketStatus, 4000);
   }, []);
   //console.log("--------->", state.marketStatus, currentMarketStatus);
 
@@ -33,6 +32,8 @@ const LiveMarketData = () => {
         console.log("Market Status-----> ", result.currentMarketStatus);
         if (result.currentMarketStatus == "CLOSED") {
           clearInterval(y);
+        } else {
+          getLiveMarketData();
         }
         dispatch({
           type: "MARKET_STATUS",
