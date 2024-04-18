@@ -106,7 +106,7 @@
   }
   .bottomWidgets {
     display: flex;
-    gap: 6px;
+    gap: 12px;
     margin: 15px auto;
     .widget {
       flex: 1;
@@ -256,6 +256,10 @@
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     white-space: nowrap;
+    i {
+      position: relative;
+      cursor: pointer;
+    }
     .thead {
       display: -webkit-box;
       display: -ms-flexbox;
@@ -369,14 +373,6 @@
   .otherIndicesCard {
     position: relative;
     padding: 15px 0;
-    &:after {
-      content: "";
-      position: absolute;
-      width: 1px;
-      background: $gray_80;
-      top: 0;
-      bottom: 0;
-    }
     .title {
       font-size: 14px;
       line-height: 18px;
@@ -446,6 +442,7 @@
     justify-content: center;
     gap: 10px;
     .content {
+      width: calc(100% - 70px);
       .headline {
         font-size: 14px;
         line-height: 18px;
@@ -459,6 +456,10 @@
         font-weight: 400;
         color: $gray_40;
       }
+    }
+    img {
+      width: 66px;
+      height: 55px;
     }
   }
   .gaugeChart {
@@ -556,11 +557,17 @@
   }
 }
 
-@media only screen and (max-width: 1270px) {
-  .maTable,
-  .gaugeChart {
-    display: block;
-    width: 100%;
-    text-align: center;
+@media (max-width: 1270px) {
+  .wrapper {
+    .maTable,
+    .gaugeChart {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin: 15px auto;
+      .legend {
+        justify-content: center;
+      }
+    }
   }
 }

@@ -180,6 +180,14 @@ a {
 .slick-dots .custom-slick-dots li button:focus:before {
   color: #d51131 !important;
 }
+
+#slider-news,
+#slider-otherindices {
+  .slick-slide + .slick-slide {
+    border-left: 1px solid $gray_80;
+  }
+}
+
 .default-btn {
   font-size: 12px;
   font-style: normal;
