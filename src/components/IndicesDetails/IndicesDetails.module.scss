@@ -219,6 +219,9 @@
     font-weight: 400;
     p {
       padding: 10px 0 0;
+      &:first-child {
+        border-bottom: 1px dotted $gray_60;
+      }
     }
     .up {
       color: $green-80;
@@ -346,6 +349,11 @@
   }
   tr {
     background-color: $white;
+    &.primeCell {
+      td {
+        background: $salmon-20;
+      }
+    }
   }
 }
 
@@ -447,6 +455,10 @@
         font-size: 14px;
         line-height: 18px;
         font-weight: 600;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
       }
       span {
         display: inline-flex;
