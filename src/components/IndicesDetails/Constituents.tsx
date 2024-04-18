@@ -179,6 +179,16 @@ const IndicesConstituents = ({
     setPayload({ ..._payload, pageno: pageNumber });
   };
 
+  const sectorFitlerHandlerChange = async (sectorid: any, sectorname: any) => {
+    setProcessingLoader(true);
+    setResetSort(sectorid);
+    setPayload({
+      ..._payload,
+      sectorId: !!sectorid ? parseInt(sectorid) : null,
+      pageno: 1,
+    });
+  };
+
   const toasterRemovePersonaliseViewCloseHandlerFun = async (
     value: boolean,
     data: any,
@@ -246,6 +256,7 @@ const IndicesConstituents = ({
             tabConfig={tabConfig}
             onPersonalizeHandler={onPersonalizeHandlerfun}
             removePersonaliseView={removePersonaliseViewFun}
+            sectorFitlerHandlerChange={sectorFitlerHandlerChange}
           />
         </div>
         <MarketTable
