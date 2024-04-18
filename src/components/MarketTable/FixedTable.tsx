@@ -231,17 +231,9 @@ const FixedTable = (props: any) => {
                                 item.assetType,
                               )}
                               target="_blank"
-                              title={`${!!tdData.value ? tdData.value : item.assetName} ${
-                                item?.assetType?.toLowerCase() != "equity"
-                                  ? `(${item?.assetType?.toUpperCase()})`
-                                  : ""
-                              }`}
+                              title={`${!!tdData.value ? tdData.value : item.assetName}`}
                             >
-                              {!!tdData.value ? tdData.value : item.assetName}{" "}
-                              {item.assetType != "" &&
-                              item?.assetType?.toLowerCase() != "equity"
-                                ? `(${item?.assetType?.toUpperCase()})`
-                                : null}
+                              {!!tdData.value ? tdData.value : item.assetName}
                             </a>
                           </div>
                         </td>

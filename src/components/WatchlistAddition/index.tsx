@@ -149,10 +149,7 @@ const WatchlistAddition = ({
       initSSOWidget();
     }
   };
-  const defaultStyle = {
-    position: "inherit",
-  };
-  const mergedStyle = { ...defaultStyle, ...customStyle };
+  const mergedStyle = { ...customStyle };
 
   return (
     <>
