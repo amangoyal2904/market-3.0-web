@@ -59,7 +59,6 @@ const StockRecosListing = (props: any) => {
       setNiftyFilterData(selectedFilter);
       router.push(newUrl, { scroll: false });
       initialSearchParamsRef.current = new URLSearchParams("filter=" + id);
-      console.log("recosDetailJSON----", recosDetailResult);
       setPage(1);
       //setHasMore(true);
     },
@@ -102,7 +101,6 @@ const StockRecosListing = (props: any) => {
 
   useEffect(() => {
     fetchDataOnLazyLoad(page);
-    console.log("fetchDataOnLazyLoad", page);
   }, [fetchDataOnLazyLoad, page]);
 
   useEffect(() => {
@@ -142,10 +140,6 @@ const StockRecosListing = (props: any) => {
             : recosDetailResult?.recoData?.[0].data,
         );
 
-        console.log(
-          "watchList ",
-          recosDetailResult?.recoData?.[0].data?.length === 30,
-        );
         setHasMore(
           typeof recosDetailResult?.recoData?.[0].data !== "undefined" &&
             recosDetailResult?.recoData?.[0].data?.length === 30,
@@ -201,8 +195,6 @@ const StockRecosListing = (props: any) => {
       if (target.isIntersecting && hasMore && activeApi != "overview") {
         setPage((prevPage) => prevPage + 1);
       }
-
-      console.log("recosDetailJSON---handleObserver-", recosDetailResult);
     },
     [hasMore],
   );
@@ -268,9 +260,11 @@ const StockRecosListing = (props: any) => {
         </div>
       )}
       <div
-        className={`${styles.contentWrap} ${slug?.[0] == "overview" ? styles.overviewWrap : ""}`}
+        className={`${styles.contentWrap} ${activeApi == "overview" ? styles.overviewWrap : ""}`}
       >
-        {(activeApi == "newRecos" || slug.includes("fundhousedetails")) && (
+        {(activeApi == "newRecos" ||
+          activeApi == "FHDetail" ||
+          activeApi == "recoByFH") && (
           <InnerLeftNav
             recosNavResult={recosNavResult}
             recosDetailResult={navListData}
@@ -280,7 +274,7 @@ const StockRecosListing = (props: any) => {
             urlFilterHandle={urlFilterHandle}
           />
         )}
-        {slug?.[0] == "overview" ? (
+        {activeApi == "overview" ? (
           <Overview
             data={recosDetailJSON}
             urlFilterHandle={urlFilterHandle}

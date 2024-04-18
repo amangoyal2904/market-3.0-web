@@ -593,3 +593,9 @@ export const areObjectsNotEqual = (
   obj1: Record<string, any>,
   obj2: Record<string, any>,
 ): boolean => JSON.stringify(obj1) !== JSON.stringify(obj2);
+
+export const capitalize = (str: string) => {
+  return str.toLowerCase().replace(/\b\w/g, function (letter) {
+    return letter.toUpperCase();
+  });
+};

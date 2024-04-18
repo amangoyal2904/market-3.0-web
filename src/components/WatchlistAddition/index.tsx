@@ -89,7 +89,7 @@ const WatchlistAddition = ({
         }),
     };
 
-    console.log("data----", data, type);
+    //console.log("data----", data, type);
 
     const addWathlistResAPI = await saveStockInWatchList(followData);
     if (addWathlistResAPI?.status === "success") {
