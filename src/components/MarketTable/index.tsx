@@ -249,7 +249,7 @@ const MarketTable = (props: propsType) => {
       setHeaderSticky(0);
       if (!loaderOff) setLoaderOff(true);
     }
-  }, [apiSuccess, data, pageSummary, _sortData, filters, loaderOff]);
+  }, [apiSuccess, data, _sortData, filters, loaderOff]);
 
   useEffect(() => {
     const parent = document.querySelector("#scrollableTable");

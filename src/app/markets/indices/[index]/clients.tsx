@@ -5,7 +5,7 @@ import IndicesDetailsOverview from "@/components/IndicesDetails/Overview";
 import refeshConfig from "@/utils/refreshConfig.json";
 import { getIndicesOverview } from "@/utils/utility";
 import useDebounce from "@/hooks/useDebounce";
-import styles from "./Indices.module.scss";
+import styles from "./IndicesDetails.module.scss";
 import KeyMetricsIndices from "@/components/IndicesDetails/KeyMetrics";
 import IndicesReturns from "@/components/IndicesDetails/Returns";
 import IndicesFaqs from "@/components/IndicesDetails/Faqs";
@@ -24,7 +24,7 @@ const pageTabData = [
 
 const DEBOUNCE_DELAY = 10;
 
-const IndicesClient = ({
+const IndicesDetailsClient = ({
   overview = {},
   technicals = {},
   peers = {},
@@ -188,4 +188,4 @@ const IndicesClient = ({
   );
 };
 
-export default IndicesClient;
+export default IndicesDetailsClient;
