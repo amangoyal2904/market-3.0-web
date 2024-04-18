@@ -8,6 +8,7 @@ import {
   ResolutionString,
 } from "../../../public/static/charting_library/charting_library";
 import Script from "next/script";
+import GuageChart from "./GuageChart";
 
 const TVChartContainer = dynamic(
   () =>
@@ -18,19 +19,6 @@ const TVChartContainer = dynamic(
 const IndicesTechnicalAnalysis = ({ data, symbol }: any) => {
   const [isScriptReady, setIsScriptReady] = useState(false);
   const { maScore, bullishMA, bearishMA, movingAverage, pivotLevel } = data;
-  let maScoreText;
-
-  if (maScore <= 1) {
-    maScoreText = "Extremely Bearish";
-  } else if (maScore > 1 && maScore < 3) {
-    maScoreText = "Bearish";
-  } else if (maScore === 3) {
-    maScoreText = "Neutral";
-  } else if (maScore > 3 && maScore <= 4) {
-    maScoreText = "Bullish";
-  } else {
-    maScoreText = "Extremely Bullish";
-  }
 
   const ma_labels = [""];
   const ma_simple = [{ value: "Simple", trend: null }];
@@ -93,7 +81,7 @@ const IndicesTechnicalAnalysis = ({ data, symbol }: any) => {
       <div className={styles.wrapper}>
         <h3 className={styles.heading3}>Moving Average: SMA & EMA</h3>
         <div className={styles.gaugeChart}>
-          <div className={styles.chartType}>{maScoreText}</div>
+          <GuageChart maScore={maScore} />
         </div>
         <div className={styles.maTable}>
           <table className={styles.marketsCustomTable}>

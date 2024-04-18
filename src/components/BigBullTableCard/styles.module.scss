@@ -1,7 +1,27 @@
 .topTabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   .head3 {
     font-size: 24px;
     font-weight: 400;
     margin-top: 30px;
+  }
+  .rightFilterSec {
+    list-style-type: none;
+    display: flex;
+    .roundBtn {
+      cursor: pointer;
+      border-radius: 100px;
+      border: 1px solid #000;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 600;
+      padding: 5px 10px;
+      white-space: nowrap;
+    }
+    .filterNseBse {
+      position: relative;
+    }
   }
 }

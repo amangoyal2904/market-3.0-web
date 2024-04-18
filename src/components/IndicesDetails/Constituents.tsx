@@ -9,8 +9,12 @@ import ToasterPopup from "../ToasterPopup";
 import MessagePopupShow from "../MessagePopupShow";
 import { fetchViewTable, removePersonalizeViewById } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
+import SlickSlider from "../SlickSlider";
+import { IndicesNewsCard } from "./IndicesNewsCard";
+import { OtherIndicesCard } from "./OtherIndicesCard";
 
 const IndicesConstituents = ({
+  indexName,
   otherIndices,
   tabData,
   activeViewId,
@@ -20,11 +24,62 @@ const IndicesConstituents = ({
   tableConfig,
   tabConfig,
   payload,
+  indicesNews,
 }: any) => {
+  const indexNews = indicesNews.Item[0].NewsItem;
+
+  const newsResponsive = [
+    {
+      breakpoint: 1921,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 5,
+      },
+    },
+    {
+      breakpoint: 1601,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 4,
+      },
+    },
+    {
+      breakpoint: 1361,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      },
+    },
+  ];
+
+  const indicesResponsive = [
+    {
+      breakpoint: 1921,
+      settings: {
+        slidesToShow: 6,
+        slidesToScroll: 6,
+      },
+    },
+    {
+      breakpoint: 1601,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 5,
+      },
+    },
+    {
+      breakpoint: 1361,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 4,
+      },
+    },
+  ];
+
   const { state } = useStateContext();
   const { isPrime, ssoid } = state.login;
   const { currentMarketStatus } = state.marketStatus;
-  const [resetSort, setResetSort] = useState("");
+  const [resetSort, setResetSort] = useState(activeViewId);
   const [_payload, setPayload] = useState(payload);
   const [_tabData, setTabData] = useState(tabData);
   const [_tableData, setTableData] = useState(tableData);
@@ -164,7 +219,7 @@ const IndicesConstituents = ({
 
   return (
     <>
-      <h2 className={styles.heading}>Nifty 50 Constituents</h2>
+      <h2 className={styles.heading}>{indexName} Constituents</h2>
       <div className={styles.wrapper}>
         <div className="tabsWrap">
           <LeftMenuTabs
@@ -194,6 +249,44 @@ const IndicesConstituents = ({
           isprimeuser={isPrime}
         />
       </div>
+      {indexNews.length && (
+        <div className={`${styles.wrapper} ${styles.highlightedSection}`}>
+          <h2 className={styles.heading}>{indexName} News</h2>
+          <SlickSlider
+            slides={indexNews?.map((slides: any, index: any) => ({
+              content: <IndicesNewsCard data={slides} index={index} />,
+            }))}
+            key={`indicesNews}`}
+            sliderId={`slider-news`}
+            slidesToShow={4}
+            slidesToScroll={4}
+            rows={1}
+            topSpaceClass="indicesNews"
+            responsive={newsResponsive}
+          />
+        </div>
+      )}
+
+      {otherIndices.length && (
+        <div className={styles.wrapper}>
+          <h2 className={styles.heading}>Other Indices</h2>
+          <div id={styles.otherIndices}>
+            <SlickSlider
+              slides={otherIndices?.map((slides: any, index: any) => ({
+                content: <OtherIndicesCard data={slides} index={index} />,
+              }))}
+              key={`otherIndices}`}
+              sliderId={`slider-otherindices`}
+              slidesToShow={5}
+              slidesToScroll={5}
+              rows={1}
+              topSpaceClass="otherIndices"
+              responsive={indicesResponsive}
+            />
+          </div>
+        </div>
+      )}
+
       {toasterPersonaliseViewRemove && (
         <ToasterPopup
           data={toasterConfirmData}

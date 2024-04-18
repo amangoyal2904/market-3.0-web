@@ -7,6 +7,7 @@ import { cookies, headers } from "next/headers";
 import {
   fetchSelectedFilter,
   fnGenerateMetaData,
+  getIndicesNews,
   getIndicesOverview,
   getIndicesTechnicals,
   getOtherIndices,
@@ -46,6 +47,7 @@ async function generateMetadata(
 const Indices = async ({ params }: any) => {
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
+
   const niftyFilterData = await fetchSelectedFilter(params.index);
   if (niftyFilterData.indexId == 0) {
     notFound();
@@ -53,6 +55,12 @@ const Indices = async ({ params }: any) => {
   const [overviewData, technicalsData, peersData, othersData] = await fetchData(
     niftyFilterData.indexId,
   );
+
+  const indicesNews = await getIndicesNews(
+    overviewData.assetId,
+    overviewData.assetExchangeId,
+  );
+
   const { tabData, activeViewId } = await getCustomViewsTab({
     L3NavSubItem: "watchlist",
     ssoid,
@@ -90,6 +98,8 @@ const Indices = async ({ params }: any) => {
       tabConfig={tabConfig["indicesConstituents"]}
       payload={payload}
       ssoid={ssoid}
+      indicesNews={indicesNews}
+      selectedFilter={niftyFilterData}
     />
   );
 };

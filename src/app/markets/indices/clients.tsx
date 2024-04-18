@@ -37,11 +37,15 @@ const IndicesClient = ({
   tableConfig = {},
   tabConfig = {},
   payload = {},
+  indicesNews = {},
+  selectedFilter = {},
 }: any) => {
   const { state } = useStateContext();
   const { currentMarketStatus } = state.marketStatus;
   const [activeItem, setActiveItem] = useState<string>("keymetrics");
   const [overviewData, setOverviewData] = useState(overview);
+  const [peersData, setPeersData] = useState(peers);
+  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const contentRefs = useRef<HTMLDivElement>(null);
   const [scrollByItemClick, setScrollByItemClick] = useState(false); // New state to track scroll triggered by item click
   const { debounce } = useDebounce();
@@ -152,13 +156,18 @@ const IndicesClient = ({
               <IndicesReturns data={overviewData.returns} />
             )}
             {item.key === "performance" && (
-              <IndicesPerformance data={peers} indexName={indexName} />
+              <IndicesPerformance
+                data={peersData}
+                indexName={indexName}
+                niftyFilterData={niftyFilterData}
+              />
             )}
             {item.key === "technicalanalysis" && (
               <IndicesTechnicalAnalysis data={technicals} symbol={symbol} />
             )}
             {item.key === "consitutents" && (
               <IndicesConstituents
+                indexName={indexName}
                 otherIndices={others}
                 tabData={tabData}
                 activeViewId={activeViewId}
@@ -168,9 +177,10 @@ const IndicesClient = ({
                 tableConfig={tableConfig}
                 tabConfig={tabConfig}
                 payload={payload}
+                indicesNews={indicesNews}
               />
             )}
-            {item.key === "faqs" && <IndicesFaqs data={overviewData.returns} />}
+            {item.key === "faqs" && <IndicesFaqs />}
           </div>
         ))}
       </div>
