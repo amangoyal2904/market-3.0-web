@@ -22,7 +22,7 @@ const LiveMarketData = () => {
     getMarketStatus();
     y = setInterval(getMarketStatus, 5000);
   }, []);
-  console.log("--------->", state.marketStatus, currentMarketStatus);
+  //console.log("--------->", state.marketStatus, currentMarketStatus);
 
   const getMarketStatus = async () => {
     try {
@@ -30,6 +30,7 @@ const LiveMarketData = () => {
       const res = await Service.get({ url, params: {} });
       if (res?.status === 200) {
         const result = await res.json();
+        console.log("Market Status-----> ", result.currentMarketStatus);
         if (result.currentMarketStatus == "CLOSED") {
           clearInterval(y);
         }
@@ -40,6 +41,7 @@ const LiveMarketData = () => {
           },
         });
       } else {
+        console.log("Market Status-----> Error in response");
         clearInterval(y);
       }
     } catch (err) {
