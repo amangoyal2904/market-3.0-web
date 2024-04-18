@@ -79,7 +79,10 @@
   width: 100%;
   border-collapse: collapse;
   overflow-x: auto;
-
+  thead {
+    position: relative;
+    z-index: 1;
+  }
   td {
     max-width: 110px;
     padding: 10px 12px;
