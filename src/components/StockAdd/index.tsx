@@ -121,7 +121,9 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
       setLoading(false);
     }
   };
-
+  const wathlistFunctionHandler = () => {
+    updateTableHandler();
+  };
   const viewDataListSet = (data: any) => {
     return (
       <ul className={`customScroll ${styles.lsitItem}`}>
@@ -151,6 +153,7 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
                   width: "18px",
                   height: "18px",
                 }}
+                customeFun={wathlistFunctionHandler}
               />
               {/* <span>{item.tagName}</span>
               {item?.follow === "yes" ? (
