@@ -135,24 +135,22 @@ export const trackPushData = (_gtmEventDimension: any, planDim: any) => {
 export const trackingEvent = (type, data) => {
   if (window.dataLayer) {
     let _gtmEventDimension = {};
-    const pageUrl = window.location.pathname;
+    const pagePathName = window.location.pathname;
     const pageElem = window.location.pathname.split("/");
-    let site_section = pageElem.toString().slice(1);
-    let lastSlash = site_section.lastIndexOf(",");
+    let site_section = pagePathName.slice(1);
+    let lastSlash = site_section.lastIndexOf("/");
     // pageElem.forEach((element) => {site_section+=element;});
     console.log("site_section--->", site_section);
+    console.log("getPageName------->", getPageName());
     console.log("Permissions Array---------->", window?.objUser?.permissions);
     console.log(
       "AccessibleFeatures---------->",
       window?.objUser?.accessibleFeatures,
     );
-    _gtmEventDimension["feature_name"] = site_section.substring(
-      0,
-      site_section.indexOf(","),
-    );
+    _gtmEventDimension["feature_name"] = getPageName();
     _gtmEventDimension["site_section"] = site_section.substring(
       0,
-      site_section.indexOf(","),
+      site_section.indexOf("/"),
     );
     _gtmEventDimension["login_status"] =
       typeof window.objUser != "undefined" ? "Yes" : "No";
@@ -160,9 +158,7 @@ export const trackingEvent = (type, data) => {
       typeof window.objUser != "undefined" && window.objUser?.ssoid
         ? window.objUser.ssoid
         : "";
-    _gtmEventDimension["site_sub_section"] = site_section.substring(
-      site_section.indexOf(",") + 1,
-    );
+    _gtmEventDimension["site_sub_section"] = site_section;
     _gtmEventDimension["user_grx_id"] = getCookie("_grx")
       ? getCookie("_grx")
       : "";
@@ -182,17 +178,14 @@ export const trackingEvent = (type, data) => {
     _gtmEventDimension["email"] = window?.objUser?.info?.primaryEmail
       ? window?.objUser?.info?.primaryEmail
       : "";
-    _gtmEventDimension["et_product"] = site_section.substring(
-      0,
-      site_section.indexOf(","),
-    );
+    _gtmEventDimension["et_product"] = getPageName();
     _gtmEventDimension["et_uuid"] = getCookie("peuuid")
       ? getCookie("peuuid")
       : getCookie("pfuuid");
     _gtmEventDimension["first_name"] = window?.objUser?.info?.firstName
       ? window?.objUser?.info?.firstName
       : "";
-    _gtmEventDimension["internal_source"] = "Direct";
+    _gtmEventDimension["internal_source"] = "";
     _gtmEventDimension["last_name"] = window?.objUser?.info?.lastName
       ? window?.objUser?.info?.lastName
       : "";
@@ -262,4 +255,29 @@ export const getUserType = (permissionsArr) => {
   } catch (e) {
     console.log("checkUserPermissions:" + e);
   }
+};
+
+export const getPageName = () => {
+  const pagePathName = window.location.pathname;
+  let pageName = "";
+  if (pagePathName.includes("/marketstats")) {
+    pageName = "Mercury_MarketStats";
+  } else if (pagePathName.includes("/stocksrecos")) {
+    pageName = "Mercury_Recos";
+  } else if (pagePathName.includes("/stock-screener")) {
+    pageName = "Mercury_Screener";
+  } else if (pagePathName.includes("/indices")) {
+    pageName = "Mercury_Indices";
+  } else if (pagePathName.includes("/bigbull")) {
+    pageName = "Mercury_BigBull";
+  } else if (pagePathName.includes("/stockreportsplus")) {
+    pageName = "Mercury_StockReportsPlus";
+  } else if (pagePathName.includes("/fiidii")) {
+    pageName = "Mercury_FII/DII";
+  } else if (pagePathName.includes("/watchlist")) {
+    pageName = "Mercury_Watchlist";
+  } else {
+    pageName = "Mercury";
+  }
+  return pageName;
 };

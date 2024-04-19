@@ -51,7 +51,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   const jsDomain = "https://etdev8243.indiatimes.com"; //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
   useEffect(() => {
     prevPath !== null &&
-      trackingEvent("page_view", { url: window.location.pathname });
+      trackingEvent("page_view", { url: window.location.href });
     setPrevPath(router);
   }, [router, isPrime]);
 
