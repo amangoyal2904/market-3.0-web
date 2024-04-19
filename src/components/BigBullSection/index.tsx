@@ -2,16 +2,36 @@ import styles from "./styles.module.scss";
 import BigBullCard from "./BigBullCard";
 import ViewAllCardModule from "./BigBullCard/ViewAllCardModule";
 
-const BigBullSection = ({ data, title = "", type = "", mode = "" }: any) => {
+const BigBullSection = ({
+  data,
+  pageSummaryInfo = [],
+  title = "",
+  type = "",
+  mode = "",
+  lastTitle = "",
+}: any) => {
+  console.log({ data, pageSummaryInfo });
   return (
     <>
       <div className={styles.mainCardSec}>
         <h3 className={styles.head3}>{title}</h3>
         <div className={styles.cartHolder}>
-          <BigBullCard type={type} mode={mode} />
-          <BigBullCard type={type} mode={mode} />
-          <BigBullCard type={type} mode={mode} />
-          <ViewAllCardModule />
+          {data && data.length > 0
+            ? data.map((card: any, index: number) => {
+                return (
+                  <BigBullCard
+                    key={`${index}-card`}
+                    data={card}
+                    type={type}
+                    mode={mode}
+                  />
+                );
+              })
+            : "No data"}
+          <ViewAllCardModule
+            pageSummaryInfo={pageSummaryInfo}
+            lastTitle={lastTitle}
+          />
         </div>
       </div>
     </>

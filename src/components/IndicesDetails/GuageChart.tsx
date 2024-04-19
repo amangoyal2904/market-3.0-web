@@ -1,24 +1,24 @@
 import styles from "./GuageChart.module.scss";
 
-const GuageChart = (maScore: any) => {
+const GuageChart = ({ maScore }: any) => {
   let maScoreText, maScoreValue;
-
-  if (maScore <= 1) {
-    maScoreText = "Extremely Bearish";
-    maScoreValue = 1;
-  } else if (maScore > 1 && maScore < 3) {
-    maScoreText = "Bearish";
-    maScoreValue = 2;
-  } else if (maScore === 3) {
-    maScoreText = "Neutral";
-    maScoreValue = 3;
-  } else if (maScore > 3 && maScore <= 4) {
-    maScoreText = "Bullish";
-    maScoreValue = 4;
-  } else {
+  if (maScore >= 4 && maScore <= 5) {
     maScoreText = "Extremely Bullish";
     maScoreValue = 5;
+  } else if (maScore >= 3 && maScore < 4) {
+    maScoreText = "Bullish";
+    maScoreValue = 4;
+  } else if (maScore >= 2 && maScore < 3) {
+    maScoreText = "Neutral";
+    maScoreValue = 3;
+  } else if (maScore >= 1 && maScore < 2) {
+    maScoreText = "Bearish";
+    maScoreValue = 2;
+  } else if (maScore >= 0 && maScore < 1) {
+    maScoreText = "Extremely Bearish";
+    maScoreValue = 1;
   }
+
   return (
     <>
       <div className={styles.guageWrapper}>

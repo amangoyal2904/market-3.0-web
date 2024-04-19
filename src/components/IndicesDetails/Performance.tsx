@@ -2,6 +2,8 @@ import styles from "./IndicesDetails.module.scss";
 import StockFilterNifty from "../StockFilterNifty";
 import { useEffect, useState } from "react";
 import { fetchFilters, getPeerIndices } from "@/utils/utility";
+import Link from "next/link";
+import ToasterPopup from "../ToasterPopup";
 
 const labels = ["", "1D", "1W", "1M", "3M", "1Y", "3Y", "5Y"];
 
@@ -30,6 +32,8 @@ const getTdMarkup = (value: number) => {
 const IndicesPerformance = ({ data, indexName, niftyFilterData = {} }: any) => {
   const [peersData, setPeersData] = useState(data);
   const [showFilter, setShowFilter] = useState(false);
+  const [toasterConfirmData, setToasterConfirmData] = useState({});
+  const [showToaster, setShowToaster] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
   let indexIds = peersData.map((item: any) => item.indexId);
 
@@ -54,9 +58,16 @@ const IndicesPerformance = ({ data, indexName, niftyFilterData = {} }: any) => {
     if (!indexExists) {
       const updatedIndexIds = [...indexIds, id];
       indexIds = updatedIndexIds;
+      const updatedPeerData = await getPeerIndices(indexIds.join(","));
+      setPeersData(updatedPeerData);
+    } else {
+      const confirmData = {
+        title: "Already Added in the list",
+        id: id,
+      };
+      setToasterConfirmData(confirmData);
+      setShowToaster(true);
     }
-    const updatedPeerData = await getPeerIndices(indexIds.join(","));
-    setPeersData(updatedPeerData);
   };
 
   const filterApiCall = async () => {
@@ -87,7 +98,13 @@ const IndicesPerformance = ({ data, indexName, niftyFilterData = {} }: any) => {
             <tr key={index} className={index == 0 ? styles.primeCell : ""}>
               <td className={styles.left}>
                 <div className="dflex align-item-ceter space-between">
-                  {item.indexName}
+                  <Link
+                    href={`/markets/indices/${item.indexSeoName}`}
+                    target="_blank"
+                    title={item.indexName}
+                  >
+                    {item.indexName}
+                  </Link>
                   {index > 0 && (
                     <i
                       className="eticon_cross"
@@ -127,6 +144,13 @@ const IndicesPerformance = ({ data, indexName, niftyFilterData = {} }: any) => {
           valuechange={handleChangeData}
           selectTab={niftyFilterData.exchange}
           childMenuTabActive={niftyFilterData.indexId}
+        />
+      )}
+      {showToaster && (
+        <ToasterPopup
+          data={toasterConfirmData}
+          messageNCloseBtn="yes"
+          errorModule={true}
         />
       )}
     </>

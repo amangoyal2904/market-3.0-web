@@ -153,6 +153,15 @@ export const fnGenerateMetaData = (meta?: any) => {
   };
 };
 
+export const fetchIndices = async () => {
+  const apiUrl = (APIS_CONFIG as any)?.["INDICES_LIST"][APP_ENV];
+  const response = await Service.get({
+    url: apiUrl,
+    params: {},
+  });
+  return response?.json();
+};
+
 export const fetchFilters = async ({
   all = false,
   watchlist = false,
@@ -237,25 +246,29 @@ export const fetchTableData = async (viewId: any, params?: any) => {
 };
 
 export const getStockUrl = (id: string, seoName: string, stockType: string) => {
-  if (seoName?.indexOf(" ") >= 0) {
-    seoName = seoName
-      .replaceAll(" ", "-")
-      .replaceAll("&", "")
-      .replaceAll(".", "")
-      .toLowerCase();
+  if (stockType == "index") {
+    return "/markets/indices/" + seoName;
+  } else {
+    if (seoName?.indexOf(" ") >= 0) {
+      seoName = seoName
+        .replaceAll(" ", "-")
+        .replaceAll("&", "")
+        .replaceAll(".", "")
+        .toLowerCase();
+    }
+    if ((stockType == "dvr" || stockType == "pp") && id.includes("1111")) {
+      id = id.substring(0, id.length - 4);
+    }
+    let stockUrl =
+      (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+      seoName +
+      "/stocks/companyid-" +
+      id +
+      ".cms";
+    if (stockType != "equity" && stockType !== "" && stockType !== "company")
+      stockUrl = stockUrl + "?companytype=" + stockType?.toLowerCase();
+    return stockUrl;
   }
-  if ((stockType == "dvr" || stockType == "pp") && id.includes("1111")) {
-    id = id.substring(0, id.length - 4);
-  }
-  let stockUrl =
-    (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-    seoName +
-    "/stocks/companyid-" +
-    id +
-    ".cms";
-  if (stockType != "equity" && stockType !== "" && stockType !== "company")
-    stockUrl = stockUrl + "?companytype=" + stockType?.toLowerCase();
-  return stockUrl;
 };
 
 export const fetchAllWatchListData = async (
@@ -441,6 +454,33 @@ export const removePersonalizeViewById = async (viewId: any) => {
   return resData;
 };
 
+export const fetchSelectedIndex = async (
+  seoNameOrIndexId?: string | number,
+) => {
+  try {
+    const data = await fetchIndices();
+    let filteredIndex;
+    if (seoNameOrIndexId) {
+      filteredIndex = data.find((item: any) => {
+        return (
+          item.assetSeoName === seoNameOrIndexId ||
+          item.assetId === seoNameOrIndexId
+        );
+      });
+    }
+    return (
+      filteredIndex || {
+        name: "All Stocks",
+        indexId: 0,
+        seoname: "",
+        exchange: "nse",
+      }
+    );
+  } catch (error) {
+    console.error("Error fetching filters:", error);
+    return { name: "All Stocks", indexId: 0, seoname: "", exchange: "nse" };
+  }
+};
 export const fetchSelectedFilter = async (
   seoNameOrIndexId?: string | number,
 ) => {
@@ -517,6 +557,13 @@ export const getSearchParams = (url: string) => {
 export const fetchIndustryFilters = async (query: string) => {
   const API_URL = (APIS_CONFIG as any)?.["industryFilter"][APP_ENV];
   const data = await fetch(`${API_URL}${query}`);
+  const resData = await data.json();
+  return resData;
+};
+
+export const fetchSectorFilters = async () => {
+  const API_URL = (APIS_CONFIG as any)?.["industryFilter"][APP_ENV];
+  const data = await fetch(`${API_URL}`);
   const resData = await data.json();
   return resData;
 };
@@ -623,6 +670,32 @@ export const getPeriodicData = async (
       };
     }),
     pageSummary: originalJson.pagesummary,
+  };
+};
+
+export const getAllIndices = async (exchange: string) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.ALLINDICES[APP_ENV]}?exchange=${exchange}`,
+    params: {},
+  });
+  const responseData = await response?.json();
+  let tableData = [];
+  let tableHeaderData = [];
+  if (responseData?.dataList) {
+    tableData = responseData.dataList;
+    if (tableData.length > 0 && tableData[0].data) {
+      tableHeaderData = tableData[0].data;
+    }
+  } else {
+    tableData = responseData;
+    if (tableData?.length > 0 && tableData[0]?.data) {
+      tableHeaderData = tableData[0].data;
+    }
+  }
+  return {
+    tableHeaderData,
+    tableData,
+    exchange,
   };
 };
 

@@ -13,7 +13,9 @@ const Listing = (props: any) => {
   return (
     <>
       {typeof recosDetailResult != "undefined" && (
-        <div className={styles.listingWrap}>
+        <div
+          className={`${styles.listingWrap} ${recosDetailResult.length == 1 ? styles.noGridCardView : ""}`}
+        >
           {recosDetailResult?.map((recoDataValue: any, index: any) => {
             return (
               <StockReco

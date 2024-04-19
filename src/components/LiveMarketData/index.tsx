@@ -22,24 +22,26 @@ const LiveMarketData = () => {
     y = setInterval(getMarketStatus, 4000);
   }, []);
   //console.log("--------->", state.marketStatus, currentMarketStatus);
-
   const getMarketStatus = async () => {
     try {
       const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
       const res = await Service.get({ url, params: {} });
       if (res?.status === 200) {
         const result = await res.json();
-        console.log("Market Status-----> ", result.currentMarketStatus);
+        console.log(
+          "Market Status-----> ",
+          result?.currentMarketStatus?.toUpperCase(),
+        );
         dispatch({
           type: "MARKET_STATUS",
           payload: {
-            currentMarketStatus: result.currentMarketStatus,
+            currentMarketStatus: result?.currentMarketStatus?.toUpperCase(),
           },
         });
-        if (result.currentMarketStatus == "CLOSED") {
+        if (result?.currentMarketStatus?.toUpperCase() == "CLOSED") {
           clearInterval(y);
         } else {
-          getLiveMarketData(result.currentMarketStatus);
+          getLiveMarketData(result?.currentMarketStatus?.toUpperCase());
         }
       } else {
         console.log("Market Status-----> Error in response");

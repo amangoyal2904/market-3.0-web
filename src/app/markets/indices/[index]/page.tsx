@@ -1,11 +1,12 @@
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
-import IndicesClient from "../clients";
+import IndicesDetailsClient from "./clients";
 import tabConfig from "@/utils/tabConfig.json";
 import tableConfig from "@/utils/tableConfig.json";
 import { cookies, headers } from "next/headers";
 import {
   fetchSelectedFilter,
+  fetchSelectedIndex,
   fnGenerateMetaData,
   getIndicesNews,
   getIndicesOverview,
@@ -18,12 +19,12 @@ import {
   getCustomViewsTab,
 } from "@/utils/customViewAndTables";
 
-async function fetchData(indexId: number) {
+async function fetchData(assetId: number) {
   return Promise.all([
-    getIndicesOverview(indexId),
-    getIndicesTechnicals(indexId),
-    getPeerIndices(indexId),
-    getOtherIndices(indexId),
+    getIndicesOverview(assetId),
+    getIndicesTechnicals(assetId),
+    getPeerIndices(assetId),
+    getOtherIndices(assetId),
   ]);
 }
 
@@ -32,14 +33,17 @@ async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const headersList = headers();
-  const niftyFilterData = await fetchSelectedFilter(params.index);
+  const indexFilterData = await fetchSelectedIndex(params.index);
   const pageUrl = headersList.get("x-url") || "";
   const meta = {
-    title: `${niftyFilterData.name} Live | NSE ${niftyFilterData.name} Index Today - S&P CNX ${niftyFilterData.name}`,
-    desc: `${niftyFilterData.name} Today | ${niftyFilterData.name} Live Updates- ${niftyFilterData.name} Index, S&P CNX NSE. Find today's trend for ${niftyFilterData.name} Companies, News, Target Price, Stock Price, Stock Analysis`,
-    keywords: `${niftyFilterData.name}, ${niftyFilterData.name} Today, ${niftyFilterData.name} Live, ${niftyFilterData.name} Index`,
+    title: `${indexFilterData.assetName} Live | NSE ${indexFilterData.assetName} Index Today - S&P CNX ${indexFilterData.assetName}`,
+    desc: `${indexFilterData.assetName} Today | ${indexFilterData.assetName} Live Updates- ${indexFilterData.assetName} Index, S&P CNX NSE. Find today's trend for ${indexFilterData.assetName} Companies, News, Target Price, Stock Price, Stock Analysis`,
+    keywords: `${indexFilterData.assetName}, ${indexFilterData.assetName} Today, ${indexFilterData.assetName} Live, ${indexFilterData.assetName} Index`,
     pathname: pageUrl,
-    index: niftyFilterData.indexId == 0 ? false : true,
+    index:
+      indexFilterData.assetId == 0 || indexFilterData.assetId == null
+        ? false
+        : true,
   };
   return fnGenerateMetaData(meta);
 }
@@ -47,13 +51,13 @@ async function generateMetadata(
 const Indices = async ({ params }: any) => {
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
-
   const niftyFilterData = await fetchSelectedFilter(params.index);
-  if (niftyFilterData.indexId == 0) {
+  const indexFilterData = await fetchSelectedIndex(params.index);
+  if (indexFilterData.assetId == 0 || indexFilterData.assetId == null) {
     notFound();
   }
   const [overviewData, technicalsData, peersData, othersData] = await fetchData(
-    niftyFilterData.indexId,
+    indexFilterData.assetId,
   );
 
   const indicesNews = await getIndicesNews(
@@ -72,7 +76,7 @@ const Indices = async ({ params }: any) => {
   const bodyParams = {
     viewId: activeViewId,
     apiType: "index-constituents",
-    filterValue: [niftyFilterData.indexId],
+    filterValue: [indexFilterData.assetId],
     filterType: "index",
     sectorId: null,
     sort,
@@ -84,7 +88,7 @@ const Indices = async ({ params }: any) => {
     await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
 
   return (
-    <IndicesClient
+    <IndicesDetailsClient
       overview={overviewData}
       technicals={technicalsData}
       peers={peersData}

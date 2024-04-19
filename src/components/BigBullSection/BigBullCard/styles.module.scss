@@ -25,7 +25,10 @@
       font-size: 10px;
       font-weight: 700;
     }
-    .green {
+    .SOLD {
+      color: $red-80;
+    }
+    .BOUGHT {
       color: $green-80;
     }
   }
@@ -61,6 +64,16 @@
         font-size: 14px;
         font-weight: 600;
       }
+      .up {
+        span {
+          color: $green-80;
+        }
+      }
+      .down {
+        span {
+          color: $red-80;
+        }
+      }
     }
   }
 }
@@ -81,6 +94,7 @@
         right: 0;
         top: 0;
         border-top-right-radius: 3px;
+        border-bottom-left-radius: 3px;
         font-size: 10px;
         font-weight: 600;
         display: inline-block;
@@ -102,9 +116,22 @@
       h5 {
         font-size: 12px;
         font-weight: 400;
+        color: rgba(102, 102, 102, 1);
+        font-size: 12px;
+        font-weight: 400;
+        margin-top: 2px;
       }
-      .green {
-        color: rgba(20, 112, 20, 1);
+      .up {
+        span {
+          color: $green-80;
+          font-size: 12px;
+        }
+      }
+      .down {
+        span {
+          color: $red-80;
+          font-size: 12px;
+        }
       }
     }
   }

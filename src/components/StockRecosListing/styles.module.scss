@@ -140,6 +140,7 @@
   .noDataFound {
     width: calc(100% - 202px) !important;
     margin: 0 auto;
+    min-height: 300px;
   }
 
   .contentViewWrap {
@@ -162,16 +163,26 @@
         margin: 40px 0 27px;
       }
 
+      .noDataFound {
+        width: 100% !important;
+      }
+
       .overviewBlockerWrap {
         border-radius: 8px;
         border: 1px solid $gray-80;
       }
 
-      .overViewCardWrap {
+      .overViewCardWrap:not(.noGridCardView) {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
         grid-gap: 20px;
         gap: 20px;
+      }
+
+      .overViewCardWrap {
+        &.noGridCardView {
+          display: flex;
+        }
       }
 
       .overviewViewAll {
@@ -199,12 +210,6 @@
 }
 
 .listingWrap {
-  // display: flex;
-  // flex-wrap: wrap;
-  // justify-content: flex-start;
-  // // margin-left: 16px;
-  // width: 100%;
-
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 20px;
@@ -212,6 +217,10 @@
   &.noDataFound {
     width: 100%;
     justify-content: center;
+  }
+
+  &.noGridCardView {
+    display: flex;
   }
 }
 .gridMainBox {

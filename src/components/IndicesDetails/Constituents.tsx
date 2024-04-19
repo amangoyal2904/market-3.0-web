@@ -30,48 +30,62 @@ const IndicesConstituents = ({
 
   const newsResponsive = [
     {
+      breakpoint: 2561,
+      settings: {
+        slidesToShow: 7,
+        slidesToScroll: 1,
+      },
+    },
+    {
       breakpoint: 1921,
       settings: {
-        slidesToShow: 6,
-        slidesToScroll: 6,
+        slidesToShow: 5,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1601,
       settings: {
         slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1361,
       settings: {
         slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToScroll: 1,
       },
     },
   ];
 
   const indicesResponsive = [
     {
+      breakpoint: 2561,
+      settings: {
+        slidesToShow: 8,
+        slidesToScroll: 1,
+      },
+    },
+    {
       breakpoint: 1921,
       settings: {
-        slidesToShow: 7,
-        slidesToScroll: 7,
+        slidesToShow: 6,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1601,
       settings: {
         slidesToShow: 5,
-        slidesToScroll: 5,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1361,
       settings: {
         slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToScroll: 1,
       },
     },
   ];
@@ -165,6 +179,16 @@ const IndicesConstituents = ({
     setPayload({ ..._payload, pageno: pageNumber });
   };
 
+  const sectorFitlerHandlerChange = async (sectorid: any, sectorname: any) => {
+    setProcessingLoader(true);
+    setResetSort(sectorid);
+    setPayload({
+      ..._payload,
+      sectorId: !!sectorid ? parseInt(sectorid) : null,
+      pageno: 1,
+    });
+  };
+
   const toasterRemovePersonaliseViewCloseHandlerFun = async (
     value: boolean,
     data: any,
@@ -232,6 +256,7 @@ const IndicesConstituents = ({
             tabConfig={tabConfig}
             onPersonalizeHandler={onPersonalizeHandlerfun}
             removePersonaliseView={removePersonaliseViewFun}
+            sectorFitlerHandlerChange={sectorFitlerHandlerChange}
           />
         </div>
         <MarketTable
@@ -249,7 +274,7 @@ const IndicesConstituents = ({
           isprimeuser={isPrime}
         />
       </div>
-      {indexNews.length && (
+      {!!indexNews.length && (
         <div className={`${styles.wrapper} ${styles.highlightedSection}`}>
           <h2 className={styles.heading}>{indexName} News</h2>
           <SlickSlider
@@ -259,7 +284,7 @@ const IndicesConstituents = ({
             key={`indicesNews}`}
             sliderId={`slider-news`}
             slidesToShow={4}
-            slidesToScroll={4}
+            slidesToScroll={1}
             rows={1}
             topSpaceClass="indicesNews"
             responsive={newsResponsive}
@@ -267,7 +292,7 @@ const IndicesConstituents = ({
         </div>
       )}
 
-      {otherIndices.length && (
+      {!!otherIndices.length && (
         <div className={styles.wrapper}>
           <h2 className={styles.heading}>Other Indices</h2>
           <div id={styles.otherIndices}>
@@ -278,7 +303,7 @@ const IndicesConstituents = ({
               key={`otherIndices}`}
               sliderId={`slider-otherindices`}
               slidesToShow={5}
-              slidesToScroll={5}
+              slidesToScroll={1}
               rows={1}
               topSpaceClass="otherIndices"
               responsive={indicesResponsive}

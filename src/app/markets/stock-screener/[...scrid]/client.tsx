@@ -430,8 +430,8 @@ const StockScreeners = ({
       getCookie("ssoid"),
     );
     setProcessingLoader(false);
-    const _pageSummary = !!responseData.pageSummary
-      ? responseData.pageSummary
+    const _pageSummary = !!responseData?.pageSummary
+      ? responseData?.pageSummary
       : {};
     const _tableData = responseData?.dataList ? responseData.dataList : [];
 

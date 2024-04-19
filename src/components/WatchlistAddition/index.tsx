@@ -12,6 +12,7 @@ const WatchlistAddition = ({
   companyId,
   companyType,
   customStyle,
+  customeFun,
 }: any) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, ssoReady } = state.login;
@@ -89,7 +90,7 @@ const WatchlistAddition = ({
         }),
     };
 
-    console.log("data----", data, type);
+    //console.log("data----", data, type);
 
     const addWathlistResAPI = await saveStockInWatchList(followData);
     if (addWathlistResAPI?.status === "success") {
@@ -121,6 +122,7 @@ const WatchlistAddition = ({
     }
 
     setLoadingStatus(false);
+    customeFun ? customeFun() : null;
   };
 
   const handleWatchListClick = () => {
@@ -149,10 +151,7 @@ const WatchlistAddition = ({
       initSSOWidget();
     }
   };
-  const defaultStyle = {
-    position: "inherit",
-  };
-  const mergedStyle = { ...defaultStyle, ...customStyle };
+  const mergedStyle = { ...customStyle };
 
   return (
     <>

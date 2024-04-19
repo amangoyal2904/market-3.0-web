@@ -78,7 +78,7 @@ export default async function RootLayout({
       className={`${montserrat.variable} ${lato.variable} h-full bg-gray-50`}
     >
       <body className="h-full">
-        <NextTopLoader />
+        <NextTopLoader template='<div class="bar" role="bar"><div class="peg"></div></div>' />
         <StateProvider>
           <main>
             <Headers />
