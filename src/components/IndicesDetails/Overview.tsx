@@ -75,10 +75,10 @@ const IndicesDetailsOverview = ({
             </span>
           </div>
         </div>
-        <div className="dflex  align-item-center">
+        {/* <div className="dflex  align-item-center">
           <span className="default-btn">Export</span>
           <span className="default-btn">Share</span>
-        </div>
+        </div> */}
       </div>
       <div className="dflex align-item-center">
         {!!currentMarketStatus && (
