@@ -183,9 +183,9 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   useEffect(() => {
     fetchWatchListStocks();
   }, []);
-  useEffect(() => {
-    updateTableHandler();
-  }, [watchlist]);
+  // useEffect(() => {
+  //   updateTableHandler();
+  // }, [watchlist]);
   return (
     <>
       <div className={`customModule ${styles.addStockWrap}`}>
