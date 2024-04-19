@@ -1,7 +1,6 @@
 import styles from "./GuageChart.module.scss";
 
-const GuageChart = (score: any) => {
-  const maScore = score.score;
+const GuageChart = ({ maScore }: any) => {
   let maScoreText, maScoreValue;
   if (maScore >= 4 && maScore <= 5) {
     maScoreText = "Extremely Bullish";

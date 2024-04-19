@@ -81,7 +81,7 @@ const IndicesTechnicalAnalysis = ({ data, symbol }: any) => {
       <div className={styles.wrapper}>
         <h3 className={styles.heading3}>Moving Average: SMA & EMA</h3>
         <div className={styles.gaugeChart}>
-          <GuageChart score={maScore} />
+          <GuageChart maScore={maScore} />
         </div>
         <div className={styles.maTable}>
           <table className={styles.marketsCustomTable}>
