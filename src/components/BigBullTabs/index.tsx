@@ -1,6 +1,11 @@
+"use client";
 import styles from "./styles.module.scss";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-const BigBullTabs = ({ data, activeTab, tabHandlerClick }: any) => {
+const BigBullTabs = ({ data }: any) => {
+  const pathname = usePathname();
+  const isActive = (path: any) => path === pathname;
   return (
     <>
       <div className={styles.tabSec}>
@@ -8,11 +13,12 @@ const BigBullTabs = ({ data, activeTab, tabHandlerClick }: any) => {
           {data.map((tab: any, index: any) => {
             return (
               <li
-                onClick={() => tabHandlerClick(tab.id)}
-                className={`${activeTab === tab.id ? styles.active : ""}`}
+                className={`${isActive(tab.url) ? styles.active : ""}`}
                 key={`${index}-`}
               >
-                <span>{tab.title}</span>
+                <Link href={`${tab.url}`}>
+                  <span>{tab.title}</span>
+                </Link>
               </li>
             );
           })}
