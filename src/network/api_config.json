@@ -318,5 +318,25 @@
   "PUSHDATA": {
     "development": "https://etpwaapipre.economictimes.com/pushGaData",
     "production": "https://etpwaapi.economictimes.com/pushGaData"
+  },
+  "BigBullGetInvestorList": {
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/investor-list",
+    "production": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/investor-list"
+  },
+  "BigBullGetLastQuarter": {
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/key-changes",
+    "production": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/key-changes"
+  },
+  "BigBullGetRecentTransactions": {
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/recent-deals",
+    "production": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/recent-deals"
+  },
+  "BigBullGetBestPicks": {
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/best-picks",
+    "production": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/best-picks"
+  },
+  "BigBullGetMostHeld": {
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/most-held",
+    "production": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/most-held"
   }
 }

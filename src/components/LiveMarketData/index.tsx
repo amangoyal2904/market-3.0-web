@@ -17,7 +17,7 @@ const LiveMarketData = () => {
     getLiveMarketData();
     x = setInterval(getLiveMarketData, 5000);
   }, []);
-  console.log("--------->", state.marketStatus, currentMarketStatus);
+  //console.log("--------->", state.marketStatus, currentMarketStatus);
   const getMarketStatus = async () => {
     const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
     const res = await Service.get({ url, params: {} });
@@ -42,7 +42,7 @@ const LiveMarketData = () => {
     const jsonStartIndex = data.indexOf("[");
     const jsonEndIndex = data.lastIndexOf("]");
     const jsonString = data.substring(jsonStartIndex, jsonEndIndex + 1);
-    console.log("live Data==============?????", currentMarketStatus);
+    //console.log("live Data==============?????", currentMarketStatus);
     setMarketData(JSON.parse(jsonString));
     if (currentMarketStatus !== "CLOSED") {
       clearInterval(x);
