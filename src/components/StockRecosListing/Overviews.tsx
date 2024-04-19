@@ -89,7 +89,9 @@ const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
                 responsive={responsive}
               />
             ) : (
-              <div className={styles.overViewCardWrap}>
+              <div
+                className={`${styles.overViewCardWrap} ${obj?.data.length == 1 ? styles.noGridCardView : ""}`}
+              >
                 {obj?.data?.map((card: any, index: any) => (
                   <StockReco
                     data={card}
