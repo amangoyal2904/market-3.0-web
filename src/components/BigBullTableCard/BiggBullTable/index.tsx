@@ -70,6 +70,9 @@ const BiggBullTable = ({
               const networthQoQ = tdata?.stockGroupdata?.filter(
                 (item: any) => item?.uiValue?.statusCheck === "lReturnValue",
               );
+              const bestPicks = tdata?.cards?.filter(
+                (item: any) => item?.type === "bestpick",
+              );
               return (
                 <tr key={`${index}`}>
                   <td>
@@ -93,11 +96,25 @@ const BiggBullTable = ({
                       : null}
                   </td>
                   <td>
-                    {networthQoQ.length > 0
-                      ? networthQoQ[0].uiValue?.text
-                      : null}
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          networthQoQ.length > 0
+                            ? networthQoQ[0].uiValue?.text
+                            : null,
+                      }}
+                    />
                   </td>
-                  <td>Jubil</td>
+                  <td>
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          bestPicks.length > 0
+                            ? bestPicks[0].uiValue?.text
+                            : null,
+                      }}
+                    ></span>
+                  </td>
                   <td>Zee engt</td>
                 </tr>
               );
