@@ -13,12 +13,12 @@ const IndicesDetailsOverview = ({
 }: any) => {
   const [interval, setInterval] = useState("1d");
   const [iframeSrc, setIframeSrc] = useState(
-    `https://economictimes.indiatimes.com/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=1d`,
+    `https://etdev8243.indiatimes.com/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=1d&height=320&transparentBg=1`,
   );
   const handleIntervalClick = (period: string) => {
     setInterval(period);
     setIframeSrc(
-      `https://economictimes.indiatimes.com/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=${period}`,
+      `https://etdev8243.indiatimes.com/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=${period}&height=320&transparentBg=1`,
     );
   };
   const calcualteScalePercentage = (
