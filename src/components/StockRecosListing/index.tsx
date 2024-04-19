@@ -15,6 +15,7 @@ import {
 } from "@/utils/utility";
 import InnerLeftNav from "./InnerLeftNav";
 import Blocker from "../Blocker";
+import Loader from "../Loader";
 
 const StockRecosListing = (props: any) => {
   const {
@@ -30,6 +31,7 @@ const StockRecosListing = (props: any) => {
   const { watchlist } = state.watchlistStatus;
   const { viewType } = state.StockRecosStatus;
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
+  const [recoWatchListLoad, setRecoWatchListLoad] = useState(false);
   const pathName = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -140,6 +142,8 @@ const StockRecosListing = (props: any) => {
             : recosDetailResult?.recoData?.[0].data,
         );
 
+        setRecoWatchListLoad(true);
+
         setHasMore(
           typeof recosDetailResult?.recoData?.[0].data !== "undefined" &&
             recosDetailResult?.recoData?.[0].data?.length === 30,
@@ -150,7 +154,7 @@ const StockRecosListing = (props: any) => {
           recosDetailResult?.recoData?.[0].data !== "undefined" &&
           recosDetailResult?.recoData?.[0].data?.length === 30
         ) {
-          setPage(2);
+          setPage((prevPage) => prevPage + 1);
         }
       }
     }
@@ -317,8 +321,10 @@ const StockRecosListing = (props: any) => {
             {activeApi == "recoOnWatchlist" ? (
               !isLogin ? (
                 <Blocker type="loginBlocker" />
-              ) : (
+              ) : recoWatchListLoad ? (
                 <Blocker type={"noDataFound"} />
+              ) : (
+                <Loader loaderType="inner" />
               )
             ) : (
               <Blocker type={"noDataFound"} />
