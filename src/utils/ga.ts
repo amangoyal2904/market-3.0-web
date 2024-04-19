@@ -36,18 +36,14 @@ export const goToPlansPage = () => {
 export const goToPlansPage1 = (type, data) => {
   if (window.dataLayer) {
     let _gtmEventDimension = {};
-    const pageElem = window.location.pathname.split("/");
-    let site_section = pageElem.toString().slice(1);
-    let lastSlash = site_section.lastIndexOf(",");
-    const L1Val =
-      site_section.indexOf(",") == -1
-        ? site_section.substring(site_section.indexOf(",") + 1)
-        : site_section.substring(0, site_section.indexOf(","));
-    _gtmEventDimension["feature_name"] = L1Val;
-    _gtmEventDimension["site_section"] = L1Val;
-    _gtmEventDimension["site_sub_section"] = site_section.substring(
-      site_section.indexOf(",") + 1,
-    );
+    const pagePathName = window.location.pathname;
+    const site_section = pagePathName.slice(1);
+    _gtmEventDimension["feature_name"] = getPageName();
+    _gtmEventDimension["site_section"] =
+      site_section.indexOf("/") == -1
+        ? site_section.substring(site_section.indexOf("/") + 1)
+        : site_section.substring(0, site_section.indexOf("/"));
+    _gtmEventDimension["site_sub_section"] = site_section;
     _gtmEventDimension["event"] = type;
     let items = [];
     // data["item_brand"] = "market_tools";
@@ -148,10 +144,10 @@ export const trackingEvent = (type, data) => {
       window?.objUser?.accessibleFeatures,
     );
     _gtmEventDimension["feature_name"] = getPageName();
-    _gtmEventDimension["site_section"] = site_section.substring(
-      0,
-      site_section.indexOf("/"),
-    );
+    _gtmEventDimension["site_section"] =
+      site_section.indexOf("/") == -1
+        ? site_section.substring(site_section.indexOf("/") + 1)
+        : site_section.substring(0, site_section.indexOf("/"));
     _gtmEventDimension["login_status"] =
       typeof window.objUser != "undefined" ? "Yes" : "No";
     _gtmEventDimension["user_id"] =
