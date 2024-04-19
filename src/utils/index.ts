@@ -570,12 +570,11 @@ export const getStockRecosDetail = async ({
 export const formatNumber = (
   number: number,
   uptoDecimal: number = 2,
+  noData?: string,
 ): string => {
-  // console.log("number-----", number);
-
+  if ((!!number && isNaN(number)) || number == null)
+    return !!noData ? noData : "-";
   const isInteger = Number.isInteger(Number(number));
-  // console.log("number---isInteger--", isInteger);
-
   if (isInteger) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
@@ -594,3 +593,9 @@ export const areObjectsNotEqual = (
   obj1: Record<string, any>,
   obj2: Record<string, any>,
 ): boolean => JSON.stringify(obj1) !== JSON.stringify(obj2);
+
+export const capitalize = (str: string) => {
+  return str.toLowerCase().replace(/\b\w/g, function (letter) {
+    return letter.toUpperCase();
+  });
+};

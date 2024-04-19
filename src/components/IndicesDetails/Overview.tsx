@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./IndicesDetails.module.scss";
 import Link from "next/link";
 import { chartIntervals } from "@/utils/utility";
+import { dateFormat, formatNumber } from "@/utils/index";
 
 const IndicesDetailsOverview = ({
   overviewData,
@@ -30,10 +31,16 @@ const IndicesDetailsOverview = ({
     const percentage = (position / range) * 100;
     return percentage;
   };
+  const trend =
+    overviewData?.percentChange > 0
+      ? "up"
+      : overviewData?.percentChange < 0
+        ? "down"
+        : "neutral";
   return (
     <section id="overview" className={styles.overview}>
       <div className="dflex align-item-center">
-        <h1 className={styles.heading}>{overviewData.assetName}</h1>
+        <h1 className={styles.headline}>{overviewData?.assetName}</h1>
         <Link
           href="/markets/indices"
           target="_blank"
@@ -45,20 +52,27 @@ const IndicesDetailsOverview = ({
       </div>
       <div className={styles.indexOpts}>
         <div className="dflex align-item-center">
-          <p className={styles.ltp}>₹{overviewData.lastTradedPrice}</p>
-          <div className={styles.change}>
-            {overviewData.trend && (
+          <p className={styles.ltp}>
+            ₹{formatNumber(overviewData?.lastTradedPrice)}
+          </p>
+          <div
+            className={`${styles.change} ${trend == "up" ? styles.up : trend == "down" ? styles.down : ""}`}
+          >
+            {trend && (
               <span
                 className={`${styles.arrowIcons} ${
-                  overviewData.trend == "up"
+                  trend == "up"
                     ? "eticon_up_arrow"
-                    : overviewData.trend == "down"
+                    : trend == "down"
                       ? "eticon_down_arrow"
                       : ""
                 }`}
               />
             )}
-            <span>-31.75 (-0.14%)</span>
+            <span>
+              {overviewData?.netChange?.toFixed(2)} (
+              {overviewData?.percentChange?.toFixed(2)}%)
+            </span>
           </div>
         </div>
         <div className="dflex  align-item-center">
@@ -75,7 +89,12 @@ const IndicesDetailsOverview = ({
             <span className={styles.marketStatus}>{currentMarketStatus}</span>
           </>
         )}
-        <span className={styles.updatetime}>11:23 PM | Oct 27, 2020</span>
+        <span className={styles.updatetime}>
+          {dateFormat(
+            parseInt(overviewData?.dateTime) * 1000,
+            "%h:%m %p | %MMM %d, %Y",
+          )}
+        </span>
       </div>
       <div id="chart">
         <div className={styles.chartOpts}>
@@ -114,27 +133,34 @@ const IndicesDetailsOverview = ({
       </div>
       <div className={styles.bottomWidgets}>
         <div className={styles.widget}>
-          <div className="dflex align-item-center space-between">
+          <div className="dflex align-item-center">
             <p className={styles.title}>Advance/Decline</p>
-            <span className={styles.desc}>Mar 12, 2024</span>
           </div>
           <div className={styles.bottom}>
             <div className="dflex align-item-center space-between">
-              <p className={styles.head}>{overviewData.advances} Advances</p>
-              <p className={styles.head}>{overviewData.declines} Declines</p>
+              <p className={styles.head}>{overviewData?.advances} Advances</p>
+              <p className={styles.head}>{overviewData?.declines} Declines</p>
             </div>
             <div
               className={`dflex align-item-center space-between ${styles.gap2}`}
             >
-              <div className={`${styles.bar} ${styles.up}`}></div>
-              <div className={`${styles.bar} ${styles.down}`}></div>
+              <div
+                className={`${styles.bar} ${styles.up}`}
+                style={{ width: overviewData?.advancesPercentage + "%" }}
+              ></div>
+              <div
+                className={`${styles.bar} ${styles.down}`}
+                style={{ width: overviewData?.declinesPercentage + "%" }}
+              ></div>
             </div>
             <div className="dflex align-item-center space-between">
               <span className={styles.label}>
-                {overviewData.advancesPercentage}%
+                {overviewData?.advancesPercentage?.toFixed(2)}
+                {overviewData?.advancesPercentage && "%"}
               </span>
               <span className={styles.label}>
-                {overviewData.declinesPercentage}%
+                {overviewData?.declinesPercentage?.toFixed(2)}
+                {overviewData?.declinesPercentage && "%"}
               </span>
             </div>
           </div>
@@ -148,14 +174,14 @@ const IndicesDetailsOverview = ({
               <span className={`${styles.label} ${styles.up}`}>Low</span>
               <div className={styles.bar}>
                 <span
-                  title={overviewData.lastTradedPrice}
+                  title={overviewData?.lastTradedPrice}
                   className={styles.currentPosition}
                   style={{
                     left:
                       calcualteScalePercentage(
-                        overviewData.lastTradedPrice,
-                        overviewData.lowPrice,
-                        overviewData.highPrice,
+                        overviewData?.lastTradedPrice,
+                        overviewData?.lowPrice,
+                        overviewData?.highPrice,
                       ) + "%",
                   }}
                 ></span>
@@ -163,8 +189,12 @@ const IndicesDetailsOverview = ({
               <span className={`${styles.label} ${styles.down}`}>High</span>
             </div>
             <div className="dflex align-item-center space-between">
-              <span className={styles.label}>{overviewData.lowPrice}</span>
-              <span className={styles.label}>{overviewData.highPrice}</span>
+              <span className={styles.label}>
+                {formatNumber(overviewData?.lowPrice)}
+              </span>
+              <span className={styles.label}>
+                {formatNumber(overviewData?.highPrice)}
+              </span>
             </div>
           </div>
         </div>
@@ -177,14 +207,14 @@ const IndicesDetailsOverview = ({
               <span className={`${styles.label} ${styles.down}`}>Low</span>
               <div className={styles.bar}>
                 <span
-                  title={overviewData.lastTradedPrice}
+                  title={overviewData?.lastTradedPrice}
                   className={styles.currentPosition}
                   style={{
                     left:
                       calcualteScalePercentage(
-                        overviewData.lastTradedPrice,
-                        overviewData.fiftyTwoWeekLow,
-                        overviewData.fiftyTwoWeekHigh,
+                        overviewData?.lastTradedPrice,
+                        overviewData?.fiftyTwoWeekLow,
+                        overviewData?.fiftyTwoWeekHigh,
                       ) + "%",
                   }}
                 ></span>
@@ -193,10 +223,10 @@ const IndicesDetailsOverview = ({
             </div>
             <div className="dflex align-item-center space-between">
               <span className={styles.label}>
-                {overviewData.fiftyTwoWeekLow}
+                {formatNumber(overviewData?.fiftyTwoWeekLow)}
               </span>
               <span className={styles.label}>
-                {overviewData.fiftyTwoWeekHigh}
+                {formatNumber(overviewData?.fiftyTwoWeekHigh)}
               </span>
             </div>
           </div>

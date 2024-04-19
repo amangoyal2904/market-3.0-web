@@ -5,7 +5,7 @@
   margin: -20px;
   padding: 20px;
   background: $salmon-10;
-  .heading {
+  .headline {
     display: inline-block;
     font-weight: 700;
     color: $black;
@@ -33,13 +33,22 @@
       font-size: 32px;
       font-weight: 700;
       line-height: 40px;
-      margin-right: 20px;
+      margin-right: 10px;
     }
     .change {
       font-family: var(--font-lato);
       font-size: 24px;
       line-height: 30px;
       font-weight: 400;
+      &.up {
+        color: $green-80;
+      }
+      &.red {
+        color: $red-60;
+      }
+      .arrowIcons {
+        vertical-align: middle;
+      }
     }
   }
 
@@ -65,6 +74,7 @@
     justify-content: space-between;
     border-bottom: 1px solid #cccccc;
     margin-top: 25px;
+    margin-bottom: 5px;
     span {
       font-size: 18px;
     }
@@ -96,7 +106,7 @@
   }
   .bottomWidgets {
     display: flex;
-    gap: 6px;
+    gap: 12px;
     margin: 15px auto;
     .widget {
       flex: 1;
@@ -148,7 +158,7 @@
       }
       .bar {
         position: relative;
-        flex: 1;
+        flex: auto;
         height: 8px;
         border-radius: 2px;
         background: $blue-20;
@@ -180,6 +190,409 @@
           border-top-left-radius: 0;
           border-bottom-left-radius: 0;
         }
+      }
+    }
+  }
+}
+
+.heading {
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.heading3 {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 600;
+  margin: 10px auto;
+}
+
+.metrics {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .metric {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400;
+    p {
+      padding: 10px 0 0;
+      &:first-child {
+        border-bottom: 1px dotted $gray_60;
+      }
+    }
+    .up {
+      color: $green-80;
+    }
+    .down {
+      color: $red-60;
+    }
+  }
+}
+
+.marketsCustomTable {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+  .link {
+    position: relative;
+    color: $blue-50;
+    cursor: pointer;
+  }
+  td {
+    padding: 10px 12px;
+    border-right: 1px solid $gray_95;
+    border-bottom: 1px solid $gray_80;
+    color: $gray_40;
+    background: $white;
+    text-align: left;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    height: 40px;
+    font-style: normal;
+    line-height: 18px;
+    text-align: right;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    i {
+      position: relative;
+      cursor: pointer;
+      &:hover {
+        font-weight: 600;
+      }
+    }
+    .thead {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: end;
+      -ms-flex-pack: end;
+      justify-content: flex-end;
+    }
+    &.left {
+      text-align: left;
+      .thead {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+      }
+    }
+    &.center {
+      text-align: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+    }
+    &.primeCell {
+      background: $salmon-05;
+    }
+    &.up {
+      color: $green-80;
+    }
+    &.down {
+      color: $red-60;
+    }
+  }
+
+  th {
+    height: 54px;
+    position: relative;
+    text-align: right;
+    padding: 10px;
+    background-color: $gray_95;
+    border-right: 1px solid $gray_95;
+    border-bottom: 1px solid $gray_80;
+    border-right-style: solid;
+    font-weight: 600;
+    color: $gray_30;
+    font-size: 12px;
+    line-height: 16px;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    .thead {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: end;
+      -ms-flex-pack: end;
+      justify-content: flex-end;
+    }
+    &.left {
+      text-align: left;
+      .thead {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+      }
+    }
+    &.center {
+      text-align: center;
+      .thead {
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+      }
+    }
+    &.primeCell {
+      background: $salmon-20;
+    }
+  }
+  tr {
+    background-color: $white;
+    &.primeCell {
+      td {
+        background: $salmon-20;
+      }
+    }
+  }
+}
+
+#tradingView {
+  position: relative;
+  display: block;
+  height: 475px;
+}
+
+#otherIndices {
+  position: relative;
+  border: 1px solid $gray_80;
+  border-radius: 16px;
+  padding: 0 15px;
+}
+
+.wrapper {
+  position: relative;
+  display: block;
+  margin: 20px auto 50px;
+  &.highlightedSection {
+    background: $salmon-10;
+    padding: 20px;
+  }
+  .otherIndicesCard {
+    position: relative;
+    padding: 15px 0;
+    .title {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      width: 100%;
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      cursor: pointer;
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    .ltp {
+      font-family: var(--font-lato);
+      font-size: 24px;
+      line-height: 30px;
+      font-weight: 700;
+    }
+    .otherStats {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+      &.up {
+        color: $green-80;
+      }
+      &.down {
+        color: $red-60;
+      }
+    }
+    .bottom {
+      position: relative;
+      margin-top: 8px;
+      .head {
+        font-family: var(--font-lato);
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 15px;
+      }
+      .label {
+        font-size: 12px;
+        line-height: 15px;
+        font-weight: 400;
+      }
+      .up {
+        color: $green-80;
+      }
+      .down {
+        color: $red-60;
+      }
+      .bar {
+        position: relative;
+        flex: auto;
+        height: 8px;
+        border-radius: 2px;
+        background: $blue-20;
+        &.up {
+          background: $green-80;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+        &.down {
+          background: $red-60;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
+      }
+    }
+  }
+  .newsCard {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    .content {
+      width: calc(100% - 70px);
+      .headline {
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 600;
+        min-height: 72px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+      }
+      span {
+        display: inline-flex;
+        margin-top: 6px;
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 400;
+        color: $gray_40;
+      }
+    }
+    img {
+      width: 66px;
+      height: 55px;
+    }
+  }
+  .gaugeChart {
+    display: inline-block;
+    width: 400px;
+    text-align: center;
+  }
+
+  .maTable {
+    display: inline-block;
+    width: calc(100% - 400px);
+    .legend {
+      position: relative;
+      margin: 15px auto;
+      display: flex;
+      list-style: none;
+      gap: 40px;
+      li {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 20px;
+        .point {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          margin-right: 5px;
+          &.up {
+            background-color: $green-80;
+          }
+          &.down {
+            background-color: $red-60;
+          }
+        }
+      }
+    }
+  }
+}
+
+#faq {
+  position: relative;
+  list-style: none;
+  display: block;
+  padding-top: 10px;
+  .faq {
+    position: relative;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid $gray_90;
+    cursor: pointer;
+    .heading {
+      display: flex;
+      margin: 5px auto;
+      font-size: 18px;
+      line-height: 22px;
+      font-weight: 600;
+      align-items: center;
+      justify-content: space-between;
+      .navigate {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #737373;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        font-size: 20px;
+      }
+    }
+    .desc {
+      display: none;
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+      ul {
+        margin: 8px auto;
+        > li {
+          list-style: disc;
+          list-style-position: inside;
+          line-height: 1.5;
+        }
+      }
+    }
+    &.active {
+      .desc {
+        display: block;
+        padding-right: 50px;
+      }
+      .navigate {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+@media (max-width: 1270px) {
+  .wrapper {
+    .maTable,
+    .gaugeChart {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin: 15px auto;
+      .legend {
+        justify-content: center;
       }
     }
   }

@@ -41,7 +41,7 @@ declare global {
 declare var JssoCrosswalk: any;
 
 const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
-  console.log(APP_ENV);
+  //console.log(APP_ENV);
   const router = usePathname();
   const [prevPath, setPrevPath] = useState<any>(null);
   const searchParams = useSearchParams();
@@ -53,7 +53,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
     prevPath !== null &&
       trackingEvent("page_view", { url: window.location.pathname });
     setPrevPath(router);
-  }, [router, isLogin]);
+  }, [router, isPrime]);
 
   return (
     <>

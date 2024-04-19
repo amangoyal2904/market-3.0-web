@@ -146,7 +146,7 @@ a {
   justify-content: space-between;
 }
 .slick-list {
-  margin: 0 -10px !important;
+  margin: 0 -9px !important;
 }
 .slick-slide {
   padding: 0 10px;
@@ -180,6 +180,17 @@ a {
 .slick-dots .custom-slick-dots li button:focus:before {
   color: #d51131 !important;
 }
+
+#slider-news,
+#slider-otherindices {
+  .slick-slide + .slick-slide {
+    border-left: 1px solid $gray_80;
+    &.slick-current {
+      border-left: none;
+    }
+  }
+}
+
 .default-btn {
   font-size: 12px;
   font-style: normal;

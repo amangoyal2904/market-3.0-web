@@ -1,186 +1,47 @@
 @import "@/styles/variables.scss";
 
-.overview {
-  position: relative;
-  margin: -20px;
-  padding: 20px;
-  background: $salmon-10;
-  .heading {
-    display: inline-block;
-    font-weight: 700;
-    color: $black;
-    font-size: 32px;
-  }
+.heading {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  color: $black;
+}
+.desc {
+  font-size: 12px;
+  color: $gray-30;
+  line-height: 16px;
+  font-weight: 400;
+  margin-top: 4px;
+}
 
-  .viewAll {
-    font-size: 14px;
-    line-height: 18px;
-    font-weight: 700;
-    color: $blue-50;
-    text-decoration: none;
-    border-left: 1px solid #d6d6d6;
-    margin-left: 20px;
-    padding-left: 20px;
-  }
-
-  .indexOpts {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 15px;
-    .ltp {
-      font-family: var(--font-lato);
-      font-size: 32px;
-      font-weight: 700;
-      line-height: 40px;
-      margin-right: 20px;
-    }
-    .change {
-      font-family: var(--font-lato);
-      font-size: 24px;
-      line-height: 30px;
-      font-weight: 400;
-    }
-  }
-
-  .marketStatus {
+.menuNseBse {
+  margin: 20px 0 10px;
+  display: flex;
+  list-style-type: none;
+  li {
+    margin: 0;
     font-size: 12px;
-    line-height: 16px;
-    font-weight: 600;
-    color: $red-50;
-    margin-right: 15px;
-    text-transform: uppercase;
-  }
-
-  .updatetime {
-    color: $gray_40;
-    font-size: 12px;
-    line-height: 16px;
+    font-style: normal;
     font-weight: 400;
+    padding: 4px 10px;
+    background-color: $white;
+    text-transform: uppercase;
+    border: solid 2px $black;
+    cursor: pointer;
   }
-
-  .chartOpts {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #cccccc;
-    margin-top: 25px;
-    span {
-      font-size: 18px;
-    }
-    .interval {
-      list-style: none;
-      li {
-        position: relative;
-        display: inline-block;
-        font-size: 14px;
-        line-height: 18px;
-        font-weight: 400;
-        color: #4f4f4f;
-        padding: 5px;
-        border-bottom: 2px solid transparent;
-        cursor: pointer;
-        & + li {
-          margin-left: 15px;
-        }
-        &.active,
-        &:hover {
-          border-bottom: 2px solid #000;
-        }
-        &.active {
-          color: $black;
-          font-weight: 800;
-        }
-      }
-    }
+  li:first-child {
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+    border-right: 0;
   }
-  .bottomWidgets {
-    display: flex;
-    gap: 6px;
-    margin: 15px auto;
-    .widget {
-      flex: 1;
-      border: 1px solid $gray-70;
-      border-radius: 8px;
-      padding: 12px;
-      min-height: 112px;
-      &:first-child {
-        .bottom {
-          margin-top: 24px;
-        }
-      }
-      .bottom {
-        position: relative;
-        margin-top: 36px;
-      }
-      .gap2 {
-        gap: 2px;
-      }
-      .gap10 {
-        gap: 10px;
-      }
-      .title {
-        font-size: 14px;
-        line-height: 18px;
-        font-weight: 700;
-      }
-      .desc {
-        font-size: 10px;
-        line-height: 12px;
-        font-weight: 400;
-      }
-      .head {
-        font-family: var(--font-lato);
-        font-size: 16px;
-        font-weight: 700;
-        line-height: 20px;
-      }
-      .label {
-        font-size: 14px;
-        line-height: 16px;
-        font-weight: 400;
-      }
-      .up {
-        color: $green-80;
-      }
-      .down {
-        color: $red-60;
-      }
-      .bar {
-        position: relative;
-        flex: 1;
-        height: 8px;
-        border-radius: 2px;
-        background: $blue-20;
-        .currentPosition {
-          position: absolute;
-          top: -2px;
-          width: 4px;
-          height: 10px;
-          background: $black;
-          &:after {
-            content: "";
-            position: absolute;
-            width: 0;
-            height: 0;
-            left: -6px;
-            top: -10px;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-top: 8px solid $black;
-          }
-        }
-        &.up {
-          background: $green-80;
-          border-top-right-radius: 0;
-          border-bottom-right-radius: 0;
-        }
-        &.down {
-          background: $red-60;
-          border-top-left-radius: 0;
-          border-bottom-left-radius: 0;
-        }
-      }
-    }
+  li:last-child {
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+  }
+  li.active {
+    background-color: $black;
+    color: $white;
+    font-weight: 600;
   }
 }

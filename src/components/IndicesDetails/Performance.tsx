@@ -1,0 +1,160 @@
+import styles from "./IndicesDetails.module.scss";
+import StockFilterNifty from "../StockFilterNifty";
+import { useEffect, useState } from "react";
+import { fetchFilters, getPeerIndices } from "@/utils/utility";
+import Link from "next/link";
+import ToasterPopup from "../ToasterPopup";
+
+const labels = ["", "1D", "1W", "1M", "3M", "1Y", "3Y", "5Y"];
+
+const getTdMarkup = (value: number) => {
+  const trend = value > 0 ? "up" : value < 0 ? "down" : "neutral";
+  return (
+    <td
+      className={`${styles.center} ${trend == "up" ? styles.up : trend == "down" ? styles.down : ""}`}
+    >
+      {trend && (
+        <span
+          className={`${styles.arrowIcons} ${
+            trend == "up"
+              ? "eticon_up_arrow"
+              : trend == "down"
+                ? "eticon_down_arrow"
+                : ""
+          }`}
+        />
+      )}
+      {value}
+    </td>
+  );
+};
+
+const IndicesPerformance = ({ data, indexName, niftyFilterData = {} }: any) => {
+  const [peersData, setPeersData] = useState(data);
+  const [showFilter, setShowFilter] = useState(false);
+  const [toasterConfirmData, setToasterConfirmData] = useState({});
+  const [showToaster, setShowToaster] = useState(false);
+  const [filterMenuData, setFilterMenuData]: any = useState("");
+  let indexIds = peersData.map((item: any) => item.indexId);
+
+  const showFilterMenu = (value: boolean) => {
+    setShowFilter(value);
+  };
+
+  const removePeerData = (id: any) => {
+    const updatedIndexIds = indexIds.filter((item: any) => item !== id);
+    indexIds = updatedIndexIds;
+
+    const updatedPeerData = peersData.filter(
+      (item: any) => item.indexId !== id,
+    );
+    setPeersData(updatedPeerData);
+  };
+
+  const handleChangeData = async (id: any) => {
+    setShowFilter(false);
+    const indexExists = indexIds.includes(id);
+
+    if (!indexExists) {
+      const updatedIndexIds = [...indexIds, id];
+      indexIds = updatedIndexIds;
+      const updatedPeerData = await getPeerIndices(indexIds.join(","));
+      setPeersData(updatedPeerData);
+    } else {
+      const confirmData = {
+        title: "Already Added in the list",
+        id: id,
+      };
+      setToasterConfirmData(confirmData);
+      setShowToaster(true);
+    }
+  };
+
+  const filterApiCall = async () => {
+    const data = await fetchFilters({});
+    setFilterMenuData(data);
+  };
+  useEffect(() => {
+    filterApiCall();
+  }, []);
+
+  return (
+    <>
+      <h2 className={styles.heading}>
+        Performance of {indexName} v/s Other Indices
+      </h2>
+      <table className={styles.marketsCustomTable}>
+        <thead>
+          <tr>
+            {labels.map((label, index) => (
+              <th key={index} className={styles.center}>
+                {label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {peersData.map((item: any, index: number) => (
+            <tr key={index} className={index == 0 ? styles.primeCell : ""}>
+              <td className={styles.left}>
+                <div className="dflex align-item-ceter space-between">
+                  <Link
+                    href={`/markets/indices/${item.indexSeoName}`}
+                    target="_blank"
+                    title={item.indexName}
+                  >
+                    {item.indexName}
+                  </Link>
+                  {index > 0 && (
+                    <i
+                      className="eticon_cross"
+                      onClick={() => removePeerData(item.indexId)}
+                    ></i>
+                  )}
+                </div>
+              </td>
+              {getTdMarkup(item.percentChange)}
+              {getTdMarkup(item.r1Week)}
+              {getTdMarkup(item.r1Month)}
+              {getTdMarkup(item.r3Month)}
+              {getTdMarkup(item.r1Year)}
+              {getTdMarkup(item.r3Year)}
+              {getTdMarkup(item.r5Year)}
+            </tr>
+          ))}
+          {peersData.length < 5 && (
+            <tr>
+              <td colSpan={8} className={styles.left}>
+                <span
+                  className={styles.link}
+                  onClick={() => showFilterMenu(true)}
+                >
+                  Add More
+                </span>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+      {showFilter && (
+        <StockFilterNifty
+          data={filterMenuData}
+          onclick={showFilterMenu}
+          showFilter={showFilter}
+          valuechange={handleChangeData}
+          selectTab={niftyFilterData.exchange}
+          childMenuTabActive={niftyFilterData.indexId}
+        />
+      )}
+      {showToaster && (
+        <ToasterPopup
+          data={toasterConfirmData}
+          messageNCloseBtn="yes"
+          errorModule={true}
+        />
+      )}
+    </>
+  );
+};
+
+export default IndicesPerformance;

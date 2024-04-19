@@ -307,9 +307,6 @@ const MarketStats = ({
       pageno: 1,
     });
   };
-  const editRemoveStockBtnReset = () => {
-    // ===
-  };
   const removePersonaliseViewFun = (viewId: any) => {
     setToasterPersonaliseViewRemove(true);
     const confirmData = {
@@ -436,7 +433,6 @@ const MarketStats = ({
               onPersonalizeHandler={onPersonalizeHandlerfun}
               removePersonaliseView={removePersonaliseViewFun}
               intradayDurationOptions={intradayDurationOptions}
-              editRemoveStockBtnReset={editRemoveStockBtnReset}
             />
           </div>
           <MarketTable

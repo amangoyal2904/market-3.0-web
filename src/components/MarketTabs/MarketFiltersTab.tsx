@@ -16,6 +16,7 @@ import { useStateContext } from "@/store/StateContext";
 import StockFilterNifty from "@/components/StockFilterNifty";
 import DayFitler from "@/components/DayFilter";
 import { fetchFilters } from "@/utils/utility";
+import SectorFilter from "../DayFilter/SectorFilter";
 
 const IndustryFilter = dynamic(() => import("@/components/IndustryFilter"), {
   loading: () => (
@@ -35,6 +36,7 @@ const MarketFiltersTab = ({
   niftyFilterData = {},
   filterDataChange,
   dayFitlerHanlderChange,
+  sectorFitlerHandlerChange,
   tabConfig,
   updateTableHandler,
   onPersonalizeHandler,
@@ -51,6 +53,7 @@ const MarketFiltersTab = ({
     showAddStock,
     showEditStock,
     showIndexFilter,
+    showSectorFilter,
     showPersonalize,
     showExport,
     showCreateScreener,
@@ -67,6 +70,11 @@ const MarketFiltersTab = ({
   const [editMode, setEditMode] = useState({ mode: false, viewId: "" });
   const [showFilter, setShowFilter] = useState(false);
   const [dayFilterShow, setDayFilterShow] = useState(false);
+  const [sectorFilterShow, setSectorFilterShow] = useState(false);
+  const [sectorFilterData, setSectorFilterData] = useState({
+    sectorname: "All Sectors",
+    sectorid: 0,
+  });
   const [loading, setLoading] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
 
@@ -80,7 +88,7 @@ const MarketFiltersTab = ({
       ? data.filter((item: any) => item.viewType === "USER").length + 1
       : 0;
   const userPersonaliseHandle = () => {
-    editRemoveStockBtnReset();
+    typeof editRemoveStockBtnReset != "undefined" && editRemoveStockBtnReset();
     if (isLogin) {
       setOpenPersonaliseModal(true);
     } else {
@@ -146,6 +154,18 @@ const MarketFiltersTab = ({
   const dayFilterHandler = () => {
     setDayFilterShow(true);
   };
+
+  const sectorFilterHandler = () => {
+    setSectorFilterShow(true);
+  };
+
+  const sectorFilterChangeHandler = (sectorid: number, sectorname: string) => {
+    const filterDataSet = { sectorid, sectorname };
+    setSectorFilterData(filterDataSet);
+    sectorFitlerHandlerChange(sectorid, sectorname);
+    setSectorFilterShow(false);
+  };
+
   const filterChangeHandler = (value: any, label: any) => {
     const filterDataSet = { value, label };
     setDayFilterData(filterDataSet);
@@ -202,6 +222,28 @@ const MarketFiltersTab = ({
               ""
             )}
           </span>
+        ) : (
+          ""
+        )}
+        {showSectorFilter ? (
+          <div className="prel">
+            <span
+              className={`${styles.roundBtn} ${styles.fitlerDay}`}
+              onClick={() => sectorFilterHandler()}
+            >
+              {sectorFilterData.sectorname}
+              <i className="eticon_caret_down"></i>
+            </span>
+            {sectorFilterShow ? (
+              <SectorFilter
+                setSectorFilterShow={setSectorFilterShow}
+                sectorFilterData={sectorFilterData}
+                sectorFilterHandler={sectorFilterChangeHandler}
+              />
+            ) : (
+              ""
+            )}
+          </div>
         ) : (
           ""
         )}

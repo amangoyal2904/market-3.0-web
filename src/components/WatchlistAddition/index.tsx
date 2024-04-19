@@ -89,7 +89,7 @@ const WatchlistAddition = ({
         }),
     };
 
-    console.log("data----", data, type);
+    //console.log("data----", data, type);
 
     const addWathlistResAPI = await saveStockInWatchList(followData);
     if (addWathlistResAPI?.status === "success") {
@@ -104,8 +104,8 @@ const WatchlistAddition = ({
             ]
           : watchlist.filter(
               (item: any) =>
-                item.companyId != data.companyId.toString() &&
-                item.companyType === data.companyType,
+                item.companyId != data?.companyId?.toString() ||
+                item.companyType != data?.companyType,
             );
 
       dispatch({
@@ -149,10 +149,7 @@ const WatchlistAddition = ({
       initSSOWidget();
     }
   };
-  const defaultStyle = {
-    position: "relative",
-  };
-  const mergedStyle = { ...defaultStyle, ...customStyle };
+  const mergedStyle = { ...customStyle };
 
   return (
     <>

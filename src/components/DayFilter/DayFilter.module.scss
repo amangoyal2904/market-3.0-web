@@ -6,7 +6,11 @@
   top: 32px;
   background: $white;
   width: 170px;
-  z-index: 99;
+  height: auto;
+  max-height: 280px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 2;
   border: solid 1px $gray_80;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
   border-radius: 8px;
