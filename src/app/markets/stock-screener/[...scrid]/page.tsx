@@ -165,6 +165,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
       ssoid,
       "screenerGetViewById",
     );
+  console.log("__bodyParams__", bodyParams);
   const title =
     screenerDetail && screenerDetail?.name ? screenerDetail.name : "";
   const desc =

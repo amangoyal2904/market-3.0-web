@@ -12,6 +12,7 @@ const WatchlistAddition = ({
   companyId,
   companyType,
   customStyle,
+  customeFun,
 }: any) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, ssoReady } = state.login;
@@ -121,6 +122,7 @@ const WatchlistAddition = ({
     }
 
     setLoadingStatus(false);
+    customeFun ? customeFun() : null;
   };
 
   const handleWatchListClick = () => {
