@@ -244,9 +244,8 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
           const commpanyName = item.companyname || item.tagName;
           const companyId = item.companyid || item.tagId;
           const companyType =
-            item.subType === "company" || item.entityType === "company"
-              ? "equity"
-              : item.subType || item.entityType;
+            item.companytype ||
+            (item.subType === "company" ? "equity" : item.subType);
           return (
             <li key={`${item.tagId}--${index}`}>
               <span>{item.tagName}</span>
