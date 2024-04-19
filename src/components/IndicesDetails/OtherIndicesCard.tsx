@@ -12,7 +12,7 @@ export const OtherIndicesCard = ({ data }: any) => {
         target="_blank"
         title={data.indexName}
       >
-        {data.indexName}
+        <span>{data.indexName}</span>
         <i className="eticon_caret_right"></i>
       </Link>
       <p className={styles.ltp}>{formatNumber(data.lastTradedPrice)}</p>
