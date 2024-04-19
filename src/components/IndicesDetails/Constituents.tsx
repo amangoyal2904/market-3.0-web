@@ -274,7 +274,7 @@ const IndicesConstituents = ({
           isprimeuser={isPrime}
         />
       </div>
-      {indexNews.length && (
+      {!!indexNews.length && (
         <div className={`${styles.wrapper} ${styles.highlightedSection}`}>
           <h2 className={styles.heading}>{indexName} News</h2>
           <SlickSlider
@@ -292,7 +292,7 @@ const IndicesConstituents = ({
         </div>
       )}
 
-      {otherIndices.length && (
+      {!!otherIndices.length && (
         <div className={styles.wrapper}>
           <h2 className={styles.heading}>Other Indices</h2>
           <div id={styles.otherIndices}>

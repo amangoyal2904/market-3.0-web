@@ -78,7 +78,6 @@ const IndicesClient = ({
           tableConfig={tableConfig}
           processingLoader={processingLoader}
           isprimeuser={isPrime}
-          tabsViewIdUpdate={exchange}
         />
       </div>
     </>

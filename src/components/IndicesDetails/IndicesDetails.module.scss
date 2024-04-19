@@ -262,6 +262,9 @@
     i {
       position: relative;
       cursor: pointer;
+      &:hover {
+        font-weight: 600;
+      }
     }
     .thead {
       display: -webkit-box;
@@ -383,12 +386,19 @@
     padding: 15px 0;
     .title {
       position: relative;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      width: 100%;
       font-size: 14px;
       line-height: 18px;
       font-weight: 600;
       margin-bottom: 6px;
       cursor: pointer;
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
     .ltp {
       font-family: var(--font-lato);
