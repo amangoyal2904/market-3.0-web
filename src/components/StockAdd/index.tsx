@@ -244,19 +244,11 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
           const commpanyName = item.companyname || item.tagName;
           const companyId = item.companyid || item.tagId;
           const companyType =
-            item.companytype ||
-            (item.subType && item.subType !== ""
-              ? item.subType
-              : item.entityType === "company"
-                ? "equity"
-                : item.entityType);
+            item.subType === "company" || item.entityType === "company"
+              ? "equity"
+              : item.subType || item.entityType;
           return (
-            <li
-              key={`${item.tagId}--${index}`}
-              // onClick={() =>
-              //   addStockInWatchlistHandler(item, item?.follow == "yes" ? 0 : 1)
-              // }
-            >
+            <li key={`${item.tagId}--${index}`}>
               <span>{item.tagName}</span>
               <WatchlistAddition
                 companyName={commpanyName}
