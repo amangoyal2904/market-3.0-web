@@ -8,6 +8,7 @@ import BigBullTableCard from "../../../components/BigBullTableCard";
 import { fetchSelectedFilter } from "@/utils/utility";
 
 const BigBullClientPage = ({ data, selectedFilter }: any) => {
+  console.log("___data", data);
   const [tabName, setTabName] = useState("overview");
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const tabHandlerClick = (id: string) => {
@@ -30,8 +31,15 @@ const BigBullClientPage = ({ data, selectedFilter }: any) => {
     if (tabName === "overview") {
       return (
         <>
-          <BigBullSection data="" title="Individual Investors" type="card1" />
           <BigBullSection
+            data={data?.pageData?.individualInvestors?.investorData}
+            pageSummaryInfo={
+              data?.pageData?.individualInvestors?.pageSummaryInfo
+            }
+            title="Individual Investors"
+            type="card1"
+          />
+          {/* <BigBullSection
             data=""
             title="Changes in Holdings from Last Quarter "
             type="card2"
@@ -41,7 +49,7 @@ const BigBullClientPage = ({ data, selectedFilter }: any) => {
             title="Recent Transactions "
             type="card2"
             mode="transaction"
-          />
+          /> */}
         </>
       );
     } else if (tabName === "allInvestors") {

@@ -22,7 +22,6 @@ const LiveMarketData = () => {
     y = setInterval(getMarketStatus, 4000);
   }, []);
   //console.log("--------->", state.marketStatus, currentMarketStatus);
-
   const getMarketStatus = async () => {
     try {
       const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
