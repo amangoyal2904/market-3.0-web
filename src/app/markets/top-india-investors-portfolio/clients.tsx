@@ -38,18 +38,32 @@ const BigBullClientPage = ({ data, selectedFilter }: any) => {
             }
             title="Individual Investors"
             type="card1"
-          />
-          {/* <BigBullSection
-            data=""
-            title="Changes in Holdings from Last Quarter "
-            type="card2"
+            lastTitle="Investors"
           />
           <BigBullSection
-            data=""
+            title="Changes in Holdings from Last Quarter "
+            type="card2"
+            data={data?.pageData?.lastQuater?.investorKeyChangesData}
+            pageSummaryInfo={data?.pageData?.lastQuater?.pageSummaryInfo}
+            lastTitle="Holding Changes"
+          />
+          <BigBullSection
             title="Recent Transactions "
             type="card2"
             mode="transaction"
-          /> */}
+            data={data?.pageData?.recentTransactions?.listRecentDeals}
+            pageSummaryInfo={
+              data?.pageData?.recentTransactions?.pageSummaryInfo
+            }
+            lastTitle="Recent Transactions"
+          />
+          <BigBullSection
+            title="Best Stock Picks "
+            type="card2"
+            data={data?.pageData?.bestPicks?.bestPicksListInfo}
+            pageSummaryInfo={data?.pageData?.bestPicks?.pageSummaryInfo}
+            lastTitle="Best Stock Picks"
+          />
         </>
       );
     } else if (tabName === "allInvestors") {

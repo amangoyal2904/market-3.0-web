@@ -8,6 +8,7 @@ const BigBullSection = ({
   title = "",
   type = "",
   mode = "",
+  lastTitle = "",
 }: any) => {
   console.log({ data, pageSummaryInfo });
   return (
@@ -27,7 +28,10 @@ const BigBullSection = ({
                 );
               })
             : "No data"}
-          <ViewAllCardModule />
+          <ViewAllCardModule
+            pageSummaryInfo={pageSummaryInfo}
+            lastTitle={lastTitle}
+          />
         </div>
       </div>
     </>
