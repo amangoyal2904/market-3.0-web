@@ -67,7 +67,11 @@ const Header = () => {
           marketStatus: result.marketStatus,
         });
         if (result.marketStatus === "ON") {
-          setTimeout(getMarketStatus, parseInt(refeshConfig.marketStatus));
+          const timeoutId = setTimeout(
+            getMarketStatus,
+            parseInt(refeshConfig.marketStatus),
+          );
+          return () => clearTimeout(timeoutId);
         }
       }
     };
