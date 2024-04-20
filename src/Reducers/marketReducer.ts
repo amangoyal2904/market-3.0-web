@@ -3,6 +3,7 @@ import { Reducer } from "react";
 
 interface marketState {
   currentMarketStatus: string;
+  marketStatus: string;
   error: any | null;
 }
 
@@ -14,6 +15,7 @@ const marketReducer: Reducer<marketState, marketAction> = (state, action) => {
       return {
         ...state,
         currentMarketStatus: action.payload.currentMarketStatus,
+        marketStatus: action.payload.marketStatus,
         error: null,
       };
 

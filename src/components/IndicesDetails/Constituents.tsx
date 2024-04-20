@@ -233,13 +233,17 @@ const IndicesConstituents = ({
 
   useEffect(() => {
     updateTableData();
-    if (!!currentMarketStatus && currentMarketStatus == "LIVE") {
-      const intervalId = setInterval(() => {
-        updateTableData();
-      }, parseInt(refeshConfig.marketstats));
-      return () => clearInterval(intervalId);
+  }, [_payload, isPrime]);
+
+  useEffect(() => {
+    if (currentMarketStatus === "LIVE") {
+      const timeoutId = setTimeout(
+        updateTableData,
+        parseInt(refeshConfig.marketstats),
+      );
+      return () => clearTimeout(timeoutId);
     }
-  }, [_payload, isPrime, currentMarketStatus]);
+  }, [currentMarketStatus]);
 
   return (
     <>
