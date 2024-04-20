@@ -1,35 +1,41 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
+import styles from "./Header.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useStateContext } from "../../store/StateContext";
 import ETLogo from "../../../public/et_markets_logo.svg";
-import { goToPlansPage, goToPlansPage1 } from "@/utils/ga";
-import styles from "./Header.module.scss";
+import { goToPlansPage1 } from "@/utils/ga";
 import Login from "../Login";
 import Search from "../Search";
+import useDebounce from "@/hooks/useDebounce";
+import { getCurrentMarketStatus } from "@/utils/utility";
+import refeshConfig from "@/utils/refreshConfig.json";
 
 const LiveMarketData = dynamic(() => import("../LiveMarketData"), {
   ssr: false,
 });
 
 const Header = () => {
-  const { state } = useStateContext();
+  const { state, dispatch } = useStateContext();
   const { isPrime } = state.login;
+  const { debounce } = useDebounce();
   const [shouldRenderComponent, setShouldRenderComponent] = useState(false);
+
+  const [mktStatus, setMktStatus] = useState({
+    currentMarketStatus: "",
+    marketStatus: "",
+  });
+  const [lastMarketStatus, setLastMarketStatus] = useState({
+    currentMarketStatus: "",
+    marketStatus: "",
+  });
 
   const handleResize = useCallback(() => {
     setShouldRenderComponent(window.innerWidth >= 1280);
   }, []);
 
-  useEffect(() => {
-    handleResize(); // Initial check
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [handleResize]);
   const redirectToPlanPage = () => {
     const obj = {
       item_name: "atf_Header",
@@ -40,6 +46,60 @@ const Header = () => {
     };
     goToPlansPage1("select_item", obj);
   };
+
+  useEffect(() => {
+    handleResize(); // Initial check
+    const debouncedResize = debounce(handleResize, 300); // Debounce resize event
+    window.addEventListener("resize", debouncedResize);
+    return () => {
+      window.removeEventListener("resize", debouncedResize);
+    };
+  }, [handleResize]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const getMarketStatus = async () => {
+      const result = await getCurrentMarketStatus();
+      if (isMounted) {
+        setMktStatus({
+          currentMarketStatus: result.currentMarketStatus,
+          marketStatus: result.marketStatus,
+        });
+        if (result.marketStatus === "ON") {
+          setTimeout(getMarketStatus, parseInt(refeshConfig.marketStatus));
+        }
+      }
+    };
+
+    getMarketStatus();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (
+      mktStatus.currentMarketStatus !== "" &&
+      mktStatus.marketStatus !== "" &&
+      (mktStatus.currentMarketStatus !== lastMarketStatus.currentMarketStatus ||
+        mktStatus.marketStatus !== lastMarketStatus.marketStatus)
+    ) {
+      dispatch({
+        type: "MARKET_STATUS",
+        payload: {
+          currentMarketStatus: mktStatus.currentMarketStatus.toUpperCase(),
+          marketStatus: mktStatus.marketStatus.toUpperCase(),
+        },
+      });
+      setLastMarketStatus({
+        currentMarketStatus: mktStatus.currentMarketStatus,
+        marketStatus: mktStatus.marketStatus,
+      });
+    }
+  }, [mktStatus, lastMarketStatus, dispatch]);
+
   return (
     <header id={styles.pageTopbar}>
       <div className={styles.navbarHeader} id="header">

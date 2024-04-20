@@ -6,5 +6,6 @@
   "watchlist": "3000",
   "stocksScreener": "6000",
   "indicesDetail": "3000",
-  "indicesListing": "3000"
+  "indicesListing": "3000",
+  "marketStatus": "12000"
 }

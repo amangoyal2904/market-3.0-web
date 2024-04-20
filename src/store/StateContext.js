@@ -18,6 +18,7 @@ const initialState = {
   },
   marketStatus: {
     currentMarketStatus: "",
+    marketStatus: "",
     error: null,
   },
   watchlistStatus: {

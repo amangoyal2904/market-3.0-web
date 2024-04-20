@@ -81,7 +81,7 @@ export default async function RootLayout({
         <NextTopLoader template='<div class="bar" role="bar"><div class="peg"></div></div>' />
         <StateProvider>
           <main>
-            <Headers />
+            {/* <Headers /> */}
             <Header />
             <div className="container">
               <Suspense fallback={<p>Loading...</p>}>
