@@ -19,7 +19,7 @@ const BigBullAllInvertorsPage = async () => {
   const __tableData: any[] =
     IndividualInvestors?.datainfo?.investorlist?.investorData || [];
   const __tableHead: any[] = [
-    { name: "Investors Name", id: "0", sort: false },
+    { name: "Investors Name", id: "0", sort: true },
     { name: "No. Of Companies", id: "1", sort: true },
     { name: "Networth (Cr)", id: "2", sort: true },
     { name: "Networth (QoQ)", id: "3", sort: true },

@@ -4,13 +4,12 @@ import ViewAllCardModule from "./BigBullCard/ViewAllCardModule";
 
 const BigBullSection = ({
   data,
-  pageSummaryInfo = [],
+  cartTitle = "",
   title = "",
   type = "",
-  mode = "",
-  lastTitle = "",
+  cartLink = "",
 }: any) => {
-  console.log({ data, pageSummaryInfo });
+  //console.log({ data, pageSummaryInfo });
   return (
     <>
       <div className={styles.mainCardSec}>
@@ -19,19 +18,11 @@ const BigBullSection = ({
           {data && data.length > 0
             ? data.map((card: any, index: number) => {
                 return (
-                  <BigBullCard
-                    key={`${index}-card`}
-                    data={card}
-                    type={type}
-                    mode={mode}
-                  />
+                  <BigBullCard key={`${index}-card`} data={card} type={type} />
                 );
               })
             : "No data"}
-          <ViewAllCardModule
-            pageSummaryInfo={pageSummaryInfo}
-            lastTitle={lastTitle}
-          />
+          <ViewAllCardModule cartTitle={cartTitle} cartLink={cartLink} />
         </div>
       </div>
     </>

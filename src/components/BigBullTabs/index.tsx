@@ -3,7 +3,12 @@ import styles from "./styles.module.scss";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const BigBullTabs = ({ data }: any) => {
+const BigBullTabs = ({
+  data,
+  individualFilter,
+  aciveFilter,
+  fitlerHandler,
+}: any) => {
   const pathname = usePathname();
   const isActive = (path: any) => path === pathname;
   return (
@@ -24,12 +29,19 @@ const BigBullTabs = ({ data }: any) => {
           })}
         </ul>
         <ul className={styles.rigthTab}>
-          <li className={styles.active}>
-            <span>Individual</span>
-          </li>
-          <li>
-            <span>Institutional</span>
-          </li>
+          {individualFilter.map((filter: any, index: number) => {
+            return (
+              <li
+                onClick={() => {
+                  fitlerHandler(filter.value);
+                }}
+                className={`${aciveFilter === filter.value ? styles.active : ""}`}
+                key={`${index}-${filter.id}`}
+              >
+                <span>{filter.lable}</span>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </>
