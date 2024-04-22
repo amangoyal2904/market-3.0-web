@@ -94,6 +94,7 @@ const StockScreeners = ({
   const [_ssoid, setSooid] = useState(ssoid);
   const { state } = useStateContext();
   const { isLogin } = state.login;
+  const { currentMarketStatus } = state.marketStatus;
   const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
     setMetaData(metaData);
@@ -589,14 +590,21 @@ const StockScreeners = ({
   useEffect(() => {
     onSearchParamChange();
   }, [searchParams]);
+
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    const intervalId = setInterval(() => {
-      updateTableData();
-    }, parseInt(refeshConfig.stocksScreener));
-    return () => clearInterval(intervalId);
   }, [_payload]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (currentMarketStatus === "LIVE") {
+        updateTableData();
+      }
+    }, refeshConfig.stocksScreener);
+    return () => clearInterval(intervalId);
+  }, [currentMarketStatus]);
+
   useEffect(() => {
     const userSSOID = getCookie("ssoid");
     if (userSSOID) {

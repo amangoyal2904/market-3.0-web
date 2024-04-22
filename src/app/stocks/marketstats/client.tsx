@@ -335,17 +335,17 @@ const MarketStats = ({
   };
 
   useEffect(() => {
+    setProcessingLoader(true);
     updateTableData();
   }, [_payload, isPrime]);
 
   useEffect(() => {
-    if (currentMarketStatus === "LIVE") {
-      const timeoutId = setTimeout(
-        updateTableData,
-        parseInt(refeshConfig.marketstats),
-      );
-      return () => clearTimeout(timeoutId);
-    }
+    const intervalId = setInterval(() => {
+      if (currentMarketStatus === "LIVE") {
+        updateTableData();
+      }
+    }, refeshConfig.marketstats);
+    return () => clearInterval(intervalId);
   }, [currentMarketStatus]);
 
   useEffect(() => {

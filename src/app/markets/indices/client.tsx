@@ -35,17 +35,17 @@ const IndicesClient = ({
   };
 
   useEffect(() => {
+    setProcessingLoader(true);
     updateTableData();
   }, [selectedExchange, isPrime]);
 
   useEffect(() => {
-    if (currentMarketStatus === "LIVE") {
-      const timeoutId = setTimeout(
-        updateTableData,
-        parseInt(refeshConfig.indicesListing),
-      );
-      return () => clearTimeout(timeoutId);
-    }
+    const intervalId = setInterval(() => {
+      if (currentMarketStatus === "LIVE") {
+        updateTableData();
+      }
+    }, refeshConfig.indicesListing);
+    return () => clearInterval(intervalId);
   }, [currentMarketStatus]);
 
   return (

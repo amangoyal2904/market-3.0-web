@@ -28,12 +28,17 @@ const LiveMarketData = () => {
     const jsonString = data.substring(jsonStartIndex, jsonEndIndex + 1);
     setMarketData(JSON.parse(jsonString));
   };
+
   useEffect(() => {
     getLiveMarketData();
-    if (currentMarketStatus === "LIVE") {
-      setTimeout(getLiveMarketData, parseInt(refeshConfig.marketstats));
-    }
+    const intervalId = setInterval(() => {
+      if (currentMarketStatus === "LIVE") {
+        getLiveMarketData();
+      }
+    }, refeshConfig.marketstats);
+    return () => clearInterval(intervalId);
   }, [currentMarketStatus]);
+
   return (
     <>
       <div className={styles.liveMarkets}>
