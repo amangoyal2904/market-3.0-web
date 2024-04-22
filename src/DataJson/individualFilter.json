@@ -1,0 +1,12 @@
+[
+  {
+    "lable": "Individual",
+    "value": "INDIVIDUAL",
+    "id": 1
+  },
+  {
+    "lable": "Institutional",
+    "value": "INSTITUTIONAL",
+    "id": 2
+  }
+]

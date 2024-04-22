@@ -429,3 +429,42 @@ table {
     transform: scale(2.8);
   }
 }
+
+.nameSliderCustome .slick-prev,
+.nameSliderCustome .slick-next {
+  top: 0;
+  left: auto;
+  right: -30px;
+  width: 10px;
+  height: 14px;
+  transform: none;
+}
+.nameSliderCustome .slick-prev {
+  top: 16px;
+  &::before {
+    content: "";
+    position: absolute;
+    right: -1px;
+    top: 4px;
+    width: 8px;
+    height: 8px;
+    opacity: 1;
+    transform: rotate(45deg);
+    border-bottom: solid 2px $blue-50;
+    border-left: solid 2px $blue-50;
+  }
+}
+.nameSliderCustome .slick-next {
+  &::before {
+    content: "";
+    position: absolute;
+    right: 3px;
+    top: 4px;
+    width: 8px;
+    height: 8px;
+    opacity: 1;
+    transform: rotate(45deg);
+    border-top: solid 2px $blue-50;
+    border-right: solid 2px $blue-50;
+  }
+}

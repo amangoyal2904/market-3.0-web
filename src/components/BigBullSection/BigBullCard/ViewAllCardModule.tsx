@@ -1,12 +1,12 @@
 import styles from "./styles.module.scss";
 import Link from "next/link";
 
-const ViewAllCardModule = ({ pageSummaryInfo, lastTitle = "" }: any) => {
+const ViewAllCardModule = ({ cartTitle = "", cartLink = "" }: any) => {
   return (
     <>
       <div className={styles.viewAllSec}>
-        <Link href="/">
-          View All {pageSummaryInfo.totalRecords} {lastTitle}
+        <Link href={`${cartLink}`}>
+          {cartTitle}
           <span className={styles.rightArrow}></span>
         </Link>
       </div>

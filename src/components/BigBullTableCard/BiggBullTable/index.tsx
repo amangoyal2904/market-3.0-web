@@ -1,5 +1,7 @@
 import styles from "./styles.module.scss";
 import Image from "next/image";
+import { getStockUrl } from "@/utils/utility";
+import Link from "next/link";
 
 const BiggBullTable = ({
   tableHead,
@@ -73,6 +75,19 @@ const BiggBullTable = ({
               const bestPicks = tdata?.cards?.filter(
                 (item: any) => item?.type === "bestpick",
               );
+              const bestPicksToNext = tdata?.cards?.filter(
+                (item: any) =>
+                  item?.type === "freshentryexit" ||
+                  item?.type === "mostincrease",
+              );
+              const updownClass =
+                networthQoQ.length > 0 &&
+                networthQoQ[0].uiValue?.trend &&
+                networthQoQ[0].uiValue?.trend === "UP"
+                  ? "up"
+                  : networthQoQ[0].uiValue?.trend === "DOWN"
+                    ? "down"
+                    : "";
               return (
                 <tr key={`${index}`}>
                   <td>
@@ -97,6 +112,7 @@ const BiggBullTable = ({
                   </td>
                   <td>
                     <span
+                      className={`${styles[updownClass]}`}
                       dangerouslySetInnerHTML={{
                         __html:
                           networthQoQ.length > 0
@@ -105,17 +121,76 @@ const BiggBullTable = ({
                       }}
                     />
                   </td>
-                  <td>
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html:
-                          bestPicks.length > 0
-                            ? bestPicks[0].uiValue?.text
-                            : null,
-                      }}
-                    ></span>
+                  <td className={styles.bestPicWraper}>
+                    <div className={styles.bestPickSec}>
+                      <div className={styles.leftSec}>
+                        <h5 className={styles.head5}>
+                          <Link
+                            href={getStockUrl(
+                              bestPicks[0].uiLabel?.companyId,
+                              bestPicks[0].uiLabel?.companySeoName,
+                              bestPicks[0].uiLabel?.companyType,
+                            )}
+                            target="_blank"
+                          >
+                            {bestPicks.length > 0
+                              ? bestPicks[0].uiLabel?.text
+                              : null}
+                          </Link>
+                        </h5>
+                        <span
+                          className={`${styles.bestTxtSec} ${
+                            bestPicks.length > 0
+                              ? styles[bestPicks[0].uiValue?.trend]
+                              : ""
+                          }`}
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              bestPicks.length > 0
+                                ? bestPicks[0].uiValue?.text
+                                : null,
+                          }}
+                        ></span>
+                      </div>
+                      <div className={styles.rightSec}>+</div>
+                    </div>
                   </td>
-                  <td>Zee engt</td>
+                  <td
+                    className={`${styles.bestPicWraper} ${styles.bestPic2Wraper}`}
+                  >
+                    <div className={styles.bestPickSec}>
+                      <div className={styles.leftSec}>
+                        <h5 className={styles.head5}>
+                          <Link
+                            href={getStockUrl(
+                              bestPicksToNext[0].uiLabel?.companyId,
+                              bestPicksToNext[0].uiLabel?.companySeoName,
+                              bestPicksToNext[0].uiLabel?.companyType,
+                            )}
+                            target="_blank"
+                          >
+                            {bestPicksToNext.length > 0
+                              ? bestPicksToNext[0].uiLabel?.text
+                              : null}
+                          </Link>
+                        </h5>
+                        <span
+                          className={`${styles.bestTxtSec} ${
+                            bestPicksToNext.length > 0
+                              ? styles[bestPicksToNext[0].uiValue?.trend]
+                              : ""
+                          }`}
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              bestPicksToNext.length > 0
+                                ? bestPicksToNext[0].uiValue?.text
+                                : null,
+                          }}
+                        ></span>
+                      </div>
+                      <div className={styles.rightSec}>+</div>
+                    </div>
+                  </td>
                 </tr>
               );
             })}
