@@ -6,43 +6,57 @@ import BigBullTableCard from "../../../../components/BigBullTableCard";
 import BigBullTabs from "../../../../components/BigBullTabs";
 import tabsJson from "../../../../DataJson/bigbullTabs.json";
 import indiFilter from "../../../../DataJson/individualFilter.json";
-
+import { fetchGetCommonAPI } from "../../../../utils/bigbull";
 const tabs = tabsJson;
 const individualFilter = indiFilter;
 
 const BigBullAllInvertorsPageClientPage = ({
-  data,
-  selectedFilter,
   tableData,
   tableHead,
   pagination,
 }: any) => {
-  console.log("___data", data, selectedFilter);
+  //console.log("___data", data, selectedFilter);
   const [aciveFilter, setActiveFilter] = useState("INDIVIDUAL");
+  const [invstrQuery, setInvstrQuery] = useState("");
+  const [_payload, setPayload] = useState({
+    ssoId: "",
+    investorType: "INDIVIDUAL",
+    sortBy: "networth",
+    orderBy: "DESC",
+    primeFlag: 1,
+    pageSize: 10,
+    pageNo: 1,
+  });
   const fitlerHandler = (value: any) => {
     setActiveFilter(value);
   };
-  const callAPIfitler = () => {
-    // ====
+  const invstrQueryHandler = (value: any) => {
+    setInvstrQuery(value);
   };
-  useEffect(() => {
-    callAPIfitler();
-  }, [aciveFilter]);
-  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [_tableData, setTableData] = useState(tableData);
   const [_tableHead, setTableHead] = useState(tableHead);
   const [_pagination, setPagination] = useState(pagination);
-
-  const filterDataChangeHander = async (id: any) => {
-    const filter =
-      id !== undefined && !isNaN(Number(id))
-        ? parseInt(id)
-        : id !== undefined
-          ? id
-          : 0;
-    const selectedFilter = await fetchSelectedFilter(filter);
-    setNiftyFilterData(selectedFilter);
+  const callAPIfitler = () => {
+    // ====
   };
+  const searchAPIcallForInstr = async () => {
+    // === fjhere calll for search api call
+    const getData = await fetchGetCommonAPI({
+      type: `BigBullGetSearchData`,
+      searchParam: `?searchtext=${invstrQuery}&limit=10&investortype=${aciveFilter}`,
+      ssoid: "",
+    });
+    console.log("____data", getData);
+  };
+
+  useEffect(() => {
+    callAPIfitler();
+  }, [aciveFilter]);
+  useEffect(() => {
+    if (invstrQuery && invstrQuery !== "" && invstrQuery.length > 3) {
+      searchAPIcallForInstr();
+    }
+  }, [invstrQuery]);
   return (
     <>
       <BigBullTabs
@@ -55,8 +69,9 @@ const BigBullAllInvertorsPageClientPage = ({
         tableData={_tableData}
         tableHead={_tableHead}
         pagination={_pagination}
-        niftyFilterData={niftyFilterData}
-        filterDataChange={filterDataChangeHander}
+        searchInvestor={true}
+        invstrQuery={invstrQuery}
+        invstrQueryHandler={invstrQueryHandler}
       />
     </>
   );

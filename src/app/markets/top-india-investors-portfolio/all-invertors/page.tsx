@@ -34,14 +34,11 @@ const BigBullAllInvertorsPage = async () => {
     tableHead: __tableHead,
     pagination: __pagination,
   };
-  const selectedFilter = await fetchSelectedFilter(0);
   return (
     <BigBullAllInvertorsPageClientPage
-      data={bigBullData}
       tableData={bigBullData.tableData}
       tableHead={bigBullData.tableHead}
       pagination={bigBullData.pagination}
-      selectedFilter={selectedFilter}
     />
   );
 };
