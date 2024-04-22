@@ -1,11 +1,11 @@
 {
-  "marketstats": "4000",
-  "stockrecos": "60000",
-  "marketcloseapi": "10000",
-  "livemarketdata": "20000",
-  "watchlist": "3000",
-  "stocksScreener": "6000",
-  "indicesDetail": "3000",
-  "indicesListing": "3000",
-  "marketStatus": "12000"
+  "marketstats": 8000,
+  "stockrecos": 60000,
+  "marketcloseapi": 10000,
+  "livemarketdata": 20000,
+  "watchlist": 8000,
+  "stocksScreener": 8000,
+  "indicesDetail": 8000,
+  "indicesListing": 8000,
+  "marketStatus": 12000
 }

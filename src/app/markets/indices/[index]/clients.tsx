@@ -111,11 +111,11 @@ const IndicesDetailsClient = ({
   );
 
   useEffect(() => {
-    refreshOverviewData();
-    const intervalId = setInterval(
-      refreshOverviewData,
-      parseInt(refeshConfig.indicesDetail),
-    );
+    const intervalId = setInterval(() => {
+      if (currentMarketStatus === "LIVE") {
+        refreshOverviewData();
+      }
+    }, refeshConfig.indicesDetail);
     return () => clearInterval(intervalId);
   }, [currentMarketStatus]);
 

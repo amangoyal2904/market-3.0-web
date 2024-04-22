@@ -69,7 +69,7 @@ const Header = () => {
         if (result.marketStatus === "ON") {
           const timeoutId = setTimeout(
             getMarketStatus,
-            parseInt(refeshConfig.marketStatus),
+            refeshConfig.marketStatus,
           );
           return () => clearTimeout(timeoutId);
         }
