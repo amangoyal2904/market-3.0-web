@@ -3,8 +3,15 @@ import { useState, useEffect } from "react";
 import StockFilterNifty from "../StockFilterNifty";
 import { fetchFilters } from "@/utils/utility";
 
-const TopTabs = ({ niftyFilterData = {}, filterDataChange }: any) => {
-  const showIndexFilter = true;
+const TopTabs = ({
+  niftyFilterData = {},
+  filterDataChange,
+  niftyFilter,
+  searchInvestor,
+  invstrQuery,
+  invstrQueryHandler,
+}: any) => {
+  const showIndexFilter = niftyFilter;
   const [showFilter, setShowFilter] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
   const showFilterMenu = (value: boolean) => {
@@ -37,6 +44,21 @@ const TopTabs = ({ niftyFilterData = {}, filterDataChange }: any) => {
               <i className={`eticon_filter ${styles.mr}`}></i>{" "}
               {niftyFilterData?.name}
             </span>
+          ) : (
+            ""
+          )}
+          {searchInvestor ? (
+            <div className={styles.searchInd}>
+              <div className={styles.formGroup}>
+                <span className={styles.searchIcon}></span>
+                <input
+                  type="text"
+                  value={invstrQuery}
+                  onChange={(e: any) => invstrQueryHandler(e.target.value)}
+                  placeholder="Search Investor"
+                />
+              </div>
+            </div>
           ) : (
             ""
           )}

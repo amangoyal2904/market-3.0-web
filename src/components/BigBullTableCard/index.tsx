@@ -7,12 +7,20 @@ const BigBullTableCard = ({
   filterDataChange,
   tableHead,
   tableData,
+  niftyFilter = false,
+  searchInvestor = false,
+  invstrQuery = "",
+  invstrQueryHandler,
 }: any) => {
   return (
     <>
       <TopTabs
         niftyFilterData={niftyFilterData}
         filterDataChange={filterDataChange}
+        niftyFilter={niftyFilter}
+        searchInvestor={searchInvestor}
+        invstrQuery={invstrQuery}
+        invstrQueryHandler={invstrQueryHandler}
       />
       <BiggBullTable tableHead={tableHead} tableData={tableData} />
     </>
