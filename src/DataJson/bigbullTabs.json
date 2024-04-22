@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Overview",
+    "id": "overview",
+    "url": "/markets/top-india-investors-portfolio"
+  },
+  {
+    "title": "All Investors",
+    "id": "allInvestors",
+    "url": "/markets/top-india-investors-portfolio/all-invertors"
+  },
+  {
+    "title": "Qtr. Changes",
+    "id": "qtrChanges",
+    "url": "/markets/top-india-investors-portfolio/qtr-changes"
+  },
+  {
+    "title": "Recent Transactions",
+    "id": "recentTransactions",
+    "url": "/markets/top-india-investors-portfolio/recent-transactions"
+  },
+  {
+    "title": "Best Picks",
+    "id": "bestPicks",
+    "url": "/markets/top-india-investors-portfolio/best-picks"
+  },
+  {
+    "title": "Most Held",
+    "id": "mostHeld",
+    "url": "/markets/top-india-investors-portfolio/most-held"
+  }
+]

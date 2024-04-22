@@ -1,42 +1,14 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { fetchSelectedFilter } from "@/utils/utility";
 import BigBullTableCard from "../../../../components/BigBullTableCard";
 import BigBullTabs from "../../../../components/BigBullTabs";
+import tabsJson from "../../../../DataJson/bigbullTabs.json";
+import indiFilter from "../../../../DataJson/individualFilter.json";
 
-const tabs = [
-  {
-    title: "Overview",
-    id: "overview",
-    url: "/markets/top-india-investors-portfolio",
-  },
-  {
-    title: "All Investors",
-    id: "allInvestors",
-    url: "/markets/top-india-investors-portfolio/all-invertors",
-  },
-  {
-    title: "Qtr. Changes",
-    id: "qtrChanges",
-    url: "/markets/top-india-investors-portfolio/qtr-changes",
-  },
-  {
-    title: "Recent Transactions",
-    id: "recentTransactions",
-    url: "/markets/top-india-investors-portfolio/recent-transactions",
-  },
-  {
-    title: "Best Picks",
-    id: "bestPicks",
-    url: "/markets/top-india-investors-portfolio/best-picks",
-  },
-  {
-    title: "Most Held",
-    id: "mostHeld",
-    url: "/markets/top-india-investors-portfolio/most-held",
-  },
-];
+const tabs = tabsJson;
+const individualFilter = indiFilter;
 
 const BigBullAllInvertorsPageClientPage = ({
   data,
@@ -46,10 +18,21 @@ const BigBullAllInvertorsPageClientPage = ({
   pagination,
 }: any) => {
   console.log("___data", data, selectedFilter);
+  const [aciveFilter, setActiveFilter] = useState("INDIVIDUAL");
+  const fitlerHandler = (value: any) => {
+    setActiveFilter(value);
+  };
+  const callAPIfitler = () => {
+    // ====
+  };
+  useEffect(() => {
+    callAPIfitler();
+  }, [aciveFilter]);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [_tableData, setTableData] = useState(tableData);
   const [_tableHead, setTableHead] = useState(tableHead);
   const [_pagination, setPagination] = useState(pagination);
+
   const filterDataChangeHander = async (id: any) => {
     const filter =
       id !== undefined && !isNaN(Number(id))
@@ -62,7 +45,12 @@ const BigBullAllInvertorsPageClientPage = ({
   };
   return (
     <>
-      <BigBullTabs data={tabs} />
+      <BigBullTabs
+        data={tabs}
+        individualFilter={individualFilter}
+        aciveFilter={aciveFilter}
+        fitlerHandler={fitlerHandler}
+      />
       <BigBullTableCard
         tableData={_tableData}
         tableHead={_tableHead}
