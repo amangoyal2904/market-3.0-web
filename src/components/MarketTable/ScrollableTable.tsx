@@ -53,6 +53,8 @@ const ScrollableTable = (props: any) => {
                     className={`${
                       isSorting &&
                       thead.valueType != "date" &&
+                      thead.valueType != "lineGraph" &&
+                      thead.valueType != "sparklineGraph" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? styles.enableSort
                         : styles.center
@@ -60,6 +62,8 @@ const ScrollableTable = (props: any) => {
                     onClick={() => {
                       isSorting &&
                       thead.valueType != "date" &&
+                      thead.valueType != "lineGraph" &&
+                      thead.valueType != "sparklineGraph" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? handleSort(thead.keyId)
                         : null;
@@ -81,6 +85,8 @@ const ScrollableTable = (props: any) => {
                       </div>
                       {isSorting &&
                         thead.valueType != "date" &&
+                        thead.valueType != "lineGraph" &&
+                        thead.valueType != "sparklineGraph" &&
                         (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
                           <span className={`${styles.sortIcons}`}>
                             <span
@@ -125,7 +131,12 @@ const ScrollableTable = (props: any) => {
                           onChange={handleFilterChange}
                           maxLength={20}
                           placeholder="> #"
-                          disabled={!isPrime && tdData.primeFlag}
+                          disabled={
+                            (!isPrime && tdData.primeFlag) ||
+                            tdData.valueType == "date" ||
+                            tdData.valueType == "lineGraph" ||
+                            tdData.valueType == "sparklineGraph"
+                          }
                         ></input>
                         <span className="eticon_search"></span>
                       </span>
@@ -146,7 +157,7 @@ const ScrollableTable = (props: any) => {
                   (tdData: any, index: number) =>
                     index >= fixedCol && (
                       <td
-                        className={`${!tdData.primeFlag || isPrime ? tdData.trend : ""} ${
+                        className={`${!tdData.primeFlag || isPrime ? (tdData.valueType == "sparklineGraph" || tdData.valueType == "lineGraph" ? styles.noPadding : tdData.trend) : ""} ${
                           tdData.valueType == "number" &&
                           (!tdData.primeFlag || isPrime)
                             ? "numberFonts"
@@ -161,15 +172,59 @@ const ScrollableTable = (props: any) => {
                           <span onClick={goToPlansPage}>Upgrade to Prime</span>
                         ) : (
                           <>
-                            {tdData.valueType == "date"
-                              ? dateFormat(tdData.value, "%d %MMM %Y")
-                              : tdData.valueType == "number"
-                                ? !!tdData.value
-                                  ? tdData.value.replaceAll(" ", "")
-                                  : "-"
-                                : !!tdData.value
-                                  ? tdData.value
-                                  : "-"}
+                            {tdData.valueType == "date" ? (
+                              dateFormat(tdData.value, "%d %MMM %Y")
+                            ) : tdData.valueType == "lineGraph" ? (
+                              !!tdData.value && tdData.value.includes("/") ? (
+                                <div className={styles.lineGraph} key={index}>
+                                  <div className="dflex align-item-center space-between">
+                                    <p className={styles.head}>
+                                      {tdData.value.split("/")[0]}
+                                    </p>
+                                    <p className={styles.head}>
+                                      {tdData.value.split("/")[1]}
+                                    </p>
+                                  </div>
+                                  <div
+                                    className={`dflex align-item-center space-between ${styles.gap2}`}
+                                  >
+                                    <div
+                                      className={`${styles.bar} ${styles.up}`}
+                                      style={{
+                                        width: `${(parseInt(tdData.value.split("/")[0]) * 100) / (parseInt(tdData.value.split("/")[1]) + parseInt(tdData.value.split("/")[0]))}%`,
+                                      }}
+                                    ></div>
+                                    <div
+                                      className={`${styles.bar} ${styles.down}`}
+                                      style={{
+                                        width: `${(parseInt(tdData.value.split("/")[1]) * 100) / (parseInt(tdData.value.split("/")[1]) + parseInt(tdData.value.split("/")[0]))}%`,
+                                      }}
+                                    ></div>
+                                  </div>
+                                </div>
+                              ) : (
+                                ""
+                              )
+                            ) : tdData.valueType == "sparklineGraph" ? (
+                              !!tdData.value && (
+                                <img
+                                  src={`${tdData.value}&width=140&height=35`}
+                                  width={140}
+                                  height={35}
+                                  loading="lazy"
+                                />
+                              )
+                            ) : tdData.valueType == "number" ? (
+                              !!tdData.value ? (
+                                tdData.value.replaceAll(" ", "")
+                              ) : (
+                                "-"
+                              )
+                            ) : !!tdData.value ? (
+                              tdData.value
+                            ) : (
+                              "-"
+                            )}
                             {tdData.trend && (
                               <span
                                 className={`${styles.arrowIcons} ${

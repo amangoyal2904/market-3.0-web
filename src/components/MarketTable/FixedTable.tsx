@@ -82,6 +82,8 @@ const FixedTable = (props: any) => {
                     onClick={() => {
                       isSorting &&
                       thead.valueType != "date" &&
+                      thead.valueType != "lineGraph" &&
+                      thead.valueType != "sparklineGraph" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? handleSort(thead.keyId)
                         : null;
@@ -94,10 +96,12 @@ const FixedTable = (props: any) => {
                         ? styles.firstTh
                         : isSorting &&
                             thead.valueType != "date" &&
+                            thead.valueType != "lineGraph" &&
+                            thead.valueType != "sparklineGraph" &&
                             (!thead.primeFlag || (isPrime && thead.primeFlag))
                           ? styles.enableSort
                           : styles.center
-                    } ${isPrime && thead.primeFlag ? styles.primeCell : thead.valueType == "date" || thead.valueType == "text" ? styles.left : ""}`}
+                    } ${isPrime && thead.primeFlag ? styles.primeCell : thead.valueType == "date" || thead.valueType == "text" || index === 0 ? styles.left : ""}`}
                     key={index}
                   >
                     <div className={styles.thead}>
@@ -115,6 +119,8 @@ const FixedTable = (props: any) => {
                       </div>
                       {isSorting &&
                         thead.valueType != "date" &&
+                        thead.valueType != "lineGraph" &&
+                        thead.valueType != "sparklineGraph" &&
                         (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
                           <span className={`${styles.sortIcons}`}>
                             <span
@@ -172,6 +178,12 @@ const FixedTable = (props: any) => {
                             tdData.keyId == "shortNameKeyword"
                               ? "Search Value"
                               : "> #"
+                          }
+                          disabled={
+                            (!isPrime && tdData.primeFlag) ||
+                            tdData.valueType == "date" ||
+                            tdData.valueType == "lineGraph" ||
+                            tdData.valueType == "sparklineGraph"
                           }
                         ></input>
                         <span className="eticon_search"></span>
@@ -243,7 +255,7 @@ const FixedTable = (props: any) => {
                         </td>
                       ) : (
                         <td
-                          className={`${!tdData.primeFlag || isPrime ? tdData.trend : ""} ${
+                          className={`${!tdData.primeFlag || isPrime ? (tdData.valueType == "sparklineGraph" || tdData.valueType == "lineGraph" ? styles.noPadding : tdData.trend) : ""} ${
                             tdData.valueType == "number" &&
                             (!tdData.primeFlag || isPrime)
                               ? "numberFonts"
@@ -264,6 +276,46 @@ const FixedTable = (props: any) => {
                             <>
                               {tdData.valueType == "date" ? (
                                 dateFormat(tdData.value, "%d %MMM %Y")
+                              ) : tdData.valueType == "lineGraph" ? (
+                                !!tdData.value && tdData.value.includes("/") ? (
+                                  <div className={styles.lineGraph} key={index}>
+                                    <div className="dflex align-item-center space-between">
+                                      <p className={styles.head}>
+                                        {tdData.value.split("/")[0]}
+                                      </p>
+                                      <p className={styles.head}>
+                                        {tdData.value.split("/")[1]}
+                                      </p>
+                                    </div>
+                                    <div
+                                      className={`dflex align-item-center space-between ${styles.gap2}`}
+                                    >
+                                      <div
+                                        className={`${styles.bar} ${styles.up}`}
+                                        style={{
+                                          width: `${(parseInt(tdData.value.split("/")[0]) * 100) / (parseInt(tdData.value.split("/")[1]) + parseInt(tdData.value.split("/")[0]))}%`,
+                                        }}
+                                      ></div>
+                                      <div
+                                        className={`${styles.bar} ${styles.down}`}
+                                        style={{
+                                          width: `${(parseInt(tdData.value.split("/")[1]) * 100) / (parseInt(tdData.value.split("/")[1]) + parseInt(tdData.value.split("/")[0]))}%`,
+                                        }}
+                                      ></div>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  ""
+                                )
+                              ) : tdData.valueType == "sparklineGraph" ? (
+                                !!tdData.value && (
+                                  <img
+                                    src={`${tdData.value}&width=100&height=35`}
+                                    width={140}
+                                    height={35}
+                                    loading="lazy"
+                                  />
+                                )
                               ) : tdData.keyId == "lastTradedPrice" ? (
                                 <span
                                   className={
