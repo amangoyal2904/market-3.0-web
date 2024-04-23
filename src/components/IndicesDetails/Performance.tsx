@@ -3,7 +3,7 @@ import StockFilterNifty from "../StockFilterNifty";
 import { useEffect, useState } from "react";
 import { fetchFilters, getPeerIndices } from "@/utils/utility";
 import Link from "next/link";
-import ToasterPopup from "../ToasterPopup";
+import toast, { Toaster } from "react-hot-toast";
 
 const labels = ["", "1D", "1W", "1M", "3M", "1Y", "3Y", "5Y"];
 
@@ -32,8 +32,6 @@ const getTdMarkup = (value: number) => {
 const IndicesPerformance = ({ data, indexName, niftyFilterData = {} }: any) => {
   const [peersData, setPeersData] = useState(data);
   const [showFilter, setShowFilter] = useState(false);
-  const [toasterConfirmData, setToasterConfirmData] = useState({});
-  const [showToaster, setShowToaster] = useState(false);
   const [filterMenuData, setFilterMenuData]: any = useState("");
   let indexIds = peersData.map((item: any) => item.indexId);
 
@@ -51,7 +49,7 @@ const IndicesPerformance = ({ data, indexName, niftyFilterData = {} }: any) => {
     setPeersData(updatedPeerData);
   };
 
-  const handleChangeData = async (id: any) => {
+  const handleChangeData = async (id: any, name: any) => {
     setShowFilter(false);
     const indexExists = indexIds.includes(id);
 
@@ -61,12 +59,14 @@ const IndicesPerformance = ({ data, indexName, niftyFilterData = {} }: any) => {
       const updatedPeerData = await getPeerIndices(indexIds.join(","));
       setPeersData(updatedPeerData);
     } else {
-      const confirmData = {
-        title: "Already Added in the list",
-        id: id,
-      };
-      setToasterConfirmData(confirmData);
-      setShowToaster(true);
+      toast((t) => (
+        <span className={styles.errorToast}>
+          <b>{name}</b> Indices is already added
+          <button onClick={() => toast.dismiss(t.id)}>
+            <i className="eticon_cross"></i>
+          </button>
+        </span>
+      ));
     }
   };
 
@@ -146,13 +146,7 @@ const IndicesPerformance = ({ data, indexName, niftyFilterData = {} }: any) => {
           childMenuTabActive={niftyFilterData.indexId}
         />
       )}
-      {showToaster && (
-        <ToasterPopup
-          data={toasterConfirmData}
-          messageNCloseBtn="yes"
-          errorModule={true}
-        />
-      )}
+      <Toaster position="bottom-left" reverseOrder={false} />
     </>
   );
 };
