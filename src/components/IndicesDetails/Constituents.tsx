@@ -235,16 +235,13 @@ const IndicesConstituents = ({
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-  }, [_payload, isPrime]);
-
-  useEffect(() => {
     const intervalId = setInterval(() => {
       if (currentMarketStatus === "LIVE") {
         updateTableData();
       }
     }, refeshConfig.marketstats);
     return () => clearInterval(intervalId);
-  }, [currentMarketStatus]);
+  }, [_payload, isPrime, currentMarketStatus]);
 
   return (
     <>

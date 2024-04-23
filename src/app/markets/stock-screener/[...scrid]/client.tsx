@@ -594,16 +594,13 @@ const StockScreeners = ({
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-  }, [_payload]);
-
-  useEffect(() => {
     const intervalId = setInterval(() => {
       if (currentMarketStatus === "LIVE") {
         updateTableData();
       }
     }, refeshConfig.stocksScreener);
     return () => clearInterval(intervalId);
-  }, [currentMarketStatus]);
+  }, [_payload, currentMarketStatus]);
 
   useEffect(() => {
     const userSSOID = getCookie("ssoid");
