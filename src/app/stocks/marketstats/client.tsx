@@ -6,7 +6,7 @@ import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useEffect, useState } from "react";
-import { areObjectsNotEqual } from "@/utils";
+import { areObjectsNotEqual, getCookie } from "@/utils";
 import {
   fetchSelectedFilter,
   removePersonalizeViewById,
@@ -102,8 +102,8 @@ const MarketStats = ({
     const responseData: any = await fetchViewTable(
       { ..._payload },
       isTechnical ? "MARKETSTATS_TECHNICALS" : "MARKETSTATS_INTRADAY",
-      !!isPrime ? isPrime : false,
-      ssoid,
+      getCookie("isprimeuser") == "true" ? true : false,
+      getCookie("ssoid"),
     );
     if (!!responseData) {
       const _pageSummary = !!responseData.pageSummary

@@ -87,7 +87,7 @@
     "name": "indicesListing",
     "tabs": false,
     "loader": true,
-    "showFilterInput": true,
+    "showFilterInput": false,
     "isSorting": true,
     "serverSideSort": false,
     "isHeaderSticky": true,

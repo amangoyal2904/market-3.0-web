@@ -12,6 +12,7 @@ import refeshConfig from "@/utils/refreshConfig.json";
 import SlickSlider from "../SlickSlider";
 import { IndicesNewsCard } from "./IndicesNewsCard";
 import { OtherIndicesCard } from "./OtherIndicesCard";
+import { getCookie } from "@/utils";
 
 const IndicesConstituents = ({
   indexName,
@@ -211,8 +212,8 @@ const IndicesConstituents = ({
     const responseData: any = await fetchViewTable(
       { ..._payload },
       "MARKETSTATS_INTRADAY",
-      !!isPrime ? isPrime : false,
-      ssoid,
+      getCookie("isprimeuser") == "true" ? true : false,
+      getCookie("ssoid"),
     );
     if (!!responseData) {
       const _pageSummary = !!responseData.pageSummary
