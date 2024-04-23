@@ -89,7 +89,7 @@
     "loader": true,
     "showFilterInput": false,
     "isSorting": true,
-    "serverSideSort": false,
+    "serverSideSort": true,
     "isHeaderSticky": true,
     "pagination": false,
     "loaderType": "global",
