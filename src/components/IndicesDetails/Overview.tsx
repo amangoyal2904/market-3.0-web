@@ -43,7 +43,6 @@ const IndicesDetailsOverview = ({
         <h1 className={styles.headline}>{overviewData?.assetName}</h1>
         <Link
           href="/markets/indices"
-          target="_blank"
           title="View all Indices"
           className={styles.viewAll}
         >
