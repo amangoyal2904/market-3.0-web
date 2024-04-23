@@ -170,7 +170,9 @@ const IndicesDetailsOverview = ({
           </div>
           <div className={styles.bottom}>
             <div className={`dflex align-item-center ${styles.gap10}`}>
-              <span className={`${styles.label} ${styles.up}`}>Low</span>
+              <span className={`${styles.label} ${styles.up} ${styles.bold}`}>
+                Low
+              </span>
               <div className={styles.bar}>
                 <span
                   title={overviewData?.lastTradedPrice}
@@ -185,7 +187,9 @@ const IndicesDetailsOverview = ({
                   }}
                 ></span>
               </div>
-              <span className={`${styles.label} ${styles.down}`}>High</span>
+              <span className={`${styles.label} ${styles.down} ${styles.bold}`}>
+                High
+              </span>
             </div>
             <div className="dflex align-item-center space-between">
               <span className={styles.label}>
@@ -203,7 +207,9 @@ const IndicesDetailsOverview = ({
           </div>
           <div className={styles.bottom}>
             <div className={`dflex align-item-center ${styles.gap10}`}>
-              <span className={`${styles.label} ${styles.down}`}>Low</span>
+              <span className={`${styles.label} ${styles.down} ${styles.bold}`}>
+                Low
+              </span>
               <div className={styles.bar}>
                 <span
                   title={overviewData?.lastTradedPrice}
@@ -218,7 +224,9 @@ const IndicesDetailsOverview = ({
                   }}
                 ></span>
               </div>
-              <span className={`${styles.label} ${styles.up}`}>High</span>
+              <span className={`${styles.label} ${styles.up} ${styles.bold}`}>
+                High
+              </span>
             </div>
             <div className="dflex align-item-center space-between">
               <span className={styles.label}>

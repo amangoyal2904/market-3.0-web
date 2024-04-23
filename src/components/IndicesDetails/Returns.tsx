@@ -45,6 +45,7 @@ const IndicesReturns = ({ data }: any) => {
                 >
                   {index == 0 ? (
                     <>
+                      {value}%{" "}
                       <span
                         className={`${styles.arrowIcons} ${
                           value > 0
@@ -54,7 +55,6 @@ const IndicesReturns = ({ data }: any) => {
                               : ""
                         }`}
                       />
-                      {value}
                     </>
                   ) : i === 0 ? (
                     value
