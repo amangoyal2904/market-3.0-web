@@ -9,7 +9,11 @@ export const metadata: Metadata = {
 };
 
 const Indices = async () => {
-  const { tableHeaderData, tableData, exchange } = await getAllIndices("nse");
+  const { tableHeaderData, tableData, exchange } = await getAllIndices(
+    "nse",
+    "",
+    "DESC",
+  );
 
   return (
     <IndicesClient
