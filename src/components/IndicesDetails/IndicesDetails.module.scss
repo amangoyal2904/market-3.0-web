@@ -37,15 +37,15 @@
     color: $blue-50;
     text-decoration: none;
     border-left: 1px solid #d6d6d6;
-    margin-left: 20px;
-    padding-left: 20px;
+    margin-left: 12px;
+    padding-left: 12px;
   }
 
   .indexOpts {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
+    margin: 15px 0 5px;
     .ltp {
       font-family: var(--font-lato);
       font-size: 32px;
@@ -162,11 +162,16 @@
         font-size: 16px;
         font-weight: 700;
         line-height: 20px;
+        margin: 2px 0;
       }
       .label {
         font-size: 14px;
         line-height: 16px;
         font-weight: 400;
+        margin: 2px 0;
+        &.bold {
+          font-weight: 600;
+        }
       }
       .up {
         color: $green-80;
@@ -277,6 +282,11 @@
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     white-space: nowrap;
+    .arrowIcons {
+      font-size: 16px;
+      margin-left: 2px;
+      vertical-align: bottom;
+    }
     i {
       position: relative;
       cursor: pointer;
@@ -417,6 +427,9 @@
         text-overflow: ellipsis;
         white-space: nowrap;
       }
+      i {
+        font-size: 18px;
+      }
     }
     .ltp {
       font-family: var(--font-lato);
@@ -445,11 +458,13 @@
         font-size: 12px;
         font-weight: 700;
         line-height: 15px;
+        margin: 2px 0;
       }
       .label {
         font-size: 12px;
         line-height: 15px;
         font-weight: 400;
+        margin: 2px 0;
       }
       .up {
         color: $green-80;
