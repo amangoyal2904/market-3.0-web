@@ -52,6 +52,6 @@
     "showExport": false,
     "showCreateScreener": false,
     "showIndustryFilter": false,
-    "showSectorFilter": true
+    "showSectorFilter": false
   }
 }
