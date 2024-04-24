@@ -1,6 +1,5 @@
 import { dateFormat } from "@/utils";
 import styles from "./IndicesDetails.module.scss";
-import Link from "next/link";
 export const IndicesNewsCard = ({ data }: any) => {
   const updateURLDimensions = (url: string) => {
     const regex = /width=\d+&height=\d+/;
@@ -9,7 +8,7 @@ export const IndicesNewsCard = ({ data }: any) => {
     return "https://img.etimg.com" + newUrl;
   };
   return (
-    <Link
+    <a
       className={styles.newsCard}
       href={data.wu}
       target="_blank"
@@ -26,6 +25,6 @@ export const IndicesNewsCard = ({ data }: any) => {
         alt={data.hl}
         loading="lazy"
       />
-    </Link>
+    </a>
   );
 };

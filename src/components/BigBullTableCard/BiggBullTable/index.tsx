@@ -1,7 +1,6 @@
 import styles from "./styles.module.scss";
 import Image from "next/image";
 import { getStockUrl } from "@/utils/utility";
-import Link from "next/link";
 
 const BiggBullTable = ({
   tableHead,
@@ -125,7 +124,7 @@ const BiggBullTable = ({
                     <div className={styles.bestPickSec}>
                       <div className={styles.leftSec}>
                         <h5 className={styles.head5}>
-                          <Link
+                          <a
                             href={getStockUrl(
                               bestPicks[0].uiLabel?.companyId,
                               bestPicks[0].uiLabel?.companySeoName,
@@ -136,7 +135,7 @@ const BiggBullTable = ({
                             {bestPicks.length > 0
                               ? bestPicks[0].uiLabel?.text
                               : null}
-                          </Link>
+                          </a>
                         </h5>
                         <span
                           className={`${styles.bestTxtSec} ${
@@ -161,7 +160,7 @@ const BiggBullTable = ({
                     <div className={styles.bestPickSec}>
                       <div className={styles.leftSec}>
                         <h5 className={styles.head5}>
-                          <Link
+                          <a
                             href={getStockUrl(
                               bestPicksToNext[0].uiLabel?.companyId,
                               bestPicksToNext[0].uiLabel?.companySeoName,
@@ -172,7 +171,7 @@ const BiggBullTable = ({
                             {bestPicksToNext.length > 0
                               ? bestPicksToNext[0].uiLabel?.text
                               : null}
-                          </Link>
+                          </a>
                         </h5>
                         <span
                           className={`${styles.bestTxtSec} ${
