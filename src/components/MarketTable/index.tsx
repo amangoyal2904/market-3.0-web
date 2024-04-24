@@ -329,6 +329,7 @@ const MarketTable = (props: propsType) => {
               fixedCol={fixedCol}
             />
             <ScrollableTable
+              highlightLtp={highlightLtp}
               tableHeaderData={tableHeaderData}
               tableDataList={tableDataList}
               scrollRightPos={scrollRightPos}
