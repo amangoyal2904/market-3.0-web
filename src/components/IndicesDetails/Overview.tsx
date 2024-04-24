@@ -111,13 +111,16 @@ const IndicesDetailsOverview = ({
             })}
           </ul>
           <a
-            className="eticon_candlestick"
+            className={styles.technical}
             target="_blank"
             title={`Technicals: ${overviewData?.assetName}`}
             href={`https://economictimes.indiatimes.com/markets/technical-charts?symbol=${symbol}&exchange=${exchange}&entity=index`}
           >
-            <span className="path1"></span>
-            <span className="path2"></span>
+            Technicals
+            <span className="eticon_candlestick">
+              <span className="path1"></span>
+              <span className="path2"></span>
+            </span>
           </a>
         </div>
         <iframe
