@@ -113,7 +113,7 @@ const IndicesDetailsOverview = ({
           <Link
             className="eticon_candlestick"
             target="_blank"
-            title={`${symbol} Technicals`}
+            title={`Technicals: ${overviewData?.assetName}`}
             href={`https://economictimes.indiatimes.com/markets/technical-charts?symbol=${symbol}&exchange=${exchange}&entity=index`}
           >
             <span className="path1"></span>
@@ -141,7 +141,7 @@ const IndicesDetailsOverview = ({
               <p className={styles.head}>{overviewData?.declines} Declines</p>
             </div>
             <div
-              className={`dflex align-item-center space-between ${styles.gap2}`}
+              className={`dflex align-item-center space-between ${overviewData?.advancesPercentage != "100" && overviewData?.declinesPercentage != "100" ? styles.gap2 : ""}`}
             >
               <div
                 className={`${styles.bar} ${styles.up}`}
