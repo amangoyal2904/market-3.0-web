@@ -59,7 +59,7 @@
   },
   "INDICES_LIST": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/indices-data",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/indices-data"
+    "production": "https://etapi.indiatimes.com/et-screener/indices-data"
   },
   "INDEX_FILTERS": {
     "development": "https://etapipre.indiatimes.com/api/indexfilters",
@@ -87,23 +87,23 @@
   },
   "ALLINDICES": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/listing-page-data",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/listing-page-data"
+    "production": "https://etapi.indiatimes.com/et-screener/listing-page-data"
   },
   "INDICES_OVERVIEW": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/index-summary",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/index-summary"
+    "production": "https://etapi.indiatimes.com/et-screener/index-summary"
   },
   "INDICES_TECHNICALS": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/technical-analysis",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/technical-analysis"
+    "production": "https://etapi.indiatimes.com/et-screener/technical-analysis"
   },
   "INDICES_CONSITUENTS": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats"
+    "production": "https://etapi.indiatimes.com/et-screener/intraday-stats"
   },
   "INDICES_PEER": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/peer-indices",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/peer-indices"
+    "production": "https://etapi.indiatimes.com/et-screener/peer-indices"
   },
   "INDICES_NEWS": {
     "development": "https://etdev8243.indiatimes.com/indicesnewsfeed.cms",
@@ -111,7 +111,7 @@
   },
   "INDICES_OTHER": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/other-indices",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/other-indices"
+    "production": "https://etapi.indiatimes.com/et-screener/other-indices"
   },
   "MARKETMOODS_OVERVIEW": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/marketbreadth/overview",
