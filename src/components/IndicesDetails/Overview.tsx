@@ -43,7 +43,6 @@ const IndicesDetailsOverview = ({
         <h1 className={styles.headline}>{overviewData?.assetName}</h1>
         <Link
           href="/markets/indices"
-          target="_blank"
           title="View all Indices"
           className={styles.viewAll}
         >
@@ -111,15 +110,15 @@ const IndicesDetailsOverview = ({
               );
             })}
           </ul>
-          <Link
+          <a
             className="eticon_candlestick"
             target="_blank"
-            title={`${symbol} Technicals`}
+            title={`Technicals: ${overviewData?.assetName}`}
             href={`https://economictimes.indiatimes.com/markets/technical-charts?symbol=${symbol}&exchange=${exchange}&entity=index`}
           >
             <span className="path1"></span>
             <span className="path2"></span>
-          </Link>
+          </a>
         </div>
         <iframe
           src={iframeSrc}
@@ -142,7 +141,7 @@ const IndicesDetailsOverview = ({
               <p className={styles.head}>{overviewData?.declines} Declines</p>
             </div>
             <div
-              className={`dflex align-item-center space-between ${styles.gap2}`}
+              className={`dflex align-item-center space-between ${overviewData?.advancesPercentage != "100" && overviewData?.declinesPercentage != "100" ? styles.gap2 : ""}`}
             >
               <div
                 className={`${styles.bar} ${styles.up}`}
@@ -171,7 +170,9 @@ const IndicesDetailsOverview = ({
           </div>
           <div className={styles.bottom}>
             <div className={`dflex align-item-center ${styles.gap10}`}>
-              <span className={`${styles.label} ${styles.up}`}>Low</span>
+              <span className={`${styles.label} ${styles.up} ${styles.bold}`}>
+                Low
+              </span>
               <div className={styles.bar}>
                 <span
                   title={overviewData?.lastTradedPrice}
@@ -186,7 +187,9 @@ const IndicesDetailsOverview = ({
                   }}
                 ></span>
               </div>
-              <span className={`${styles.label} ${styles.down}`}>High</span>
+              <span className={`${styles.label} ${styles.down} ${styles.bold}`}>
+                High
+              </span>
             </div>
             <div className="dflex align-item-center space-between">
               <span className={styles.label}>
@@ -204,7 +207,9 @@ const IndicesDetailsOverview = ({
           </div>
           <div className={styles.bottom}>
             <div className={`dflex align-item-center ${styles.gap10}`}>
-              <span className={`${styles.label} ${styles.down}`}>Low</span>
+              <span className={`${styles.label} ${styles.down} ${styles.bold}`}>
+                Low
+              </span>
               <div className={styles.bar}>
                 <span
                   title={overviewData?.lastTradedPrice}
@@ -219,7 +224,9 @@ const IndicesDetailsOverview = ({
                   }}
                 ></span>
               </div>
-              <span className={`${styles.label} ${styles.up}`}>High</span>
+              <span className={`${styles.label} ${styles.up} ${styles.bold}`}>
+                High
+              </span>
             </div>
             <div className="dflex align-item-center space-between">
               <span className={styles.label}>

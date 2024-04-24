@@ -18,7 +18,7 @@ const pageTabData = [
   { label: "Returns", key: "returns" },
   { label: "Performance", key: "performance" },
   { label: "Technical Analysis", key: "technicalanalysis" },
-  { label: "Consitutents", key: "consitutents" },
+  { label: "Constituents", key: "constituents" },
   { label: "FAQs", key: "faqs" },
 ];
 
@@ -165,7 +165,7 @@ const IndicesDetailsClient = ({
             {item.key === "technicalanalysis" && (
               <IndicesTechnicalAnalysis data={technicals} symbol={symbol} />
             )}
-            {item.key === "consitutents" && (
+            {item.key === "constituents" && (
               <IndicesConstituents
                 indexName={indexName}
                 otherIndices={others}
