@@ -5,8 +5,13 @@ import { getStockUrl } from "@/utils/utility";
 import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useStateContext } from "@/store/StateContext";
 
 const BigBullCard = ({ data, type }: any) => {
+  const { state } = useStateContext();
+  const { isPrime } = state.login;
+  console.log("isPrime", isPrime);
+
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef<Slider>(null);
 
@@ -112,20 +117,24 @@ const BigBullCard = ({ data, type }: any) => {
             <div className={styles.mtLeft}>
               {/* <div className={styles.updateDate}>Updated for Mar24 Qtr</div> */}
               <div className={styles.cname}>
-                <a
-                  href={getStockUrl(
-                    data?.companyData?.companyId ||
-                      data?.bestPickStockData?.companyData?.companyId,
-                    data?.companyData?.companySeoName ||
-                      data?.bestPickStockData?.companyData?.companySeoName,
-                    data?.companyData?.companyType ||
-                      data?.bestPickStockData?.companyData?.companyType,
-                  )}
-                  target="_blank"
-                >
-                  {data?.companyData?.text ||
-                    data?.bestPickStockData?.companyData?.text}
-                </a>
+                {isPrime ? (
+                  <a
+                    href={getStockUrl(
+                      data?.companyData?.companyId ||
+                        data?.bestPickStockData?.companyData?.companyId,
+                      data?.companyData?.companySeoName ||
+                        data?.bestPickStockData?.companyData?.companySeoName,
+                      data?.companyData?.companyType ||
+                        data?.bestPickStockData?.companyData?.companyType,
+                    )}
+                    target="_blank"
+                  >
+                    {data?.companyData?.text ||
+                      data?.bestPickStockData?.companyData?.text}
+                  </a>
+                ) : (
+                  <span className={styles.nameBlur}></span>
+                )}
               </div>
             </div>
             <div className={styles.mtRight}>+</div>
@@ -239,16 +248,20 @@ const BigBullCard = ({ data, type }: any) => {
                           {card?.text}
                         </span>
                         <h4>
-                          <a
-                            href={getStockUrl(
-                              card.uiLabel.companyId,
-                              card.uiLabel.companySeoName,
-                              card.uiLabel.companyType,
-                            )}
-                            target="_blank"
-                          >
-                            {card?.uiLabel.text}
-                          </a>
+                          {isPrime ? (
+                            <a
+                              href={getStockUrl(
+                                card.uiLabel.companyId,
+                                card.uiLabel.companySeoName,
+                                card.uiLabel.companyType,
+                              )}
+                              target="_blank"
+                            >
+                              {card?.uiLabel.text}
+                            </a>
+                          ) : (
+                            <span className={styles.nameBlur}></span>
+                          )}
                         </h4>
                         <h5>
                           <span
