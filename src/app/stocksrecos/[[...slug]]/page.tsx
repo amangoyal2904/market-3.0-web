@@ -17,6 +17,7 @@ import Disclaimer from "@/components/StockRecosListing/Disclaimer";
 import { redirect } from "next/navigation";
 import { headers, cookies } from "next/headers";
 import { Metadata, ResolvingMetadata } from "next";
+import BreadCrumb from "@/components/BreadCrumb";
 
 const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
   try {

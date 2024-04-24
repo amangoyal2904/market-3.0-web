@@ -304,11 +304,14 @@ table {
 }
 
 .main_container {
-  padding: 20px;
+  padding: 20px 20px 10px 20px;
   flex-grow: 1;
   width: calc(100vw - 212px);
 }
-
+.pageBottomContainer {
+  background-color: rgb(255, 226, 218);
+  padding: 25px;
+}
 .heading {
   font-size: 32px;
   font-style: normal;

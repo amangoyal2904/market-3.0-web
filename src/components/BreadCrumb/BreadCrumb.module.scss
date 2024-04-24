@@ -1,0 +1,22 @@
+@import "../../styles/variables.scss";
+.breadCrumbContainer {
+  margin-top: 20px;
+}
+ul.brUl {
+  li {
+    list-style-type: none;
+    display: inline;
+    padding-left: 20px;
+    position: relative;
+    span {
+      font-size: 20px;
+      position: absolute;
+      left: 0px;
+      top: -1px;
+    }
+  }
+  li.home {
+    color: #4d4d4d;
+    padding-left: 0;
+  }
+}

@@ -1,0 +1,159 @@
+@import "../../styles/variables.scss";
+.footerContainer {
+  min-height: 200px;
+  background-color: $salmon-50;
+  .footerSection {
+    padding-bottom: 30px;
+    border-bottom: 1px solid #ecc3b7;
+  }
+  .footerTopContainer {
+    display: flex;
+    flex-direction: row;
+  }
+  .ftLogoSearch {
+    border-right: 4px double #ebc3b7;
+    width: 400px;
+    padding: 20px 0 30px;
+    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .ftLogo {
+      margin-bottom: 5px;
+    }
+  }
+  .ftBrowse {
+    width: calc(100vw - 425px);
+    p {
+      color: #99756b;
+      font-size: 18px;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+    .browseAll {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      a {
+        color: #644c45;
+        font-size: 15px;
+        font-weight: 500;
+        background-color: #fff;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 4px;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        line-height: 24px;
+        margin-bottom: 15px;
+      }
+    }
+  }
+  .footerMidContainer {
+    padding: 40px 0;
+  }
+  .footerBottomContainer {
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    .alignLeft,
+    .alignRight {
+      display: flex;
+    }
+    .followUs {
+      margin-right: 30px;
+      h3 {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: capitalize;
+        margin-bottom: 5px;
+      }
+      a img {
+        font-size: 40px;
+        margin-right: 10px;
+      }
+    }
+    .etDwnld {
+      h3 {
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+      a {
+        padding: 10px 20px 10px 0;
+        display: inline-block;
+      }
+      a:last-child {
+        border-left: 1px solid #414141;
+        padding-left: 20px;
+      }
+    }
+    .subscribe {
+      margin-right: 30px;
+      a div {
+        font-size: 45px;
+      }
+      h3 {
+        font-size: 12px;
+        font-weight: 700;
+      }
+    }
+  }
+  .footerList {
+    position: relative;
+    margin-bottom: 20px;
+    height: 50px;
+    overflow: hidden;
+    .toggleLinks {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      float: right;
+      position: relative;
+      margin-right: 30px;
+      span.caret {
+        font-size: 25px;
+        position: absolute;
+        top: -5px;
+      }
+    }
+    .footerLinks {
+      width: 90%;
+    }
+    .footerLinks div {
+      display: inline-block;
+    }
+    .expanded ~ .footerLinks .showMoreLinks {
+      display: none;
+    }
+    .collapsed ~ .footerLinks .showMoreLinks {
+      display: inline-block;
+    }
+    h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    a:first-child {
+      padding-left: 0;
+    }
+    a {
+      margin-right: 15px;
+      padding-right: 20px;
+      border-right: 1px solid;
+      margin-bottom: 5px;
+      display: inline-block;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 300px;
+    }
+  }
+  .footerList.visible {
+    height: auto;
+    overflow: visible;
+  }
+}
