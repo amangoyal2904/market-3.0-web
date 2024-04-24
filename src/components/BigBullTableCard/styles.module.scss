@@ -100,3 +100,21 @@
     }
   }
 }
+.sortyByFilter {
+  display: inline-block;
+  vertical-align: top;
+  margin: 5px 15px 0 0;
+  font-size: 12px;
+  font-weight: 400;
+  strong {
+    font-weight: 600;
+  }
+  .sortSec {
+    display: block;
+    span {
+      position: relative;
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
+}
