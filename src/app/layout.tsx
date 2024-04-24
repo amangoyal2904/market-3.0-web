@@ -50,6 +50,9 @@ export const metadata: Metadata = {
     "Share Market Live, Share Market Today: Latest Share Market News, Share Market Live Updates on The Economic Times",
   description:
     "Share Market Today | Share Market Live updates: Get all the Latest Share Market News and Updates on The Economic Times. Share Market Live Charts, News, Analysis, IPO News and more.",
+  icons: {
+    icon: "/etfavicon.ico",
+  },
 };
 
 export default async function RootLayout({
