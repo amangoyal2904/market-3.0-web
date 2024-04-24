@@ -2,26 +2,41 @@ import styles from "./styles.module.scss";
 import Image from "next/image";
 import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
+import Loader from "../../Loader";
+import { useStateContext } from "@/store/StateContext";
 
 const BiggBullTable = ({
   tableHead,
   tableData,
-  isSorting = true,
-  isPrime = false,
+  sortData,
+  handleSort,
+  shouldShowLoader,
 }: any) => {
-  const thead: any = {};
-  const sortData: any = {};
+  const { state } = useStateContext();
+  const { isPrime } = state.login;
+  console.log("isPrime", isPrime);
   return (
-    <>
+    <div className="prel">
       <table className={styles.bibBullCustomTable}>
         <thead>
           <tr>
             {tableHead &&
               tableHead.length > 0 &&
-              tableHead.map((th: any, index: number) => {
+              tableHead.map((thead: any, index: number) => {
                 return (
-                  <th key={`${index}-${th.id}`}>
-                    <div className={styles.thead}>
+                  <th
+                    key={`${index}-${thead.id}`}
+                    className={`${thead.sort ? styles.enableSort : ""}`}
+                  >
+                    <div
+                      className={`${styles.thead}`}
+                      onClick={() => {
+                        thead.sort &&
+                        (!thead.primeFlag || (isPrime && thead.primeFlag))
+                          ? handleSort(thead?.id, thead?.orderBy)
+                          : null;
+                      }}
+                    >
                       <div className={styles.theading}>
                         {isPrime && thead?.primeFlag ? (
                           <Image
@@ -32,24 +47,23 @@ const BiggBullTable = ({
                             className={styles.primeIcon}
                           />
                         ) : null}
-                        {th.name}
+                        {thead.name}
                       </div>
-                      {th.sort &&
-                        thead.valueType != "date" &&
+                      {thead.sort &&
                         (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
                           <span className={`${styles.sortIcons}`}>
                             <span
                               className={`${
-                                sortData.field == thead.keyId &&
-                                sortData.order == "ASC"
+                                sortData?.field == thead.id &&
+                                sortData?.order == "ASC"
                                   ? styles.asc
                                   : ""
                               } eticon_up_arrow`}
                             ></span>
                             <span
                               className={`${
-                                sortData.field == thead.keyId &&
-                                sortData.order == "DESC"
+                                sortData?.field == thead.id &&
+                                sortData?.order == "DESC"
                                   ? styles.desc
                                   : ""
                               } eticon_down_arrow`}
@@ -125,18 +139,22 @@ const BiggBullTable = ({
                     <div className={styles.bestPickSec}>
                       <div className={styles.leftSec}>
                         <h5 className={styles.head5}>
-                          <Link
-                            href={getStockUrl(
-                              bestPicks[0].uiLabel?.companyId,
-                              bestPicks[0].uiLabel?.companySeoName,
-                              bestPicks[0].uiLabel?.companyType,
-                            )}
-                            target="_blank"
-                          >
-                            {bestPicks.length > 0
-                              ? bestPicks[0].uiLabel?.text
-                              : null}
-                          </Link>
+                          {isPrime ? (
+                            <a
+                              href={getStockUrl(
+                                bestPicks[0].uiLabel?.companyId,
+                                bestPicks[0].uiLabel?.companySeoName,
+                                bestPicks[0].uiLabel?.companyType,
+                              )}
+                              target="_blank"
+                            >
+                              {bestPicks.length > 0
+                                ? bestPicks[0].uiLabel?.text
+                                : null}
+                            </a>
+                          ) : (
+                            <span className={styles.nameBlur}></span>
+                          )}
                         </h5>
                         <span
                           className={`${styles.bestTxtSec} ${
@@ -161,18 +179,22 @@ const BiggBullTable = ({
                     <div className={styles.bestPickSec}>
                       <div className={styles.leftSec}>
                         <h5 className={styles.head5}>
-                          <Link
-                            href={getStockUrl(
-                              bestPicksToNext[0].uiLabel?.companyId,
-                              bestPicksToNext[0].uiLabel?.companySeoName,
-                              bestPicksToNext[0].uiLabel?.companyType,
-                            )}
-                            target="_blank"
-                          >
-                            {bestPicksToNext.length > 0
-                              ? bestPicksToNext[0].uiLabel?.text
-                              : null}
-                          </Link>
+                          {isPrime ? (
+                            <a
+                              href={getStockUrl(
+                                bestPicksToNext[0].uiLabel?.companyId,
+                                bestPicksToNext[0].uiLabel?.companySeoName,
+                                bestPicksToNext[0].uiLabel?.companyType,
+                              )}
+                              target="_blank"
+                            >
+                              {bestPicksToNext.length > 0
+                                ? bestPicksToNext[0].uiLabel?.text
+                                : null}
+                            </a>
+                          ) : (
+                            <span className={styles.nameBlur}></span>
+                          )}
                         </h5>
                         <span
                           className={`${styles.bestTxtSec} ${
@@ -196,7 +218,8 @@ const BiggBullTable = ({
             })}
         </tbody>
       </table>
-    </>
+      {shouldShowLoader && <Loader loaderType="container" />}
+    </div>
   );
 };
 

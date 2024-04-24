@@ -76,15 +76,26 @@ const BigBullPage = async () => {
     `BigBullGetMostHeld`,
     mostHeldBodyParams,
   );
-
+  const payload = {
+    ssoId: "",
+    investorType: "INDIVIDUAL",
+    sortBy: "networth",
+    orderBy: "DESC",
+    primeFlag: 1,
+    pageSize: 3,
+    pageNo: 1,
+  };
+  const data = await commonPostAPIHandler(
+    `BigBullAllInverstorOverview`,
+    payload,
+  );
   const bigBullData = {
-    pageData: {
-      individualInvestors: IndividualInvestors?.datainfo?.investorlist || {},
-      lastQuater: lastQuater?.datainfo?.investorKeyChanges || {},
-      recentTransactions: recentTransactions?.datainfo?.recentDealsInfo || {},
-      bestPicks: bestPicks?.datainfo?.bestPicksDataInfo || {},
-      mostHeld: mostHeld?.datainfo?.mostHoldCompanyInfo || {},
-    },
+    pageData: data.datainfo,
+    // individualInvestors: IndividualInvestors?.datainfo?.investorlist || {},
+    // lastQuater: lastQuater?.datainfo?.investorKeyChanges || {},
+    // recentTransactions: recentTransactions?.datainfo?.recentDealsInfo || {},
+    // bestPicks: bestPicks?.datainfo?.bestPicksDataInfo || {},
+    // mostHeld: mostHeld?.datainfo?.mostHoldCompanyInfo || {},
   };
   return <BigBullClientPage data={bigBullData} />;
 };

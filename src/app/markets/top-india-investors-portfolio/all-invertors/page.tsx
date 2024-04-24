@@ -19,12 +19,48 @@ const BigBullAllInvertorsPage = async () => {
   const __tableData: any[] =
     IndividualInvestors?.datainfo?.investorlist?.investorData || [];
   const __tableHead: any[] = [
-    { name: "Investors Name", id: "0", sort: true },
-    { name: "No. Of Companies", id: "1", sort: true },
-    { name: "Networth (Cr)", id: "2", sort: true },
-    { name: "Networth (QoQ)", id: "3", sort: true },
-    { name: "Best Picks", id: "4", sort: true },
-    { name: "Top Activity", id: "5", sort: true },
+    {
+      name: "Investors Name",
+      id: "0",
+      sort: true,
+      primeFlag: false,
+      orderBy: "name",
+    },
+    {
+      name: "No. Of Companies",
+      id: "1",
+      sort: true,
+      primeFlag: false,
+      orderBy: "noOfCompanies",
+    },
+    {
+      name: "Networth (Cr)",
+      id: "2",
+      sort: true,
+      primeFlag: false,
+      orderBy: "networth",
+    },
+    {
+      name: "Networth (QoQ)",
+      id: "3",
+      sort: true,
+      primeFlag: false,
+      orderBy: "3MReturn",
+    },
+    {
+      name: "Best Picks",
+      id: "4",
+      sort: true,
+      primeFlag: false,
+      orderBy: "bestPick",
+    },
+    {
+      name: "Top Activity",
+      id: "5",
+      sort: true,
+      primeFlag: false,
+      orderBy: "mostIncrease",
+    },
   ];
   const __pagination =
     IndividualInvestors?.datainfo?.investorlist?.pageSummaryInfo || {};

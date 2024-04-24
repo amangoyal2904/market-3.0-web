@@ -8,18 +8,38 @@ import { fetchSelectedFilter } from "@/utils/utility";
 import BigBullTabs from "../../../components/BigBullTabs";
 import tabsJson from "../../../DataJson/bigbullTabs.json";
 import indiFilter from "../../../DataJson/individualFilter.json";
+import { commonPostAPIHandler } from "../../../utils/screeners";
 
 const tabs = tabsJson;
 const individualFilter = indiFilter;
 
 const BigBullClientPage = ({ data }: any) => {
-  console.log("___data", data);
+  console.log("__======_data", data);
   const [aciveFilter, setActiveFilter] = useState("INDIVIDUAL");
+  const [__data, setData] = useState(data);
   const fitlerHandler = (value: any) => {
     setActiveFilter(value);
   };
-  const callAPIfitler = () => {
-    // ====
+  const callAPIfitler = async () => {
+    const payload = {
+      ssoId: "",
+      investorType: aciveFilter,
+      sortBy: "networth",
+      orderBy: "DESC",
+      primeFlag: 1,
+      pageSize: 3,
+      pageNo: 1,
+    };
+    const data = await commonPostAPIHandler(
+      `BigBullAllInverstorOverview`,
+      payload,
+    );
+    if (data && data.datainfo) {
+      const newData = {
+        pageData: data.datainfo,
+      };
+      setData(newData);
+    }
   };
   useEffect(() => {
     callAPIfitler();
@@ -34,39 +54,39 @@ const BigBullClientPage = ({ data }: any) => {
           fitlerHandler={fitlerHandler}
         />
         <BigBullSection
-          data={data?.pageData?.individualInvestors?.investorData}
+          data={__data?.pageData?.investorlist?.investorData}
           cartLink={`/markets/top-india-investors-portfolio/all-invertors`}
           title="Individual Investors"
           type="card1"
-          cartTitle={`View All ${data?.pageData?.individualInvestors?.pageSummaryInfo?.totalPages} Investors`}
+          cartTitle={`View All ${__data?.pageData?.investorlist?.pageSummaryInfo?.totalPages} Investors`}
         />
         <BigBullSection
           title="Changes in Holdings from Last Quarter "
           type="card2"
-          data={data?.pageData?.lastQuater?.investorKeyChangesData}
+          data={__data?.pageData?.investorKeyChanges?.investorKeyChangesData}
           cartLink={`/markets/top-india-investors-portfolio/qtr-changes`}
           cartTitle="View All Holding Changes"
         />
         <BigBullSection
           title="Recent Transactions "
           type="card2"
-          data={data?.pageData?.recentTransactions?.listRecentDeals}
-          cartLink="/cartLink"
+          data={__data?.pageData?.recentDealsInfo?.listRecentDeals}
+          cartLink={`/markets/top-india-investors-portfolio/recent-transactions`}
           cartTitle="View All Recent Transactions"
         />
         <BigBullSection
           title="Best Stock Picks "
           type="card2"
-          data={data?.pageData?.bestPicks?.bestPicksListInfo}
-          cartLink="/cartLink"
-          cartTitle={`View All ${data?.pageData?.bestPicks?.pageSummaryInfo?.totalPages} Best STock Picks`}
+          data={__data?.pageData?.bestPicksDataInfo?.bestPicksListInfo}
+          cartLink={`/markets/top-india-investors-portfolio/best-picks`}
+          cartTitle={`View All ${__data?.pageData?.bestPicksDataInfo?.pageSummaryInfo?.totalPages} Best STock Picks`}
         />
         <BigBullSection
           title="Most Held Stocks "
           type="card3"
-          data={data?.pageData?.mostHeld?.mostHoldStockData}
-          cartLink="/cartLink"
-          cartTitle={`View All ${data?.pageData?.mostHeld?.pageSummaryInfo?.totalPages} Most Helds Stocks`}
+          data={__data?.pageData?.mostHoldCompanyInfo?.mostHoldStockData}
+          cartLink={`/markets/top-india-investors-portfolio/most-held`}
+          cartTitle={`View All ${__data?.pageData?.mostHoldCompanyInfo?.pageSummaryInfo?.totalPages} Most Helds Stocks`}
         />
       </div>
     </>

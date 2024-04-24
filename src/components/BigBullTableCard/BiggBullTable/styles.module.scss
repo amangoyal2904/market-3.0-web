@@ -260,3 +260,16 @@
     background-color: rgba(244, 248, 255, 1);
   }
 }
+
+.nameBlur {
+  margin: 0;
+  background: url(https://img.etimg.com/photo/msid-105722735,quality-100/stock-reports-sprite.jpg)
+    no-repeat -219px -104px;
+  height: 23px;
+  background-size: 384px 148px;
+  font-size: 0;
+  width: 100px;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+}
