@@ -1,6 +1,5 @@
 import styles from "./styles.module.scss";
 import { useEffect, useState, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { getStockUrl } from "@/utils/utility";
 import Slider, { Settings } from "react-slick";
@@ -113,7 +112,7 @@ const BigBullCard = ({ data, type }: any) => {
             <div className={styles.mtLeft}>
               {/* <div className={styles.updateDate}>Updated for Mar24 Qtr</div> */}
               <div className={styles.cname}>
-                <Link
+                <a
                   href={getStockUrl(
                     data?.companyData?.companyId ||
                       data?.bestPickStockData?.companyData?.companyId,
@@ -126,7 +125,7 @@ const BigBullCard = ({ data, type }: any) => {
                 >
                   {data?.companyData?.text ||
                     data?.bestPickStockData?.companyData?.text}
-                </Link>
+                </a>
               </div>
             </div>
             <div className={styles.mtRight}>+</div>
@@ -240,7 +239,7 @@ const BigBullCard = ({ data, type }: any) => {
                           {card?.text}
                         </span>
                         <h4>
-                          <Link
+                          <a
                             href={getStockUrl(
                               card.uiLabel.companyId,
                               card.uiLabel.companySeoName,
@@ -249,7 +248,7 @@ const BigBullCard = ({ data, type }: any) => {
                             target="_blank"
                           >
                             {card?.uiLabel.text}
-                          </Link>
+                          </a>
                         </h4>
                         <h5>
                           <span

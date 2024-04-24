@@ -110,7 +110,7 @@ const IndicesDetailsOverview = ({
               );
             })}
           </ul>
-          <Link
+          <a
             className="eticon_candlestick"
             target="_blank"
             title={`Technicals: ${overviewData?.assetName}`}
@@ -118,7 +118,7 @@ const IndicesDetailsOverview = ({
           >
             <span className="path1"></span>
             <span className="path2"></span>
-          </Link>
+          </a>
         </div>
         <iframe
           src={iframeSrc}

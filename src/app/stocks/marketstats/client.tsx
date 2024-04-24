@@ -5,7 +5,7 @@ import MarketTable from "@/components/MarketTable";
 import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { areObjectsNotEqual, getCookie } from "@/utils";
 import {
   fetchSelectedFilter,
@@ -137,24 +137,31 @@ const MarketStats = ({
     setPayload({ ..._payload, pageno: pageNumber });
   };
 
-  const onServerSideSort = async (field: any) => {
-    setProcessingLoader(true);
-    let sortConfig = _payload.sort;
-    const isFieldSorted = sortConfig.find(
-      (config: any) => config.field === field,
-    );
-    let newSortConfig;
-    if (isFieldSorted) {
-      newSortConfig = sortConfig.map((config: any) =>
-        config.field === field
-          ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
-          : config,
-      );
-    } else {
-      newSortConfig = [{ field, order: "DESC" }];
-    }
-    setPayload({ ..._payload, sort: newSortConfig });
-  };
+  const onServerSideSort = useCallback(
+    async (field: any) => {
+      setProcessingLoader(true);
+      setPayload((prevPayload: any) => {
+        const sortConfig = prevPayload.sort;
+        const isFieldSorted = sortConfig.find(
+          (config: any) => config.field === field,
+        );
+        let newSortConfig;
+
+        if (isFieldSorted) {
+          newSortConfig = sortConfig.map((config: any) =>
+            config.field === field
+              ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
+              : config,
+          );
+        } else {
+          newSortConfig = [...sortConfig, { field, order: "DESC" }];
+        }
+
+        return { ...prevPayload, sort: newSortConfig };
+      });
+    },
+    [_payload],
+  );
 
   const onTabViewUpdate = async (viewId: any) => {
     setProcessingLoader(true);

@@ -3,7 +3,7 @@ import LeftMenuTabs from "../MarketTabs/MenuTabs";
 import MarketFiltersTab from "../MarketTabs/MarketFiltersTab";
 import MarketTable from "../MarketTable";
 import { useStateContext } from "@/store/StateContext";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import ToasterPopup from "../ToasterPopup";
 import MessagePopupShow from "../MessagePopupShow";
@@ -156,24 +156,31 @@ const IndicesConstituents = ({
     console.log("removePersonaliseViewFun", viewId);
   };
 
-  const onServerSideSort = async (field: any) => {
-    setProcessingLoader(true);
-    let sortConfig = _payload.sort;
-    const isFieldSorted = sortConfig.find(
-      (config: any) => config.field === field,
-    );
-    let newSortConfig;
-    if (isFieldSorted) {
-      newSortConfig = sortConfig.map((config: any) =>
-        config.field === field
-          ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
-          : config,
-      );
-    } else {
-      newSortConfig = [{ field, order: "DESC" }];
-    }
-    setPayload({ ..._payload, sort: newSortConfig });
-  };
+  const onServerSideSort = useCallback(
+    async (field: any) => {
+      setProcessingLoader(true);
+      setPayload((prevPayload: any) => {
+        const sortConfig = prevPayload.sort;
+        const isFieldSorted = sortConfig.find(
+          (config: any) => config.field === field,
+        );
+        let newSortConfig;
+
+        if (isFieldSorted) {
+          newSortConfig = sortConfig.map((config: any) =>
+            config.field === field
+              ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
+              : config,
+          );
+        } else {
+          newSortConfig = [...sortConfig, { field, order: "DESC" }];
+        }
+
+        return { ...prevPayload, sort: newSortConfig };
+      });
+    },
+    [_payload],
+  );
 
   const onPaginationChange = async (pageNumber: number) => {
     setProcessingLoader(true);
