@@ -82,20 +82,27 @@ const MarketTable = (props: propsType) => {
     }
   }, []);
 
-  const sortHandler = useCallback((key: any) => {
-    if (sortData.field === key) {
-      setSortData({
-        ...sortData,
-        order: sortData.order === "ASC" ? "DESC" : "ASC",
+  const sortHandler = useCallback(
+    (key: any) => {
+      setSortData((prevSortData) => {
+        if (prevSortData.field === key) {
+          return {
+            ...prevSortData,
+            order: prevSortData.order === "ASC" ? "DESC" : "ASC",
+          };
+        } else {
+          return { field: key, order: "DESC" };
+        }
       });
-    } else {
-      setSortData({ field: key, order: "DESC" });
-    }
 
-    tableConfig.serverSideSort
-      ? handleSortServerSide(key)
-      : _setSortData(sortData);
-  }, []);
+      if (tableConfig.serverSideSort) {
+        handleSortServerSide(key);
+      } else {
+        _setSortData(sortData); // Assuming _setSortData updates some local state
+      }
+    },
+    [tableConfig.serverSideSort, handleSortServerSide],
+  );
 
   const filterTableData = useCallback((filterData: any) => {
     if (Object.keys(filters).length) {

@@ -2,7 +2,7 @@
 import dynamic from "next/dynamic";
 import MarketTable from "@/components/MarketTable";
 import styles from "./stockScreener.module.scss";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import useScreenerTab from "./useScreenerTab";
 import QueryComponets from "./queryComponents";
@@ -210,25 +210,31 @@ const StockScreeners = ({
     setProcessingLoader(true);
     setPayload({ ..._payload, pageno: pageNumber });
   };
-  const onServerSideSort = async (field: any) => {
-    setProcessingLoader(true);
-    let sortConfig = _payload.sort;
-    const isFieldSorted = sortConfig.find(
-      (config: any) => config.field === field,
-    );
-    let newSortConfig;
+  const onServerSideSort = useCallback(
+    async (field: any) => {
+      setProcessingLoader(true);
+      setPayload((prevPayload: any) => {
+        const sortConfig = prevPayload.sort;
+        const isFieldSorted = sortConfig.find(
+          (config: any) => config.field === field,
+        );
+        let newSortConfig;
 
-    if (isFieldSorted) {
-      newSortConfig = sortConfig.map((config: any) =>
-        config.field === field
-          ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
-          : config,
-      );
-    } else {
-      newSortConfig = [...sortConfig, { field, order: "DESC" }];
-    }
-    setPayload({ ..._payload, sort: newSortConfig });
-  };
+        if (isFieldSorted) {
+          newSortConfig = sortConfig.map((config: any) =>
+            config.field === field
+              ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
+              : config,
+          );
+        } else {
+          newSortConfig = [...sortConfig, { field, order: "DESC" }];
+        }
+
+        return { ...prevPayload, sort: newSortConfig };
+      });
+    },
+    [_payload],
+  );
   const runQueryHandlerFun = async (query: any) => {
     //setProcessingLoader(true);
     //setPayload({ ..._payload, queryCondition:query.trim(), pageno: 1 });
@@ -666,6 +672,9 @@ const StockScreeners = ({
               </div>
               <MarketTable
                 data={_tableData}
+                highlightLtp={
+                  !!currentMarketStatus && currentMarketStatus != "CLOSED"
+                }
                 tableHeaders={_tableHeaderData}
                 tabsViewIdUpdate={resetSort}
                 pageSummary={_pageSummary}
