@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./MarketTable.module.scss";
 import { dateFormat } from "@/utils";
 import { goToPlansPage } from "@/utils/ga";
@@ -6,6 +6,7 @@ import Image from "next/image";
 
 const ScrollableTable = (props: any) => {
   const {
+    highlightLtp,
     tableHeaderData,
     scrollRightPos,
     headerSticky,
@@ -26,6 +27,22 @@ const ScrollableTable = (props: any) => {
     isSorting = true,
     isHeaderSticky = true,
   } = tableConfig || {};
+  const prevTableDataListRef = useRef<any>([]);
+
+  useEffect(() => {
+    prevTableDataListRef.current = tableDataList;
+    const timer = setTimeout(() => {
+      const spanElements = document.querySelectorAll("td > span");
+      spanElements.forEach((span) => {
+        span.classList.remove(styles.upBg, styles.downBg, styles.noBg);
+      });
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [tableDataList]);
+
+  const prevTableDataList = prevTableDataListRef.current;
+
   return (
     <div
       id="scrollableTable"
@@ -53,6 +70,8 @@ const ScrollableTable = (props: any) => {
                     className={`${
                       isSorting &&
                       thead.valueType != "date" &&
+                      thead.valueType != "lineGraph" &&
+                      thead.valueType != "sparklineGraph" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? styles.enableSort
                         : styles.center
@@ -60,6 +79,8 @@ const ScrollableTable = (props: any) => {
                     onClick={() => {
                       isSorting &&
                       thead.valueType != "date" &&
+                      thead.valueType != "lineGraph" &&
+                      thead.valueType != "sparklineGraph" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? handleSort(thead.keyId)
                         : null;
@@ -81,6 +102,8 @@ const ScrollableTable = (props: any) => {
                       </div>
                       {isSorting &&
                         thead.valueType != "date" &&
+                        thead.valueType != "lineGraph" &&
+                        thead.valueType != "sparklineGraph" &&
                         (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
                           <span className={`${styles.sortIcons}`}>
                             <span
@@ -125,7 +148,12 @@ const ScrollableTable = (props: any) => {
                           onChange={handleFilterChange}
                           maxLength={20}
                           placeholder="> #"
-                          disabled={!isPrime && tdData.primeFlag}
+                          disabled={
+                            (!isPrime && tdData.primeFlag) ||
+                            tdData.valueType == "date" ||
+                            tdData.valueType == "lineGraph" ||
+                            tdData.valueType == "sparklineGraph"
+                          }
                         ></input>
                         <span className="eticon_search"></span>
                       </span>
@@ -143,10 +171,10 @@ const ScrollableTable = (props: any) => {
             {tableDataList.map((item: any, index: number) => (
               <tr key={index}>
                 {item.data.map(
-                  (tdData: any, index: number) =>
-                    index >= fixedCol && (
+                  (tdData: any, tdIndex: number) =>
+                    tdIndex >= fixedCol && (
                       <td
-                        className={`${!tdData.primeFlag || isPrime ? tdData.trend : ""} ${
+                        className={`${!tdData.primeFlag || isPrime ? (tdData.valueType == "sparklineGraph" || tdData.valueType == "lineGraph" ? styles.noPadding : tdData.trend) : ""} ${
                           tdData.valueType == "number" &&
                           (!tdData.primeFlag || isPrime)
                             ? "numberFonts"
@@ -154,22 +182,93 @@ const ScrollableTable = (props: any) => {
                               ? styles.primeTd
                               : ""
                         } ${isPrime && tdData.primeFlag ? styles.primeCell : tdData.valueType == "date" || tdData.valueType == "text" ? styles.left : ""}`}
-                        key={index}
+                        key={tdIndex}
                         title={tdData.valueType == "text" ? tdData.value : null}
                       >
                         {!isPrime && tdData.primeFlag ? (
                           <span onClick={goToPlansPage}>Upgrade to Prime</span>
                         ) : (
                           <>
-                            {tdData.valueType == "date"
-                              ? dateFormat(tdData.value, "%d %MMM %Y")
-                              : tdData.valueType == "number"
-                                ? !!tdData.value
+                            {tdData.valueType == "date" ? (
+                              dateFormat(tdData.value, "%d %MMM %Y")
+                            ) : tdData.valueType == "lineGraph" ? (
+                              !!tdData.value && tdData.value.includes("/") ? (
+                                <div className={styles.lineGraph} key={index}>
+                                  <div className="dflex align-item-center space-between">
+                                    <p className={styles.head}>
+                                      {tdData.value.split("/")[0]}
+                                    </p>
+                                    <p className={styles.head}>
+                                      {tdData.value.split("/")[1]}
+                                    </p>
+                                  </div>
+                                  <div
+                                    className={`dflex align-item-center space-between ${styles.gap2}`}
+                                  >
+                                    <div
+                                      className={`${styles.bar} ${styles.up}`}
+                                      style={{
+                                        width: `${(parseInt(tdData.value.split("/")[0]) * 100) / (parseInt(tdData.value.split("/")[1]) + parseInt(tdData.value.split("/")[0]))}%`,
+                                      }}
+                                    ></div>
+                                    <div
+                                      className={`${styles.bar} ${styles.down}`}
+                                      style={{
+                                        width: `${(parseInt(tdData.value.split("/")[1]) * 100) / (parseInt(tdData.value.split("/")[1]) + parseInt(tdData.value.split("/")[0]))}%`,
+                                      }}
+                                    ></div>
+                                  </div>
+                                </div>
+                              ) : (
+                                ""
+                              )
+                            ) : tdData.valueType == "sparklineGraph" ? (
+                              !!tdData.value && (
+                                <img
+                                  src={`${tdData.value}&width=140&height=35`}
+                                  width={140}
+                                  height={35}
+                                  loading="lazy"
+                                />
+                              )
+                            ) : tdData.keyId == "lastTradedPrice" ? (
+                              <span
+                                className={
+                                  !!highlightLtp &&
+                                  prevTableDataList[index]?.data[tdIndex]
+                                    ?.filterFormatValue
+                                    ? parseFloat(tdData.filterFormatValue) >
+                                      parseFloat(
+                                        prevTableDataList[index]?.data[tdIndex]
+                                          ?.filterFormatValue,
+                                      )
+                                      ? styles.upBg
+                                      : parseFloat(tdData.filterFormatValue) <
+                                          parseFloat(
+                                            prevTableDataList[index]?.data[
+                                              tdIndex
+                                            ]?.filterFormatValue,
+                                          )
+                                        ? styles.downBg
+                                        : styles.noBg
+                                    : styles.noBg
+                                }
+                              >
+                                {!!tdData.value
                                   ? tdData.value.replaceAll(" ", "")
-                                  : "-"
-                                : !!tdData.value
-                                  ? tdData.value
                                   : "-"}
+                              </span>
+                            ) : tdData.valueType == "number" ? (
+                              !!tdData.value ? (
+                                tdData.value.replaceAll(" ", "")
+                              ) : (
+                                "-"
+                              )
+                            ) : !!tdData.value ? (
+                              tdData.value
+                            ) : (
+                              "-"
+                            )}
                             {tdData.trend && (
                               <span
                                 className={`${styles.arrowIcons} ${

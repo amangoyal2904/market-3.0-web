@@ -1,38 +1,140 @@
 import styles from "./styles.module.scss";
-import Image from "next/image";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { getStockUrl } from "@/utils/utility";
+import Slider, { Settings } from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { useStateContext } from "@/store/StateContext";
 
-const BigBullCard = ({ data, type, mode }: any) => {
+const BigBullCard = ({ data, type }: any) => {
+  const { state } = useStateContext();
+  const { isPrime } = state.login;
+  console.log("isPrime", isPrime);
+
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const sliderRef = useRef<Slider>(null);
+
+  const settings: Settings = {
+    speed: 500,
+    arrows: true,
+    dots: false,
+    infinite: false,
+    swipe: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    rows: 1,
+    beforeChange: (oldIndex, newIndex) => {
+      setCurrentSlideIndex(newIndex);
+    },
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: false,
+          dots: false,
+        },
+      },
+    ],
+  };
+
+  const nextSlide = () => {
+    if (sliderRef.current) {
+      sliderRef.current.slickNext();
+    }
+  };
+
+  const prevSlide = () => {
+    if (sliderRef.current) {
+      sliderRef.current.slickPrev();
+    }
+  };
+
+  useEffect(() => {
+    if (sliderRef.current) {
+      sliderRef.current.slickGoTo(0);
+    }
+  }, []);
   return (
     <>
       <div className={`${styles.card} ${styles[type]}`}>
         <div className={styles.top}>
-          <img
-            src={data?.investorIntro?.imageURL}
-            width={52}
-            height={52}
-            alt={data?.investorIntro?.name}
-            className={styles.expertImg}
-          />
-          <h4 className={styles.expertName}>
-            {data?.dealSignal !== "" ? (
-              <span className={`${styles[data?.dealSignal]}`}>
-                {data?.dealSignal}
-              </span>
-            ) : (
-              ""
-            )}
-            {data?.investorIntro?.name}
-          </h4>
+          {type === "card3" ? (
+            <>
+              <div className={styles.totalCTxt}>
+                HELD BY {data.totalCompany} BULLS
+              </div>
+              <div className={`nameSliderCustome ${styles.sliderWrap}`}>
+                <Slider ref={sliderRef} {...settings}>
+                  {data.investorsList.length &&
+                    data?.investorsList.map((slide: any, index: number) => (
+                      <div key={index}>
+                        <Link
+                          href={`/`}
+                          className={styles.cardName}
+                          title={slide.name}
+                        >
+                          <img
+                            src={slide.imageURL}
+                            width={28}
+                            height={28}
+                            alt={slide.name}
+                            className={styles.imgWraper}
+                          />
+                          <span className={styles.smallTxt}>{slide.name}</span>
+                        </Link>
+                      </div>
+                    ))}
+                </Slider>
+              </div>
+            </>
+          ) : (
+            <>
+              <img
+                src={data?.investorIntro?.imageURL}
+                width={52}
+                height={52}
+                alt={data?.investorIntro?.name}
+                className={styles.expertImg}
+              />
+              <h4 className={styles.expertName}>
+                {data && data.dealSignal && data.dealSignal !== "" ? (
+                  <span className={`${styles[data?.dealSignal]}`}>
+                    {data?.dealSignal} By
+                  </span>
+                ) : (
+                  ""
+                )}
+                {data?.investorIntro?.name}
+              </h4>
+            </>
+          )}
         </div>
-        {type === "card2" && (
+        {(type === "card2" || type === "card3") && (
           <div className={styles.middleTop}>
             <div className={styles.mtLeft}>
               {/* <div className={styles.updateDate}>Updated for Mar24 Qtr</div> */}
               <div className={styles.cname}>
-                {data?.companyData?.text ||
-                  data?.bestPickStockData?.companyData?.text}
+                {isPrime ? (
+                  <a
+                    href={getStockUrl(
+                      data?.companyData?.companyId ||
+                        data?.bestPickStockData?.companyData?.companyId,
+                      data?.companyData?.companySeoName ||
+                        data?.bestPickStockData?.companyData?.companySeoName,
+                      data?.companyData?.companyType ||
+                        data?.bestPickStockData?.companyData?.companyType,
+                    )}
+                    target="_blank"
+                  >
+                    {data?.companyData?.text ||
+                      data?.bestPickStockData?.companyData?.text}
+                  </a>
+                ) : (
+                  <span className={styles.nameBlur}></span>
+                )}
               </div>
             </div>
             <div className={styles.mtRight}>+</div>
@@ -146,16 +248,20 @@ const BigBullCard = ({ data, type, mode }: any) => {
                           {card?.text}
                         </span>
                         <h4>
-                          <Link
-                            href={getStockUrl(
-                              card.uiLabel.companyId,
-                              card.uiLabel.companySeoName,
-                              card.uiLabel.companyType,
-                            )}
-                            target="_blank"
-                          >
-                            {card?.uiLabel.text}
-                          </Link>
+                          {isPrime ? (
+                            <a
+                              href={getStockUrl(
+                                card.uiLabel.companyId,
+                                card.uiLabel.companySeoName,
+                                card.uiLabel.companyType,
+                              )}
+                              target="_blank"
+                            >
+                              {card?.uiLabel.text}
+                            </a>
+                          ) : (
+                            <span className={styles.nameBlur}></span>
+                          )}
                         </h4>
                         <h5>
                           <span

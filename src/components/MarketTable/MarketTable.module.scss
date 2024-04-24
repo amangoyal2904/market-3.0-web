@@ -102,6 +102,10 @@
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     white-space: nowrap;
+    &.noPadding {
+      padding: 0 12px;
+      text-align: center;
+    }
     .thead {
       display: -webkit-box;
       display: -ms-flexbox;
@@ -150,6 +154,44 @@
       min-width: 0;
       &.hide {
         display: none;
+      }
+    }
+    .lineGraph {
+      position: relative;
+      margin: 0 auto;
+      .head {
+        font-family: var(--font-lato);
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 15px;
+      }
+      .label {
+        font-size: 12px;
+        line-height: 15px;
+        font-weight: 400;
+      }
+      .up {
+        color: $green-80;
+      }
+      .down {
+        color: $red-60;
+      }
+      .bar {
+        position: relative;
+        flex: auto;
+        height: 8px;
+        border-radius: 2px;
+        background: $blue-20;
+        &.up {
+          background: $green-50;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+        &.down {
+          background: $red-50;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+        }
       }
     }
   }

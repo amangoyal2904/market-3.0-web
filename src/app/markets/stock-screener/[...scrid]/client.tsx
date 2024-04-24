@@ -2,7 +2,7 @@
 import dynamic from "next/dynamic";
 import MarketTable from "@/components/MarketTable";
 import styles from "./stockScreener.module.scss";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import useScreenerTab from "./useScreenerTab";
 import QueryComponets from "./queryComponents";
@@ -94,6 +94,7 @@ const StockScreeners = ({
   const [_ssoid, setSooid] = useState(ssoid);
   const { state } = useStateContext();
   const { isLogin } = state.login;
+  const { currentMarketStatus } = state.marketStatus;
   const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
     setMetaData(metaData);
@@ -209,25 +210,31 @@ const StockScreeners = ({
     setProcessingLoader(true);
     setPayload({ ..._payload, pageno: pageNumber });
   };
-  const onServerSideSort = async (field: any) => {
-    setProcessingLoader(true);
-    let sortConfig = _payload.sort;
-    const isFieldSorted = sortConfig.find(
-      (config: any) => config.field === field,
-    );
-    let newSortConfig;
+  const onServerSideSort = useCallback(
+    async (field: any) => {
+      setProcessingLoader(true);
+      setPayload((prevPayload: any) => {
+        const sortConfig = prevPayload.sort;
+        const isFieldSorted = sortConfig.find(
+          (config: any) => config.field === field,
+        );
+        let newSortConfig;
 
-    if (isFieldSorted) {
-      newSortConfig = sortConfig.map((config: any) =>
-        config.field === field
-          ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
-          : config,
-      );
-    } else {
-      newSortConfig = [...sortConfig, { field, order: "DESC" }];
-    }
-    setPayload({ ..._payload, sort: newSortConfig });
-  };
+        if (isFieldSorted) {
+          newSortConfig = sortConfig.map((config: any) =>
+            config.field === field
+              ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
+              : config,
+          );
+        } else {
+          newSortConfig = [...sortConfig, { field, order: "DESC" }];
+        }
+
+        return { ...prevPayload, sort: newSortConfig };
+      });
+    },
+    [_payload],
+  );
   const runQueryHandlerFun = async (query: any) => {
     //setProcessingLoader(true);
     //setPayload({ ..._payload, queryCondition:query.trim(), pageno: 1 });
@@ -589,14 +596,18 @@ const StockScreeners = ({
   useEffect(() => {
     onSearchParamChange();
   }, [searchParams]);
+
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
     const intervalId = setInterval(() => {
-      updateTableData();
-    }, parseInt(refeshConfig.stocksScreener));
+      if (currentMarketStatus === "LIVE") {
+        updateTableData();
+      }
+    }, refeshConfig.stocksScreener);
     return () => clearInterval(intervalId);
-  }, [_payload]);
+  }, [_payload, currentMarketStatus]);
+
   useEffect(() => {
     const userSSOID = getCookie("ssoid");
     if (userSSOID) {
@@ -661,6 +672,9 @@ const StockScreeners = ({
               </div>
               <MarketTable
                 data={_tableData}
+                highlightLtp={
+                  !!currentMarketStatus && currentMarketStatus != "CLOSED"
+                }
                 tableHeaders={_tableHeaderData}
                 tabsViewIdUpdate={resetSort}
                 pageSummary={_pageSummary}

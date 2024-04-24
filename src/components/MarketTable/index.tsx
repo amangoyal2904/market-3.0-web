@@ -1,11 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./MarketTable.module.scss";
 import FixedTable from "./FixedTable";
 import ScrollableTable from "./ScrollableTable";
 import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
 import Pagination from "./Pagination";
+import useDebounce from "@/hooks/useDebounce";
 
 interface propsType {
   data: any[];
@@ -26,6 +27,8 @@ interface propsType {
   isprimeuser?: boolean;
 }
 
+const DEBOUNCE_DELAY = 10;
+
 const MarketTable = (props: propsType) => {
   const {
     data,
@@ -44,6 +47,7 @@ const MarketTable = (props: propsType) => {
     fixedCol = 3,
     isprimeuser = false,
   } = props || {};
+  const { debounce } = useDebounce();
   const { loader = false, loaderType } = tableConfig || {};
   const [pageSummaryData, setPageSummaryData] = useState(pageSummary);
   const [tableDataList, setTableDataList] = useState(data);
@@ -57,7 +61,7 @@ const MarketTable = (props: propsType) => {
   const [hideThead, setHideThead] = useState(false);
   const [parentHasScroll, setParentHasScroll] = useState(false);
   const [shouldShowLoader, setShouldShowLoader] = useState(false);
-  const handleFilterChange = (e: any) => {
+  const handleFilterChange = useCallback((e: any) => {
     const { name, value } = e.target;
     const inputType = e.target.dataset["type"];
     const textAlphanumericRegex = /^(?:[a-zA-Z0-9]+(?:\s|$))+$/;
@@ -76,24 +80,31 @@ const MarketTable = (props: propsType) => {
       delete filters[name];
       setFilters({ ...filters });
     }
-  };
+  }, []);
 
-  const sortHandler = (key: any) => {
-    if (sortData.field === key) {
-      setSortData({
-        ...sortData,
-        order: sortData.order === "ASC" ? "DESC" : "ASC",
+  const sortHandler = useCallback(
+    (key: any) => {
+      setSortData((prevSortData) => {
+        if (prevSortData.field === key) {
+          return {
+            ...prevSortData,
+            order: prevSortData.order === "ASC" ? "DESC" : "ASC",
+          };
+        } else {
+          return { field: key, order: "DESC" };
+        }
       });
-    } else {
-      setSortData({ field: key, order: "DESC" });
-    }
 
-    tableConfig.serverSideSort
-      ? handleSortServerSide(key)
-      : _setSortData(sortData);
-  };
+      if (tableConfig.serverSideSort) {
+        handleSortServerSide(key);
+      } else {
+        _setSortData(sortData); // Assuming _setSortData updates some local state
+      }
+    },
+    [tableConfig.serverSideSort, handleSortServerSide],
+  );
 
-  const filterTableData = (filterData: any) => {
+  const filterTableData = useCallback((filterData: any) => {
     if (Object.keys(filters).length) {
       Object.keys(filters).forEach((keyId) => {
         filterData = filterData.filter((item: any) => {
@@ -158,9 +169,9 @@ const MarketTable = (props: propsType) => {
       });
     }
     return filterData;
-  };
+  }, []);
 
-  const sortTableData = (tableData: any) => {
+  const sortTableData = useCallback((tableData: any) => {
     const { field, order } = sortData;
     if (!!field) {
       tableData = tableData.sort((a: any, b: any) => {
@@ -192,27 +203,30 @@ const MarketTable = (props: propsType) => {
       });
     }
     return tableData;
-  };
+  }, []);
 
-  const handleScroll = () => {
-    const eleHeader: any = document.getElementById("header");
-    const eleTable: any = document.getElementById("table");
-    const heightDifference =
-      eleTable?.offsetTop - eleHeader?.offsetTop - eleHeader?.offsetHeight;
-    const theadBottom: any = document
-      .getElementById("thead")
-      ?.getBoundingClientRect().bottom;
-    const tableBottom: any = document
-      .getElementById("table")
-      ?.getBoundingClientRect().bottom;
-    const heightDiff = tableBottom - theadBottom;
+  const handleScroll = useCallback(
+    debounce(() => {
+      const eleHeader: any = document.getElementById("header");
+      const eleTable: any = document.getElementById("table");
+      const heightDifference =
+        eleTable?.offsetTop - eleHeader?.offsetTop - eleHeader?.offsetHeight;
+      const theadBottom: any = document
+        .getElementById("thead")
+        ?.getBoundingClientRect().bottom;
+      const tableBottom: any = document
+        .getElementById("table")
+        ?.getBoundingClientRect().bottom;
+      const heightDiff = tableBottom - theadBottom;
 
-    setTopScrollHeight(heightDifference);
-    setHideThead(heightDiff < 25);
-    if (window.scrollY) {
-      setHeaderSticky(window.scrollY);
-    }
-  };
+      setTopScrollHeight(heightDifference);
+      setHideThead(heightDiff < 25);
+      if (window.scrollY) {
+        setHeaderSticky(window.scrollY);
+      }
+    }, DEBOUNCE_DELAY),
+    [debounce],
+  );
   const scrollRightPos = () => {
     const leftScroll: any = document.getElementById("fixedTable");
     const rightScroll: any = document.getElementById("scrollableTable");
@@ -268,8 +282,12 @@ const MarketTable = (props: propsType) => {
   }, [tableHeaderData, parentHasScroll]);
 
   useEffect(() => {
+    // Add and remove scroll event listener
     window.addEventListener("scroll", handleScroll, { passive: true });
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [handleScroll]);
 
   useEffect(() => {
     if (!loaderOff && loader) {
@@ -311,6 +329,7 @@ const MarketTable = (props: propsType) => {
               fixedCol={fixedCol}
             />
             <ScrollableTable
+              highlightLtp={highlightLtp}
               tableHeaderData={tableHeaderData}
               tableDataList={tableDataList}
               scrollRightPos={scrollRightPos}

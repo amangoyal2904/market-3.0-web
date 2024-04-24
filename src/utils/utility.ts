@@ -673,9 +673,17 @@ export const getPeriodicData = async (
   };
 };
 
-export const getAllIndices = async (exchange: string) => {
+export const getAllIndices = async (
+  exchange: string,
+  sortField: any,
+  sortOrder: string,
+) => {
+  let apiUrl = `${(APIS_CONFIG as any)?.ALLINDICES[APP_ENV]}?exchange=${exchange}`;
+  if (!!sortField) {
+    apiUrl = apiUrl + "&sortedField=" + sortField + "&sortedOrder=" + sortOrder;
+  }
   const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.ALLINDICES[APP_ENV]}?exchange=${exchange}`,
+    url: apiUrl,
     params: {},
   });
   const responseData = await response?.json();

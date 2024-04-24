@@ -19,6 +19,26 @@ const IndicesClient = ({
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
   const [selectedExchange, setSelectedExchange] = useState(exchange);
   const [processingLoader, setProcessingLoader] = useState(false);
+  const [sortData, setSortData] = useState({ field: null, order: "DESC" });
+
+  const onServerSideSort = useCallback(
+    async (field: any) => {
+      setProcessingLoader(true);
+      setSortData((prevSortData) => {
+        let newSortConfig;
+        if (prevSortData.field === field) {
+          newSortConfig = {
+            field,
+            order: prevSortData.order === "ASC" ? "DESC" : "ASC",
+          };
+        } else {
+          newSortConfig = { field, order: "DESC" };
+        }
+        return newSortConfig;
+      });
+    },
+    [sortData],
+  );
 
   const nseBseMenuSelect = useCallback((e: any) => {
     setProcessingLoader(true);
@@ -27,22 +47,26 @@ const IndicesClient = ({
   }, []);
 
   const updateTableData = async () => {
-    const { tableHeaderData, tableData } =
-      await getAllIndices(selectedExchange);
+    const { tableHeaderData, tableData } = await getAllIndices(
+      selectedExchange,
+      sortData.field,
+      sortData.order,
+    );
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
     setProcessingLoader(false);
   };
 
   useEffect(() => {
+    setProcessingLoader(true);
     updateTableData();
-    if (!!currentMarketStatus && currentMarketStatus == "LIVE") {
-      const intervalId = setInterval(() => {
+    const intervalId = setInterval(() => {
+      if (currentMarketStatus === "LIVE") {
         updateTableData();
-      }, parseInt(refeshConfig.indicesListing));
-      return () => clearInterval(intervalId);
-    }
-  }, [selectedExchange, isPrime, currentMarketStatus]);
+      }
+    }, refeshConfig.indicesListing);
+    return () => clearInterval(intervalId);
+  }, [selectedExchange, sortData, isPrime, currentMarketStatus]);
 
   return (
     <>
@@ -76,6 +100,7 @@ const IndicesClient = ({
           }
           tableHeaders={_tableHeaderData}
           tableConfig={tableConfig}
+          handleSortServerSide={onServerSideSort}
           processingLoader={processingLoader}
           isprimeuser={isPrime}
         />

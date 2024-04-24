@@ -13,7 +13,7 @@
     border-bottom: 1px solid $gray_80;
     color: $gray_40;
     background: $white;
-    text-align: left;
+    text-align: center;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
@@ -77,7 +77,7 @@
     max-width: 200px;
     height: 54px;
     position: relative;
-    text-align: right;
+    text-align: left;
     padding: 10px;
     background-color: $gray_95;
     border-right: 1px solid $gray_95;
@@ -98,9 +98,6 @@
       -webkit-box-align: center;
       -ms-flex-align: center;
       align-items: center;
-      -webkit-box-pack: end;
-      -ms-flex-pack: end;
-      justify-content: flex-end;
     }
     &.left {
       min-width: 160px;
@@ -153,10 +150,88 @@
   .investNameImg {
     display: flex;
     justify-content: space-between;
+    text-align: left;
     .nameTxt {
       width: calc(100% - 60px);
       display: flex;
       flex-wrap: wrap;
+      font-size: 14px;
+      font-weight: 600;
+      color: $black;
+    }
+  }
+  .up {
+    span {
+      display: inline-block;
+      vertical-align: top;
+      position: relative;
+      color: $green-80;
+      &:after {
+        content: "";
+        position: absolute;
+        display: inline-block;
+        vertical-align: top;
+        right: -12px;
+        top: 3px;
+        background: url("/img/uparrow.svg") no-repeat 0 0;
+        height: 11px;
+        width: 8px;
+        background-size: cover;
+      }
+    }
+  }
+  .down {
+    span {
+      display: inline-block;
+      vertical-align: top;
+      position: relative;
+      color: $red-60;
+      &:after {
+        content: "";
+        position: absolute;
+        display: inline-block;
+        vertical-align: top;
+        right: -12px;
+        top: 3px;
+        background: url("/img/downarrow.svg") no-repeat 0 0;
+        height: 11px;
+        width: 8px;
+        background-size: cover;
+      }
+    }
+  }
+  .bestPicWraper {
+    padding: 0;
+  }
+  .bestPickSec {
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 251, 245, 1);
+    padding: 12px;
+    min-height: 62px;
+    margin: 5px 0;
+    .head5 {
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: $black;
+    }
+    .bestTxtSec {
+      color: $black;
+      font-size: 12px;
+    }
+    .UP {
+      span {
+        color: $green-80;
+      }
+    }
+    .DOWN {
+      span {
+        color: $red-60;
+      }
     }
   }
 }
@@ -178,4 +253,23 @@
 }
 .expertImg {
   border-radius: 50%;
+}
+
+.bestPicWraper.bestPic2Wraper {
+  .bestPickSec {
+    background-color: rgba(244, 248, 255, 1);
+  }
+}
+
+.nameBlur {
+  margin: 0;
+  background: url(https://img.etimg.com/photo/msid-105722735,quality-100/stock-reports-sprite.jpg)
+    no-repeat -219px -104px;
+  height: 23px;
+  background-size: 384px 148px;
+  font-size: 0;
+  width: 100px;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
 }
