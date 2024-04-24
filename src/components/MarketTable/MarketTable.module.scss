@@ -183,12 +183,12 @@
         border-radius: 2px;
         background: $blue-20;
         &.up {
-          background: $green-80;
+          background: $green-50;
           border-top-right-radius: 0;
           border-bottom-right-radius: 0;
         }
         &.down {
-          background: $red-60;
+          background: $red-50;
           border-top-left-radius: 0;
           border-bottom-left-radius: 0;
         }
