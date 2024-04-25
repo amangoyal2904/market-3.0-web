@@ -27,7 +27,7 @@ export const TVChartContainer = (
       symbol: props.symbol,
       // BEWARE: no trailing slash is expected in feed URL
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(
-        "https://priceapi.moneycontrol.com/techCharts/indianMarket/stock",
+        "https://etelection.indiatimes.com/ET_Charts/mrkts",
         1000 * 20,
         "Y",
       ),

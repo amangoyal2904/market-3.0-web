@@ -60,7 +60,6 @@ const IndicesTechnicalAnalysis = ({ data, symbol }: any) => {
   const defaultWidgetProps: Partial<ChartingLibraryWidgetOptions> = {
     symbol: symbol,
     interval: "1D" as ResolutionString,
-    timeframe: "1",
     user_id: user_id,
     disabled_features: disabledFeatures,
     overrides: {},
