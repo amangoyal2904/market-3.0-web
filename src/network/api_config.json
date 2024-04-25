@@ -113,6 +113,26 @@
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/other-indices",
     "production": "https://etapi.indiatimes.com/et-screener/other-indices"
   },
+  "FIIDII_OVERVIEW": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json"
+  },
+  "FIIDII_CASHPROVISIONAL": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getCashData.json",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getCashData.json"
+  },
+  "FIIDII_FIICASH": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiCashData.json",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiCashData.json"
+  },
+  "FIIDII_FANDOCASH": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFandOCashData.json",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFandOCashData.json"
+  },
+  "FIIDII_MFCASH": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getMfCashData.json",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getMfCashData.json"
+  },
   "MARKETMOODS_OVERVIEW": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/marketbreadth/overview",
     "production": "https://screener.indiatimes.com/screener/marketbreadth/overview"
