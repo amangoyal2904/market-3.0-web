@@ -1,10 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import styles from "./style.module.scss";
-import Link from "next/link";
 import BigBullSection from "../../../components/BigBullSection";
-import BigBullTableCard from "../../../components/BigBullTableCard";
-import { fetchSelectedFilter } from "@/utils/utility";
 import BigBullTabs from "../../../components/BigBullTabs";
 import tabsJson from "../../../DataJson/bigbullTabs.json";
 import indiFilter from "../../../DataJson/individualFilter.json";
@@ -15,7 +12,7 @@ const tabs = tabsJson;
 const individualFilter = indiFilter;
 
 const BigBullClientPage = ({ data }: any) => {
-  console.log("__======_data", data);
+  //console.log("__======_data", data);
   const [aciveFilter, setActiveFilter] = useState("INDIVIDUAL");
   const [loading, setLoading] = useState<boolean>(false);
   const [__data, setData] = useState(data);

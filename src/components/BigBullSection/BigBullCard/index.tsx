@@ -60,58 +60,60 @@ const BigBullCard = ({ data, type }: any) => {
   return (
     <>
       <div className={`${styles.card} ${styles[type]}`}>
-        <div className={styles.top}>
-          {type === "card3" ? (
-            <>
-              <div className={styles.totalCTxt}>
-                HELD BY {data.totalCompany} BULLS
-              </div>
-              <div className={`nameSliderCustome ${styles.sliderWrap}`}>
-                <Slider ref={sliderRef} {...settings}>
-                  {data.investorsList.length &&
-                    data?.investorsList.map((slide: any, index: number) => (
-                      <div key={index}>
-                        <Link
-                          href={`/`}
-                          className={styles.cardName}
-                          title={slide.name}
-                        >
-                          <img
-                            src={slide.imageURL}
-                            width={28}
-                            height={28}
-                            alt={slide.name}
-                            className={styles.imgWraper}
-                          />
-                          <span className={styles.smallTxt}>{slide.name}</span>
-                        </Link>
-                      </div>
-                    ))}
-                </Slider>
-              </div>
-            </>
-          ) : (
-            <>
-              <img
-                src={data?.investorIntro?.imageURL}
-                width={52}
-                height={52}
-                alt={data?.investorIntro?.name}
-                className={styles.expertImg}
-              />
-              <h4 className={styles.expertName}>
-                {data && data.dealSignal && data.dealSignal !== "" ? (
-                  <span className={`${styles[data?.dealSignal]}`}>
-                    {data?.dealSignal} By
-                  </span>
-                ) : (
-                  ""
-                )}
-                {data?.investorIntro?.name}
-              </h4>
-            </>
-          )}
-        </div>
+        {type === "card3" ? (
+          <div className={styles.top}>
+            <div className={styles.totalCTxt}>
+              HELD BY {data.totalCompany} BULLS
+            </div>
+            <div className={`nameSliderCustome ${styles.sliderWrap}`}>
+              <Slider ref={sliderRef} {...settings}>
+                {data.investorsList.length &&
+                  data?.investorsList.map((slide: any, index: number) => (
+                    <div key={index}>
+                      <Link
+                        href={`/`}
+                        className={styles.cardName}
+                        title={slide.name}
+                      >
+                        <img
+                          src={slide.imageURL}
+                          width={28}
+                          height={28}
+                          alt={slide.name}
+                          className={styles.imgWraper}
+                        />
+                        <span className={styles.smallTxt}>{slide.name}</span>
+                      </Link>
+                    </div>
+                  ))}
+              </Slider>
+            </div>
+          </div>
+        ) : (
+          <Link
+            href={`/markets/top-india-investors-portfolio/${data?.investorIntro?.sharkSeoName},expertid-${data?.investorIntro?.sharkID}`}
+            target="_blank"
+            className={styles.top}
+          >
+            <img
+              src={data?.investorIntro?.imageURL}
+              width={52}
+              height={52}
+              alt={data?.investorIntro?.name}
+              className={styles.expertImg}
+            />
+            <span className={styles.expertName}>
+              {data && data.dealSignal && data.dealSignal !== "" ? (
+                <span className={`${styles[data?.dealSignal]}`}>
+                  {data?.dealSignal} By
+                </span>
+              ) : (
+                ""
+              )}
+              {data?.investorIntro?.name}
+            </span>
+          </Link>
+        )}
         {(type === "card2" || type === "card3") && (
           <div className={styles.middleTop}>
             <div className={styles.mtLeft}>
