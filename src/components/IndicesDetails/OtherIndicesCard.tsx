@@ -1,7 +1,8 @@
 import { formatNumber } from "@/utils";
 import styles from "./IndicesDetails.module.scss";
 import Link from "next/link";
-export const OtherIndicesCard = ({ data }: any) => {
+import React from "react";
+const OtherIndicesCard = React.memo(({ data }: any) => {
   const trend =
     data.percentChange > 0 ? "up" : data.percentChange < 0 ? "down" : "neutral";
   return (
@@ -58,4 +59,6 @@ export const OtherIndicesCard = ({ data }: any) => {
       </div>
     </div>
   );
-};
+});
+OtherIndicesCard.displayName = "OtherIndicesCard";
+export default OtherIndicesCard;

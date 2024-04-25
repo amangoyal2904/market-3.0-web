@@ -44,8 +44,6 @@ const IndicesDetailsClient = ({
   const { currentMarketStatus } = state.marketStatus;
   const [activeItem, setActiveItem] = useState<string>("keymetrics");
   const [overviewData, setOverviewData] = useState(overview);
-  const [peersData, setPeersData] = useState(peers);
-  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const contentRefs = useRef<HTMLDivElement>(null);
   const [scrollByItemClick, setScrollByItemClick] = useState(false); // New state to track scroll triggered by item click
   const { debounce } = useDebounce();
@@ -157,9 +155,9 @@ const IndicesDetailsClient = ({
             )}
             {item.key === "performance" && (
               <IndicesPerformance
-                data={peersData}
+                data={peers}
                 indexName={indexName}
-                niftyFilterData={niftyFilterData}
+                niftyFilterData={selectedFilter}
               />
             )}
             {item.key === "technicalanalysis" && (

@@ -1,7 +1,8 @@
 import { formatNumber } from "@/utils";
 import styles from "./IndicesDetails.module.scss";
+import React from "react";
 
-const KeyMetricsIndices = ({ data }: any) => {
+const KeyMetricsIndices = React.memo(({ data }: any) => {
   return (
     <>
       <h2 className={styles.heading}>Key Metrics</h2>
@@ -45,6 +46,6 @@ const KeyMetricsIndices = ({ data }: any) => {
       </div>
     </>
   );
-};
-
+});
+KeyMetricsIndices.displayName = "KeyMetricsIndices";
 export default KeyMetricsIndices;

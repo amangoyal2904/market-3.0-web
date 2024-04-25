@@ -1,7 +1,8 @@
 import { formatNumber } from "@/utils";
 import styles from "./IndicesDetails.module.scss";
+import React from "react";
 
-const IndicesReturns = ({ data }: any) => {
+const IndicesReturns = React.memo(({ data }: any) => {
   const labels = [""];
   const returnPercentages = ["Returns"];
   const highs = ["High"];
@@ -69,6 +70,7 @@ const IndicesReturns = ({ data }: any) => {
       </table>
     </>
   );
-};
+});
 
+IndicesReturns.displayName = "IndicesReturns";
 export default IndicesReturns;

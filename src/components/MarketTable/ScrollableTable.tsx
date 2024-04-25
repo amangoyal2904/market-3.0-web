@@ -4,7 +4,7 @@ import { dateFormat } from "@/utils";
 import { goToPlansPage } from "@/utils/ga";
 import Image from "next/image";
 
-const ScrollableTable = (props: any) => {
+const ScrollableTable = React.memo((props: any) => {
   const {
     highlightLtp,
     tableHeaderData,
@@ -295,5 +295,6 @@ const ScrollableTable = (props: any) => {
       </table>
     </div>
   );
-};
+});
+ScrollableTable.displayName = "ScrollableTable";
 export default ScrollableTable;
