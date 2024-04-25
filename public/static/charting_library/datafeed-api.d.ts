@@ -582,7 +582,7 @@ export interface LibrarySymbolInfo {
    * If it's `false` then all buttons for intraday resolutions will be disabled for this particular symbol.
    * If it is set to `true`, all intradays resolutions that are supplied directly by the datafeed must be provided in `intraday_multipliers` array.
    *
-   * **WARNING** Any daily, weekly or monthly resolutions cannot be inferred from intraday resolutions!
+   * **WARNING** Any daily, weekly or monthly resolutions cannot be inferred from intraday resolutions.
    *
    * `false` if DWM only
    * @default false
@@ -676,7 +676,7 @@ export interface LibrarySymbolInfo {
    */
   has_weekly_and_monthly?: boolean;
   /**
-   * Array (of strings) containing the [resolutions](https://www.tradingview.com/charting-library-docs/latest/core_concepts/Resolution#weeks) (in weeks - without the suffix) supported by the data feed. {@link ResolutionString}
+   * Array (of strings) containing the [resolutions](https://www.tradingview.com/charting-library-docs/latest/core_concepts/Resolution.md#resolution-in-weeks--months) (in weeks - without the suffix) supported by the data feed. {@link ResolutionString}
    *
    * For example it could be something like
    *
@@ -687,7 +687,7 @@ export interface LibrarySymbolInfo {
    */
   weekly_multipliers?: string[];
   /**
-   * Array (of strings) containing the [resolutions](https://www.tradingview.com/charting-library-docs/latest/core_concepts/Resolution#months) (in months - without the suffix) supported by the data feed. {@link ResolutionString}
+   * Array (of strings) containing the [resolutions](https://www.tradingview.com/charting-library-docs/latest/core_concepts/Resolution.md#resolution-in-weeks--months) (in months - without the suffix) supported by the data feed. {@link ResolutionString}
    *
    * For example it could be something like
    *
@@ -709,9 +709,9 @@ export interface LibrarySymbolInfo {
   /**
    * Represents what values are supported by the symbol. Possible values:
    *
-   * - `ohlcv` - the symbol supports open, high, low, close and has volume
-   * - `ohlc` - the symbol supports open, high, low, close, but doesn't have volume
-   * - `c` - the symbol supports only close, it's displayed on the chart using line-based styles only
+   * - `ohlcv` — the symbol supports open, high, low, close prices and has volume.
+   * - `ohlc` — the symbol supports open, high, low, close, prices but doesn't have volume.
+   * - `c` — the symbol supports only close price. This makes the chart show the symbol data using only line-based styles.
    * @default 'ohlcv'
    */
   visible_plots_set?: VisiblePlotsSet;
@@ -772,11 +772,13 @@ export interface LibrarySymbolInfo {
    */
   unit_conversion_types?: string[];
   /**
-   * Subsession ID. Must match the `id` property of one of the subsessions.
+   * An ID of a subsession specified in {@link subsessions}. The value must match the subsession that is currently displayed on the chart.
+   * For more information, refer to the [Extended sessions](https://www.tradingview.com/charting-library-docs/latest/connecting_data/Symbology.md#extended-sessions) section.
    */
   subsession_id?: string;
   /**
-   * Subsessions definitions.
+   * An array of objects that contain information about certain subsessions within the extended session.
+   * For more information, refer to the [Extended sessions](https://www.tradingview.com/charting-library-docs/latest/connecting_data/Symbology.md#extended-sessions) section.
    */
   subsessions?: LibrarySubsessionInfo[];
   /**
@@ -995,7 +997,7 @@ export interface SymbolResolveExtension {
   /**
    * Indicates the currency for conversions if `currency_codes` configuration field is set,
    * and `currency_code` is provided in the original symbol information ({@link LibrarySymbolInfo}).
-   * Read more about [currency conversion](https://www.tradingview.com/charting-library-docs/latest/ui_elements/Price-Scale#currency-conversion).
+   * Read more about [currency conversion](https://www.tradingview.com/charting-library-docs/latest/ui_elements/Price-Scale.md#currency-conversion).
    */
   currencyCode?: string;
   /**
@@ -1004,7 +1006,7 @@ export interface SymbolResolveExtension {
    */
   unitId?: string;
   /**
-   * Trading session string
+   * Trading session type, such as `"regular"` or `"extended"`, that the chart should currently display.
    */
   session?: string;
 }

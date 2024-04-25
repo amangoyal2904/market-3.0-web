@@ -8,7 +8,7 @@ interface PageSummary {
   pageno: number;
 }
 
-const Pagination = ({ pageSummary, onPageChange }: any) => {
+const Pagination = React.memo(({ pageSummary, onPageChange }: any) => {
   const { totalRecords, totalpages, pagesize, pageno } = pageSummary;
 
   const handlePageChange = (pageNumber: number) => {
@@ -135,6 +135,6 @@ const Pagination = ({ pageSummary, onPageChange }: any) => {
       </ul>
     </div>
   );
-};
-
+});
+Pagination.displayName = "Pagination";
 export default Pagination;

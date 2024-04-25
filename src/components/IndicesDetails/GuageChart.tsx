@@ -1,6 +1,7 @@
+import React from "react";
 import styles from "./GuageChart.module.scss";
 
-const GuageChart = ({ maScore }: any) => {
+const GuageChart = React.memo(({ maScore }: any) => {
   let maScoreText, maScoreValue;
   if (maScore >= 4 && maScore <= 5) {
     maScoreText = "Extremely Bullish";
@@ -52,6 +53,6 @@ const GuageChart = ({ maScore }: any) => {
       </div>
     </>
   );
-};
-
+});
+GuageChart.displayName = "GuageChart";
 export default GuageChart;

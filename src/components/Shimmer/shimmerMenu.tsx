@@ -1,6 +1,7 @@
+import React from "react";
 import styles from "./Shimmer.module.scss";
 
-const ShimmerMenu = () => {
+const ShimmerMenu = React.memo(() => {
   const menuItems = [
     { label: "Menu 1" },
     { label: "Menu 2" },
@@ -17,6 +18,6 @@ const ShimmerMenu = () => {
       ))}
     </ul>
   );
-};
-
+});
+ShimmerMenu.displayName = "ShimmerMenu";
 export default ShimmerMenu;
