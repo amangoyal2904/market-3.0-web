@@ -116,11 +116,11 @@ const IndicesDetailsOverview = ({
             title={`Technicals: ${overviewData?.assetName}`}
             href={`https://economictimes.indiatimes.com/markets/technical-charts?symbol=${symbol}&exchange=${exchange}&entity=index`}
           >
-            Technicals
             <span className="eticon_candlestick">
               <span className="path1"></span>
               <span className="path2"></span>
             </span>
+            Technicals
           </a>
         </div>
         <iframe
