@@ -94,11 +94,19 @@ export const BreadCrumb: React.FC<Props> = ({ pageName }) => {
   return (
     <div className={styles.breadCrumbContainer}>
       <ul className={styles.brUl}>
-        {router != "/home" && (
-          <li className={styles.home}>
-            <a href="/home">Markets Home</a>
-          </li>
-        )}
+        <li className={styles.home}>
+          <a href="https://economictimes.indiatimes.com/">Home</a>
+        </li>
+        <li className={styles.marketshome}>
+          {router == "/home" ? "Markets" : <a href="/home">Markets Home</a>}
+        </li>
+        {/* {router != "/home" && (
+          <>
+            <li className={styles.marketshome}>
+              <a href="/home">Markets Home</a>
+            </li>
+          </>
+        )} */}
         {getLiPath().showCurrLi && getLiPath().currentLiNode}
         {getLiPath().showNextLi && pageName && (
           <li>
