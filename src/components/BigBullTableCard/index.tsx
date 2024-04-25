@@ -1,6 +1,10 @@
 import styles from "./styles.module.scss";
 import TopTabs from "./TopTabs";
 import BiggBullTable from "./BiggBullTable";
+import BiggBullQtrChangesTable from "./BiggBullTable/qtrChanges";
+import BiggBullRecentTransactionsTable from "./BiggBullTable/RecentTransactions";
+import BiggBullBestPicksTable from "./BiggBullTable/BestPicks";
+import BiggBullMostHeldTable from "./BiggBullTable/MostHeld";
 import Pagination from "./Pagination";
 
 const BigBullTableCard = ({
@@ -17,6 +21,9 @@ const BigBullTableCard = ({
   pagination,
   handlePageChange,
   shouldShowLoader,
+  title = "",
+  pageType = "",
+  paginationLastNode = "",
 }: any) => {
   return (
     <>
@@ -27,14 +34,50 @@ const BigBullTableCard = ({
         searchInvestor={searchInvestor}
         invstrQuery={invstrQuery}
         invstrQueryHandler={invstrQueryHandler}
+        title={title}
       />
-      <BiggBullTable
-        tableHead={tableHead}
-        tableData={tableData}
-        sortData={sortData}
-        handleSort={handleSort}
-        shouldShowLoader={shouldShowLoader}
-      />
+      {pageType === "qtrChanges" ? (
+        <BiggBullQtrChangesTable
+          tableHead={tableHead}
+          tableData={tableData}
+          sortData={sortData}
+          handleSort={handleSort}
+          shouldShowLoader={shouldShowLoader}
+        />
+      ) : pageType === "recentTransactions" ? (
+        <BiggBullRecentTransactionsTable
+          tableHead={tableHead}
+          tableData={tableData}
+          sortData={sortData}
+          handleSort={handleSort}
+          shouldShowLoader={shouldShowLoader}
+        />
+      ) : pageType === "bestPicks" ? (
+        <BiggBullBestPicksTable
+          tableHead={tableHead}
+          tableData={tableData}
+          sortData={sortData}
+          handleSort={handleSort}
+          shouldShowLoader={shouldShowLoader}
+        />
+      ) : pageType === "mostHeld" ? (
+        <BiggBullMostHeldTable
+          tableHead={tableHead}
+          tableData={tableData}
+          sortData={sortData}
+          handleSort={handleSort}
+          shouldShowLoader={shouldShowLoader}
+        />
+      ) : (
+        <BiggBullTable
+          tableHead={tableHead}
+          tableData={tableData}
+          sortData={sortData}
+          handleSort={handleSort}
+          shouldShowLoader={shouldShowLoader}
+        />
+      )}
+
       {tableData?.length === 0 ? (
         <div className="prel">NO data Found</div>
       ) : (
@@ -43,6 +86,7 @@ const BigBullTableCard = ({
           <Pagination
             pageSummary={pagination}
             onPageChange={handlePageChange}
+            paginationLastNode={paginationLastNode}
           />
         )
       )}
