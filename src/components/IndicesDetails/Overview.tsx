@@ -97,7 +97,7 @@ const IndicesDetailsOverview = React.memo(
             )}
           </span>
         </div>
-        {descText && <p className={styles.desc}>{descText}</p>}
+        {!!descText && <p className={styles.desc}>{descText}</p>}
         <div id="chart">
           <div className={styles.chartOpts}>
             <ul className={styles.interval}>
