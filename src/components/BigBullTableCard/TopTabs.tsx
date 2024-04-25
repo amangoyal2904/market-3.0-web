@@ -11,7 +11,7 @@ const TopTabs = ({
   invstrQuery,
   invstrQueryHandler,
   title,
-  sortByFilter = true,
+  sortByFilter = false,
 }: any) => {
   const showIndexFilter = niftyFilter;
   const [showFilter, setShowFilter] = useState(false);

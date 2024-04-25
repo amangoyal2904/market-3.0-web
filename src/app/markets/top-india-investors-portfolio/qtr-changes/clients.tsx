@@ -121,6 +121,7 @@ const BigBullQtrChangesPageClientPage = ({
         shouldShowLoader={tableLoadingShow}
         title={__title}
         pageType={pageType}
+        paginationLastNode="Last Quarters Changes"
       />
     </>
   );

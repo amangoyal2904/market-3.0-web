@@ -9,6 +9,7 @@ import BigBullTabs from "../../../components/BigBullTabs";
 import tabsJson from "../../../DataJson/bigbullTabs.json";
 import indiFilter from "../../../DataJson/individualFilter.json";
 import { commonPostAPIHandler } from "../../../utils/screeners";
+import Loader from "@/components/Loader";
 
 const tabs = tabsJson;
 const individualFilter = indiFilter;
@@ -16,11 +17,13 @@ const individualFilter = indiFilter;
 const BigBullClientPage = ({ data }: any) => {
   console.log("__======_data", data);
   const [aciveFilter, setActiveFilter] = useState("INDIVIDUAL");
+  const [loading, setLoading] = useState<boolean>(false);
   const [__data, setData] = useState(data);
   const fitlerHandler = (value: any) => {
     setActiveFilter(value);
   };
   const callAPIfitler = async () => {
+    setLoading(true);
     const payload = {
       ssoId: "",
       investorType: aciveFilter,
@@ -40,13 +43,14 @@ const BigBullClientPage = ({ data }: any) => {
       };
       setData(newData);
     }
+    setLoading(false);
   };
   useEffect(() => {
     callAPIfitler();
   }, [aciveFilter]);
   return (
     <>
-      <div className={styles.container}>
+      <div className={`prel ${styles.container}`}>
         <BigBullTabs
           data={tabs}
           individualFilter={individualFilter}
@@ -88,6 +92,7 @@ const BigBullClientPage = ({ data }: any) => {
           cartLink={`/markets/top-india-investors-portfolio/most-held`}
           cartTitle={`View All ${__data?.pageData?.mostHoldCompanyInfo?.pageSummaryInfo?.totalPages} Most Helds Stocks`}
         />
+        {loading && <Loader loaderType="container" />}
       </div>
     </>
   );

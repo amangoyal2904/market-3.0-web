@@ -118,6 +118,7 @@ const BigBullAllInvertorsPageClientPage = ({
         handlePageChange={handlePageChangeHandler}
         shouldShowLoader={tableLoadingShow}
         title={__title}
+        paginationLastNode="Investors"
       />
     </>
   );
