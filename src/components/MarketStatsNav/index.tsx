@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import styles from "./MarketStatsNav.module.scss";
 import Link from "next/link";
 
@@ -13,7 +13,7 @@ interface PageProps {
   secondOperand: any;
 }
 
-const MarketStatsNav: React.FC<PageProps> = (props) => {
+const MarketStatsNav: React.FC<PageProps> = React.memo((props) => {
   const {
     leftNavResult,
     type,
@@ -111,6 +111,6 @@ const MarketStatsNav: React.FC<PageProps> = (props) => {
       </div>
     </>
   );
-};
-
+});
+MarketStatsNav.displayName = "MarketStatsNav";
 export default MarketStatsNav;

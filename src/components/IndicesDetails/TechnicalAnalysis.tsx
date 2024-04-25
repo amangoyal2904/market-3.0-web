@@ -1,7 +1,7 @@
 import { formatNumber, getCookie } from "@/utils";
 import styles from "./IndicesDetails.module.scss";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
@@ -16,7 +16,7 @@ const TVChartContainer = dynamic(
   { ssr: false },
 );
 
-const IndicesTechnicalAnalysis = ({ data, symbol }: any) => {
+const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
   const [isScriptReady, setIsScriptReady] = useState(false);
   const { maScore, bullishMA, bearishMA, movingAverage, pivotLevel } = data;
 
@@ -171,6 +171,7 @@ const IndicesTechnicalAnalysis = ({ data, symbol }: any) => {
       </div>
     </>
   );
-};
+});
 
 export default IndicesTechnicalAnalysis;
+IndicesTechnicalAnalysis.displayName = "IndicesTechnicalAnalysis";

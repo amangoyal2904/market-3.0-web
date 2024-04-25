@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styles from "./IndicesDetails.module.scss";
 
 const faqs = [
@@ -19,7 +19,7 @@ const faqs = [
   },
 ];
 
-const IndicesFaqs = () => {
+const IndicesFaqs = React.memo(() => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handleItemClick = (index: number) => {
@@ -52,6 +52,6 @@ const IndicesFaqs = () => {
       </div>
     </>
   );
-};
-
+});
+IndicesFaqs.displayName = "IndicesFaqs";
 export default IndicesFaqs;

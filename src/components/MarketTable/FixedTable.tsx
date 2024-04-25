@@ -6,7 +6,7 @@ import WatchlistAddition from "../WatchlistAddition";
 import { goToPlansPage } from "@/utils/ga";
 import Image from "next/image";
 
-const FixedTable = (props: any) => {
+const FixedTable = React.memo((props: any) => {
   const {
     highlightLtp,
     tableHeaderData,
@@ -381,5 +381,6 @@ const FixedTable = (props: any) => {
       </table>
     </div>
   );
-};
+});
+FixedTable.displayName = "FixedTable";
 export default FixedTable;

@@ -29,7 +29,7 @@ interface propsType {
 
 const DEBOUNCE_DELAY = 10;
 
-const MarketTable = (props: propsType) => {
+const MarketTable = React.memo((props: propsType) => {
   const {
     data,
     highlightLtp = true,
@@ -381,5 +381,6 @@ const MarketTable = (props: propsType) => {
       {shouldShowLoader && <Loader loaderType={loaderType} />}
     </>
   );
-};
+});
+MarketTable.displayName = "MarketTable";
 export default MarketTable;
