@@ -4905,13 +4905,19 @@ export interface CreateTradingViewStyledButtonOptions {
  */
 export interface CrossHairMovedEventParams {
   /**
-   * The time coordinate of the crosshair.
+   * The crosshair time coordinate represented with a UNIX timestamp in UTC.
+   * You can use this property to do some calculations or retrieve additional data from the datafeed.
    */
   time: number;
   /**
    * The price coordinate of the crosshair.
    */
   price: number;
+  /**
+   * The crosshair time coordinate represented with a UNIX timestamp in the selected time zone.
+   * You can use this property to display the crosshair time value in the UI, for example, in a tooltip or data window.
+   */
+  userTime?: number;
   /**
    * Series and study values at the crosshair position. The object keys are study or series IDs, and the object value are study or series values.
    * The ID for the main series will always be the string `'_seriesId'`.
@@ -10687,6 +10693,10 @@ export interface IChartingLibraryWidget {
   widgetbar(): Promise<IWidgetbarApi>;
   /**
    * Get an API object for interacting with the active chart.
+   * For example, you can subscribe to events on the active chart, such as {@link IChartWidgetApi.onIntervalChanged}.
+   * Note that the library does not manage the event subscriptions when users switch between the charts on the [multiple-chart layout](https://www.tradingview.com/charting-library-docs/latest/trading_terminal/trading_terminal.md#multiple-chart-layout).
+   * If necessary, you should manually unsubscribe from the previous chart and subscribe to the newly selected one.
+   * To track the currently active chart, use the {@link SubscribeEventsMap.activeChartChanged} event.
    *
    * @returns An API object for interacting with the chart.
    */
@@ -13287,17 +13297,17 @@ export interface IUpdatableAction extends IAction {
   update(options: Partial<OmitActionId<ActionOptions>>): void;
 }
 /**
- * An API object for interacting with the widgetbar (right sidebar) watchlist.
+ * An API object for interacting with the [Watchlist](https://www.tradingview.com/charting-library-docs/latest/trading_terminal/Watch-List.md) widget.
+ * The Watchlist is a widget that allows users to track price movements and volume of specific financial instruments in real-time.
+ * Watchlists also allow users to quickly switch between the symbols.
+ * The Watchlist widget is displayed on the widget panel on the right side of the chart.
  *
  * **Notes about watchlist contents**
  *
- * Watchlist items should be symbol names which your datafeed `resolveSymbol` method can resolve. This
+ * Watchlist items should be symbol names which your datafeed [`resolveSymbol`](https://www.tradingview.com/charting-library-docs/latest/connecting_data/Datafeed-API.md#resolvesymbol) method can resolve. This
  * means that generally shorter names such as `AAPL` can be used if your datafeed understands it. However,
- * it is recommend that you provided the symbol names as they appear within the symbolInfo result (for
- * example: `NASDAQNM:AAPL`).
- *
- * Additionally, any item in the list which is prefixed with `###` will be considered a
- * section divider in the watchlist.
+ * it is recommend that you provide the symbol names as they appear within the `LibrarySymbolInfo` object, for
+ * example, `NASDAQ:AAPL`.
  */
 export interface IWatchListApi {
   /**
@@ -13307,7 +13317,7 @@ export interface IWatchListApi {
   defaultList(): string[];
   /**
    * Get a list of symbols.
-   * If the `id` parameter is not provided then the current list will be returned. If there is no WatchList then `null` will be returned.
+   * If the `id` parameter is not provided, the current list will be returned. If there is no watchList, `null` will be returned.
    * @param  {string} [id] - Watchlist ID
    * @returns list of symbols for watchlist
    */
@@ -13337,28 +13347,26 @@ export interface IWatchListApi {
   /**
    * Edit the list of symbols for a watchlist.
    * @param  {string} listId - ID of the watchlist
-   * @param  {string[]} symbols - symbols to be set for the watchlist. Any item in the list which is prefixed with `###` will be considered a
-   * section divider in the watchlist.
+   * @param  {string[]} symbols - Symbols to be set for the watchlist. Any list item that has the `###` prefix is considered a section divider in the watchlist.
    */
   updateList(listId: string, symbols: string[]): void;
   /**
    * Rename the watchlist.
    * @param  {string} listId - ID of the watchlist
-   * @param  {string} newName - new name to set for the watchlist
+   * @param  {string} newName - New name to set for the watchlist
    */
   renameList(listId: string, newName: string): void;
   /**
    * Create a list of symbols with `listName` name. If the `listName` parameter is not provided or there is no WatchList then `null` will be returned;
    * @param  {string} [listName] - name for the watchlist
-   * @param  {string[]} [symbols] - symbol IDs for the watchlist. Any item in the list which is prefixed with `###` will be considered a
-   * section divider in the watchlist.
+   * @param  {string[]} [symbols] - Symbol IDs for the watchlist. Any list item that has the `###` prefix is considered a section divider in the watchlist.
    * @returns WatchListSymbolList
    */
   createList(listName?: string, symbols?: string[]): WatchListSymbolList | null;
   /**
    * Save a list of symbols.
    * @param  {WatchListSymbolList} list
-   * @returns If there is no WatchList or an equivalent list already exists then `false` will be returned, otherwise `true` will returned.
+   * @returns If there is no watchList or an equivalent list already exists, `false` will be returned. Otherwise, `true` will be returned.
    */
   saveList(list: WatchListSymbolList): boolean;
   /**
@@ -14316,7 +14324,7 @@ export interface LibrarySymbolInfo {
    * If it's `false` then all buttons for intraday resolutions will be disabled for this particular symbol.
    * If it is set to `true`, all intradays resolutions that are supplied directly by the datafeed must be provided in `intraday_multipliers` array.
    *
-   * **WARNING** Any daily, weekly or monthly resolutions cannot be inferred from intraday resolutions!
+   * **WARNING** Any daily, weekly or monthly resolutions cannot be inferred from intraday resolutions.
    *
    * `false` if DWM only
    * @default false
@@ -14410,7 +14418,7 @@ export interface LibrarySymbolInfo {
    */
   has_weekly_and_monthly?: boolean;
   /**
-   * Array (of strings) containing the [resolutions](https://www.tradingview.com/charting-library-docs/latest/core_concepts/Resolution#weeks) (in weeks - without the suffix) supported by the data feed. {@link ResolutionString}
+   * Array (of strings) containing the [resolutions](https://www.tradingview.com/charting-library-docs/latest/core_concepts/Resolution.md#resolution-in-weeks--months) (in weeks - without the suffix) supported by the data feed. {@link ResolutionString}
    *
    * For example it could be something like
    *
@@ -14421,7 +14429,7 @@ export interface LibrarySymbolInfo {
    */
   weekly_multipliers?: string[];
   /**
-   * Array (of strings) containing the [resolutions](https://www.tradingview.com/charting-library-docs/latest/core_concepts/Resolution#months) (in months - without the suffix) supported by the data feed. {@link ResolutionString}
+   * Array (of strings) containing the [resolutions](https://www.tradingview.com/charting-library-docs/latest/core_concepts/Resolution.md#resolution-in-weeks--months) (in months - without the suffix) supported by the data feed. {@link ResolutionString}
    *
    * For example it could be something like
    *
@@ -14443,9 +14451,9 @@ export interface LibrarySymbolInfo {
   /**
    * Represents what values are supported by the symbol. Possible values:
    *
-   * - `ohlcv` - the symbol supports open, high, low, close and has volume
-   * - `ohlc` - the symbol supports open, high, low, close, but doesn't have volume
-   * - `c` - the symbol supports only close, it's displayed on the chart using line-based styles only
+   * - `ohlcv` — the symbol supports open, high, low, close prices and has volume.
+   * - `ohlc` — the symbol supports open, high, low, close, prices but doesn't have volume.
+   * - `c` — the symbol supports only close price. This makes the chart show the symbol data using only line-based styles.
    * @default 'ohlcv'
    */
   visible_plots_set?: VisiblePlotsSet;
@@ -14506,11 +14514,13 @@ export interface LibrarySymbolInfo {
    */
   unit_conversion_types?: string[];
   /**
-   * Subsession ID. Must match the `id` property of one of the subsessions.
+   * An ID of a subsession specified in {@link subsessions}. The value must match the subsession that is currently displayed on the chart.
+   * For more information, refer to the [Extended sessions](https://www.tradingview.com/charting-library-docs/latest/connecting_data/Symbology.md#extended-sessions) section.
    */
   subsession_id?: string;
   /**
-   * Subsessions definitions.
+   * An array of objects that contain information about certain subsessions within the extended session.
+   * For more information, refer to the [Extended sessions](https://www.tradingview.com/charting-library-docs/latest/connecting_data/Symbology.md#extended-sessions) section.
    */
   subsessions?: LibrarySubsessionInfo[];
   /**
@@ -17601,6 +17611,18 @@ export interface RateOfChangeIndicatorOverrides {
  * Use these properties to customize indicator via {@link IChartWidgetApi.createStudy} and {@link IStudyApi.applyOverrides}.
  */
 export interface RatioIndicatorOverrides {
+  /** Default value: `` */
+  "negativefill.color": string;
+  /** Default value: `0` */
+  "negativefill.transparency": number;
+  /** Default value: `true` */
+  "negativefill.visible": boolean;
+  /** Default value: `` */
+  "positivefill.color": string;
+  /** Default value: `0` */
+  "positivefill.transparency": number;
+  /** Default value: `true` */
+  "positivefill.visible": boolean;
   /** Default value: `0` */
   "plot.linestyle": number;
   /** Default value: `2` */
@@ -17615,6 +17637,20 @@ export interface RatioIndicatorOverrides {
   "plot.color": string;
   /** Default value: `15` */
   "plot.display": number;
+  /** Default value: `0` */
+  "baseline.linestyle": number;
+  /** Default value: `2` */
+  "baseline.linewidth": number;
+  /** Default value: `line` */
+  "baseline.plottype": LineStudyPlotStyleName;
+  /** Default value: `false` */
+  "baseline.trackprice": boolean;
+  /** Default value: `0` */
+  "baseline.transparency": number;
+  /** Default value: `rgba(0, 0, 0, 0)` */
+  "baseline.color": string;
+  /** Default value: `0` */
+  "baseline.display": number;
   [key: string]: StudyOverrideValueType;
 }
 export interface RawStudyMetaInfo extends RawStudyMetaInfoBase {
@@ -18740,10 +18776,14 @@ export interface SortingParameters {
  * Use these properties to customize indicator via {@link IChartWidgetApi.createStudy} and {@link IStudyApi.applyOverrides}.
  */
 export interface SpreadIndicatorOverrides {
+  /** Default value: `` */
+  "negative fill.color": string;
   /** Default value: `0` */
   "negative fill.transparency": number;
   /** Default value: `true` */
   "negative fill.visible": boolean;
+  /** Default value: `` */
+  "positive fill.color": string;
   /** Default value: `0` */
   "positive fill.transparency": number;
   /** Default value: `true` */
@@ -20704,6 +20744,13 @@ export interface StudyOverrides {
    * - Max: `2000`
    */
   "donchian channels.length": number;
+  /**
+   * - Default value: `0`
+   * - Input type: `integer`
+   * - Min: `-1000`
+   * - Max: `1000`
+   */
+  "donchian channels.offset": number;
   /** Default value: `15` */
   "double ema.plot.display": number;
   /** Default value: `0` */
@@ -22830,6 +22877,18 @@ export interface StudyOverrides {
    * - Max: `1000000000000`
    */
   "rate of change.length": number;
+  /** Default value: `` */
+  "ratio.negativefill.color": string;
+  /** Default value: `0` */
+  "ratio.negativefill.transparency": number;
+  /** Default value: `true` */
+  "ratio.negativefill.visible": boolean;
+  /** Default value: `` */
+  "ratio.positivefill.color": string;
+  /** Default value: `0` */
+  "ratio.positivefill.transparency": number;
+  /** Default value: `true` */
+  "ratio.positivefill.visible": boolean;
   /** Default value: `0` */
   "ratio.plot.linestyle": number;
   /** Default value: `2` */
@@ -22844,6 +22903,20 @@ export interface StudyOverrides {
   "ratio.plot.color": string;
   /** Default value: `15` */
   "ratio.plot.display": number;
+  /** Default value: `0` */
+  "ratio.baseline.linestyle": number;
+  /** Default value: `2` */
+  "ratio.baseline.linewidth": number;
+  /** Default value: `line` */
+  "ratio.baseline.plottype": LineStudyPlotStyleName;
+  /** Default value: `false` */
+  "ratio.baseline.trackprice": boolean;
+  /** Default value: `0` */
+  "ratio.baseline.transparency": number;
+  /** Default value: `rgba(0, 0, 0, 0)` */
+  "ratio.baseline.color": string;
+  /** Default value: `0` */
+  "ratio.baseline.display": number;
   /**
    * - Default value: `close`
    * - Input type: `text`
@@ -23162,10 +23235,14 @@ export interface StudyOverrides {
    * - Options: `["open","high","low","close","hl2","hlc3","ohlc4"]`
    */
   "smoothed moving average.source": string;
+  /** Default value: `` */
+  "spread.negative fill.color": string;
   /** Default value: `0` */
   "spread.negative fill.transparency": number;
   /** Default value: `true` */
   "spread.negative fill.visible": boolean;
+  /** Default value: `` */
+  "spread.positive fill.color": string;
   /** Default value: `0` */
   "spread.positive fill.transparency": number;
   /** Default value: `true` */
@@ -25231,7 +25308,7 @@ export interface SymbolResolveExtension {
   /**
    * Indicates the currency for conversions if `currency_codes` configuration field is set,
    * and `currency_code` is provided in the original symbol information ({@link LibrarySymbolInfo}).
-   * Read more about [currency conversion](https://www.tradingview.com/charting-library-docs/latest/ui_elements/Price-Scale#currency-conversion).
+   * Read more about [currency conversion](https://www.tradingview.com/charting-library-docs/latest/ui_elements/Price-Scale.md#currency-conversion).
    */
   currencyCode?: string;
   /**
@@ -25240,7 +25317,7 @@ export interface SymbolResolveExtension {
    */
   unitId?: string;
   /**
-   * Trading session string
+   * Trading session type, such as `"regular"` or `"extended"`, that the chart should currently display.
    */
   session?: string;
 }
@@ -26838,6 +26915,24 @@ export interface WatchedValueSubscribeOptions {
   /** if it is set to true then the callback will be executed with the previous value (if available) */
   callWithLast?: boolean;
 }
+export interface WatchlistSettings {
+  /**
+   * Sets the list of default symbols for watchlist.
+   * Any item in the list which is prefixed with `###` will be considered a section divider in the watchlist.
+   * @default []
+   *
+   * **Example:**
+   * ```js
+   * default_symbols: ['###TOP SECTION', 'AAPL', 'IBM', '###SECOND SECTION', 'MSFT']
+   * ```
+   */
+  default_symbols: string[];
+  /**
+   * Enables read-only mode for the watchlist.
+   * @default false
+   */
+  readonly?: boolean;
+}
 /**
  * Data provided to the {@link WatermarkContentProvider}.
  */
@@ -26898,26 +26993,7 @@ export interface WidgetBarParams {
    */
   datawindow?: boolean;
   /** Watchlist settings */
-  watchlist_settings?: {
-    /**
-     * Sets the list of default symbols for watchlist.
-     *
-     * Any item in the list which is prefixed with `###` will be considered a
-     * section divider in the watchlist.
-     * @default []
-     *
-     * **Example:**
-     * ```
-     * default_symbols: ['###TOP SECTION', 'AAPL', 'IBM', '###SECOND SECTION', 'MSFT']
-     * ```
-     */
-    default_symbols: string[];
-    /**
-     * Enables read-only mode for the watchlist
-     * @default false
-     */
-    readonly?: boolean;
-  };
+  watchlist_settings?: WatchlistSettings;
 }
 /**
  * Overrides for the 'Williams Alligator' indicator.
@@ -27453,7 +27529,12 @@ export type ChartingLibraryFeatureset =
    * Enables an [alternative saving and loading mode](https://www.tradingview.com/charting-library-docs/latest/saving_loading/saving_loading.md#saving-drawings-separately) for the library. This mode saves the state of the drawings separately from the chart layout.
    * @default false
    */
-  | "saveload_separate_drawings_storage";
+  | "saveload_separate_drawings_storage"
+  /**
+   * Disables the pulse animation when chart type is set to Line.
+   * @default false
+   */
+  | "disable_pulse_animation";
 /** These are defining the types for a background */
 export type ColorTypes = "solid" | "gradient";
 /**

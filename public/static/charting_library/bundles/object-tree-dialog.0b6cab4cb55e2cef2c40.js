@@ -4154,23 +4154,29 @@
             : (this.selection().set([e]),
               null !== n
                 ? this._controller.mainSeries() === n
-                  ? this._chart.value().showGeneralChartProperties(void 0, {
-                      shouldReturnFocus: !0,
-                    })
-                  : ((0, po.isLineTool)(n) || (0, fo.isStudy)(n)) &&
-                    this._chart.value().showChartPropertiesForSource(n, t, {
-                      shouldReturnFocus: !0,
-                    })
-                : this._chart.value().showChartPropertiesForSources({
-                    sources: this._chart
+                  ? this._chart
                       .value()
-                      .model()
-                      .selection()
-                      .lineDataSources(),
-                    title: e.title().value(),
-                    tabName: t,
-                    renamable: !0,
-                  }));
+                      .showGeneralChartProperties(void 0, {
+                        shouldReturnFocus: !0,
+                      })
+                  : ((0, po.isLineTool)(n) || (0, fo.isStudy)(n)) &&
+                    this._chart
+                      .value()
+                      .showChartPropertiesForSource(n, t, {
+                        shouldReturnFocus: !0,
+                      })
+                : this._chart
+                    .value()
+                    .showChartPropertiesForSources({
+                      sources: this._chart
+                        .value()
+                        .model()
+                        .selection()
+                        .lineDataSources(),
+                      title: e.title().value(),
+                      tabName: t,
+                      renamable: !0,
+                    }));
         }
         canSelectionBeUnmerged() {
           const e = this._getSelectedEntities();
