@@ -38,6 +38,7 @@ const IndicesDetailsClient = ({
   tabConfig = {},
   payload = {},
   indicesNews = {},
+  faq = {},
   selectedFilter = {},
 }: any) => {
   const { state } = useStateContext();
@@ -52,6 +53,7 @@ const IndicesDetailsClient = ({
   const symbol = overview.assetSymbol;
   const exchange = overview.assetExchangeId == 50 ? "NSE" : "BSE";
   const exchangeId = overview.assetExchangeId;
+  const { indexDescription, indexFaq = [] } = faq;
 
   const refreshOverviewData = async () => {
     const data = await getIndicesOverview(indexId);
@@ -121,6 +123,7 @@ const IndicesDetailsClient = ({
     <>
       <IndicesDetailsOverview
         overviewData={overviewData}
+        descText={indexDescription}
         currentMarketStatus={currentMarketStatus}
         symbol={symbol}
         exchange={exchange}
@@ -178,7 +181,9 @@ const IndicesDetailsClient = ({
                 indicesNews={indicesNews}
               />
             )}
-            {item.key === "faqs" && <IndicesFaqs />}
+            {item.key === "faqs" && !!indexFaq.length && (
+              <IndicesFaqs faqs={indexFaq} />
+            )}
           </div>
         ))}
       </div>
