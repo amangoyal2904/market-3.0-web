@@ -4,6 +4,7 @@ import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
+import WatchlistAddition from "../../WatchlistAddition";
 
 const BiggBullMostHeldTable = ({
   tableHead,
@@ -15,7 +16,8 @@ const BiggBullMostHeldTable = ({
   console.log("tableData", tableData);
   const { state } = useStateContext();
   const { isPrime } = state.login;
-  console.log("isPrime", isPrime);
+  // const isPrime = true;
+  //console.log("isPrime", isPrime);
   return (
     <div className="prel">
       <table className={styles.bibBullCustomTable}>
@@ -32,45 +34,32 @@ const BiggBullMostHeldTable = ({
                     <div
                       className={`${styles.thead}`}
                       onClick={() => {
-                        thead.sort &&
-                        (!thead.primeFlag || (isPrime && thead.primeFlag))
+                        thead.sort
                           ? handleSort(thead?.id, thead?.orderBy)
                           : null;
                       }}
                     >
-                      <div className={styles.theading}>
-                        {isPrime && thead?.primeFlag ? (
-                          <Image
-                            src="/prime_icon.svg"
-                            width={10}
-                            height={10}
-                            alt="ETPrime"
-                            className={styles.primeIcon}
-                          />
-                        ) : null}
-                        {thead.name}
-                      </div>
-                      {thead.sort &&
-                        (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
-                          <span className={`${styles.sortIcons}`}>
-                            <span
-                              className={`${
-                                sortData?.field == thead.id &&
-                                sortData?.order == "ASC"
-                                  ? styles.asc
-                                  : ""
-                              } eticon_up_arrow`}
-                            ></span>
-                            <span
-                              className={`${
-                                sortData?.field == thead.id &&
-                                sortData?.order == "DESC"
-                                  ? styles.desc
-                                  : ""
-                              } eticon_down_arrow`}
-                            ></span>
-                          </span>
-                        )}
+                      <div className={styles.theading}>{thead.name}</div>
+                      {thead.sort && (
+                        <span className={`${styles.sortIcons}`}>
+                          <span
+                            className={`${
+                              sortData?.field == thead.id &&
+                              sortData?.order == "ASC"
+                                ? styles.asc
+                                : ""
+                            } eticon_up_arrow`}
+                          ></span>
+                          <span
+                            className={`${
+                              sortData?.field == thead.id &&
+                              sortData?.order == "DESC"
+                                ? styles.desc
+                                : ""
+                            } eticon_down_arrow`}
+                          ></span>
+                        </span>
+                      )}
                     </div>
                   </th>
                 );
@@ -85,18 +74,31 @@ const BiggBullMostHeldTable = ({
                 <tr key={`${index}`}>
                   <td>
                     <div className={styles.comNameSec}>
-                      <div>
-                        {!isPrime ? (
-                          <a
-                            href={getStockUrl(
-                              tdata?.companyData?.companyId,
-                              tdata?.companyData?.companySeoName,
-                              tdata?.companyData?.companyType,
-                            )}
-                            target="_blank"
-                          >
-                            {tdata?.companyData?.text}
-                          </a>
+                      <div className={styles.comDivSec}>
+                        {isPrime ? (
+                          <>
+                            <WatchlistAddition
+                              companyName={tdata.companyData?.text}
+                              companyId={tdata?.companyData?.companyId}
+                              companyType={tdata?.companyData?.companyType}
+                              customStyle={{
+                                width: "18px",
+                                height: "18px",
+                              }}
+                            />
+                            <a
+                              href={getStockUrl(
+                                tdata?.companyData?.companyId,
+                                tdata?.companyData?.companySeoName,
+                                tdata?.companyData?.companyType,
+                              )}
+                              target="_blank"
+                              className={styles.linkTxt}
+                            >
+                              {tdata?.companyData?.text}
+                              <span>{tdata.companyData?.marketCapText}</span>
+                            </a>
+                          </>
                         ) : (
                           <span className={styles.nameBlur}></span>
                         )}
@@ -112,14 +114,20 @@ const BiggBullMostHeldTable = ({
                             .map((list: any, index: number) => {
                               return (
                                 <li key={`-${index}--`}>
-                                  <img
-                                    src={list.imageURL}
-                                    width={28}
-                                    height={28}
-                                    alt={list.name}
-                                    title={list.name}
-                                  />
-                                  <h4>{list.name}</h4>
+                                  <Link
+                                    href={`/markets/top-india-investors-portfolio/${list?.sharkSeoName},expertid-${list?.sharkID}`}
+                                    target="_blank"
+                                    className={styles.investNameImg}
+                                  >
+                                    <img
+                                      src={list.imageURL}
+                                      width={28}
+                                      height={28}
+                                      alt={list.name}
+                                      title={list.name}
+                                    />
+                                    <h4>{list.name}</h4>
+                                  </Link>
                                 </li>
                               );
                             })}
@@ -136,7 +144,7 @@ const BiggBullMostHeldTable = ({
                               : "";
                         return (
                           <td
-                            className={styles[updownClass]}
+                            className={`${styles.rightTxt} ${styles[updownClass]}`}
                             key={`${stock?.uiLabel?.statusCheck}-${index}`}
                             dangerouslySetInnerHTML={{
                               __html: stock?.uiValue?.text,

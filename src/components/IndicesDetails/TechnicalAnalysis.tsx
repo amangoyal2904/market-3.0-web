@@ -68,7 +68,8 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
     if (user == null || user == "") {
       user = getCookie("pfuuid");
     }
-    const user_id: string | undefined = typeof user === "string" ? user : "";
+    const user_id: string | undefined =
+      typeof user === "string" ? user : "default_user";
     setUserId(user_id);
   }, [ssoid]);
 

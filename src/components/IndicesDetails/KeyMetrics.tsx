@@ -13,13 +13,13 @@ const KeyMetricsIndices = React.memo(({ data }: any) => {
         </div>
         <div className={styles.metric}>
           <p>Day High</p>
-          <p className={`${styles.up} numberFonts`}>
+          <p className={`${!!data.highPrice ? styles.up : ""} numberFonts`}>
             {formatNumber(data.highPrice)}
           </p>
         </div>
         <div className={styles.metric}>
           <p>Day Low</p>
-          <p className={`${styles.down} numberFonts`}>
+          <p className={`${!!data.lowPrice ? styles.down : ""} numberFonts`}>
             {formatNumber(data.lowPrice)}
           </p>
         </div>

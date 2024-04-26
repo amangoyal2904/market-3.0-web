@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import styles from "./Footer.module.scss";
 
 interface Props {

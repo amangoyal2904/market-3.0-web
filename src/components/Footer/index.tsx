@@ -160,12 +160,12 @@ export const Footer = async () => {
           </div>
         </div>
       </div>
-      {/* <div className={`${styles.footerMidContainer} ${styles.footerSection}`}>
+      <div className={`${styles.footerMidContainer} ${styles.footerSection}`}>
         {footerResult &&
           footerResult?.widgets.map((item: any, index: number) => (
             <FooterList key={index} data={item.data} title={item.title} />
           ))}
-      </div> */}
+      </div>
       <div
         className={`${styles.footerBottomContainer} ${styles.footerSection}`}
       >
