@@ -5,11 +5,13 @@ import { getStockUrl } from "@/utils/utility";
 import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import WatchlistAddition from "../../WatchlistAddition";
 import { useStateContext } from "@/store/StateContext";
 
 const BigBullCard = ({ data, type }: any) => {
   const { state } = useStateContext();
   const { isPrime } = state.login;
+  // const isPrime = true;
   console.log("isPrime", isPrime);
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -60,58 +62,61 @@ const BigBullCard = ({ data, type }: any) => {
   return (
     <>
       <div className={`${styles.card} ${styles[type]}`}>
-        <div className={styles.top}>
-          {type === "card3" ? (
-            <>
-              <div className={styles.totalCTxt}>
-                HELD BY {data.totalCompany} BULLS
-              </div>
-              <div className={`nameSliderCustome ${styles.sliderWrap}`}>
-                <Slider ref={sliderRef} {...settings}>
-                  {data.investorsList.length &&
-                    data?.investorsList.map((slide: any, index: number) => (
-                      <div key={index}>
-                        <Link
-                          href={`/`}
-                          className={styles.cardName}
-                          title={slide.name}
-                        >
-                          <img
-                            src={slide.imageURL}
-                            width={28}
-                            height={28}
-                            alt={slide.name}
-                            className={styles.imgWraper}
-                          />
-                          <span className={styles.smallTxt}>{slide.name}</span>
-                        </Link>
-                      </div>
-                    ))}
-                </Slider>
-              </div>
-            </>
-          ) : (
-            <>
-              <img
-                src={data?.investorIntro?.imageURL}
-                width={52}
-                height={52}
-                alt={data?.investorIntro?.name}
-                className={styles.expertImg}
-              />
-              <h4 className={styles.expertName}>
-                {data && data.dealSignal && data.dealSignal !== "" ? (
-                  <span className={`${styles[data?.dealSignal]}`}>
-                    {data?.dealSignal} By
-                  </span>
-                ) : (
-                  ""
-                )}
-                {data?.investorIntro?.name}
-              </h4>
-            </>
-          )}
-        </div>
+        {type === "card3" ? (
+          <div className={styles.top}>
+            <div className={styles.totalCTxt}>
+              HELD BY {data.totalCompany} BULLS
+            </div>
+            <div className={`nameSliderCustome ${styles.sliderWrap}`}>
+              <Slider ref={sliderRef} {...settings}>
+                {data.investorsList.length &&
+                  data?.investorsList.map((slide: any, index: number) => (
+                    <div key={index}>
+                      <Link
+                        href={`/markets/top-india-investors-portfolio/${slide?.sharkSeoName},expertid-${slide?.sharkID}`}
+                        target="_blank"
+                        className={styles.cardName}
+                        title={slide.name}
+                      >
+                        <img
+                          src={slide.imageURL}
+                          width={28}
+                          height={28}
+                          alt={slide.name}
+                          className={styles.imgWraper}
+                        />
+                        <span className={styles.smallTxt}>{slide.name}</span>
+                      </Link>
+                    </div>
+                  ))}
+              </Slider>
+            </div>
+          </div>
+        ) : (
+          <Link
+            href={`/markets/top-india-investors-portfolio/${data?.investorIntro?.sharkSeoName},expertid-${data?.investorIntro?.sharkID}`}
+            target="_blank"
+            className={styles.top}
+          >
+            <img
+              src={data?.investorIntro?.imageURL}
+              width={52}
+              height={52}
+              alt={data?.investorIntro?.name}
+              className={styles.expertImg}
+            />
+            <span className={styles.expertName}>
+              {data && data.dealSignal && data.dealSignal !== "" ? (
+                <span className={`${styles[data?.dealSignal]}`}>
+                  {data?.dealSignal} By
+                </span>
+              ) : (
+                ""
+              )}
+              {data?.investorIntro?.name}
+            </span>
+          </Link>
+        )}
         {(type === "card2" || type === "card3") && (
           <div className={styles.middleTop}>
             <div className={styles.mtLeft}>
@@ -129,6 +134,14 @@ const BigBullCard = ({ data, type }: any) => {
                     )}
                     target="_blank"
                   >
+                    {data?.filingAwaitedText &&
+                    data?.filingAwaitedText !== "" ? (
+                      <span>{data?.filingAwaitedText}</span>
+                    ) : data?.dealDateStr && data?.dealDateStr !== "" ? (
+                      <span>{data?.dealDateStr}</span>
+                    ) : (
+                      ""
+                    )}
                     {data?.companyData?.text ||
                       data?.bestPickStockData?.companyData?.text}
                   </a>
@@ -137,7 +150,28 @@ const BigBullCard = ({ data, type }: any) => {
                 )}
               </div>
             </div>
-            <div className={styles.mtRight}>+</div>
+            <div className={styles.mtRight}>
+              {isPrime && (
+                <WatchlistAddition
+                  companyName={
+                    data?.companyData?.text ||
+                    data?.bestPickStockData?.companyData?.text
+                  }
+                  companyId={
+                    data?.companyData?.companyId ||
+                    data?.bestPickStockData?.companyData?.companyId
+                  }
+                  companyType={
+                    data?.companyData?.companyType ||
+                    data?.bestPickStockData?.companyData?.companyType
+                  }
+                  customStyle={{
+                    width: "18px",
+                    height: "18px",
+                  }}
+                />
+              )}
+            </div>
           </div>
         )}
         {data?.stockGroupdata && data?.stockGroupdata.length > 0 ? (

@@ -17,7 +17,11 @@ const debounce = <T extends any[]>(
   };
 };
 
-const Search = () => {
+interface Props {
+  location: string;
+}
+
+const Search: React.FC<Props> = ({ location }) => {
   const [data, setData] = useState([]);
   const [val, setVal] = useState("");
   const [searchEnable, setSearchEnable] = useState(false);
@@ -125,8 +129,14 @@ const Search = () => {
 
   return (
     <>
-      {searchEnable && <div className={styles.background_overlay}></div>}
-      <div className="dflex" id={styles.searchBar} ref={popupRef}>
+      {searchEnable && location == "header" && (
+        <div className={styles.background_overlay}></div>
+      )}
+      <div
+        className={`dflex ${styles[location + "_search"]}`}
+        id={styles.searchBar}
+        ref={popupRef}
+      >
         <span className={`eticon_search ${styles.searchIcon}`}></span>
         <input
           autoComplete="off"
@@ -155,6 +165,7 @@ const Search = () => {
               definitionData={definitionData}
               reportData={reportData}
               query={val}
+              location={location}
             />
           </>
         )}

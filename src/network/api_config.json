@@ -381,6 +381,10 @@
     "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/most-held",
     "production": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/most-held"
   },
+  "FOOTER_LINKS": {
+    "development": "https://etdev8243.indiatimes.com/reactfeed_footermenu.cms?feedtype=etjson&msid=1977021501",
+    "production": "https://economictimes.indiatimes.com/reactfeed_footermenu.cms?feedtype=etjson&msid=1977021501"
+  },
   "BigBullGetSearchData": {
     "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getInvestorSearchData.json",
     "production": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getInvestorSearchData.json"

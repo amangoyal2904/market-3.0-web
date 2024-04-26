@@ -1,4 +1,5 @@
 "use client";
+import styles from "../style.module.scss";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { fetchSelectedFilter } from "@/utils/utility";
@@ -34,7 +35,7 @@ const BigBullMostHeldClientPage = ({
     position: "All",
     filterType: "index",
     filterValue: [],
-    sortBy: "3MReturns",
+    sortBy: "noOfBulls",
     orderBy: "DESC",
     pageNo: 1,
     pageSize: 10,
@@ -99,7 +100,17 @@ const BigBullMostHeldClientPage = ({
     callAPIfitler();
   }, [_payload]);
   return (
-    <>
+    <div className={styles.wraper}>
+      <div className={styles.topSec}>
+        <h1 className={`heading ${styles.head}`}>
+          <span className={styles.etprimeLogo}>ETPrime</span>
+          <span className={styles.bigLogo}>Big</span>
+          <span className={styles.bullTxt}>Bull Portfolio</span>
+        </h1>
+        <p className={styles.desc}>
+          Get to know where the market gurus invest to grow your portfolio.
+        </p>
+      </div>
       <BigBullTabs
         data={tabs}
         individualFilter={individualFilter}
@@ -121,7 +132,7 @@ const BigBullMostHeldClientPage = ({
         pageType={pageType}
         paginationLastNode="Best Picks"
       />
-    </>
+    </div>
   );
 };
 
