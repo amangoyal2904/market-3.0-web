@@ -13,7 +13,7 @@ const getTdMarkup = (value: number) => {
     <td
       className={`${styles.center} ${trend == "up" ? styles.up : trend == "down" ? styles.down : ""}`}
     >
-      {`${value}%`}
+      {`${value != null ? value + "%" : "-"}`}
       {trend && (
         <span
           className={`${styles.arrowIcons} ${
