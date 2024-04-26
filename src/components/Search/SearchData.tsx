@@ -12,6 +12,7 @@ interface Props {
   definitionData: any;
   reportData: any;
   query: string;
+  location: string;
 }
 
 const SearchData: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const SearchData: React.FC<Props> = ({
   definitionData,
   reportData,
   query,
+  location,
 }) => {
   const [companyListed, setCompanyListed] = useState<any>([]);
   const [companyNonListed, setCompanyNonListed] = useState<any>([]);
@@ -81,7 +83,9 @@ const SearchData: React.FC<Props> = ({
   }, [data, newsData]);
 
   return (
-    <div className={styles.searchResult}>
+    <div
+      className={`${styles.searchResult} ${styles[location + "_searchResult"]}`}
+    >
       <div className={styles.searchListed}>
         <ul>
           {data && Array.isArray(data) ? (
