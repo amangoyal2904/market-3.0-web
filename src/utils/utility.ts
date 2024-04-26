@@ -752,3 +752,57 @@ export const getOtherIndices = async (indexid: number) => {
   const originalJson = await response?.json();
   return originalJson;
 };
+
+export const getIndicesFaqs = async (indexid: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.INDICES_FAQ[APP_ENV]}?indexid=${indexid}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
+export const getDaywiseActivityData = async (indexid: number) => {
+  const response = await Service.get({
+    url: (APIS_CONFIG as any)?.FIIDII_OVERVIEW[APP_ENV],
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
+export const getCashData = async (filterType: string) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.FIIDII_CASHPROVISIONAL[APP_ENV]}?filterType=${filterType}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
+export const getFiiCashData = async (filterType: string) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.FIIDII_FIICASH[APP_ENV]}?filterType=${filterType}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
+export const getFandOCashData = async (filterType: string, apiType: string) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.FIIDII_FANDOCASH[APP_ENV]}?filterType=${filterType}&apiType=${apiType}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
+export const getMfCashData = async (filterType: string) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.FIIDII_MFCASH[APP_ENV]}?filterType=${filterType}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};

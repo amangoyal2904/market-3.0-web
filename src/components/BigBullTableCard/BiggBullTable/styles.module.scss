@@ -273,3 +273,47 @@
   vertical-align: top;
   cursor: pointer;
 }
+.buySellSec {
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 400;
+}
+.buySellSec.BOUGHT {
+  background-color: $green-05;
+  color: $green-60;
+}
+.buySellSec.SOLD {
+  background-color: $red-05;
+  color: $red-60;
+}
+.mostHeldListitem {
+  ul {
+    list-style-type: none;
+    display: flex;
+    li {
+      display: flex;
+      align-items: center;
+      border-right: solid 1px $gray_80;
+      padding-right: 5px;
+      margin-right: 12px;
+      img {
+        border-radius: 50%;
+      }
+      h4 {
+        margin-left: 5px;
+        color: $black;
+        font-size: 10px;
+        font-weight: 600;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 28px;
+        line-height: 1.3em;
+        line-break: anywhere;
+        width: 56px;
+      }
+    }
+  }
+}

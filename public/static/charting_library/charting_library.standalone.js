@@ -57,7 +57,7 @@ var TradingView = (function (t) {
     );
   let o = !1;
   function s() {
-    return "CL v27.003 (internal id d1c8c1a5 @ 2024-03-14T16:58:45.558Z)";
+    return "CL v27.004 (internal id 1ca8700b @ 2024-04-17T14:32:06.723Z)";
   }
   const r = class {
     constructor(t) {
@@ -91,7 +91,7 @@ var TradingView = (function (t) {
           (o ||
             ((o = !0),
             console.log(
-              "Using CL v27.003 (internal id d1c8c1a5 @ 2024-03-14T16:58:45.558Z)",
+              "Using CL v27.004 (internal id 1ca8700b @ 2024-04-17T14:32:06.723Z)",
             ))),
         this._create();
     }
@@ -538,7 +538,7 @@ var TradingView = (function (t) {
         var n;
         const o = new URL(`${t || ""}`, location.href).href,
           s = JSON.parse(
-            '["bundles/runtime.13083b9d6b700c731a94.js","bundles/__LANG__.4716.e4ac74dfc9ec5374b00c.js","bundles/6150.bda60280b05cea478076.css","bundles/5142.2c34c8656148cc5203b7.js","bundles/library.73b161994e130a790de4.js"]',
+            '["bundles/runtime.c40b52a0e272d23ced6d.js","bundles/__LANG__.4716.e4ac74dfc9ec5374b00c.js","bundles/6150.bda60280b05cea478076.css","bundles/5142.2c34c8656148cc5203b7.js","bundles/library.f0eab6b94b0505cb64c2.js"]',
           ),
           r = encodeURIComponent(e),
           a =

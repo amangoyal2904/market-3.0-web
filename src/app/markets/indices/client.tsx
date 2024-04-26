@@ -72,11 +72,10 @@ const IndicesClient = ({
     <>
       <h1 className={styles.heading}>Indices</h1>
       <p className={styles.desc}>
-        The NIFTY 50 is a benchmark Indian stock market index that represents
-        the weighted average of 50 of the largest Indian companies listed on the
-        National Stock Exchange. Nifty 50 is owned and managed by NSE Indices,
-        which is a wholly owned subsidiary of the NSE Strategic Investment
-        Corporation Limited.
+        Explore live updates of Indian indices such as Nifty 50 and Sensex on
+        our listing page. Get real-time data including the latest prices, daily
+        highs/lows, advance/decline counts, and percentage changes. Click on any
+        index for detailed technical charts and more information.
       </p>
       <ul className={styles.menuNseBse}>
         <li

@@ -10,6 +10,8 @@ const TopTabs = ({
   searchInvestor,
   invstrQuery,
   invstrQueryHandler,
+  title,
+  sortByFilter = false,
 }: any) => {
   const showIndexFilter = niftyFilter;
   const [showFilter, setShowFilter] = useState(false);
@@ -33,9 +35,18 @@ const TopTabs = ({
   return (
     <>
       <div className={styles.topTabs}>
-        <h2 className={styles.head3}>Individual Investors Tabs Heading</h2>
+        <h2 className={styles.head3}>{title}</h2>
 
         <div className={styles.rightFilterSec}>
+          {sortByFilter ? (
+            <div className={styles.sortyByFilter}>
+              <div className={styles.sortSec}>
+                <strong>Sort By: </strong> <span>All Positions</span>
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
           {showIndexFilter ? (
             <span
               className={`${styles.roundBtn} ${styles.filterNseBse}`}

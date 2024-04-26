@@ -210,7 +210,7 @@ export class UDFCompatibleDatafeedBase
     onDataCallback: GetMarksCallback<Mark>,
     resolution: ResolutionString,
   ): void {
-    if (!this._configuration.supports_marks) {
+    if (!this._configuration.supports_marks || symbolInfo.type != "stocks") {
       return;
     }
 

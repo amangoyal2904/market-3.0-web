@@ -58,7 +58,7 @@
     "production": "https://oauth2.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout"
   },
   "INDICES_LIST": {
-    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/indices-data",
+    "development": "https://etapi.indiatimes.com/et-screener/indices-data",
     "production": "https://etapi.indiatimes.com/et-screener/indices-data"
   },
   "INDEX_FILTERS": {
@@ -66,23 +66,23 @@
     "production": "https://etapipre.indiatimes.com/api/indexfilters"
   },
   "MARKETS_CUSTOM_TAB": {
-    "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
+    "development": "https://screener.indiatimes.com/screener/getwatchlistview",
     "production": "https://screener.indiatimes.com/screener/getwatchlistview"
   },
   "MARKETS_CUSTOM_TABLE": {
-    "development": "https://qcbselivefeeds.indiatimes.com/screener/watchlistData",
+    "development": "https://screener.indiatimes.com/screener/watchlistData",
     "production": "https://screener.indiatimes.com/screener/watchlistData"
   },
   "MARKETSTATS_TECHNICALS": {
-    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/technical-data",
+    "development": "https://etapi.indiatimes.com/et-screener/technical-data",
     "production": "https://etapi.indiatimes.com/et-screener/technical-data"
   },
   "MARKETSTATS_INTRADAY": {
-    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/intraday-stats",
+    "development": "https://etapi.indiatimes.com/et-screener/intraday-stats",
     "production": "https://etapi.indiatimes.com/et-screener/intraday-stats"
   },
   "MARKET_STATS_TECHNICAL_OPERANDS": {
-    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/operands-data",
+    "development": "https://etapi.indiatimes.com/et-screener/operands-data",
     "production": "https://etapi.indiatimes.com/et-screener/operands-data"
   },
   "ALLINDICES": {
@@ -112,6 +112,30 @@
   "INDICES_OTHER": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/other-indices",
     "production": "https://etapi.indiatimes.com/et-screener/other-indices"
+  },
+  "INDICES_FAQ": {
+    "development": "https://qcbselivefeeds.indiatimes.com/screener/indexFaq",
+    "production": "https://qcbselivefeeds.indiatimes.com/screener/indexFaq"
+  },
+  "FIIDII_OVERVIEW": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json"
+  },
+  "FIIDII_CASHPROVISIONAL": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getCashData.json",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getCashData.json"
+  },
+  "FIIDII_FIICASH": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiCashData.json",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiCashData.json"
+  },
+  "FIIDII_FANDOCASH": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFandOCashData.json",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFandOCashData.json"
+  },
+  "FIIDII_MFCASH": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getMfCashData.json",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getMfCashData.json"
   },
   "MARKETMOODS_OVERVIEW": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/marketbreadth/overview",

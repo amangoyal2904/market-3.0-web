@@ -1,6 +1,7 @@
 import { dateFormat } from "@/utils";
 import styles from "./IndicesDetails.module.scss";
-export const IndicesNewsCard = ({ data }: any) => {
+import React from "react";
+const IndicesNewsCard = React.memo(({ data }: any) => {
   const updateURLDimensions = (url: string) => {
     const regex = /width=\d+&height=\d+/;
     const replacement = `width=66&height=55`;
@@ -27,4 +28,6 @@ export const IndicesNewsCard = ({ data }: any) => {
       />
     </a>
   );
-};
+});
+IndicesNewsCard.displayName = "IndicesNewsCard";
+export default IndicesNewsCard;

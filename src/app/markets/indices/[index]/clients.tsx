@@ -1,5 +1,11 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  Fragment,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useStateContext } from "@/store/StateContext";
 import IndicesDetailsOverview from "@/components/IndicesDetails/Overview";
 import refeshConfig from "@/utils/refreshConfig.json";
@@ -38,14 +44,13 @@ const IndicesDetailsClient = ({
   tabConfig = {},
   payload = {},
   indicesNews = {},
+  faq = {},
   selectedFilter = {},
 }: any) => {
   const { state } = useStateContext();
   const { currentMarketStatus } = state.marketStatus;
   const [activeItem, setActiveItem] = useState<string>("keymetrics");
   const [overviewData, setOverviewData] = useState(overview);
-  const [peersData, setPeersData] = useState(peers);
-  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const contentRefs = useRef<HTMLDivElement>(null);
   const [scrollByItemClick, setScrollByItemClick] = useState(false); // New state to track scroll triggered by item click
   const { debounce } = useDebounce();
@@ -54,6 +59,7 @@ const IndicesDetailsClient = ({
   const symbol = overview.assetSymbol;
   const exchange = overview.assetExchangeId == 50 ? "NSE" : "BSE";
   const exchangeId = overview.assetExchangeId;
+  const { indexDescription, indexFaq = [] } = faq;
 
   const refreshOverviewData = async () => {
     const data = await getIndicesOverview(indexId);
@@ -123,6 +129,7 @@ const IndicesDetailsClient = ({
     <>
       <IndicesDetailsOverview
         overviewData={overviewData}
+        descText={indexDescription}
         currentMarketStatus={currentMarketStatus}
         symbol={symbol}
         exchange={exchange}
@@ -131,57 +138,69 @@ const IndicesDetailsClient = ({
       <div className={styles.tabsWrap}>
         <ul className={styles.tabsList}>
           {pageTabData.map((item: any) => (
-            <li
-              key={item.key}
-              onClick={() => handleItemClick(item.key)}
-              className={activeItem === item.key ? styles.active : ""}
-            >
-              {item.label}
-            </li>
+            <Fragment key={item.key}>
+              {!!(
+                item.key !== "faqs" ||
+                (item.key === "faqs" && !!indexFaq.length)
+              ) && (
+                <li
+                  onClick={() => handleItemClick(item.key)}
+                  className={activeItem === item.key ? styles.active : ""}
+                >
+                  {item.label}
+                </li>
+              )}
+            </Fragment>
           ))}
         </ul>
       </div>
       <div className={styles.wrapper}>
         {pageTabData.map((item: any) => (
-          <div
-            id={item.key}
-            key={item.key}
-            className={`${styles.section} sections`}
-            ref={contentRefs}
-          >
-            {item.key === "keymetrics" && (
-              <KeyMetricsIndices data={overviewData.keyMetrics} />
+          <Fragment key={item.key}>
+            {!!(
+              item.key !== "faqs" ||
+              (item.key === "faqs" && !!indexFaq.length)
+            ) && (
+              <div
+                id={item.key}
+                className={`${styles.section} sections`}
+                ref={contentRefs}
+              >
+                {item.key === "keymetrics" && (
+                  <KeyMetricsIndices data={overviewData.keyMetrics} />
+                )}
+                {item.key === "returns" && (
+                  <IndicesReturns data={overviewData.returns} />
+                )}
+                {item.key === "performance" && (
+                  <IndicesPerformance
+                    data={peers}
+                    indexName={indexName}
+                    niftyFilterData={selectedFilter}
+                  />
+                )}
+                {item.key === "technicalanalysis" && (
+                  <IndicesTechnicalAnalysis data={technicals} symbol={symbol} />
+                )}
+                {item.key === "constituents" && (
+                  <IndicesConstituents
+                    indexName={indexName}
+                    otherIndices={others}
+                    tabData={tabData}
+                    activeViewId={activeViewId}
+                    tableHeaderData={tableHeaderData}
+                    tableData={tableData}
+                    pageSummary={pageSummary}
+                    tableConfig={tableConfig}
+                    tabConfig={tabConfig}
+                    payload={payload}
+                    indicesNews={indicesNews}
+                  />
+                )}
+                {item.key === "faqs" && <IndicesFaqs faqs={indexFaq} />}
+              </div>
             )}
-            {item.key === "returns" && (
-              <IndicesReturns data={overviewData.returns} />
-            )}
-            {item.key === "performance" && (
-              <IndicesPerformance
-                data={peersData}
-                indexName={indexName}
-                niftyFilterData={niftyFilterData}
-              />
-            )}
-            {item.key === "technicalanalysis" && (
-              <IndicesTechnicalAnalysis data={technicals} symbol={symbol} />
-            )}
-            {item.key === "constituents" && (
-              <IndicesConstituents
-                indexName={indexName}
-                otherIndices={others}
-                tabData={tabData}
-                activeViewId={activeViewId}
-                tableHeaderData={tableHeaderData}
-                tableData={tableData}
-                pageSummary={pageSummary}
-                tableConfig={tableConfig}
-                tabConfig={tabConfig}
-                payload={payload}
-                indicesNews={indicesNews}
-              />
-            )}
-            {item.key === "faqs" && <IndicesFaqs />}
-          </div>
+          </Fragment>
         ))}
       </div>
     </>

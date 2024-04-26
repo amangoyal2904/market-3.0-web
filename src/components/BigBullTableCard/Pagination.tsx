@@ -8,7 +8,7 @@ interface PageSummary {
   pageNo: number;
 }
 
-const Pagination = ({ pageSummary, onPageChange }: any) => {
+const Pagination = ({ pageSummary, onPageChange, paginationLastNode }: any) => {
   const { totalRecords, totalPages, pageSize, pageNo } = pageSummary;
 
   const handlePageChange = (pageNumber: number) => {
@@ -104,7 +104,7 @@ const Pagination = ({ pageSummary, onPageChange }: any) => {
       className={`dflex align-item-center space-between ${styles.m20}`}
     >
       <p>
-        Showing {rangeStart}-{rangeEnd} of {totalRecords} Investors
+        Showing {rangeStart}-{rangeEnd} of {totalRecords} {paginationLastNode}
       </p>
       <ul>
         <li
