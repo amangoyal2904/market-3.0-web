@@ -4,6 +4,7 @@ import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
+import WatchlistAddition from "../../WatchlistAddition";
 
 const BiggBullBestPicksTable = ({
   tableHead,
@@ -15,7 +16,8 @@ const BiggBullBestPicksTable = ({
   console.log("tableData", tableData);
   const { state } = useStateContext();
   const { isPrime } = state.login;
-  console.log("isPrime", isPrime);
+  //const isPrime = true
+  //console.log("isPrime", isPrime);
   return (
     <div className="prel">
       <table className={styles.bibBullCustomTable}>
@@ -32,45 +34,32 @@ const BiggBullBestPicksTable = ({
                     <div
                       className={`${styles.thead}`}
                       onClick={() => {
-                        thead.sort &&
-                        (!thead.primeFlag || (isPrime && thead.primeFlag))
+                        thead.sort
                           ? handleSort(thead?.id, thead?.orderBy)
                           : null;
                       }}
                     >
-                      <div className={styles.theading}>
-                        {isPrime && thead?.primeFlag ? (
-                          <Image
-                            src="/prime_icon.svg"
-                            width={10}
-                            height={10}
-                            alt="ETPrime"
-                            className={styles.primeIcon}
-                          />
-                        ) : null}
-                        {thead.name}
-                      </div>
-                      {thead.sort &&
-                        (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
-                          <span className={`${styles.sortIcons}`}>
-                            <span
-                              className={`${
-                                sortData?.field == thead.id &&
-                                sortData?.order == "ASC"
-                                  ? styles.asc
-                                  : ""
-                              } eticon_up_arrow`}
-                            ></span>
-                            <span
-                              className={`${
-                                sortData?.field == thead.id &&
-                                sortData?.order == "DESC"
-                                  ? styles.desc
-                                  : ""
-                              } eticon_down_arrow`}
-                            ></span>
-                          </span>
-                        )}
+                      <div className={styles.theading}>{thead.name}</div>
+                      {thead.sort && (
+                        <span className={`${styles.sortIcons}`}>
+                          <span
+                            className={`${
+                              sortData?.field == thead.id &&
+                              sortData?.order == "ASC"
+                                ? styles.asc
+                                : ""
+                            } eticon_up_arrow`}
+                          ></span>
+                          <span
+                            className={`${
+                              sortData?.field == thead.id &&
+                              sortData?.order == "DESC"
+                                ? styles.desc
+                                : ""
+                            } eticon_down_arrow`}
+                          ></span>
+                        </span>
+                      )}
                     </div>
                   </th>
                 );
@@ -101,7 +90,11 @@ const BiggBullBestPicksTable = ({
               return (
                 <tr key={`${index}`}>
                   <td>
-                    <div className={styles.investNameImg}>
+                    <Link
+                      href={`/markets/top-india-investors-portfolio/${tdata?.investorIntro?.sharkSeoName},expertid-${tdata?.investorIntro?.sharkID}`}
+                      target="_blank"
+                      className={styles.investNameImg}
+                    >
                       <img
                         src={tdata?.investorIntro?.imageURL}
                         width={42}
@@ -110,26 +103,57 @@ const BiggBullBestPicksTable = ({
                         className={styles.expertImg}
                       />
                       <span className={styles.nameTxt}>
+                        <span
+                          className={`${styles.fillingTxt} ${tdata?.filingAwaitedTrend && tdata.filingAwaitedTrend !== "" ? styles[tdata?.filingAwaitedTrend] : ""}`}
+                        >
+                          {tdata?.filingAwaitedText}
+                        </span>
                         {tdata?.investorIntro?.name}
                       </span>
-                    </div>
+                    </Link>
                   </td>
                   <td>
                     <div className={styles.comNameSec}>
-                      <div>
-                        {!isPrime ? (
-                          <a
-                            href={getStockUrl(
-                              tdata?.bestPickStockData?.companyData?.companyId,
-                              tdata?.bestPickStockData?.companyData
-                                ?.companySeoName,
-                              tdata?.bestPickStockData?.companyData
-                                ?.companyType,
-                            )}
-                            target="_blank"
-                          >
-                            {tdata.bestPickStockData.companyData?.text}
-                          </a>
+                      <div className={styles.comDivSec}>
+                        {isPrime ? (
+                          <>
+                            <WatchlistAddition
+                              companyName={
+                                tdata.bestPickStockData.companyData?.text
+                              }
+                              companyId={
+                                tdata?.bestPickStockData.companyData?.companyId
+                              }
+                              companyType={
+                                tdata?.bestPickStockData.companyData
+                                  ?.companyType
+                              }
+                              customStyle={{
+                                width: "18px",
+                                height: "18px",
+                              }}
+                            />
+                            <a
+                              href={getStockUrl(
+                                tdata?.bestPickStockData?.companyData
+                                  ?.companyId,
+                                tdata?.bestPickStockData?.companyData
+                                  ?.companySeoName,
+                                tdata?.bestPickStockData?.companyData
+                                  ?.companyType,
+                              )}
+                              target="_blank"
+                              className={styles.linkTxt}
+                            >
+                              {tdata?.bestPickStockData?.companyData?.text}
+                              <span>
+                                {
+                                  tdata?.bestPickStockData?.companyData
+                                    ?.marketCapText
+                                }
+                              </span>
+                            </a>
+                          </>
                         ) : (
                           <span className={styles.nameBlur}></span>
                         )}
@@ -147,7 +171,7 @@ const BiggBullBestPicksTable = ({
                                 : "";
                           return (
                             <td
-                              className={styles[updownClass]}
+                              className={`${styles.rightTxt} ${styles[updownClass]}`}
                               key={`${stock?.uiLabel?.statusCheck}-${index}`}
                               dangerouslySetInnerHTML={{
                                 __html: stock?.uiValue?.text,

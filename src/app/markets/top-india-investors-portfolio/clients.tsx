@@ -1,10 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import styles from "./style.module.scss";
-import Link from "next/link";
 import BigBullSection from "../../../components/BigBullSection";
-import BigBullTableCard from "../../../components/BigBullTableCard";
-import { fetchSelectedFilter } from "@/utils/utility";
 import BigBullTabs from "../../../components/BigBullTabs";
 import tabsJson from "../../../DataJson/bigbullTabs.json";
 import indiFilter from "../../../DataJson/individualFilter.json";
@@ -49,7 +46,17 @@ const BigBullClientPage = ({ data }: any) => {
     callAPIfitler();
   }, [aciveFilter]);
   return (
-    <>
+    <div className={styles.wraper}>
+      <div className={styles.topSec}>
+        <h1 className={`heading ${styles.head}`}>
+          <span className={styles.etprimeLogo}>ETPrime</span>
+          <span className={styles.bigLogo}>Big</span>
+          <span className={styles.bullTxt}>Bull Portfolio</span>
+        </h1>
+        <p className={styles.desc}>
+          Get to know where the market gurus invest to grow your portfolio.
+        </p>
+      </div>
       <div className={`prel ${styles.container}`}>
         <BigBullTabs
           data={tabs}
@@ -94,7 +101,7 @@ const BigBullClientPage = ({ data }: any) => {
         />
         {loading && <Loader loaderType="container" />}
       </div>
-    </>
+    </div>
   );
 };
 

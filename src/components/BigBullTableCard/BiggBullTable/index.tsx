@@ -4,6 +4,7 @@ import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
+import WatchlistAddition from "../../WatchlistAddition";
 
 const BiggBullTable = ({
   tableHead,
@@ -14,7 +15,8 @@ const BiggBullTable = ({
 }: any) => {
   const { state } = useStateContext();
   const { isPrime } = state.login;
-  console.log("isPrime", isPrime);
+  //const isPrime = true;
+  //console.log("isPrime", isPrime);
   return (
     <div className="prel">
       <table className={styles.bibBullCustomTable}>
@@ -31,45 +33,32 @@ const BiggBullTable = ({
                     <div
                       className={`${styles.thead}`}
                       onClick={() => {
-                        thead.sort &&
-                        (!thead.primeFlag || (isPrime && thead.primeFlag))
+                        thead.sort
                           ? handleSort(thead?.id, thead?.orderBy)
                           : null;
                       }}
                     >
-                      <div className={styles.theading}>
-                        {isPrime && thead?.primeFlag ? (
-                          <Image
-                            src="/prime_icon.svg"
-                            width={10}
-                            height={10}
-                            alt="ETPrime"
-                            className={styles.primeIcon}
-                          />
-                        ) : null}
-                        {thead.name}
-                      </div>
-                      {thead.sort &&
-                        (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
-                          <span className={`${styles.sortIcons}`}>
-                            <span
-                              className={`${
-                                sortData?.field == thead.id &&
-                                sortData?.order == "ASC"
-                                  ? styles.asc
-                                  : ""
-                              } eticon_up_arrow`}
-                            ></span>
-                            <span
-                              className={`${
-                                sortData?.field == thead.id &&
-                                sortData?.order == "DESC"
-                                  ? styles.desc
-                                  : ""
-                              } eticon_down_arrow`}
-                            ></span>
-                          </span>
-                        )}
+                      <div className={styles.theading}>{thead.name}</div>
+                      {thead.sort && (
+                        <span className={`${styles.sortIcons}`}>
+                          <span
+                            className={`${
+                              sortData?.field == thead.id &&
+                              sortData?.order == "ASC"
+                                ? styles.asc
+                                : ""
+                            } eticon_up_arrow`}
+                          ></span>
+                          <span
+                            className={`${
+                              sortData?.field == thead.id &&
+                              sortData?.order == "DESC"
+                                ? styles.desc
+                                : ""
+                            } eticon_down_arrow`}
+                          ></span>
+                        </span>
+                      )}
                     </div>
                   </th>
                 );
@@ -105,7 +94,11 @@ const BiggBullTable = ({
               return (
                 <tr key={`${index}`}>
                   <td>
-                    <div className={styles.investNameImg}>
+                    <Link
+                      href={`/markets/top-india-investors-portfolio/${tdata?.investorIntro?.sharkSeoName},expertid-${tdata?.investorIntro?.sharkID}`}
+                      target="_blank"
+                      className={styles.investNameImg}
+                    >
                       <img
                         src={tdata?.investorIntro?.imageURL}
                         width={42}
@@ -116,7 +109,7 @@ const BiggBullTable = ({
                       <span className={styles.nameTxt}>
                         {tdata?.investorIntro?.name}
                       </span>
-                    </div>
+                    </Link>
                   </td>
                   <td>{tdata?.companyCount}</td>
                   <td>
@@ -170,7 +163,19 @@ const BiggBullTable = ({
                           }}
                         ></span>
                       </div>
-                      <div className={styles.rightSec}>+</div>
+                      <div className={styles.rightSec}>
+                        {isPrime && (
+                          <WatchlistAddition
+                            companyName={bestPicks[0].uiValue?.text}
+                            companyId={bestPicks[0].uiLabel?.companyId}
+                            companyType={bestPicks[0].uiLabel?.companyType}
+                            customStyle={{
+                              width: "18px",
+                              height: "18px",
+                            }}
+                          />
+                        )}
+                      </div>
                     </div>
                   </td>
                   <td
@@ -196,6 +201,9 @@ const BiggBullTable = ({
                             <span className={styles.nameBlur}></span>
                           )}
                         </h5>
+                        <span className={styles.fresExitEntry}>
+                          {bestPicksToNext[0].text} -{" "}
+                        </span>
                         <span
                           className={`${styles.bestTxtSec} ${
                             bestPicksToNext.length > 0
@@ -210,7 +218,21 @@ const BiggBullTable = ({
                           }}
                         ></span>
                       </div>
-                      <div className={styles.rightSec}>+</div>
+                      <div className={styles.rightSec}>
+                        {isPrime && (
+                          <WatchlistAddition
+                            companyName={bestPicksToNext[0].uiValue?.text}
+                            companyId={bestPicksToNext[0].uiLabel?.companyId}
+                            companyType={
+                              bestPicksToNext[0].uiLabel?.companyType
+                            }
+                            customStyle={{
+                              width: "18px",
+                              height: "18px",
+                            }}
+                          />
+                        )}
+                      </div>
                     </div>
                   </td>
                 </tr>
