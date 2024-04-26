@@ -50,14 +50,14 @@ const BigBullAllInvertorsPage = async () => {
     {
       name: "Best Picks",
       id: "4",
-      sort: true,
+      sort: false,
       primeFlag: false,
       orderBy: "bestPick",
     },
     {
       name: "Top Activity",
       id: "5",
-      sort: true,
+      sort: false,
       primeFlag: false,
       orderBy: "mostIncrease",
     },

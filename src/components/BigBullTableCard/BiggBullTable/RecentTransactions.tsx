@@ -4,6 +4,7 @@ import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
+import WatchlistAddition from "../../WatchlistAddition";
 
 const BiggBullRecentTransactionsTable = ({
   tableHead,
@@ -12,10 +13,11 @@ const BiggBullRecentTransactionsTable = ({
   handleSort,
   shouldShowLoader,
 }: any) => {
-  console.log("tableData", tableData);
+  //console.log("tableData", tableData);
   const { state } = useStateContext();
   const { isPrime } = state.login;
-  console.log("isPrime", isPrime);
+  //const isPrime = true;
+  //console.log("isPrime", isPrime);
   return (
     <div className="prel">
       <table className={styles.bibBullCustomTable}>
@@ -32,45 +34,32 @@ const BiggBullRecentTransactionsTable = ({
                     <div
                       className={`${styles.thead}`}
                       onClick={() => {
-                        thead.sort &&
-                        (!thead.primeFlag || (isPrime && thead.primeFlag))
+                        thead.sort
                           ? handleSort(thead?.id, thead?.orderBy)
                           : null;
                       }}
                     >
-                      <div className={styles.theading}>
-                        {isPrime && thead?.primeFlag ? (
-                          <Image
-                            src="/prime_icon.svg"
-                            width={10}
-                            height={10}
-                            alt="ETPrime"
-                            className={styles.primeIcon}
-                          />
-                        ) : null}
-                        {thead.name}
-                      </div>
-                      {thead.sort &&
-                        (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
-                          <span className={`${styles.sortIcons}`}>
-                            <span
-                              className={`${
-                                sortData?.field == thead.id &&
-                                sortData?.order == "ASC"
-                                  ? styles.asc
-                                  : ""
-                              } eticon_up_arrow`}
-                            ></span>
-                            <span
-                              className={`${
-                                sortData?.field == thead.id &&
-                                sortData?.order == "DESC"
-                                  ? styles.desc
-                                  : ""
-                              } eticon_down_arrow`}
-                            ></span>
-                          </span>
-                        )}
+                      <div className={styles.theading}>{thead.name}</div>
+                      {thead.sort && (
+                        <span className={`${styles.sortIcons}`}>
+                          <span
+                            className={`${
+                              sortData?.field == thead.id &&
+                              sortData?.order == "ASC"
+                                ? styles.asc
+                                : ""
+                            } eticon_up_arrow`}
+                          ></span>
+                          <span
+                            className={`${
+                              sortData?.field == thead.id &&
+                              sortData?.order == "DESC"
+                                ? styles.desc
+                                : ""
+                            } eticon_down_arrow`}
+                          ></span>
+                        </span>
+                      )}
                     </div>
                   </th>
                 );
@@ -101,7 +90,11 @@ const BiggBullRecentTransactionsTable = ({
               return (
                 <tr key={`${index}`}>
                   <td>
-                    <div className={styles.investNameImg}>
+                    <Link
+                      href={`/markets/top-india-investors-portfolio/${tdata?.investorIntro?.sharkSeoName},expertid-${tdata?.investorIntro?.sharkID}`}
+                      target="_blank"
+                      className={styles.investNameImg}
+                    >
                       <img
                         src={tdata?.investorIntro?.imageURL}
                         width={42}
@@ -110,9 +103,12 @@ const BiggBullRecentTransactionsTable = ({
                         className={styles.expertImg}
                       />
                       <span className={styles.nameTxt}>
+                        <span className={styles.fillingTxt}>
+                          {tdata?.dealDateStr}
+                        </span>
                         {tdata?.investorIntro?.name}
                       </span>
-                    </div>
+                    </Link>
                   </td>
                   <td>
                     <div
@@ -123,18 +119,30 @@ const BiggBullRecentTransactionsTable = ({
                   </td>
                   <td>
                     <div className={styles.comNameSec}>
-                      <div>
+                      <div className={styles.comDivSec}>
                         {isPrime ? (
-                          <a
-                            href={getStockUrl(
-                              tdata?.companyData?.companyId,
-                              tdata?.companyData?.companySeoName,
-                              tdata?.companyData?.companyType,
-                            )}
-                            target="_blank"
-                          >
-                            {tdata.companyData?.text}
-                          </a>
+                          <>
+                            <WatchlistAddition
+                              companyName={tdata.companyData?.text}
+                              companyId={tdata?.companyData?.companyId}
+                              companyType={tdata?.companyData?.companyType}
+                              customStyle={{
+                                width: "18px",
+                                height: "18px",
+                              }}
+                            />
+                            <a
+                              href={getStockUrl(
+                                tdata?.companyData?.companyId,
+                                tdata?.companyData?.companySeoName,
+                                tdata?.companyData?.companyType,
+                              )}
+                              target="_blank"
+                              className={styles.linkTxt}
+                            >
+                              {tdata.companyData?.text}
+                            </a>
+                          </>
                         ) : (
                           <span className={styles.nameBlur}></span>
                         )}
@@ -151,7 +159,7 @@ const BiggBullRecentTransactionsTable = ({
                               : "";
                         return (
                           <td
-                            className={styles[updownClass]}
+                            className={`${styles.rightTxt} ${styles[updownClass]}`}
                             key={`${stock?.uiLabel?.statusCheck}-${index}`}
                             dangerouslySetInnerHTML={{
                               __html: stock?.uiValue?.text,

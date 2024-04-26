@@ -5,11 +5,13 @@ import { getStockUrl } from "@/utils/utility";
 import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import WatchlistAddition from "../../WatchlistAddition";
 import { useStateContext } from "@/store/StateContext";
 
 const BigBullCard = ({ data, type }: any) => {
   const { state } = useStateContext();
   const { isPrime } = state.login;
+  // const isPrime = true;
   console.log("isPrime", isPrime);
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -71,7 +73,8 @@ const BigBullCard = ({ data, type }: any) => {
                   data?.investorsList.map((slide: any, index: number) => (
                     <div key={index}>
                       <Link
-                        href={`/`}
+                        href={`/markets/top-india-investors-portfolio/${slide?.sharkSeoName},expertid-${slide?.sharkID}`}
+                        target="_blank"
                         className={styles.cardName}
                         title={slide.name}
                       >
@@ -131,6 +134,14 @@ const BigBullCard = ({ data, type }: any) => {
                     )}
                     target="_blank"
                   >
+                    {data?.filingAwaitedText &&
+                    data?.filingAwaitedText !== "" ? (
+                      <span>{data?.filingAwaitedText}</span>
+                    ) : data?.dealDateStr && data?.dealDateStr !== "" ? (
+                      <span>{data?.dealDateStr}</span>
+                    ) : (
+                      ""
+                    )}
                     {data?.companyData?.text ||
                       data?.bestPickStockData?.companyData?.text}
                   </a>
@@ -139,7 +150,28 @@ const BigBullCard = ({ data, type }: any) => {
                 )}
               </div>
             </div>
-            <div className={styles.mtRight}>+</div>
+            <div className={styles.mtRight}>
+              {isPrime && (
+                <WatchlistAddition
+                  companyName={
+                    data?.companyData?.text ||
+                    data?.bestPickStockData?.companyData?.text
+                  }
+                  companyId={
+                    data?.companyData?.companyId ||
+                    data?.bestPickStockData?.companyData?.companyId
+                  }
+                  companyType={
+                    data?.companyData?.companyType ||
+                    data?.bestPickStockData?.companyData?.companyType
+                  }
+                  customStyle={{
+                    width: "18px",
+                    height: "18px",
+                  }}
+                />
+              )}
+            </div>
           </div>
         )}
         {data?.stockGroupdata && data?.stockGroupdata.length > 0 ? (

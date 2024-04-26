@@ -22,14 +22,14 @@ const BigBullBestPicksPage = async () => {
     {
       name: "Investors Name",
       id: "0",
-      sort: true,
+      sort: false,
       primeFlag: false,
       orderBy: "name",
     },
     {
       name: "Company Name",
       id: "1",
-      sort: true,
+      sort: false,
       primeFlag: false,
       orderBy: "companyName",
     },

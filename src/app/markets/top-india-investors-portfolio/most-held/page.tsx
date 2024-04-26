@@ -22,14 +22,14 @@ const BigBullMostHeldPage = async () => {
     {
       name: "Company Name",
       id: "1",
-      sort: true,
+      sort: false,
       primeFlag: false,
       orderBy: "companyName",
     },
     {
       name: "Held By",
       id: "11",
-      sort: true,
+      sort: false,
       primeFlag: false,
       orderBy: "noOfBulls",
     },

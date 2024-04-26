@@ -12,7 +12,7 @@ const tabs = tabsJson;
 const individualFilter = indiFilter;
 
 const BigBullClientPage = ({ data }: any) => {
-  //console.log("__======_data", data);
+  console.log("__======_data", data);
   const [aciveFilter, setActiveFilter] = useState("INDIVIDUAL");
   const [loading, setLoading] = useState<boolean>(false);
   const [__data, setData] = useState(data);
@@ -46,7 +46,17 @@ const BigBullClientPage = ({ data }: any) => {
     callAPIfitler();
   }, [aciveFilter]);
   return (
-    <>
+    <div className={styles.wraper}>
+      <div className={styles.topSec}>
+        <h1 className={`heading ${styles.head}`}>
+          <span className={styles.etprimeLogo}>ETPrime</span>
+          <span className={styles.bigLogo}>Big</span>
+          <span className={styles.bullTxt}>Bull Portfolio</span>
+        </h1>
+        <p className={styles.desc}>
+          Get to know where the market gurus invest to grow your portfolio.
+        </p>
+      </div>
       <div className={`prel ${styles.container}`}>
         <BigBullTabs
           data={tabs}
@@ -91,7 +101,7 @@ const BigBullClientPage = ({ data }: any) => {
         />
         {loading && <Loader loaderType="container" />}
       </div>
-    </>
+    </div>
   );
 };
 
