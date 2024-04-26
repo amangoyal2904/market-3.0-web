@@ -298,6 +298,9 @@
     width: 100%;
     border-collapse: collapse;
     overflow-x: auto;
+    th {
+      width: 95px;
+    }
   }
 
   .fixedTD {
