@@ -47,11 +47,16 @@ const FooterList: React.FC<Props> = ({ title, data }) => {
               data.length > 0 &&
               data.map((item: any, index: number) => {
                 return (
-                  <Fragment key={index}>
-                    <a target="_blank" title={item.title} href={item.url}>
+                  <>
+                    <a
+                      target="_blank"
+                      title={item.title}
+                      href={item.url}
+                      key={index}
+                    >
                       {item.title}
                     </a>
-                  </Fragment>
+                  </>
                 );
               })}
           </div>
