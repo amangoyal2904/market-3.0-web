@@ -64,8 +64,8 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
   };
 
   useEffect(() => {
-    let user = getCookie("ssoid");
-    if (user == "") {
+    let user = getCookie("ssoid") || ssoid;
+    if (user == null || user == "") {
       user = getCookie("pfuuid");
     }
     const user_id: string | undefined = typeof user === "string" ? user : "";
