@@ -103,7 +103,9 @@ const BiggBullQtrChangesTable = ({
                         className={styles.expertImg}
                       />
                       <span className={styles.nameTxt}>
-                        <span className={styles.fillingTxt}>
+                        <span
+                          className={`${styles.fillingTxt} ${tdata?.filingAwaitedTrend && tdata.filingAwaitedTrend !== "" ? styles[tdata?.filingAwaitedTrend] : ""}`}
+                        >
                           {tdata?.filingAwaitedText}
                         </span>
                         {tdata?.investorIntro?.name}
