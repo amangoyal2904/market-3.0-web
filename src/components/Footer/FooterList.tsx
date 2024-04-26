@@ -48,7 +48,12 @@ const FooterList: React.FC<Props> = ({ title, data }) => {
               data.map((item: any, index: number) => {
                 return (
                   <>
-                    <a target="_blank" title={item.title} href={item.url}>
+                    <a
+                      target="_blank"
+                      title={item.title}
+                      href={item.url}
+                      key={index}
+                    >
                       {item.title}
                     </a>
                   </>
