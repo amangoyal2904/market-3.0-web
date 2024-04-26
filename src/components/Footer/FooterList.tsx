@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import styles from "./Footer.module.scss";
 
 interface Props {
@@ -47,11 +47,11 @@ const FooterList: React.FC<Props> = ({ title, data }) => {
               data.length > 0 &&
               data.map((item: any, index: number) => {
                 return (
-                  <>
+                  <Fragment key={index}>
                     <a target="_blank" title={item.title} href={item.url}>
                       {item.title}
                     </a>
-                  </>
+                  </Fragment>
                 );
               })}
           </div>
