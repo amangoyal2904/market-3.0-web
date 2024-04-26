@@ -279,6 +279,14 @@ a {
   justify-content: center;
   overflow: auto;
 }
+
+.up {
+  color: $green-80 !important;
+}
+.down {
+  color: $red-60 !important;
+}
+
 table {
   td {
     &.up {

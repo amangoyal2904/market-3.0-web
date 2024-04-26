@@ -599,3 +599,13 @@ export const capitalize = (str: string) => {
     return letter.toUpperCase();
   });
 };
+
+export const getClassAndPercent = (percentChange: any) => {
+  if (percentChange > 0) {
+    return "up";
+  } else if (percentChange < 0) {
+    return "down";
+  } else {
+    return "neutral";
+  }
+};
