@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./FiiDii.module.scss";
+import { dateFormat, getClassAndPercent } from "@/utils";
 
 const tabData = [
   { label: "Overview", key: "overview" },
@@ -9,7 +10,7 @@ const tabData = [
   { label: "MF Cash", key: "mf-cash" },
 ];
 
-const FiiDiiActivityClient = () => {
+const FiiDiiActivityClient = ({ dataWithNiftySensex, otherData }: any) => {
   return (
     <>
       <h1 className={styles.heading}>FII & DII</h1>
@@ -30,6 +31,80 @@ const FiiDiiActivityClient = () => {
         <span className={`${styles.roundBtn}`}>
           Cash <i className="eticon_caret_down"></i>
         </span>
+      </div>
+      <div className={styles.wrapper}>
+        <div className={styles.header}>
+          <div className={styles.head}>FII & DII Buy-Sell Activity</div>
+        </div>
+        <div className={styles.tableWrapper} id="table">
+          <div id="fixedTable" className={styles.fixedWrapper}>
+            <table className={styles.marketsCustomTable}>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Nifty Closing</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dataWithNiftySensex.map((tdData: any, index: number) => {
+                  const upDownType = getClassAndPercent(
+                    tdData.nifty.percentChange,
+                  );
+
+                  return (
+                    <tr key={`fixed_${index}`}>
+                      <td>{dateFormat(tdData.dateLong, "%d %MMM %y")}</td>
+                      <td>
+                        {tdData.nifty.ltp}
+                        <span className={upDownType}>
+                          ({tdData.nifty.percentChange.toFixed(2)}%)
+                        </span>
+                        <span
+                          className={`${upDownType} ${
+                            upDownType === "up"
+                              ? "eticon_up_arrow"
+                              : upDownType === "down"
+                                ? "eticon_down_arrow"
+                                : ""
+                          }`}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div id="scrollableTable" className={styles.scrollableWrapper}>
+            <table className={styles.marketsCustomTable}>
+              <thead>
+                <tr>
+                  <th>FII Cash (in Rs. Cr.)</th>
+                  <th>DII Cash (in Rs. Cr.)</th>
+                  <th>FII Index Future (in Rs. Cr.)</th>
+                  <th>FII Index Option (in Rs. Cr.)</th>
+                  <th>FII Stock Future (in Rs. Cr.)</th>
+                  <th>FII Stock Option (in Rs. Cr.)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {otherData.map((tdData: any, index: number) => {
+                  const maxValue = "";
+                  return (
+                    <tr key={`scrollable_${index}`}>
+                      <td>{tdData.fiiCash}</td>
+                      <td>{tdData.diiCash}</td>
+                      <td>{tdData.fiiIndexFutures}</td>
+                      <td>{tdData.fiiIndexOptions}</td>
+                      <td>{tdData.fiiStockFutures}</td>
+                      <td>{tdData.fiiStockOptions}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </>
   );

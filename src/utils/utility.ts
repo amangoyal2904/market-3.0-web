@@ -762,7 +762,7 @@ export const getIndicesFaqs = async (indexid: number) => {
   return originalJson;
 };
 
-export const getDaywiseActivityData = async (indexid: number) => {
+export const getDaywiseActivityData = async () => {
   const response = await Service.get({
     url: (APIS_CONFIG as any)?.FIIDII_OVERVIEW[APP_ENV],
     params: {},
