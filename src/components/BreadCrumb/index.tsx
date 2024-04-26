@@ -56,15 +56,28 @@ export const BreadCrumb: React.FC<Props> = ({ pageName }) => {
         ),
         showCurrLi: true,
       };
+    } else if (
+      router == "/stocks/marketstats/intraday/top-gainers" ||
+      router.includes("/marketstats/intraday?type=gainers")
+    ) {
+      return {
+        showNextLi: false,
+        currentLiNode: (
+          <li>
+            <span className="eticon_caret_right"></span>Stocks
+          </li>
+        ),
+        showCurrLi: true,
+      };
     } else if (router.includes("/marketstats/")) {
       return {
         showNextLi: true,
         currentLiNode: (
           <li>
-            <span className="eticon_caret_right"></span>Market Stats
+            <span className="eticon_caret_right"></span>Stocks
           </li>
         ),
-        showCurrLi: false,
+        showCurrLi: true,
       };
     } else if (router == "/markets/indices") {
       return {
@@ -72,6 +85,26 @@ export const BreadCrumb: React.FC<Props> = ({ pageName }) => {
         currentLiNode: (
           <li>
             <span className="eticon_caret_right"></span>Indices
+          </li>
+        ),
+        showCurrLi: true,
+      };
+    } else if (router.includes("/indices/")) {
+      return {
+        showNextLi: true,
+        currentLiNode: (
+          <li>
+            <span className="eticon_caret_right"></span>Indices
+          </li>
+        ),
+        showCurrLi: true,
+      };
+    } else if (router == "/watchlist") {
+      return {
+        showNextLi: false,
+        currentLiNode: (
+          <li>
+            <span className="eticon_caret_right"></span>Watchlist
           </li>
         ),
         showCurrLi: true,
@@ -98,15 +131,15 @@ export const BreadCrumb: React.FC<Props> = ({ pageName }) => {
           <a href="https://economictimes.indiatimes.com/">Home</a>
         </li>
         <li className={styles.marketshome}>
-          {router == "/home" ? "Markets" : <a href="/home">Markets Home</a>}
+          {router == "/home" ? (
+            "Markets"
+          ) : (
+            <>
+              <span className="eticon_caret_right"></span>
+              <a href="/home">Markets</a>
+            </>
+          )}
         </li>
-        {/* {router != "/home" && (
-          <>
-            <li className={styles.marketshome}>
-              <a href="/home">Markets Home</a>
-            </li>
-          </>
-        )} */}
         {getLiPath().showCurrLi && getLiPath().currentLiNode}
         {getLiPath().showNextLi && pageName && (
           <li>
