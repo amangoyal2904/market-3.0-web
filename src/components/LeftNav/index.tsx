@@ -2,23 +2,19 @@
 
 import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import Service from "../../network/service";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 const LeftNav = (props: any) => {
-  //console.log("props-----", props.leftNavResult);
   const { leftNavResult = {} } = props;
   const { markets = {}, markets_pro = {} } = leftNavResult;
   const [isExpanded, setIsExpanded] = useState(true);
   const [isL2Expanded, setIsL2Expanded] = useState(false);
   const pathname = usePathname();
-  console.log("left Nav pathname---", pathname);
 
   useEffect(() => {}, [pathname]);
 
   const toggleMenu = () => {
-    console.log("toggleMenu---");
     setIsExpanded(!isExpanded);
     setIsL2Expanded(!isL2Expanded);
   };
@@ -65,18 +61,8 @@ const LeftNav = (props: any) => {
     handleMainHover();
   }, []);
 
-  const hasCommonSubstring = (
-    str2: string,
-    str3: string,
-    avoidStr: string = "/markets",
-  ) => {
-    const parts2 = str2.split("/").filter((part) => part !== "");
-    const parts3 = str3.split("/").filter((part) => part !== "");
-
-    const filteredParts2 = parts2.filter((part) => !part.startsWith(avoidStr));
-    const filteredParts3 = parts3.filter((part) => !part.startsWith(avoidStr));
-
-    return filteredParts2.some((part) => filteredParts3.includes(part));
+  const hasUrlSelect = (str1: string) => {
+    return pathname.includes(str1);
   };
 
   return (
@@ -101,7 +87,7 @@ const LeftNav = (props: any) => {
                   {value.link ? (
                     <Link
                       href={value.link}
-                      className={`${styles.mainTabWrap} ${hasCommonSubstring(value.link, pathname) ? styles.active : ""}`}
+                      className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
                     >
                       <span
                         className={`${value.icon} ${styles.navIcon}`}
@@ -146,7 +132,7 @@ const LeftNav = (props: any) => {
                         {value?.sec.map((sec: any, index: number) => {
                           return (
                             <li
-                              className={`${styles.l2List} ${pathname == sec.link ? styles.active : ""}`}
+                              className={`${styles.l2List} ${hasUrlSelect(sec.matchPattern) ? styles.active : ""}`}
                               key={`l2_label_${index}`}
                             >
                               <Link href={sec.link}>{sec.label}</Link>
@@ -188,7 +174,7 @@ const LeftNav = (props: any) => {
                   >
                     <Link
                       href={value.link}
-                      className={`${styles.mainTabWrap} ${hasCommonSubstring(value.link, pathname) ? styles.active : ""}`}
+                      className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
                     >
                       <span
                         className={`${value.icon} ${styles.navIcon}`}
