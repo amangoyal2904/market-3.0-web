@@ -335,7 +335,9 @@ const TableHtml = (props: any) => {
             {recosDetailResult?.map((obj: any, index: any) => {
               return (
                 ((activeApi == "recoOnWatchlist" &&
-                  watchlist.includes(obj.companyId)) ||
+                  watchlist.some(
+                    (item: any) => item.companyId === obj.companyId,
+                  )) ||
                   activeApi != "recoOnWatchlist") && (
                   <tr key={`recosTable_${index}`}>
                     {activeApi == "recoByFH" ? (
@@ -401,7 +403,9 @@ const TableHtml = (props: any) => {
             {recosDetailResult?.map(
               (obj: any, index: any) =>
                 ((activeApi == "recoOnWatchlist" &&
-                  watchlist.includes(obj.companyId)) ||
+                  watchlist.some(
+                    (item: any) => item.companyId === obj.companyId,
+                  )) ||
                   activeApi != "recoOnWatchlist") && (
                   <tr key={`recosTable_${index}`}>
                     {activeApi == "recoByFH"

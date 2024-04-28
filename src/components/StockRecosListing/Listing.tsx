@@ -20,7 +20,9 @@ const Listing = (props: any) => {
           {recosDetailResult?.map((recoDataValue: any, index: any) => {
             return (
               ((activeApi == "recoOnWatchlist" &&
-                watchlist.includes(recoDataValue.companyId)) ||
+                watchlist.some(
+                  (item: any) => item.companyId === recoDataValue.companyId,
+                )) ||
                 activeApi != "recoOnWatchlist") && (
                 <StockReco
                   data={recoDataValue}
