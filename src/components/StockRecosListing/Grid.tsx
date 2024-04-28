@@ -336,7 +336,7 @@ const TableHtml = (props: any) => {
               return (
                 ((activeApi == "recoOnWatchlist" &&
                   watchlist.some(
-                    (item: any) => item.companyId === obj.companyId,
+                    (item: any) => item.companyId == obj.companyId.toString(),
                   )) ||
                   activeApi != "recoOnWatchlist") && (
                   <tr key={`recosTable_${index}`}>
@@ -404,7 +404,7 @@ const TableHtml = (props: any) => {
               (obj: any, index: any) =>
                 ((activeApi == "recoOnWatchlist" &&
                   watchlist.some(
-                    (item: any) => item.companyId === obj.companyId,
+                    (item: any) => item.companyId == obj.companyId.toString(),
                   )) ||
                   activeApi != "recoOnWatchlist") && (
                   <tr key={`recosTable_${index}`}>

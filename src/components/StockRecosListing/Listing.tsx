@@ -21,7 +21,8 @@ const Listing = (props: any) => {
             return (
               ((activeApi == "recoOnWatchlist" &&
                 watchlist.some(
-                  (item: any) => item.companyId === recoDataValue.companyId,
+                  (item: any) =>
+                    item.companyId == recoDataValue.companyId.toString(),
                 )) ||
                 activeApi != "recoOnWatchlist") && (
                 <StockReco
