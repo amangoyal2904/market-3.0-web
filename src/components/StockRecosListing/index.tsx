@@ -73,7 +73,12 @@ const StockRecosListing = (props: any) => {
 
   const fetchDataOnLazyLoad = useCallback(
     async (currentPage: any) => {
-      console.log("page-----", page + "===" + hasMore);
+      console.log(
+        "page-----",
+        page + "===" + hasMore,
+        activeApi,
+        activeApi !== "overview" && page > 1,
+      );
       if (activeApi !== "overview" && page > 1) {
         setTimeout(async () => {
           const newData: any = await getStockRecosDetail({
@@ -83,6 +88,10 @@ const StockRecosListing = (props: any) => {
             niftyFilterData,
             pageNo: currentPage,
           });
+          console.log(
+            "newData?.recoData?.[0].data",
+            newData?.recoData?.[0].data,
+          );
           if (newData?.recoData?.[0].data) {
             setRecosDetailJSON((prevData: any) => [
               ...prevData,
@@ -117,7 +126,7 @@ const StockRecosListing = (props: any) => {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [recosDetailJSON]);
 
   useEffect(() => {
     async function recosWatchList() {
@@ -142,20 +151,20 @@ const StockRecosListing = (props: any) => {
             : recosDetailResult?.recoData?.[0].data,
         );
 
-        setRecoWatchListLoad(true);
+        if (!recoWatchListLoad) setRecoWatchListLoad(true);
 
         setHasMore(
           typeof recosDetailResult?.recoData?.[0].data !== "undefined" &&
             recosDetailResult?.recoData?.[0].data?.length === 30,
         );
 
-        if (
-          activeApi == "recoOnWatchlist" &&
-          recosDetailResult?.recoData?.[0].data !== "undefined" &&
-          recosDetailResult?.recoData?.[0].data?.length === 30
-        ) {
-          setPage((prevPage) => prevPage + 1);
-        }
+        // if (
+        //   activeApi == "recoOnWatchlist" &&
+        //   recosDetailResult?.recoData?.[0].data !== "undefined" &&
+        //   recosDetailResult?.recoData?.[0].data?.length === 30
+        // ) {
+        //   setPage((prevPage) => prevPage + 1);
+        // }
       }
     }
 

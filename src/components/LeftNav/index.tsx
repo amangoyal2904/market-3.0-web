@@ -62,6 +62,7 @@ const LeftNav = (props: any) => {
   }, []);
 
   const hasUrlSelect = (str1: string) => {
+    //console.log("hasUrlSelect -- ", str1, pathname, pathname.includes(str1))
     return pathname.includes(str1);
   };
 
