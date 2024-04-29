@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { useStateContext } from "../../store/StateContext";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 
 const Subhead = (props: any) => {
   const {
@@ -93,13 +94,13 @@ const Subhead = (props: any) => {
             >
               {item.seoPath == "fundhousedetails" ? (
                 <Link
-                  href={`/stocksrecos/fundhousedetails${urlFilterHandle()}`}
+                  href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}${urlFilterHandle()}`}
                 >
                   {item.label}
                 </Link>
               ) : (
                 <Link
-                  href={`/stocksrecos/${handleLowerCase(item.seoPath)}${handleLowerCase(item.seoPath) == "newrecos" ? "/all" : ""}${urlFilterHandle()}`}
+                  href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["home"]}/${handleLowerCase(item.seoPath)}${handleLowerCase(item.seoPath) == "newrecos" ? "/all" : ""}${urlFilterHandle()}`}
                 >
                   {item.label}
                 </Link>

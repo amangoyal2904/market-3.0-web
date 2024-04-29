@@ -3,6 +3,7 @@
 import Link from "next/link";
 import styles from "./styles.module.scss";
 import React, { useEffect, useState } from "react";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 
 const FundNavAccordionItem = ({
   item,
@@ -44,7 +45,7 @@ const FundNavAccordionItem = ({
                   className={`${fundHouseSeoName(getFundHouseInfo.fundHounseName) == fundHouseSeoName(item?.organisation) && slug?.[2] == fundHouseSeoName(filter) ? styles.active : ""} ${styles.fundFilter}`}
                 >
                   <Link
-                    href={`/stocksrecos/fundhousedetails/${fundHouseSeoName(item?.organisation)}-${item.omId}/${fundHouseSeoName(filter)}${urlFilterHandle()}`}
+                    href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${fundHouseSeoName(item?.organisation)}-${item.omId}/${fundHouseSeoName(filter)}${urlFilterHandle()}`}
                   >
                     {filter}
                   </Link>

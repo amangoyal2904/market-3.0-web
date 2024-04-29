@@ -5,6 +5,7 @@ import styles from "./styles.module.scss";
 import Link from "next/link";
 import Blocker from "../Blocker";
 import { useStateContext } from "../../store/StateContext";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 interface Props {
   data: any;
   urlFilterHandle: any;
@@ -44,15 +45,15 @@ const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
   const redirectLink = (apiType: any) => {
     switch (apiType) {
       case "newRecos":
-        return "/stocksrecos/newrecos/all";
+        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["newRecos"]; //"/stocksrecos/newrecos/all";
       case "highUpside":
-        return "/stocksrecos/mostbuy";
+        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["highUpside"]; //"/stocksrecos/mostbuy";
       case "highDownside":
-        return "/stocksrecos/mostsell";
+        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["highDownside"]; //"/stocksrecos/mostsell";
       case "recoOnWL":
-        return "/stocksrecos/recos-on-your-watchlist";
+        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["recoOnWL"]; //"/stocksrecos/recos-on-your-watchlist";
       case "recoByFH":
-        return "/stocksrecos/fundhousedetails";
+        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]; //"/stocksrecos/fundhousedetails";
     }
   };
   return (

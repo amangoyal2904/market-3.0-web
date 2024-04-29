@@ -23,6 +23,14 @@
   "grxId": "g7af6dd9d",
   "gtmId": "GTM-566NCXC",
   "ET_IMG_DOMAIN": "https://img.etimg.com/",
+  "STOCK_RECOS": {
+    "home": "/stocksrecos",
+    "fundhousedetails": "/stocksrecos/fundhousedetails",
+    "recoOnWL": "/stocksrecos/recos-on-your-watchlist",
+    "highDownside": "/stocksrecos/mostsell",
+    "highUpside": "/stocksrecos/mostbuy",
+    "newRecos": "/stocksrecos/newrecos/all"
+  },
   "PAGES_REFRESH": {
     "marketstats": "40",
     "stockrecos": "",

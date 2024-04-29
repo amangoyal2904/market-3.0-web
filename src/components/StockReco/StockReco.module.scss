@@ -71,6 +71,17 @@
         font-size: 14px;
         font-weight: 700;
         line-height: 18px;
+        &.green {
+          color: $green_secondary_dark;
+        }
+
+        &.red {
+          color: $red_secondary_dark;
+        }
+
+        &.gray {
+          color: $gray_30;
+        }
       }
 
       .callDateBox {
@@ -307,6 +318,7 @@
     }
   }
 }
+
 @media only screen and (max-width: 1882px) {
   .stockRecosPage {
     &.stockRecoByFHClass {

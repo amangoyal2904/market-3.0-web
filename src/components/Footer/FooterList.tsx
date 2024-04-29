@@ -9,7 +9,7 @@ interface Props {
 
 const FooterList: React.FC<Props> = ({ title, data }) => {
   const [text, setText] = useState("MORE");
-  console.log("FooterlIst title--->", title);
+  //console.log("FooterlIst title--->", title);
   const showMore = (e: any) => {
     e.stopPropagation();
     const elm = e.currentTarget;
