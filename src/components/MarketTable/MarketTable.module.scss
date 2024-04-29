@@ -179,9 +179,11 @@
       .bar {
         position: relative;
         flex: auto;
+        width: 0;
         height: 8px;
         border-radius: 2px;
         background: $blue-20;
+        transition: width 0.5s ease;
         &.up {
           background: $green-50;
           border-top-right-radius: 0;

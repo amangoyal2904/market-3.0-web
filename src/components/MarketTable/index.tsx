@@ -168,7 +168,7 @@ const MarketTable = React.memo((props: propsType) => {
   const sortTableData = useCallback(
     (tableData: any) => {
       const { field, order } = sortData;
-      if (!!field) {
+      if (!!field && field != null) {
         tableData = tableData.sort((a: any, b: any) => {
           const inputType = tableData[0].data.find(
             (element: any) => element.keyId === field,
@@ -262,7 +262,7 @@ const MarketTable = React.memo((props: propsType) => {
   }, [tabsViewIdUpdate]);
 
   useEffect(() => {
-    if (tableConfig.serverSideSort) {
+    if (tableConfig.serverSideSort && !!sortData.field) {
       handleSortServerSide(sortData.field);
     } else {
       _setSortData(sortData);

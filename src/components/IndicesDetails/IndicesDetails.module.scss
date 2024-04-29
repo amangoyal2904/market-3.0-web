@@ -202,8 +202,10 @@
         position: relative;
         flex: auto;
         height: 8px;
+        width: 0;
         border-radius: 2px;
         background: $blue-20;
+        transition: width 0.5s ease;
         .currentPosition {
           position: absolute;
           top: -2px;
@@ -497,9 +499,11 @@
       .bar {
         position: relative;
         flex: auto;
+        width: 0;
         height: 8px;
         border-radius: 2px;
         background: $blue-20;
+        transition: width 0.5s ease;
         &.up {
           background: $green-50;
           border-top-right-radius: 0;
