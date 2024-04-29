@@ -153,6 +153,9 @@
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     white-space: nowrap;
+    &.noRborder {
+      border-right: 0;
+    }
     &.left {
       max-width: 160px;
       text-align: left;
@@ -177,6 +180,35 @@
       &.hide {
         display: none;
       }
+    }
+    .arrow {
+      font-size: 16px;
+      vertical-align: bottom;
+    }
+    .barCell {
+      position: relative;
+      display: flex;
+      width: 120px;
+      height: 12px;
+      .bar {
+        height: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+      .separator {
+        position: absolute;
+        top: -3px;
+        bottom: -3px;
+        width: 3px;
+        border: 1px solid $white;
+        background-color: $black;
+        left: 50%;
+      }
+    }
+    .change {
+      display: inline-block;
+      margin: 0 2px 0 5px;
     }
   }
 
