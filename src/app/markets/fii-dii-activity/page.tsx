@@ -1,5 +1,7 @@
 import { getDaywiseActivityData } from "@/utils/utility";
-import FiiDiiActivityClient from "./client";
+import FiiDiiTabs from "@/components/FIIDII/Tabs";
+import FiiDiiHeader from "@/components/FIIDII/Header";
+import FiiDiiActivityOverviewTable from "@/components/FIIDII/OverviewTables";
 
 const FiiDiiActivity = async () => {
   const response: any = await getDaywiseActivityData();
@@ -15,10 +17,14 @@ const FiiDiiActivity = async () => {
   });
 
   return (
-    <FiiDiiActivityClient
-      dataWithNiftySensex={dataWithNiftySensex}
-      otherData={otherData}
-    />
+    <>
+      <FiiDiiHeader />
+      <FiiDiiTabs activeTab="overview" />
+      <FiiDiiActivityOverviewTable
+        dataWithNiftySensex={dataWithNiftySensex}
+        otherData={otherData}
+      />
+    </>
   );
 };
 
