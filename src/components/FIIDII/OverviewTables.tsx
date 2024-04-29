@@ -66,8 +66,8 @@ const FiiDiiActivityOverviewTable: React.FC<{
           <table className={styles.marketsCustomTable}>
             <thead>
               <tr>
-                <th>Date</th>
-                <th>Nifty Closing</th>
+                <th className={styles.left}>Date</th>
+                <th className={styles.center}>Nifty Closing</th>
               </tr>
             </thead>
             <tbody>
@@ -78,7 +78,9 @@ const FiiDiiActivityOverviewTable: React.FC<{
 
                 return (
                   <tr key={`fixed_${index}`}>
-                    <td>{dateFormat(tdData.dateLong, "%d %MMM %y")}</td>
+                    <td className={styles.left}>
+                      {dateFormat(tdData.dateLong, "%d %MMM %y")}
+                    </td>
                     <td>
                       {tdData.nifty.ltp}
                       <span className={`${upDownType} ${styles.change}`}>
@@ -104,12 +106,24 @@ const FiiDiiActivityOverviewTable: React.FC<{
           <table className={styles.marketsCustomTable}>
             <thead>
               <tr>
-                <th colSpan={2}>FII Cash (in Rs. Cr.)</th>
-                <th colSpan={2}>DII Cash (in Rs. Cr.)</th>
-                <th colSpan={2}>FII Index Future (in Rs. Cr.)</th>
-                <th colSpan={2}>FII Index Option (in Rs. Cr.)</th>
-                <th colSpan={2}>FII Stock Future (in Rs. Cr.)</th>
-                <th colSpan={2}>FII Stock Option (in Rs. Cr.)</th>
+                <th className={styles.center} colSpan={2}>
+                  FII Cash (in Rs. Cr.)
+                </th>
+                <th className={styles.center} colSpan={2}>
+                  DII Cash (in Rs. Cr.)
+                </th>
+                <th className={styles.center} colSpan={2}>
+                  FII Index Future (in Rs. Cr.)
+                </th>
+                <th className={styles.center} colSpan={2}>
+                  FII Index Option (in Rs. Cr.)
+                </th>
+                <th className={styles.center} colSpan={2}>
+                  FII Stock Future (in Rs. Cr.)
+                </th>
+                <th className={styles.center} colSpan={2}>
+                  FII Stock Option (in Rs. Cr.)
+                </th>
                 <th
                   className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
                 ></th>
