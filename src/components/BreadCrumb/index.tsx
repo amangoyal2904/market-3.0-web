@@ -74,7 +74,8 @@ export const BreadCrumb: React.FC<Props> = ({ pageName }) => {
         showNextLi: true,
         currentLiNode: (
           <li>
-            <span className="eticon_caret_right"></span>Stocks
+            <span className="eticon_caret_right"></span>
+            <a href="/stocks/marketstats/intraday/top-gainers">Stocks</a>
           </li>
         ),
         showCurrLi: true,
@@ -94,7 +95,8 @@ export const BreadCrumb: React.FC<Props> = ({ pageName }) => {
         showNextLi: true,
         currentLiNode: (
           <li>
-            <span className="eticon_caret_right"></span>Indices
+            <span className="eticon_caret_right"></span>
+            <a href="/markets/indices">Indices</a>
           </li>
         ),
         showCurrLi: true,

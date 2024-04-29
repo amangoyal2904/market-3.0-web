@@ -20,7 +20,10 @@ const InnerLeftNav = (props: any) => {
           return (
             <>
               {item.apiType == "newRecos" && item?.ss.length > 0 && (
-                <ul className={`customScroll ${styles.newRecosWrap}`}>
+                <ul
+                  key={`newrecos_customScroll_ss_${index}`}
+                  className={`customScroll ${styles.newRecosWrap}`}
+                >
                   {item.ss.map((ssItem: any, ssindex: any) => {
                     return (
                       <>
