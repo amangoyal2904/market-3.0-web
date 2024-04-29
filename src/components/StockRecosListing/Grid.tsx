@@ -166,7 +166,7 @@ const TableHtml = (props: any) => {
       <>
         <td className={styles.recommendation}>
           <div
-            className={`${styles.buySellTitle} ${obj.potentialDirection == "Up" ? styles.green : obj.potentialDirection == "Down" ? styles.red : obj.potentialDirection == "Neutral" ? styles.gray : styles.green}`}
+            className={`${styles.buySellTitle} ${activeApi == "mostBuy" || obj.recoType == "Buy" || obj.recoType == "Add" || obj.recoType == "Accumulate" ? styles.green : activeApi == "mostSell" || obj.recoType == "Sell" ? styles.red : styles.gray}`}
           >
             {activeApi == "mostBuy"
               ? "Buy"
@@ -237,7 +237,7 @@ const TableHtml = (props: any) => {
           <td className={styles.newRecosfundName}>
             <div className={styles.organisationName}>
               <Link
-                href={`/stocksrecos/fundhousedetails/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
+                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
                 className="linkHover"
               >
                 {obj.organisation}
@@ -345,7 +345,7 @@ const TableHtml = (props: any) => {
                         <div className={styles.tdColWrap}>
                           <Link
                             title={obj.organisation}
-                            href={`/stocksrecos/fundhousedetails/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
+                            href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
                             className="linkHover"
                           >
                             <span className={`${styles.companyName} linkHover`}>
