@@ -142,7 +142,9 @@ const FiiDiiActivityOverviewTable: React.FC<{
                           className={`${styles.bar} upDownBgBar`}
                           style={{
                             width:
-                              (tdData.fiiCash * 100) / maxValues.fiiCash / 2 +
+                              (Math.abs(tdData.fiiCash) * 100) /
+                                maxValues.fiiCash /
+                                2 +
                               "%",
                           }}
                         ></div>
@@ -158,7 +160,9 @@ const FiiDiiActivityOverviewTable: React.FC<{
                           className={`${styles.bar} upDownBgBar`}
                           style={{
                             width:
-                              (tdData.diiCash * 100) / maxValues.diiCash / 2 +
+                              (Math.abs(tdData.diiCash) * 100) /
+                                maxValues.diiCash /
+                                2 +
                               "%",
                           }}
                         ></div>
@@ -176,7 +180,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
                           className={`${styles.bar} upDownBgBar`}
                           style={{
                             width:
-                              (tdData.fiiIndexFutures * 100) /
+                              (Math.abs(tdData.fiiIndexFutures) * 100) /
                                 maxValues.fiiIndexFutures /
                                 2 +
                               "%",
@@ -196,7 +200,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
                           className={`${styles.bar} upDownBgBar`}
                           style={{
                             width:
-                              (tdData.fiiIndexOptions * 100) /
+                              (Math.abs(tdData.fiiIndexOptions) * 100) /
                                 maxValues.fiiIndexOptions /
                                 2 +
                               "%",
@@ -216,7 +220,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
                           className={`${styles.bar} upDownBgBar`}
                           style={{
                             width:
-                              (tdData.fiiStockFutures * 100) /
+                              (Math.abs(tdData.fiiStockFutures) * 100) /
                                 maxValues.fiiStockFutures /
                                 2 +
                               "%",
@@ -236,7 +240,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
                           className={`${styles.bar} upDownBgBar`}
                           style={{
                             width:
-                              (tdData.fiiStockOptions * 100) /
+                              (Math.abs(tdData.fiiStockOptions) * 100) /
                                 maxValues.fiiStockOptions /
                                 2 +
                               "%",
