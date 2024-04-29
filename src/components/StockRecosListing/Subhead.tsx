@@ -92,7 +92,11 @@ const Subhead = (props: any) => {
               key={`recos_main_${index}`}
               className={`${styles.mainTab} ${item.seoPath == activeTab || (item.seoPath == "fundhousedetails" && activeTab == "fundhousedetails") ? styles.active : ""}`}
             >
-              {item.seoPath == "fundhousedetails" ? (
+              {item.label == "News" ? (
+                <Link href={item.redirectLink} target="_blank">
+                  {item.label}
+                </Link>
+              ) : item.seoPath == "fundhousedetails" ? (
                 <Link
                   href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}${urlFilterHandle()}`}
                 >
