@@ -47,7 +47,7 @@ const FooterList: React.FC<Props> = ({ title, data }) => {
               data.length > 0 &&
               data.map((item: any, index: number) => {
                 return (
-                  <>
+                  <Fragment key={`footer_${index}`}>
                     <a
                       target="_blank"
                       title={item.title}
@@ -56,7 +56,7 @@ const FooterList: React.FC<Props> = ({ title, data }) => {
                     >
                       {item.title}
                     </a>
-                  </>
+                  </Fragment>
                 );
               })}
           </div>

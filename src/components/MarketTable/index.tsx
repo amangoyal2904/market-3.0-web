@@ -171,21 +171,33 @@ const MarketTable = React.memo((props: propsType) => {
       if (!!field) {
         tableData = tableData.sort((a: any, b: any) => {
           const inputType = tableData[0].data.find(
-            (element: any) => element.keyId == field,
+            (element: any) => element.keyId === field,
           ).valueType;
 
-          let valueA = a.data.find((item: any) => {
-            return item.keyId == field;
-          }).filterFormatValue;
-          let valueB = b.data.find((item: any) => {
-            return item.keyId == field;
-          }).filterFormatValue;
+          let valueA = a.data.find(
+            (item: any) => item.keyId === field,
+          ).filterFormatValue;
+          let valueB = b.data.find(
+            (item: any) => item.keyId === field,
+          ).filterFormatValue;
 
-          if (inputType != "text") {
+          // Convert empty strings to appropriate values for numeric comparison
+          if (inputType !== "text") {
+            if (valueA === "")
+              valueA =
+                order === "ASC"
+                  ? Number.POSITIVE_INFINITY
+                  : Number.NEGATIVE_INFINITY;
+            if (valueB === "")
+              valueB =
+                order === "ASC"
+                  ? Number.POSITIVE_INFINITY
+                  : Number.NEGATIVE_INFINITY;
             valueA = parseFloat(valueA);
             valueB = parseFloat(valueB);
           }
 
+          // Handle sorting order
           if (order === "ASC") {
             if (valueA < valueB) return -1;
             if (valueA > valueB) return 1;
