@@ -24,7 +24,7 @@ export const Footer = async () => {
     params: {},
   });
   const footerResult = await footerPromise?.json();
-  console.log("FOoter result---->", footerResult?.widgets);
+  //console.log("FOoter result---->", footerResult?.widgets);
   return (
     <div className={styles.footerContainer}>
       <div className={`${styles.footerTopContainer} ${styles.footerSection}`}>

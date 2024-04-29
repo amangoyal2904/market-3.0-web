@@ -3,6 +3,7 @@ import styles from "./StockReco.module.scss"; // Import your CSS styles
 import WatchlistAddition from "../WatchlistAddition";
 import Link from "next/link";
 import { formatNumber } from "@/utils";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 
 interface Props {
   data: any; // Define the type of data correctly
@@ -65,7 +66,7 @@ const StockComponent: React.FC<Props> = ({
           <div className={styles.stocksBox}>
             <h2 title={data.organisation} className={styles.stocksTitle}>
               <Link
-                href={`/stocksrecos/fundhousedetails/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" && urlFilterHandle()}`}
+                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" && urlFilterHandle()}`}
                 className="linkHover"
               >
                 {data.organisation}
@@ -108,7 +109,9 @@ const StockComponent: React.FC<Props> = ({
           <div className={styles.stocksBox}>
             {/* {activeTab == "newRecos" && ( */}
             <div className={styles.stocksCallDates}>
-              <span className={styles.buySellTitle}>
+              <span
+                className={`${styles.buySellTitle} ${activeTab == "mostBuy" || data.recoType == "Buy" || data.recoType == "Add" || data.recoType == "Accumulate" ? styles.green : activeTab == "mostSell" || data.recoType == "Sell" ? styles.red : styles.gray}`}
+              >
                 {activeTab == "mostBuy"
                   ? "Buy"
                   : activeTab == "mostSell"
@@ -220,7 +223,7 @@ const StockComponent: React.FC<Props> = ({
                 <span>Brokerage:</span>
                 <span>
                   <Link
-                    href={`/stocksrecos/fundhousedetails/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle() : ""}`}
+                    href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle() : ""}`}
                     className="linkHover"
                   >
                     {data.organisation}
