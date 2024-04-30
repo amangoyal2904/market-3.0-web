@@ -725,9 +725,13 @@ export const getIndicesTechnicals = async (indexid: number) => {
   return originalJson;
 };
 
-export const getPeerIndices = async (indexid: number) => {
+export const getPeerIndices = async (indexid: number, exchangeid?: number) => {
+  let serviceUrl = `${(APIS_CONFIG as any)?.INDICES_PEER[APP_ENV]}?indexId=${indexid}`;
+  if (exchangeid !== undefined) {
+    serviceUrl += `&exchangeid=${exchangeid}`;
+  }
   const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.INDICES_PEER[APP_ENV]}?indexId=${indexid}`,
+    url: serviceUrl,
     params: {},
   });
   const originalJson = await response?.json();

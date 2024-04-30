@@ -24,7 +24,6 @@ async function fetchData(assetId: number) {
   return Promise.all([
     getIndicesOverview(assetId),
     getIndicesTechnicals(assetId),
-    getPeerIndices(assetId),
     getOtherIndices(assetId),
     getIndicesFaqs(assetId),
   ]);
@@ -58,8 +57,14 @@ const Indices = async ({ params }: any) => {
   if (indexFilterData.assetId == 0 || indexFilterData.assetId == null) {
     notFound();
   }
-  const [overviewData, technicalsData, peersData, othersData, faqData] =
-    await fetchData(indexFilterData.assetId);
+  const [overviewData, technicalsData, othersData, faqData] = await fetchData(
+    indexFilterData.assetId,
+  );
+
+  const peersData = await getPeerIndices(
+    overviewData.assetId,
+    overviewData.assetExchangeId,
+  );
 
   const indicesNews = await getIndicesNews(
     overviewData.assetId,
