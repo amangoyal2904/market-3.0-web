@@ -1,7 +1,5 @@
 import { getDaywiseActivityData } from "@/utils/utility";
-import FiiDiiTabs from "@/components/FIIDII/Tabs";
-import FiiDiiHeader from "@/components/FIIDII/Header";
-import FiiDiiActivityOverviewTable from "@/components/FIIDII/OverviewTables";
+import FiiDiiActivityclient from "./client";
 
 const FiiDiiActivity = async () => {
   const response: any = await getDaywiseActivityData();
@@ -18,9 +16,7 @@ const FiiDiiActivity = async () => {
 
   return (
     <>
-      <FiiDiiHeader />
-      <FiiDiiTabs activeTab="overview" />
-      <FiiDiiActivityOverviewTable
+      <FiiDiiActivityclient
         dataWithNiftySensex={dataWithNiftySensex}
         otherData={otherData}
       />
