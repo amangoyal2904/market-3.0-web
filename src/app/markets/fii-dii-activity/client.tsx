@@ -6,8 +6,6 @@ import FiiDiiTabs from "@/components/FIIDII/Tabs";
 import React, { useState } from "react";
 
 const FiiDiiActivityclient = ({ dataWithNiftySensex, otherData }: any) => {
-  const [fixedData, setFixedData] = useState(dataWithNiftySensex);
-  const [scrollableData, setScrollableData] = useState(otherData);
   const [apiType, setApiType] = useState("FIIDIICash");
 
   const onApiTypeChange = (type: string) => {
@@ -20,8 +18,8 @@ const FiiDiiActivityclient = ({ dataWithNiftySensex, otherData }: any) => {
       <FiiDiiTabs activeTab="overview" handleApiType={onApiTypeChange} />
       <FIIDIIChart apiType={apiType} />
       <FiiDiiActivityOverviewTable
-        dataWithNiftySensex={fixedData}
-        otherData={scrollableData}
+        dataWithNiftySensex={dataWithNiftySensex}
+        otherData={otherData}
       />
     </>
   );
