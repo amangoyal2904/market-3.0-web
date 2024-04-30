@@ -1,130 +1,130 @@
-"use client";
 import React, { useEffect } from "react";
 import styles from "./BreadCrumb.module.scss";
 import { usePathname } from "next/navigation";
 
 interface Props {
-  pageName: string;
+  pageName: any;
+  pagePath: string;
 }
-export const BreadCrumb: React.FC<Props> = ({ pageName }) => {
-  const router = usePathname();
-  useEffect(() => {
-    console.log("BreadCrumb Route>>>>>", router);
-    getLiPath();
-  }, []);
 
-  const getLiPath = () => {
-    if (router == "/stocksrecos/overview") {
-      return {
-        showNextLi: false,
-        currentLiNode: (
-          <li>
-            <span className="eticon_caret_right"></span>Stock Recommendations
-          </li>
-        ),
-        showCurrLi: true,
-      };
-    } else if (router.includes("/stocksrecos/")) {
-      return {
-        showNextLi: true,
-        currentLiNode: (
-          <li>
-            <span className="eticon_caret_right"></span>
-            <a href="/stocksrecos/overview">Stock Recommendations</a>
-          </li>
-        ),
-        showCurrLi: true,
-      };
-    } else if (router == "/markets/stock-screener") {
-      return {
-        showNextLi: false,
-        currentLiNode: (
-          <li>
-            <span className="eticon_caret_right"></span>Stock Screener
-          </li>
-        ),
-        showCurrLi: true,
-      };
-    } else if (router.includes("stock-screener/")) {
-      return {
-        showNextLi: true,
-        currentLiNode: (
-          <li>
-            <span className="eticon_caret_right"></span>
-            <a href="/markets/stock-screener">Stock Screener</a>
-          </li>
-        ),
-        showCurrLi: true,
-      };
-    } else if (
-      router == "/stocks/marketstats/intraday/top-gainers" ||
-      router.includes("/marketstats/intraday?type=gainers")
-    ) {
-      return {
-        showNextLi: false,
-        currentLiNode: (
-          <li>
-            <span className="eticon_caret_right"></span>Stocks
-          </li>
-        ),
-        showCurrLi: true,
-      };
-    } else if (router.includes("/marketstats/")) {
-      return {
-        showNextLi: true,
-        currentLiNode: (
-          <li>
-            <span className="eticon_caret_right"></span>
-            <a href="/stocks/marketstats/intraday/top-gainers">Stocks</a>
-          </li>
-        ),
-        showCurrLi: true,
-      };
-    } else if (router == "/markets/indices") {
-      return {
-        showNextLi: false,
-        currentLiNode: (
-          <li>
-            <span className="eticon_caret_right"></span>Indices
-          </li>
-        ),
-        showCurrLi: true,
-      };
-    } else if (router.includes("/indices/")) {
-      return {
-        showNextLi: true,
-        currentLiNode: (
-          <li>
-            <span className="eticon_caret_right"></span>
-            <a href="/markets/indices">Indices</a>
-          </li>
-        ),
-        showCurrLi: true,
-      };
-    } else if (router == "/watchlist") {
-      return {
-        showNextLi: false,
-        currentLiNode: (
-          <li>
-            <span className="eticon_caret_right"></span>Watchlist
-          </li>
-        ),
-        showCurrLi: true,
-      };
-    } else if (router.includes("market-moods/")) {
-      return {
-        showNextLi: false,
-        currentLiNode: (
-          <li>
-            <span className="eticon_caret_right"></span>Market Mood
-          </li>
-        ),
-        showCurrLi: true,
-      };
-    } else {
-      return {};
-    }
-  };
+const getLiPath = (router: string) => {
+  if (router == "/stocksrecos/overview") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Stock Recommendations
+        </li>
+      ),
+      showCurrLi: true,
+    };
+  } else if (router.includes("/stocksrecos/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="https://economictimes.indiatimes.com/markets/stocks/recos">
+            Stock Recommendations
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+    };
+  } else if (router == "/markets/stock-screener") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Stock Screener
+        </li>
+      ),
+      showCurrLi: true,
+    };
+  } else if (router.includes("stock-screener/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/stock-screener">Stock Screener</a>
+        </li>
+      ),
+      showCurrLi: true,
+    };
+  } else if (
+    router == "/stocks/marketstats/intraday/top-gainers" ||
+    router.includes("/marketstats/intraday?type=gainers")
+  ) {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Stocks
+        </li>
+      ),
+      showCurrLi: true,
+    };
+  } else if (router.includes("/marketstats/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/stocks/marketstats/intraday/top-gainers">Stocks</a>
+        </li>
+      ),
+      showCurrLi: true,
+    };
+  } else if (router == "/markets/indices") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Indices
+        </li>
+      ),
+      showCurrLi: true,
+    };
+  } else if (router.includes("/indices/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/indices">Indices</a>
+        </li>
+      ),
+      showCurrLi: true,
+    };
+  } else if (router == "/watchlist") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Watchlist
+        </li>
+      ),
+      showCurrLi: true,
+    };
+  } else if (router.includes("market-moods/")) {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Market Mood
+        </li>
+      ),
+      showCurrLi: true,
+    };
+  } else {
+    return {};
+  }
+};
+
+export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
+  const router = pagePath;
+  const getLiTab = getLiPath(router);
 
   return (
     <div className={styles.breadCrumbContainer}>
@@ -142,13 +142,23 @@ export const BreadCrumb: React.FC<Props> = ({ pageName }) => {
             </>
           )}
         </li>
-        {getLiPath().showCurrLi && getLiPath().currentLiNode}
-        {getLiPath().showNextLi && pageName && (
-          <li>
-            <span className="eticon_caret_right"></span>
-            {pageName}
-          </li>
-        )}
+        {getLiTab.showCurrLi && getLiTab.currentLiNode}
+        {getLiTab.showNextLi &&
+          pageName.length > 0 &&
+          pageName?.map((item: any, index: any) => {
+            return (
+              <>
+                <li>
+                  <span className="eticon_caret_right"></span>
+                  {item.redirectUrl ? (
+                    <a href={item.redirectUrl}>{item.label}</a>
+                  ) : (
+                    item.label
+                  )}
+                </li>
+              </>
+            );
+          })}
       </ul>
     </div>
   );
