@@ -17,6 +17,7 @@ const getLiPath = (router: string) => {
         </li>
       ),
       showCurrLi: true,
+      listItemSchema: "",
     };
   } else if (router.includes("/stocksrecos/")) {
     return {
@@ -24,12 +25,16 @@ const getLiPath = (router: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="https://economictimes.indiatimes.com/markets/stocks/recos">
-            Stock Recommendations
-          </a>
+          <a href="/stocksrecos/overview">Stock Recommendations</a>
         </li>
       ),
       showCurrLi: true,
+      listItemSchema: {
+        "@type": "ListItem",
+        position: "3",
+        name: "Stock Recommendations",
+        item: { "@id": "/stocksrecos/overview" },
+      },
     };
   } else if (router == "/markets/stock-screener") {
     return {
@@ -40,6 +45,7 @@ const getLiPath = (router: string) => {
         </li>
       ),
       showCurrLi: true,
+      listItemSchema: "",
     };
   } else if (router.includes("stock-screener/")) {
     return {
@@ -51,6 +57,12 @@ const getLiPath = (router: string) => {
         </li>
       ),
       showCurrLi: true,
+      listItemSchema: {
+        "@type": "ListItem",
+        position: "3",
+        name: "Stock Screener",
+        item: { "@id": "/markets/stock-screener" },
+      },
     };
   } else if (router.includes("/stocks/marketstats/")) {
     return {
@@ -62,6 +74,12 @@ const getLiPath = (router: string) => {
         </li>
       ),
       showCurrLi: true,
+      listItemSchema: {
+        "@type": "ListItem",
+        position: "3",
+        name: "Stocks",
+        item: { "@id": "/stocks/marketstats/intraday/top-gainers" },
+      },
     };
   } else if (router.includes("/stocks/marketstats-technicals/")) {
     return {
@@ -73,6 +91,12 @@ const getLiPath = (router: string) => {
         </li>
       ),
       showCurrLi: true,
+      listItemSchema: {
+        "@type": "ListItem",
+        position: "3",
+        name: "Technicals",
+        item: { "@id": "/stocks/marketstats-technicals/golden-cross" },
+      },
     };
   } else if (router == "/markets/indices") {
     return {
@@ -83,6 +107,7 @@ const getLiPath = (router: string) => {
         </li>
       ),
       showCurrLi: true,
+      listItemSchema: "",
     };
   } else if (router.includes("/indices/")) {
     return {
@@ -94,6 +119,12 @@ const getLiPath = (router: string) => {
         </li>
       ),
       showCurrLi: true,
+      listItemSchema: {
+        "@type": "ListItem",
+        position: "3",
+        name: "Indices",
+        item: { "@id": "/markets/indices" },
+      },
     };
   } else if (router == "/watchlist") {
     return {
@@ -104,6 +135,7 @@ const getLiPath = (router: string) => {
         </li>
       ),
       showCurrLi: true,
+      listItemSchema: "",
     };
   } else if (router.includes("market-moods/")) {
     return {
@@ -114,10 +146,63 @@ const getLiPath = (router: string) => {
         </li>
       ),
       showCurrLi: true,
+      listItemSchema: "",
     };
   } else {
     return {};
   }
+};
+
+const jsonLd = (getLiTab: any, pageName: any) => {
+  const objWithUrl = pageName.filter(
+    (item: any, index: any) => item.redirectUrl !== "",
+  );
+
+  const itemListElement = [
+    {
+      "@type": "ListItem",
+      position: "1",
+      name: "Home",
+      item: { "@id": "https://economictimes.indiatimes.com" },
+    },
+    {
+      "@type": "ListItem",
+      position: "2",
+      name: "Markets",
+      item: { "@id": "/home" },
+    },
+    ...(getLiTab ? [getLiTab.listItemSchema] : []),
+  ];
+
+  const createBreadcrumbItem = (
+    label: any,
+    redirectUrl: any,
+    position: any,
+  ) => {
+    const listItem = {
+      "@type": "ListItem",
+      position: position.toString(),
+      name: label,
+      item: { "@id": redirectUrl },
+    };
+    return listItem;
+  };
+
+  objWithUrl?.forEach((item: any, index: any) => {
+    const position = itemListElement.length + index + 1;
+    const breadcrumbItem = createBreadcrumbItem(
+      item.label,
+      item.redirectUrl,
+      position,
+    );
+    itemListElement.push(breadcrumbItem);
+  });
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: itemListElement,
+  };
 };
 
 export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
@@ -126,6 +211,12 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
 
   return (
     <div className={styles.breadCrumbContainer}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd(getLiTab, pageName)),
+        }}
+      />
       <ul className={styles.brUl}>
         <li className={styles.home}>
           <a href="https://economictimes.indiatimes.com/">Home</a>
