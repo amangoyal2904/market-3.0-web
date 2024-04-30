@@ -17,7 +17,7 @@ import {
   getCustomViewTable,
   getCustomViewsTab,
 } from "@/utils/customViewAndTables";
-import MarketStats from "../../client";
+import MarketStats from "../client";
 
 export async function generateMetadata(
   { searchParams }: any,

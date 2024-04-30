@@ -14,10 +14,7 @@ const NotFound = () => {
         <Link href="/watchlist" className="default-btn">
           Watchlist
         </Link>
-        <Link
-          className="default-btn"
-          href="/stocks/marketstats/intraday/top-gainers"
-        >
+        <Link className="default-btn" href="/stocks/marketstats/top-gainers">
           Marketstats Intraday
         </Link>
         <Link className="default-btn" href="/markets">

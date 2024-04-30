@@ -52,26 +52,24 @@ const getLiPath = (router: string) => {
       ),
       showCurrLi: true,
     };
-  } else if (
-    router == "/stocks/marketstats/intraday/top-gainers" ||
-    router.includes("/marketstats/intraday?type=gainers")
-  ) {
-    return {
-      showNextLi: false,
-      currentLiNode: (
-        <li>
-          <span className="eticon_caret_right"></span>Stocks
-        </li>
-      ),
-      showCurrLi: true,
-    };
-  } else if (router.includes("/marketstats/")) {
+  } else if (router.includes("/stocks/marketstats/")) {
     return {
       showNextLi: true,
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
           <a href="/stocks/marketstats/intraday/top-gainers">Stocks</a>
+        </li>
+      ),
+      showCurrLi: true,
+    };
+  } else if (router.includes("/stocks/marketstats-technicals/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/stocks/marketstats-technicals/golden-cross">Technicals</a>
         </li>
       ),
       showCurrLi: true,
