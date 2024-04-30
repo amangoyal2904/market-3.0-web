@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./FIIDII.module.scss";
 import Link from "next/link";
+import ApiTypeDropdown from "./ApiTypeDropdown";
 
 const tabData = [
   { label: "Overview", key: "overview" },
@@ -10,36 +11,78 @@ const tabData = [
   { label: "MF Cash", key: "mf-cash" },
 ];
 
-const FiiDiiTabs = React.memo(({ activeTab }: { activeTab: string }) => {
-  return (
-    <div className={styles.tabsWrap}>
-      <ul className={styles.tabsList}>
-        {tabData.map((item) => (
-          <li
-            key={item.key}
-            className={`${styles.tabItem} ${
-              activeTab === item.key ? styles.active : ""
-            }`}
-          >
-            <Link
-              title={item.label}
-              href={
-                item.key === "overview"
-                  ? "/markets/fii-dii-activity"
-                  : `/markets/fii-dii-activity/${item.key}`
-              }
+const overviewOptions = [
+  { label: "Cash", key: "FIIDIICash" },
+  { label: "Index", key: "IndexFandO" },
+  { label: "Stock", key: "FIIDIIStockFAndO" },
+];
+
+const FIIOptions = [
+  { label: "F&O Index", key: "index" },
+  { label: "F&O Stock", key: "stock" },
+];
+
+const FiiDiiTabs = React.memo(
+  ({ activeTab, handleApiType }: { activeTab: string; handleApiType: any }) => {
+    const filterOptions =
+      activeTab === "overview" ? overviewOptions : FIIOptions;
+    const [apiFilterShow, setApiFilterShow] = useState(false);
+    const [apiType, setApiType] = useState(filterOptions[0]);
+    const onApiChangeHandler = (key: string, label: string) => {
+      setApiType({ key: key, label: label });
+      handleApiType(key);
+      setApiFilterShow(false);
+    };
+
+    return (
+      <div className={styles.tabsWrap}>
+        <ul className={styles.tabsList}>
+          {tabData.map((item) => (
+            <li
+              key={item.key}
+              className={`${styles.tabItem} ${
+                activeTab === item.key ? styles.active : ""
+              }`}
             >
-              {item.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <span className={`${styles.roundBtn}`}>
-        Cash <i className="eticon_caret_down"></i>
-      </span>
-    </div>
-  );
-});
+              <Link
+                title={item.label}
+                href={
+                  item.key === "overview"
+                    ? "/markets/fii-dii-activity"
+                    : `/markets/fii-dii-activity/${item.key}`
+                }
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        {activeTab === "overview" || activeTab == "fii-fno" ? (
+          <div className="prel">
+            <span
+              className={`${styles.roundBtn} ${styles.fitlerDay}`}
+              onClick={() => setApiFilterShow(true)}
+            >
+              {apiType.label} <i className="eticon_caret_down"></i>
+            </span>
+            {apiFilterShow ? (
+              <ApiTypeDropdown
+                selectedApiType={apiType}
+                setApiFilterShow={setApiFilterShow}
+                filterHandler={onApiChangeHandler}
+                apiTypeOptions={filterOptions}
+              />
+            ) : (
+              ""
+            )}
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  },
+);
 
 FiiDiiTabs.displayName = "FiiDiiTabs";
 export default FiiDiiTabs;
