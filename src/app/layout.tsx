@@ -94,7 +94,7 @@ export default async function RootLayout({
               </Suspense>
               <div className="main_container">
                 {children}
-                <BreadCrumb pageName="Page Name" />
+                {/* <BreadCrumb pageName="Page Name" /> */}
               </div>
               <div className="bcAdContainer"></div>
             </div>
