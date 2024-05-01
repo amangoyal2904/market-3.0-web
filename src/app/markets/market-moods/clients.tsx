@@ -247,7 +247,7 @@ const MarketMoodsClient = ({
           </span>
         </div>
         <div className={styles.prime}>ETPrime</div>
-        <h1 className={styles.heading}>MarketMood</h1>
+        <h1 className={styles.heading}>Market Mood</h1>
       </div>
       <p className={styles.desc}>
         Know the market sentiments. Check the percentage or count of stocks in

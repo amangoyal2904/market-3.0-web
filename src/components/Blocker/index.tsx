@@ -73,6 +73,7 @@ const Blocker = (props: propsType) => {
           <img
             width={150}
             height={150}
+            alt={message}
             src={(GLOBAL_CONFIG as any).ET_IMG_DOMAIN + `/photo/${icon}.cms`}
           />
         )}
