@@ -7,8 +7,12 @@ import { APP_ENV } from "@/utils";
 import MarketsDashboardWidget from "@/components/MarketsDashboardWidget";
 import StockScreenerWidget from "@/components/ScreenerWidget";
 import LiveStreamWidget from "@/components/LiveStreamWidget";
+import BreadCrumb from "@/components/BreadCrumb";
+import { headers } from "next/headers";
 
 const Home = async () => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const getRecosData = async (type: any) => {
     const getRecosDetailApi = `${(APIS_CONFIG as any)?.["GET_RECOS_DETAILS"][APP_ENV]}`;
     // console.log("@@type --- > " , type)
@@ -69,6 +73,10 @@ const Home = async () => {
       <StockReportsPlus srResult={srPlusResult} />
       <StockScreenerWidget />
       <LiveStreamWidget />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: "Markets", redirectUrl: "" }]}
+      />
     </>
   );
 };

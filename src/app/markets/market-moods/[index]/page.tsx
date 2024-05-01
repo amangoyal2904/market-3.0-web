@@ -47,6 +47,8 @@ const MarketMoods = async ({ params }: any) => {
   }
   const [overviewData, advanceDeclineData, periodicData, allFilters] =
     await fetchData(niftyFilterData.indexId);
+  const breadCrumbObj = [{ label: niftyFilterData?.name, redirectUrl: "" }];
+
   return (
     <>
       <MarketMoodsClient
@@ -56,10 +58,7 @@ const MarketMoods = async ({ params }: any) => {
         periodic={periodicData}
         allFilters={allFilters}
       />
-      <BreadCrumb
-        pagePath={pageUrl}
-        pageName={[{ label: niftyFilterData?.name, redirectUrl: "" }]}
-      />
+      <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
     </>
   );
 };
