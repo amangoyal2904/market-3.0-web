@@ -19,6 +19,7 @@ import {
   getCustomViewTable,
   getCustomViewsTab,
 } from "@/utils/customViewAndTables";
+import BreadCrumb from "@/components/BreadCrumb";
 
 async function fetchData(assetId: number) {
   return Promise.all([
@@ -50,6 +51,8 @@ async function generateMetadata(
 }
 
 const Indices = async ({ params }: any) => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
   const niftyFilterData = await fetchSelectedFilter(params.index);
@@ -94,24 +97,30 @@ const Indices = async ({ params }: any) => {
     await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
 
   return (
-    <IndicesDetailsClient
-      overview={overviewData}
-      technicals={technicalsData}
-      peers={peersData}
-      others={othersData}
-      tabData={tabData}
-      activeViewId={activeViewId}
-      tableHeaderData={tableHeaderData}
-      tableData={tableData}
-      pageSummary={pageSummary}
-      tableConfig={tableConfig["indicesConstituents"]}
-      tabConfig={tabConfig["indicesConstituents"]}
-      payload={payload}
-      ssoid={ssoid}
-      indicesNews={indicesNews}
-      faq={faqData}
-      selectedFilter={niftyFilterData}
-    />
+    <>
+      <IndicesDetailsClient
+        overview={overviewData}
+        technicals={technicalsData}
+        peers={peersData}
+        others={othersData}
+        tabData={tabData}
+        activeViewId={activeViewId}
+        tableHeaderData={tableHeaderData}
+        tableData={tableData}
+        pageSummary={pageSummary}
+        tableConfig={tableConfig["indicesConstituents"]}
+        tabConfig={tabConfig["indicesConstituents"]}
+        payload={payload}
+        ssoid={ssoid}
+        indicesNews={indicesNews}
+        faq={faqData}
+        selectedFilter={niftyFilterData}
+      />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: overviewData?.assetName, redirectUrl: "" }]}
+      />
+    </>
   );
 };
 
