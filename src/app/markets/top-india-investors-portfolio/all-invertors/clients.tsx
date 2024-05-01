@@ -36,6 +36,7 @@ const BigBullAllInvertorsPageClientPage = ({
     primeFlag: 1,
     pageSize: 10,
     pageNo: 1,
+    searchText: "",
   });
   const fitlerHandler = (value: any) => {
     setActiveFilter(value);
@@ -91,8 +92,10 @@ const BigBullAllInvertorsPageClientPage = ({
   };
 
   useEffect(() => {
-    if (invstrQuery && invstrQuery !== "" && invstrQuery.length > 3) {
-      searchAPIcallForInstr();
+    if (invstrQuery) {
+      //searchAPIcallForInstr();
+      setPayload({ ..._payload, searchText: invstrQuery, pageNo: 1 });
+    } else {
     }
   }, [invstrQuery]);
   useEffect(() => {

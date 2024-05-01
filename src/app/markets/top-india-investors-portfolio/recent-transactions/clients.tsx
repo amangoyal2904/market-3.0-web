@@ -36,6 +36,7 @@ const BigBullRecentTransactionsPageClientPage = ({
     filterValue: [],
     sortBy: "companyName",
     orderBy: "ASC",
+    timeSpan: "",
     pageNo: 1,
     pageSize: 10,
   });

@@ -12,6 +12,7 @@ const BigBullRecentTransactionsPage = async () => {
     filterValue: [],
     sortBy: "companyName",
     orderBy: "ASC",
+    timeSpan: "",
     pageNo: 1,
     pageSize: 10,
   };
