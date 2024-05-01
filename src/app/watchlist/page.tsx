@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import WatchListClient from "./client";
+import BreadCrumb from "@/components/BreadCrumb";
 
 const pageTitle = "Watchlist | The Economic Time";
 const pageDesc =
@@ -47,9 +48,11 @@ export const metadata: Metadata = {
 };
 
 const MyWatchList = async () => {
+  const breadCrumbObj = [{ label: "Watchlist", redirectUrl: "" }];
   return (
     <>
       <WatchListClient />
+      <BreadCrumb pagePath="/watchlist" pageName={breadCrumbObj} />
     </>
   );
 };
