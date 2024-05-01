@@ -174,29 +174,33 @@ const jsonLd = (getLiTab: any, pageName: any) => {
     ...(getLiTab ? [getLiTab.listItemSchema] : []),
   ];
 
-  const createBreadcrumbItem = (
-    label: any,
-    redirectUrl: any,
-    position: any,
-  ) => {
-    const listItem = {
-      "@type": "ListItem",
-      position: position.toString(),
-      name: label,
-      item: { "@id": redirectUrl },
+  try {
+    const createBreadcrumbItem = (
+      label: any,
+      redirectUrl: any,
+      position: any,
+    ) => {
+      const listItem = {
+        "@type": "ListItem",
+        position: position.toString(),
+        name: label,
+        item: { "@id": redirectUrl },
+      };
+      return listItem;
     };
-    return listItem;
-  };
 
-  objWithUrl?.forEach((item: any, index: any) => {
-    const position = itemListElement.length + index + 1;
-    const breadcrumbItem = createBreadcrumbItem(
-      item.label,
-      item.redirectUrl,
-      position,
-    );
-    itemListElement.push(breadcrumbItem);
-  });
+    objWithUrl?.forEach((item: any, index: any) => {
+      const position = itemListElement.length + index + 1;
+      const breadcrumbItem = createBreadcrumbItem(
+        item.label,
+        item.redirectUrl,
+        position,
+      );
+      itemListElement.push(breadcrumbItem);
+    });
+  } catch (e) {
+    console.log("jsonLd Error:", e);
+  }
 
   return {
     "@context": "https://schema.org",
@@ -206,7 +210,7 @@ const jsonLd = (getLiTab: any, pageName: any) => {
 };
 
 export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
-  const router = pagePath;
+  const router = pagePath.includes("?") ? pagePath.split("?")[0] : pagePath;
   const getLiTab = getLiPath(router);
 
   return (

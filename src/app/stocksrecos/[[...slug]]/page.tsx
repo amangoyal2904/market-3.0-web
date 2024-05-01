@@ -285,8 +285,6 @@ export default async function stocksrecos({
 
   const recosNavResult = await recosNavPromise?.json();
 
-  console.log("recosNavResult---", recosNavResult);
-
   const getApiType = () => {
     const activeObj = recosNavResult?.tabs.filter(
       (item: any) => item.seoPath == slug?.[0],
@@ -313,8 +311,6 @@ export default async function stocksrecos({
     niftyFilterData: selectedFilter,
     ssoid: ssoidCookie,
   });
-
-  console.log("recosDetailResult---", recosDetailResult);
 
   const navListData =
     getApiType() == "FHDetail"

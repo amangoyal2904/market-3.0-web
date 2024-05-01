@@ -4,6 +4,7 @@ import WatchlistAddition from "../WatchlistAddition";
 import Link from "next/link";
 import { formatNumber } from "@/utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
+import { trackingEvent } from "@/utils/ga";
 
 interface Props {
   data: any; // Define the type of data correctly
@@ -68,6 +69,13 @@ const StockComponent: React.FC<Props> = ({
               <Link
                 href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" && urlFilterHandle()}`}
                 className="linkHover"
+                onClick={() => {
+                  trackingEvent("et_push_event", {
+                    event_category: "mercury_engagement",
+                    event_action: "organisation_clicked",
+                    event_label: `${data?.organisation}_${activeTab}`,
+                  });
+                }}
               >
                 {data.organisation}
               </Link>
@@ -142,6 +150,13 @@ const StockComponent: React.FC<Props> = ({
                 target="_blank"
                 href={`https://economictimes.indiatimes.com/${data.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${data.companyId}.cms`}
                 className="linkHover"
+                onClick={() => {
+                  trackingEvent("et_push_event", {
+                    event_category: "mercury_engagement",
+                    event_action: "company_clicked",
+                    event_label: `${data?.companyName}_${activeTab}`,
+                  });
+                }}
               >
                 {data.companyName}
               </Link>
@@ -200,6 +215,13 @@ const StockComponent: React.FC<Props> = ({
                 href={data.pdfUrl}
                 className={styles.viewReportBox}
                 target="_blank"
+                onClick={() => {
+                  trackingEvent("et_push_event", {
+                    event_category: "mercury_engagement",
+                    event_action: "view_rerport_click",
+                    event_label: data?.companyName,
+                  });
+                }}
               >
                 <img
                   src="/icon_pdf.svg"

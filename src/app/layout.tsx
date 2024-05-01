@@ -19,6 +19,7 @@ import Disclaimer from "@/components/StockRecosListing/Disclaimer";
 import NoInternetConnection from "@/components/NoInternetConnection";
 import Footer from "@/components/Footer";
 import BreadCrumb from "@/components/BreadCrumb";
+import { PreloadResources } from "@/components/preloadResources";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -84,6 +85,7 @@ export default async function RootLayout({
     >
       <body className="h-full">
         <NextTopLoader template='<div class="bar" role="bar"><div class="peg"></div></div>' />
+        <PreloadResources />
         <StateProvider>
           <main>
             {/* <Headers /> */}

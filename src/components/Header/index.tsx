@@ -37,14 +37,24 @@ const Header = () => {
   }, []);
 
   const redirectToPlanPage = () => {
-    const obj = {
-      item_name: "atf_Header",
-      item_brand: "product_interventions",
-      item_category: "atf_offer_cta",
-      item_category3: "atf_cta",
-      item_category4: "Subscribe Now",
-    };
-    goToPlansPage1("select_item", obj);
+    try {
+      const pagePathName = window.location.pathname;
+      let site_section = pagePathName.split("/");
+      let lastSlash = site_section[site_section.length - 1];
+      const obj = {
+        item_name: "atf_" + lastSlash,
+        item_brand: "product_interventions",
+        item_category: "atf_offer_cta",
+        item_category2: lastSlash,
+        item_category3: "atf_cta",
+        item_category4: "Subscribe Now",
+      };
+      goToPlansPage1("select_item", obj);
+    } catch (Err) {
+      console.log("redirectToPlanPage Err:", Err);
+
+      goToPlansPage1("select_item", {});
+    }
   };
 
   useEffect(() => {
