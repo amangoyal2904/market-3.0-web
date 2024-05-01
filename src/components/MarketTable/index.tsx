@@ -286,18 +286,41 @@ const MarketTable = React.memo((props: propsType) => {
 
   useEffect(() => {
     const parent = document.querySelector("#scrollableTable");
-    const theadElement = parent?.querySelector("thead > tr > th");
     const fixedTable = document.querySelector("#fixedTable");
-    const hasScroll = parent ? parent.scrollWidth > parent.clientWidth : false;
-    setParentHasScroll(hasScroll);
 
-    if (theadElement) {
-      const height = theadElement.getBoundingClientRect().height;
-      const thElements = fixedTable?.querySelectorAll("th");
-      thElements?.forEach((th) => {
-        th.style.height = `${height}px`;
-      });
-    }
+    if (!parent || !fixedTable) return;
+
+    const theadElement = parent.querySelector("thead > tr > th");
+    const fixedTheadElement = fixedTable.querySelector("thead > tr > th");
+
+    if (!theadElement || !fixedTheadElement) return;
+
+    // Reset the height of th elements to auto
+    parent.querySelectorAll("th").forEach((th) => {
+      th.style.height = "54px";
+    });
+
+    fixedTable.querySelectorAll("th").forEach((th) => {
+      th.style.height = "54px";
+    });
+
+    const height_1 = theadElement.getBoundingClientRect().height;
+    const height_2 = fixedTheadElement.getBoundingClientRect().height;
+
+    const hasScroll = parent.scrollWidth > parent.clientWidth;
+
+    const thElementsParent = parent.querySelectorAll("th");
+    const thElementsFixed = fixedTable.querySelectorAll("th");
+
+    thElementsParent.forEach((th) => {
+      th.style.height = `${Math.max(height_1, height_2)}px`;
+    });
+
+    thElementsFixed.forEach((th) => {
+      th.style.height = `${Math.max(height_1, height_2)}px`;
+    });
+
+    setParentHasScroll(hasScroll);
   }, [tableHeaderData, parentHasScroll]);
 
   useEffect(() => {

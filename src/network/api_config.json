@@ -115,7 +115,7 @@
   },
   "INDICES_FAQ": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/indexFaq",
-    "production": "https://qcbselivefeeds.indiatimes.com/screener/indexFaq"
+    "production": "https://screener.indiatimes.com/screener/indexFaq"
   },
   "FIIDII_OVERVIEW": {
     "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json",
