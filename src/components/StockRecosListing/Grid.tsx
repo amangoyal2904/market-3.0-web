@@ -11,6 +11,8 @@ const TableHtml = (props: any) => {
   const { recosDetailResult, activeApi, urlFilterHandle } = props;
   const fixedTheadRef = useRef<HTMLTableSectionElement>(null);
   const scrollableTheadRef = useRef<HTMLTableSectionElement>(null);
+  const { state, dispatch } = useStateContext();
+  const { watchlist } = state.watchlistStatus;
 
   const handleScroll = () => {
     //console.log(12345, fixedTableRef.current, scrollableTableRef.current)
@@ -53,6 +55,16 @@ const TableHtml = (props: any) => {
 
   const tableHead = (tableType: any) => {
     let activeTabHead: any = [];
+    const commonHeaders = [
+      "Stock Name",
+      "Potential Upside/Downside",
+      "Avg. Target",
+      "Current Price",
+      "Buy",
+      "Sell",
+      "Hold",
+      "Total",
+    ];
     switch (activeApi) {
       case "newRecos":
         activeTabHead = [
@@ -78,40 +90,9 @@ const TableHtml = (props: any) => {
         ];
         break;
       case "mostBuy":
-        activeTabHead = [
-          "Stock Name",
-          "Potential Upside/Downside",
-          "Avg. Target",
-          "Current Price",
-          "Buy",
-          "Sell",
-          "Hold",
-          "Total",
-        ];
-        break;
       case "mostSell":
-        activeTabHead = [
-          "Stock Name",
-          "Potential Upside/Downside",
-          "Avg. Target",
-          "Current Price",
-          "Buy",
-          "Sell",
-          "Hold",
-          "Total",
-        ];
-        break;
       case "recoOnWatchlist":
-        activeTabHead = [
-          "Stock Name",
-          "Potential Upside/Downside",
-          "Avg. Target",
-          "Current Price",
-          "Buy",
-          "Sell",
-          "Hold",
-          "Total",
-        ];
+        activeTabHead = [...commonHeaders];
         break;
       case "recoByFH":
         activeTabHead = [
@@ -157,43 +138,25 @@ const TableHtml = (props: any) => {
   };
 
   const fundHousesDetail = (obj: any) => {
+    const fields = [
+      "totalCount",
+      "buyCount",
+      "sellCount",
+      "holdCount",
+      "addCount",
+      "accumulateCount",
+      "neutralCount",
+    ];
+
     return (
       <>
-        <td>
-          <div className={`numberFonts ${styles.totalCountVal}`}>
-            {formatNumber(obj.totalCount)}
-          </div>
-        </td>
-        <td>
-          <div className={`numberFonts ${styles.buyCountVal}`}>
-            {formatNumber(obj.buyCount)}
-          </div>
-        </td>
-        <td>
-          <div className={`numberFonts ${styles.sellCountVal}`}>
-            {formatNumber(obj.sellCount)}
-          </div>
-        </td>
-        <td>
-          <div className={`numberFonts ${styles.holdCountVal}`}>
-            {formatNumber(obj.holdCount)}
-          </div>
-        </td>
-        <td>
-          <div className={`numberFonts ${styles.addCountVal}`}>
-            {formatNumber(obj.addCount)}
-          </div>
-        </td>
-        <td>
-          <div className={`numberFonts ${styles.accumulateCountVal}`}>
-            {formatNumber(obj.accumulateCount)}
-          </div>
-        </td>
-        <td>
-          <div className={`numberFonts ${styles.neutralCountVal}`}>
-            {formatNumber(obj.neutralCount)}
-          </div>
-        </td>
+        {fields.map((field, index) => (
+          <td key={`fundHousesDetail_${field}_${index}`}>
+            <div className={`numberFonts ${styles[`${field}Val`]}`}>
+              {formatNumber(obj[field])}
+            </div>
+          </td>
+        ))}
       </>
     );
   };
@@ -203,7 +166,7 @@ const TableHtml = (props: any) => {
       <>
         <td className={styles.recommendation}>
           <div
-            className={`${styles.buySellTitle} ${obj.potentialDirection == "Up" ? styles.green : obj.potentialDirection == "Down" ? styles.red : obj.potentialDirection == "Neutral" ? styles.gray : styles.green}`}
+            className={`${styles.buySellTitle} ${activeApi == "mostBuy" || obj.recoType == "Buy" || obj.recoType == "Add" || obj.recoType == "Accumulate" ? styles.green : activeApi == "mostSell" || obj.recoType == "Sell" ? styles.red : styles.gray}`}
           >
             {activeApi == "mostBuy"
               ? "Buy"
@@ -274,7 +237,7 @@ const TableHtml = (props: any) => {
           <td className={styles.newRecosfundName}>
             <div className={styles.organisationName}>
               <Link
-                href={`/stocksrecos/fundhousedetails/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
+                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
                 className="linkHover"
               >
                 {obj.organisation}
@@ -285,12 +248,6 @@ const TableHtml = (props: any) => {
         <td className={styles.pdfIcon}>
           <a href={obj.pdfUrl} target="_blank">
             <img src="/icon_pdf.svg" width="20" height="20" />
-            {/* <span className={`eticon_pdf`}>
-              <span className="path1"></span>
-              <span className="path2"></span>
-              <span className="path3"></span>
-              <span className="path4"></span>
-            </span> */}
           </a>
         </td>
       </>
@@ -377,49 +334,55 @@ const TableHtml = (props: any) => {
           <tbody>
             {recosDetailResult?.map((obj: any, index: any) => {
               return (
-                <tr key={`recosTable_${index}`}>
-                  {activeApi == "recoByFH" ? (
-                    <td>
-                      <div className={styles.tdColWrap}>
-                        <Link
-                          title={obj.organisation}
-                          href={`/stocksrecos/fundhousedetails/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
-                          className="linkHover"
-                        >
-                          <span className={`${styles.companyName} linkHover`}>
-                            {obj.organisation}
-                          </span>
-                        </Link>
-                      </div>
-                    </td>
-                  ) : (
-                    <td>
-                      <div className={styles.tdColWrap}>
-                        <WatchlistAddition
-                          companyName={obj.companyName}
-                          companyId={obj.companyId}
-                          companyType="equity"
-                          customStyle={{
-                            position: "relative",
-                            marginRight: "10px",
-                            width: "16px",
-                            height: "16px",
-                          }}
-                        />
-                        <Link
-                          title={obj.companyName}
-                          target="_blank"
-                          href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/${obj.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${obj.companyId}.cms`}
-                          className="linkHover"
-                        >
-                          <span className={`${styles.companyName} linkHover`}>
-                            {obj.companyName}
-                          </span>
-                        </Link>
-                      </div>
-                    </td>
-                  )}
-                </tr>
+                ((activeApi == "recoOnWatchlist" &&
+                  watchlist.some(
+                    (item: any) => item.companyId == obj.companyId.toString(),
+                  )) ||
+                  activeApi != "recoOnWatchlist") && (
+                  <tr key={`recosTable_${index}`}>
+                    {activeApi == "recoByFH" ? (
+                      <td>
+                        <div className={styles.tdColWrap}>
+                          <Link
+                            title={obj.organisation}
+                            href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
+                            className="linkHover"
+                          >
+                            <span className={`${styles.companyName} linkHover`}>
+                              {obj.organisation}
+                            </span>
+                          </Link>
+                        </div>
+                      </td>
+                    ) : (
+                      <td>
+                        <div className={styles.tdColWrap}>
+                          <WatchlistAddition
+                            companyName={obj.companyName}
+                            companyId={obj.companyId}
+                            companyType="equity"
+                            customStyle={{
+                              position: "relative",
+                              marginRight: "10px",
+                              width: "16px",
+                              height: "16px",
+                            }}
+                          />
+                          <Link
+                            title={obj.companyName}
+                            target="_blank"
+                            href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/${obj.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${obj.companyId}.cms`}
+                            className="linkHover"
+                          >
+                            <span className={`${styles.companyName} linkHover`}>
+                              {obj.companyName}
+                            </span>
+                          </Link>
+                        </div>
+                      </td>
+                    )}
+                  </tr>
+                )
               );
             })}
           </tbody>
@@ -437,16 +400,23 @@ const TableHtml = (props: any) => {
             </tr>
           </thead>
           <tbody>
-            {recosDetailResult?.map((obj: any, index: any) => (
-              <tr key={`recosTable_${index}`}>
-                {activeApi == "recoByFH"
-                  ? fundHousesDetail(obj)
-                  : activeApi == "newRecos" || activeApi == "FHDetail"
-                    ? newRecosDetail(obj)
-                    : MixTableDetail(obj)}
-                <td className={styles.lastMaxTD}></td>
-              </tr>
-            ))}
+            {recosDetailResult?.map(
+              (obj: any, index: any) =>
+                ((activeApi == "recoOnWatchlist" &&
+                  watchlist.some(
+                    (item: any) => item.companyId == obj.companyId.toString(),
+                  )) ||
+                  activeApi != "recoOnWatchlist") && (
+                  <tr key={`recosTable_${index}`}>
+                    {activeApi == "recoByFH"
+                      ? fundHousesDetail(obj)
+                      : activeApi == "newRecos" || activeApi == "FHDetail"
+                        ? newRecosDetail(obj)
+                        : MixTableDetail(obj)}
+                    <td className={styles.lastMaxTD}></td>
+                  </tr>
+                ),
+            )}
           </tbody>
         </table>
       </div>

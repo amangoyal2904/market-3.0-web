@@ -8,6 +8,34 @@
   top: 0;
   left: 0;
 }
+#searchBar.footer_search {
+  width: 380px;
+  .searchIcon {
+    position: absolute;
+    width: 34.5px !important;
+    height: 34.5px !important;
+    font-size: 33px;
+    background-color: #000;
+    color: #fff;
+    right: 0 !important;
+    left: auto;
+    top: 1px;
+  }
+  .inputBox {
+    border-radius: 4px;
+    height: 37px;
+    padding: 7px 14px 7px 7px;
+  }
+  .close_search {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: -19px;
+    font-weight: bold;
+    background: #eee;
+    padding: 2px 5px;
+  }
+}
 #searchBar {
   margin-right: 20px;
   width: 30vw;
@@ -31,6 +59,9 @@
   .noRecord {
     padding: 10px;
   }
+  .footer_searchResult {
+    border-radius: 5px !important;
+  }
   .searchResult {
     position: absolute;
     top: 40px;
@@ -43,6 +74,7 @@
     width: 100%;
     padding: 10px 0;
     min-width: 400px;
+    z-index: 9;
     ul {
       min-height: 30px;
       max-height: 400px;

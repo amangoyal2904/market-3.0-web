@@ -7,6 +7,7 @@ import { dateFormat, formatNumber } from "@/utils/index";
 const IndicesDetailsOverview = React.memo(
   ({
     overviewData,
+    descText,
     currentMarketStatus,
     symbol,
     exchange,
@@ -96,6 +97,7 @@ const IndicesDetailsOverview = React.memo(
             )}
           </span>
         </div>
+        {!!descText && <p className={styles.desc}>{descText}</p>}
         <div id="chart">
           <div className={styles.chartOpts}>
             <ul className={styles.interval}>

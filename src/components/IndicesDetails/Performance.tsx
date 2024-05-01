@@ -13,7 +13,7 @@ const getTdMarkup = (value: number) => {
     <td
       className={`${styles.center} ${trend == "up" ? styles.up : trend == "down" ? styles.down : ""}`}
     >
-      {`${value}%`}
+      {`${value != null ? value + "%" : "-"}`}
       {trend && (
         <span
           className={`${styles.arrowIcons} ${
@@ -97,9 +97,10 @@ const IndicesPerformance = React.memo(
           <tbody>
             {peersData.map((item: any, index: number) => (
               <tr key={index} className={index == 0 ? styles.primeCell : ""}>
-                <td className={styles.left}>
+                <td className={`${styles.left} ${styles.mw150}`}>
                   <div className="dflex align-item-ceter space-between">
                     <Link
+                      className={styles.ellipsis}
                       href={`/markets/indices/${item.indexSeoName}`}
                       target="_blank"
                       title={item.indexName}

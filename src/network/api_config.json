@@ -113,6 +113,10 @@
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/other-indices",
     "production": "https://etapi.indiatimes.com/et-screener/other-indices"
   },
+  "INDICES_FAQ": {
+    "development": "https://qcbselivefeeds.indiatimes.com/screener/indexFaq",
+    "production": "https://qcbselivefeeds.indiatimes.com/screener/indexFaq"
+  },
   "FIIDII_OVERVIEW": {
     "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json"
@@ -376,6 +380,10 @@
   "BigBullGetMostHeld": {
     "development": "http://172.23.37.51/etservicestockapps/most-held",
     "production": "http://172.23.37.51/etservicestockapps/most-held"
+  },
+  "FOOTER_LINKS": {
+    "development": "https://etdev8243.indiatimes.com/reactfeed_footermenu.cms?feedtype=etjson&msid=1977021501",
+    "production": "https://economictimes.indiatimes.com/reactfeed_footermenu.cms?feedtype=etjson&msid=1977021501"
   },
   "BigBullGetSearchData": {
     "development": "http://172.23.37.51/etservicestockapps/investor-search",

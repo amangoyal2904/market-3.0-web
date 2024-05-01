@@ -561,6 +561,7 @@ export const getStockRecosDetail = async ({
     headers: headers,
     body: JSON.stringify(payload),
     params: {},
+    cache: true,
   });
 
   const recosDetailResult = await recosDetailPromise?.json();
@@ -598,4 +599,14 @@ export const capitalize = (str: string) => {
   return str.toLowerCase().replace(/\b\w/g, function (letter) {
     return letter.toUpperCase();
   });
+};
+
+export const getClassAndPercent = (percentChange: any) => {
+  if (percentChange > 0) {
+    return "up";
+  } else if (percentChange < 0) {
+    return "down";
+  } else {
+    return "neutral";
+  }
 };

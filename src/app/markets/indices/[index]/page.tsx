@@ -8,6 +8,7 @@ import {
   fetchSelectedFilter,
   fetchSelectedIndex,
   fnGenerateMetaData,
+  getIndicesFaqs,
   getIndicesNews,
   getIndicesOverview,
   getIndicesTechnicals,
@@ -23,8 +24,8 @@ async function fetchData(assetId: number) {
   return Promise.all([
     getIndicesOverview(assetId),
     getIndicesTechnicals(assetId),
-    getPeerIndices(assetId),
     getOtherIndices(assetId),
+    getIndicesFaqs(assetId),
   ]);
 }
 
@@ -56,8 +57,13 @@ const Indices = async ({ params }: any) => {
   if (indexFilterData.assetId == 0 || indexFilterData.assetId == null) {
     notFound();
   }
-  const [overviewData, technicalsData, peersData, othersData] = await fetchData(
+  const [overviewData, technicalsData, othersData, faqData] = await fetchData(
     indexFilterData.assetId,
+  );
+
+  const peersData = await getPeerIndices(
+    overviewData.assetId,
+    overviewData.assetExchangeId,
   );
 
   const indicesNews = await getIndicesNews(
@@ -103,6 +109,7 @@ const Indices = async ({ params }: any) => {
       payload={payload}
       ssoid={ssoid}
       indicesNews={indicesNews}
+      faq={faqData}
       selectedFilter={niftyFilterData}
     />
   );

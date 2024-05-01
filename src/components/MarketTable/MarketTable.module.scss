@@ -84,7 +84,7 @@
     z-index: 1;
   }
   td {
-    max-width: 110px;
+    max-width: 150px;
     padding: 10px 12px;
     border-right: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
@@ -179,9 +179,11 @@
       .bar {
         position: relative;
         flex: auto;
+        width: 0;
         height: 8px;
         border-radius: 2px;
         background: $blue-20;
+        transition: width 0.5s ease;
         &.up {
           background: $green-50;
           border-top-right-radius: 0;
@@ -197,12 +199,12 @@
   }
 
   th {
-    min-width: 110px;
-    max-width: 200px;
+    min-width: 90px;
+    max-width: 180px;
     height: 54px;
     position: relative;
     text-align: right;
-    padding: 10px;
+    padding: 10px 14px;
     background-color: $gray_95;
     border-right: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
@@ -238,6 +240,7 @@
     &.center {
       min-width: 140px;
       text-align: center;
+      padding: 0 5px;
       .thead {
         -webkit-box-pack: center;
         -ms-flex-pack: center;
@@ -297,6 +300,9 @@
     width: 100%;
     border-collapse: collapse;
     overflow-x: auto;
+    th {
+      width: 95px;
+    }
   }
 
   .fixedTD {

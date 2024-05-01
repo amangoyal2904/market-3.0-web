@@ -133,13 +133,15 @@ const WatchlistAddition = ({
         event_label: "-",
       });
       console.log("watchlist----------", watchlist);
-      const watchlistStatus = watchlist.some(
-        (item: any) =>
-          item.companyId === companyId.toString() &&
-          item.companyType === companyType,
-      )
-        ? 0
-        : 1;
+      const watchlistStatus =
+        !!watchlist &&
+        watchlist.some(
+          (item: any) =>
+            item.companyId === companyId.toString() &&
+            item.companyType === companyType,
+        )
+          ? 0
+          : 1;
       setLoadingStatus(true);
       addStockInWatchlistHandler(watchlistStatus);
     } else {
@@ -166,7 +168,8 @@ const WatchlistAddition = ({
             <div className={styles.loading}>
               <div className={styles.loader}></div>
             </div>
-          ) : watchlist.some(
+          ) : !!watchlist &&
+            watchlist.some(
               (item: any) =>
                 item.companyId === companyId.toString() &&
                 item.companyType === companyType,

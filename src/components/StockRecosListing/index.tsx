@@ -1,18 +1,19 @@
 "use client";
-import Grid from "./Grid";
-import Listing from "./Listing";
-import styles from "./styles.module.scss";
-import Overview from "./Overviews";
+
 import { useStateContext } from "../../store/StateContext";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import { getStockRecosDetail } from "@/utils";
-import Subhead from "./Subhead";
 import {
   fetchFilters,
   fetchSelectedFilter,
   updateOrAddParamToPath,
 } from "@/utils/utility";
+import Grid from "./Grid";
+import Listing from "./Listing";
+import styles from "./styles.module.scss";
+import Overview from "./Overviews";
+import Subhead from "./Subhead";
 import InnerLeftNav from "./InnerLeftNav";
 import Blocker from "../Blocker";
 import Loader from "../Loader";
@@ -30,6 +31,7 @@ const StockRecosListing = (props: any) => {
   const { isLogin, ssoid } = state.login;
   const { watchlist } = state.watchlistStatus;
   const { viewType } = state.StockRecosStatus;
+
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [recoWatchListLoad, setRecoWatchListLoad] = useState(false);
   const pathName = usePathname();
@@ -43,10 +45,8 @@ const StockRecosListing = (props: any) => {
   const [currentPageData, setCurrentPageData] = useState([]); // State to hold data for the current page
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(
-    activeApi != "overview" &&
-      recosDetailResult?.recoData?.[0].data?.length === 30
-      ? true
-      : false,
+    activeApi !== "overview" &&
+      recosDetailResult?.recoData?.[0].data?.length === 30,
   );
   const loader = useRef(null);
   const initialSearchParamsRef = useRef<URLSearchParams>(
@@ -73,7 +73,12 @@ const StockRecosListing = (props: any) => {
 
   const fetchDataOnLazyLoad = useCallback(
     async (currentPage: any) => {
-      console.log("page-----", page + "===" + hasMore);
+      console.log(
+        "page-----",
+        page + "===" + hasMore,
+        activeApi,
+        activeApi !== "overview" && page > 1,
+      );
       if (activeApi !== "overview" && page > 1) {
         setTimeout(async () => {
           const newData: any = await getStockRecosDetail({
@@ -83,6 +88,10 @@ const StockRecosListing = (props: any) => {
             niftyFilterData,
             pageNo: currentPage,
           });
+          console.log(
+            "newData?.recoData?.[0].data",
+            newData?.recoData?.[0].data,
+          );
           if (newData?.recoData?.[0].data) {
             setRecosDetailJSON((prevData: any) => [
               ...prevData,
@@ -117,7 +126,7 @@ const StockRecosListing = (props: any) => {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [recosDetailJSON]);
 
   useEffect(() => {
     async function recosWatchList() {
@@ -142,25 +151,24 @@ const StockRecosListing = (props: any) => {
             : recosDetailResult?.recoData?.[0].data,
         );
 
-        setRecoWatchListLoad(true);
+        if (!recoWatchListLoad) setRecoWatchListLoad(true);
 
         setHasMore(
           typeof recosDetailResult?.recoData?.[0].data !== "undefined" &&
             recosDetailResult?.recoData?.[0].data?.length === 30,
         );
 
-        if (
-          activeApi == "recoOnWatchlist" &&
-          recosDetailResult?.recoData?.[0].data !== "undefined" &&
-          recosDetailResult?.recoData?.[0].data?.length === 30
-        ) {
-          setPage((prevPage) => prevPage + 1);
-        }
+        // if (
+        //   activeApi == "recoOnWatchlist" &&
+        //   recosDetailResult?.recoData?.[0].data !== "undefined" &&
+        //   recosDetailResult?.recoData?.[0].data?.length === 30
+        // ) {
+        //   setPage((prevPage) => prevPage + 1);
+        // }
       }
     }
 
     recosWatchList();
-    // console.log("path changed", pathName);
   }, [isLogin, watchlist]);
 
   useEffect(() => {

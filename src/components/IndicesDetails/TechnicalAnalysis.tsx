@@ -1,7 +1,7 @@
 import { formatNumber, getCookie } from "@/utils";
 import styles from "./IndicesDetails.module.scss";
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
@@ -9,14 +9,16 @@ import {
 } from "../../../public/static/charting_library/charting_library";
 import Script from "next/script";
 import GuageChart from "./GuageChart";
+import { useStateContext } from "@/store/StateContext";
 
-const TVChartContainer = dynamic(
-  () =>
-    import("@/components/TVChartContainer").then((mod) => mod.TVChartContainer),
-  { ssr: false },
+const TVChartContainer = dynamic(() =>
+  import("@/components/TVChartContainer").then((mod) => mod.TVChartContainer),
 );
 
 const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
+  const { state } = useStateContext();
+  const { ssoid } = state.login;
+  const [userId, setUserId] = useState("");
   const [isScriptReady, setIsScriptReady] = useState(false);
   const { maScore, bullishMA, bearishMA, movingAverage, pivotLevel } = data;
 
@@ -46,10 +48,6 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
   const movingAverageData = [ma_simple, ma_exponential];
   const pivotLevelData = [pl_classic, pl_fibonacci];
 
-  const userId = getCookie("ssoid") || getCookie("pfuuid");
-  const user_id: string | undefined =
-    typeof userId === "string" ? userId : undefined;
-
   const disabledFeatures: ChartingLibraryFeatureset[] = [
     "adaptive_logo",
     "go_to_date",
@@ -60,10 +58,20 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
   const defaultWidgetProps: Partial<ChartingLibraryWidgetOptions> = {
     symbol: symbol,
     interval: "1D" as ResolutionString,
-    user_id: user_id,
+    user_id: userId,
     disabled_features: disabledFeatures,
     overrides: {},
   };
+
+  useEffect(() => {
+    let user = getCookie("ssoid") || ssoid;
+    if (user == null || user == "") {
+      user = getCookie("pfuuid");
+    }
+    const user_id: string | undefined =
+      typeof user === "string" ? user : "default_user";
+    setUserId(user_id);
+  }, [ssoid]);
 
   return (
     <>
@@ -166,7 +174,9 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
       <div className={styles.wrapper}>
         <h3 className={styles.heading3}>Technical Chart</h3>
         <div id={styles.tradingView}>
-          {isScriptReady && <TVChartContainer {...defaultWidgetProps} />}
+          {isScriptReady && !!userId && (
+            <TVChartContainer {...defaultWidgetProps} />
+          )}
         </div>
       </div>
     </>

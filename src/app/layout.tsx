@@ -17,6 +17,8 @@ import NextTopLoader from "nextjs-toploader";
 import { Metadata } from "next";
 import Disclaimer from "@/components/StockRecosListing/Disclaimer";
 import NoInternetConnection from "@/components/NoInternetConnection";
+import Footer from "@/components/Footer";
+import BreadCrumb from "@/components/BreadCrumb";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -90,7 +92,14 @@ export default async function RootLayout({
               <Suspense fallback={<p>Loading...</p>}>
                 <LeftNav leftNavResult={leftNavResult} />
               </Suspense>
-              <div className="main_container">{children}</div>
+              <div className="main_container">
+                {children}
+                {/* <BreadCrumb pageName="Page Name" /> */}
+              </div>
+              <div className="bcAdContainer"></div>
+            </div>
+            <div className="pageBottomContainer">
+              <Footer />
             </div>
             <Scripts objVc={versionControl} isprimeuser={isprimeuser} />
             <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">

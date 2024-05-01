@@ -1,5 +1,11 @@
 @import "@/styles/variables.scss";
 
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .errorToast {
   display: flex;
   align-items: center;
@@ -28,6 +34,14 @@
     font-weight: 700;
     color: $black;
     font-size: 32px;
+  }
+
+  .desc {
+    font-weight: 400;
+    color: $gray-30;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 10px 0;
   }
 
   .viewAll {
@@ -61,7 +75,7 @@
       &.up {
         color: $green-80;
       }
-      &.red {
+      &.down {
         color: $red-60;
       }
       .arrowIcons {
@@ -188,8 +202,10 @@
         position: relative;
         flex: auto;
         height: 8px;
+        width: 0;
         border-radius: 2px;
         background: $blue-20;
+        transition: width 0.5s ease;
         .currentPosition {
           position: absolute;
           top: -2px;
@@ -287,6 +303,9 @@
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     white-space: nowrap;
+    &.mw150 {
+      max-width: 200px;
+    }
     .arrowIcons {
       font-size: 16px;
       margin-left: 2px;
@@ -480,9 +499,11 @@
       .bar {
         position: relative;
         flex: auto;
+        width: 0;
         height: 8px;
         border-radius: 2px;
         background: $blue-20;
+        transition: width 0.5s ease;
         &.up {
           background: $green-50;
           border-top-right-radius: 0;
@@ -631,6 +652,19 @@
       margin: 15px auto;
       .legend {
         justify-content: center;
+      }
+    }
+  }
+  .heading {
+    font-size: 26px;
+    line-height: 1;
+    max-width: 50vw;
+  }
+  .marketsCustomTable {
+    td {
+      padding: 10px 6px;
+      &.mw150 {
+        max-width: 150px;
       }
     }
   }

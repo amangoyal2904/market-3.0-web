@@ -8,7 +8,8 @@ import { useStateContext } from "../../store/StateContext";
 const Listing = (props: any) => {
   const { recosDetailResult, activeApi, urlFilterHandle } = props;
   const { state, dispatch } = useStateContext();
-  const { isLogin } = state.login;
+  const { watchlist } = state.watchlistStatus;
+  console.log("watchlist", watchlist);
 
   return (
     <>
@@ -18,13 +19,20 @@ const Listing = (props: any) => {
         >
           {recosDetailResult?.map((recoDataValue: any, index: any) => {
             return (
-              <StockReco
-                data={recoDataValue}
-                key={index}
-                activeTab={activeApi}
-                pageName="stockRecosPage"
-                urlFilterHandle={urlFilterHandle}
-              />
+              ((activeApi == "recoOnWatchlist" &&
+                watchlist.some(
+                  (item: any) =>
+                    item.companyId == recoDataValue.companyId.toString(),
+                )) ||
+                activeApi != "recoOnWatchlist") && (
+                <StockReco
+                  data={recoDataValue}
+                  key={index}
+                  activeTab={activeApi}
+                  pageName="stockRecosPage"
+                  urlFilterHandle={urlFilterHandle}
+                />
+              )
             );
           })}
         </div>

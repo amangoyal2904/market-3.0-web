@@ -17,6 +17,8 @@ import Disclaimer from "@/components/StockRecosListing/Disclaimer";
 import { redirect } from "next/navigation";
 import { headers, cookies } from "next/headers";
 import { Metadata, ResolvingMetadata } from "next";
+import BreadCrumb from "@/components/BreadCrumb";
+import GLOBAL_CONFIG from "../../../network/global_config.json";
 
 const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
   try {
@@ -174,6 +176,37 @@ const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
   }
 };
 
+const breadCrumbSectionObj = (activeApi: any, label: string, slug: any) => {
+  const fundHouseInfo = getFundHouseInfo("", slug);
+  switch (activeApi) {
+    case "overview":
+    case "newRecos":
+    case "mostBuy":
+    case "mostSell":
+    case "recoOnWatchlist":
+    case "recoByFH":
+      return [
+        {
+          label,
+          redirectUrl: "",
+        },
+      ];
+    case "FHDetail":
+      return [
+        {
+          label,
+          redirectUrl: (GLOBAL_CONFIG as any)["STOCK_RECOS"][
+            "fundhousedetails"
+          ],
+        },
+        {
+          label: capitalize(fundHouseInfo.fundHounseName),
+          redirectUrl: "",
+        },
+      ];
+  }
+};
+
 export async function generateMetadata(
   {
     params,
@@ -265,6 +298,15 @@ export default async function stocksrecos({
         : activeObj[0]?.apiType;
   };
 
+  const getSectionName = () => {
+    const activeObj = recosNavResult?.tabs.filter(
+      (item: any) => item.seoPath == slug?.[0],
+    );
+    return slug.includes("fundhousedetails")
+      ? "Recos by Brokerages"
+      : activeObj[0]?.label;
+  };
+
   const recosDetailResult = await getStockRecosDetail({
     getApiType: getApiType(),
     slug,
@@ -295,6 +337,12 @@ export default async function stocksrecos({
     }
   }
 
+  const breadCrumbObj = breadCrumbSectionObj(
+    getApiType(),
+    getSectionName(),
+    slug,
+  );
+
   return (
     <>
       <div className={styles.recosPageWrap}>
@@ -318,6 +366,7 @@ export default async function stocksrecos({
         />
       </div>
       <Disclaimer />
+      <BreadCrumb pagePath={header_url} pageName={breadCrumbObj} />
     </>
   );
 }

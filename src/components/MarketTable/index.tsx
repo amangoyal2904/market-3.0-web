@@ -61,149 +61,158 @@ const MarketTable = React.memo((props: propsType) => {
   const [hideThead, setHideThead] = useState(false);
   const [parentHasScroll, setParentHasScroll] = useState(false);
   const [shouldShowLoader, setShouldShowLoader] = useState(false);
+
   const handleFilterChange = useCallback((e: any) => {
     const { name, value } = e.target;
     const inputType = e.target.dataset["type"];
     const textAlphanumericRegex = /^(?:[a-zA-Z0-9]+(?:\s|$))+$/;
     const numericExpressionRegex = /^[><]?=?\s*-?\d*\.?\d*$/;
-    if (
-      inputType == "number" &&
-      (numericExpressionRegex.test(value) || value === "")
-    ) {
-      setFilters({ ...filters, [name]: value });
-    } else if (
-      inputType === "text" &&
-      (textAlphanumericRegex.test(value) || value === "")
-    ) {
-      setFilters({ ...filters, [name]: value });
-    } else if (value == "") {
-      delete filters[name];
-      setFilters({ ...filters });
-    }
+
+    setFilters((prevFilters: any) => {
+      let updatedFilters = { ...prevFilters };
+
+      if (inputType == "number" && numericExpressionRegex.test(value)) {
+        updatedFilters[name] = value;
+      } else if (inputType === "text" && textAlphanumericRegex.test(value)) {
+        updatedFilters[name] = value;
+      } else if (value == "") {
+        delete updatedFilters[name];
+      }
+
+      return updatedFilters;
+    });
   }, []);
 
-  const sortHandler = useCallback(
-    (key: any) => {
-      setSortData((prevSortData) => {
-        if (prevSortData.field === key) {
-          return {
-            ...prevSortData,
-            order: prevSortData.order === "ASC" ? "DESC" : "ASC",
-          };
-        } else {
-          return { field: key, order: "DESC" };
-        }
-      });
+  const sortHandler = useCallback((key: any) => {
+    setSortData((prevSortData) => {
+      const newOrder =
+        prevSortData.field === key
+          ? prevSortData.order === "ASC"
+            ? "DESC"
+            : "ASC"
+          : "DESC";
+      return { field: key, order: newOrder };
+    });
+  }, []);
 
-      if (tableConfig.serverSideSort) {
-        handleSortServerSide(key);
-      } else {
-        _setSortData(sortData); // Assuming _setSortData updates some local state
+  const filterTableData = useCallback(
+    (filterData: any) => {
+      if (Object.keys(filters).length) {
+        Object.keys(filters).forEach((keyId) => {
+          filterData = filterData.filter((item: any) => {
+            const validExpression = /^[><=]-?\d*\.?\d+$/;
+            const cellValue = filters[keyId];
+            const inputType = item.data.find(
+              (element: any) => element.keyId == keyId,
+            ).valueType;
+            if (inputType == "text") {
+              return (
+                item &&
+                item.data.some(
+                  (x: { keyId: string; filterFormatValue: string }) =>
+                    x.keyId == keyId &&
+                    x.filterFormatValue
+                      .toLowerCase()
+                      .includes(cellValue.toLowerCase()),
+                )
+              );
+            } else if (validExpression.test(cellValue.replaceAll(" ", ""))) {
+              const [operator, comparisonValue] = cellValue
+                .replaceAll(" ", "")
+                .match(/([><=]+)(-?\d*\.?\d+)/)
+                .slice(1);
+              switch (operator) {
+                case ">":
+                  return (
+                    item &&
+                    item.data.some(
+                      (x: { keyId: string; filterFormatValue: any }) =>
+                        x.keyId == keyId &&
+                        parseFloat(x.filterFormatValue) >
+                          parseFloat(comparisonValue),
+                    )
+                  );
+                case "<":
+                  return (
+                    item &&
+                    item.data.some(
+                      (x: { keyId: string; filterFormatValue: any }) =>
+                        x.keyId == keyId &&
+                        parseFloat(x.filterFormatValue) <
+                          parseFloat(comparisonValue),
+                    )
+                  );
+                case "=":
+                  return (
+                    item &&
+                    item.data.some(
+                      (x: { keyId: string; filterFormatValue: any }) =>
+                        x.keyId == keyId &&
+                        parseFloat(x.filterFormatValue) ==
+                          parseFloat(comparisonValue),
+                    )
+                  );
+                default:
+                  return true;
+              }
+            }
+            return true;
+          });
+        });
       }
+      return filterData;
     },
-    [tableConfig.serverSideSort, handleSortServerSide],
+    [filters],
   );
 
-  const filterTableData = useCallback((filterData: any) => {
-    if (Object.keys(filters).length) {
-      Object.keys(filters).forEach((keyId) => {
-        filterData = filterData.filter((item: any) => {
-          const validExpression = /^[><=]-?\d*\.?\d+$/;
-          const cellValue = filters[keyId];
-          const inputType = item.data.find(
-            (element: any) => element.keyId == keyId,
+  const sortTableData = useCallback(
+    (tableData: any) => {
+      const { field, order } = sortData;
+      if (!!field && field != null) {
+        tableData = tableData.sort((a: any, b: any) => {
+          const inputType = tableData[0].data.find(
+            (element: any) => element.keyId === field,
           ).valueType;
-          if (inputType == "text") {
-            return (
-              item &&
-              item.data.some(
-                (x: { keyId: string; filterFormatValue: string }) =>
-                  x.keyId == keyId &&
-                  x.filterFormatValue
-                    .toLowerCase()
-                    .includes(cellValue.toLowerCase()),
-              )
-            );
-          } else if (validExpression.test(cellValue.replaceAll(" ", ""))) {
-            const [operator, comparisonValue] = cellValue
-              .replaceAll(" ", "")
-              .match(/([><=]+)(-?\d*\.?\d+)/)
-              .slice(1);
-            switch (operator) {
-              case ">":
-                return (
-                  item &&
-                  item.data.some(
-                    (x: { keyId: string; filterFormatValue: any }) =>
-                      x.keyId == keyId &&
-                      parseFloat(x.filterFormatValue) >
-                        parseFloat(comparisonValue),
-                  )
-                );
-              case "<":
-                return (
-                  item &&
-                  item.data.some(
-                    (x: { keyId: string; filterFormatValue: any }) =>
-                      x.keyId == keyId &&
-                      parseFloat(x.filterFormatValue) <
-                        parseFloat(comparisonValue),
-                  )
-                );
-              case "=":
-                return (
-                  item &&
-                  item.data.some(
-                    (x: { keyId: string; filterFormatValue: any }) =>
-                      x.keyId == keyId &&
-                      parseFloat(x.filterFormatValue) ==
-                        parseFloat(comparisonValue),
-                  )
-                );
-              default:
-                return true;
-            }
+
+          let valueA = a.data.find(
+            (item: any) => item.keyId === field,
+          ).filterFormatValue;
+          let valueB = b.data.find(
+            (item: any) => item.keyId === field,
+          ).filterFormatValue;
+
+          // Convert empty strings to appropriate values for numeric comparison
+          if (inputType !== "text") {
+            if (valueA === "")
+              valueA =
+                order === "ASC"
+                  ? Number.POSITIVE_INFINITY
+                  : Number.NEGATIVE_INFINITY;
+            if (valueB === "")
+              valueB =
+                order === "ASC"
+                  ? Number.POSITIVE_INFINITY
+                  : Number.NEGATIVE_INFINITY;
+            valueA = parseFloat(valueA);
+            valueB = parseFloat(valueB);
           }
-          return true;
+
+          // Handle sorting order
+          if (order === "ASC") {
+            if (valueA < valueB) return -1;
+            if (valueA > valueB) return 1;
+          } else if (order === "DESC") {
+            if (valueA > valueB) return -1;
+            if (valueA < valueB) return 1;
+          }
+
+          return 0; // elements are equal
         });
-      });
-    }
-    return filterData;
-  }, []);
-
-  const sortTableData = useCallback((tableData: any) => {
-    const { field, order } = sortData;
-    if (!!field) {
-      tableData = tableData.sort((a: any, b: any) => {
-        const inputType = tableData[0].data.find(
-          (element: any) => element.keyId == field,
-        ).valueType;
-
-        let valueA = a.data.find((item: any) => {
-          return item.keyId == field;
-        }).filterFormatValue;
-        let valueB = b.data.find((item: any) => {
-          return item.keyId == field;
-        }).filterFormatValue;
-
-        if (inputType != "text") {
-          valueA = parseFloat(valueA);
-          valueB = parseFloat(valueB);
-        }
-
-        if (order === "ASC") {
-          if (valueA < valueB) return -1;
-          if (valueA > valueB) return 1;
-        } else if (order === "DESC") {
-          if (valueA > valueB) return -1;
-          if (valueA < valueB) return 1;
-        }
-
-        return 0; // elements are equal
-      });
-    }
-    return tableData;
-  }, []);
+      }
+      return tableData;
+    },
+    [sortData],
+  );
 
   const handleScroll = useCallback(
     debounce(() => {
@@ -220,33 +229,43 @@ const MarketTable = React.memo((props: propsType) => {
       const heightDiff = tableBottom - theadBottom;
 
       setTopScrollHeight(heightDifference);
-      setHideThead(heightDiff < 25);
-      if (window.scrollY) {
-        setHeaderSticky(window.scrollY);
-      }
+      setHideThead(heightDiff < 25 && heightDiff < -140);
+      setHeaderSticky(window.scrollY);
     }, DEBOUNCE_DELAY),
     [debounce],
   );
+
   const scrollRightPos = () => {
     const leftScroll: any = document.getElementById("fixedTable");
     const rightScroll: any = document.getElementById("scrollableTable");
     const rightScrollPos = rightScroll?.scrollTop;
     leftScroll.scrollTop = rightScrollPos;
   };
+
   const scrollLeftPos = () => {
     const leftScroll: any = document.getElementById("fixedTable");
     const rightScroll: any = document.getElementById("scrollableTable");
     const leftScrollPos = leftScroll.scrollTop;
     rightScroll.scrollTop = leftScrollPos;
   };
+
   const removeCheckBoxHandleFun = (e: any, companyId: any, assetType: any) => {
     multipleStockCollect(e, companyId, assetType);
   };
+
   useEffect(() => {
     setFilters({});
     setSortData({ field: null, order: "DESC" });
     _setSortData({ field: null, order: "DESC" });
   }, [tabsViewIdUpdate]);
+
+  useEffect(() => {
+    if (tableConfig.serverSideSort && !!sortData.field) {
+      handleSortServerSide(sortData.field);
+    } else {
+      _setSortData(sortData);
+    }
+  }, [sortData.field, sortData.order]);
 
   useEffect(() => {
     if (data?.length || apiSuccess) {

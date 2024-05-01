@@ -2,6 +2,7 @@ import Link from "next/link";
 import styles from "./styles.module.scss";
 import FundNavAccordionItem from "./FundNavAccordionItem";
 import { getFundHouseInfo } from "../../utils";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 
 const InnerLeftNav = (props: any) => {
   const {
@@ -20,7 +21,10 @@ const InnerLeftNav = (props: any) => {
           return (
             <>
               {item.apiType == "newRecos" && item?.ss.length > 0 && (
-                <ul className={`customScroll ${styles.newRecosWrap}`}>
+                <ul
+                  key={`newrecos_customScroll_ss_${index}`}
+                  className={`customScroll ${styles.newRecosWrap}`}
+                >
                   {item.ss.map((ssItem: any, ssindex: any) => {
                     return (
                       <>
@@ -30,7 +34,7 @@ const InnerLeftNav = (props: any) => {
                         >
                           <Link
                             className={styles.ssLabel}
-                            href={`/stocksrecos/${item.seoPath}/${ssItem.recoType}${urlFilterHandle()}`}
+                            href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["home"]}/${item.seoPath}/${ssItem.recoType}${urlFilterHandle()}`}
                           >
                             {ssItem.label}
                           </Link>
@@ -49,7 +53,9 @@ const InnerLeftNav = (props: any) => {
             <li
               className={`${styles.fundHousesLeftNav} ${styles.allBrokeragesTab} ${activeApi == "recoByFH" ? styles.active : ""}`}
             >
-              <Link href={`/stocksrecos/fundhousedetails${urlFilterHandle()}`}>
+              <Link
+                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}${urlFilterHandle()}`}
+              >
                 All Brokerages
               </Link>
             </li>
