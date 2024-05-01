@@ -8,7 +8,7 @@
     "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
   },
   "LIVE_MARKET_DATA_NEXTJS": {
-    "development": "https://localhost:3009/api/bselivefeeds",
+    "development": "http://localhost:3009/api/bselivefeeds",
     "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
   },
   "SEARCH": {
@@ -154,7 +154,7 @@
     "production": "https://etwebcast.indiatimes.com/ET_WebCast/getEventData"
   },
   "MARKETSTATS_INTRADAY_NEXTJS": {
-    "development": "https://localhost:3009/api/intradaystats",
+    "development": "http://localhost:3009/api/intradaystats",
     "production": "https://screener.indiatimes.com/et-screener/intraday-stats"
   },
   "redeemVoucher": {
@@ -237,7 +237,7 @@
       "production": ["https://etup.economictimes.indiatimes.com/et/getpref"]
     },
     "getAllWatchlistNextJsAPI": {
-      "development": ["https://localhost:3009/api/follow"],
+      "development": ["http://localhost:3009/api/follow"],
       "production": ["https://etup.economictimes.indiatimes.com/et/getpref"]
     },
     "addWatchList": {
@@ -249,7 +249,7 @@
       ]
     },
     "addWatchListNextJsAPI": {
-      "development": ["https://localhost:3009/api/follow"],
+      "development": ["http://localhost:3009/api/follow"],
       "production": [
         "https://etup.economictimes.indiatimes.com/et/savesettings/json"
       ]
@@ -263,7 +263,7 @@
       ]
     },
     "multipleWatchListNextJsAPI": {
-      "development": ["https://localhost:3009/api/followmultiple"],
+      "development": ["http://localhost:3009/api/followmultiple"],
       "production": [
         "https://etup.economictimes.indiatimes.com/et/v3/savesettings/json"
       ]
@@ -319,7 +319,7 @@
       "production": "https://screener.indiatimes.com/screener/getwatchlistview"
     },
     "getAllScreenerNextJsAPI": {
-      "development": ["https://localhost:3009/api/screener"],
+      "development": ["http://localhost:3009/api/screener"],
       "production": [
         "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
       ]
