@@ -230,9 +230,7 @@ const MarketTable = React.memo((props: propsType) => {
 
       setTopScrollHeight(heightDifference);
       setHideThead(heightDiff < 25);
-      if (window.scrollY) {
-        setHeaderSticky(window.scrollY);
-      }
+      setHeaderSticky(window.scrollY);
     }, DEBOUNCE_DELAY),
     [debounce],
   );
