@@ -2,6 +2,8 @@ import { getAllIndices } from "@/utils/utility";
 import { Metadata } from "next";
 import IndicesClient from "./client";
 import tableConfig from "@/utils/tableConfig.json";
+import BreadCrumb from "@/components/BreadCrumb";
+import { headers } from "next/headers";
 
 const pageTitle =
   "Indian Market Indices, Live Index Watch, Market Indexes | The Economic Time";
@@ -51,6 +53,8 @@ export const metadata: Metadata = {
 };
 
 const Indices = async () => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const { tableHeaderData, tableData, exchange } = await getAllIndices(
     "nse",
     "",
@@ -58,12 +62,18 @@ const Indices = async () => {
   );
 
   return (
-    <IndicesClient
-      tableHeaderData={tableHeaderData}
-      tableData={tableData}
-      exchange="nse"
-      tableConfig={tableConfig["indicesListing"]}
-    />
+    <>
+      <IndicesClient
+        tableHeaderData={tableHeaderData}
+        tableData={tableData}
+        exchange="nse"
+        tableConfig={tableConfig["indicesListing"]}
+      />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: "Indices", redirectUrl: "" }]}
+      />
+    </>
   );
 };
 
