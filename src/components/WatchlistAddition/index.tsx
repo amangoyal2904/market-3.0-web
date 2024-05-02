@@ -154,11 +154,6 @@ const WatchlistAddition = ({
       setLoadingStatus(true);
       addStockInWatchlistHandler(watchlistStatus);
     } else {
-      trackingEvent("event", {
-        event_category: "WatchList Addition",
-        event_action: "Not Login success",
-        event_label: "-",
-      });
       initSSOWidget();
     }
   };
