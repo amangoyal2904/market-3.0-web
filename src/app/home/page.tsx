@@ -9,6 +9,7 @@ import StockScreenerWidget from "@/components/ScreenerWidget";
 import LiveStreamWidget from "@/components/LiveStreamWidget";
 import BreadCrumb from "@/components/BreadCrumb";
 import { headers } from "next/headers";
+import BuySellTechnicalWidget from "@/components/BuySellTechnicalWidget";
 
 const Home = async () => {
   const headersList = headers();
@@ -72,6 +73,7 @@ const Home = async () => {
       <StockRecommendations stockRecoResult={stockRecoResult} />
       <StockReportsPlus srResult={srPlusResult} />
       <StockScreenerWidget />
+      <BuySellTechnicalWidget />
       <LiveStreamWidget />
       <BreadCrumb
         pagePath={pageUrl}

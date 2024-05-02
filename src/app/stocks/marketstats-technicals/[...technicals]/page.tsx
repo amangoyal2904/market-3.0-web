@@ -188,6 +188,8 @@ const Technicals = async ({ params, searchParams }: any) => {
     title,
   );
 
+  breadCrumbObj.push({ label: selectedFilter?.name, redirectUrl: "" });
+
   return (
     <>
       <MarketStats
