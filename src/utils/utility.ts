@@ -11,6 +11,18 @@ import Service from "@/network/service";
 
 const API_SOURCE = 0;
 
+const convertJSONToParams = (jsonObject: any) => {
+  let paramsArray = [];
+  for (let key in jsonObject) {
+    if (jsonObject.hasOwnProperty(key)) {
+      paramsArray.push(
+        encodeURIComponent(key) + "=" + encodeURIComponent(jsonObject[key]),
+      );
+    }
+  }
+  return paramsArray.join("&");
+};
+
 export const getCurrentMarketStatus = async () => {
   const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
   const res = await Service.get({ url, params: {} });
@@ -809,4 +821,13 @@ export const getMfCashData = async (filterType: string) => {
   });
   const originalJson = await response?.json();
   return originalJson;
+};
+
+export const getBuySellTechnicals = async (payload: any) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.BuySellTechnical[APP_ENV]}?${convertJSONToParams(payload)}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson.response;
 };

@@ -424,5 +424,9 @@
   "BigBullInvestorPortfolioOverview": {
     "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-portfolio-overview",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-portfolio-overview"
+  },
+  "BuySellTechnical": {
+    "development": "https://etinsights.indiatimes.com/ET_TechnicalIndicator/getTechnicalDashboardData",
+    "production": "https://etinsights.indiatimes.com/ET_TechnicalIndicator/getTechnicalDashboardData"
   }
 }
