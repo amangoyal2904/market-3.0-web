@@ -78,47 +78,63 @@ const InvestorClientPage = ({
       <HeroBanner data={data} />
       <InvestorsTopTabs data={tabsData} activeTab="" />
 
-      <div className={`${styles.sectionWrap} ${styles.mainContentWraper}`}>
-        <h3 className={styles.head3}>{freshEntryTitle}</h3>
-        <FreshEntryCard cardData={freshEntry} />
-      </div>
-
-      <div className={`${styles.sectionWrap} ${styles.mainContentWraper}`}>
-        <h3 className={styles.head3}>
-          {changeHoldingDataTitle} from Last Quaters
-        </h3>
-        <FreshEntryCard cardData={changeHoldingData} />
-      </div>
-
-      <div className={`${styles.overviewTopHoldingSec} ${styles.sectionWrap}`}>
-        <h3 className={styles.head3}>Top Holdings of {sharkName}</h3>
-        <InvestorTopOverviewHolding
-          tableHead={topHoldingData.tableHead}
-          tableData={topHoldingData.arrayOfCompany}
-          sortData=""
-          handleSort={() => console.log("click to sort function")}
-          shouldShowLoader={false}
-        />
-        <div className={styles.viewHoldingLinkSec}>
-          <Link
-            href={`/markets/top-india-investors-portfolio/${sharkSeoName},expertid-${sharkID}/holdings`}
-          >
-            <span>View all Top Holdings</span>
-          </Link>
+      {freshEntry && freshEntry.length > 0 && (
+        <div className={`${styles.sectionWrap} ${styles.mainContentWraper}`}>
+          <h3 className={styles.head3}>{freshEntryTitle}</h3>
+          <FreshEntryCard cardData={freshEntry} />
         </div>
-      </div>
+      )}
 
-      <div className={`${styles.sectionWrap} ${styles.mainContentWraper}`}>
-        <h3 className={styles.head3}>
-          {bestStockPicksTitle} of {sharkName}{" "}
-        </h3>
-        <FreshEntryCard cardData={bestStockPicks} />
-      </div>
+      {changeHoldingData && changeHoldingData.length > 0 && (
+        <div className={`${styles.sectionWrap} ${styles.mainContentWraper}`}>
+          <h3 className={styles.head3}>
+            {changeHoldingDataTitle} from Last Quaters
+          </h3>
+          <FreshEntryCard cardData={changeHoldingData} />
+        </div>
+      )}
 
-      <div className={`${styles.sectionWrap} ${styles.mainContentWraper}`}>
-        <h3 className={styles.head3}>Bulk/Block Deals made by {sharkName} </h3>
-        <FreshEntryCard cardData={bulkBlockData} />
-      </div>
+      {topHoldingData.arrayOfCompany &&
+        topHoldingData.arrayOfCompany.length > 0 && (
+          <div
+            className={`${styles.overviewTopHoldingSec} ${styles.sectionWrap}`}
+          >
+            <h3 className={styles.head3}>Top Holdings of {sharkName}</h3>
+            <InvestorTopOverviewHolding
+              tableHead={topHoldingData.tableHead}
+              tableData={topHoldingData.arrayOfCompany}
+              sortData=""
+              handleSort={() => console.log("click to sort function")}
+              shouldShowLoader={false}
+            />
+            <div className={styles.viewHoldingLinkSec}>
+              <Link
+                href={`/markets/top-india-investors-portfolio/${sharkSeoName},expertid-${sharkID}/holdings`}
+              >
+                <span>View all Top Holdings</span>
+              </Link>
+            </div>
+          </div>
+        )}
+
+      {bestStockPicks && bestStockPicks.length > 0 && (
+        <div className={`${styles.sectionWrap} ${styles.mainContentWraper}`}>
+          <h3 className={styles.head3}>
+            {bestStockPicksTitle} of {sharkName}{" "}
+          </h3>
+          <FreshEntryCard cardData={bestStockPicks} />
+        </div>
+      )}
+
+      {bulkBlockData && bulkBlockData.length > 0 && (
+        <div className={`${styles.sectionWrap} ${styles.mainContentWraper}`}>
+          <h3 className={styles.head3}>
+            Bulk/Block Deals made by {sharkName}{" "}
+          </h3>
+          <FreshEntryCard cardData={bulkBlockData} />
+        </div>
+      )}
+
       <BreadCrumb
         pagePath={pageUrl}
         pageName={[{ label: "Overview", redirectUrl: "" }]}
