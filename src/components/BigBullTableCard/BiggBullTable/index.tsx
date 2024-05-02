@@ -5,6 +5,7 @@ import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
 import WatchlistAddition from "../../WatchlistAddition";
+import NodataForTable from "../NodataForTable";
 
 const BiggBullTable = ({
   tableHead,
@@ -66,8 +67,7 @@ const BiggBullTable = ({
           </tr>
         </thead>
         <tbody>
-          {tableData &&
-            tableData.length > 0 &&
+          {tableData && tableData.length > 0 ? (
             tableData.map((tdata: any, index: any) => {
               const networthIncome = tdata?.stockGroupdata?.filter(
                 (item: any) => item?.uiValue?.statusCheck === "lNetworthValue",
@@ -237,7 +237,14 @@ const BiggBullTable = ({
                   </td>
                 </tr>
               );
-            })}
+            })
+          ) : (
+            <tr>
+              <td colSpan={100} className={styles.nodatafound}>
+                <NodataForTable />
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       {shouldShowLoader && <Loader loaderType="container" />}

@@ -14,10 +14,12 @@ import {
   getShortUrlMapping,
 } from "@/utils/marketstats";
 import {
+  getBreadcrumbObj,
   getCustomViewTable,
   getCustomViewsTab,
 } from "@/utils/customViewAndTables";
 import MarketStats from "../client";
+import BreadCrumb from "@/components/BreadCrumb";
 
 export async function generateMetadata(
   { searchParams }: any,
@@ -157,6 +159,17 @@ const Intraday = async ({ searchParams }: any) => {
 
   const shortUrlMapping = await getAllShortUrls();
   const intradayDurationOptions = await generateIntradayDurations(L3NavSubItem);
+
+  const breadCrumbObj = getBreadcrumbObj(
+    l3Nav,
+    L3NavMenuItem,
+    L3NavSubItem,
+    false,
+    title,
+  );
+
+  breadCrumbObj.push({ label: selectedFilter?.name, redirectUrl: "" });
+
   return (
     <>
       <MarketStats
@@ -180,6 +193,7 @@ const Intraday = async ({ searchParams }: any) => {
         shortUrlMapping={shortUrlMapping}
         intradayDurationOptions={intradayDurationOptions}
       />
+      <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
     </>
   );
 };

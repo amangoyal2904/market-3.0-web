@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { trackingEvent } from "@/utils/ga";
 
 const LeftNav = (props: any) => {
   const { leftNavResult = {} } = props;
@@ -12,7 +13,22 @@ const LeftNav = (props: any) => {
   const [isL2Expanded, setIsL2Expanded] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {}, [pathname]);
+  useEffect(() => {
+    console.log("isExpanded-----", isExpanded);
+    if (isExpanded) {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "lhsmenu_click",
+        event_label: "lhsmenu_expand",
+      });
+    } else {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "lhsmenu_click",
+        event_label: "lhsmenu_collapse",
+      });
+    }
+  }, [isExpanded]);
 
   const toggleMenu = () => {
     setIsExpanded(!isExpanded);
@@ -66,6 +82,22 @@ const LeftNav = (props: any) => {
     return pathname.includes(str1);
   };
 
+  const navClickTrackingHandle = (navList: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "lhsmenu_click",
+      event_label: navList.l2 || navList.l1,
+      selected_category: navList.l1,
+    });
+  };
+
+  const navSchemaItemListElements: any[] = [];
+  const navSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: navSchemaItemListElements,
+  };
+
   return (
     <div
       className={`${styles.navWrap} ${isExpanded ? styles.expanded : styles.collapsed}`}
@@ -80,6 +112,13 @@ const LeftNav = (props: any) => {
         <div className={styles.navOptWrap}>
           <ul className={styles.marketNavWrap}>
             {markets?.nav?.map((value: any, index: any) => {
+              navSchemaItemListElements.push({
+                "@type": "ListItem",
+                position: index + 1,
+                name: value.label,
+                item: value.link,
+              });
+
               return (
                 <li
                   className={`${styles.navListWrap} ${!isExpanded ? styles.l2Collapsed : ""}`}
@@ -88,6 +127,9 @@ const LeftNav = (props: any) => {
                   {value.link ? (
                     <Link
                       href={value.link}
+                      onClick={() =>
+                        navClickTrackingHandle({ l1: value.label, l2: "" })
+                      }
                       className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
                     >
                       <span
@@ -136,7 +178,17 @@ const LeftNav = (props: any) => {
                               className={`${styles.l2List} ${hasUrlSelect(sec.matchPattern) ? styles.active : ""}`}
                               key={`l2_label_${index}`}
                             >
-                              <Link href={sec.link}>{sec.label}</Link>
+                              <Link
+                                href={sec.link}
+                                onClick={() =>
+                                  navClickTrackingHandle({
+                                    l1: value.label,
+                                    l2: sec.label,
+                                  })
+                                }
+                              >
+                                {sec.label}
+                              </Link>
                             </li>
                           );
                         })}
@@ -175,6 +227,9 @@ const LeftNav = (props: any) => {
                   >
                     <Link
                       href={value.link}
+                      onClick={() =>
+                        navClickTrackingHandle({ l1: value.label, l2: "" })
+                      }
                       className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
                     >
                       <span
@@ -193,6 +248,12 @@ const LeftNav = (props: any) => {
           </div>
         </div>
       </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(navSchema),
+        }}
+      />
     </div>
   );
 };

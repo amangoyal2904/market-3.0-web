@@ -8,8 +8,13 @@ import MarketsDashboardWidget from "@/components/MarketsDashboardWidget";
 import StockScreenerWidget from "@/components/ScreenerWidget";
 import LiveStreamWidget from "@/components/LiveStreamWidget";
 import IndicesWidget from "@/components/IndicesWidget";
+import BreadCrumb from "@/components/BreadCrumb";
+import { headers } from "next/headers";
+import BuySellTechnicalWidget from "@/components/BuySellTechnicalWidget";
 
 const Home = async () => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const getRecosData = async (type: any) => {
     const getRecosDetailApi = `${(APIS_CONFIG as any)?.["GET_RECOS_DETAILS"][APP_ENV]}`;
     // console.log("@@type --- > " , type)
@@ -70,7 +75,12 @@ const Home = async () => {
       <StockRecommendations stockRecoResult={stockRecoResult} />
       <StockReportsPlus srResult={srPlusResult} />
       <StockScreenerWidget />
+      <BuySellTechnicalWidget />
       <LiveStreamWidget />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: "Markets", redirectUrl: "" }]}
+      />
     </>
   );
 };

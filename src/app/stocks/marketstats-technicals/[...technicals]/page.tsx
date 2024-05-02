@@ -14,10 +14,12 @@ import {
   getTechincalOperands,
 } from "@/utils/marketstats";
 import {
+  getBreadcrumbObj,
   getCustomViewTable,
   getCustomViewsTab,
 } from "@/utils/customViewAndTables";
-import MarketStats from "../client";
+import MarketStats from "../../marketstats/client";
+import BreadCrumb from "@/components/BreadCrumb";
 
 export async function generateMetadata(
   { searchParams, params }: any,
@@ -178,6 +180,16 @@ const Technicals = async ({ params, searchParams }: any) => {
 
   const shortUrlMapping = await getAllShortUrls();
 
+  const breadCrumbObj = getBreadcrumbObj(
+    l3Nav,
+    L3NavMenuItem,
+    technicalCategory.selectedFilter,
+    true,
+    title,
+  );
+
+  breadCrumbObj.push({ label: selectedFilter?.name, redirectUrl: "" });
+
   return (
     <>
       <MarketStats
@@ -199,6 +211,7 @@ const Technicals = async ({ params, searchParams }: any) => {
         actualUrl={actualUrl}
         shortUrlMapping={shortUrlMapping}
       />
+      <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
     </>
   );
 };

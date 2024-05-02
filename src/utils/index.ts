@@ -554,7 +554,7 @@ export const getStockRecosDetail = async ({
     ...(getApiType == "FHDetail" && { orgId: [fundHouseInfo.fundHouseId] }),
   };
 
-  console.log("payload----", payload);
+  // console.log("payload----", payload);
 
   const recosDetailPromise = await Service.post({
     url: STOCK_RECOS_DETAIL_Link,

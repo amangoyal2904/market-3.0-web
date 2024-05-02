@@ -23,7 +23,7 @@ const Login = () => {
 
   const fetchWatchListStocks = async () => {
     const data = await fetchAllWatchListData("Follow", 11);
-    let watchlistArr = "";
+    let watchlistArr = [];
     if (data?.resData?.length > 0) {
       watchlistArr = data?.resData.map((entry: any) => {
         return (
@@ -45,13 +45,14 @@ const Login = () => {
     }
 
     console.log("watchlistArr----", watchlistArr);
-
-    dispatch({
-      type: "UPDATE_MSID",
-      payload: {
-        watchlist: watchlistArr,
-      },
-    });
+    if (watchlistArr.length > 0) {
+      dispatch({
+        type: "UPDATE_MSID",
+        payload: {
+          watchlist: watchlistArr,
+        },
+      });
+    }
   };
 
   const verifyLoginSuccessCallback = async () => {

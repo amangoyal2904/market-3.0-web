@@ -1,0 +1,63 @@
+@import "@/styles/variables.scss";
+.mainContentWraper {
+  margin-top: 30px;
+}
+.sectionWrap {
+  margin-bottom: 40px;
+}
+.topHeadNavSec {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.head1 {
+  font-size: 24px;
+  font-weight: 400;
+}
+.roundBtn {
+  cursor: pointer;
+  border-radius: 100px;
+  border: 1px solid #000;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+.overviewTopHoldingSec {
+  margin: 20px 0 0 0;
+}
+.viewHoldingLinkSec {
+  margin: 10px 0 20px 0;
+  display: flex;
+  justify-content: end;
+  a {
+    display: inline-block;
+    vertical-align: top;
+    color: $blue-50;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 10px;
+    span {
+      display: inline-block;
+      vertical-align: top;
+      position: relative;
+      padding-right: 16px;
+      &::after {
+        content: "";
+        display: inline-block;
+        vertical-align: top;
+        position: absolute;
+        right: 0;
+        top: 4px;
+        background: url(/img/longRightArrow.svg) no-repeat -12px 0;
+        width: 10px;
+        height: 9px;
+      }
+    }
+  }
+}
+.head3 {
+  font-size: 24px;
+  font-weight: 400;
+}

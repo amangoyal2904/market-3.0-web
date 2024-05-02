@@ -16,7 +16,7 @@ export const fetchTableData = async (
       duration: duration,
       filterType: "index",
       filterValue: [filter],
-      sort: [{ field: "R1MonthReturn", order: "DESC" }],
+      sort: [],
       pagesize: 10,
       pageno: 1,
     };
@@ -36,11 +36,11 @@ export const fetchTableData = async (
     console.log("Api failed ", e);
   }
 };
-export const fetchTabsData = async () => {
+export const fetchTabsData = async ({ duration, intFilter }: any) => {
   try {
-    const leftNavApi = (APIS_CONFIG as any)["MARKET_STATS_NAV"][APP_ENV];
+    const apiUrl = `${(APIS_CONFIG as any)?.["MARKET_STATS_NAV"][APP_ENV]}?filter=${intFilter}&duration=${duration}`;
     const leftNavPromise = await service.get({
-      url: leftNavApi + "?type=intraday",
+      url: apiUrl,
       params: {},
     });
 

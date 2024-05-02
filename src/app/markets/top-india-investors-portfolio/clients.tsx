@@ -64,41 +64,65 @@ const BigBullClientPage = ({ data }: any) => {
           aciveFilter={aciveFilter}
           fitlerHandler={fitlerHandler}
         />
-        <BigBullSection
-          data={__data?.pageData?.investorlist?.investorData}
-          cartLink={`/markets/top-india-investors-portfolio/all-invertors`}
-          title="Individual Investors"
-          type="card1"
-          cartTitle={`View All ${__data?.pageData?.investorlist?.pageSummaryInfo?.totalPages} Investors`}
-        />
-        <BigBullSection
-          title="Changes in Holdings from Last Quarter "
-          type="card2"
-          data={__data?.pageData?.investorKeyChanges?.investorKeyChangesData}
-          cartLink={`/markets/top-india-investors-portfolio/qtr-changes`}
-          cartTitle="View All Holding Changes"
-        />
-        <BigBullSection
-          title="Recent Transactions "
-          type="card2"
-          data={__data?.pageData?.recentDealsInfo?.listRecentDeals}
-          cartLink={`/markets/top-india-investors-portfolio/recent-transactions`}
-          cartTitle="View All Recent Transactions"
-        />
-        <BigBullSection
-          title="Best Stock Picks "
-          type="card2"
-          data={__data?.pageData?.bestPicksDataInfo?.bestPicksListInfo}
-          cartLink={`/markets/top-india-investors-portfolio/best-picks`}
-          cartTitle={`View All ${__data?.pageData?.bestPicksDataInfo?.pageSummaryInfo?.totalPages} Best STock Picks`}
-        />
-        <BigBullSection
-          title="Most Held Stocks "
-          type="card3"
-          data={__data?.pageData?.mostHoldCompanyInfo?.mostHoldStockData}
-          cartLink={`/markets/top-india-investors-portfolio/most-held`}
-          cartTitle={`View All ${__data?.pageData?.mostHoldCompanyInfo?.pageSummaryInfo?.totalPages} Most Helds Stocks`}
-        />
+        {__data?.pageData?.investorlist?.investorData &&
+          __data?.pageData?.investorlist?.investorData.length > 0 && (
+            <BigBullSection
+              data={__data?.pageData?.investorlist?.investorData}
+              cartLink={`/markets/top-india-investors-portfolio/all-investors`}
+              title="Individual Investors"
+              type="card1"
+              cartTitle={`View All ${__data?.pageData?.investorlist?.pageSummaryInfo?.totalPages} Investors`}
+            />
+          )}
+
+        {__data?.pageData?.investorKeyChanges?.investorKeyChangesData &&
+          __data?.pageData?.investorKeyChanges?.investorKeyChangesData.length >
+            0 && (
+            <BigBullSection
+              title="Changes in Holdings from Last Quarter "
+              type="card2"
+              data={
+                __data?.pageData?.investorKeyChanges?.investorKeyChangesData
+              }
+              cartLink={`/markets/top-india-investors-portfolio/qtr-changes`}
+              cartTitle="View All Holding Changes"
+            />
+          )}
+
+        {__data?.pageData?.recentDealsInfo?.listRecentDeals &&
+          __data?.pageData?.recentDealsInfo?.listRecentDeals.length > 0 && (
+            <BigBullSection
+              title="Recent Transactions "
+              type="card2"
+              data={__data?.pageData?.recentDealsInfo?.listRecentDeals}
+              cartLink={`/markets/top-india-investors-portfolio/recent-transactions`}
+              cartTitle="View All Recent Transactions"
+            />
+          )}
+
+        {__data?.pageData?.bestPicksDataInfo?.bestPicksListInfo &&
+          __data?.pageData?.bestPicksDataInfo?.bestPicksListInfo.length > 0 && (
+            <BigBullSection
+              title="Best Stock Picks "
+              type="card2"
+              data={__data?.pageData?.bestPicksDataInfo?.bestPicksListInfo}
+              cartLink={`/markets/top-india-investors-portfolio/best-picks`}
+              cartTitle={`View All ${__data?.pageData?.bestPicksDataInfo?.pageSummaryInfo?.totalPages} Best STock Picks`}
+            />
+          )}
+
+        {__data?.pageData?.mostHoldCompanyInfo?.mostHoldStockData &&
+          __data?.pageData?.mostHoldCompanyInfo?.mostHoldStockData.length >
+            0 && (
+            <BigBullSection
+              title="Most Held Stocks "
+              type="card3"
+              data={__data?.pageData?.mostHoldCompanyInfo?.mostHoldStockData}
+              cartLink={`/markets/top-india-investors-portfolio/most-held`}
+              cartTitle={`View All ${__data?.pageData?.mostHoldCompanyInfo?.pageSummaryInfo?.totalPages} Most Helds Stocks`}
+            />
+          )}
+
         {loading && <Loader loaderType="container" />}
       </div>
     </div>

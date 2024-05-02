@@ -5,6 +5,7 @@ import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
 import WatchlistAddition from "../../WatchlistAddition";
+import NodataForTable from "../NodataForTable";
 
 const BiggBullRecentTransactionsTable = ({
   tableHead,
@@ -67,8 +68,7 @@ const BiggBullRecentTransactionsTable = ({
           </tr>
         </thead>
         <tbody>
-          {tableData &&
-            tableData.length > 0 &&
+          {tableData && tableData.length > 0 ? (
             tableData.map((tdata: any, index: any) => {
               const currHolding = tdata?.stockdata?.filter(
                 (item: any) =>
@@ -196,7 +196,14 @@ const BiggBullRecentTransactionsTable = ({
                   </td> */}
                 </tr>
               );
-            })}
+            })
+          ) : (
+            <tr>
+              <td colSpan={100} className={styles.nodatafound}>
+                <NodataForTable />
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       {shouldShowLoader && <Loader loaderType="container" />}

@@ -247,7 +247,7 @@ const FixedTable = React.memo((props: any) => {
                                 item.assetType,
                               )}
                               target="_blank"
-                              title={`${!!tdData.value ? tdData.value : item.assetName}`}
+                              title={`${!!tdData.value ? tdData.value : item.assetName}${item.assetType !== "index" ? " Share Price" : ""}`}
                             >
                               {!!tdData.value ? tdData.value : item.assetName}
                             </a>

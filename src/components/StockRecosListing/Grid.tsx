@@ -6,6 +6,7 @@ import { APP_ENV, dateFormat, formatNumber } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
 import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
+import { trackingEvent } from "@/utils/ga";
 
 const TableHtml = (props: any) => {
   const { recosDetailResult, activeApi, urlFilterHandle } = props;
@@ -246,9 +247,19 @@ const TableHtml = (props: any) => {
           </td>
         )}
         <td className={styles.pdfIcon}>
-          <a href={obj.pdfUrl} target="_blank">
+          <Link
+            onClick={() => {
+              trackingEvent("et_push_event", {
+                event_category: "mercury_engagement",
+                event_action: "view_rerport_click",
+                event_label: obj?.companyName,
+              });
+            }}
+            href={obj.pdfUrl}
+            target="_blank"
+          >
             <img src="/icon_pdf.svg" width="20" height="20" />
-          </a>
+          </Link>
         </td>
       </>
     );
@@ -347,6 +358,13 @@ const TableHtml = (props: any) => {
                             title={obj.organisation}
                             href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
                             className="linkHover"
+                            onClick={() => {
+                              trackingEvent("et_push_event", {
+                                event_category: "mercury_engagement",
+                                event_action: "organisation_clicked",
+                                event_label: `${obj?.organisation}_${activeApi}`,
+                              });
+                            }}
                           >
                             <span className={`${styles.companyName} linkHover`}>
                               {obj.organisation}
@@ -373,6 +391,13 @@ const TableHtml = (props: any) => {
                             target="_blank"
                             href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/${obj.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${obj.companyId}.cms`}
                             className="linkHover"
+                            onClick={() => {
+                              trackingEvent("et_push_event", {
+                                event_category: "mercury_engagement",
+                                event_action: "company_clicked",
+                                event_label: `${obj?.companyName}_${activeApi}`,
+                              });
+                            }}
                           >
                             <span className={`${styles.companyName} linkHover`}>
                               {obj.companyName}
