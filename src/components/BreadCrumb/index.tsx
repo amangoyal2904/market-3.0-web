@@ -64,25 +64,27 @@ const getLiPath = (router: string, pagePath: string) => {
         item: { "@id": "/markets/stock-screener" },
       },
     };
-  } else if (
-    router == "/stocks/marketstats/top-gainers" ||
-    router.includes("/stocks/marketstats/top-gainers/") ||
-    router.includes("/stocks/marketstats/top-gainers?") ||
-    router == "/stocks/marketstats-technicals/golden-cross" ||
-    router.includes("/stocks/marketstats-technicals/golden-cross/") ||
-    router.includes("/stocks/marketstats-technicals/golden-cross?")
-  ) {
-    return {
-      showNextLi: false,
-      currentLiNode: (
-        <li>
-          <span className="eticon_caret_right"></span>Stocks
-        </li>
-      ),
-      showCurrLi: true,
-      listItemSchema: "",
-    };
-  } else if (
+  }
+  // else if (
+  //   router == "/stocks/marketstats/top-gainers" ||
+  //   router.includes("/stocks/marketstats/top-gainers/") ||
+  //   router.includes("/stocks/marketstats/top-gainers?") ||
+  //   router == "/stocks/marketstats-technicals/golden-cross" ||
+  //   router.includes("/stocks/marketstats-technicals/golden-cross/") ||
+  //   router.includes("/stocks/marketstats-technicals/golden-cross?")
+  // ) {
+  //   return {
+  //     showNextLi: false,
+  //     currentLiNode: (
+  //       <li>
+  //         <span className="eticon_caret_right"></span>Stocks
+  //       </li>
+  //     ),
+  //     showCurrLi: true,
+  //     listItemSchema: "",
+  //   };
+  // }
+  else if (
     router.includes("/stocks/marketstats/") ||
     pagePath.includes("/stocks/marketstats?")
   ) {
@@ -94,7 +96,7 @@ const getLiPath = (router: string, pagePath: string) => {
           <a href="/stocks/marketstats/top-gainers">Stocks</a>
         </li>
       ),
-      showCurrLi: true,
+      showCurrLi: false,
       listItemSchema: {
         "@type": "ListItem",
         position: "3",
@@ -111,7 +113,7 @@ const getLiPath = (router: string, pagePath: string) => {
           <a href="/stocks/marketstats-technicals/golden-cross">Stocks</a>
         </li>
       ),
-      showCurrLi: true,
+      showCurrLi: false,
       listItemSchema: {
         "@type": "ListItem",
         position: "3",
