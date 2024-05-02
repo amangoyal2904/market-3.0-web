@@ -3,6 +3,10 @@
     "development": "https://etdev8243.indiatimes.com/",
     "production": "https://economictimes.indiatimes.com/"
   },
+  "APIDOMAIN": {
+    "development": "https://etpwaapipre.economictimes.com/request",
+    "production": "https://etpwaapi.economictimes.com/request"
+  },
   "LIVE_MARKET_DATA": {
     "development": "https://bselivefeeds.indiatimes.com/homepagedatanew.json",
     "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
@@ -112,6 +116,10 @@
   "INDICES_OTHER": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/other-indices",
     "production": "https://etapi.indiatimes.com/et-screener/other-indices"
+  },
+  "INDICES_WIDGET": {
+    "development": "https://mobilelivefeeds.indiatimes.com/ETMobileApps/markets/mobile/indices",
+    "production": "https://mobilelivefeeds.indiatimes.com/ETMobileApps/markets/mobile/indices"
   },
   "INDICES_FAQ": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/indexFaq",
