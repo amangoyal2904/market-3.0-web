@@ -79,7 +79,7 @@ const BigBullTableCard = ({
       )}
 
       {tableData?.length === 0 ? (
-        <div className="prel">NO data Found</div>
+        <div className="prel"></div>
       ) : (
         pagination &&
         pagination.totalPages > 1 && (
