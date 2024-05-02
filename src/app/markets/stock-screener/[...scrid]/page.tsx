@@ -179,22 +179,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
     desc: desc,
   };
 
-  const findCollectionNameById = () => {
-    for (let i = 0; i < l3Nav.length; i++) {
-      const screenerIds = l3Nav[i].screenerIds.split(",");
-      if (screenerIds.includes(scrid.toString())) {
-        return l3Nav[i].collectionName;
-      }
-    }
-    return null;
-  };
-
-  const l3Label = findCollectionNameById();
-
-  const breadCrumbObj = [
-    { label: l3Label, redirectUrl: "" },
-    { label: meta.title, redirectUrl: "" },
-  ];
+  const breadCrumbObj = [{ label: meta.title, redirectUrl: "" }];
 
   return (
     <>

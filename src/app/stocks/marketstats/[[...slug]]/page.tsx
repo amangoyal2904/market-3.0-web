@@ -168,6 +168,8 @@ const Intraday = async ({ searchParams }: any) => {
     title,
   );
 
+  breadCrumbObj.push({ label: selectedFilter?.name, redirectUrl: "" });
+
   return (
     <>
       <MarketStats
