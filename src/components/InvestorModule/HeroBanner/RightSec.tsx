@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import PieChart from "../../HighCharts/PieChart";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 
 const RightSecModule = React.memo(
   ({ title, stocksList, tabHandler, activeTab }: any) => {
@@ -11,17 +11,20 @@ const RightSecModule = React.memo(
       "rgba(95, 226, 95, 1)",
       "rgba(255, 186, 82, 1)",
     ];
-    const pieChartData =
-      stocksList.length > 0 &&
-      stocksList.map((stock: any, index: number) => {
-        return {
-          name: stock?.uiLabel?.text,
-          sliced: false,
-          selected: false,
-          y: parseFloat(stock?.uiValue?.text),
-          color: colorChart[index],
-        };
-      });
+    const pieChartData = useMemo(() => {
+      return (
+        stocksList.length > 0 &&
+        stocksList.map((stock: any, index: number) => {
+          return {
+            name: stock?.uiLabel?.text,
+            sliced: false,
+            selected: false,
+            y: parseFloat(stock?.uiValue?.text),
+            color: colorChart[index],
+          };
+        })
+      );
+    }, [stocksList]);
 
     return (
       <>
@@ -69,5 +72,6 @@ const RightSecModule = React.memo(
     );
   },
 );
+
 RightSecModule.displayName = "RightSecModule";
 export default RightSecModule;
