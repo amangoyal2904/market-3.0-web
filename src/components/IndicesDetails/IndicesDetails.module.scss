@@ -66,6 +66,17 @@
       font-weight: 700;
       line-height: 40px;
       margin-right: 10px;
+      padding: 2px 4px;
+      &.upBg {
+        padding: 2px 4px;
+        background: #7dc37c36;
+        color: #1aae55;
+      }
+      &.downBg {
+        padding: 2px 4px;
+        background: #ed193b1c;
+        color: #ed193b;
+      }
     }
     .change {
       font-family: var(--font-lato);
