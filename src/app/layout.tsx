@@ -58,6 +58,19 @@ export const metadata: Metadata = {
   },
 };
 
+const webSchema = {
+  "@context": "https://schema.org",
+  "@type": "NewsMediaOrganization",
+  name: "Economic Times",
+  url: "https://economictimes.indiatimes.com/",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://img.etimg.com/thumb/msid-76939477,width-600,height-60,quality-100/economictimes.jpg",
+    width: 600,
+    height: 60,
+  },
+};
+
 export default async function RootLayout({
   children,
 }: {
@@ -110,6 +123,12 @@ export default async function RootLayout({
             <RedeemVoucher />
           </main>
         </StateProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(webSchema),
+          }}
+        />
       </body>
     </html>
   );

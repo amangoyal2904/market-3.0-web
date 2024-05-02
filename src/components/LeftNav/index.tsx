@@ -91,6 +91,13 @@ const LeftNav = (props: any) => {
     });
   };
 
+  const navSchemaItemListElements: any[] = [];
+  const navSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: navSchemaItemListElements,
+  };
+
   return (
     <div
       className={`${styles.navWrap} ${isExpanded ? styles.expanded : styles.collapsed}`}
@@ -105,6 +112,13 @@ const LeftNav = (props: any) => {
         <div className={styles.navOptWrap}>
           <ul className={styles.marketNavWrap}>
             {markets?.nav?.map((value: any, index: any) => {
+              navSchemaItemListElements.push({
+                "@type": "ListItem",
+                position: index + 1,
+                name: value.label,
+                item: value.link,
+              });
+
               return (
                 <li
                   className={`${styles.navListWrap} ${!isExpanded ? styles.l2Collapsed : ""}`}
@@ -234,6 +248,12 @@ const LeftNav = (props: any) => {
           </div>
         </div>
       </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(navSchema),
+        }}
+      />
     </div>
   );
 };

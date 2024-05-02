@@ -236,6 +236,13 @@ const MarketMoodsClient = ({
     setLoading(false);
   }, [pathname, searchParams]);
 
+  const faqMainEntity: any[] = [];
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqMainEntity,
+  };
+
   return (
     <>
       <div className={styles.logo}>
@@ -464,6 +471,15 @@ const MarketMoodsClient = ({
         <div id="faq" className={`${styles.faq} sections`} ref={contentRefs}>
           <div className={styles.head}>Frequently Asked Questions</div>
           {faqData.map((item: any, index: number) => {
+            faqMainEntity.push({
+              "@type": "Question",
+              name: item.ques,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: item.ans,
+              },
+            });
+
             return (
               <div className={styles.faqItem} key={index}>
                 <p className={styles.ques}>{item.ques}</p>
@@ -471,6 +487,12 @@ const MarketMoodsClient = ({
               </div>
             );
           })}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(faqSchema),
+            }}
+          />
         </div>
       </div>
 
