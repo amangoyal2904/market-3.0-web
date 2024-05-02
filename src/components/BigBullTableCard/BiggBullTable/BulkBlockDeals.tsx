@@ -5,6 +5,7 @@ import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
 import WatchlistAddition from "../../WatchlistAddition";
+import NodataForTable from "../NodataForTable";
 
 const BiggBullBulkBlockDealsTable = ({
   tableHead,
@@ -68,8 +69,7 @@ const BiggBullBulkBlockDealsTable = ({
             </tr>
           </thead>
           <tbody>
-            {tableData &&
-              tableData?.length > 0 &&
+            {tableData && tableData?.length > 0 ? (
               tableData?.map((tdata: any, index: any) => {
                 return (
                   <tr key={`${index}`}>
@@ -135,7 +135,14 @@ const BiggBullBulkBlockDealsTable = ({
                       : ""}
                   </tr>
                 );
-              })}
+              })
+            ) : (
+              <tr>
+                <td colSpan={100} className={styles.nodatafound}>
+                  <NodataForTable title="No Recommendations Found!" />
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
         {shouldShowLoader && <Loader loaderType="container" />}
