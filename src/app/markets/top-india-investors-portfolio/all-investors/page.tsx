@@ -1,8 +1,12 @@
 import { commonPostAPIHandler } from "../../../../utils/screeners";
 import BigBullAllInvertorsPageClientPage from "./clients";
 import { fetchSelectedFilter } from "@/utils/utility";
+import { headers } from "next/headers";
+import BreadCrumb from "@/components/BreadCrumb";
 
 const BigBullAllInvertorsPage = async () => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const individualInvestorsBodyParams = {
     ssoId: "",
     investorType: "INDIVIDUAL",
@@ -71,11 +75,17 @@ const BigBullAllInvertorsPage = async () => {
     pagination: __pagination,
   };
   return (
-    <BigBullAllInvertorsPageClientPage
-      tableData={bigBullData.tableData}
-      tableHead={bigBullData.tableHead}
-      pagination={bigBullData.pagination}
-    />
+    <>
+      <BigBullAllInvertorsPageClientPage
+        tableData={bigBullData.tableData}
+        tableHead={bigBullData.tableHead}
+        pagination={bigBullData.pagination}
+      />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: "All Investors", redirectUrl: "" }]}
+      />
+    </>
   );
 };
 

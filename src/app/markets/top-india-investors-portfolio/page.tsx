@@ -2,8 +2,12 @@ import styles from "./style.module.scss";
 import { commonPostAPIHandler } from "../../../utils/screeners";
 import BigBullClientPage from "./clients";
 import { fetchSelectedFilter } from "@/utils/utility";
+import { headers } from "next/headers";
+import BreadCrumb from "@/components/BreadCrumb";
 
 const BigBullPage = async () => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const individualInvestorsBodyParams = {
     ssoId: "",
     investorType: "INDIVIDUAL",
@@ -97,7 +101,16 @@ const BigBullPage = async () => {
     // bestPicks: bestPicks?.datainfo?.bestPicksDataInfo || {},
     // mostHeld: mostHeld?.datainfo?.mostHoldCompanyInfo || {},
   };
-  return <BigBullClientPage data={bigBullData} />;
+  return (
+    <>
+      {/* {JSON.stringify(pageUrl)} */}
+      <BigBullClientPage data={bigBullData} />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: "Overview", redirectUrl: "" }]}
+      />
+    </>
+  );
 };
 
 export default BigBullPage;
