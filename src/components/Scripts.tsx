@@ -49,6 +49,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
   const jsDomain = "https://etdev8243.indiatimes.com"; //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
+
   useEffect(() => {
     prevPath !== null &&
       trackingEvent("page_view", { url: window.location.href });
