@@ -1,8 +1,12 @@
 import { commonPostAPIHandler } from "../../../../utils/screeners";
 import BigBullBestPicksPageClientPage from "./clients";
 import { fetchSelectedFilter } from "@/utils/utility";
+import { headers } from "next/headers";
+import BreadCrumb from "@/components/BreadCrumb";
 
 const BigBullBestPicksPage = async () => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const payload = {
     ssoId: "",
     primeFlag: 1,
@@ -71,13 +75,19 @@ const BigBullBestPicksPage = async () => {
   };
   const selectedFilter = await fetchSelectedFilter(0);
   return (
-    <BigBullBestPicksPageClientPage
-      data={bigBullData}
-      selectedFilter={selectedFilter}
-      tableData={bigBullData.tableData}
-      tableHead={bigBullData.tableHead}
-      pagination={bigBullData.pagination}
-    />
+    <>
+      <BigBullBestPicksPageClientPage
+        data={bigBullData}
+        selectedFilter={selectedFilter}
+        tableData={bigBullData.tableData}
+        tableHead={bigBullData.tableHead}
+        pagination={bigBullData.pagination}
+      />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: "Best Picks", redirectUrl: "" }]}
+      />
+    </>
   );
 };
 

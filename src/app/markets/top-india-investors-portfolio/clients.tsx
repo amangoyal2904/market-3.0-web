@@ -66,7 +66,7 @@ const BigBullClientPage = ({ data }: any) => {
         />
         <BigBullSection
           data={__data?.pageData?.investorlist?.investorData}
-          cartLink={`/markets/top-india-investors-portfolio/all-invertors`}
+          cartLink={`/markets/top-india-investors-portfolio/all-investors`}
           title="Individual Investors"
           type="card1"
           cartTitle={`View All ${__data?.pageData?.investorlist?.pageSummaryInfo?.totalPages} Investors`}

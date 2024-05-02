@@ -1,8 +1,12 @@
 import { commonPostAPIHandler } from "../../../../utils/screeners";
 import BigBullRecentTransactionsPageClientPage from "./clients";
 import { fetchSelectedFilter } from "@/utils/utility";
+import { headers } from "next/headers";
+import BreadCrumb from "@/components/BreadCrumb";
 
 const BigBullRecentTransactionsPage = async () => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const payload = {
     ssoId: "",
     primeFlag: 1,
@@ -89,13 +93,19 @@ const BigBullRecentTransactionsPage = async () => {
   };
   const selectedFilter = await fetchSelectedFilter(0);
   return (
-    <BigBullRecentTransactionsPageClientPage
-      data={bigBullData}
-      selectedFilter={selectedFilter}
-      tableData={bigBullData.tableData}
-      tableHead={bigBullData.tableHead}
-      pagination={bigBullData.pagination}
-    />
+    <>
+      <BigBullRecentTransactionsPageClientPage
+        data={bigBullData}
+        selectedFilter={selectedFilter}
+        tableData={bigBullData.tableData}
+        tableHead={bigBullData.tableHead}
+        pagination={bigBullData.pagination}
+      />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: "Recent Transactions", redirectUrl: "" }]}
+      />
+    </>
   );
 };
 

@@ -6,8 +6,14 @@ import HeroBanner from "@/components/InvestorModule/HeroBanner";
 import InvestorsTopTabs from "@/components/BigBullTabs/InvestorsTopTabs";
 import FreshEntryCard from "@/components/BigBullSection/InvestorCatModules/FreshEntryCard";
 import InvestorTopOverviewHolding from "@/components/BigBullTableCard/BiggBullTable/InvestorTopOverviewHolding";
+import BreadCrumb from "@/components/BreadCrumb";
 
-const InvestorClientPage = ({ data, topHoldingData, otherViewData }: any) => {
+const InvestorClientPage = ({
+  data,
+  topHoldingData,
+  otherViewData,
+  pageUrl,
+}: any) => {
   const sharkSeoName =
     data?.datainfo?.investorOverviewInfo?.investorIntro?.sharkSeoName;
   const sharkName = data?.datainfo?.investorOverviewInfo?.investorIntro?.name;
@@ -113,6 +119,10 @@ const InvestorClientPage = ({ data, topHoldingData, otherViewData }: any) => {
         <h3 className={styles.head3}>Bulk/Block Deals made by {sharkName} </h3>
         <FreshEntryCard cardData={bulkBlockData} />
       </div>
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: "Overview", redirectUrl: "" }]}
+      />
     </>
   );
 };

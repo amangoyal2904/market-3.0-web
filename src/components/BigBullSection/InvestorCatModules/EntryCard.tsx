@@ -5,8 +5,8 @@ import { getStockUrl } from "@/utils/utility";
 
 const EntryCard = ({ data }: any) => {
   const { state } = useStateContext();
-  //const { isPrime } = state.login;
-  const isPrime = true;
+  const { isPrime } = state.login;
+  //const isPrime = true;
   return (
     <div className={`${styles.card}`}>
       <div className={styles.top}>
@@ -80,7 +80,7 @@ const EntryCard = ({ data }: any) => {
       <div className={styles.bottom}>
         <ul className={styles.cardListBtm}>
           {data?.stockdata && data?.stockdata.length > 0
-            ? data.stockdata.map((card: any, i: number) => {
+            ? data.stockdata.slice(0, 3).map((card: any, i: number) => {
                 const __classname =
                   card?.uiValue?.trend === "UP"
                     ? "up"
