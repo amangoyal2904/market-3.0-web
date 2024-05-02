@@ -7,6 +7,7 @@ import { APP_ENV } from "@/utils";
 import MarketsDashboardWidget from "@/components/MarketsDashboardWidget";
 import StockScreenerWidget from "@/components/ScreenerWidget";
 import LiveStreamWidget from "@/components/LiveStreamWidget";
+import IndicesWidget from "@/components/IndicesWidget";
 
 const Home = async () => {
   const getRecosData = async (type: any) => {
@@ -63,6 +64,7 @@ const Home = async () => {
   const srPlusResult = await getSrPlusData("2554");
   return (
     <>
+      <IndicesWidget />
       <MarketsDashboardWidget />
       <WatchlistWidget />
       <StockRecommendations stockRecoResult={stockRecoResult} />
