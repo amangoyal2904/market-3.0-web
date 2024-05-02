@@ -1,8 +1,12 @@
 import { commonPostAPIHandler } from "../../../../utils/screeners";
 import BigBullQtrChangesPageClientPage from "./clients";
 import { fetchSelectedFilter } from "@/utils/utility";
+import { headers } from "next/headers";
+import BreadCrumb from "@/components/BreadCrumb";
 
 const BigBullQtrChangesPage = async () => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const payload = {
     ssoId: "",
     primeFlag: 1,
@@ -71,13 +75,19 @@ const BigBullQtrChangesPage = async () => {
   };
   const selectedFilter = await fetchSelectedFilter(0);
   return (
-    <BigBullQtrChangesPageClientPage
-      data={bigBullData}
-      selectedFilter={selectedFilter}
-      tableData={bigBullData.tableData}
-      tableHead={bigBullData.tableHead}
-      pagination={bigBullData.pagination}
-    />
+    <>
+      <BigBullQtrChangesPageClientPage
+        data={bigBullData}
+        selectedFilter={selectedFilter}
+        tableData={bigBullData.tableData}
+        tableHead={bigBullData.tableHead}
+        pagination={bigBullData.pagination}
+      />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: "Qtr Changes", redirectUrl: "" }]}
+      />
+    </>
   );
 };
 

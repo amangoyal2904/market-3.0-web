@@ -6,6 +6,8 @@ import {
 } from "@/utils/utility";
 import FiiDiiActivitySubPagesClients from "./clients";
 import { notFound } from "next/navigation";
+import BreadCrumb from "@/components/BreadCrumb";
+import { headers } from "next/headers";
 
 const typeToFunctionMap: { [key: string]: () => Promise<any> } = {
   "cash-provisional": getCashData.bind(null, "daily"),
@@ -15,6 +17,8 @@ const typeToFunctionMap: { [key: string]: () => Promise<any> } = {
 };
 
 const FiiDiiActivitySubPages = async ({ params }: any) => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const type = params.type;
   const possibleTypes = Object.keys(typeToFunctionMap);
   if (!possibleTypes.includes(type)) {
@@ -25,7 +29,15 @@ const FiiDiiActivitySubPages = async ({ params }: any) => {
   const response: any = await responseGetter();
   const { listData } = response.datainfo.data;
 
-  return <FiiDiiActivitySubPagesClients listData={listData} type={type} />;
+  return (
+    <>
+      <FiiDiiActivitySubPagesClients listData={listData} type={type} />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: type, redirectUrl: "" }]}
+      />
+    </>
+  );
 };
 
 export default FiiDiiActivitySubPages;

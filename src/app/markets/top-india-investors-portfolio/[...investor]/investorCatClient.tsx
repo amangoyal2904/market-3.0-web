@@ -9,6 +9,7 @@ import { fetchSelectedFilter } from "@/utils/utility";
 import { fetchFilters } from "@/utils/utility";
 import StockFilterNifty from "@/components/StockFilterNifty";
 import { commonPostAPIHandler } from "../../../../utils/screeners";
+import BreadCrumb from "@/components/BreadCrumb";
 
 const InvestorClientCatePage = ({
   data,
@@ -20,6 +21,7 @@ const InvestorClientCatePage = ({
   tableHead,
   selectedFilter,
   payload,
+  pageUrl,
 }: any) => {
   const [tableLoadingShow, setTableLoadingShow] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
@@ -220,6 +222,10 @@ const InvestorClientCatePage = ({
           childMenuTabActive={niftyFilterData.indexId}
         />
       )}
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: slug, redirectUrl: "" }]}
+      />
     </>
   );
 };

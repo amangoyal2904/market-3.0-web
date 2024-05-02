@@ -1,8 +1,12 @@
 import { commonPostAPIHandler } from "../../../../utils/screeners";
 import BigBullMostHeldClientPage from "./clients";
 import { fetchSelectedFilter } from "@/utils/utility";
+import { headers } from "next/headers";
+import BreadCrumb from "@/components/BreadCrumb";
 
 const BigBullMostHeldPage = async () => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const payload = {
     ssoId: "",
     primeFlag: 1,
@@ -74,14 +78,20 @@ const BigBullMostHeldPage = async () => {
   };
   const selectedFilter = await fetchSelectedFilter(0);
   return (
-    <BigBullMostHeldClientPage
-      data={bigBullData}
-      selectedFilter={selectedFilter}
-      tableData={bigBullData.tableData}
-      tableHead={bigBullData.tableHead}
-      pagination={bigBullData.pagination}
-      lastUpdatedQtr={bigBullData.lastUpdatedQtr}
-    />
+    <>
+      <BigBullMostHeldClientPage
+        data={bigBullData}
+        selectedFilter={selectedFilter}
+        tableData={bigBullData.tableData}
+        tableHead={bigBullData.tableHead}
+        pagination={bigBullData.pagination}
+        lastUpdatedQtr={bigBullData.lastUpdatedQtr}
+      />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: "Most Held", redirectUrl: "" }]}
+      />
+    </>
   );
 };
 

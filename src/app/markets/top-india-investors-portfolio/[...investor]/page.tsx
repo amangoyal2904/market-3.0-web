@@ -2,8 +2,11 @@ import { commonPostAPIHandler } from "../../../../utils/screeners";
 import { fetchSelectedFilter } from "@/utils/utility";
 import InvestorClientCatePage from "./investorCatClient";
 import InvestorClientPage from "./investorClient";
+import { headers } from "next/headers";
 
 const InvestorPage = async ({ params }: any) => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const getExpertId = (arr: any) => {
     if (arr && arr.length > 0) {
       // Added null check for arr
@@ -145,6 +148,7 @@ const InvestorPage = async ({ params }: any) => {
           topHoldingData={topHoldingData}
           data={invertorData}
           otherViewData={InvertorOverviewData?.datainfo}
+          pageUrl={pageUrl}
         />
       </>
     );
@@ -370,6 +374,7 @@ const InvestorPage = async ({ params }: any) => {
           tableHead={tableHead}
           selectedFilter={selectedFilter}
           payload={payload}
+          pageUrl={pageUrl}
         />
       </>
     );
