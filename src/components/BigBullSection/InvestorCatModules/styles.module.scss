@@ -115,3 +115,30 @@
   vertical-align: top;
   cursor: pointer;
 }
+.noDataSec {
+  text-align: center;
+}
+
+.card.viewMoreSec {
+  min-height: 124px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  a {
+    text-align: center;
+    display: inline-block;
+  }
+  .linkTxt {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(43, 116, 227, 1);
+  }
+  .arrow {
+    background: url("/img/longRightArrow.svg") no-repeat 0 0;
+    background-size: cover;
+    display: block;
+    width: 20px;
+    height: 8px;
+    margin: 5px auto 0 auto;
+  }
+}
