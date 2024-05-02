@@ -90,7 +90,7 @@
     "production": "https://etapi.indiatimes.com/et-screener/listing-page-data"
   },
   "INDICES_OVERVIEW": {
-    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/index-summary",
+    "development": "https://etapi.indiatimes.com/et-screener/index-summary",
     "production": "https://etapi.indiatimes.com/et-screener/index-summary"
   },
   "INDICES_TECHNICALS": {
