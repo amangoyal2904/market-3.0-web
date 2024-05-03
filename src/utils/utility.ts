@@ -881,10 +881,10 @@ export const getBuySellTechnicals = async (payload: any) => {
         {
           keyId: "lastTradedPrice",
           keyText: "Price",
-          value: formatNumber(company.ltp, 2),
+          value: formatNumber(company.ltp.toFixed(2), 2),
           trend: "",
           decimalValue: 2,
-          filterFormatValue: company.ltp,
+          filterFormatValue: company.ltp.toFixed(2),
           primeFlag: 0,
           valueType: "number",
         },
