@@ -1,81 +1,36 @@
 import styles from "./style.module.scss";
 import { commonPostAPIHandler } from "../../../utils/screeners";
 import BigBullClientPage from "./clients";
-import { fetchSelectedFilter } from "@/utils/utility";
+import { fetchSelectedFilter, fnGenerateMetaData } from "@/utils/utility";
+import { headers } from "next/headers";
+import BreadCrumb from "@/components/BreadCrumb";
+import { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(
+  { searchParams }: any,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
+  const seo_title =
+    "Top Investors in India, List of Individual & Institutional Investors, Investors Portfolio | The Economic Times";
+  const seo_desc =
+    "Top Investors in India: Check the list of top Indian investors with detailed portfolio. Get all super investors & shareholders with their recently added stocks investments & corporate shareholdings at The Economic Times";
+  const seo_keywords =
+    "Top Investors, Top Investors in India, Individual Investors, Institutional Investors, Investors Portfolio, Investors Portfolio list, Top Investors list, List of Top Investors, super investor, super investor in India, super investors list, super investor portfolio, super investor stocks";
+  const meta = {
+    title: seo_title,
+    desc: seo_desc,
+    keywords: seo_keywords,
+    pathname: pageUrl,
+  };
+  return fnGenerateMetaData(meta);
+}
 
 const BigBullPage = async () => {
-  const individualInvestorsBodyParams = {
-    ssoId: "",
-    investorType: "INDIVIDUAL",
-    sortBy: "networth",
-    orderBy: "DESC",
-    primeFlag: 1,
-    pageSize: 3,
-    pageNo: 1,
-  };
-  const lastQuaterBodyParams = {
-    ssoId: "",
-    primeFlag: 1,
-    investorType: "INDIVIDUAL",
-    position: "All",
-    filterType: "index",
-    filterValue: [],
-    sortBy: "companyName",
-    orderBy: "ASC",
-    pageNo: 1,
-    pageSize: 3,
-  };
-  const recentTransactionsBodyParams = {
-    ssoId: "",
-    primeFlag: 1,
-    investorType: "INDIVIDUAL",
-    filterType: "index",
-    filterValue: [],
-    pageNo: 1,
-    pageSize: 3,
-  };
-  const bestPicksBodyParams = {
-    ssoId: "",
-    primeFlag: 1,
-    investorType: "INDIVIDUAL",
-    filterType: "index",
-    filterValue: [],
-    sortBy: "3MReturns",
-    orderBy: "DESC",
-    pageNo: 1,
-    pageSize: 3,
-  };
-  const mostHeldBodyParams = {
-    ssoId: "",
-    primeFlag: 1,
-    filterType: "index",
-    filterValue: [],
-    sortBy: "noOfBulls",
-    orderBy: "DESC",
-    pageNo: 1,
-    pageSize: 3,
-  };
-  const IndividualInvestors = await commonPostAPIHandler(
-    `BigBullGetInvestorList`,
-    individualInvestorsBodyParams,
-  );
-  const lastQuater = await commonPostAPIHandler(
-    `BigBullGetLastQuarter`,
-    lastQuaterBodyParams,
-  );
-  const recentTransactions = await commonPostAPIHandler(
-    `BigBullGetRecentTransactions`,
-    recentTransactionsBodyParams,
-  );
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
 
-  const bestPicks = await commonPostAPIHandler(
-    `BigBullGetBestPicks`,
-    bestPicksBodyParams,
-  );
-  const mostHeld = await commonPostAPIHandler(
-    `BigBullGetMostHeld`,
-    mostHeldBodyParams,
-  );
   const payload = {
     ssoId: "",
     investorType: "INDIVIDUAL",
@@ -91,13 +46,17 @@ const BigBullPage = async () => {
   );
   const bigBullData = {
     pageData: data.datainfo,
-    // individualInvestors: IndividualInvestors?.datainfo?.investorlist || {},
-    // lastQuater: lastQuater?.datainfo?.investorKeyChanges || {},
-    // recentTransactions: recentTransactions?.datainfo?.recentDealsInfo || {},
-    // bestPicks: bestPicks?.datainfo?.bestPicksDataInfo || {},
-    // mostHeld: mostHeld?.datainfo?.mostHoldCompanyInfo || {},
   };
-  return <BigBullClientPage data={bigBullData} />;
+  return (
+    <>
+      {/* {JSON.stringify(pageUrl)} */}
+      <BigBullClientPage data={bigBullData} />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: "Overview", redirectUrl: "" }]}
+      />
+    </>
+  );
 };
 
 export default BigBullPage;

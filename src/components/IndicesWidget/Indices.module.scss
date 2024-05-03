@@ -1,0 +1,339 @@
+@import "@/styles/variables.scss";
+
+.widgetContainer {
+  display: flex;
+  padding: 24px;
+  align-items: flex-start;
+  gap: 24px;
+  margin: -20px;
+  background: #fffbfa;
+
+  .IndicesContainer {
+    width: 70%;
+
+    .title {
+      color: #000;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+
+    .headingIcon {
+      vertical-align: middle;
+      font-size: 40px;
+    }
+  }
+
+  .topWrapper {
+    position: relative;
+
+    .liveStatus {
+      position: absolute;
+      top: 13px;
+      left: 35%;
+    }
+  }
+
+  .newsContainer {
+    width: 30%;
+
+    .title {
+      color: #000;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+    }
+
+    li {
+      list-style: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 18px;
+    }
+
+    .topNewsList {
+      display: flex;
+      padding: 16px 0px;
+      align-items: center;
+      gap: 12px;
+      align-self: stretch;
+      border-bottom: 1px solid #ccc;
+      position: relative;
+    }
+
+    .topNewsTitle {
+      overflow: hidden;
+      color: #000;
+      text-overflow: ellipsis;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 18px;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .readTime {
+      color: #666;
+      font-size: 11px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+
+    .seeAll {
+      color: #2b74e3;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 18px;
+      padding: 16px 0px;
+      text-align: right;
+    }
+
+    .videoIcon {
+      background-position: -53px -127px !important;
+      position: absolute;
+      top: 20px;
+      right: -2px;
+      background: url(https://img.etimg.com/photo/msid-87756482,quality-100.cms);
+      background-size: 101px;
+      width: 15px;
+      height: 15px;
+      vertical-align: middle;
+    }
+  }
+
+  .dataWrapper {
+    padding: 24px 0;
+  }
+}
+
+.cards {
+  display: flex;
+  padding: 12px 18px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  border-radius: 8px 8px 0px 0px;
+  border-bottom: 1px solid #ccc;
+  background: #fffbfa;
+
+  .indexName {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+
+  .indexPrice {
+    color: #000;
+    font-family: Lato;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .indexChange {
+    font-family: Lato;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+  }
+}
+
+.tabActive {
+  border-radius: 8px 8px 0px 0px;
+  border-top: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  background: #fffbfa;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.12);
+  border-bottom: none;
+}
+
+.chartOpts {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #cccccc;
+  margin-top: 25px;
+  margin-bottom: 25px;
+
+  span {
+    font-size: 18px;
+  }
+
+  .interval {
+    list-style: none;
+
+    li {
+      position: relative;
+      display: inline-block;
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+      color: #4f4f4f;
+      padding: 5px;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+
+      & + li {
+        margin-left: 15px;
+      }
+
+      &.active,
+      &:hover {
+        border-bottom: 2px solid #000;
+      }
+
+      &.active {
+        color: $black;
+        font-weight: 800;
+      }
+    }
+  }
+
+  .technical {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+}
+
+.bottomWidgets {
+  display: flex;
+  gap: 12px;
+  margin: 15px auto;
+
+  .widget {
+    flex: 1;
+    border: 1px solid $gray-70;
+    border-radius: 8px;
+    padding: 12px;
+    min-height: 110px;
+
+    &:first-child {
+      .bottom {
+        margin-top: 10px;
+      }
+    }
+
+    .bottom {
+      position: relative;
+      margin-top: 26px;
+    }
+
+    .gap2 {
+      gap: 2px;
+    }
+
+    .gap10 {
+      gap: 10px;
+    }
+
+    .title {
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 700;
+    }
+
+    .desc {
+      font-size: 10px;
+      line-height: 12px;
+      font-weight: 400;
+    }
+
+    .head {
+      font-family: var(--font-lato);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 20px;
+      margin: 2px 0;
+    }
+
+    .label {
+      font-size: 14px;
+      line-height: 16px;
+      font-weight: 400;
+      margin: 2px 0;
+
+      &.bold {
+        font-weight: 600;
+      }
+    }
+
+    .up {
+      color: $green-80;
+    }
+
+    .down {
+      color: $red-60;
+    }
+
+    .bar {
+      position: relative;
+      flex: auto;
+      height: 8px;
+      width: 0;
+      border-radius: 2px;
+      background: $blue-20;
+      transition: width 0.5s ease;
+
+      .currentPosition {
+        position: absolute;
+        top: -2px;
+        width: 4px;
+        height: 10px;
+        background: $black;
+
+        &:after {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 0;
+          left: -6px;
+          top: -10px;
+          border-left: 8px solid transparent;
+          border-right: 8px solid transparent;
+          border-top: 8px solid $black;
+        }
+      }
+
+      &.up {
+        background: $green-50;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      &.down {
+        background: $red-50;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
+}
+
+.up {
+  color: $green-80;
+}
+
+.down {
+  color: $red-60;
+}
+
+.arrowIcons {
+  font-size: 16px;
+  margin-left: 2px;
+  vertical-align: bottom;
+}

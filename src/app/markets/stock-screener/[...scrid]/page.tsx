@@ -11,6 +11,7 @@ import { fnGenerateMetaData } from "@/utils/utility";
 import Service from "@/network/service";
 import StockScreeners from "./client";
 import { Metadata, ResolvingMetadata } from "next";
+import BreadCrumb from "@/components/BreadCrumb";
 
 export async function generateMetadata(
   { searchParams }: any,
@@ -177,6 +178,9 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
     title: title,
     desc: desc,
   };
+
+  const breadCrumbObj = [{ label: meta.title, redirectUrl: "" }];
+
   return (
     <>
       <StockScreeners
@@ -201,6 +205,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
         // actualUrl={actualUrl}
         // shortUrlMapping={shortUrlMapping}
       />
+      <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
     </>
   );
 };

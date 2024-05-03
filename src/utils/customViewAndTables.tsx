@@ -135,3 +135,45 @@ export const getScreenerTabViewData = async ({ type = "", ssoid = "" }) => {
     activeViewId,
   };
 };
+
+export const getBreadcrumbObj = (
+  l3Nav: any,
+  l3NavMenuItem: string,
+  l3NavSubItem: any,
+  isTechnical: boolean,
+  title: string,
+) => {
+  const matchingSubNavs: { label: any; redirectUrl: any }[] = [];
+  l3Nav.nav.forEach((navItem: any) => {
+    if (navItem.type === l3NavMenuItem) {
+      navItem.sub_nav.forEach((subNavItem: any) => {
+        if (!isTechnical) {
+          if (subNavItem.type === l3NavSubItem) {
+            matchingSubNavs.push({
+              label: subNavItem.label,
+              redirectUrl: subNavItem.link,
+            });
+          }
+        } else {
+          if (
+            subNavItem.firstoperand === l3NavSubItem.firstOperand &&
+            subNavItem.operationtype === l3NavSubItem.operationType &&
+            subNavItem.secondoperand === l3NavSubItem.secondOperand
+          ) {
+            matchingSubNavs.push({
+              label: subNavItem.label,
+              redirectUrl: subNavItem.link,
+            });
+          }
+        }
+      });
+    }
+  });
+  if (matchingSubNavs.length === 0) {
+    matchingSubNavs.push({
+      label: title,
+      redirectUrl: "",
+    });
+  }
+  return matchingSubNavs;
+};

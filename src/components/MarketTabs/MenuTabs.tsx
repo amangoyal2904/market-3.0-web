@@ -22,7 +22,7 @@ const LeftMenuTabs = React.memo(
       const newVisibleTabs: any[] = [];
       const newHiddenTabs: any[] = [];
       for (const tab of filterData) {
-        const tabWidth = tab.name.length * 10; // Adjust the width calculation as per your requirement
+        const tabWidth = tab.name.length * 8; // Adjust the width calculation as per your requirement
         if (currentWidth + tabWidth < tabsListWidth) {
           newVisibleTabs.push(tab);
           currentWidth += tabWidth;
@@ -76,9 +76,7 @@ const LeftMenuTabs = React.memo(
           </li>
         ))}
         {hiddenTabs.length > 0 && (
-          <li
-            className={`${styles.moreTabsListData} ${isAnyInnerActive ? styles.active : ""}`}
-          >
+          <li className={`${isAnyInnerActive ? styles.active : ""}`}>
             <div className={styles.moreTabWrap}>
               <div className={styles.moreSec}>
                 More

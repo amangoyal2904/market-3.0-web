@@ -10,6 +10,7 @@ import {
   getOverviewData,
   getPeriodicData,
 } from "@/utils/utility";
+import BreadCrumb from "@/components/BreadCrumb";
 
 async function fetchData(indexId: number) {
   return Promise.all([
@@ -38,20 +39,27 @@ async function generateMetadata(
 }
 
 const MarketMoods = async ({ params }: any) => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const niftyFilterData = await fetchSelectedFilter(params.index);
   if (niftyFilterData.indexId == 0) {
     notFound();
   }
   const [overviewData, advanceDeclineData, periodicData, allFilters] =
     await fetchData(niftyFilterData.indexId);
+  const breadCrumbObj = [{ label: niftyFilterData?.name, redirectUrl: "" }];
+
   return (
-    <MarketMoodsClient
-      selectedFilter={niftyFilterData}
-      overview={overviewData}
-      advanceDecline={advanceDeclineData}
-      periodic={periodicData}
-      allFilters={allFilters}
-    />
+    <>
+      <MarketMoodsClient
+        selectedFilter={niftyFilterData}
+        overview={overviewData}
+        advanceDecline={advanceDeclineData}
+        periodic={periodicData}
+        allFilters={allFilters}
+      />
+      <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
+    </>
   );
 };
 

@@ -1,7 +1,22 @@
 @import "../../styles/variables.scss";
 
 .seeAll {
-  font-weight: 700;
   color: $blue-60;
-  margin-top: 20px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 18px;
+  padding: 16px 0px 20px 0;
+
+  span {
+    vertical-align: middle;
+    font-size: 24px;
+    padding-left: 3px;
+  }
+}
+.alignLeft {
+  text-align: left;
+}
+.alignRight {
+  text-align: right;
 }

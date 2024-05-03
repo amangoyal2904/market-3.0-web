@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useStateContext } from "../../store/StateContext";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import GLOBAL_CONFIG from "../../network/global_config.json";
+import { trackingEvent } from "@/utils/ga";
 
 const Subhead = (props: any) => {
   const {
@@ -72,11 +73,25 @@ const Subhead = (props: any) => {
   };
 
   const handleViewType = (type: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "page_cta_click",
+      event_label: type == "card" ? "grid" : "list",
+    });
+
     dispatch({
       type: "UPDATE_VIEWTYPE",
       payload: {
         viewType: type,
       },
+    });
+  };
+
+  const handleTabTracking = (tabName: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "tab_selected",
+      event_label: tabName,
     });
   };
 
@@ -93,18 +108,24 @@ const Subhead = (props: any) => {
               className={`${styles.mainTab} ${item.seoPath == activeTab || (item.seoPath == "fundhousedetails" && activeTab == "fundhousedetails") ? styles.active : ""}`}
             >
               {item.label == "News" ? (
-                <Link href={item.redirectLink} target="_blank">
+                <Link
+                  href={item.redirectLink}
+                  target="_blank"
+                  onClick={() => handleTabTracking(item.label)}
+                >
                   {item.label}
                 </Link>
               ) : item.seoPath == "fundhousedetails" ? (
                 <Link
                   href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}${urlFilterHandle()}`}
+                  onClick={() => handleTabTracking(item.label)}
                 >
                   {item.label}
                 </Link>
               ) : (
                 <Link
                   href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["home"]}/${handleLowerCase(item.seoPath)}${handleLowerCase(item.seoPath) == "newrecos" ? "/all" : ""}${urlFilterHandle()}`}
+                  onClick={() => handleTabTracking(item.label)}
                 >
                   {item.label}
                 </Link>

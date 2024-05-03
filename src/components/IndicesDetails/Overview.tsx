@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./IndicesDetails.module.scss";
 import Link from "next/link";
 import { chartIntervals } from "@/utils/utility";
@@ -13,6 +13,7 @@ const IndicesDetailsOverview = React.memo(
     exchange,
     exchangeId,
   }: any) => {
+    const [lastTradedPrice, setLastTradedPrice] = useState<number | null>(null);
     const [interval, setInterval] = useState("1d");
     const [iframeSrc, setIframeSrc] = useState(
       `https://etdev8243.indiatimes.com/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=1d&height=320&transparentBg=1`,
@@ -39,6 +40,32 @@ const IndicesDetailsOverview = React.memo(
         : overviewData?.percentChange < 0
           ? "down"
           : "neutral";
+
+    useEffect(() => {
+      if (overviewData?.lastTradedPrice !== null) {
+        // Check if lastTradedPrice already exists and is different
+        if (
+          lastTradedPrice !== null &&
+          overviewData.lastTradedPrice !== lastTradedPrice
+        ) {
+          const trendClass =
+            overviewData.lastTradedPrice > lastTradedPrice
+              ? "upBg"
+              : overviewData.lastTradedPrice < lastTradedPrice
+                ? "downBg"
+                : "noBg";
+          const element = document.getElementById("lastTradedPrice");
+          if (element) {
+            element.classList.add(trendClass);
+            setTimeout(() => {
+              element.classList.remove("upBg", "downBg");
+            }, 500);
+          }
+        }
+        setLastTradedPrice(overviewData.lastTradedPrice);
+      }
+    }, [overviewData?.lastTradedPrice]);
+
     return (
       <section id="overview" className={styles.overview}>
         <div className="dflex align-item-center">
@@ -53,8 +80,8 @@ const IndicesDetailsOverview = React.memo(
         </div>
         <div className={styles.indexOpts}>
           <div className="dflex align-item-center">
-            <p className={styles.ltp}>
-              ₹{formatNumber(overviewData?.lastTradedPrice)}
+            <p className={styles.ltp} id="lastTradedPrice">
+              ₹{formatNumber(overviewData?.lastTradedPrice, 2)}
             </p>
             <div
               className={`${styles.change} ${trend == "up" ? styles.up : trend == "down" ? styles.down : ""}`}

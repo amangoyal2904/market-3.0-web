@@ -97,7 +97,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
   };
   return (
     <div className={styles.wraper}>
-      <h1 className={styles.heading1}>Stock Reports Plus</h1>
+      <h1 className="heading marginhead">Stock Reports Plus</h1>
 
       <div className={styles.tabMainBox}>
         {/* <ul className={styles.tabs}>

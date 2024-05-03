@@ -11,6 +11,9 @@
   border: 1px solid $gray-80;
   border-radius: 3px;
   padding: 8px 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-wrap: nowrap;
   & + .formControl {
     margin-left: 3%;
   }

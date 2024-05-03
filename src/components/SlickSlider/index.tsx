@@ -17,6 +17,7 @@ interface SlickSliderProps {
   rows?: any;
   topSpaceClass?: string;
   responsive: any;
+  noPadding?: boolean;
 }
 
 const SlickSlider: React.FC<SlickSliderProps> = ({
@@ -27,6 +28,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
   rows,
   topSpaceClass,
   responsive = [],
+  noPadding,
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef<Slider>(null);
@@ -85,7 +87,15 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     if (sliderRef.current) {
       sliderRef.current.slickGoTo(0);
     }
-  }, []);
+    if (noPadding) {
+      const elements: any = document.querySelectorAll(".slick-slide");
+      if (elements.length > 0) {
+        elements.forEach((element: { style: { padding: string } }) => {
+          element.style.padding = "0px";
+        });
+      }
+    }
+  }, [noPadding]);
   return (
     <div className={`stockSlider ${styles.sliderMain}`} id={`${sliderId}`}>
       <div className={styles["slick-slider"]}>

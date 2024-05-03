@@ -83,6 +83,11 @@
       padding-right: 24px;
     }
   }
+  .nodatafound {
+    width: auto;
+    max-width: 100%;
+    border: none;
+  }
 
   th {
     min-width: 110px;
@@ -144,6 +149,12 @@
     &.primeCell {
       background: $salmon-20;
     }
+  }
+  .bestPick {
+    background: rgba(255, 251, 245, 1);
+  }
+  .mostIncrease {
+    background: rgba(244, 248, 255, 1);
   }
 
   .firstTh {
@@ -343,6 +354,65 @@
         width: 56px;
       }
     }
+    .dotes {
+      border: none;
+      padding: 0 4px;
+      margin: 0;
+      position: relative;
+      .iconBtn {
+        cursor: pointer;
+        flex-direction: column;
+        row-gap: 3px;
+        display: flex;
+        justify-content: center;
+        i {
+          background: $blue-50;
+          width: 3px;
+          height: 3px;
+          border-radius: 50%;
+        }
+      }
+      .popup {
+        padding: 10px;
+        background: $white;
+        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
+        position: absolute;
+        left: 100%;
+        top: 0;
+        width: 150px;
+        border-radius: 5px;
+      }
+    }
+  }
+}
+.popupContent {
+  position: relative;
+  .closeBtn {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    background: url("/img/closeModule.svg") no-repeat 0 0;
+    display: inline-block;
+    vertical-align: top;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+  }
+  .contentWraper {
+    margin: 0;
+    display: flex;
+    row-gap: 10px;
+    flex-direction: column;
+    .userSec {
+      display: flex;
+      h4 {
+        width: 92px;
+      }
+    }
+    .userSec + .userSec {
+      border-top: solid 1px $gray_90;
+      padding-top: 10px;
+    }
   }
 }
 .comDivSec {
@@ -358,6 +428,41 @@
       font-size: 10px;
       font-weight: 400;
       color: $gray_30;
+    }
+  }
+}
+.qtrChange {
+  tr {
+    td {
+      &:last-child {
+        color: $black;
+      }
+    }
+  }
+}
+.recentTrans {
+  tr {
+    td {
+      &:first-child {
+        max-width: 250px;
+      }
+      &:nth-of-type(4),
+      &:nth-of-type(7),
+      &:last-child {
+        color: $black;
+      }
+    }
+  }
+}
+.mostHeldTable {
+  tr {
+    td {
+      &:first-child {
+        max-width: 200px;
+      }
+      &:nth-of-type(4) {
+        color: $black;
+      }
     }
   }
 }

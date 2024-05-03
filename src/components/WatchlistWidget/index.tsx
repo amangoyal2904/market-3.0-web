@@ -48,7 +48,7 @@ const WatchlistWidget = () => {
 
   return (
     <>
-      <h1 className="heading">My Watchlist</h1>
+      <h1 className="heading marginhead">My Watchlist</h1>
       {showBlocker ? (
         <Blocker type="loginBlocker" />
       ) : (

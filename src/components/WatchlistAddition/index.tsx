@@ -109,6 +109,20 @@ const WatchlistAddition = ({
                 item.companyType != data?.companyType,
             );
 
+      if (action == 1) {
+        trackingEvent("et_push_event", {
+          event_category: "mercury_engagement",
+          event_action: "watchlist_add_stock_success",
+          event_label: data?.companyName + "-" + data?.companyId,
+        });
+      } else {
+        trackingEvent("et_push_event", {
+          event_category: "mercury_engagement",
+          event_action: "watchlist_remove_stock_success",
+          event_label: data?.companyName + "-" + data?.companyId,
+        });
+      }
+
       dispatch({
         type: "UPDATE_MSID",
         payload: {
@@ -127,27 +141,19 @@ const WatchlistAddition = ({
 
   const handleWatchListClick = () => {
     if (isLogin) {
-      trackingEvent("event", {
-        event_category: "WatchList Addition",
-        event_action: "Login success",
-        event_label: "-",
-      });
       console.log("watchlist----------", watchlist);
-      const watchlistStatus = watchlist.some(
-        (item: any) =>
-          item.companyId === companyId.toString() &&
-          item.companyType === companyType,
-      )
-        ? 0
-        : 1;
+      const watchlistStatus =
+        !!watchlist &&
+        watchlist.some(
+          (item: any) =>
+            item.companyId === companyId.toString() &&
+            item.companyType === companyType,
+        )
+          ? 0
+          : 1;
       setLoadingStatus(true);
       addStockInWatchlistHandler(watchlistStatus);
     } else {
-      trackingEvent("event", {
-        event_category: "WatchList Addition",
-        event_action: "Not Login success",
-        event_label: "-",
-      });
       initSSOWidget();
     }
   };
@@ -166,7 +172,8 @@ const WatchlistAddition = ({
             <div className={styles.loading}>
               <div className={styles.loader}></div>
             </div>
-          ) : watchlist.some(
+          ) : !!watchlist &&
+            watchlist.some(
               (item: any) =>
                 item.companyId === companyId.toString() &&
                 item.companyType === companyType,

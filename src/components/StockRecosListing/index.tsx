@@ -17,6 +17,7 @@ import Subhead from "./Subhead";
 import InnerLeftNav from "./InnerLeftNav";
 import Blocker from "../Blocker";
 import Loader from "../Loader";
+import { trackingEvent } from "@/utils/ga";
 
 const StockRecosListing = (props: any) => {
   const {
@@ -55,14 +56,18 @@ const StockRecosListing = (props: any) => {
 
   const filterDataChangeHandler = useCallback(
     async (id: any) => {
-      const url = `${pathName}?${searchParams}`;
-      const newUrl = updateOrAddParamToPath(url, "filter", id);
-      const selectedFilter = await fetchSelectedFilter(id);
-      setNiftyFilterData(selectedFilter);
-      router.push(newUrl, { scroll: false });
-      initialSearchParamsRef.current = new URLSearchParams("filter=" + id);
-      setPage(1);
-      //setHasMore(true);
+      try {
+        const url = `${pathName}?${searchParams}`;
+        const newUrl = updateOrAddParamToPath(url, "filter", id);
+        const selectedFilter = await fetchSelectedFilter(id);
+        setNiftyFilterData(selectedFilter);
+        router.push(newUrl, { scroll: false });
+        initialSearchParamsRef.current = new URLSearchParams("filter=" + id);
+        setPage(1);
+        //setHasMore(true);
+      } catch (Err) {
+        console.log("filterDataChangeHandler Err:", Err);
+      }
     },
     [pathName, searchParams, router],
   );
@@ -73,36 +78,37 @@ const StockRecosListing = (props: any) => {
 
   const fetchDataOnLazyLoad = useCallback(
     async (currentPage: any) => {
-      console.log(
-        "page-----",
-        page + "===" + hasMore,
-        activeApi,
-        activeApi !== "overview" && page > 1,
-      );
       if (activeApi !== "overview" && page > 1) {
         setTimeout(async () => {
-          const newData: any = await getStockRecosDetail({
-            getApiType: activeApi,
-            slug,
-            ssoid: isLogin ? ssoid : "",
-            niftyFilterData,
-            pageNo: currentPage,
-          });
-          console.log(
-            "newData?.recoData?.[0].data",
-            newData?.recoData?.[0].data,
-          );
-          if (newData?.recoData?.[0].data) {
-            setRecosDetailJSON((prevData: any) => [
-              ...prevData,
-              ...newData.recoData[0].data,
-            ]);
-            setHasMore(
-              typeof newData?.recoData?.[0].data !== "undefined" &&
-                newData?.recoData?.[0].data?.length === 30,
-            );
-          } else {
-            setHasMore(false);
+          try {
+            const newData: any = await getStockRecosDetail({
+              getApiType: activeApi,
+              slug,
+              ssoid: isLogin ? ssoid : "",
+              niftyFilterData,
+              pageNo: currentPage,
+            });
+
+            if (newData?.recoData?.[0].data) {
+              setRecosDetailJSON((prevData: any) => [
+                ...prevData,
+                ...newData.recoData[0].data,
+              ]);
+              setHasMore(
+                typeof newData?.recoData?.[0].data !== "undefined" &&
+                  newData?.recoData?.[0].data?.length === 30,
+              );
+            } else {
+              setHasMore(false);
+            }
+
+            trackingEvent("event", {
+              event_category: "mercury_engagement",
+              event_action: "load_more_click",
+              event_label: activeApi,
+            });
+          } catch (Err) {
+            console.log("fetchDataOnLazyLoad Err: ", Err);
           }
         }, 1000);
       }
@@ -157,14 +163,6 @@ const StockRecosListing = (props: any) => {
           typeof recosDetailResult?.recoData?.[0].data !== "undefined" &&
             recosDetailResult?.recoData?.[0].data?.length === 30,
         );
-
-        // if (
-        //   activeApi == "recoOnWatchlist" &&
-        //   recosDetailResult?.recoData?.[0].data !== "undefined" &&
-        //   recosDetailResult?.recoData?.[0].data?.length === 30
-        // ) {
-        //   setPage((prevPage) => prevPage + 1);
-        // }
       }
     }
 

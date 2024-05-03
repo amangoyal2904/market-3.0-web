@@ -7,13 +7,13 @@ interface Props {
   pagePath: string;
 }
 
-const getLiPath = (router: string) => {
+const getLiPath = (router: string, pagePath: string) => {
   if (router == "/stocksrecos/overview") {
     return {
       showNextLi: false,
       currentLiNode: (
         <li>
-          <span className="eticon_caret_right"></span>Stock Recommendations
+          <span className="eticon_caret_right"></span>Recos
         </li>
       ),
       showCurrLi: true,
@@ -25,7 +25,7 @@ const getLiPath = (router: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocksrecos/overview">Stock Recommendations</a>
+          <a href="/stocksrecos/overview">Recos</a>
         </li>
       ),
       showCurrLi: true,
@@ -64,21 +64,44 @@ const getLiPath = (router: string) => {
         item: { "@id": "/markets/stock-screener" },
       },
     };
-  } else if (router.includes("/stocks/marketstats/")) {
+  }
+  // else if (
+  //   router == "/stocks/marketstats/top-gainers" ||
+  //   router.includes("/stocks/marketstats/top-gainers/") ||
+  //   router.includes("/stocks/marketstats/top-gainers?") ||
+  //   router == "/stocks/marketstats-technicals/golden-cross" ||
+  //   router.includes("/stocks/marketstats-technicals/golden-cross/") ||
+  //   router.includes("/stocks/marketstats-technicals/golden-cross?")
+  // ) {
+  //   return {
+  //     showNextLi: false,
+  //     currentLiNode: (
+  //       <li>
+  //         <span className="eticon_caret_right"></span>Stocks
+  //       </li>
+  //     ),
+  //     showCurrLi: true,
+  //     listItemSchema: "",
+  //   };
+  // }
+  else if (
+    router.includes("/stocks/marketstats/") ||
+    pagePath.includes("/stocks/marketstats?")
+  ) {
     return {
       showNextLi: true,
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocks/marketstats/intraday/top-gainers">Stocks</a>
+          <a href="/stocks/marketstats/top-gainers">Stocks</a>
         </li>
       ),
-      showCurrLi: true,
+      showCurrLi: false,
       listItemSchema: {
         "@type": "ListItem",
         position: "3",
         name: "Stocks",
-        item: { "@id": "/stocks/marketstats/intraday/top-gainers" },
+        item: { "@id": "/stocks/marketstats/top-gainers" },
       },
     };
   } else if (router.includes("/stocks/marketstats-technicals/")) {
@@ -87,10 +110,10 @@ const getLiPath = (router: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocks/marketstats-technicals/golden-cross">Technicals</a>
+          <a href="/stocks/marketstats-technicals/golden-cross">Stocks</a>
         </li>
       ),
-      showCurrLi: true,
+      showCurrLi: false,
       listItemSchema: {
         "@type": "ListItem",
         position: "3",
@@ -137,12 +160,61 @@ const getLiPath = (router: string) => {
       showCurrLi: true,
       listItemSchema: "",
     };
-  } else if (router.includes("market-moods/")) {
+  } else if (router.includes("/market-moods/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/market-moods/nifty-500">Market Mood</a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router == "/markets/top-india-investors-portfolio") {
     return {
       showNextLi: false,
       currentLiNode: (
         <li>
-          <span className="eticon_caret_right"></span>Market Mood
+          <span className="eticon_caret_right"></span>Investors Portfolio
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router.includes("/markets/top-india-investors-portfolio/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/top-india-investors-portfolio">
+            Investors Portfolio
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router == "/markets/fii-dii-activity") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>FII DII Activity
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router.includes("/markets/fii-dii-activity/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/fii-dii-activity">FII DII Activity</a>
         </li>
       ),
       showCurrLi: true,
@@ -174,29 +246,33 @@ const jsonLd = (getLiTab: any, pageName: any) => {
     ...(getLiTab ? [getLiTab.listItemSchema] : []),
   ];
 
-  const createBreadcrumbItem = (
-    label: any,
-    redirectUrl: any,
-    position: any,
-  ) => {
-    const listItem = {
-      "@type": "ListItem",
-      position: position.toString(),
-      name: label,
-      item: { "@id": redirectUrl },
+  try {
+    const createBreadcrumbItem = (
+      label: any,
+      redirectUrl: any,
+      position: any,
+    ) => {
+      const listItem = {
+        "@type": "ListItem",
+        position: position.toString(),
+        name: label,
+        item: { "@id": redirectUrl },
+      };
+      return listItem;
     };
-    return listItem;
-  };
 
-  objWithUrl?.forEach((item: any, index: any) => {
-    const position = itemListElement.length + index + 1;
-    const breadcrumbItem = createBreadcrumbItem(
-      item.label,
-      item.redirectUrl,
-      position,
-    );
-    itemListElement.push(breadcrumbItem);
-  });
+    objWithUrl?.forEach((item: any, index: any) => {
+      const position = itemListElement.length + index + 1;
+      const breadcrumbItem = createBreadcrumbItem(
+        item.label,
+        item.redirectUrl,
+        position,
+      );
+      itemListElement.push(breadcrumbItem);
+    });
+  } catch (e) {
+    console.log("jsonLd Error:", e);
+  }
 
   return {
     "@context": "https://schema.org",
@@ -206,8 +282,8 @@ const jsonLd = (getLiTab: any, pageName: any) => {
 };
 
 export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
-  const router = pagePath;
-  const getLiTab = getLiPath(router);
+  const router = pagePath.includes("?") ? pagePath.split("?")[0] : pagePath;
+  const getLiTab = getLiPath(router, pagePath);
 
   return (
     <div className={styles.breadCrumbContainer}>
@@ -223,7 +299,9 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
         </li>
         <li className={styles.marketshome}>
           {router == "/home" ? (
-            "Markets"
+            <>
+              <span className="eticon_caret_right"></span>Markets
+            </>
           ) : (
             <>
               <span className="eticon_caret_right"></span>
@@ -237,7 +315,7 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           pageName?.map((item: any, index: any) => {
             return (
               <>
-                <li>
+                <li key={index}>
                   <span className="eticon_caret_right"></span>
                   {item.redirectUrl ? (
                     <a href={item.redirectUrl}>{item.label}</a>

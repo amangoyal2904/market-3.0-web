@@ -7,10 +7,18 @@ import { APP_ENV } from "@/utils";
 import MarketsDashboardWidget from "@/components/MarketsDashboardWidget";
 import StockScreenerWidget from "@/components/ScreenerWidget";
 import LiveStreamWidget from "@/components/LiveStreamWidget";
+import IndicesWidget from "@/components/IndicesWidget";
+import BreadCrumb from "@/components/BreadCrumb";
+import { headers } from "next/headers";
+import BuySellTechnicalWidget from "@/components/BuySellTechnicalWidget";
+import InvestmentIdea from "@/components/InvestmentIdea";
+import { getBuySellTechnicals } from "@/utils/utility";
 import AdInfo from "@/components/Ad/AdInfo/homeAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
 
 const Home = async () => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const getRecosData = async (type: any) => {
     const getRecosDetailApi = `${(APIS_CONFIG as any)?.["GET_RECOS_DETAILS"][APP_ENV]}`;
     // console.log("@@type --- > " , type)
@@ -33,7 +41,6 @@ const Home = async () => {
       params: {},
     });
     const getRecosDetailData = await getRecosDetailPromise?.json();
-    // console.log("@@fetchData --- > " , data);
     return getRecosDetailData;
   };
   const getSrPlusData = async (screenerId: any) => {
@@ -58,24 +65,43 @@ const Home = async () => {
       params: {},
     });
     const data = await getSrPlusDataPromise?.json();
-    console.log("@@fetchData --- > ", data);
     return data;
   };
   const stockRecoResult = await getRecosData("newRecos");
   const srPlusResult = await getSrPlusData("2554");
-  console.log("AdInfo", AdInfo);
+
+  const buySellTechnicalspayload = {
+    indicatorName: "EMA20",
+    exchange: "nse",
+    sortby: "percentChange",
+    sortorder: "desc",
+    pagesize: 10,
+    crossoverType: "Bullish",
+  };
+  const table = await getBuySellTechnicals(buySellTechnicalspayload);
+
   return (
     <>
+      <IndicesWidget />
       <MarketsDashboardWidget /> 
       <WatchlistWidget />
+      <InvestmentIdea />
       <DfpAds adInfo={AdInfo.dfp.markethome.mid1}/>
       <StockRecommendations stockRecoResult={stockRecoResult} />
       <DfpAds adInfo={AdInfo.dfp.markethome.mid2}/>
       <StockReportsPlus srResult={srPlusResult} />
       <DfpAds adInfo={AdInfo.dfp.markethome.mid3}/>
       <StockScreenerWidget />
+      <BuySellTechnicalWidget
+        data={table}
+        bodyParams={buySellTechnicalspayload}
+      />
       <DfpAds adInfo={AdInfo.dfp.markethome.mid4}/>
       <LiveStreamWidget />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: "Markets", redirectUrl: "" }]}
+      />
     </>
   );
 };

@@ -133,20 +133,6 @@
       -ms-flex-pack: center;
       justify-content: center;
     }
-    span {
-      &.upBg {
-        background: #7dc37c36;
-        color: #1aae55;
-      }
-      &.downBg {
-        background: #ed193b1c;
-        color: #ed193b;
-      }
-      &.noBg {
-        background: inherit;
-        color: inherit;
-      }
-    }
     &.fullWidth {
       width: 100%;
       padding: 0;
@@ -199,7 +185,7 @@
   }
 
   th {
-    min-width: 90px;
+    min-width: 110px;
     max-width: 180px;
     height: 54px;
     position: relative;
@@ -301,7 +287,7 @@
     border-collapse: collapse;
     overflow-x: auto;
     th {
-      width: 95px;
+      width: 110px;
     }
   }
 
@@ -321,7 +307,8 @@
         text-align: left;
       }
 
-      &:nth-child(2) {
+      .ltp {
+        color: $black;
         font-weight: 700;
       }
     }
@@ -390,6 +377,14 @@
 
 .m20 {
   margin: 20px auto;
+}
+
+.mouseScrollBar {
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  background: $gray_95;
+  box-shadow: 0px 4px 8px 2px #00000040;
 }
 
 #tablePagination {

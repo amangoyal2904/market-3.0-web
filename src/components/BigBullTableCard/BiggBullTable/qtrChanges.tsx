@@ -5,6 +5,7 @@ import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
 import WatchlistAddition from "../../WatchlistAddition";
+import NodataForTable from "../NodataForTable";
 
 const BiggBullQtrChangesTable = ({
   tableHead,
@@ -13,14 +14,14 @@ const BiggBullQtrChangesTable = ({
   handleSort,
   shouldShowLoader,
 }: any) => {
-  console.log("tableData", tableData);
+  //console.log("tableData", tableData);
   const { state } = useStateContext();
   const { isPrime } = state.login;
   //const isPrime = true;
   //console.log("isPrime", isPrime);
   return (
     <div className="prel">
-      <table className={styles.bibBullCustomTable}>
+      <table className={`${styles.bibBullCustomTable} ${styles.qtrChange}`}>
         <thead>
           <tr>
             {tableHead &&
@@ -67,8 +68,7 @@ const BiggBullQtrChangesTable = ({
           </tr>
         </thead>
         <tbody>
-          {tableData &&
-            tableData.length > 0 &&
+          {tableData && tableData.length > 0 ? (
             tableData.map((tdata: any, index: any) => {
               const currHolding = tdata?.stockdata?.filter(
                 (item: any) =>
@@ -177,7 +177,14 @@ const BiggBullQtrChangesTable = ({
                     : ""}
                 </tr>
               );
-            })}
+            })
+          ) : (
+            <tr>
+              <td colSpan={100} className={styles.nodatafound}>
+                <NodataForTable />
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
       {shouldShowLoader && <Loader loaderType="container" />}

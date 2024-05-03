@@ -17,8 +17,8 @@ const BigBullAllInvertorsPageClientPage = ({
   tableHead,
   pagination,
 }: any) => {
-  const __title =
-    "Individual Investors (Data Updated for Mar’24 Qtr. where available)";
+  const __title = "Individual Investors ";
+  const __spanTxt = "";
   //console.log("___data", tableHead, tableData);
   const [aciveFilter, setActiveFilter] = useState("INDIVIDUAL");
   const [invstrQuery, setInvstrQuery] = useState("");
@@ -36,6 +36,7 @@ const BigBullAllInvertorsPageClientPage = ({
     primeFlag: 1,
     pageSize: 10,
     pageNo: 1,
+    searchText: "",
   });
   const fitlerHandler = (value: any) => {
     setActiveFilter(value);
@@ -91,8 +92,10 @@ const BigBullAllInvertorsPageClientPage = ({
   };
 
   useEffect(() => {
-    if (invstrQuery && invstrQuery !== "" && invstrQuery.length > 3) {
-      searchAPIcallForInstr();
+    if (invstrQuery) {
+      //searchAPIcallForInstr();
+      setPayload({ ..._payload, searchText: invstrQuery, pageNo: 1 });
+    } else {
     }
   }, [invstrQuery]);
   useEffect(() => {
@@ -129,6 +132,7 @@ const BigBullAllInvertorsPageClientPage = ({
         handlePageChange={handlePageChangeHandler}
         shouldShowLoader={tableLoadingShow}
         title={__title}
+        spanTxt={__spanTxt}
         paginationLastNode="Investors"
       />
     </div>
