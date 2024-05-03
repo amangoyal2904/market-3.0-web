@@ -69,6 +69,10 @@
     "development": "https://etapipre.indiatimes.com/api/indexfilters",
     "production": "https://etapipre.indiatimes.com/api/indexfilters"
   },
+  "MARKETSINTRADAY_CUSTOM_TAB": {
+    "development": "https://screener.indiatimes.com/screener/overviewids",
+    "production": "https://screener.indiatimes.com/screener/overviewids"
+  },
   "MARKETS_CUSTOM_TAB": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
     "production": "https://screener.indiatimes.com/screener/getwatchlistview"
