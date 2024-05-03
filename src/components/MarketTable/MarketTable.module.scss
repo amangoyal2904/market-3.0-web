@@ -379,6 +379,14 @@
   margin: 20px auto;
 }
 
+.mouseScrollBar {
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  background: $gray_95;
+  box-shadow: 0px 4px 8px 2px #00000040;
+}
+
 #tablePagination {
   p {
     font-size: 12px;

@@ -69,7 +69,12 @@ const ScrollableTable = React.memo((props: any) => {
                     thead.valueType != "sparklineGraph" &&
                     (!thead.primeFlag || (isPrime && thead.primeFlag))
                       ? styles.enableSort
-                      : styles.center
+                      : thead.valueType != "number" ||
+                          (thead.valueType == "number" &&
+                            !isPrime &&
+                            thead.primeFlag)
+                        ? styles.center
+                        : ""
                   } ${isPrime && thead.primeFlag ? styles.primeCell : thead.valueType == "date" || thead.valueType == "text" ? styles.left : ""}`}
                   onClick={() => {
                     isSorting &&
