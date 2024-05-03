@@ -66,7 +66,6 @@ const Home = async () => {
   console.log("AdInfo", AdInfo);
   return (
     <>
-    <>helloo</>
       <MarketsDashboardWidget /> 
       <WatchlistWidget />
       <DfpAds adInfo={AdInfo.dfp.markethome.mid1}/>
