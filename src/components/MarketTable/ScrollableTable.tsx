@@ -31,9 +31,10 @@ const ScrollableTable = React.memo((props: any) => {
   useEffect(() => {
     prevTableDataListRef.current = tableDataList;
     const timer = setTimeout(() => {
-      const spanElements = document.querySelectorAll("td > span");
-      spanElements.forEach((span) => {
-        span.classList.remove(styles.upBg, styles.downBg, styles.noBg);
+      const highlightBgElements =
+        document.querySelectorAll("td > .highlightBg");
+      highlightBgElements.forEach((elem) => {
+        elem.classList.remove("upBg", "downBg", "noBg");
       });
     }, 500);
 
@@ -227,7 +228,8 @@ const ScrollableTable = React.memo((props: any) => {
                             )
                           ) : tdData.keyId == "lastTradedPrice" ? (
                             <span
-                              className={
+                              data-ltp={tdData.assetSymbol}
+                              className={`highlightBg ${
                                 !!highlightLtp &&
                                 prevTableDataList[index]?.data[tdIndex]
                                   ?.filterFormatValue
@@ -236,17 +238,17 @@ const ScrollableTable = React.memo((props: any) => {
                                       prevTableDataList[index]?.data[tdIndex]
                                         ?.filterFormatValue,
                                     )
-                                    ? styles.upBg
+                                    ? "upBg"
                                     : parseFloat(tdData.filterFormatValue) <
                                         parseFloat(
                                           prevTableDataList[index]?.data[
                                             tdIndex
                                           ]?.filterFormatValue,
                                         )
-                                      ? styles.downBg
-                                      : styles.noBg
-                                  : styles.noBg
-                              }
+                                      ? "downBg"
+                                      : "noBg"
+                                  : "noBg"
+                              } ${styles.ltp}`}
                             >
                               {!!tdData.value
                                 ? tdData.value.replaceAll(" ", "")
