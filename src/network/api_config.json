@@ -170,8 +170,8 @@
     "production": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher"
   },
   "LEFT_NAV": {
-    "development": "https://etapipre.indiatimes.com/api/nav",
-    "production": "https://etapipre.indiatimes.com/api/nav"
+    "development": "https://etapipre.indiatimes.com/api/nav?platform=web",
+    "production": "https://etapipre.indiatimes.com/api/nav?platform=web"
   },
   "PERSONALISE_VIEW": {
     "updateTabs": {
