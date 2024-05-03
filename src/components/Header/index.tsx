@@ -12,6 +12,8 @@ import Search from "../Search";
 import useDebounce from "@/hooks/useDebounce";
 import { getCurrentMarketStatus } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
+import AdInfo from "@/components/Ad/AdInfo/homeAds.json";
+import DfpAds from "@/components/Ad/DfpAds";
 
 const LiveMarketData = dynamic(() => import("../LiveMarketData"), {
   ssr: false,
@@ -115,6 +117,8 @@ const Header = () => {
   }, [mktStatus, lastMarketStatus, dispatch]);
 
   return (
+    <>
+    <DfpAds adInfo={AdInfo.dfp.markethome.topad}/>
     <header id={styles.pageTopbar}>
       <div className={styles.navbarHeader} id="header">
         <div className={`dflex align-item-center ${styles.logoHeader}`}>
@@ -159,6 +163,7 @@ const Header = () => {
         </div>
       </div>
     </header>
+    </>
   );
 };
 
