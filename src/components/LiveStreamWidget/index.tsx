@@ -46,7 +46,7 @@ const LiveStreamWidget = async () => {
   const liveStreamData = await fetchLiveStreamData();
   return (
     <>
-      <h1 className="heading">
+      <h1 className="heading marginhead">
         Live Stream
         <span className={`eticon_caret_right ${styles.headingIcon}`} />
       </h1>

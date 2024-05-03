@@ -3,12 +3,7 @@ import styles from "./styles.module.scss";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const InvestorsTopTabs = ({
-  data,
-  individualFilter,
-  aciveFilter,
-  fitlerHandler,
-}: any) => {
+const InvestorsTopTabs = ({ data, rightTabTxt = "" }: any) => {
   const pathname = usePathname();
   const isActive = (path: any) => path === pathname;
   return (
@@ -28,7 +23,7 @@ const InvestorsTopTabs = ({
             );
           })}
         </ul>
-        <div className={styles.rigthTab}>As on Quarter: Dec, 2023</div>
+        <div className={styles.rigthTab}>{rightTabTxt}</div>
       </div>
     </>
   );

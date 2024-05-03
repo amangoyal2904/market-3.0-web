@@ -50,15 +50,15 @@ const IndicesDetailsOverview = React.memo(
         ) {
           const trendClass =
             overviewData.lastTradedPrice > lastTradedPrice
-              ? styles.upBg
+              ? "upBg"
               : overviewData.lastTradedPrice < lastTradedPrice
-                ? styles.downBg
-                : "";
+                ? "downBg"
+                : "noBg";
           const element = document.getElementById("lastTradedPrice");
           if (element) {
             element.classList.add(trendClass);
             setTimeout(() => {
-              element.classList.remove(styles.upBg, styles.downBg);
+              element.classList.remove("upBg", "downBg");
             }, 500);
           }
         }

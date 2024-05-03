@@ -315,7 +315,7 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           pageName?.map((item: any, index: any) => {
             return (
               <>
-                <li>
+                <li key={index}>
                   <span className="eticon_caret_right"></span>
                   {item.redirectUrl ? (
                     <a href={item.redirectUrl}>{item.label}</a>

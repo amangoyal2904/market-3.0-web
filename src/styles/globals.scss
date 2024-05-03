@@ -339,6 +339,10 @@ table {
   line-height: normal;
 }
 
+.marginhead {
+  margin: 30px 0 20px;
+}
+
 .two-line-ellipsis {
   overflow: hidden;
   display: -webkit-box;
@@ -490,4 +494,17 @@ table {
     border-top: solid 2px $blue-50;
     border-right: solid 2px $blue-50;
   }
+}
+
+.upBg {
+  background: #7dc37c36 !important;
+  color: #1aae55 !important;
+}
+.downBg {
+  background: #ed193b1c !important;
+  color: #ed193b !important;
+}
+.noBg {
+  background: inherit !important;
+  color: inherit !important;
 }

@@ -7,8 +7,11 @@ import { APP_ENV } from "@/utils";
 import MarketsDashboardWidget from "@/components/MarketsDashboardWidget";
 import StockScreenerWidget from "@/components/ScreenerWidget";
 import LiveStreamWidget from "@/components/LiveStreamWidget";
+import IndicesWidget from "@/components/IndicesWidget";
 import BreadCrumb from "@/components/BreadCrumb";
 import { headers } from "next/headers";
+import BuySellTechnicalWidget from "@/components/BuySellTechnicalWidget";
+import { getBuySellTechnicals } from "@/utils/utility";
 
 const Home = async () => {
   const headersList = headers();
@@ -35,7 +38,6 @@ const Home = async () => {
       params: {},
     });
     const getRecosDetailData = await getRecosDetailPromise?.json();
-    // console.log("@@fetchData --- > " , data);
     return getRecosDetailData;
   };
   const getSrPlusData = async (screenerId: any) => {
@@ -60,18 +62,33 @@ const Home = async () => {
       params: {},
     });
     const data = await getSrPlusDataPromise?.json();
-    console.log("@@fetchData --- > ", data);
     return data;
   };
   const stockRecoResult = await getRecosData("newRecos");
   const srPlusResult = await getSrPlusData("2554");
+
+  const buySellTechnicalspayload = {
+    indicatorName: "EMA20",
+    exchange: "nse",
+    sortby: "percentChange",
+    sortorder: "desc",
+    pagesize: 10,
+    crossoverType: "Bullish",
+  };
+  const table = await getBuySellTechnicals(buySellTechnicalspayload);
+
   return (
     <>
+      <IndicesWidget />
       <MarketsDashboardWidget />
       <WatchlistWidget />
       <StockRecommendations stockRecoResult={stockRecoResult} />
       <StockReportsPlus srResult={srPlusResult} />
       <StockScreenerWidget />
+      <BuySellTechnicalWidget
+        data={table}
+        bodyParams={buySellTechnicalspayload}
+      />
       <LiveStreamWidget />
       <BreadCrumb
         pagePath={pageUrl}

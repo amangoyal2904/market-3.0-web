@@ -106,5 +106,17 @@
     "pagination": true,
     "loaderType": "inner",
     "showWatchlistIcon": true
+  },
+  "buySellTechnicals": {
+    "name": "buySellTechnicals",
+    "tabs": false,
+    "loader": true,
+    "showFilterInput": false,
+    "isSorting": false,
+    "serverSideSort": false,
+    "isHeaderSticky": false,
+    "pagination": false,
+    "loaderType": "inner",
+    "showWatchlistIcon": true
   }
 }
