@@ -17,8 +17,8 @@ const BigBullAllInvertorsPageClientPage = ({
   tableHead,
   pagination,
 }: any) => {
-  const __title =
-    "Individual Investors (Data Updated for Mar’24 Qtr. where available)";
+  const __title = "Individual Investors ";
+  const __spanTxt = "";
   //console.log("___data", tableHead, tableData);
   const [aciveFilter, setActiveFilter] = useState("INDIVIDUAL");
   const [invstrQuery, setInvstrQuery] = useState("");
@@ -132,6 +132,7 @@ const BigBullAllInvertorsPageClientPage = ({
         handlePageChange={handlePageChangeHandler}
         shouldShowLoader={tableLoadingShow}
         title={__title}
+        spanTxt={__spanTxt}
         paginationLastNode="Investors"
       />
     </div>

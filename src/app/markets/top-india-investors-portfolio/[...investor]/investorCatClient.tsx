@@ -290,7 +290,7 @@ const InvestorClientCatePage = ({
                           <li
                             onClick={() => sortBychangeHoldingHandler(sort)}
                             className={`${sortByChangeHoldingActive.value === sort.value ? styles.active : ""}`}
-                            key={`${index}-${sort.value}`}
+                            key={`${index}-${sort.value}-`}
                           >
                             {sort.label}
                           </li>
