@@ -39,7 +39,7 @@ const FixedTable = React.memo((props: any) => {
       const highlightBgElements =
         document.querySelectorAll("td > .highlightBg");
       highlightBgElements.forEach((elem) => {
-        elem.classList.remove("upBg", "downBg", "noBg");
+        elem.classList.remove("upBg", "downBg");
       });
     }, 500);
 
@@ -327,8 +327,8 @@ const FixedTable = React.memo((props: any) => {
                                             ]?.filterFormatValue,
                                           )
                                         ? "downBg"
-                                        : "noBg"
-                                    : "noBg"
+                                        : ""
+                                    : ""
                                 } ${styles.ltp}`}
                               >
                                 {!!tdData.value
