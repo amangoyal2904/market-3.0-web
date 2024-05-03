@@ -495,3 +495,16 @@ table {
     border-right: solid 2px $blue-50;
   }
 }
+
+.upBg {
+  background: #7dc37c36 !important;
+  color: #1aae55 !important;
+}
+.downBg {
+  background: #ed193b1c !important;
+  color: #ed193b !important;
+}
+.noBg {
+  background: inherit !important;
+  color: inherit !important;
+}

@@ -133,20 +133,6 @@
       -ms-flex-pack: center;
       justify-content: center;
     }
-    span {
-      &.upBg {
-        background: #7dc37c36;
-        color: #1aae55;
-      }
-      &.downBg {
-        background: #ed193b1c;
-        color: #ed193b;
-      }
-      &.noBg {
-        background: inherit;
-        color: inherit;
-      }
-    }
     &.fullWidth {
       width: 100%;
       padding: 0;
