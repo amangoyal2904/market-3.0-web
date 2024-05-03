@@ -21,6 +21,17 @@
     "showIndustryFilter": false,
     "showSectorFilter": false
   },
+  "marketDashboard": {
+    "showAddStock": false,
+    "showEditStock": false,
+    "showIndexFilter": true,
+    "showDuration": true,
+    "showPersonalize": false,
+    "showExport": false,
+    "showCreateScreener": false,
+    "showIndustryFilter": false,
+    "showSectorFilter": false
+  },
   "marketStatsTechnical": {
     "showAddStock": false,
     "showEditStock": false,
