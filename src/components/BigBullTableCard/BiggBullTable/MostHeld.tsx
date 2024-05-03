@@ -19,6 +19,9 @@ const BiggBullMostHeldTable = ({
   const { isPrime } = state.login;
   // const isPrime = true;
   //console.log("isPrime", isPrime);
+  const showMoreInvestorHandler = () => {
+    console.log("yes show more li list ");
+  };
   return (
     <div className="prel">
       <table className={styles.bibBullCustomTable}>
@@ -131,6 +134,16 @@ const BiggBullMostHeldTable = ({
                                 </li>
                               );
                             })}
+                        {tdata?.investorsList.length > 2 && (
+                          <li
+                            onClick={showMoreInvestorHandler}
+                            className={styles.dotes}
+                          >
+                            <i></i>
+                            <i></i>
+                            <i></i>
+                          </li>
+                        )}
                       </ul>
                     </div>
                   </td>

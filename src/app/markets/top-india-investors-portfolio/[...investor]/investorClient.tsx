@@ -81,7 +81,11 @@ const InvestorClientPage = ({
       {freshEntry && freshEntry.length > 0 && (
         <div className={`${styles.sectionWrap} ${styles.mainContentWraper}`}>
           <h3 className={styles.head3}>{freshEntryTitle}</h3>
-          <FreshEntryCard cardData={freshEntry} />
+          <FreshEntryCard
+            cardData={freshEntry}
+            linkTitle="View All Fresh Entry & Exit"
+            linkHref={`/markets/top-india-investors-portfolio/${sharkSeoName},expertid-${sharkID}/fresh-entry-exit`}
+          />
         </div>
       )}
 
@@ -90,7 +94,11 @@ const InvestorClientPage = ({
           <h3 className={styles.head3}>
             {changeHoldingDataTitle} from Last Quaters
           </h3>
-          <FreshEntryCard cardData={changeHoldingData} />
+          <FreshEntryCard
+            cardData={changeHoldingData}
+            linkTitle="View All Change in Holdings"
+            linkHref={`/markets/top-india-investors-portfolio/${sharkSeoName},expertid-${sharkID}/change-in-holdings`}
+          />
         </div>
       )}
 
@@ -131,7 +139,11 @@ const InvestorClientPage = ({
           <h3 className={styles.head3}>
             Bulk/Block Deals made by {sharkName}{" "}
           </h3>
-          <FreshEntryCard cardData={bulkBlockData} />
+          <FreshEntryCard
+            cardData={bulkBlockData}
+            linkTitle="View All Change in Bulk/Block Deals"
+            linkHref={`/markets/top-india-investors-portfolio/${sharkSeoName},expertid-${sharkID}/bulk-block-deals`}
+          />
         </div>
       )}
 

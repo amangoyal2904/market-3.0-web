@@ -93,7 +93,7 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
 
   return (
     <div className={styles.wraper}>
-      <h1 className={styles.heading1}>Stock Recommendations</h1>
+      <h1 className="heading marginhead">Stock Recommendations</h1>
 
       <div className={styles.tabMainBox}>
         <ul className={styles.tabs}>

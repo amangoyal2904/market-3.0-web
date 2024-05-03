@@ -57,7 +57,7 @@ const StockScreenerWidget = async () => {
 
   return (
     <>
-      <h1 className="heading">
+      <h1 className="heading marginhead">
         Stock Screeners{" "}
         <span className={`eticon_caret_right ${styles.headingIcon}`} />
       </h1>

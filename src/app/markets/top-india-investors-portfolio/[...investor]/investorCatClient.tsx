@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import HeroBanner from "@/components/InvestorModule/HeroBanner";
 import InvestorsTopTabs from "@/components/BigBullTabs/InvestorsTopTabs";
@@ -24,6 +24,25 @@ const InvestorClientCatePage = ({
   pageUrl,
 }: any) => {
   const [tableLoadingShow, setTableLoadingShow] = useState(false);
+  const [sortByTrade, setSortByTrade]: any = useState([
+    { label: "All Entries", value: "ALL" },
+    { label: "Sold Entries", value: "SOLD" },
+    { label: "Bougth Entries", value: "BOUGHT" },
+  ]);
+  const [sortByTradeActive, setSortByTradeActive] = useState({
+    label: "Sold Entries",
+    value: "SOLD",
+  });
+  const [sortByChangeHolding, setSortByChangeHolding]: any = useState([
+    { label: "All", value: "All" },
+    { label: "Increase", value: "Increase" },
+    { label: "Increase", value: "Decrease" },
+  ]);
+  const [sortByChangeHoldingActive, setSortByChangeHoldingActive] = useState({
+    label: "All",
+    value: "All",
+  });
+
   const [showFilter, setShowFilter] = useState(false);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const sharkSeoName =
@@ -143,13 +162,59 @@ const InvestorClientCatePage = ({
     setArrayOfCompany(arrayOfCompany);
     setPageSummaryInfo(pageSummaryInfo);
   };
+  const callAPIforFreshEntryExitData = async () => {
+    setTableLoadingShow(true);
+    const invertorData = await commonPostAPIHandler(
+      `BigBullFreshEntryExit`,
+      _payload,
+    );
+    const pageData = invertorData ? invertorData : "";
+    const arrayOfCompany =
+      pageData?.datainfo?.entryExitDataInfo?.entryExitData
+        ?.stockEntryExitData || [];
+    const pageSummaryInfo =
+      pageData?.datainfo?.entryExitDataInfo?.pageSummaryInfo || {};
+    setTableLoadingShow(false);
+    setArrayOfCompany(arrayOfCompany);
+    setPageSummaryInfo(pageSummaryInfo);
+  };
+  const callAPIforChangeInHoldingsData = async () => {
+    setTableLoadingShow(true);
+    const invertorData = await commonPostAPIHandler(
+      `BigBullHoldingChanges`,
+      _payload,
+    );
+    const pageData = invertorData ? invertorData : "";
+    const arrayOfCompany =
+      pageData?.datainfo?.stockIncreaseDecreaseDataInfo
+        ?.stockIncreaseDecreaseListData || [];
+    const pageSummaryInfo =
+      pageData?.datainfo?.stockIncreaseDecreaseDataInfo?.pageSummaryInfo || {};
+    setTableLoadingShow(false);
+    setArrayOfCompany(arrayOfCompany);
+    setPageSummaryInfo(pageSummaryInfo);
+  };
+  const sortByTradeHandler = (sortData: any) => {
+    setSortByTradeActive(sortData);
+    setPayload({ ..._payload, tradType: sortData.value, pageNo: 1 });
+  };
+  const sortBychangeHoldingHandler = (sortData: any) => {
+    setSortByChangeHoldingActive(sortData);
+    setPayload({ ..._payload, tradType: sortData.value, pageNo: 1 });
+  };
   useEffect(() => {
-    console.log("payload are chagned. ", _payload);
+    console.log("payload are changed. ", _payload);
     if (slug === "holdings") {
       callAPIforHoldingData();
     }
     if (slug === "bulk-block-deals") {
       callAPIforBulkBlockDealsData();
+    }
+    if (slug === "fresh-entry-exit") {
+      callAPIforFreshEntryExitData();
+    }
+    if (slug === "change-in-holdings") {
+      callAPIforChangeInHoldingsData();
     }
   }, [_payload]);
   useEffect(() => {
@@ -160,7 +225,11 @@ const InvestorClientCatePage = ({
   return (
     <>
       <HeroBanner data={data} />
-      <InvestorsTopTabs data={tabsData} activeTab="" />
+      <InvestorsTopTabs
+        data={tabsData}
+        rightTabTxt="As on Quarter: Dec, 2023"
+        activeTab=""
+      />
       <div className={styles.mainContentWraper}>
         <div className={styles.topHeadNavSec}>
           <h1 className={styles.head1}>{title}</h1>
@@ -173,6 +242,64 @@ const InvestorClientCatePage = ({
                 <i className={`eticon_filter ${styles.mr}`}></i>{" "}
                 {niftyFilterData?.name}
               </span>
+            </>
+          ) : (
+            ""
+          )}
+          {slug === "fresh-entry-exit" ? (
+            <>
+              <div className={`${styles.sortFilter}`}>
+                <span className={styles.stTxt}>Sort By: </span>
+                <span className={styles.dyTxt}> {sortByTradeActive.label}</span>
+                <div className={styles.sortFilterContent}>
+                  <div className={`moduleBody ${styles.body}`}>
+                    <ul>
+                      {sortByTrade.map((sort: any, index: number) => {
+                        return (
+                          <li
+                            onClick={() => sortByTradeHandler(sort)}
+                            className={`${sortByTradeActive.value === sort.value ? styles.active : ""}`}
+                            key={`${index}-${sort.value}`}
+                          >
+                            {sort.label}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+
+          {slug === "change-in-holdings" ? (
+            <>
+              <div className={`${styles.sortFilter}`}>
+                <span className={styles.stTxt}>Sort By: </span>
+                <span className={styles.dyTxt}>
+                  {" "}
+                  {sortByChangeHoldingActive.label}
+                </span>
+                <div className={styles.sortFilterContent}>
+                  <div className={`moduleBody ${styles.body}`}>
+                    <ul>
+                      {sortByChangeHolding.map((sort: any, index: number) => {
+                        return (
+                          <li
+                            onClick={() => sortBychangeHoldingHandler(sort)}
+                            className={`${sortByChangeHoldingActive.value === sort.value ? styles.active : ""}`}
+                            key={`${index}-${sort.value}`}
+                          >
+                            {sort.label}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </>
           ) : (
             ""
