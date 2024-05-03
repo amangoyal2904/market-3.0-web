@@ -5,7 +5,11 @@ import {
   getIntradayViewsTab,
 } from "@/utils/customViewAndTables";
 import { cookies } from "next/headers";
-import { fetchSelectedFilter } from "@/utils/utility";
+import {
+  fetchSelectedFilter,
+  generateIntradayDurations,
+} from "@/utils/utility";
+import { getAllShortUrls, getShortUrlMapping } from "@/utils/marketstats";
 
 const MarketsDashboardWidget = async () => {
   const cookieStore = cookies();
@@ -18,6 +22,7 @@ const MarketsDashboardWidget = async () => {
   const duration = "1D";
 
   const { tabData, activeViewId } = await getIntradayViewsTab();
+
   const bodyParams = {
     viewId: activeViewId,
     apiType: "gainers",
@@ -38,6 +43,13 @@ const MarketsDashboardWidget = async () => {
   );
 
   const selectedFilter = await fetchSelectedFilter(intFilter);
+  const intradayDurationOptions = await generateIntradayDurations("gainers");
+  const pageUrl = "/stocks/marketstats?type=gainers&duration=1D&filter=2371";
+  const shortUrlMapping = await getAllShortUrls();
+  const isExist: any = shortUrlMapping.find(
+    (item: any) => item.longURL == pageUrl,
+  );
+  const updatedUrl = isExist ? isExist.shortUrl : pageUrl;
 
   return (
     <div className={styles.dashboardWrapper}>
@@ -49,6 +61,9 @@ const MarketsDashboardWidget = async () => {
         activeViewId={activeViewId}
         selectedFilter={selectedFilter}
         bodyparams={payload}
+        durationOptions={intradayDurationOptions}
+        shortUrlMapping={shortUrlMapping}
+        shortUrl={updatedUrl}
       />
     </div>
   );

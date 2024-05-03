@@ -2,13 +2,18 @@
 import React, { useEffect, useState } from "react";
 import MarketTable from "../MarketTable";
 import tableConfig from "@/utils/tableConfig.json";
-import { fetchTableData } from "./ApiCalls";
+import tabConfig from "@/utils/tabConfig.json";
 import ViewAllLink from "../ViewAllLink";
 import { useStateContext } from "@/store/StateContext";
 import LeftMenuTabs from "../MarketTabs/MenuTabs";
-import { fetchViewTable } from "@/utils/utility";
+import {
+  fetchSelectedFilter,
+  fetchViewTable,
+  generateIntradayDurations,
+} from "@/utils/utility";
 import { getCookie } from "@/utils";
 import refeshConfig from "@/utils/refreshConfig.json";
+import MarketFiltersTab from "../MarketTabs/MarketFiltersTab";
 interface propsType {
   tabsData: any[];
   tableData: any[];
@@ -16,6 +21,9 @@ interface propsType {
   activeViewId: any;
   selectedFilter: any;
   bodyparams: any;
+  durationOptions: any[];
+  shortUrl: string;
+  shortUrlMapping: any[];
 }
 function MarketDashBoard(props: propsType) {
   const {
@@ -25,6 +33,9 @@ function MarketDashBoard(props: propsType) {
     activeViewId,
     selectedFilter = {},
     bodyparams = {},
+    durationOptions = [],
+    shortUrl = "",
+    shortUrlMapping = [],
   } = props || {};
   const { state } = useStateContext();
   const { isLogin, ssoid, isPrime } = state.login;
@@ -33,14 +44,36 @@ function MarketDashBoard(props: propsType) {
   const [dashBoardHeaderData, setDashBoardHeaderData] = useState(
     tableHeaderData || [],
   );
+  const [shortURL, setShortURL] = useState(shortUrl);
   const [activeViewID, setActiveViewID] = useState(activeViewId);
   const [payload, setPayload] = useState(bodyparams);
   const [processingLoader, setProcessingLoader] = useState(false);
-  const config = tableConfig["marketDashboard"];
+  const [dayFilterData, setDayFilterData] = useState({
+    value: "1D",
+    label: "1 Day",
+  });
+  const [intradayDurationOptions, setIntradayDurationOptions] =
+    useState(durationOptions);
+  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
 
-  const getApiType = (viewId: any) => {
+  const getApiType = async (viewId: any) => {
     const response = tabsData.find((item) => item.viewId === viewId);
     return response ? response.viewType : null;
+  };
+
+  const getSelectedDuration = (apiType: any, durationOptions: any) => {
+    if (durationOptions.length) {
+      let label =
+        apiType == "hourly-gainers" || apiType == "hourly-losers"
+          ? durationOptions[durationOptions.length - 1]?.label
+          : durationOptions[0]?.label;
+      let value =
+        apiType == "hourly-gainers" || apiType == "hourly-losers"
+          ? durationOptions[durationOptions.length - 1]?.value
+          : durationOptions[0]?.value;
+      return { value, label };
+    }
+    return { value: "", label: "" };
   };
 
   const updateTableData = async () => {
@@ -60,35 +93,94 @@ function MarketDashBoard(props: propsType) {
         tableData && tableData.length && tableData[0] && tableData[0]?.data
           ? tableData[0]?.data
           : [];
+      updateShortUrl();
       setDashBoardTableData(tableData);
       setDashBoardHeaderData(tableHeaderData);
       setProcessingLoader(false);
     }
   };
 
+  const filterDataChangeHander = async (id: any) => {
+    setProcessingLoader(true);
+    const filter =
+      id !== undefined && !isNaN(Number(id))
+        ? parseInt(id)
+        : id !== undefined
+          ? id
+          : 0;
+    const selectedFilter = await fetchSelectedFilter(filter);
+    setNiftyFilterData(selectedFilter);
+    setPayload({
+      ...payload,
+      filterValue: [filter],
+      filterType:
+        filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
+    });
+  };
+
+  const dayFitlerHanlderChange = async (value: any, label: any) => {
+    setProcessingLoader(true);
+    const apiType = await getApiType(activeViewID);
+    if (apiType == "gainers" || apiType == "losers") {
+      const newDuration = value;
+      setPayload({
+        ...payload,
+        duration: !!newDuration ? newDuration.toUpperCase() : null,
+        pageno: 1,
+      });
+    } else if (
+      apiType == "volume-shockers" ||
+      apiType == "hourly-gainers" ||
+      apiType == "hourly-losers"
+    ) {
+      const newTimespan = value;
+      setPayload({
+        ...payload,
+        timespan: !!newTimespan ? newTimespan.toUpperCase() : null,
+        pageno: 1,
+      });
+    }
+  };
+
   const onTabViewUpdate = async (viewId: any) => {
     const bodyParams = { ...payload };
-    const apiType = getApiType(viewId);
-    if (apiType != "gainers" && apiType != "losers") {
-      delete bodyParams.duration;
-    } else {
-      if (!bodyParams.duration) {
-        bodyParams.duration = "1D";
-      }
+    delete bodyParams.duration;
+    delete bodyParams.timespan;
+    const apiType = await getApiType(viewId);
+    const durationOptions = await generateIntradayDurations(apiType);
+    setIntradayDurationOptions(durationOptions);
+    const selectedDuration = await getSelectedDuration(
+      apiType,
+      durationOptions,
+    );
+    setDayFilterData(selectedDuration);
+    if (apiType == "gainers" || apiType == "losers") {
+      bodyParams.duration = selectedDuration.value;
     }
 
-    if (apiType != "volume-shockers") {
-      delete bodyParams.timespan;
-    } else if (apiType == "volume-shockers" && !bodyParams.timespan) {
-      bodyParams.timespan = "3D";
+    if (
+      (apiType == "volume-shockers" ||
+        apiType == "hourly-gainers" ||
+        apiType == "hourly-losers") &&
+      selectedDuration.value != ""
+    ) {
+      bodyParams.timespan = selectedDuration.value;
     }
     setProcessingLoader(true);
     setActiveViewID(viewId);
     setPayload({ ...bodyParams, viewId, apiType });
   };
 
+  const updateShortUrl = async () => {
+    const pageUrl = `/stocks/marketstats?type=${await getApiType(activeViewID)}${payload.duration ? "&duration=" + payload.duration : ""}${payload.timespan ? "&timespan=" + payload.timespan : ""}&filter=2369`;
+    const isExist: any = shortUrlMapping.find(
+      (item: any) => item.longURL == pageUrl,
+    );
+    const updatedUrl = isExist ? isExist.shortUrl : pageUrl;
+    setShortURL(updatedUrl);
+  };
+
   useEffect(() => {
-    setProcessingLoader(true);
     updateTableData();
     const intervalId = setInterval(() => {
       if (currentMarketStatus === "LIVE") {
@@ -106,20 +198,27 @@ function MarketDashBoard(props: propsType) {
           activeViewId={activeViewID}
           tabsViewIdUpdate={onTabViewUpdate}
         />
+        <MarketFiltersTab
+          data={tabsData}
+          filterDataChange={filterDataChangeHander}
+          niftyFilterData={niftyFilterData}
+          dayFitlerHanlderChange={dayFitlerHanlderChange}
+          tabConfig={tabConfig["marketDashboard"]}
+          dayFilterData={dayFilterData}
+          setDayFilterData={setDayFilterData}
+          intradayDurationOptions={intradayDurationOptions}
+        />
       </div>
       <MarketTable
         data={dashBoardTableData}
         highlightLtp={!!currentMarketStatus && currentMarketStatus != "CLOSED"}
         tableHeaders={dashBoardHeaderData}
-        tableConfig={config}
+        tableConfig={tableConfig["marketDashboard"]}
         isprimeuser={isPrime}
         processingLoader={processingLoader}
       />
       {dashBoardTableData.length ? (
-        <ViewAllLink
-          text="View All Stocks"
-          link={`/stocks/marketstats?type=${getApiType(activeViewID)}&filter=2369`}
-        />
+        <ViewAllLink text="View All Stocks" link={shortURL} />
       ) : (
         ""
       )}
