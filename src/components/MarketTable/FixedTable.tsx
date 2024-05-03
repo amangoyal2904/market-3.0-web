@@ -23,7 +23,6 @@ const FixedTable = React.memo((props: any) => {
     showRemoveCheckbox = false,
     removeCheckBoxHandle,
     tableConfig = {},
-    parentHasScroll = false,
     fixedCol = 3,
   } = props || {};
   const {

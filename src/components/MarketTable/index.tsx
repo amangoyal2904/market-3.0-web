@@ -373,9 +373,7 @@ const MarketTable = React.memo((props: propsType) => {
                 showRemoveCheckbox={showTableCheckBox}
                 removeCheckBoxHandle={removeCheckBoxHandleFun}
                 tableConfig={tableConfig}
-                parentHasScroll={parentHasScroll}
                 fixedCol={fixedCol}
-                ref={fixedTableRef}
               />
             </div>
             <div
@@ -387,7 +385,6 @@ const MarketTable = React.memo((props: propsType) => {
                 highlightLtp={highlightLtp}
                 tableHeaderData={tableHeaderData}
                 tableDataList={tableDataList}
-                scrollRightPos={scrollRightPos}
                 headerSticky={headerSticky}
                 topScrollHeight={topScrollHeight}
                 handleSort={sortHandler}
@@ -399,7 +396,6 @@ const MarketTable = React.memo((props: propsType) => {
                 tableConfig={tableConfig}
                 parentHasScroll={parentHasScroll}
                 fixedCol={fixedCol}
-                ref={parentRef}
               />
             </div>
           </>

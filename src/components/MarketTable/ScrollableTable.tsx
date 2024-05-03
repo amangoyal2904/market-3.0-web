@@ -8,7 +8,6 @@ const ScrollableTable = React.memo((props: any) => {
   const {
     highlightLtp,
     tableHeaderData,
-    scrollRightPos,
     headerSticky,
     topScrollHeight,
     handleSort,
