@@ -829,5 +829,135 @@ export const getBuySellTechnicals = async (payload: any) => {
     params: {},
   });
   const originalJson = await response?.json();
-  return originalJson.response;
+  let convertedData: {
+    assetName: any;
+    assetSeoName: any;
+    assetType: any;
+    assetId: any;
+    assetExchangeId: any;
+    assetSymbol: any;
+    data: (
+      | {
+          keyId: string;
+          keyText: string;
+          value: any;
+          trend: string;
+          decimalValue: null;
+          filterFormatValue: any;
+          primeFlag: number;
+          valueType: string;
+        }
+      | {
+          keyId: string;
+          keyText: string;
+          value: any;
+          trend: string;
+          decimalValue: number;
+          filterFormatValue: any;
+          primeFlag: number;
+          valueType: string;
+        }
+    )[];
+  }[] = [];
+  originalJson.response.forEach((company: any) => {
+    let newDataObj = {
+      assetName: company.companyShortName,
+      assetSeoName: company.seoName,
+      assetType: company.companyType,
+      assetId: company.companyId,
+      assetExchangeId: payload.exchange,
+      assetSymbol: company.scripCode,
+      data: [
+        {
+          keyId: "shortName",
+          keyText: "Stock Name",
+          value: company.companyShortName,
+          trend: "",
+          decimalValue: null,
+          filterFormatValue: company.companyShortName,
+          primeFlag: 0,
+          valueType: "text",
+        },
+        {
+          keyId: "lastTradedPrice",
+          keyText: "Price",
+          value: formatNumber(company.ltp, 2),
+          trend: "",
+          decimalValue: 2,
+          filterFormatValue: company.ltp,
+          primeFlag: 0,
+          valueType: "number",
+        },
+        {
+          keyId: "netChange",
+          keyText: "Chg",
+          value: company.absoluteChange.toFixed(2),
+          trend:
+            company.absoluteChange < 0
+              ? "down"
+              : company.absoluteChange > 0
+                ? "up"
+                : "neutral",
+          decimalValue: null,
+          filterFormatValue: company.absoluteChange,
+          primeFlag: 0,
+          valueType: "number",
+        },
+        {
+          keyId: "percentChange",
+          keyText: "Chg%",
+          value: company.percentChange.toFixed(2) + " %",
+          trend:
+            company.percentChange < 0
+              ? "down"
+              : company.percentChange > 0
+                ? "up"
+                : "neutral",
+          decimalValue: 2,
+          filterFormatValue: company.percentChange,
+          primeFlag: 0,
+          valueType: "number",
+        },
+        {
+          keyId: "gainDecline",
+          keyText: payload.crossoverType == "Bullish" ? "Gain*" : "Decline*",
+          value:
+            payload.crossoverType == "Bullish"
+              ? company.averagePriceGainLossBullish.toFixed(2)
+              : company.averagePriceGainLossBearish.toFixed(2),
+          trend:
+            payload.crossoverType == "Bullish"
+              ? company.averagePriceGainLossBullish < 0
+                ? "down"
+                : company.averagePriceGainLossBullish > 0
+                  ? "up"
+                  : "neutral"
+              : company.averagePriceGainLossBearish < 0
+                ? "down"
+                : company.averagePriceGainLossBearish > 0
+                  ? "up"
+                  : "neutral",
+          decimalValue: 2,
+          filterFormatValue:
+            payload.crossoverType == "Bullish"
+              ? company.averagePriceGainLossBullish
+              : company.averagePriceGainLossBearish,
+          primeFlag: 0,
+          valueType: "number",
+        },
+        {
+          keyId: "volume",
+          keyText: "Volume",
+          value: formatNumber(company.volume, 2),
+          trend: "",
+          decimalValue: 0,
+          filterFormatValue: company.volume,
+          primeFlag: 0,
+          valueType: "number",
+        },
+      ],
+    };
+    convertedData.push(newDataObj);
+  });
+  return convertedData;
 };

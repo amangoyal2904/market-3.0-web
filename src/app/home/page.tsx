@@ -72,7 +72,7 @@ const Home = async () => {
     exchange: "nse",
     sortby: "percentChange",
     sortorder: "desc",
-    pagesize: 6,
+    pagesize: 10,
     crossoverType: "Bullish",
   };
   const table = await getBuySellTechnicals(buySellTechnicalspayload);

@@ -308,7 +308,6 @@ const MarketTable = React.memo((props: propsType) => {
     const height_2 = fixedTheadElement.getBoundingClientRect().height;
 
     const hasScroll = parent.scrollWidth > parent.clientWidth;
-
     const thElementsParent = parent.querySelectorAll("th");
     const thElementsFixed = fixedTable.querySelectorAll("th");
 

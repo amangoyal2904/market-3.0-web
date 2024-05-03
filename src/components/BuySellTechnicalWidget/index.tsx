@@ -1,8 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import BuySellTab from "./BuySellTab";
-import BuySellTable from "./BuySellTable";
 import { getBuySellTechnicals } from "@/utils/utility";
+import MarketTable from "../MarketTable";
+import { useStateContext } from "@/store/StateContext";
+import tableConfig from "@/utils/tableConfig.json";
+import refeshConfig from "@/utils/refreshConfig.json";
 
 const macd_opts = [
   { label: "1D", value: "1d", id: 1 },
@@ -21,6 +24,9 @@ const indicator_opts = [
 ];
 
 const BuySellTechnicalWidget = ({ data, bodyParams }: any) => {
+  const { state } = useStateContext();
+  const { isLogin, ssoid, isPrime } = state.login;
+  const { currentMarketStatus } = state.marketStatus;
   const [processingLoader, setProcessingLoader] = useState(false);
   const [dropDownOptions, setDropDownOptions] = useState(indicator_opts);
   const [dropDownValue, setDropDownValue] = useState({
@@ -32,6 +38,9 @@ const BuySellTechnicalWidget = ({ data, bodyParams }: any) => {
   const [activeItem, setActiveItem] = useState(
     "bullish-moving-average-crossover",
   );
+
+  const config = tableConfig["buySellTechnicals"];
+
   const onExchangeChange = (exchange: string) => {
     setProcessingLoader(true);
     setPayload({ ...payload, exchange });
@@ -88,30 +97,46 @@ const BuySellTechnicalWidget = ({ data, bodyParams }: any) => {
     setTableData(table);
     setProcessingLoader(false);
   };
+  const tableHeaderData =
+    (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
 
   useEffect(() => {
+    setProcessingLoader(true);
     updateTableData();
-  }, [payload]);
+    const intervalId = setInterval(() => {
+      if (currentMarketStatus === "LIVE") {
+        updateTableData();
+      }
+    }, refeshConfig.marketstats);
+    return () => clearInterval(intervalId);
+  }, [payload, currentMarketStatus]);
 
   return (
     <>
       <h1 className="heading marginhead">Buy/Sell Signals</h1>
+      <div className="prel">
+        <BuySellTab
+          activeItem={activeItem}
+          payload={payload}
+          dropDownOptions={dropDownOptions}
+          dropDownValue={dropDownValue}
+          handleExchange={onExchangeChange}
+          handleDropDown={onDropDownChange}
+          tabClick={onTabClick}
+          dropDownChangeHandler={onDropDownChange}
+        />
 
-      <BuySellTab
-        activeItem={activeItem}
-        payload={payload}
-        dropDownOptions={dropDownOptions}
-        dropDownValue={dropDownValue}
-        handleExchange={onExchangeChange}
-        handleDropDown={onDropDownChange}
-        tabClick={onTabClick}
-        dropDownChangeHandler={onDropDownChange}
-      />
-      <BuySellTable
-        data={tableData}
-        crossoverType={payload.crossoverType}
-        processingLoader={processingLoader}
-      />
+        <MarketTable
+          highlightLtp={
+            !!currentMarketStatus && currentMarketStatus != "CLOSED"
+          }
+          data={tableData}
+          tableHeaders={tableHeaderData}
+          tableConfig={config}
+          isprimeuser={isPrime}
+          processingLoader={processingLoader}
+        />
+      </div>
     </>
   );
 };
