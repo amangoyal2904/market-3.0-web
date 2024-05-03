@@ -7,6 +7,8 @@ import { APP_ENV } from "@/utils";
 import MarketsDashboardWidget from "@/components/MarketsDashboardWidget";
 import StockScreenerWidget from "@/components/ScreenerWidget";
 import LiveStreamWidget from "@/components/LiveStreamWidget";
+import AdInfo from "@/components/Ad/AdInfo/homeAds.json";
+import DfpAds from "@/components/Ad/DfpAds";
 
 const Home = async () => {
   const getRecosData = async (type: any) => {
@@ -61,13 +63,19 @@ const Home = async () => {
   };
   const stockRecoResult = await getRecosData("newRecos");
   const srPlusResult = await getSrPlusData("2554");
+  console.log("AdInfo", AdInfo);
   return (
     <>
-      <MarketsDashboardWidget />
+    <>helloo</>
+      <MarketsDashboardWidget /> 
       <WatchlistWidget />
+      <DfpAds adInfo={AdInfo.dfp.markethome.mid1}/>
       <StockRecommendations stockRecoResult={stockRecoResult} />
+      <DfpAds adInfo={AdInfo.dfp.markethome.mid2}/>
       <StockReportsPlus srResult={srPlusResult} />
+      <DfpAds adInfo={AdInfo.dfp.markethome.mid3}/>
       <StockScreenerWidget />
+      <DfpAds adInfo={AdInfo.dfp.markethome.mid4}/>
       <LiveStreamWidget />
     </>
   );
