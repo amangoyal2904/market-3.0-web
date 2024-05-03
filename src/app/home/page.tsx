@@ -11,6 +11,7 @@ import IndicesWidget from "@/components/IndicesWidget";
 import BreadCrumb from "@/components/BreadCrumb";
 import { headers } from "next/headers";
 import BuySellTechnicalWidget from "@/components/BuySellTechnicalWidget";
+import InvestmentIdea from "@/components/InvestmentIdea";
 
 const Home = async () => {
   const headersList = headers();
@@ -72,6 +73,7 @@ const Home = async () => {
       <IndicesWidget />
       <MarketsDashboardWidget />
       <WatchlistWidget />
+      <InvestmentIdea />
       <StockRecommendations stockRecoResult={stockRecoResult} />
       <StockReportsPlus srResult={srPlusResult} />
       <StockScreenerWidget />
