@@ -17,7 +17,7 @@ const BiggBullTable = ({
   const { state } = useStateContext();
   const { isPrime } = state.login;
   //const isPrime = true;
-  //console.log("isPrime", isPrime);
+  //console.log("tableHead", tableHead);
   return (
     <div className="prel">
       <table className={styles.bibBullCustomTable}>
@@ -29,7 +29,7 @@ const BiggBullTable = ({
                 return (
                   <th
                     key={`${index}-${thead.id}`}
-                    className={`${thead.sort ? styles.enableSort : ""}`}
+                    className={`${thead.sort ? styles.enableSort : ""} ${styles[thead.orderBy]}`}
                   >
                     <div
                       className={`${styles.thead}`}

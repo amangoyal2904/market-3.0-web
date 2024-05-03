@@ -1,8 +1,89 @@
 import { commonPostAPIHandler } from "../../../../utils/screeners";
-import { fetchSelectedFilter } from "@/utils/utility";
+import { fetchSelectedFilter, fnGenerateMetaData } from "@/utils/utility";
 import InvestorClientCatePage from "./investorCatClient";
 import InvestorClientPage from "./investorClient";
 import { headers } from "next/headers";
+import { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(
+  { params }: any,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
+  const getExpertId = (arr: any) => {
+    if (arr && arr.length > 0) {
+      for (let item of arr) {
+        const parts = item.split(",");
+        for (let part of parts) {
+          if (part.includes("expertid-")) {
+            const idParts = part.split("-");
+            return idParts[idParts.length - 1];
+          }
+        }
+      }
+    }
+    return null;
+  };
+  const investorArray = params.investor;
+  const invertorId = getExpertId(investorArray);
+  let slug = "";
+  let pageType = "";
+
+  if (investorArray.length === 2 && invertorId !== null && invertorId !== "") {
+    pageType = "inverstorCatepage";
+    slug = investorArray[1] || "";
+  } else if (
+    investorArray.length === 1 &&
+    invertorId !== null &&
+    invertorId !== ""
+  ) {
+    pageType = "inverstorHomepage";
+  }
+  const bodyPayload = {
+    sharkId: invertorId,
+    ssoId: "",
+    primeFlag: 1,
+  };
+  const invertorData = await commonPostAPIHandler(
+    `BigBullInvestorOverview`,
+    bodyPayload,
+  );
+  const sharkName =
+    invertorData?.datainfo?.investorOverviewInfo?.investorIntro?.name;
+
+  const InvestorsName = sharkName;
+  const subCategoryName =
+    slug === "fresh-entry-exit"
+      ? "Fresh Entry & Exit"
+      : slug === "holdings"
+        ? "Holdings"
+        : slug === "change-in-holdings"
+          ? "Change in Holdings"
+          : slug === "bulk-block-deals"
+            ? "Bulk/Block Deals"
+            : slug;
+  let seo_title = ``;
+  let seo_desc = ``;
+  let seo_keywords = ``;
+  if (pageType === "inverstorHomepage") {
+    seo_title = `${InvestorsName} Portfolio - ${InvestorsName} Investments, Stocks & Shareholdings | The Economic Times`;
+    seo_desc = `${InvestorsName} Portfolio - Check ${InvestorsName} Investments Portfolio, recently added stocks details, corporate shareholdings at The Economic Times
+    Ex. - Ashish Dhawan Portfolio - Check Ashish Dhawan Investments Portfolio, recently added stocks details, corporate shareholdings at The Economic Times`;
+    seo_keywords = `${InvestorsName} Portfolio, ${InvestorsName} Investments, Top Investors, Top Investors in India, Individual Investors, Institutional Investors, Investors Portfolio, Investors Portfolio list, Top Investors list, List of Top Investors, super investor, super investor in India, super investors list, super investor portfolio, super investor stocks`;
+  } else {
+    seo_title = `${InvestorsName} ${subCategoryName} | The Economic Times`;
+    seo_desc = `${InvestorsName} ${subCategoryName} - Check updated information & latest news for ${InvestorsName} ${subCategoryName} at The Economic Times`;
+    seo_keywords = `${InvestorsName} ${subCategoryName}, Top Investors, Top Investors in India, Individual Investors, Institutional Investors, Investors Portfolio, Investors Portfolio list, Top Investors list, List of Top Investors, super investor, super investor in India, super investors list, super investor portfolio, super investor stocks`;
+  }
+  const meta = {
+    title: seo_title,
+    desc: seo_desc,
+    keywords: seo_keywords,
+    pathname: pageUrl,
+  };
+  return fnGenerateMetaData(meta);
+}
 
 const InvestorPage = async ({ params }: any) => {
   const headersList = headers();

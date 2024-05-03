@@ -13,7 +13,7 @@ const InvestorTopOverviewHolding = ({
   handleSort,
   shouldShowLoader,
 }: any) => {
-  console.log("tableData", tableData);
+  //console.log("tableData", tableData);
   const { state } = useStateContext();
   const { isPrime } = state.login;
   //const isPrime = true;

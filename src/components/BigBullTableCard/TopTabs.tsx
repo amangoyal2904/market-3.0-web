@@ -11,6 +11,7 @@ const TopTabs = ({
   invstrQuery,
   invstrQueryHandler,
   title,
+  spanTxt,
   sortByFilter = false,
 }: any) => {
   const showIndexFilter = niftyFilter;
@@ -35,7 +36,9 @@ const TopTabs = ({
   return (
     <>
       <div className={styles.topTabs}>
-        <h2 className={styles.head3}>{title}</h2>
+        <h2 className={styles.head3}>
+          {title} <span>{spanTxt}</span>
+        </h2>
 
         <div className={styles.rightFilterSec}>
           {sortByFilter ? (

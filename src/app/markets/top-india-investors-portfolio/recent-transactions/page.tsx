@@ -1,8 +1,28 @@
 import { commonPostAPIHandler } from "../../../../utils/screeners";
 import BigBullRecentTransactionsPageClientPage from "./clients";
-import { fetchSelectedFilter } from "@/utils/utility";
+import { fetchSelectedFilter, fnGenerateMetaData } from "@/utils/utility";
 import { headers } from "next/headers";
 import BreadCrumb from "@/components/BreadCrumb";
+import { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(
+  { searchParams }: any,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
+  const SubCategoryName = "Recent Transactions";
+  const seo_title = `${SubCategoryName} Investors, Top Investors in India, Investors Portfolio | The Economic Times Ex. - Best Picks Investors, Top Investors in India, Investors Portfolio | The Economic Times`;
+  const seo_desc = `${SubCategoryName} Investors in India: Check the list of top Indian investors with detailed portfolio. Get all super investors & shareholders with their recently added stocks investments & corporate shareholdings at The Economic Times Ex. - Best Pick Investors in India: Check the list of top Indian investors with detailed portfolio. Get all super investors & shareholders with their recently added stocks investments & corporate shareholdings at The Economic Times`;
+  const seo_keywords = `${SubCategoryName} Investors, ${SubCategoryName} Investors in India, Individual Investors, Institutional Investors, Investors Portfolio, Investors Portfolio list, ${SubCategoryName} Investors list, List of ${SubCategoryName} Investors Ex. - best pick Investors, best pick Investors in India, Individual Investors, Institutional Investors, Investors Portfolio, Investors Portfolio list, best pick Investors list, List of best pick Investors`;
+  const meta = {
+    title: seo_title,
+    desc: seo_desc,
+    keywords: seo_keywords,
+    pathname: pageUrl,
+  };
+  return fnGenerateMetaData(meta);
+}
 
 const BigBullRecentTransactionsPage = async () => {
   const headersList = headers();
