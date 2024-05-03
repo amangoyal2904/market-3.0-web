@@ -321,7 +321,8 @@
         text-align: left;
       }
 
-      &:nth-child(2) {
+      .ltp {
+        color: $black;
         font-weight: 700;
       }
     }
