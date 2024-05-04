@@ -1,5 +1,15 @@
 import styles from "./Livestream.module.scss";
 export const LiveStreamCards = ({ data }: any) => {
+  const getHours = (timestamp: number) => {
+    const currentTimestamp = new Date().getTime();
+    const differenceInMilliseconds = currentTimestamp - timestamp;
+    const differenceInHours = Math.floor(
+      differenceInMilliseconds / (1000 * 60 * 60),
+    );
+    return differenceInHours;
+  };
+  const url = `https://economictimes.indiatimes.com/markets/etmarkets-live/${data?.seoName}/streamsrecorded/streamid-${data?.eventId},expertid-${data?.meta?.userData?.expertID}.cms`;
+  const expertUrl = `https://economictimes.indiatimes.com/markets/etmarkets-live/expert-bio/${data?.meta?.userData?.expertSeoName},expertid-${data?.meta?.userData?.expertID}.cms`;
   return (
     <div>
       <div className={styles.cardsWrapper}>
@@ -7,8 +17,11 @@ export const LiveStreamCards = ({ data }: any) => {
           <img src={data.eventImageUrl} />
         </div>
         <div className={styles.textSection}>
-          <p>{data.startTime}</p>
-          <a href="" className={styles.title}>
+          <p className={styles.hourAgo}>
+            Streamed {getHours(data?.startTime)} hours ago
+            <span className={`eticon_share ${styles.shareIcon}`}></span>
+          </p>
+          <a href={url} className={styles.title}>
             <p>{data.title}</p>
           </a>
           <div className={styles.profileSection}>
@@ -20,8 +33,10 @@ export const LiveStreamCards = ({ data }: any) => {
               />
             </a>
             <div className={styles.userName}>
-              <p>{data.expertName}</p>
-              <p>{data.totalViewsText}</p>
+              <p className={styles.expertName}>
+                <a href={expertUrl}>{data.expertName}</a>
+              </p>
+              <p className={styles.totalViewsText}>{data.totalViewsText}</p>
             </div>
           </div>
         </div>
