@@ -16,7 +16,10 @@ const MarketsDashboardWidget = async ({ searchParams }: any) => {
 
   return (
     <div className={styles.dashboardWrapper}>
-      <h1 className="heading marginhead">Markets Dashboards</h1>
+      <h1 className="heading">
+        Markets Dashboards
+        <span className={`eticon_caret_right headingIcon`} />
+      </h1>
       <MarketDashBoard
         tabsData={tabs}
         tableData={tableData}

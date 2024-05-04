@@ -428,5 +428,9 @@
   "BuySellTechnical": {
     "development": "https://etinsights.indiatimes.com/ET_TechnicalIndicator/getTechnicalDashboardData",
     "production": "https://etinsights.indiatimes.com/ET_TechnicalIndicator/getTechnicalDashboardData"
+  },
+  "FIIDIICash": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash"
   }
 }

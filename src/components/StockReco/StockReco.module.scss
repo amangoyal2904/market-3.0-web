@@ -7,13 +7,11 @@
   flex-direction: column;
   align-items: flex-start;
   // margin-right: 20px;
-  margin-bottom: 20px;
+  margin-top: 20px;
   border-radius: 8px;
   border: 1px solid #b3b3b3;
   background: #ffffff;
-  // &.stockGap {
-  //   gap: 32px;
-  // }
+  margin-left: 20px;
 
   // Apply red color if stocksMain has class sellStock
   &.sellStock {
