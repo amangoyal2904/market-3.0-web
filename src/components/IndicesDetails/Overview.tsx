@@ -208,7 +208,7 @@ const IndicesDetailsOverview = React.memo(
                 </span>
                 <div className={styles.bar}>
                   <span
-                    title={overviewData?.lastTradedPrice}
+                    title={formatNumber(overviewData?.lastTradedPrice, 2)}
                     className={styles.currentPosition}
                     style={{
                       left:
@@ -249,7 +249,7 @@ const IndicesDetailsOverview = React.memo(
                 </span>
                 <div className={styles.bar}>
                   <span
-                    title={overviewData?.lastTradedPrice}
+                    title={formatNumber(overviewData?.lastTradedPrice, 2)}
                     className={styles.currentPosition}
                     style={{
                       left:

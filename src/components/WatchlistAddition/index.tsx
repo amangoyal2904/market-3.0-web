@@ -158,7 +158,13 @@ const WatchlistAddition = ({
     }
   };
   const mergedStyle = { ...customStyle };
-
+  const watchlistCheck =
+    !!watchlist &&
+    watchlist.some(
+      (item: any) =>
+        item.companyId === companyId.toString() &&
+        item.companyType === companyType,
+    );
   return (
     <>
       {ssoReady && companyId && (
@@ -166,18 +172,19 @@ const WatchlistAddition = ({
           style={mergedStyle}
           onClick={handleWatchListClick}
           className={styles.watchlistPlusWrap}
-          title="Add to watchlist"
+          title={
+            loadingStatus
+              ? ""
+              : watchlistCheck
+                ? "Added to watchlist"
+                : "Add to watchlist"
+          }
         >
           {loadingStatus ? (
             <div className={styles.loading}>
               <div className={styles.loader}></div>
             </div>
-          ) : !!watchlist &&
-            watchlist.some(
-              (item: any) =>
-                item.companyId === companyId.toString() &&
-                item.companyType === companyType,
-            ) ? (
+          ) : watchlistCheck ? (
             <span className="eticon_tick"></span>
           ) : (
             <span className="eticon_add"></span>
