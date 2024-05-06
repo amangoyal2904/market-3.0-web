@@ -751,7 +751,6 @@ export const getPeerIndices = async (indexid: number, exchangeid?: number) => {
 };
 
 export const getIndicesNews = async (indexid: number, exchangeid: number) => {
-  console.log(indexid, exchangeid);
   const response = await Service.get({
     url: `${(APIS_CONFIG as any)?.INDICES_NEWS[APP_ENV]}?feedtype=etjson&indexid=${indexid}&exchange=${exchangeid}`,
     params: {},

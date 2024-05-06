@@ -182,10 +182,13 @@ const MarketFiltersTab = React.memo(
     // ====  Here only Filter tabs code start here
     const showFilterMenu = (value: boolean) => {
       setShowFilter(value);
+      if (value) document.body.style.overflow = "hidden";
+      else document.body.style.overflow = "";
     };
     const handleChangeData = (id: any, name: string, selectedTab: string) => {
       setShowFilter(false);
       filterDataChange(id, name, selectedTab);
+      document.body.style.overflow = "";
     };
     const filterApiCall = async () => {
       const data = await fetchFilters({ all: true, marketcap: true });
