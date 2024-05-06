@@ -20,6 +20,8 @@ import {
 } from "@/utils/customViewAndTables";
 import MarketStats from "../client";
 import BreadCrumb from "@/components/BreadCrumb";
+import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
+import DfpAds from "@/components/Ad/DfpAds";
 
 export async function generateMetadata(
   { searchParams }: any,
@@ -194,6 +196,8 @@ const Intraday = async ({ searchParams }: any) => {
         intradayDurationOptions={intradayDurationOptions}
       />
       <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
+      <br/>
+      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
     </>
   );
 };

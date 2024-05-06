@@ -18,6 +18,7 @@ import { fetchViewTable, updateOrAddParamToPath } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import TechincalOperands from "@/components/TechincalOperands";
+
 import {
   getMarketStatsNav,
   getShortUrlMapping,

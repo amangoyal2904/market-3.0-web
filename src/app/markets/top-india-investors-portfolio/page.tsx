@@ -5,6 +5,8 @@ import { fetchSelectedFilter, fnGenerateMetaData } from "@/utils/utility";
 import { headers } from "next/headers";
 import BreadCrumb from "@/components/BreadCrumb";
 import { Metadata, ResolvingMetadata } from "next";
+import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
+import DfpAds from "@/components/Ad/DfpAds";
 
 export async function generateMetadata(
   { searchParams }: any,
@@ -55,6 +57,8 @@ const BigBullPage = async () => {
         pagePath={pageUrl}
         pageName={[{ label: "Overview", redirectUrl: "" }]}
       />
+      <br/>
+      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
     </>
   );
 };
