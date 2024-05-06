@@ -35,20 +35,7 @@ const Subhead = (props: any) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // console.log("activeApi--", activeApi);
-
-  // const filterDataChangeHander = async (id: any) => {
-  //   //setProcessingLoader(true);
-  //   const url = `${pathname}?${searchParams}`;
-  //   const newUrl = updateOrAddParamToPath(url, "filter", id);
-  //   const selectedFilter = await fetchSelectedFilter(id);
-  //   setNiftyFilterData(selectedFilter);
-  //   console.log("selectedFilter", selectedFilter);
-  //   // setPayload({ ..._payload, filterValue: [id] });
-  //   // updateL3NAV(id, _payload.duration);
-  //   router.push(newUrl, { scroll: false });
-  // };
-
+  console.log("activeApi ---- 34", activeApi);
   // ====  Here only Filter tabs code start here
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);
@@ -115,16 +102,10 @@ const Subhead = (props: any) => {
                 >
                   {item.label}
                 </Link>
-              ) : item.seoPath == "fundhousedetails" ? (
-                <Link
-                  href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}${urlFilterHandle()}`}
-                  onClick={() => handleTabTracking(item.label)}
-                >
-                  {item.label}
-                </Link>
               ) : (
                 <Link
-                  href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["home"]}/${handleLowerCase(item.seoPath)}${handleLowerCase(item.seoPath) == "newrecos" ? "/all" : ""}${urlFilterHandle()}`}
+                  data-tt={item.seoPath}
+                  href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"][item.seoPath]}${urlFilterHandle()}`}
                   onClick={() => handleTabTracking(item.label)}
                 >
                   {item.label}
