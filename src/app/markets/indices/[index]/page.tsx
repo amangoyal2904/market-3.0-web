@@ -5,7 +5,6 @@ import tabConfig from "@/utils/tabConfig.json";
 import tableConfig from "@/utils/tableConfig.json";
 import { cookies, headers } from "next/headers";
 import {
-  fetchSelectedFilter,
   fetchSelectedIndex,
   fnGenerateMetaData,
   getIndicesFaqs,

@@ -114,13 +114,15 @@ const IndicesDetailsOverview = React.memo(
               {currentMarketStatus.toUpperCase() != "CLOSED" && (
                 <span className="liveBlinker"></span>
               )}
-              <span className={styles.marketStatus}>{currentMarketStatus}</span>
+              <span className="marketStatus withSeparator">
+                {currentMarketStatus}
+              </span>
             </>
           )}
-          <span className={styles.updatetime}>
+          <span className="updatetime">
             {dateFormat(
               parseInt(overviewData?.dateTime) * 1000,
-              "%h:%m %p | %MMM %d, %Y",
+              "As on %d %MMM, %Y %H:%m IST",
             )}
           </span>
         </div>

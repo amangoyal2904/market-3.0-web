@@ -222,6 +222,27 @@ a {
   justify-content: center;
 }
 
+.marketStatus {
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 600;
+  color: $red-50;
+  text-transform: uppercase;
+  &.withSeparator {
+    margin-right: 10px;
+    border-right: 1px solid $gray_60;
+    padding-right: 10px;
+  }
+}
+
+.updatetime {
+  color: $gray_40;
+  font-size: 12px;
+
+  line-height: 1;
+  font-weight: 400;
+}
+
 .liveBlinker {
   height: 6px;
   position: relative;
