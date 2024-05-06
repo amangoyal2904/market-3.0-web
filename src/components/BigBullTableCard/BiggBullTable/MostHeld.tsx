@@ -6,6 +6,7 @@ import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
 import WatchlistAddition from "../../WatchlistAddition";
 import NodataForTable from "../NodataForTable";
+import { useState } from "react";
 
 const BiggBullMostHeldTable = ({
   tableHead,
@@ -14,17 +15,23 @@ const BiggBullMostHeldTable = ({
   handleSort,
   shouldShowLoader,
 }: any) => {
-  console.log("tableData", tableData);
+  //console.log("tableData", tableData);
   const { state } = useStateContext();
   const { isPrime } = state.login;
-  // const isPrime = true;
+  //const isPrime = true;
   //console.log("isPrime", isPrime);
-  const showMoreInvestorHandler = () => {
-    console.log("yes show more li list ");
+  const [showPopupIndex, setShowPopupIndex] = useState<number | null>(null);
+
+  const showMoreInvestorHandler = (index: number) => {
+    if (showPopupIndex === index) {
+      setShowPopupIndex(null); // Clicking on the same item should close the popup
+    } else {
+      setShowPopupIndex(index); // Clicking on a different item should show its popup
+    }
   };
   return (
     <div className="prel">
-      <table className={styles.bibBullCustomTable}>
+      <table className={`${styles.bibBullCustomTable} ${styles.mostHeldTable}`}>
         <thead>
           <tr>
             {tableHead &&
@@ -135,13 +142,53 @@ const BiggBullMostHeldTable = ({
                               );
                             })}
                         {tdata?.investorsList.length > 2 && (
-                          <li
-                            onClick={showMoreInvestorHandler}
-                            className={styles.dotes}
-                          >
-                            <i></i>
-                            <i></i>
-                            <i></i>
+                          <li className={styles.dotes}>
+                            <span
+                              className={styles.iconBtn}
+                              onClick={() => showMoreInvestorHandler(index)}
+                            >
+                              <i></i>
+                              <i></i>
+                              <i></i>
+                            </span>
+                            {showPopupIndex === index && (
+                              <div className={styles.popup}>
+                                <div className={styles.popupContent}>
+                                  <span
+                                    className={styles.closeBtn}
+                                    onClick={() => setShowPopupIndex(null)}
+                                  ></span>
+                                  <div className={styles.contentWraper}>
+                                    {tdata?.investorsList.length > 0 &&
+                                      tdata?.investorsList
+                                        .slice(2, 6)
+                                        .map((list: any, index: number) => {
+                                          return (
+                                            <div
+                                              className={styles.userSec}
+                                              key={`-${index}--`}
+                                            >
+                                              <Link
+                                                href={`/markets/top-india-investors-portfolio/${list?.sharkSeoName},expertid-${list?.sharkID}`}
+                                                target="_blank"
+                                                className={styles.investNameImg}
+                                              >
+                                                <img
+                                                  src={list.imageURL}
+                                                  width={28}
+                                                  height={28}
+                                                  alt={list.name}
+                                                  title={list.name}
+                                                />
+                                                <h4>{list.name}</h4>
+                                              </Link>
+                                            </div>
+                                          );
+                                        })}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </li>
                         )}
                       </ul>

@@ -6,6 +6,7 @@ import { useStateContext } from "../../store/StateContext";
 import tableConfig from "../../utils/tableConfig.json";
 import Blocker from "../Blocker";
 import ViewAllLink from "../ViewAllLink";
+import styles from "./WatchlistWidget.module.scss";
 
 const WatchlistWidget = () => {
   const [showBlocker, setShowBlocker] = useState(true);
@@ -47,8 +48,10 @@ const WatchlistWidget = () => {
     (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
 
   return (
-    <>
-      <h1 className="heading marginhead">My Watchlist</h1>
+    <div className={styles.watchlistContainer}>
+      <h1 className="heading">
+        My Watchlist <span className={`eticon_caret_right headingIcon`} />
+      </h1>
       {showBlocker ? (
         <Blocker type="loginBlocker" />
       ) : (
@@ -64,7 +67,7 @@ const WatchlistWidget = () => {
           <ViewAllLink text="View All Stocks" link="/watchlist" />
         </>
       )}
-    </>
+    </div>
   );
 };
 

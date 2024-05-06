@@ -22,6 +22,7 @@ const BigBullTableCard = ({
   handlePageChange,
   shouldShowLoader,
   title = "",
+  spanTxt = "",
   pageType = "",
   paginationLastNode = "",
 }: any) => {
@@ -35,6 +36,7 @@ const BigBullTableCard = ({
         invstrQuery={invstrQuery}
         invstrQueryHandler={invstrQueryHandler}
         title={title}
+        spanTxt={spanTxt}
       />
       {pageType === "qtrChanges" ? (
         <BiggBullQtrChangesTable

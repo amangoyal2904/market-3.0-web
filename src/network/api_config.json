@@ -73,6 +73,10 @@
     "development": "https://etapipre.indiatimes.com/api/indexfilters",
     "production": "https://etapipre.indiatimes.com/api/indexfilters"
   },
+  "MARKETSINTRADAY_CUSTOM_TAB": {
+    "development": "https://screener.indiatimes.com/screener/overviewids",
+    "production": "https://screener.indiatimes.com/screener/overviewids"
+  },
   "MARKETS_CUSTOM_TAB": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
     "production": "https://screener.indiatimes.com/screener/getwatchlistview"
@@ -174,8 +178,8 @@
     "production": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher"
   },
   "LEFT_NAV": {
-    "development": "https://etapipre.indiatimes.com/api/nav",
-    "production": "https://etapipre.indiatimes.com/api/nav"
+    "development": "https://etapipre.indiatimes.com/api/nav?platform=web",
+    "production": "https://etapipre.indiatimes.com/api/nav?platform=web"
   },
   "PERSONALISE_VIEW": {
     "updateTabs": {
@@ -432,5 +436,9 @@
   "BuySellTechnical": {
     "development": "https://etinsights.indiatimes.com/ET_TechnicalIndicator/getTechnicalDashboardData",
     "production": "https://etinsights.indiatimes.com/ET_TechnicalIndicator/getTechnicalDashboardData"
+  },
+  "FIIDIICash": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash"
   }
 }

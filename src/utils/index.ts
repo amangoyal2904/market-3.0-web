@@ -531,6 +531,9 @@ export const getStockRecosDetail = async ({
     "Content-Type": "application/json",
     ssoid: ssoid,
   };
+
+  console.log("getApiType ---", getApiType);
+
   const payload = {
     apiType: getApiType,
     filterType:
@@ -565,6 +568,7 @@ export const getStockRecosDetail = async ({
   });
 
   const recosDetailResult = await recosDetailPromise?.json();
+  console.log("recosDetailResult----", recosDetailResult);
   return recosDetailResult;
 };
 
