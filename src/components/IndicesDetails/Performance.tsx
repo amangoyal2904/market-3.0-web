@@ -11,7 +11,7 @@ const getTdMarkup = (value: number) => {
   const trend = value > 0 ? "up" : value < 0 ? "down" : "neutral";
   return (
     <td
-      className={`${styles.center} ${trend == "up" ? styles.up : trend == "down" ? styles.down : ""}`}
+      className={trend == "up" ? styles.up : trend == "down" ? styles.down : ""}
     >
       {`${value != null ? value + "%" : "-"}`}
       {trend && (
