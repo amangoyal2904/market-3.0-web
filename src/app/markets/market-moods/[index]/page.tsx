@@ -11,6 +11,8 @@ import {
   getPeriodicData,
 } from "@/utils/utility";
 import BreadCrumb from "@/components/BreadCrumb";
+import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
+import DfpAds from "@/components/Ad/DfpAds";
 
 async function fetchData(indexId: number) {
   return Promise.all([
@@ -59,6 +61,8 @@ const MarketMoods = async ({ params }: any) => {
         allFilters={allFilters}
       />
       <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
+      <br/>
+      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
     </>
   );
 };

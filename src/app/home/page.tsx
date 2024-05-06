@@ -85,23 +85,25 @@ const Home = async () => {
       <IndicesWidget />
       <MarketsDashboardWidget /> 
       <WatchlistWidget />
+      <DfpAds adInfo={AdInfo.dfp.mid1}/>
       <InvestmentIdea />
-      <DfpAds adInfo={AdInfo.dfp.markethome.mid1}/>
       <StockRecommendations stockRecoResult={stockRecoResult} />
-      <DfpAds adInfo={AdInfo.dfp.markethome.mid2}/>
       <StockReportsPlus srResult={srPlusResult} />
-      <DfpAds adInfo={AdInfo.dfp.markethome.mid3}/>
       <StockScreenerWidget />
+      <DfpAds adInfo={AdInfo.dfp.mid2}/>
       <BuySellTechnicalWidget
         data={table}
         bodyParams={buySellTechnicalspayload}
       />
-      <DfpAds adInfo={AdInfo.dfp.markethome.mid4}/>
+      <DfpAds adInfo={AdInfo.dfp.mid3}/>
       <LiveStreamWidget />
       <BreadCrumb
         pagePath={pageUrl}
         pageName={[{ label: "Markets", redirectUrl: "" }]}
       />
+      <br/>
+      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
+
     </>
   );
 };

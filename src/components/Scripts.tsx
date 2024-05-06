@@ -17,6 +17,7 @@ interface Props {
 
 declare global {
   interface Window {
+    googletag:any;
     ispopup: any;
     jsso?: {
       getValidLoggedInUser?: any;
@@ -37,8 +38,7 @@ declare global {
       accessibleFeatures?: any;
       primeInfo?: any;
     };
-    arrDfpAds:{}[];
-    arrAdsDivs:string[];
+   
 
   }
 }
@@ -59,13 +59,20 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
     prevPath !== null &&
       trackingEvent("page_view", { url: window.location.href });
     setPrevPath(router);
-    renderDfpAds( window.arrDfpAds, isPrime);
+    renderDfpAds(isPrime);
   }, [router, isPrime]);
 
-  useEffect(() => {
-    console.log("On load..............");
-    //onload
-  }, []);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined" ) {
+  //     window.googletag ? renderDfpAds(window.arrDfpAds, isPrime) : document.addEventListener("gptLoaded", function(){renderDfpAds(window.arrDfpAds, isPrime)});
+  //     console.log("Event Listiner-------");
+  //     return () => {
+  //       //document.removeEventListener("gptLoaded", function(){renderDfpAds(window.arrDfpAds, isPrime)});
+  //     };
+  //   }
+  //   //eslint-disable-next-line
+  // }, [state]);
+
   return (
     <>
       <Script id="main-script">
@@ -206,6 +213,9 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
                 }}
               />
           )}
+           {!isprimeuser && (
+                <Script src="https://static.clmbtech.com/ad/commons/js/2308/colombia_v2.js" strategy="lazyOnload" />
+            )}
           {/* <Script
             id="tag-manager"
             strategy="lazyOnload"

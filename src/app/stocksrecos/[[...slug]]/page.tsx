@@ -1,6 +1,8 @@
 import StockRecosListing from "@/components/StockRecosListing";
 import styles from "./styles.module.scss";
 import APIS_CONFIG from "../../../network/api_config.json";
+import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
+import DfpAds from "@/components/Ad/DfpAds";
 import {
   APP_ENV,
   getFundHouseInfo,
@@ -363,6 +365,8 @@ export default async function stocksrecos({
       </div>
       <Disclaimer />
       <BreadCrumb pagePath={header_url} pageName={breadCrumbObj} />
+      <br/>
+      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
     </>
   );
 }

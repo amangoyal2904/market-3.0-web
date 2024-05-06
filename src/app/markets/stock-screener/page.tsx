@@ -6,6 +6,8 @@ import StockScreenerPage from "./client";
 import BreadCrumb from "@/components/BreadCrumb";
 import { headers } from "next/headers";
 import { redirect } from "next/dist/server/api-utils";
+import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
+import DfpAds from "@/components/Ad/DfpAds";
 
 const fetchData = async () => {
   const bodyParams = `?collectiontypeid=5&screenercount=40&list=false`;
@@ -38,7 +40,11 @@ const StockScreener = async () => {
           <StockScreenerPage data={StockScreenerData} />
         </div>
       </div>
+
       <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
+      <br/>
+      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
+
     </>
   );
 };
