@@ -190,7 +190,47 @@ const Login = () => {
             className={`${styles.menuWrap} ${isPrime ? styles.primeMenu : ""}`}
           >
             <span className={styles.userProfile}>
-              {userInfo?.thumbImageUrl ? (
+              {isPrime ? (
+                <>
+                  <span className={`default-btn ${styles.defaultBtn}`}>
+                    <img
+                      src="/prime_icon.svg"
+                      height="16"
+                      width="16"
+                      className={styles.primeUsericon}
+                    />
+                    <div className={styles.primeInfo}>
+                      <p className={styles.primeMember}>ETPrime Member</p>
+                      <p className={styles.userName}>
+                        {userInfo?.firstName} {userInfo?.lastName}
+                      </p>
+                    </div>
+                    <span
+                      className={`eticon_caret_down ${styles.signinDDArrow}`}
+                    ></span>
+                  </span>
+                </>
+              ) : (
+                <>
+                  {userInfo?.thumbImageUrl ? (
+                    <img
+                      width="34"
+                      height="34"
+                      className={styles.thumbImg}
+                      src={userInfo?.thumbImageUrl}
+                    />
+                  ) : (
+                    <span className={styles.userFChar}>
+                      {userInfo?.firstName.charAt(0)}
+                    </span>
+                  )}
+                  <span
+                    className={`eticon_caret_down ${styles.signinDDArrow}`}
+                  ></span>
+                </>
+              )}
+
+              {/* {userInfo?.thumbImageUrl ? (
                 <img
                   width="34"
                   height="34"
@@ -201,18 +241,47 @@ const Login = () => {
                 <span className={styles.userFChar}>
                   {userInfo?.firstName.charAt(0)}
                 </span>
-              )}
-              {isPrime && (
+              )} */}
+              {/* <span className={`default-btn ${styles.defaultBtn}`}>
+                  <img
+                    src="/prime_icon.svg"
+                    height="16"
+                    width="16"
+                    className={styles.primeUsericon}
+                  />
+                  <div className={styles.primeInfo}>
+                    <p className={styles.primeMember}>ETPrime Member</p>
+                    <p className={styles.userName}>{userInfo?.firstName} {userInfo?.lastName}</p>
+                  </div>
+                  <span className={`eticon_caret_down ${styles.signinDDArrow}`}></span>
+                </span> */}
+              {/* {isPrime && (
                 <img
                   src="/prime_icon.svg"
                   height="12"
                   width="12"
                   className={styles.prime_icon}
                 />
-              )}
-              <span
+              )} */}
+              {/* {isPrime && (
+                <span className={`default-btn ${styles.defaultBtn}`}>
+                  <img
+                    src="/prime_icon.svg"
+                    height="20"
+                    width="20"
+                    className={styles.prime_icon}
+                  />
+                  <div className={styles.primeInfo}>
+                    <p className={styles.primeMember}>ETPrime Member</p>
+                    <p className={styles.userName}>{userInfo?.firstName} {userInfo?.lastName}</p>
+                  </div>
+                  <span className={`eticon_caret_down ${styles.signinDDArrow}`}></span>
+                </span>
+              )} */}
+
+              {/* <span
                 className={`eticon_caret_down ${styles.signinDDArrow}`}
-              ></span>
+              ></span> */}
             </span>
             <div className={`${styles.menuListWrap}`}>
               <div className={styles.userNameWrap}>

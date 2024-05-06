@@ -30,7 +30,26 @@
     margin-left: 8px;
     position: relative;
     align-items: center;
-
+    .defaultBtn {
+      display: flex;
+      padding: 2px 6px 2px 14px;
+      .primeUsericon {
+        position: relative;
+        top: 2px;
+      }
+      .primeInfo {
+        font-size: 9px;
+        margin-left: 2px;
+        p {
+          line-height: 10px;
+        }
+      }
+      .signinDDArrow {
+        font-size: 20px;
+        position: relative;
+        top: 0;
+      }
+    }
     .thumbImg {
       border-radius: 100%;
     }
