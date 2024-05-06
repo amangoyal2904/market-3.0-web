@@ -95,6 +95,7 @@ const PersonaliseModel = ({
   const toasterActionFun = (action = "") => {
     if (action === "closemodal") {
       setOpenPersonaliseModal(false);
+      document.body.style.overflow = "";
       //console.log('___clar blank ____ListData_',listData)
     } else if (action === "createnew") {
       editmode({

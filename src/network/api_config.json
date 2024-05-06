@@ -11,6 +11,10 @@
     "development": "https://bselivefeeds.indiatimes.com/homepagedatanew.json",
     "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
   },
+  "LIVE_MARKET_DATA_NEW": {
+    "development": "https://etmarketsapis.indiatimes.com/ET_Stats/getindex",
+    "production": "https://etmarketsapis.indiatimes.com/ET_Stats/getindex"
+  },
   "LIVE_MARKET_DATA_NEXTJS": {
     "development": "http://localhost:3009/api/bselivefeeds",
     "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
@@ -68,6 +72,10 @@
   "INDEX_FILTERS": {
     "development": "https://etapipre.indiatimes.com/api/indexfilters",
     "production": "https://etapipre.indiatimes.com/api/indexfilters"
+  },
+  "MARKETSINTRADAY_CUSTOM_TAB": {
+    "development": "https://screener.indiatimes.com/screener/overviewids",
+    "production": "https://screener.indiatimes.com/screener/overviewids"
   },
   "MARKETS_CUSTOM_TAB": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/getwatchlistview",
@@ -170,8 +178,8 @@
     "production": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher"
   },
   "LEFT_NAV": {
-    "development": "https://etapipre.indiatimes.com/api/nav",
-    "production": "https://etapipre.indiatimes.com/api/nav"
+    "development": "https://etapipre.indiatimes.com/api/nav?platform=web",
+    "production": "https://etapipre.indiatimes.com/api/nav?platform=web"
   },
   "PERSONALISE_VIEW": {
     "updateTabs": {
@@ -428,5 +436,9 @@
   "BuySellTechnical": {
     "development": "https://etinsights.indiatimes.com/ET_TechnicalIndicator/getTechnicalDashboardData",
     "production": "https://etinsights.indiatimes.com/ET_TechnicalIndicator/getTechnicalDashboardData"
+  },
+  "FIIDIICash": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash"
   }
 }

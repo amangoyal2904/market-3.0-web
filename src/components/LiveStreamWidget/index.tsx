@@ -2,6 +2,7 @@ import { APP_ENV } from "@/utils";
 import APIS_CONFIG from "../../network/api_config.json";
 import styles from "./Livestream.module.scss";
 import LiveStreamSlider from "./LiveStreamSlider";
+import ViewAllLink from "../ViewAllLink";
 
 const fetchLiveStreamData = async () => {
   try {
@@ -51,6 +52,10 @@ const LiveStreamWidget = async () => {
         <span className={`eticon_caret_right ${styles.headingIcon}`} />
       </h1>
       <LiveStreamSlider liveStreamData={liveStreamData} />
+      <ViewAllLink
+        text="See All Live Streams"
+        link="https://economictimes.indiatimes.com/etmarkets-livestream"
+      />
     </>
   );
 };

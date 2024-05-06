@@ -5,10 +5,17 @@ import { LiveStreamCards } from "./LiveStreamCards";
 const LiveStreamSlider = ({ liveStreamData }: any) => {
   const responsive = [
     {
-      breakpoint: 1921,
+      breakpoint: 2560,
       settings: {
         slidesToShow: 6,
         slidesToScroll: 6,
+      },
+    },
+    {
+      breakpoint: 1921,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 5,
       },
     },
     {

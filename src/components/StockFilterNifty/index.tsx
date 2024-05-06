@@ -26,7 +26,7 @@ export default function StockFilterNifty({
 }: StockSRFilterProps) {
   const activeFilterValue = childMenuTabActive;
   const activeIndex = useMemo(() => {
-    if (!activeFilterValue) return 4;
+    if (!activeFilterValue && !!data.all) return 4;
     const { keyIndices, sectoralIndices, otherIndices, marketcap } = data;
     if (
       keyIndices.nse.some((obj: any) => obj.indexId === activeFilterValue) ||
@@ -50,8 +50,10 @@ export default function StockFilterNifty({
       marketcap?.bse.some((obj: any) => obj.indexId === activeFilterValue)
     ) {
       return 3;
-    } else {
+    } else if (!!marketcap) {
       return 4;
+    } else {
+      return 0;
     }
   }, [activeFilterValue, data]);
 

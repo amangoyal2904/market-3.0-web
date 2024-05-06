@@ -6,6 +6,7 @@ import MarketTable from "../MarketTable";
 import { useStateContext } from "@/store/StateContext";
 import tableConfig from "@/utils/tableConfig.json";
 import refeshConfig from "@/utils/refreshConfig.json";
+import ViewAllLink from "../ViewAllLink";
 
 const macd_opts = [
   { label: "1D", value: "1d", id: 1 },
@@ -137,6 +138,10 @@ const BuySellTechnicalWidget = ({ data, bodyParams }: any) => {
           processingLoader={processingLoader}
         />
       </div>
+      <ViewAllLink
+        text="See All Stocks"
+        link="/stocks/marketstats/top-gainers"
+      />
     </>
   );
 };

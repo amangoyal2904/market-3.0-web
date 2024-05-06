@@ -1,0 +1,86 @@
+.container {
+  .title {
+    color: var(--Primary-Black, var(--Black, #000));
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 16px;
+    .days {
+      color: #000;
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      float: right;
+    }
+  }
+  .barsRow {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    align-self: stretch;
+    position: relative;
+    margin: 10px 0;
+    min-height: 58px;
+  }
+  .bar {
+    display: flex;
+    min-width: 16px;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+    width: 100%;
+    transform: scale(1);
+    transition: 0.5s all ease;
+  }
+
+  .value {
+    color: #000;
+    text-align: center;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    min-height: 25px;
+  }
+  .liner {
+    position: absolute;
+    top: 24px;
+    background: #000;
+    height: 1px;
+    width: 100%;
+  }
+  .bars {
+    width: 13%;
+    max-height: 58px;
+  }
+}
+.positive {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column-reverse;
+  align-self: self-end;
+  gap: 9px;
+}
+
+.up {
+  background: #147014;
+}
+.down {
+  background: #d51131;
+}
+.label {
+  overflow: hidden;
+  color: #333;
+  text-overflow: ellipsis;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  .diiEquity {
+    color: #d51131;
+  }
+  .fiiEquity {
+    color: #147014;
+  }
+}

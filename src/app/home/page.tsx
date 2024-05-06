@@ -83,7 +83,7 @@ const Home = async () => {
   return (
     <>
       <IndicesWidget />
-      <MarketsDashboardWidget /> 
+      <MarketsDashboardWidget />
       <WatchlistWidget />
       <DfpAds adInfo={AdInfo.dfp.mid1}/>
       <InvestmentIdea />

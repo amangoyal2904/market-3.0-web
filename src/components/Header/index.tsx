@@ -133,36 +133,36 @@ const Header = () => {
           </Link>
         </div>
 
-        <div
-          className={`dflex align-item-center ${styles.headerRightContainer}`}
-        >
-          <div className={styles.headerMidContainer}>
-            <Search location="header" />
-          </div>
-          <div className={`dflex align-item-center`}>
-            {shouldRenderComponent && <LiveMarketData />}
-            <Link className="default-btn" href="/watchlist">
-              My Watchlist
-            </Link>
-            {!isPrime && (
-              <span
-                className={`default-btn ${styles.subscribeBtn}`}
-                onClick={redirectToPlanPage}
-              >
-                <img
-                  src="/prime_icon.svg"
-                  height="12"
-                  width="12"
-                  className={styles.prime_icon}
-                />
-                Subscribe
-              </span>
-            )}
-            <Login />
+          <div
+            className={`dflex align-item-center ${styles.headerRightContainer}`}
+          >
+            <div className={styles.headerMidContainer}>
+              <Search location="header" />
+            </div>
+            <div className={`dflex align-item-center`}>
+              {shouldRenderComponent && <LiveMarketData />}
+              <Link className="default-btn" href="/watchlist">
+                My Watchlist
+              </Link>
+              {!isPrime && (
+                <span
+                  className={`default-btn ${styles.subscribeBtn}`}
+                  onClick={redirectToPlanPage}
+                >
+                  <img
+                    src="/prime_icon.svg"
+                    height="12"
+                    width="12"
+                    className={styles.prime_icon}
+                  />
+                  Subscribe
+                </span>
+              )}
+              <Login />
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
     </>
   );
 };

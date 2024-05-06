@@ -1,5 +1,5 @@
-.wraper {
-  padding: 20px;
+.wrapper {
+  padding-top: 20px;
   flex-grow: 1;
   width: 100%;
   .heading1 {
@@ -9,13 +9,17 @@
     line-height: normal;
     margin-bottom: 22px;
   }
+  .tabMainBox {
+    padding-top: 16px;
+  }
 
   .cardSec {
     position: relative;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #d5d5d5;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
     &.btt {
       padding-bottom: 26px;
     }
@@ -371,6 +375,9 @@
       }
     }
   }
+  .cardSec:nth-child(0) {
+    margin-left: 0;
+  }
 }
 .tabs {
   position: relative;
@@ -402,11 +409,11 @@
   }
 }
 .tabContentWraper {
-  padding: 20px 0;
   .tabContentBox {
     display: none;
     &.active {
       display: block;
+      margin-left: -10px;
     }
   }
 }

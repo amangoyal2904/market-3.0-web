@@ -1,18 +1,18 @@
-.midAdContainer{
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-gap: 20px;
-background:  #F4F4F4;
-height:150px;
-position:relative;
+.midAdContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background: #f4f4f4;
+  height: 150px;
+  position: relative;
 }
 .midAdContainer::before {
-    content: "ADVERTISEMENT";
-    font-size: 11px;
-    font-weight: 300;
-    display: block;
-    position:absolute;
-    top:8px;
+  content: "ADVERTISEMENT";
+  font-size: 11px;
+  font-weight: 300;
+  display: block;
+  position: absolute;
+  top: 8px;
 }

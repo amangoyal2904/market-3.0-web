@@ -23,8 +23,11 @@ import BreadCrumb from "@/components/BreadCrumb";
 import GLOBAL_CONFIG from "../../../network/global_config.json";
 
 const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
+  const filterName =
+    niftyFilterData.name == "All Stocks" ? "all" : niftyFilterData.name;
   try {
     const fundHouseInfo = getFundHouseInfo("", slug);
+
     switch (activeApi) {
       case "overview":
         return {
@@ -55,6 +58,7 @@ const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
                 : ""}
             </h1>
           ),
+          pageDesc: `Discover curated insights from leading brokerage houses with our stock recommendation feature. Access research reports on ${filterName} stocks empowering you with valuable insights to make informed investment decisions and stay ahead in the market.`,
         };
       case "newRecos":
         return {
@@ -76,6 +80,16 @@ const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
                 ? " in " + niftyFilterData.name
                 : ""}
             </h1>
+          ),
+          pageDesc: (
+            <>
+              Discover <strong>freshly</strong> curated{" "}
+              <strong>{slug?.[1] != "all" ? slug?.[1] : ""}</strong> insights
+              from leading brokerage houses with our stock recommendation
+              feature. Access research reports on {filterName} stocks empowering
+              you with valuable insights to make informed investment decisions
+              and stay ahead in the market.
+            </>
           ),
         };
       case "mostBuy":
@@ -99,6 +113,7 @@ const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
                 : ""}
             </h1>
           ),
+          pageDesc: `Uncover ${filterName == "all" ? "companies" : filterName} poised for significant growth with our Stock Recos feature, presenting recommendations sorted by average potential upside. Invest confidently in high-growth opportunities ranked for maximum returns.`,
         };
       case "mostSell":
         return {
@@ -121,6 +136,7 @@ const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
                 : ""}
             </h1>
           ),
+          pageDesc: `Safeguard your investments from potential losses with our Stock Recos feature, highlighting ${filterName == "all" ? "stocks" : filterName} sorted by their potential downside.  Invest wisely to minimize risks and protect your investment portfolio from substantial losses.`,
         };
       case "recoOnWatchlist":
         return {
@@ -128,6 +144,15 @@ const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
           desc: `Stock Recommendations on Your Watchlist:  Checkout stock recommendations and advices to find best stocks on The Economic Times`,
           keywords: `Stock Recommendations on Your Watchlist, Stock Recommendations, Stock Analysis`,
           pageTitle: <h1 className={styles.hdg}>Recos on Your Watchlist</h1>,
+          pageDesc: (
+            <>
+              Discover curated insights from leading brokerage houses with our
+              stock recommendation feature. Access research reports on your{" "}
+              <strong>Watchlisted</strong> stocks empowering you with valuable
+              insights to make informed investment decisions and stay ahead in
+              the market.
+            </>
+          ),
         };
       case "recoByFH":
         return {
@@ -135,6 +160,7 @@ const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
           desc: `Stock recommendations by Brokerages: Checkout stock recommendations and advices to find best stocks on The Economic Times`,
           keywords: `Stock Recommendations, Stock Analysis`,
           pageTitle: <h1 className={styles.hdg}>Recos by Brokerages</h1>,
+          pageDesc: `Gain comprehensive market coverage with our Stock Recos feature, providing a range of freshly curated insights from leading brokerage houses. Expand your investment horizons and capitalize on emerging opportunities in selected filter stocks.`,
         };
       case "FHDetail":
         return {
@@ -158,6 +184,15 @@ const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
               </span>
             </h1>
           ),
+          pageDesc: (
+            <>
+              Gain comprehensive market coverage with our Stock Recos feature,
+              providing a range of freshly curated{" "}
+              <strong>{slug?.[2] != "all" ? slug?.[2] : ""}</strong> insights
+              from {fundHouseInfo.fundHounseName}. Expand your investment
+              horizons and capitalize on emerging opportunities in {filterName}.
+            </>
+          ),
         };
       default:
         return {
@@ -165,6 +200,7 @@ const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
           desc: `Checkout stock recommendations and advices to find best Stock Recommendations stocks on The Economic Times`,
           keywords: `Stock Recommendations, Stock Analysis`,
           pageTitle: <h1 className={styles.hdg}>Stock Recommendations</h1>,
+          pageDesc: `Discover curated insights from leading brokerage houses with our stock recommendation feature. Access research reports on ${filterName} stocks empowering you with valuable insights to make informed investment decisions and stay ahead in the market.`,
         };
     }
   } catch (err) {
@@ -174,6 +210,7 @@ const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
       desc: `Checkout stock recommendations and advices to find best Stock Recommendations stocks on The Economic Times`,
       keywords: `Stock Recommendations, Stock Analysis`,
       pageTitle: <h1 className={styles.hdg}>Stock Recommendations</h1>,
+      pageDesc: `Discover curated insights from leading brokerage houses with our stock recommendation feature. Access research reports on ${filterName} stocks empowering you with valuable insights to make informed investment decisions and stay ahead in the market.`,
     };
   }
 };
@@ -347,10 +384,7 @@ export default async function stocksrecos({
         <div className={styles.recosHeadWrap}>
           {StockRecosMeta(getApiType(), selectedFilter, slug).pageTitle}
           <p className={styles.desc}>
-            Stocks with their SMA50 trading above their SMA200. Technical
-            Screener whose SMA 50 recently crossed above their SMA 200. Commonly
-            known as Golden Cross & important technical indicator for bullish
-            stocks.
+            {StockRecosMeta(getApiType(), selectedFilter, slug).pageDesc}
           </p>
         </div>
         <StockRecosListing

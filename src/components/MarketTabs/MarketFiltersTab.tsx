@@ -92,6 +92,7 @@ const MarketFiltersTab = React.memo(
       typeof editRemoveStockBtnReset != "undefined" &&
         editRemoveStockBtnReset();
       if (isLogin) {
+        document.body.style.overflow = "hidden";
         setOpenPersonaliseModal(true);
       } else {
         initSSOWidget();
@@ -141,6 +142,7 @@ const MarketFiltersTab = React.memo(
       console.log("resdata", resData);
       if (resData && resData.responseCode === 200) {
         setOpenPersonaliseModal(false);
+        document.body.style.overflow = "";
         //alert(resData.response);
         onPersonalizeHandler();
       } else {
@@ -182,10 +184,13 @@ const MarketFiltersTab = React.memo(
     // ====  Here only Filter tabs code start here
     const showFilterMenu = (value: boolean) => {
       setShowFilter(value);
+      if (value) document.body.style.overflow = "hidden";
+      else document.body.style.overflow = "";
     };
     const handleChangeData = (id: any, name: string, selectedTab: string) => {
       setShowFilter(false);
       filterDataChange(id, name, selectedTab);
+      document.body.style.overflow = "";
     };
     const filterApiCall = async () => {
       const data = await fetchFilters({ all: true, marketcap: true });

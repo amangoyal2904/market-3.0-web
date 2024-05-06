@@ -2,6 +2,84 @@ import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import Service from "@/network/service";
 
+const IntradayTabOptions = [
+  {
+    label: "Top Gainers",
+    selectedFlag: 1,
+    type: "gainers",
+  },
+  {
+    label: "Top Losers",
+    selectedFlag: 1,
+    type: "losers",
+  },
+  {
+    label: "Hourly Gainers",
+    selectedFlag: 1,
+    type: "hourly-gainers",
+  },
+  {
+    label: "Hourly Losers",
+    selectedFlag: 1,
+    type: "hourly-losers",
+  },
+  {
+    label: "Most Active - Volume",
+    selectedFlag: 1,
+    type: "most-active-volume",
+  },
+  {
+    label: "Most Active - Value",
+    selectedFlag: 1,
+    type: "most-active-value",
+  },
+  {
+    label: "Only Buyers",
+    selectedFlag: 1,
+    type: "only-buyers",
+  },
+  {
+    label: "Only Sellers",
+    selectedFlag: 1,
+    type: "only-sellers",
+  },
+  {
+    label: "New 52 Week High",
+    selectedFlag: 1,
+    type: "new-52-week-high",
+  },
+  {
+    label: "New 52 Week Low",
+    selectedFlag: 1,
+    type: "new-52-week-low",
+  },
+  {
+    label: "Near 52 Week High",
+    selectedFlag: 1,
+    type: "near-52-week-high",
+  },
+  {
+    label: "Near 52 Week Low",
+    selectedFlag: 1,
+    type: "near-52-week-low",
+  },
+  {
+    label: "Fall From Intraday High",
+    selectedFlag: 1,
+    type: "fall-from-intraday-high",
+  },
+  {
+    label: "Recovery from Intraday Low",
+    selectedFlag: 1,
+    type: "recovery-from-intraday-low",
+  },
+  {
+    label: "Volume Shockers",
+    selectedFlag: 1,
+    type: "volume-shockers",
+  },
+];
+
 const fetchTabsData = async ({ type, ssoid }: any) => {
   let apiUrl = `${(APIS_CONFIG as any)?.["MARKETS_CUSTOM_TAB"][APP_ENV]}`;
   if (type != "watchlist") {
@@ -53,6 +131,32 @@ const fetchViewTable = async (
   });
   const resJson = response?.json();
   return resJson;
+};
+
+export const getIntradayViewsTab = async () => {
+  const apiUrl = `${(APIS_CONFIG as any)?.MARKETSINTRADAY_CUSTOM_TAB[APP_ENV]}`;
+  const data = await fetch(apiUrl);
+  const apiresponse = await data.json();
+  const tabData = apiresponse.map((item: any) => {
+    const localItem = IntradayTabOptions.find(
+      (local) => local.type === item.viewType,
+    );
+    return {
+      ...item,
+      name: localItem ? localItem.label : "",
+      selectedFlag: localItem ? localItem.selectedFlag : 0,
+    };
+  });
+  let activeViewId = null;
+  if (typeof tabData != "undefined" && tabData.length > 0) {
+    activeViewId = tabData[0].viewId;
+  } else {
+    console.error("tabData is empty");
+  }
+  return {
+    tabData,
+    activeViewId,
+  };
 };
 
 export const getCustomViewsTab = async ({

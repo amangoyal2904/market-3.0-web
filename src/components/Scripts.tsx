@@ -204,14 +204,14 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
             }}
           />
           {!isprimeuser && (
-              <Script
-                src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
-                strategy="lazyOnload"
-                onLoad={() => {
-                  const gptLoaded = new Event("gptLoaded");
-                  document.dispatchEvent(gptLoaded);
-                }}
-              />
+            <Script
+              src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
+              strategy="lazyOnload"
+              onLoad={() => {
+                const gptLoaded = new Event("gptLoaded");
+                document.dispatchEvent(gptLoaded);
+              }}
+            />
           )}
            {!isprimeuser && (
                 <Script src="https://static.clmbtech.com/ad/commons/js/2308/colombia_v2.js" strategy="lazyOnload" />

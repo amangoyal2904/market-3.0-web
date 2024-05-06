@@ -11,17 +11,15 @@ declare global {
 interface AdInfoProps {
   adInfo: {
     key?: string;
-    slot:string;
-    size:string;
-    id:string
-
+    slot: string;
+    size: string;
+    id: string;
   };
-  
 }
 
 const DfpAds: FC<AdInfoProps> = function (props) {
   const { state } = useStateContext();
-  const { isLogin, isPrime } = state.login;  
+  const { isLogin, isPrime } = state.login;
   const { adInfo } = props;
   //const router = useRouter();
  
@@ -54,12 +52,14 @@ const DfpAds: FC<AdInfoProps> = function (props) {
    
 
   return (
-    (!isPrime && (<>
+    !isPrime && (
+      <>
         <div className={styles.midAdContainer}>
-            <div id={adInfo.id} className="dfpAd"></div>
+          <div id={adInfo.id} className="dfpAd"></div>
         </div>
-    </>))
-  )
+      </>
+    )
+  );
 };
 
 export default DfpAds;
