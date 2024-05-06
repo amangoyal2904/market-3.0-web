@@ -50,15 +50,15 @@ const IndicesDetailsOverview = React.memo(
         ) {
           const trendClass =
             overviewData.lastTradedPrice > lastTradedPrice
-              ? styles.upBg
+              ? "upBg"
               : overviewData.lastTradedPrice < lastTradedPrice
-                ? styles.downBg
-                : "";
+                ? "downBg"
+                : "noBg";
           const element = document.getElementById("lastTradedPrice");
           if (element) {
             element.classList.add(trendClass);
             setTimeout(() => {
-              element.classList.remove(styles.upBg, styles.downBg);
+              element.classList.remove("upBg", "downBg");
             }, 500);
           }
         }
@@ -114,13 +114,15 @@ const IndicesDetailsOverview = React.memo(
               {currentMarketStatus.toUpperCase() != "CLOSED" && (
                 <span className="liveBlinker"></span>
               )}
-              <span className={styles.marketStatus}>{currentMarketStatus}</span>
+              <span className="marketStatus withSeparator">
+                {currentMarketStatus}
+              </span>
             </>
           )}
-          <span className={styles.updatetime}>
+          <span className="updatetime">
             {dateFormat(
               parseInt(overviewData?.dateTime) * 1000,
-              "%h:%m %p | %MMM %d, %Y",
+              "As on %d %MMM, %Y %H:%m IST",
             )}
           </span>
         </div>
@@ -208,7 +210,7 @@ const IndicesDetailsOverview = React.memo(
                 </span>
                 <div className={styles.bar}>
                   <span
-                    title={overviewData?.lastTradedPrice}
+                    title={formatNumber(overviewData?.lastTradedPrice, 2)}
                     className={styles.currentPosition}
                     style={{
                       left:
@@ -249,7 +251,7 @@ const IndicesDetailsOverview = React.memo(
                 </span>
                 <div className={styles.bar}>
                   <span
-                    title={overviewData?.lastTradedPrice}
+                    title={formatNumber(overviewData?.lastTradedPrice, 2)}
                     className={styles.currentPosition}
                     style={{
                       left:

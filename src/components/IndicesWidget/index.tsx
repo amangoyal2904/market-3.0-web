@@ -11,6 +11,7 @@ import { useStateContext } from "@/store/StateContext";
 import refreshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "../MarketStatus";
 import ViewAllLink from "../ViewAllLink";
+import FIIDIIWIdget from "../FIIDIIWIdget";
 
 const IndicesWidget = () => {
   const responsive = [
@@ -41,6 +42,7 @@ const IndicesWidget = () => {
   const [period, setPeriod] = useState("1d");
   const [indicesData, setIndicesData] = useState<any[]>([]);
   const [topNewsData, setTopNewsData] = useState<any[]>([]);
+  const [fiiDiiCash, setFiiDiiCash] = useState<any[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<any>({});
   const [iframeSrc, setIframeSrc] = useState("");
   const [symbol, setSymbol] = useState("");
@@ -51,6 +53,7 @@ const IndicesWidget = () => {
   useEffect(() => {
     getIndicesWidgetData();
     fetchTopNews();
+    fetchFiiDIIData();
   }, []);
   const getIndicesWidgetData = async () => {
     const response = await Service.get({
@@ -96,6 +99,20 @@ const IndicesWidget = () => {
       console.log("Error in fetching top news", e);
     }
   };
+  const fetchFiiDIIData = async () => {
+    try {
+      const response = await Service.get({
+        url: (APIS_CONFIG as any)?.FIIDIICash[APP_ENV],
+        params: {},
+      });
+      const data = await response?.json();
+      const fiidiiData =
+        (data && data.datainfo && data.datainfo.fiiDiiChart) || {};
+      setFiiDiiCash(fiidiiData);
+    } catch (e) {
+      console.log("Error in fetching investment Data", e);
+    }
+  };
   useEffect(() => {
     const intervalId: any = setInterval(() => {
       if (currentMarketStatus === "LIVE") {
@@ -105,6 +122,7 @@ const IndicesWidget = () => {
 
     return () => clearInterval(intervalId);
   }, [currentMarketStatus]);
+  console.log("@@@@->inde", indicesData);
   return (
     <div className={styles.widgetContainer}>
       <div className={styles.IndicesContainer}>
@@ -183,6 +201,11 @@ const IndicesWidget = () => {
               }}
             />
           </div>
+          <ViewAllLink
+            text={`See ${selectedIndex.indexName}`}
+            link={`/markets/indices/${selectedIndex.seoname}`}
+            alignRight={true}
+          />
           <div className={styles.bottomWidgets}>
             <div className={styles.widget}>
               <div className="dflex align-item-center">
@@ -225,8 +248,12 @@ const IndicesWidget = () => {
                 </div>
               </div>
             </div>
-            <div className={styles.widget}></div>
-            <div className={styles.widget}></div>
+            <div className={styles.widget}>
+              <FIIDIIWIdget fiiDiiCash={fiiDiiCash} type="fiiEquity" />
+            </div>
+            <div className={styles.widget}>
+              <FIIDIIWIdget fiiDiiCash={fiiDiiCash} type="diiEquity" />
+            </div>
           </div>
         </div>
       </div>

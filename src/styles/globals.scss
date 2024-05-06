@@ -222,6 +222,26 @@ a {
   justify-content: center;
 }
 
+.marketStatus {
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 600;
+  color: $red-50;
+  text-transform: uppercase;
+  &.withSeparator {
+    margin-right: 10px;
+    border-right: 1px solid $gray_60;
+    padding-right: 10px;
+  }
+}
+
+.updatetime {
+  color: $gray_40;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 400;
+}
+
 .liveBlinker {
   height: 6px;
   position: relative;
@@ -324,7 +344,7 @@ table {
 }
 
 .main_container {
-  padding: 20px 20px 10px 20px;
+  padding: 24px;
   flex-grow: 1;
   width: calc(100vw - 212px);
 }
@@ -335,8 +355,16 @@ table {
 .heading {
   font-size: 32px;
   font-style: normal;
-  font-weight: 800;
+  font-weight: 700;
   line-height: normal;
+}
+
+.marginhead {
+  padding-top: 20px;
+}
+.headingIcon {
+  vertical-align: middle;
+  font-size: 40px;
 }
 
 .two-line-ellipsis {
@@ -410,7 +438,7 @@ table {
   position: relative;
   justify-content: space-between;
   align-items: center;
-  padding: 0 0 10px 0;
+  padding: 16px 0 10px 0;
   column-gap: 30px;
 }
 /* Here Only Module Css end here */
@@ -490,4 +518,17 @@ table {
     border-top: solid 2px $blue-50;
     border-right: solid 2px $blue-50;
   }
+}
+
+.upBg {
+  background: #7dc37c36 !important;
+  color: #1aae55 !important;
+}
+.downBg {
+  background: #ed193b1c !important;
+  color: #ed193b !important;
+}
+.noBg {
+  background: inherit !important;
+  color: inherit !important;
 }

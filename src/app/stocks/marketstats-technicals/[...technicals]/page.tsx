@@ -20,6 +20,8 @@ import {
 } from "@/utils/customViewAndTables";
 import MarketStats from "../../marketstats/client";
 import BreadCrumb from "@/components/BreadCrumb";
+import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
+import DfpAds from "@/components/Ad/DfpAds";
 
 export async function generateMetadata(
   { searchParams, params }: any,
@@ -212,6 +214,9 @@ const Technicals = async ({ params, searchParams }: any) => {
         shortUrlMapping={shortUrlMapping}
       />
       <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
+      <br/>
+      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
+
     </>
   );
 };

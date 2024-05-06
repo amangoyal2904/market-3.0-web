@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./MarketTable.module.scss";
 import FixedTable from "./FixedTable";
 import ScrollableTable from "./ScrollableTable";
@@ -47,6 +47,8 @@ const MarketTable = React.memo((props: propsType) => {
     fixedCol = 3,
     isprimeuser = false,
   } = props || {};
+  const parentRef = useRef<HTMLDivElement>(null);
+  const fixedTableRef = useRef<HTMLDivElement>(null);
   const { debounce } = useDebounce();
   const { loader = false, loaderType } = tableConfig || {};
   const [pageSummaryData, setPageSummaryData] = useState(pageSummary);
@@ -236,15 +238,15 @@ const MarketTable = React.memo((props: propsType) => {
   );
 
   const scrollRightPos = () => {
-    const leftScroll: any = document.getElementById("fixedTable");
-    const rightScroll: any = document.getElementById("scrollableTable");
+    const leftScroll: any = fixedTableRef.current;
+    const rightScroll: any = parentRef.current;
     const rightScrollPos = rightScroll?.scrollTop;
     leftScroll.scrollTop = rightScrollPos;
   };
 
   const scrollLeftPos = () => {
-    const leftScroll: any = document.getElementById("fixedTable");
-    const rightScroll: any = document.getElementById("scrollableTable");
+    const leftScroll: any = fixedTableRef.current;
+    const rightScroll: any = parentRef.current;
     const leftScrollPos = leftScroll.scrollTop;
     rightScroll.scrollTop = leftScrollPos;
   };
@@ -285,8 +287,8 @@ const MarketTable = React.memo((props: propsType) => {
   }, [apiSuccess, data, _sortData, filters, loaderOff]);
 
   useEffect(() => {
-    const parent = document.querySelector("#scrollableTable");
-    const fixedTable = document.querySelector("#fixedTable");
+    const parent = parentRef.current;
+    const fixedTable = fixedTableRef.current;
 
     if (!parent || !fixedTable) return;
 
@@ -308,7 +310,6 @@ const MarketTable = React.memo((props: propsType) => {
     const height_2 = fixedTheadElement.getBoundingClientRect().height;
 
     const hasScroll = parent.scrollWidth > parent.clientWidth;
-
     const thElementsParent = parent.querySelectorAll("th");
     const thElementsFixed = fixedTable.querySelectorAll("th");
 
@@ -351,42 +352,52 @@ const MarketTable = React.memo((props: propsType) => {
         )}
         {tableHeaderData.length > 0 && (
           <>
-            <FixedTable
-              highlightLtp={highlightLtp}
-              tableHeaderData={tableHeaderData}
-              tableDataList={tableDataList}
-              scrollLeftPos={scrollLeftPos}
-              headerSticky={headerSticky}
-              topScrollHeight={topScrollHeight}
-              handleSort={sortHandler}
-              sortData={sortData}
-              filters={filters}
-              handleFilterChange={handleFilterChange}
-              isPrime={isprimeuser}
-              hideThead={hideThead}
-              showRemoveCheckbox={showTableCheckBox}
-              removeCheckBoxHandle={removeCheckBoxHandleFun}
-              tableConfig={tableConfig}
-              parentHasScroll={parentHasScroll}
-              fixedCol={fixedCol}
-            />
-            <ScrollableTable
-              highlightLtp={highlightLtp}
-              tableHeaderData={tableHeaderData}
-              tableDataList={tableDataList}
-              scrollRightPos={scrollRightPos}
-              headerSticky={headerSticky}
-              topScrollHeight={topScrollHeight}
-              handleSort={sortHandler}
-              sortData={sortData}
-              filters={filters}
-              handleFilterChange={handleFilterChange}
-              isPrime={isprimeuser}
-              hideThead={hideThead}
-              tableConfig={tableConfig}
-              parentHasScroll={parentHasScroll}
-              fixedCol={fixedCol}
-            />
+            <div
+              className={`fixedTable ${styles.fixedWrapper} ${!!parentHasScroll ? styles.withShadow : ""}`}
+              onScroll={scrollLeftPos}
+              ref={fixedTableRef}
+            >
+              <FixedTable
+                highlightLtp={highlightLtp}
+                tableHeaderData={tableHeaderData}
+                tableDataList={tableDataList}
+                scrollLeftPos={scrollLeftPos}
+                headerSticky={headerSticky}
+                topScrollHeight={topScrollHeight}
+                handleSort={sortHandler}
+                sortData={sortData}
+                filters={filters}
+                handleFilterChange={handleFilterChange}
+                isPrime={isprimeuser}
+                hideThead={hideThead}
+                showRemoveCheckbox={showTableCheckBox}
+                removeCheckBoxHandle={removeCheckBoxHandleFun}
+                tableConfig={tableConfig}
+                fixedCol={fixedCol}
+              />
+            </div>
+            <div
+              className={`scrollableTable ${styles.scrollableWrapper}`}
+              onScroll={scrollRightPos}
+              ref={parentRef}
+            >
+              <ScrollableTable
+                highlightLtp={highlightLtp}
+                tableHeaderData={tableHeaderData}
+                tableDataList={tableDataList}
+                headerSticky={headerSticky}
+                topScrollHeight={topScrollHeight}
+                handleSort={sortHandler}
+                sortData={sortData}
+                filters={filters}
+                handleFilterChange={handleFilterChange}
+                isPrime={isprimeuser}
+                hideThead={hideThead}
+                tableConfig={tableConfig}
+                parentHasScroll={parentHasScroll}
+                fixedCol={fixedCol}
+              />
+            </div>
           </>
         )}
       </div>

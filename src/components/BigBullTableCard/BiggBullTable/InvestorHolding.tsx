@@ -14,7 +14,7 @@ const BiggBullInvestorHoldingTable = ({
   handleSort,
   shouldShowLoader,
 }: any) => {
-  console.log("tableData", tableData);
+  //console.log("tableHead", tableHead);
   const { state } = useStateContext();
   const { isPrime } = state.login;
   //const isPrime = true;

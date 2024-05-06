@@ -19,9 +19,11 @@ const StockCards: React.FC<Props> = ({
       onClick={() => onSelectIndex(item)}
     >
       <p className={styles.indexName}>{item.indexName}</p>
-      <p className={styles.indexPrice}>{item.currentIndexValue}</p>
+      <p className={`numberFonts ${styles.indexPrice}`}>
+        {item.currentIndexValue}
+      </p>
       <p
-        className={`${item.netChange > 0 ? styles.up : item.netChange < 0 ? styles.down : ""} ${styles.indexChange}`}
+        className={`numberFonts ${item.netChange > 0 ? styles.up : item.netChange < 0 ? styles.down : ""} ${styles.indexChange}`}
       >
         {item?.netChange?.replace("-", "")} (
         {item?.percentChange?.replace("-", "")}%)

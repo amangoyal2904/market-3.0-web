@@ -34,7 +34,7 @@ const IndicesReturns = React.memo(({ data }: any) => {
               {data.map((value: any, i: number) => (
                 <td
                   key={i}
-                  className={`${i == 0 ? styles.left : `${styles.center} numberFonts`} ${
+                  className={`${i == 0 ? styles.left : `numberFonts`} ${
                     index == 0
                       ? value > 0
                         ? "up"

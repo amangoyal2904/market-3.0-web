@@ -36,7 +36,7 @@ const InvestorClientCatePage = ({
   const [sortByChangeHolding, setSortByChangeHolding]: any = useState([
     { label: "All", value: "All" },
     { label: "Increase", value: "Increase" },
-    { label: "Increase", value: "Decrease" },
+    { label: "Decrease", value: "Decrease" },
   ]);
   const [sortByChangeHoldingActive, setSortByChangeHoldingActive] = useState({
     label: "All",
@@ -290,7 +290,7 @@ const InvestorClientCatePage = ({
                           <li
                             onClick={() => sortBychangeHoldingHandler(sort)}
                             className={`${sortByChangeHoldingActive.value === sort.value ? styles.active : ""}`}
-                            key={`${index}-${sort.value}`}
+                            key={`${index}-${sort.value}-`}
                           >
                             {sort.label}
                           </li>

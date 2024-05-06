@@ -72,7 +72,7 @@ const InvestorClientPage = ({
       url: `/markets/top-india-investors-portfolio/${sharkSeoName},expertid-${sharkID}/bulk-block-deals`,
     },
   ];
-  console.log("_____otherViewData", otherViewData);
+  // console.log("_____otherViewData", otherViewData);
   return (
     <>
       <HeroBanner data={data} />

@@ -17,7 +17,7 @@ const MarketStatus = ({ currentMarketStatus, dateTime }: propType) => {
           <span className={styles.marketStatus}>{currentMarketStatus}</span>
         </>
       )}
-      <span className={styles.updatetime}>
+      <span className={`numberFonts ${styles.updatetime}`}>
         {dateFormat(parseInt(dateTime) * 1000, "%h:%m %p | %MMM %d, %Y")}
       </span>
     </div>

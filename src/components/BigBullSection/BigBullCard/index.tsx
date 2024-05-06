@@ -12,7 +12,7 @@ const BigBullCard = ({ data, type }: any) => {
   const { state } = useStateContext();
   const { isPrime } = state.login;
   // const isPrime = true;
-  console.log("isPrime", isPrime);
+  //console.log("isPrime", isPrime);
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef<Slider>(null);
@@ -136,7 +136,11 @@ const BigBullCard = ({ data, type }: any) => {
                   >
                     {data?.filingAwaitedText &&
                     data?.filingAwaitedText !== "" ? (
-                      <span>{data?.filingAwaitedText}</span>
+                      <span
+                        className={`${data?.filingAwaitedTrend !== "" ? styles[data?.filingAwaitedTrend] : ""}`}
+                      >
+                        {data?.filingAwaitedText}
+                      </span>
                     ) : data?.dealDateStr && data?.dealDateStr !== "" ? (
                       <span>{data?.dealDateStr}</span>
                     ) : (

@@ -21,7 +21,7 @@ const BiggBullRecentTransactionsTable = ({
   //console.log("isPrime", isPrime);
   return (
     <div className="prel">
-      <table className={styles.bibBullCustomTable}>
+      <table className={`${styles.bibBullCustomTable} ${styles.recentTrans}`}>
         <thead>
           <tr>
             {tableHead &&

@@ -8,6 +8,8 @@ import GLOBAL_CONFIG from "../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 import APIS_CONFIG from "@/network/api_config.json";
 import { useStateContext } from "@/store/StateContext";
+import renderDfpAds from "@/components/Ad/AdScript";
+
 interface Props {
   isprimeuser?: number | boolean;
   objVc?: object;
@@ -15,6 +17,7 @@ interface Props {
 
 declare global {
   interface Window {
+    googletag:any;
     ispopup: any;
     jsso?: {
       getValidLoggedInUser?: any;
@@ -35,6 +38,8 @@ declare global {
       accessibleFeatures?: any;
       primeInfo?: any;
     };
+   
+
   }
 }
 
@@ -54,7 +59,19 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
     prevPath !== null &&
       trackingEvent("page_view", { url: window.location.href });
     setPrevPath(router);
+    renderDfpAds(isPrime);
   }, [router, isPrime]);
+
+  // useEffect(() => {
+  //   if (typeof window !== "undefined" ) {
+  //     window.googletag ? renderDfpAds(window.arrDfpAds, isPrime) : document.addEventListener("gptLoaded", function(){renderDfpAds(window.arrDfpAds, isPrime)});
+  //     console.log("Event Listiner-------");
+  //     return () => {
+  //       //document.removeEventListener("gptLoaded", function(){renderDfpAds(window.arrDfpAds, isPrime)});
+  //     };
+  //   }
+  //   //eslint-disable-next-line
+  // }, [state]);
 
   return (
     <>
@@ -186,6 +203,19 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               `,
             }}
           />
+          {!isprimeuser && (
+            <Script
+              src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
+              strategy="lazyOnload"
+              onLoad={() => {
+                const gptLoaded = new Event("gptLoaded");
+                document.dispatchEvent(gptLoaded);
+              }}
+            />
+          )}
+           {!isprimeuser && (
+                <Script src="https://static.clmbtech.com/ad/commons/js/2308/colombia_v2.js" strategy="lazyOnload" />
+            )}
           {/* <Script
             id="tag-manager"
             strategy="lazyOnload"

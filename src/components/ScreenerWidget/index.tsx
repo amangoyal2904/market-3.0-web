@@ -21,10 +21,17 @@ const fetchData = async () => {
 const StockScreenerWidget = async () => {
   const responsive = [
     {
-      breakpoint: 1921,
+      breakpoint: 2560,
       settings: {
         slidesToShow: 4,
         slidesToScroll: 4,
+      },
+    },
+    {
+      breakpoint: 1921,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
       },
     },
     {
@@ -56,27 +63,28 @@ const StockScreenerWidget = async () => {
       : [];
 
   return (
-    <>
+    <div className={styles.screenerWrapper}>
       <h1 className="heading">
-        Stock Screeners{" "}
-        <span className={`eticon_caret_right ${styles.headingIcon}`} />
+        Stock Screeners <span className={`eticon_caret_right headingIcon`} />
       </h1>
-      {StockScreenerData.length && (
-        <SlickSlider
-          slides={StockScreenerData?.map((slides: any, index: any) => ({
-            content: <StockScreenCards item={slides} index={index} />,
-          }))}
-          key={`screenerSlider}`}
-          sliderId={`slider-screener`}
-          slidesToShow={3}
-          slidesToScroll={3}
-          rows={1}
-          topSpaceClass="screener"
-          responsive={responsive}
-        />
-      )}
+      <div className={styles.screenerCards}>
+        {StockScreenerData.length && (
+          <SlickSlider
+            slides={StockScreenerData?.map((slides: any, index: any) => ({
+              content: <StockScreenCards item={slides} index={index} />,
+            }))}
+            key={`screenerSlider}`}
+            sliderId={`slider-screener`}
+            slidesToShow={3}
+            slidesToScroll={3}
+            rows={1}
+            topSpaceClass="screener"
+            responsive={responsive}
+          />
+        )}
+      </div>
       <ViewAllLink text="View All Stocks" link="/watchlist" />
-    </>
+    </div>
   );
 };
 

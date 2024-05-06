@@ -114,6 +114,7 @@ const TechnicalOperands = React.memo(
             type="text"
             value={secondOperand}
             onChange={handleTextChange}
+            maxLength={10}
           />
         )}
         <div className={styles.blackCTA} onClick={handleSubmit}>

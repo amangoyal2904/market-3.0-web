@@ -5,7 +5,6 @@ import tabConfig from "@/utils/tabConfig.json";
 import tableConfig from "@/utils/tableConfig.json";
 import { cookies, headers } from "next/headers";
 import {
-  fetchSelectedFilter,
   fetchSelectedIndex,
   fnGenerateMetaData,
   getIndicesFaqs,
@@ -55,7 +54,6 @@ const Indices = async ({ params }: any) => {
   const pageUrl = headersList.get("x-url") || "";
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
-  const niftyFilterData = await fetchSelectedFilter(params.index);
   const indexFilterData = await fetchSelectedIndex(params.index);
   if (indexFilterData.assetId == 0 || indexFilterData.assetId == null) {
     notFound();
@@ -114,7 +112,6 @@ const Indices = async ({ params }: any) => {
         ssoid={ssoid}
         indicesNews={indicesNews}
         faq={faqData}
-        selectedFilter={niftyFilterData}
       />
       <BreadCrumb
         pagePath={pageUrl}

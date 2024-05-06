@@ -4,6 +4,8 @@ import IndicesClient from "./client";
 import tableConfig from "@/utils/tableConfig.json";
 import BreadCrumb from "@/components/BreadCrumb";
 import { headers } from "next/headers";
+import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
+import DfpAds from "@/components/Ad/DfpAds";
 
 const pageTitle =
   "Indian Market Indices, Live Index Watch, Market Indexes | The Economic Time";
@@ -73,6 +75,8 @@ const Indices = async () => {
         pagePath={pageUrl}
         pageName={[{ label: "Indices", redirectUrl: "" }]}
       />
+       <br/>
+       <DfpAds adInfo={AdInfo.dfp.btfAd}/>
     </>
   );
 };

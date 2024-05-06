@@ -729,24 +729,29 @@
 
 @media (max-width: 1300px) {
   /* Your CSS styles for screens up to 1330px wide */
-  .brokerageWrap .pipe{
+  .brokerageWrap .pipe {
     margin: 0 15px;
   }
-  .brokerageWrap .sellWrap, .brokerageWrap .neutralWrap, .brokerageWrap .accumulateWrap, .brokerageWrap .addWrap, .brokerageWrap .holdWrap, .brokerageWrap .buyWrap{
+  .brokerageWrap .sellWrap,
+  .brokerageWrap .neutralWrap,
+  .brokerageWrap .accumulateWrap,
+  .brokerageWrap .addWrap,
+  .brokerageWrap .holdWrap,
+  .brokerageWrap .buyWrap {
     margin-right: 30px;
   }
 
-  .actionBarWrap{
-    .filterIcon{
-      & + span{
+  .actionBarWrap {
+    .filterIcon {
+      & + span {
         display: none;
       }
     }
   }
 
-  .subHead{
-    .mainTabsList{
-      .mainTab{
+  .subHead {
+    .mainTabsList {
+      .mainTab {
         display: flex;
         align-items: center;
         text-align: center;

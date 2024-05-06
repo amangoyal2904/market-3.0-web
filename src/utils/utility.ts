@@ -10,6 +10,18 @@ import Service from "@/network/service";
 
 const API_SOURCE = 0;
 
+const convertJSONToParams = (jsonObject: any) => {
+  let paramsArray = [];
+  for (let key in jsonObject) {
+    if (jsonObject.hasOwnProperty(key)) {
+      paramsArray.push(
+        encodeURIComponent(key) + "=" + encodeURIComponent(jsonObject[key]),
+      );
+    }
+  }
+  return paramsArray.join("&");
+};
+
 export const getCurrentMarketStatus = async () => {
   const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
   const res = await Service.get({ url, params: {} });
@@ -694,7 +706,6 @@ export const getPeerIndices = async (indexid: number, exchangeid?: number) => {
 };
 
 export const getIndicesNews = async (indexid: number, exchangeid: number) => {
-  console.log(indexid, exchangeid);
   const response = await Service.get({
     url: `${(APIS_CONFIG as any)?.INDICES_NEWS[APP_ENV]}?feedtype=etjson&indexid=${indexid}&exchange=${exchangeid}`,
     params: {},
@@ -764,4 +775,143 @@ export const getMfCashData = async (filterType: string) => {
   });
   const originalJson = await response?.json();
   return originalJson;
+};
+
+export const getBuySellTechnicals = async (payload: any) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.BuySellTechnical[APP_ENV]}?${convertJSONToParams(payload)}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  let convertedData: {
+    assetName: any;
+    assetSeoName: any;
+    assetType: any;
+    assetId: any;
+    assetExchangeId: any;
+    assetSymbol: any;
+    data: (
+      | {
+          keyId: string;
+          keyText: string;
+          value: any;
+          trend: string;
+          decimalValue: null;
+          filterFormatValue: any;
+          primeFlag: number;
+          valueType: string;
+        }
+      | {
+          keyId: string;
+          keyText: string;
+          value: any;
+          trend: string;
+          decimalValue: number;
+          filterFormatValue: any;
+          primeFlag: number;
+          valueType: string;
+        }
+    )[];
+  }[] = [];
+  originalJson.response.forEach((company: any) => {
+    let newDataObj = {
+      assetName: company.companyShortName,
+      assetSeoName: company.seoName,
+      assetType: company.companyType,
+      assetId: company.companyId,
+      assetExchangeId: payload.exchange,
+      assetSymbol: company.scripCode,
+      data: [
+        {
+          keyId: "shortName",
+          keyText: "Stock Name",
+          value: company.companyShortName,
+          trend: "",
+          decimalValue: null,
+          filterFormatValue: company.companyShortName,
+          primeFlag: 0,
+          valueType: "text",
+        },
+        {
+          keyId: "lastTradedPrice",
+          keyText: "Price",
+          value: formatNumber(company.ltp.toFixed(2), 2),
+          trend: "",
+          decimalValue: 2,
+          filterFormatValue: company.ltp.toFixed(2),
+          primeFlag: 0,
+          valueType: "number",
+        },
+        {
+          keyId: "netChange",
+          keyText: "Chg",
+          value: company.absoluteChange.toFixed(2),
+          trend:
+            company.absoluteChange < 0
+              ? "down"
+              : company.absoluteChange > 0
+                ? "up"
+                : "neutral",
+          decimalValue: null,
+          filterFormatValue: company.absoluteChange,
+          primeFlag: 0,
+          valueType: "number",
+        },
+        {
+          keyId: "percentChange",
+          keyText: "Chg%",
+          value: company.percentChange.toFixed(2) + " %",
+          trend:
+            company.percentChange < 0
+              ? "down"
+              : company.percentChange > 0
+                ? "up"
+                : "neutral",
+          decimalValue: 2,
+          filterFormatValue: company.percentChange,
+          primeFlag: 0,
+          valueType: "number",
+        },
+        {
+          keyId: "gainDecline",
+          keyText: payload.crossoverType == "Bullish" ? "Gain*" : "Decline*",
+          value:
+            payload.crossoverType == "Bullish"
+              ? company.averagePriceGainLossBullish.toFixed(2)
+              : company.averagePriceGainLossBearish.toFixed(2),
+          trend:
+            payload.crossoverType == "Bullish"
+              ? company.averagePriceGainLossBullish < 0
+                ? "down"
+                : company.averagePriceGainLossBullish > 0
+                  ? "up"
+                  : "neutral"
+              : company.averagePriceGainLossBearish < 0
+                ? "down"
+                : company.averagePriceGainLossBearish > 0
+                  ? "up"
+                  : "neutral",
+          decimalValue: 2,
+          filterFormatValue:
+            payload.crossoverType == "Bullish"
+              ? company.averagePriceGainLossBullish
+              : company.averagePriceGainLossBearish,
+          primeFlag: 0,
+          valueType: "number",
+        },
+        {
+          keyId: "volume",
+          keyText: "Volume",
+          value: formatNumber(company.volume, 2),
+          trend: "",
+          decimalValue: 0,
+          filterFormatValue: company.volume,
+          primeFlag: 0,
+          valueType: "number",
+        },
+      ],
+    };
+    convertedData.push(newDataObj);
+  });
+  return convertedData;
 };

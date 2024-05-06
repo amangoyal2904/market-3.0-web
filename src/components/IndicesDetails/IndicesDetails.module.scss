@@ -67,16 +67,6 @@
       line-height: 40px;
       margin-right: 10px;
       padding: 2px 4px;
-      &.upBg {
-        padding: 2px 4px;
-        background: #7dc37c36;
-        color: #1aae55;
-      }
-      &.downBg {
-        padding: 2px 4px;
-        background: #ed193b1c;
-        color: #ed193b;
-      }
     }
     .change {
       font-family: var(--font-lato);
@@ -93,22 +83,6 @@
         vertical-align: middle;
       }
     }
-  }
-
-  .marketStatus {
-    font-size: 12px;
-    line-height: 16px;
-    font-weight: 600;
-    color: $red-50;
-    margin-right: 15px;
-    text-transform: uppercase;
-  }
-
-  .updatetime {
-    color: $gray_40;
-    font-size: 12px;
-    line-height: 16px;
-    font-weight: 400;
   }
 
   .chartOpts {
@@ -610,6 +584,7 @@
     cursor: pointer;
     .heading {
       display: flex;
+      max-width: 100%;
       margin: 5px auto;
       font-size: 18px;
       line-height: 22px;
