@@ -92,6 +92,7 @@ const MarketFiltersTab = React.memo(
       typeof editRemoveStockBtnReset != "undefined" &&
         editRemoveStockBtnReset();
       if (isLogin) {
+        document.body.style.overflow = "hidden";
         setOpenPersonaliseModal(true);
       } else {
         initSSOWidget();
@@ -141,6 +142,7 @@ const MarketFiltersTab = React.memo(
       console.log("resdata", resData);
       if (resData && resData.responseCode === 200) {
         setOpenPersonaliseModal(false);
+        document.body.style.overflow = "";
         //alert(resData.response);
         onPersonalizeHandler();
       } else {
