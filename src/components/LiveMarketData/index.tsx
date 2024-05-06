@@ -13,11 +13,10 @@ const LiveMarketData = () => {
   const [marketData, setMarketData] = useState<any>([]);
   const getLiveMarketData = async () => {
     try {
-      const url = (APIS_CONFIG as any)?.LIVE_MARKET_DATA[APP_ENV];
+      const url = (APIS_CONFIG as any)?.LIVE_MARKET_DATA_NEW[APP_ENV];
       const res = await Service.get({ url, params: {} });
-      if (res?.status === 200) {
-        marketlivedata(await res.text());
-      }
+      const result = await res?.json();
+      setMarketData(result.searchresult[0]);
     } catch (err) {
       console.log("Error in Live Market Live ", err);
     }
@@ -42,7 +41,7 @@ const LiveMarketData = () => {
   return (
     <>
       <div className={styles.liveMarkets}>
-        {marketData && marketData[0] && (
+        {/* {marketData && marketData[0] && (
           <>
             <div className={styles.marketIndex}>
               <div className={styles.indexName}>SENSEX: </div>
@@ -50,12 +49,12 @@ const LiveMarketData = () => {
                 {marketData[0]?.sensex.CurrentIndexValue}
               </div>
               <div
-                className={`numberFonts ${styles.indexChange} ${Number(marketData[0]?.sensex.NetChange) > 0 ? styles.green : styles.red}`}
+                className={`numberFonts ${styles.indexChange} ${Number(marketData[0]?.netChange) > 0 ? styles.green : styles.red}`}
               >
-                {marketData[0]?.sensex.PercentChange}%
+                {marketData[0]?.percentChange}%
                 <i
                   className={
-                    Number(marketData[0]?.sensex.NetChange) > 0
+                    Number(marketData[0]?.netChange) > 0
                       ? "eticon_up_arrow"
                       : "eticon_down_arrow"
                   }
@@ -81,7 +80,35 @@ const LiveMarketData = () => {
               </div>
             </div>
           </>
-        )}
+        )} */}
+
+        {marketData &&
+          marketData.map((item: any, index: number) => {
+            return (
+              <>
+                <div className={styles.marketIndex}>
+                  <div className={styles.indexName}>
+                    {item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName}
+                  </div>
+                  <div className={`${styles.indexValue} numberFonts`}>
+                    {item.currentIndexValue}
+                  </div>
+                  <div
+                    className={`numberFonts ${styles.indexChange} ${Number(item.netChange) > 0 ? styles.green : styles.red}`}
+                  >
+                    {item?.percentChange}%
+                    <i
+                      className={
+                        Number(item?.netChange) > 0
+                          ? "eticon_up_arrow"
+                          : "eticon_down_arrow"
+                      }
+                    ></i>
+                  </div>
+                </div>
+              </>
+            );
+          })}
       </div>
     </>
   );
