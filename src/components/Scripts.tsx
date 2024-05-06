@@ -8,6 +8,8 @@ import GLOBAL_CONFIG from "../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 import APIS_CONFIG from "@/network/api_config.json";
 import { useStateContext } from "@/store/StateContext";
+import renderDfpAds from "@/components/Ad/AdScript";
+
 interface Props {
   isprimeuser?: number | boolean;
   objVc?: object;
@@ -35,6 +37,8 @@ declare global {
       accessibleFeatures?: any;
       primeInfo?: any;
     };
+    arrDfpAds: {}[];
+    arrAdsDivs: string[];
   }
 }
 
@@ -54,8 +58,13 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
     prevPath !== null &&
       trackingEvent("page_view", { url: window.location.href });
     setPrevPath(router);
+    renderDfpAds(window.arrDfpAds, isPrime);
   }, [router, isPrime]);
 
+  useEffect(() => {
+    console.log("On load..............");
+    //onload
+  }, []);
   return (
     <>
       <Script id="main-script">
@@ -186,6 +195,16 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               `,
             }}
           />
+          {!isprimeuser && (
+            <Script
+              src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
+              strategy="lazyOnload"
+              onLoad={() => {
+                const gptLoaded = new Event("gptLoaded");
+                document.dispatchEvent(gptLoaded);
+              }}
+            />
+          )}
           {/* <Script
             id="tag-manager"
             strategy="lazyOnload"

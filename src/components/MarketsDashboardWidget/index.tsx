@@ -1,28 +1,72 @@
 import styles from "./DashboardWidget.module.scss";
-import { fetchTableData, fetchTabsData } from "./ApiCalls";
 import MarketDashBoard from "./MarketDashBoard";
-import { getCustomViewsTab } from "@/utils/customViewAndTables";
+import {
+  getCustomViewTable,
+  getIntradayViewsTab,
+} from "@/utils/customViewAndTables";
+import { cookies } from "next/headers";
+import {
+  fetchSelectedFilter,
+  generateIntradayDurations,
+} from "@/utils/utility";
+import { getAllShortUrls, getShortUrlMapping } from "@/utils/marketstats";
 
-const MarketsDashboardWidget = async ({ searchParams }: any) => {
-  const tabsData = await fetchTabsData({ duration: "1D", intFilter: 2369 });
-  const tabs =
-    (tabsData && tabsData.nav && tabsData.nav[0] && tabsData.nav[0].sub_nav) ||
-    [];
-  let type = tabs[0]?.type;
-  const { activeViewId } = await getCustomViewsTab(type);
+const MarketsDashboardWidget = async () => {
+  const cookieStore = cookies();
+  const ssoid = cookieStore.get("ssoid")?.value;
+  const intFilter = 2369;
+  const filter = !!intFilter ? [intFilter] : [];
+  const pagesize = 10;
+  const pageno = 1;
+  const sort: any = [];
+  const duration = "1D";
 
-  let duration = "1D";
-  let tableData = await fetchTableData(type, duration, 2369, activeViewId);
+  const { tabData, activeViewId } = await getIntradayViewsTab();
+
+  const bodyParams = {
+    viewId: activeViewId,
+    apiType: "gainers",
+    ...(duration ? { duration } : {}), // Conditional inclusion of duration
+    filterValue: filter,
+    filterType:
+      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
+    sort,
+    pagesize,
+    pageno,
+  };
+
+  const { tableHeaderData, tableData, payload } = await getCustomViewTable(
+    bodyParams,
+    true,
+    ssoid,
+    "MARKETSTATS_INTRADAY",
+  );
+
+  const selectedFilter = await fetchSelectedFilter(intFilter);
+  const intradayDurationOptions = await generateIntradayDurations("gainers");
+  const pageUrl = "/stocks/marketstats?type=gainers&duration=1D&filter=2371";
+  const shortUrlMapping = await getAllShortUrls();
+  const isExist: any = shortUrlMapping.find(
+    (item: any) => item.longURL == pageUrl,
+  );
+  const updatedUrl = isExist ? isExist.shortUrl : pageUrl;
 
   return (
     <div className={styles.dashboardWrapper}>
-      <h1 className="heading marginhead">Markets Dashboards</h1>
+      <h1 className="heading">
+        Markets Dashboards
+        <span className={`eticon_caret_right headingIcon`} />
+      </h1>
       <MarketDashBoard
-        tabsData={tabs}
+        tabsData={tabData}
         tableData={tableData}
+        tableHeaderData={tableHeaderData}
         activeViewId={activeViewId}
-        type={type}
-        linkClass={styles.seeAll}
+        selectedFilter={selectedFilter}
+        bodyparams={payload}
+        durationOptions={intradayDurationOptions}
+        shortUrlMapping={shortUrlMapping}
+        shortUrl={updatedUrl}
       />
     </div>
   );

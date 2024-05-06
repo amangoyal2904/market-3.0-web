@@ -13,6 +13,8 @@ import { headers } from "next/headers";
 import BuySellTechnicalWidget from "@/components/BuySellTechnicalWidget";
 import InvestmentIdea from "@/components/InvestmentIdea";
 import { getBuySellTechnicals } from "@/utils/utility";
+import AdInfo from "@/components/Ad/AdInfo/homeAds.json";
+import DfpAds from "@/components/Ad/DfpAds";
 
 const Home = async () => {
   const headersList = headers();
@@ -84,13 +86,17 @@ const Home = async () => {
       <MarketsDashboardWidget />
       <WatchlistWidget />
       <InvestmentIdea />
+      <DfpAds adInfo={AdInfo.dfp.markethome.mid1} />
       <StockRecommendations stockRecoResult={stockRecoResult} />
+      <DfpAds adInfo={AdInfo.dfp.markethome.mid2} />
       <StockReportsPlus srResult={srPlusResult} />
+      <DfpAds adInfo={AdInfo.dfp.markethome.mid3} />
       <StockScreenerWidget />
       <BuySellTechnicalWidget
         data={table}
         bodyParams={buySellTechnicalspayload}
       />
+      <DfpAds adInfo={AdInfo.dfp.markethome.mid4} />
       <LiveStreamWidget />
       <BreadCrumb
         pagePath={pageUrl}

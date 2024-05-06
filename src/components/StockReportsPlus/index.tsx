@@ -8,6 +8,7 @@ import { APP_ENV } from "@/utils";
 import StockReportsType2 from "./StockReportsType2";
 import StockReportsType3 from "./StockReportsType3";
 import StockReportsTab from "./StockReportsTab";
+import ViewAllLink from "../ViewAllLink";
 
 interface Slide {
   content: JSX.Element;
@@ -96,22 +97,12 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
     // console.log("@@fetchData --- > " , data)
   };
   return (
-    <div className={styles.wraper}>
-      <h1 className="heading marginhead">Stock Reports Plus</h1>
-
+    <div className={styles.wrapper}>
+      <h1 className="heading">
+        Stock Reports Plus
+        <span className={`eticon_caret_right headingIcon`} />
+      </h1>
       <div className={styles.tabMainBox}>
-        {/* <ul className={styles.tabs}>
-          {tabNames.map((tab) => (
-            <li
-              key={tab.seoName}
-              className={`${styles.tab} ${activeTab.seoName === tab.seoName ? styles.active : ""}`}
-              onClick={() => handleTabClick(tab)}
-            >
-              {tab.name}
-            </li>
-          ))}
-        </ul> */}
-
         <StockReportsTab
           handleTabClick={handleTabClick}
           tabNames={tabNames}
@@ -150,6 +141,10 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
           </div>
         </div>
       </div>
+      <ViewAllLink
+        text="See All Stock Reports"
+        link="/markets/benefits/stockreportsplus"
+      />
     </div>
   );
 };

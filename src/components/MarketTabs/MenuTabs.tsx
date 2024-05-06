@@ -59,7 +59,7 @@ const LeftMenuTabs = React.memo(
 
     return (
       <ul
-        className={`${styles.tabsList} ${page !== "" ? styles[page] : ""}`}
+        className={`${styles.tabsList} ${!!page ? styles[page] : ""}`}
         ref={tabsListRef}
       >
         {!visibleTabs.length && !hiddenTabs.length && <ShimmerMenu />}

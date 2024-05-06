@@ -45,7 +45,6 @@ const IndicesDetailsClient = ({
   payload = {},
   indicesNews = {},
   faq = {},
-  selectedFilter = {},
 }: any) => {
   const { state } = useStateContext();
   const { currentMarketStatus } = state.marketStatus;
@@ -176,7 +175,7 @@ const IndicesDetailsClient = ({
                   <IndicesPerformance
                     data={peers}
                     indexName={indexName}
-                    niftyFilterData={selectedFilter}
+                    exchange={exchange}
                   />
                 )}
                 {item.key === "technicalanalysis" && (
