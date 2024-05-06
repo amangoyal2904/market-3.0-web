@@ -71,7 +71,7 @@ const BigBullClientPage = ({ data }: any) => {
               cartLink={`/markets/top-india-investors-portfolio/all-investors`}
               title="Individual Investors"
               type="card1"
-              cartTitle={`View All ${__data?.pageData?.investorlist?.pageSummaryInfo?.totalPages} Investors`}
+              cartTitle={`View All ${__data?.pageData?.investorlist?.pageSummaryInfo?.totalRecords} Investors`}
             />
           )}
 
@@ -107,7 +107,7 @@ const BigBullClientPage = ({ data }: any) => {
               type="card2"
               data={__data?.pageData?.bestPicksDataInfo?.bestPicksListInfo}
               cartLink={`/markets/top-india-investors-portfolio/best-picks`}
-              cartTitle={`View All ${__data?.pageData?.bestPicksDataInfo?.pageSummaryInfo?.totalPages} Best STock Picks`}
+              cartTitle={`View All ${__data?.pageData?.bestPicksDataInfo?.pageSummaryInfo?.totalRecords} Best STock Picks`}
             />
           )}
 
@@ -119,7 +119,7 @@ const BigBullClientPage = ({ data }: any) => {
               type="card3"
               data={__data?.pageData?.mostHoldCompanyInfo?.mostHoldStockData}
               cartLink={`/markets/top-india-investors-portfolio/most-held`}
-              cartTitle={`View All ${__data?.pageData?.mostHoldCompanyInfo?.pageSummaryInfo?.totalPages} Most Helds Stocks`}
+              cartTitle={`View All ${__data?.pageData?.mostHoldCompanyInfo?.pageSummaryInfo?.totalRecords} Most Helds Stocks`}
             />
           )}
 

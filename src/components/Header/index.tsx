@@ -118,51 +118,51 @@ const Header = () => {
 
   return (
     <>
-    <DfpAds adInfo={AdInfo.dfp.markethome.topad}/>
-    <header id={styles.pageTopbar}>
-      <div className={styles.navbarHeader} id="header">
-        <div className={`dflex align-item-center ${styles.logoHeader}`}>
-          <Link href="/">
-            <Image
-              src={ETLogo}
-              width={138}
-              height={24}
-              quality={100}
-              alt="ET Markets"
-            />
-          </Link>
-        </div>
-
-        <div
-          className={`dflex align-item-center ${styles.headerRightContainer}`}
-        >
-          <div className={styles.headerMidContainer}>
-            <Search location="header" />
-          </div>
-          <div className={`dflex align-item-center`}>
-            {shouldRenderComponent && <LiveMarketData />}
-            <Link className="default-btn" href="/watchlist">
-              My Watchlist
+      <DfpAds adInfo={AdInfo.dfp.markethome.topad} />
+      <header id={styles.pageTopbar}>
+        <div className={styles.navbarHeader} id="header">
+          <div className={`dflex align-item-center ${styles.logoHeader}`}>
+            <Link href="/">
+              <Image
+                src={ETLogo}
+                width={138}
+                height={24}
+                quality={100}
+                alt="ET Markets"
+              />
             </Link>
-            {!isPrime && (
-              <span
-                className={`default-btn ${styles.subscribeBtn}`}
-                onClick={redirectToPlanPage}
-              >
-                <img
-                  src="/prime_icon.svg"
-                  height="12"
-                  width="12"
-                  className={styles.prime_icon}
-                />
-                Subscribe
-              </span>
-            )}
-            <Login />
+          </div>
+
+          <div
+            className={`dflex align-item-center ${styles.headerRightContainer}`}
+          >
+            <div className={styles.headerMidContainer}>
+              <Search location="header" />
+            </div>
+            <div className={`dflex align-item-center`}>
+              {shouldRenderComponent && <LiveMarketData />}
+              <Link className="default-btn" href="/watchlist">
+                My Watchlist
+              </Link>
+              {!isPrime && (
+                <span
+                  className={`default-btn ${styles.subscribeBtn}`}
+                  onClick={redirectToPlanPage}
+                >
+                  <img
+                    src="/prime_icon.svg"
+                    height="12"
+                    width="12"
+                    className={styles.prime_icon}
+                  />
+                  Subscribe
+                </span>
+              )}
+              <Login />
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
     </>
   );
 };

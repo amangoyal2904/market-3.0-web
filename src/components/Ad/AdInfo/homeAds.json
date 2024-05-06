@@ -1,45 +1,35 @@
 {
-    "dfp":{  
-        "markethome":{       
-            "topad": {
-                "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Mid_728",
-                "size": "[[728,90]]",
-                "id":"div-gpt-leaderboard"
-            }, 
-             "mid1": {
-                 "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Mid_728",
-                 "size": "[[728,90]]",
-                 "id":"div-gpt-mid1"
-             },
-             "mid2": {
-                 "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Mid_728",
-                 "size": "[[728,90]]",
-                 "id":"div-gpt-mid2"
-             },
-             "mid3": {
-                 "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Mid_728",
-                 "size": "[[728,90]]",
-                 "id":"div-gpt-mid3"
-             },
-             "mid4": {
-                "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Mid_728",
-                "size": "[[728,90]]",
-                "id":"div-gpt-mid4"
-            }
-        },
-        "indexsummary":{
-
-        },
-        "technicalchart":{
-
-        },
-        "companyid":{
-
-        }               
-         
-       },
-     "ctn":{
-         
-     }  
-         
-   }
+  "dfp": {
+    "markethome": {
+      "topad": {
+        "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Mid_728",
+        "size": "[[728,90]]",
+        "id": "div-gpt-leaderboard"
+      },
+      "mid1": {
+        "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Mid_728",
+        "size": "[[728,90]]",
+        "id": "div-gpt-mid1"
+      },
+      "mid2": {
+        "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Mid_728",
+        "size": "[[728,90]]",
+        "id": "div-gpt-mid2"
+      },
+      "mid3": {
+        "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Mid_728",
+        "size": "[[728,90]]",
+        "id": "div-gpt-mid3"
+      },
+      "mid4": {
+        "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Mid_728",
+        "size": "[[728,90]]",
+        "id": "div-gpt-mid4"
+      }
+    },
+    "indexsummary": {},
+    "technicalchart": {},
+    "companyid": {}
+  },
+  "ctn": {}
+}
