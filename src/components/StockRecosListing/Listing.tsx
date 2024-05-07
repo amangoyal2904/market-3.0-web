@@ -15,7 +15,7 @@ const Listing = (props: any) => {
     <>
       {typeof recosDetailResult != "undefined" && (
         <div
-          className={`${styles.listingWrap} ${recosDetailResult.length == 1 ? styles.noGridCardView : ""}`}
+          className={`${styles.listingWrap} ${recosDetailResult.length == 2 ? styles.noGridCardView : ""}`}
         >
           {recosDetailResult?.map((recoDataValue: any, index: any) => {
             return (activeApi == "recoOnWatchlist" &&
@@ -33,7 +33,7 @@ const Listing = (props: any) => {
                 urlFilterHandle={urlFilterHandle}
               />
             ) : (
-              <Blocker type={"noDataFound"} />
+              recosDetailResult?.length == 0 && <Blocker type={"noDataFound"} />
             );
           })}
         </div>
