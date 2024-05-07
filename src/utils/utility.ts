@@ -676,6 +676,7 @@ export const getAllIndices = async (
   const responseData = await response?.json();
   let tableData = [];
   let tableHeaderData = [];
+  let unixDateTime;
   if (responseData?.dataList) {
     tableData = responseData.dataList;
     if (tableData.length > 0 && tableData[0].data) {
@@ -687,10 +688,16 @@ export const getAllIndices = async (
       tableHeaderData = tableData[0].data;
     }
   }
+
+  if (responseData?.dateTime) {
+    unixDateTime = responseData.dateTime * 1000;
+  }
+
   return {
     tableHeaderData,
     tableData,
     exchange,
+    unixDateTime,
   };
 };
 

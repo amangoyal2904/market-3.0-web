@@ -6,7 +6,7 @@ import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useCallback, useEffect, useState } from "react";
-import { areObjectsNotEqual, getCookie } from "@/utils";
+import { areObjectsNotEqual, dateFormat, getCookie } from "@/utils";
 import {
   fetchSelectedFilter,
   removePersonalizeViewById,
@@ -34,6 +34,7 @@ const MarketStats = ({
   metaData = {},
   tabData = [],
   activeViewId = null,
+  unixDateTime = new Date(),
   tableHeaderData = [],
   tableData = [],
   pageSummary = {},
@@ -56,6 +57,7 @@ const MarketStats = ({
   const { isPrime, ssoid } = state.login;
   const { currentMarketStatus } = state.marketStatus;
   const [resetSort, setResetSort] = useState("");
+  const [updateDateTime, setUpdateDateTime] = useState(unixDateTime);
   const [_payload, setPayload] = useState(payload);
   const [_tabData, setTabData] = useState(tabData);
   const [_l3Nav, setL3Nav] = useState(l3Nav);
@@ -116,6 +118,8 @@ const MarketStats = ({
         _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
           ? _tableData[0]?.data
           : [];
+      const _unixDateTime = responseData.unixDateTime;
+      setUpdateDateTime(_unixDateTime);
       setTableData(_tableData);
       setTableHeaderData(_tableHeaderData);
       setPageSummary(_pageSummary);
@@ -393,7 +397,28 @@ const MarketStats = ({
 
   return (
     <>
-      <h1 className={styles.heading}>{_metaData.title}</h1>
+      <div className="dflex align-item-center">
+        <h1 className={`${styles.heading} ${styles.withRBorder}`}>
+          {_metaData.title}
+        </h1>
+        <div className="dflex align-item-center">
+          {!!currentMarketStatus && (
+            <>
+              {currentMarketStatus.toUpperCase() != "CLOSED" && (
+                <span className="liveBlinker"></span>
+              )}
+              <span className="marketStatus withSpace">
+                {currentMarketStatus}
+              </span>
+            </>
+          )}
+          {
+            <span className="updatetime">
+              {dateFormat(updateDateTime, "As on %d %MMM, %Y %H:%m IST")}
+            </span>
+          }
+        </div>
+      </div>
       <p className={styles.desc}>{_metaData.desc}</p>
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>

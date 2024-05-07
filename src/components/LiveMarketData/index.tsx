@@ -85,28 +85,26 @@ const LiveMarketData = () => {
         {marketData &&
           marketData.map((item: any, index: number) => {
             return (
-              <>
-                <div className={styles.marketIndex}>
-                  <div className={styles.indexName}>
-                    {item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName}
-                  </div>
-                  <div className={`${styles.indexValue} numberFonts`}>
-                    {item.currentIndexValue}
-                  </div>
-                  <div
-                    className={`numberFonts ${styles.indexChange} ${Number(item.netChange) > 0 ? styles.green : styles.red}`}
-                  >
-                    {item?.percentChange}%
-                    <i
-                      className={
-                        Number(item?.netChange) > 0
-                          ? "eticon_up_arrow"
-                          : "eticon_down_arrow"
-                      }
-                    ></i>
-                  </div>
+              <div className={styles.marketIndex} key={`md_${index}`}>
+                <div className={styles.indexName}>
+                  {item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName}
                 </div>
-              </>
+                <div className={`${styles.indexValue} numberFonts`}>
+                  {item.currentIndexValue}
+                </div>
+                <div
+                  className={`numberFonts ${styles.indexChange} ${Number(item.netChange) > 0 ? styles.green : styles.red}`}
+                >
+                  {item?.percentChange}%
+                  <i
+                    className={
+                      Number(item?.netChange) > 0
+                        ? "eticon_up_arrow"
+                        : "eticon_down_arrow"
+                    }
+                  ></i>
+                </div>
+              </div>
             );
           })}
       </div>

@@ -237,6 +237,9 @@ a {
     border-right: 1px solid $gray_60;
     padding-right: 10px;
   }
+  &.withSpace {
+    margin-right: 10px;
+  }
 }
 
 .updatetime {
