@@ -485,7 +485,13 @@ export const dateFormat = (dt: any, format = "%Y-%M-%d") => {
   }
   return newDate;
 };
-
+export const dateStringToMilliseconds = (
+  dateTimeString: string | number | Date,
+) => {
+  const date = new Date(dateTimeString);
+  const milliseconds = date.getTime();
+  return milliseconds;
+};
 export const setCookies = (
   name: string,
   value: string,

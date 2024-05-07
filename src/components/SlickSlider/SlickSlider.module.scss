@@ -42,7 +42,7 @@
   top: -45px !important;
 }
 .indices {
-  top: -55px !important;
+  top: -51px !important;
 }
 @media (max-width: 1270px) {
   .sliderMain {
@@ -50,4 +50,8 @@
       top: -46px;
     }
   }
+}
+.slck {
+  width: auto !important;
+  padding: 0px;
 }

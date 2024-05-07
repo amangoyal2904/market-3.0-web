@@ -26,18 +26,21 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
   slidesToShow,
   slidesToScroll,
   rows,
-  topSpaceClass,
+  topSpaceClass = "",
   responsive = [],
   noPadding,
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef<Slider>(null);
+  const variableWidth = ["indices"];
 
   const settings: Settings = {
+    className: "slider variable-width",
+    variableWidth: variableWidth.includes(topSpaceClass),
     speed: 500,
     arrows: false,
     dots: true,
-    infinite: true,
+    infinite: false,
     swipe: true,
     slidesToShow: slidesToShow || 5,
     slidesToScroll: slidesToScroll || 5,
@@ -87,15 +90,24 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     if (sliderRef.current) {
       sliderRef.current.slickGoTo(0);
     }
-    if (noPadding) {
+    if (noPadding && topSpaceClass === "indices") {
       const elements: any = document.querySelectorAll(".slick-slide");
       if (elements.length > 0) {
-        elements.forEach((element: { style: { padding: string } }) => {
-          element.style.padding = "0px";
-        });
+        elements.forEach(
+          (element: {
+            classList: any;
+            style: {
+              minWidth: string;
+              padding: string;
+            };
+          }) => {
+            element.style.padding = "0px";
+            element.style.minWidth = "180px";
+          },
+        );
       }
     }
-  }, [noPadding]);
+  }, []);
   return (
     <div className={`stockSlider ${styles.sliderMain}`} id={`${sliderId}`}>
       <div className={styles["slick-slider"]}>

@@ -72,7 +72,7 @@ const InvestmentIdea = async () => {
         </div>
       </div>
       <ViewAllLink
-        text="See All Investment ideas"
+        text="See All Investment Ideas"
         link="https://economictimes.indiatimes.com/prime/investment-ideas"
       />
     </div>
