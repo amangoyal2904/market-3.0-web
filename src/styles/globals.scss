@@ -532,3 +532,21 @@ table {
   background: inherit !important;
   color: inherit !important;
 }
+
+.errorToast {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  button {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    background: $red-60;
+    color: $white;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    border-radius: 50%;
+  }
+}

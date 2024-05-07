@@ -62,7 +62,7 @@ const IndicesPerformance = React.memo(({ data, indexName, exchange }: any) => {
       setPeersData(updatedPeerData);
     } else {
       toast((t) => (
-        <span className={styles.errorToast}>
+        <span className="errorToast">
           <b>{name}</b> Indices is already added
           <button onClick={() => toast.dismiss(t.id)}>
             <i className="eticon_cross"></i>
@@ -148,7 +148,6 @@ const IndicesPerformance = React.memo(({ data, indexName, exchange }: any) => {
           selectTab={exchange.toLowerCase()}
         />
       )}
-      <Toaster position="bottom-left" reverseOrder={false} />
     </>
   );
 });
