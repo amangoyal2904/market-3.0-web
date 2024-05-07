@@ -22,6 +22,8 @@ declare global {
   const callDfpAd = async function(){
     try{
          let dfp :any;
+         let divIds:any;
+         divIds = [];
          //dfp = getDFPData();
          let pathName = location.pathname;
          if(pathName.indexOf("/home") > -1){
@@ -45,6 +47,7 @@ declare global {
             let adSlot = dfpData[key].slot ?  dfpData[key].slot  : "";
             let adSize =  dfpData[key].size  ? dfpData[key].size : "";
             let divId = dfpData[key].id ? dfpData[key].id : "";
+            divIds && divIds.push(divId);
             let ad_ref ='';
             if (!(adSlot.match(/^7176/)) && !(adSlot.match(/^\/7176/))) {
             adSlot = "/7176/Economictimes/" + adSlot;
@@ -59,15 +62,31 @@ declare global {
                 googleTag.enableServices();       
 
                 });  
-                googleTag.cmd.push(function() {
-                
-                    googleTag.display(divId); 
-                });
             }
-
             }
 
             });
+            if(divIds && divIds.length > 0){
+                divIds.forEach(function (element:any) {
+                    let ele = document.getElementById(element);
+                    if(ele){ 
+                        googleTag.cmd.push(function() {
+                            googleTag.display(element); 
+                        });
+                    }else{
+                        setTimeout(() => {
+                          let ele = document.getElementById(element);
+                            if(ele){
+                                    googleTag.cmd.push(function() {
+                                        googleTag.display(element); 
+                                    });
+                                }
+                          }, 1000);
+                    }
+                  }); 
+
+            }
+            console.log("DIV-------------", divIds)
         }
         window.arrDfpAds=[];
     }catch(e){
