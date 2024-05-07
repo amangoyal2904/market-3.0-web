@@ -72,14 +72,34 @@ export const generateIntradayDurations = async (type: string) => {
 };
 
 export const chartIntervals = [
-  { label: "1D", value: "1d" },
-  { label: "1W", value: "1w" },
-  { label: "1M", value: "1m" },
-  { label: "3M", value: "3m" },
-  { label: "6M", value: "6m" },
-  { label: "1Y", value: "1y" },
-  { label: "3Y", value: "3y" },
-  { label: "5Y", value: "5y" },
+  {
+    label: "1D",
+    value: "1d",
+    change: "netChange",
+    percentChange: "percentChange",
+  },
+  { label: "1W", value: "1w", change: "change1Week", percentChange: "r1Week" },
+  {
+    label: "1M",
+    value: "1m",
+    change: "change1Month",
+    percentChange: "r1Month",
+  },
+  {
+    label: "3M",
+    value: "3m",
+    change: "change3Month",
+    percentChange: "r3Month",
+  },
+  {
+    label: "6M",
+    value: "6m",
+    change: "change6Month",
+    percentChange: "r6Month",
+  },
+  { label: "1Y", value: "1y", change: "change1Year", percentChange: "r1Year" },
+  { label: "3Y", value: "3y", change: "change3Year", percentChange: "r3Year" },
+  { label: "5Y", value: "5y", change: "change5Year", percentChange: "r5Year" },
 ];
 
 export const volumeShockersDurations = [

@@ -75,7 +75,7 @@ const Header = () => {
       const result = await getCurrentMarketStatus();
       if (isMounted) {
         setMktStatus({
-          currentMarketStatus: result.currentMarketStatus,
+          currentMarketStatus: result?.currentMarketStatus,
           marketStatus: result.marketStatus,
         });
         if (result.marketStatus === "ON") {
@@ -118,20 +118,20 @@ const Header = () => {
 
   return (
     <>
-    <DfpAds adInfo={AdInfo.dfp.topad}/>
-    <header id={styles.pageTopbar}>
-      <div className={styles.navbarHeader} id="header">
-        <div className={`dflex align-item-center ${styles.logoHeader}`}>
-          <Link href="/">
-            <Image
-              src={ETLogo}
-              width={138}
-              height={24}
-              quality={100}
-              alt="ET Markets"
-            />
-          </Link>
-        </div>
+      <DfpAds adInfo={AdInfo.dfp.topad} />
+      <header id={styles.pageTopbar}>
+        <div className={styles.navbarHeader} id="header">
+          <div className={`dflex align-item-center ${styles.logoHeader}`}>
+            <Link href="/">
+              <Image
+                src={ETLogo}
+                width={138}
+                height={24}
+                quality={100}
+                alt="ET Markets"
+              />
+            </Link>
+          </div>
 
           <div
             className={`dflex align-item-center ${styles.headerRightContainer}`}

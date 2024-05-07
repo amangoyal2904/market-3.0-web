@@ -24,6 +24,12 @@
     color: rgba(77, 77, 77, 1);
     line-height: 16px;
     height: 32px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
   ul {
     list-style: none;
@@ -58,25 +64,23 @@
     font-size: 14px;
     font-weight: 700;
     line-height: 18px;
-    position: relative;
-    display: inline-block;
-    vertical-align: top;
-    text-overflow: ellipsis;
-    max-width: 284px;
-    width: min-content;
-    white-space: nowrap;
     overflow: hidden;
-    &::after {
-      content: "";
-      position: absolute;
-      right: -12px;
-      top: 7px;
-      width: 5px;
-      height: 5px;
-      border-top: solid 1px #000000;
-      border-right: solid 1px #000000;
-      transform: rotate(45deg);
-    }
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    // &::after {
+    //   content: "";
+    //   position: absolute;
+    //   right: -12px;
+    //   top: 7px;
+    //   width: 5px;
+    //   height: 5px;
+    //   border-top: solid 1px #000000;
+    //   border-right: solid 1px #000000;
+    //   transform: rotate(45deg);
+    // }
   }
   .infoDesc {
     font-size: 12px;
@@ -84,6 +88,8 @@
     color: rgba(77, 77, 77, 1);
     margin-top: 6px;
     line-height: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;

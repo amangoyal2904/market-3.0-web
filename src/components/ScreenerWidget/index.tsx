@@ -83,7 +83,7 @@ const StockScreenerWidget = async () => {
           />
         )}
       </div>
-      <ViewAllLink text="View All Stocks" link="/watchlist" />
+      <ViewAllLink text="View All Screeners" link="/markets/stock-screener" />
     </div>
   );
 };

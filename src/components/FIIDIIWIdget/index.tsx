@@ -1,6 +1,7 @@
+import { dateFormat } from "@/utils";
 import styles from "./FIIDIIWidget.module.scss";
 
-const FIIDIIWIdget = ({ fiiDiiCash, type }: any) => {
+const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
   const maxValues: any = {
     maxPositive_fiiEquity: 0,
     maxNegative_fiiEquity: 0,
@@ -46,8 +47,8 @@ const FIIDIIWIdget = ({ fiiDiiCash, type }: any) => {
             <div
               className={`${styles.bar} ${bars?.[type] < 0 ? styles.down : styles.up}`}
               style={{
-                paddingBottom: `${bars?.[type] > 0 ? (Math.abs(bars?.[type]) / Math.abs(maxValues[`maxPositive_${type}`])) * 100 : 0}%`,
-                paddingTop: `${bars?.[type] < 0 ? (Math.abs(bars?.[type]) / Math.abs(maxValues[`maxNegative_${type}`])) * 100 : 0}%`,
+                paddingBottom: `${bars?.[type] > 0 ? ((Math.abs(bars?.[type]) / Math.abs(maxValues[`maxPositive_${type}`])) * 100) / 2 : 0}%`,
+                paddingTop: `${bars?.[type] < 0 ? ((Math.abs(bars?.[type]) / Math.abs(maxValues[`maxNegative_${type}`])) * 100) / 2 : 0}%`,
               }}
             ></div>
           </div>
@@ -55,9 +56,28 @@ const FIIDIIWIdget = ({ fiiDiiCash, type }: any) => {
         <div className={styles.liner}></div>
       </div>
       <p className={styles.label}>
-        Jan 12:{" "}
-        <span className={styles[type]}>
-          <b>{type == "fiiEquity" ? "Bought" : "Sold"}</b> ₹ 990.90 Cr
+        <span>
+          {dateFormat(
+            type == "fiiEquity" ? fiiCash?.date : diiCash?.date,
+            "%MMM %d",
+          )}
+          :{" "}
+        </span>
+        <span
+          className={`${type == "fiiEquity" ? (fiiCash?.netInvestment > 0 ? styles.textGreen : styles.textRed) : diiCash?.netInvestment > 0 ? styles.textGreen : styles.textRed}`}
+        >
+          <b>
+            {type == "fiiEquity"
+              ? fiiCash?.netInvestment > 0
+                ? "Bought "
+                : "Sold "
+              : diiCash?.netInvestment > 0
+                ? "Bought "
+                : "Sold "}
+          </b>
+          {type == "fiiEquity"
+            ? fiiCash?.netInvestment
+            : diiCash?.netInvestment}
         </span>
       </p>
     </div>

@@ -64,7 +64,7 @@ const WatchlistWidget = () => {
             pageSummary={pageSummary}
             isprimeuser={isPrime}
           />
-          <ViewAllLink text="View All Stocks" link="/watchlist" />
+          <ViewAllLink text="View All Watchlisted Stock" link="/watchlist" />
         </>
       )}
     </div>
