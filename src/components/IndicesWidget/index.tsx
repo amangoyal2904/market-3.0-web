@@ -195,7 +195,7 @@ const IndicesWidget = () => {
               </a>
             </div>
             <iframe
-              src={selectedIndex?.graphURL}
+              src={`${selectedIndex?.graphURL}&height=220`}
               style={{
                 width: "100%",
                 height: "220px",
