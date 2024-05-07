@@ -1,7 +1,7 @@
 import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
-import { generateFpid } from "./utility";
+import { createPeuuid } from "./utility";
 
 declare global {
   interface Window {
@@ -136,12 +136,13 @@ export const verifyLogin = () => {
       //console.log("SUCCESS");
 
       if (typeof window.objUser == "undefined") window.objUser = {};
-      generateFpid(true);
+      //generateFpid(true);
+      createPeuuid();
       window.objUser.ticketId = response.data.ticketId;
       setUserData();
     } else {
       console.log("failure");
-      generateFpid(false);
+      //generateFpid(false);
       ssoLoginWidget();
     }
 
@@ -553,7 +554,9 @@ export const getStockRecosDetail = async ({
     pageSize:
       getApiType == "recoByFH" ? 100 : getApiType == "overview" ? 6 : 30,
     pageNumber: pageNo || 1,
-    ...(getApiType == "overview" && { deviceId: "web", apiVersion: 2 }),
+    ...((getApiType == "overview" ||
+      getApiType == "mostBuy" ||
+      getApiType == "mostSell") && { deviceId: "web", apiVersion: 2 }),
     ...(getApiType == "FHDetail" && { orgId: [fundHouseInfo.fundHouseId] }),
   };
 

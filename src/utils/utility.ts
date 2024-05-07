@@ -6,7 +6,6 @@ import {
   setCookieToSpecificTime,
 } from "@/utils/index";
 import { getCookie } from "@/utils/index";
-import Fingerprint2 from "fingerprintjs2";
 import Service from "@/network/service";
 
 const API_SOURCE = 0;
@@ -351,51 +350,7 @@ export const saveStockInWatchList = async (followData: any) => {
   }
 };
 
-export const generateFpid = (isLogin: any) => {
-  new (Fingerprint2 as any).get((components: any[]) => {
-    const values = components.map(
-      (component: { value: any }) => component.value,
-    );
-    const murmur = Fingerprint2.x64hash128(values.join(""), 31); // an array of components: {key: ..., value: ...}
-    console.log("@@@@@-->", isLogin, murmur);
-    processFingerprint(murmur, isLogin);
-  });
-};
-
-export const processFingerprint = (data: any, isLogin: any) => {
-  setCookieToSpecificTime("fpid", data, 365, 0, 0);
-  if (isLogin) {
-    createPeuuid(data);
-  } else {
-    createPfuuid(data);
-  }
-};
-
-export const createPfuuid = async (fpid: any) => {
-  let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
-  url = url + `?type=7&source=${API_SOURCE}`;
-  console.log("@@@@@-->inpfuuid", url);
-  try {
-    const res: any = await fetch(url, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: fpid,
-      },
-    });
-    const data = await res.json();
-    console.log("res", res, data);
-    if (data && data.id != 0) {
-      var pfuuid = data.id;
-      setCookieToSpecificTime("pfuuid", pfuuid, 365, 0, 0);
-    }
-  } catch (e) {
-    console.log("error in pfuuid api", e);
-  }
-};
-
-export const createPeuuid = async (fpid: any) => {
+export const createPeuuid = async () => {
   let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
   url = url + `?type=0&source=${API_SOURCE}`;
   const res: any = await fetch(url, {

@@ -26,10 +26,11 @@
   "STOCK_RECOS": {
     "home": "/stocksrecos",
     "fundhousedetails": "/stocksrecos/fundhousedetails",
-    "recoOnWL": "/stocksrecos/recos-on-your-watchlist",
-    "highDownside": "/stocksrecos/mostsell",
-    "highUpside": "/stocksrecos/mostbuy",
-    "newRecos": "/stocksrecos/newrecos/all"
+    "recos-on-your-watchlist": "/stocksrecos/recos-on-your-watchlist",
+    "highdownside": "/stocksrecos/highdownside",
+    "highupside": "/stocksrecos/highupside",
+    "newrecos": "/stocksrecos/newrecos/all",
+    "overview": "/stocksrecos/overview"
   },
   "PAGES_REFRESH": {
     "marketstats": "40",
