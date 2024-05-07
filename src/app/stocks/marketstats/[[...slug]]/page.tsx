@@ -147,7 +147,7 @@ const Intraday = async ({ searchParams }: any) => {
     pageno,
   };
 
-  const { tableHeaderData, tableData, pageSummary, payload } =
+  const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
     await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
 
   const selectedFilter = await fetchSelectedFilter(intFilter);
@@ -179,6 +179,7 @@ const Intraday = async ({ searchParams }: any) => {
         metaData={meta}
         tabData={tabData}
         activeViewId={activeViewId}
+        unixDateTime={unixDateTime}
         tableHeaderData={tableHeaderData}
         tableData={tableData}
         pageSummary={pageSummary}
@@ -196,8 +197,8 @@ const Intraday = async ({ searchParams }: any) => {
         intradayDurationOptions={intradayDurationOptions}
       />
       <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
-      <br/>
-      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
+      <br />
+      <DfpAds adInfo={AdInfo.dfp.btfAd} />
     </>
   );
 };

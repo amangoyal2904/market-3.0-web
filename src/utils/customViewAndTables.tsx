@@ -198,10 +198,16 @@ export const getCustomViewTable = async (
     ssoid,
     apiType,
   );
+  let unixDateTime = "";
   let pageSummary = null;
   let tableData = [];
   let tableHeaderData = [];
   //console.log('____resresponseDataponse', {bodyParams})
+
+  if (responseData?.unixDateTime) {
+    unixDateTime = responseData.unixDateTime;
+  }
+
   if (responseData?.pageSummary) {
     pageSummary = responseData.pageSummary;
   }
@@ -226,6 +232,7 @@ export const getCustomViewTable = async (
     tableHeaderData,
     tableData,
     pageSummary,
+    unixDateTime,
     payload: { ...bodyParams, queryCondition: _queryCondition },
     screenerDetail,
   };
