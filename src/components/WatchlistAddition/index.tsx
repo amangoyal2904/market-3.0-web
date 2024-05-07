@@ -119,7 +119,9 @@ const WatchlistAddition = ({
 
         toast((t) => (
           <span className="errorToast">
-            <b>{data?.companyName}</b> added to Watchlist
+            <span>
+              <b>{data?.companyName}</b> added to Watchlist
+            </span>
             <button onClick={() => toast.dismiss(t.id)}>
               <i className="eticon_cross"></i>
             </button>
@@ -134,7 +136,9 @@ const WatchlistAddition = ({
 
         toast((t) => (
           <span className="errorToast">
-            <b>{data?.companyName}</b> removed from Watchlist
+            <span>
+              <b>{data?.companyName}</b> removed from Watchlist
+            </span>
             <button onClick={() => toast.dismiss(t.id)}>
               <i className="eticon_cross"></i>
             </button>
@@ -204,7 +208,7 @@ const WatchlistAddition = ({
               <div className={styles.loader}></div>
             </div>
           ) : watchlistCheck ? (
-            <span className="eticon_tick"></span>
+            <span className="eticon_tick icon_24"></span>
           ) : (
             <span className="eticon_add"></span>
           )}
