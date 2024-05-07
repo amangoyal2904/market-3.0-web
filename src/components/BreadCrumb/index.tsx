@@ -220,6 +220,29 @@ const getLiPath = (router: string, pagePath: string) => {
       showCurrLi: true,
       listItemSchema: "",
     };
+  } else if (router == "/markets/benefits/stockreportsplus") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Stock Reports Plus
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router.includes("/markets/stockreportsplus/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/benefits/stockreportsplus">Stock Reports Plus</a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
   } else {
     return {};
   }
