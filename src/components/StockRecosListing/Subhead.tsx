@@ -120,9 +120,11 @@ const Subhead = (props: any) => {
               onClick={() => showFilterMenu(true)}
               className={styles.niftyWrap}
             >
-              <div className={styles.niftyBtn}>
+              <div className={styles.niftyBtn} title={niftyFilterData?.name}>
                 <span className={`eticon_filter ${styles.filterIcon}`}></span>
-                <span>{niftyFilterData?.name}</span>
+                <span className={`${styles.filerName}`}>
+                  {niftyFilterData?.name}
+                </span>
               </div>
             </div>
           )}

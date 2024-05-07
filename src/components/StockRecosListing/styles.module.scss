@@ -26,6 +26,9 @@
       font-weight: 400;
       padding: 8px 12px;
       box-sizing: border-box;
+      text-align: center;
+      display: flex;
+      align-items: center;
 
       &.active {
         border-bottom: 2px solid $black;
@@ -73,6 +76,13 @@
         display: flex;
         align-items: center;
         cursor: pointer;
+
+        .filerName {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          max-width: 90px;
+        }
 
         .filterIcon {
           font-size: 20px;
@@ -193,6 +203,7 @@
         color: $blue_secondary_50;
         display: flex;
         justify-content: flex-end;
+        margin-top: 15px;
         a {
           display: flex;
           align-items: center;
@@ -755,6 +766,16 @@
         display: flex;
         align-items: center;
         text-align: center;
+      }
+    }
+  }
+}
+
+@media (max-width: 1366px) {
+  .subHead {
+    .mainTabsList {
+      .mainTab {
+        padding: 8px;
       }
     }
   }

@@ -13,10 +13,7 @@ interface Props {
 }
 const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
   const { state, dispatch } = useStateContext();
-  const { isLogin, ssoid } = state.login;
-  const { watchlist } = state.watchlistStatus;
-
-  console.log("-", activeApi);
+  const { isLogin } = state.login;
 
   const responsive = [
     {
@@ -42,20 +39,23 @@ const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
     },
   ];
 
+  const handleLowerCase = (item: any) => {
+    return item.toLowerCase().replace(/\s+/g, "-");
+  };
+
   const redirectLink = (apiType: any) => {
-    switch (apiType) {
-      case "newRecos":
-        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["newRecos"]; //"/stocksrecos/newrecos/all";
-      case "highUpside":
-        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["highUpside"]; //"/stocksrecos/mostbuy";
-      case "highDownside":
-        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["highDownside"]; //"/stocksrecos/mostsell";
-      case "recoOnWL":
-        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["recoOnWL"]; //"/stocksrecos/recos-on-your-watchlist";
-      case "recoByFH":
+    let tabName = handleLowerCase(apiType);
+
+    switch (tabName) {
+      case "recoonwL":
+        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["recos-on-your-watchlist"]; //"/stocksrecos/recos-on-your-watchlist";
+      case "recobyfh":
         return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]; //"/stocksrecos/fundhousedetails";
+      default:
+        return (GLOBAL_CONFIG as any)["STOCK_RECOS"][tabName]; //"/stocksrecos/newrecos/all";
     }
   };
+
   return (
     <>
       {data?.recoData?.map((obj: any, index: any) => (
@@ -91,7 +91,7 @@ const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
               />
             ) : (
               <div
-                className={`${styles.overViewCardWrap} ${obj?.data.length == 1 ? styles.noGridCardView : ""}`}
+                className={`${styles.overViewCardWrap} ${obj?.data.length < 3 ? styles.noGridCardView : ""}`}
               >
                 {obj?.data?.map((card: any, index: any) => (
                   <StockReco
