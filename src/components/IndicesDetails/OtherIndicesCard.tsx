@@ -49,12 +49,8 @@ const OtherIndicesCard = React.memo(({ data }: any) => {
           ></div>
         </div>
         <div className="dflex align-item-center space-between">
-          <span className={styles.label}>
-            {data.advancesPercentage.toFixed(2)}%
-          </span>
-          <span className={styles.label}>
-            {data.declinesPercentage.toFixed(2)}%
-          </span>
+          <span className={styles.label}>{data.advancesPercentage}%</span>
+          <span className={styles.label}>{data.declinesPercentage}%</span>
         </div>
       </div>
     </div>

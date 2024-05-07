@@ -189,11 +189,11 @@ const IndicesDetailsOverview = React.memo(
               </div>
               <div className="dflex align-item-center space-between">
                 <span className={styles.label}>
-                  {overviewData?.advancesPercentage?.toFixed(2)}
+                  {overviewData?.advancesPercentage}
                   {overviewData?.advancesPercentage && "%"}
                 </span>
                 <span className={styles.label}>
-                  {overviewData?.declinesPercentage?.toFixed(2)}
+                  {overviewData?.declinesPercentage}
                   {overviewData?.declinesPercentage && "%"}
                 </span>
               </div>
