@@ -527,3 +527,16 @@
     max-height: calc(60vh - 175px);
   }
 }
+@media screen and (max-width: 1025px) {
+  .perWrap {
+    width: 90vw;
+  }
+  .filterSec {
+    .leftSec {
+      width: 220px;
+    }
+    .rightSec{
+      width: calc(100% - 220px);
+    }
+  }
+}
