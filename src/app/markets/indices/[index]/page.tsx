@@ -19,6 +19,7 @@ import {
   getCustomViewsTab,
 } from "@/utils/customViewAndTables";
 import BreadCrumb from "@/components/BreadCrumb";
+import TextBottom from "@/components/TextBottom";
 
 async function fetchData(assetId: number) {
   return Promise.all([
@@ -113,6 +114,7 @@ const Indices = async ({ params }: any) => {
         indicesNews={indicesNews}
         faq={faqData}
       />
+      <TextBottom indicesName={overviewData?.assetName} />
       <BreadCrumb
         pagePath={pageUrl}
         pageName={[{ label: overviewData?.assetName, redirectUrl: "" }]}
