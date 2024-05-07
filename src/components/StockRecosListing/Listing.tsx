@@ -15,7 +15,7 @@ const Listing = (props: any) => {
     <>
       {typeof recosDetailResult != "undefined" && (
         <div
-          className={`${styles.listingWrap} ${recosDetailResult.length == 2 ? styles.noGridCardView : ""}`}
+          className={`${styles.listingWrap} ${recosDetailResult.length < 3 ? styles.noGridCardView : ""}`}
         >
           {recosDetailResult?.map((recoDataValue: any, index: any) => {
             return (activeApi == "recoOnWatchlist" &&

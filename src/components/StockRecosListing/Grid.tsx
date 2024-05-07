@@ -425,22 +425,26 @@ const TableHtml = (props: any) => {
             </tr>
           </thead>
           <tbody>
-            {recosDetailResult?.map(
-              (obj: any, index: any) =>
-                ((activeApi == "recoOnWatchlist" &&
-                  watchlist.some(
-                    (item: any) => item.companyId == obj.companyId.toString(),
-                  )) ||
-                  activeApi != "recoOnWatchlist") && (
-                  <tr key={`recosTable_${index}`}>
-                    {activeApi == "recoByFH"
-                      ? fundHousesDetail(obj)
-                      : activeApi == "newRecos" || activeApi == "FHDetail"
-                        ? newRecosDetail(obj)
-                        : MixTableDetail(obj)}
-                    <td className={styles.lastMaxTD}></td>
-                  </tr>
-                ),
+            {recosDetailResult?.map((obj: any, index: any) =>
+              (activeApi == "recoOnWatchlist" &&
+                !!watchlist &&
+                watchlist.some(
+                  (item: any) => item.companyId == obj.companyId.toString(),
+                )) ||
+              activeApi != "recoOnWatchlist" ? (
+                <tr key={`recosTable_${index}`}>
+                  {activeApi == "recoByFH"
+                    ? fundHousesDetail(obj)
+                    : activeApi == "newRecos" || activeApi == "FHDetail"
+                      ? newRecosDetail(obj)
+                      : MixTableDetail(obj)}
+                  <td className={styles.lastMaxTD}></td>
+                </tr>
+              ) : (
+                recosDetailResult?.length == 0 && (
+                  <Blocker type={"noDataFound"} />
+                )
+              ),
             )}
           </tbody>
         </table>
