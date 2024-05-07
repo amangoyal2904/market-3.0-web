@@ -18,21 +18,22 @@ const Listing = (props: any) => {
           className={`${styles.listingWrap} ${recosDetailResult.length == 1 ? styles.noGridCardView : ""}`}
         >
           {recosDetailResult?.map((recoDataValue: any, index: any) => {
-            return (
-              ((activeApi == "recoOnWatchlist" &&
-                watchlist.some(
-                  (item: any) =>
-                    item.companyId == recoDataValue.companyId.toString(),
-                )) ||
-                activeApi != "recoOnWatchlist") && (
-                <StockReco
-                  data={recoDataValue}
-                  key={index}
-                  activeTab={activeApi}
-                  pageName="stockRecosPage"
-                  urlFilterHandle={urlFilterHandle}
-                />
-              )
+            return (activeApi == "recoOnWatchlist" &&
+              !!watchlist &&
+              watchlist.some(
+                (item: any) =>
+                  item.companyId == recoDataValue.companyId.toString(),
+              )) ||
+              activeApi != "recoOnWatchlist" ? (
+              <StockReco
+                data={recoDataValue}
+                key={index}
+                activeTab={activeApi}
+                pageName="stockRecosPage"
+                urlFilterHandle={urlFilterHandle}
+              />
+            ) : (
+              <Blocker type={"noDataFound"} />
             );
           })}
         </div>
