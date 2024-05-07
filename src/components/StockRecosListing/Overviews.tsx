@@ -46,8 +46,10 @@ const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
   const redirectLink = (apiType: any) => {
     let tabName = handleLowerCase(apiType);
 
+    console.log("tabName --- ", tabName);
+
     switch (tabName) {
-      case "recoonwL":
+      case "recoonwl":
         return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["recos-on-your-watchlist"]; //"/stocksrecos/recos-on-your-watchlist";
       case "recobyfh":
         return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]; //"/stocksrecos/fundhousedetails";
