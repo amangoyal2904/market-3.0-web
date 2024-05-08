@@ -19,11 +19,7 @@ import refeshConfig from "@/utils/refreshConfig.json";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import TechincalOperands from "@/components/TechincalOperands";
 
-import {
-  getMarketStatsNav,
-  getShortUrlMapping,
-  getTechincalOperands,
-} from "@/utils/marketstats";
+import { getMarketStatsNav, getTechincalOperands } from "@/utils/marketstats";
 import MarketStatus from "@/components/MarketStatus";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
