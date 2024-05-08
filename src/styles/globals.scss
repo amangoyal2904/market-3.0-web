@@ -217,68 +217,13 @@ a {
   display: none !important;
 }
 
-.icon_24 {
-  font-size: 24px;
+.icon_22 {
+  font-size: 22px;
 }
 
 .center {
   text-align: center;
   justify-content: center;
-}
-
-.marketStatus {
-  font-size: 12px;
-  line-height: 1;
-  font-weight: 600;
-  color: $red-50;
-  text-transform: uppercase;
-  &.withSeparator {
-    margin-right: 10px;
-    border-right: 1px solid $gray_60;
-    padding-right: 10px;
-  }
-}
-
-.updatetime {
-  color: $gray_40;
-  font-size: 12px;
-  line-height: 1;
-  font-weight: 400;
-}
-
-.liveBlinker {
-  height: 6px;
-  position: relative;
-  display: inline-block;
-  width: 6px;
-  background: $red-50;
-  border-radius: 50%;
-  margin: 0 10px 0 3px;
-  bottom: 1px;
-  &:before,
-  &:after {
-    -webkit-animation: pulse 2s linear infinite;
-    animation: pulse 2s linear infinite;
-    border: $red-50 solid 1px;
-    border-radius: 50%;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    content: " ";
-    height: 8px;
-    width: 8px;
-    left: -1px;
-    opacity: 0.6;
-    position: absolute;
-    top: -1px;
-    -webkit-transform: scale(0.714);
-    -ms-transform: scale(0.714);
-    transform: scale(0.714);
-    z-index: 1;
-  }
-  &:after {
-    -webkit-animation-delay: 1s;
-    animation-delay: 1s;
-  }
 }
 
 .ssoLoginWrap {
@@ -477,14 +422,6 @@ table {
   }
 }
 
-@keyframes pulse {
-  to {
-    opacity: 0;
-    -webkit-transform: scale(2.8);
-    transform: scale(2.8);
-  }
-}
-
 .nameSliderCustome .slick-prev,
 .nameSliderCustome .slick-next {
   top: 0;
@@ -553,4 +490,8 @@ table {
     font-size: 16px;
     border-radius: 50%;
   }
+}
+.eticon_add.bold,
+.eticon_tick.bold {
+  font-weight: 700;
 }

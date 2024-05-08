@@ -5,16 +5,20 @@ import React, { useCallback, useEffect, useState } from "react";
 import styles from "./Indices.module.scss";
 import { getAllIndices } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
+import { dateFormat } from "@/utils";
+import MarketStatus from "@/components/MarketStatus";
 
 const IndicesClient = ({
   tableHeaderData = [],
   tableData = [],
   exchange = "nse",
   tableConfig = {},
+  unixDateTime = new Date(),
 }: any) => {
   const { state } = useStateContext();
   const { isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;
+  const [updateDateTime, setUpdateDateTime] = useState(unixDateTime);
   const [_tableData, setTableData] = useState(tableData);
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
   const [selectedExchange, setSelectedExchange] = useState(exchange);
@@ -47,11 +51,12 @@ const IndicesClient = ({
   }, []);
 
   const updateTableData = async () => {
-    const { tableHeaderData, tableData } = await getAllIndices(
+    const { tableHeaderData, tableData, unixDateTime } = await getAllIndices(
       selectedExchange,
       sortData.field,
       sortData.order,
     );
+    setUpdateDateTime(unixDateTime);
     setTableData(tableData);
     setTableHeaderData(tableHeaderData);
     setProcessingLoader(false);
@@ -70,7 +75,14 @@ const IndicesClient = ({
 
   return (
     <>
-      <h1 className={styles.heading}>Indices</h1>
+      <div className="dflex align-item-center">
+        <h1 className={`${styles.heading} ${styles.withRBorder}`}>Indices</h1>
+        <MarketStatus
+          currentMarketStatus={currentMarketStatus}
+          dateTime={updateDateTime}
+          withSpace={true}
+        />
+      </div>
       <p className={styles.desc}>
         Explore live updates of Indian indices such as Nifty 50 and Sensex on
         our listing page. Get real-time data including the latest prices, daily

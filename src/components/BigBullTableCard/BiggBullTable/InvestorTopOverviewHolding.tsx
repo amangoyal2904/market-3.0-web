@@ -5,6 +5,11 @@ import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
 import WatchlistAddition from "../../WatchlistAddition";
+import { useState, Suspense } from "react";
+import dynamic from "next/dynamic";
+const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
+  ssr: false,
+});
 
 const InvestorTopOverviewHolding = ({
   tableHead,
@@ -18,6 +23,15 @@ const InvestorTopOverviewHolding = ({
   const { isPrime } = state.login;
   //const isPrime = true;
   //console.log("isPrime", isPrime);
+  const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
+  const blurNameHandler = () => {
+    setShowNonPrimeBlocker(true);
+    document.body.style.overflow = "hidden";
+  };
+  const blurNameHandlerClose = () => {
+    setShowNonPrimeBlocker(false);
+    document.body.style.overflow = "";
+  };
   return (
     <>
       <div className="prel">
@@ -101,7 +115,10 @@ const InvestorTopOverviewHolding = ({
                               </a>
                             </>
                           ) : (
-                            <span className={styles.nameBlur}></span>
+                            <span
+                              className={styles.nameBlur}
+                              onClick={blurNameHandler}
+                            ></span>
                           )}
                         </div>
                       </div>
@@ -132,6 +149,11 @@ const InvestorTopOverviewHolding = ({
         </table>
         {shouldShowLoader && <Loader loaderType="container" />}
       </div>
+      {showNonPrimeBlocker && (
+        <Suspense fallback={<div>Loading</div>}>
+          <NonPrimeBlockerModule oncloseModule={blurNameHandlerClose} />
+        </Suspense>
+      )}
     </>
   );
 };

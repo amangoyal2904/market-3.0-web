@@ -36,9 +36,10 @@ const TopTabs = ({
   return (
     <>
       <div className={styles.topTabs}>
-        <h2 className={styles.head3}>
-          {title} <span>{spanTxt}</span>
-        </h2>
+        <h2
+          className={styles.head3}
+          dangerouslySetInnerHTML={{ __html: title }}
+        />
 
         <div className={styles.rightFilterSec}>
           {sortByFilter ? (

@@ -35,15 +35,15 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
   const variableWidth = ["indices"];
 
   const settings: Settings = {
-    className: "slider variable-width",
-    variableWidth: variableWidth.includes(topSpaceClass),
+    // className: "slider variable-width",
+    // variableWidth: variableWidth.includes(topSpaceClass),
     speed: 500,
     arrows: false,
     dots: true,
     infinite: false,
     swipe: true,
     slidesToShow: slidesToShow || 5,
-    slidesToScroll: slidesToScroll || 5,
+    slidesToScroll: 1,
     rows: rows || 1,
     appendDots: (dots) => (
       <div>
@@ -102,14 +102,16 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
             };
           }) => {
             element.style.padding = "0px";
-            element.style.minWidth = "180px";
           },
         );
       }
     }
   }, []);
   return (
-    <div className={`stockSlider ${styles.sliderMain}`} id={`${sliderId}`}>
+    <div
+      className={`stockSlider ${styles.sliderMain} ${topSpaceClass === "indices" ? styles.addMargin : ""}`}
+      id={`${sliderId}`}
+    >
       <div className={styles["slick-slider"]}>
         <Slider ref={sliderRef} {...settings}>
           {slides.length &&

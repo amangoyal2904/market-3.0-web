@@ -1,5 +1,6 @@
+"use client";
 import styles from "./styles.module.scss";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import Link from "next/link";
 import { getStockUrl } from "@/utils/utility";
 import Slider, { Settings } from "react-slick";
@@ -7,11 +8,16 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import WatchlistAddition from "../../WatchlistAddition";
 import { useStateContext } from "@/store/StateContext";
+import dynamic from "next/dynamic";
+const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
+  ssr: false,
+});
 
 const BigBullCard = ({ data, type }: any) => {
   const { state } = useStateContext();
   const { isPrime } = state.login;
-  // const isPrime = true;
+  const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
+  //const isPrime = true;
   //console.log("isPrime", isPrime);
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -52,6 +58,14 @@ const BigBullCard = ({ data, type }: any) => {
     if (sliderRef.current) {
       sliderRef.current.slickPrev();
     }
+  };
+  const blurNameHandler = () => {
+    setShowNonPrimeBlocker(true);
+    document.body.style.overflow = "hidden";
+  };
+  const blurNameHandlerClose = () => {
+    setShowNonPrimeBlocker(false);
+    document.body.style.overflow = "";
   };
 
   useEffect(() => {
@@ -150,7 +164,10 @@ const BigBullCard = ({ data, type }: any) => {
                       data?.bestPickStockData?.companyData?.text}
                   </a>
                 ) : (
-                  <span className={styles.nameBlur}></span>
+                  <span
+                    className={styles.nameBlur}
+                    onClick={blurNameHandler}
+                  ></span>
                 )}
               </div>
             </div>
@@ -298,7 +315,10 @@ const BigBullCard = ({ data, type }: any) => {
                               {card?.uiLabel.text}
                             </a>
                           ) : (
-                            <span className={styles.nameBlur}></span>
+                            <span
+                              className={styles.nameBlur}
+                              onClick={blurNameHandler}
+                            ></span>
                           )}
                         </h4>
                         <h5>
@@ -317,6 +337,11 @@ const BigBullCard = ({ data, type }: any) => {
           </div>
         )}
       </div>
+      {showNonPrimeBlocker && (
+        <Suspense fallback={<div>Loading</div>}>
+          <NonPrimeBlockerModule oncloseModule={blurNameHandlerClose} />
+        </Suspense>
+      )}
     </>
   );
 };
