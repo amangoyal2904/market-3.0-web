@@ -13,7 +13,7 @@ const getLiPath = (router: string, pagePath: string) => {
       showNextLi: false,
       currentLiNode: (
         <li>
-          <span className="eticon_caret_right"></span>Recos
+          <span className="eticon_caret_right"></span>Stock Recommendations
         </li>
       ),
       showCurrLi: true,
@@ -25,7 +25,7 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocksrecos/overview">Recos</a>
+          <a href="/stocksrecos/overview">Stock Recommendations</a>
         </li>
       ),
       showCurrLi: true,
