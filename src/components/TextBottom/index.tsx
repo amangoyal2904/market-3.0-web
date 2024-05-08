@@ -165,22 +165,136 @@ const TextBottom: React.FC<Props> = ({ indicesName }) => {
               Steel.
             </p>
 
-            {/*  <h2 className={styles.header}>FAQs</h2><div className={styles.newsDisplay}>
+            <h2 className={styles.header}>FAQs</h2>
+            <div className={styles.newsDisplay}>
               <div data-curpg="1" className={styles.dataContainer}>
                 <div className={styles.faq}>
                   <h3 className={styles.story_list}>
-                    <a className={styles.semibold} target="_blank" href="https://economictimes.indiatimes.com/markets/stocks/news/what-is-share-market/articleshow/59531308.cms">What is share market?</a>
+                    <a
+                      className={styles.semibold}
+                      target="_blank"
+                      href="https://economictimes.indiatimes.com/markets/stocks/news/what-is-share-market/articleshow/59531308.cms"
+                    >
+                      What is share market?
+                    </a>
                   </h3>
-                  <div className={styles.syn}>The stock market is a share market, however besides shares of companies, other instruments are traded too. The share market is a source for companies to raise funds and for investors to buy part-ownership in growing businesses and grow their wealth. On becoming a shareholder, an investor earns a part of the profits earned by the company by way of dividend. At the same time, the investor also undertakes the risk to bear loses, should the business fail to perform well. Market participants need to get registered with the stock exchange and market regulator Sebi to be able to trade in the stock market.</div>
+                  <div className={styles.syn}>
+                    The stock market is a share market, however besides shares
+                    of companies, other instruments are traded too. The share
+                    market is a source for companies to raise funds and for
+                    investors to buy part-ownership in growing businesses and
+                    grow their wealth. On becoming a shareholder, an investor
+                    earns a part of the profits earned by the company by way of
+                    dividend. At the same time, the investor also undertakes the
+                    risk to bear loses, should the business fail to perform
+                    well. Market participants need to get registered with the
+                    stock exchange and market regulator Sebi to be able to trade
+                    in the stock market.
+                  </div>
                   <h3 className={styles.story_list}>
-                    <a className={styles.semibold} target="_blank" href="https://economictimes.indiatimes.com/markets/stocks/news/how-to-buy-shares/articleshow/59531362.cms">How to buy shares?</a>
+                    <a
+                      className={styles.semibold}
+                      target="_blank"
+                      href="https://economictimes.indiatimes.com/markets/stocks/news/how-to-buy-shares/articleshow/59531362.cms"
+                    >
+                      How to buy shares?
+                    </a>
                   </h3>
-                  <div className={styles.syn}>Demat and trading accounts are provided by the two depositories, NSDL and CDSL, through brokerage firms. In order to open these accounts, one has to contact a brokerage. There are different brokerage firms and each has its own unique plans and products, a range of charges, which generally range from 0.01 per cent to 0.05 per cent. Some brokerages offer flat rates. Brokers are to be chosen wisely and with utmost care. In order to buy a share listed on the NSE or BSE, one needs a stock broker. Brokers are of two types a. full service brokers b. discount brokers.</div>
+                  <div className={styles.syn}>
+                    Demat and trading accounts are provided by the two
+                    depositories, NSDL and CDSL, through brokerage firms. In
+                    order to open these accounts, one has to contact a
+                    brokerage. There are different brokerage firms and each has
+                    its own unique plans and products, a range of charges, which
+                    generally range from 0.01 per cent to 0.05 per cent. Some
+                    brokerages offer flat rates. Brokers are to be chosen wisely
+                    and with utmost care. In order to buy a share listed on the
+                    NSE or BSE, one needs a stock broker. Brokers are of two
+                    types a. full service brokers b. discount brokers.
+                  </div>
                   <h3 className={styles.story_list}>
-                    <a className={styles.semibold} target="_blank" href="https://economictimes.indiatimes.com/markets/stocks/news/how-can-i-invest-in-share-market/articleshow/59530915.cms">How can I invest in share market?</a>
+                    <a
+                      className={styles.semibold}
+                      target="_blank"
+                      href="https://economictimes.indiatimes.com/markets/stocks/news/how-can-i-invest-in-share-market/articleshow/59530915.cms"
+                    >
+                      How can I invest in share market?
+                    </a>
                   </h3>
-                  <div className={styles.syn}>PAN card or an Aadhar card is a mandatory requirement for investing in India. It is required for KYC (know your client) procedure while opening an account with the market regulator, the Securities and Exchange Board of India (Sebi). Besides this, the government has mandated six-month bank statement along with a cancelled cheque, under the new rules to open a demat account. A person cannot go directly to the stock market to buy or sell shares. Buying and selling of stocks has to be done through brokers. They are individuals, companies or agencies registered with and authorised by Sebi to trade on the stock exchanges.</div><h3 className={styles.story_list}><a className={styles.semibold} target="_blank" href="https://economictimes.indiatimes.com/markets/stocks/news/how-can-i-start-investing-in-financial-market-in-india/articleshow/59531261.cms">How can I start investing in financial market in India?</a></h3><div className={styles.syn}>Bank savings and regular income cannot be enough for wealth creation. Investment in stock, debt markets and even commodities can help grow you wealth and even prove to be an added source of income. Most importantly, unlike most fixed income assets such as bank fixed deposits, equity investment can help beat inflation. There are various ways to invest in the financial markets in India. Primary market is the market where a company or government floats its securities for first-time buyers. Secondary market is the market where already issued financial instruments such as bonds, shares, etc are bought and sold.</div><h3 className={styles.story_list}><a className={styles.semibold} target="_blank" href="https://economictimes.indiatimes.com/markets/stocks/news/how-to-invest-in-dividend-stocks/articleshow/59646546.cms">How to invest in dividend stocks?</a></h3><div className={styles.syn}>Dividend is a portion of net income that a company distributes among its shareholders. There are several companies in the domestic equity market that pay dividends to investors on a regular basis. Some of the stocks on the list include BPCL, IOC and Coal India. For identifying a dividend stock, one must consider companies that pay dividend to shareholders consistently and whose dividend yield is high. To invest in stocks, one must first have a demat and a trading account. Then one has to register with a stock broker or brokerage firm. Investors must make sure that the broker or brokerage is registered with Sebi and the stock exchanges.</div><h3 className={styles.story_list}><a className={styles.semibold} target="_blank" href="https://economictimes.indiatimes.com/markets/stocks/news/all-you-need-to-know-about-analyst-ratings/articleshow/59802338.cms">How to read analyst ratings of stocks?</a></h3><div className={styles.syn}>A rating is a measure of a stock&apos;s expected performance in a given time period.</div></div>
-                  </div></div> */}
+                  <div className={styles.syn}>
+                    PAN card or an Aadhar card is a mandatory requirement for
+                    investing in India. It is required for KYC (know your
+                    client) procedure while opening an account with the market
+                    regulator, the Securities and Exchange Board of India
+                    (Sebi). Besides this, the government has mandated six-month
+                    bank statement along with a cancelled cheque, under the new
+                    rules to open a demat account. A person cannot go directly
+                    to the stock market to buy or sell shares. Buying and
+                    selling of stocks has to be done through brokers. They are
+                    individuals, companies or agencies registered with and
+                    authorised by Sebi to trade on the stock exchanges.
+                  </div>
+                  <h3 className={styles.story_list}>
+                    <a
+                      className={styles.semibold}
+                      target="_blank"
+                      href="https://economictimes.indiatimes.com/markets/stocks/news/how-can-i-start-investing-in-financial-market-in-india/articleshow/59531261.cms"
+                    >
+                      How can I start investing in financial market in India?
+                    </a>
+                  </h3>
+                  <div className={styles.syn}>
+                    Bank savings and regular income cannot be enough for wealth
+                    creation. Investment in stock, debt markets and even
+                    commodities can help grow you wealth and even prove to be an
+                    added source of income. Most importantly, unlike most fixed
+                    income assets such as bank fixed deposits, equity investment
+                    can help beat inflation. There are various ways to invest in
+                    the financial markets in India. Primary market is the market
+                    where a company or government floats its securities for
+                    first-time buyers. Secondary market is the market where
+                    already issued financial instruments such as bonds, shares,
+                    etc are bought and sold.
+                  </div>
+                  <h3 className={styles.story_list}>
+                    <a
+                      className={styles.semibold}
+                      target="_blank"
+                      href="https://economictimes.indiatimes.com/markets/stocks/news/how-to-invest-in-dividend-stocks/articleshow/59646546.cms"
+                    >
+                      How to invest in dividend stocks?
+                    </a>
+                  </h3>
+                  <div className={styles.syn}>
+                    Dividend is a portion of net income that a company
+                    distributes among its shareholders. There are several
+                    companies in the domestic equity market that pay dividends
+                    to investors on a regular basis. Some of the stocks on the
+                    list include BPCL, IOC and Coal India. For identifying a
+                    dividend stock, one must consider companies that pay
+                    dividend to shareholders consistently and whose dividend
+                    yield is high. To invest in stocks, one must first have a
+                    demat and a trading account. Then one has to register with a
+                    stock broker or brokerage firm. Investors must make sure
+                    that the broker or brokerage is registered with Sebi and the
+                    stock exchanges.
+                  </div>
+                  <h3 className={styles.story_list}>
+                    <a
+                      className={styles.semibold}
+                      target="_blank"
+                      href="https://economictimes.indiatimes.com/markets/stocks/news/all-you-need-to-know-about-analyst-ratings/articleshow/59802338.cms"
+                    >
+                      How to read analyst ratings of stocks?
+                    </a>
+                  </h3>
+                  <div className={styles.syn}>
+                    A rating is a measure of a stock&apos;s expected performance
+                    in a given time period.
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </>
       ) : (
