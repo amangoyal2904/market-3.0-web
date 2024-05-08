@@ -81,7 +81,7 @@ declare global {
                                         googleTag.display(element); 
                                     });
                                 }
-                          }, 1000);
+                          }, 2000);
                     }
                   }); 
 
