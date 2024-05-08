@@ -5,7 +5,7 @@ import SlickSlider from "../SlickSlider";
 import StockCards from "./StockCards";
 import { useEffect, useState } from "react";
 import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV } from "@/utils/index";
+import { APP_ENV, dateFormat, dateStringToMilliseconds } from "@/utils/index";
 import Service from "@/network/service";
 import { useStateContext } from "@/store/StateContext";
 import refreshConfig from "@/utils/refreshConfig.json";
@@ -16,39 +16,79 @@ import FIIDIIWIdget from "../FIIDIIWIdget";
 const IndicesWidget = () => {
   const responsive = [
     {
+      breakpoint: 2561,
+      settings: {
+        slidesToShow: 6,
+        slidesToScroll: 1,
+      },
+    },
+    {
       breakpoint: 1921,
       settings: {
-        slidesToShow: 5,
-        slidesToScroll: 5,
+        slidesToShow: 6,
+        slidesToScroll: 1,
       },
     },
     {
-      breakpoint: 1601,
+      breakpoint: 1819,
       settings: {
         slidesToShow: 5,
-        slidesToScroll: 5,
+        slidesToScroll: 1,
       },
     },
     {
-      breakpoint: 1361,
+      breakpoint: 1620,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 1511,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 1440,
       settings: {
         slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 1366,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
       },
     },
   ];
   const { state } = useStateContext();
   const { currentMarketStatus } = state.marketStatus;
-  const [period, setPeriod] = useState("1d");
+  const [period, setPeriod] = useState("1w");
+  const [changePeriod, setChangePeriod] = useState("change1Week");
+  const [percentChange, setPercentChange] = useState("percentChange");
   const [indicesData, setIndicesData] = useState<any[]>([]);
   const [topNewsData, setTopNewsData] = useState<any[]>([]);
   const [fiiDiiCash, setFiiDiiCash] = useState<any[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<any>({});
-  const [iframeSrc, setIframeSrc] = useState("");
-  const [symbol, setSymbol] = useState("");
-  const handleIntervalClick = (period: string) => {
-    setPeriod(period);
-    makeChartUrl(selectedIndex);
+  const [fiiCash, setFiiCash] = useState<any>({});
+  const [diiCash, setDiiCash] = useState<any>({});
+  const [screenWidth, setScreenWidth] = useState<any>("");
+
+  const handleIntervalClick = (item: any) => {
+    setPeriod(item?.value);
+    setChangePeriod(item?.change);
+    setPercentChange(item?.percentChange);
   };
   useEffect(() => {
     getIndicesWidgetData();
@@ -61,25 +101,15 @@ const IndicesWidget = () => {
       params: {},
     });
     const data = await response?.json();
-    setIndicesData(data);
+    setIndicesData(data?.indicesList);
     setSelectedIndex((prevState: any) =>
-      Object.keys(prevState)?.length ? prevState : data[0],
+      Object.keys(prevState)?.length ? prevState : data?.indicesList[0],
     );
-    makeChartUrl(data[0]);
+    setFiiCash(data?.fiiData);
+    setDiiCash(data?.diiData);
   };
   const onSelectIndex = (selectedItem: any) => {
     setSelectedIndex(selectedItem);
-    makeChartUrl(selectedItem);
-  };
-  const makeChartUrl = (selectedItem: any) => {
-    const symbol =
-      selectedItem?.segment == "NSE"
-        ? selectedItem.scripCode1GivenByExhange
-        : selectedItem.scripCode2GivenByExchange;
-    const exchangeId = selectedItem?.segment;
-    const url = `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=${period}&height=320&transparentBg=1`;
-    setSymbol(symbol);
-    setIframeSrc(url);
   };
   const fetchTopNews = async () => {
     try {
@@ -119,10 +149,12 @@ const IndicesWidget = () => {
         getIndicesWidgetData();
       }
     }, refreshConfig?.indicesDetail);
+    const resWidth = window.screen.width;
+    setScreenWidth(resWidth);
 
     return () => clearInterval(intervalId);
   }, [currentMarketStatus]);
-  console.log("@@@@->inde", indicesData);
+
   return (
     <div className={styles.widgetContainer}>
       <div className={styles.IndicesContainer}>
@@ -134,12 +166,13 @@ const IndicesWidget = () => {
           <div className={styles.liveStatus}>
             <MarketStatus
               currentMarketStatus={currentMarketStatus}
-              dateTime={selectedIndex?.dateTimeYear}
+              dateTime={dateStringToMilliseconds(selectedIndex?.dateTime)}
+              withSeparator={true}
             />
           </div>
         </div>
         <div className={styles.dataWrapper}>
-          {indicesData.length ? (
+          {indicesData.length && screenWidth <= 1820 ? (
             <SlickSlider
               slides={indicesData?.map((slides: any, index: any) => ({
                 content: (
@@ -148,20 +181,34 @@ const IndicesWidget = () => {
                     index={index}
                     selectedIndex={selectedIndex}
                     onSelectIndex={onSelectIndex}
+                    changePeriod={changePeriod}
+                    percentChange={percentChange}
                   />
                 ),
               }))}
               key={`indicesSlider}`}
               sliderId={`slider-indices`}
               slidesToShow={5}
-              slidesToScroll={5}
+              slidesToScroll={1}
               rows={1}
               responsive={responsive}
               noPadding={true}
               topSpaceClass="indices"
             />
           ) : (
-            ""
+            <div className={styles.customTabs}>
+              {indicesData.map((slides, index) => (
+                <StockCards
+                  key={`indicesTab${index}`}
+                  item={slides}
+                  index={index}
+                  selectedIndex={selectedIndex}
+                  onSelectIndex={onSelectIndex}
+                  changePeriod={changePeriod}
+                  percentChange={percentChange}
+                />
+              ))}
+            </div>
           )}
           <div id="chart">
             <div className={styles.chartOpts}>
@@ -171,7 +218,7 @@ const IndicesWidget = () => {
                     <li
                       key={index}
                       className={period === item.value ? styles.active : ""}
-                      onClick={() => handleIntervalClick(item.value)}
+                      onClick={() => handleIntervalClick(item)}
                     >
                       {item.label}
                     </li>
@@ -182,7 +229,7 @@ const IndicesWidget = () => {
                 className={styles.technical}
                 target="_blank"
                 title={`Technicals: ${selectedIndex?.indexName}`}
-                href={`https://economictimes.indiatimes.com/markets/technical-charts?symbol=${symbol}&exchange=${selectedIndex?.segment}&entity=index`}
+                href={`https://economictimes.indiatimes.com/markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.segment}&entity=index`}
               >
                 <span className="eticon_candlestick">
                   <span className="path1"></span>
@@ -192,20 +239,25 @@ const IndicesWidget = () => {
               </a>
             </div>
             <iframe
-              src={iframeSrc}
+              src={`${selectedIndex?.graphURL}&height=220`}
               style={{
                 width: "100%",
-                height: "320px",
+                height: "220px",
                 border: "none",
                 outline: "none",
               }}
             />
           </div>
-          <ViewAllLink
-            text={`See ${selectedIndex.indexName}`}
-            link={`/markets/indices/${selectedIndex.seoname}`}
-            alignRight={true}
-          />
+          {selectedIndex?.indexName ? (
+            <ViewAllLink
+              text={`See ${selectedIndex?.indexName}`}
+              link={`/markets/indices/${selectedIndex.seoname}`}
+              alignRight={true}
+              padding="10px 0"
+            />
+          ) : (
+            ""
+          )}
           <div className={styles.bottomWidgets}>
             <div className={styles.widget}>
               <div className="dflex align-item-center">
@@ -213,46 +265,56 @@ const IndicesWidget = () => {
               </div>
               <div className={styles.bottom}>
                 <div className="dflex align-item-center space-between">
-                  <p className={styles.head}>
-                    {selectedIndex?.advances} Advances
-                  </p>
-                  <p className={styles.head}>
-                    {selectedIndex?.declines} Declines
-                  </p>
+                  <span className={`numberFonts ${styles.label}`}>
+                    {selectedIndex?.advances
+                      ? parseInt(selectedIndex?.advances)?.toFixed(2)
+                      : ""}
+                  </span>
+                  <span className={`numberFonts ${styles.label}`}>
+                    {selectedIndex?.declines
+                      ? parseInt(selectedIndex?.declines)?.toFixed(2)
+                      : ""}
+                  </span>
                 </div>
                 <div
-                  className={`dflex align-item-center space-between ${selectedIndex?.advancesPercentange != "100" && selectedIndex?.declinesPercentange != "100" ? styles.gap2 : ""}`}
+                  className={`dflex align-item-center space-between ${
+                    selectedIndex?.advancesPerChange != "100" &&
+                    selectedIndex?.declinesPerChange != "100"
+                      ? styles.gap2
+                      : ""
+                  }`}
                 >
                   <div
                     className={`${styles.bar} ${styles.up}`}
-                    style={{ width: `${selectedIndex?.advancesPercentange}%` }}
+                    style={{ width: `${selectedIndex?.advancesPerChange}%` }}
                   ></div>
                   <div
                     className={`${styles.bar} ${styles.down}`}
-                    style={{ width: `${selectedIndex?.declinesPercentange}%` }}
+                    style={{ width: `${selectedIndex?.declinesPerChange}%` }}
                   ></div>
                 </div>
-                <div className="dflex align-item-center space-between">
-                  <span className={styles.label}>
-                    {selectedIndex?.advancesPercentange
-                      ? parseInt(selectedIndex?.advancesPercentange)?.toFixed(2)
-                      : ""}
-                    {selectedIndex?.advancesPercentange && "%"}
-                  </span>
-                  <span className={styles.label}>
-                    {selectedIndex?.declinesPercentange
-                      ? parseInt(selectedIndex?.declinesPercentange)?.toFixed(2)
-                      : ""}
-                    {selectedIndex?.declinesPercentange && "%"}
-                  </span>
-                </div>
               </div>
+              <p className={styles.date}>
+                {" "}
+                {dateFormat(
+                  dateStringToMilliseconds(selectedIndex?.dateTime),
+                  "%MMM %d, %Y",
+                )}
+              </p>
             </div>
             <div className={styles.widget}>
-              <FIIDIIWIdget fiiDiiCash={fiiDiiCash} type="fiiEquity" />
+              <FIIDIIWIdget
+                fiiDiiCash={fiiDiiCash}
+                fiiCash={fiiCash}
+                type="fiiEquity"
+              />
             </div>
             <div className={styles.widget}>
-              <FIIDIIWIdget fiiDiiCash={fiiDiiCash} type="diiEquity" />
+              <FIIDIIWIdget
+                fiiDiiCash={fiiDiiCash}
+                diiCash={diiCash}
+                type="diiEquity"
+              />
             </div>
           </div>
         </div>
@@ -261,7 +323,7 @@ const IndicesWidget = () => {
         <p className={styles.title}>Top News</p>
         <ul>
           {topNewsData?.map((list, index) =>
-            index < 5 ? (
+            index < 6 ? (
               <li key={`topNews${index}`}>
                 <a href={list?.url} className={styles.topNewsList}>
                   <p>
@@ -290,9 +352,10 @@ const IndicesWidget = () => {
           )}
         </ul>
         <ViewAllLink
-          text="See All Stocks"
+          text="See All News"
           link="https://economictimes.indiatimes.com/markets/stocks"
           alignRight={true}
+          padding="16px 0 0 0"
         />
       </div>
     </div>

@@ -126,8 +126,8 @@
     "production": "https://etapi.indiatimes.com/et-screener/other-indices"
   },
   "INDICES_WIDGET": {
-    "development": "https://mobilelivefeeds.indiatimes.com/ETMobileApps/markets/mobile/indices",
-    "production": "https://mobilelivefeeds.indiatimes.com/ETMobileApps/markets/mobile/indices"
+    "development": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365,1913,1906,186,2371",
+    "production": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365,1913,1906,186,2371"
   },
   "INDICES_FAQ": {
     "development": "https://qcbselivefeeds.indiatimes.com/screener/indexFaq",

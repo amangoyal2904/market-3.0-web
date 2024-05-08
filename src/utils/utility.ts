@@ -6,7 +6,6 @@ import {
   setCookieToSpecificTime,
 } from "@/utils/index";
 import { getCookie } from "@/utils/index";
-import Fingerprint2 from "fingerprintjs2";
 import Service from "@/network/service";
 
 const API_SOURCE = 0;
@@ -72,14 +71,34 @@ export const generateIntradayDurations = async (type: string) => {
 };
 
 export const chartIntervals = [
-  { label: "1D", value: "1d" },
-  { label: "1W", value: "1w" },
-  { label: "1M", value: "1m" },
-  { label: "3M", value: "3m" },
-  { label: "6M", value: "6m" },
-  { label: "1Y", value: "1y" },
-  { label: "3Y", value: "3y" },
-  { label: "5Y", value: "5y" },
+  {
+    label: "1D",
+    value: "1d",
+    change: "netChange",
+    percentChange: "percentChange",
+  },
+  { label: "1W", value: "1w", change: "change1Week", percentChange: "r1Week" },
+  {
+    label: "1M",
+    value: "1m",
+    change: "change1Month",
+    percentChange: "r1Month",
+  },
+  {
+    label: "3M",
+    value: "3m",
+    change: "change3Month",
+    percentChange: "r3Month",
+  },
+  {
+    label: "6M",
+    value: "6m",
+    change: "change6Month",
+    percentChange: "r6Month",
+  },
+  { label: "1Y", value: "1y", change: "change1Year", percentChange: "r1Year" },
+  { label: "3Y", value: "3y", change: "change3Year", percentChange: "r3Year" },
+  { label: "5Y", value: "5y", change: "change5Year", percentChange: "r5Year" },
 ];
 
 export const volumeShockersDurations = [
@@ -351,51 +370,7 @@ export const saveStockInWatchList = async (followData: any) => {
   }
 };
 
-export const generateFpid = (isLogin: any) => {
-  new (Fingerprint2 as any).get((components: any[]) => {
-    const values = components.map(
-      (component: { value: any }) => component.value,
-    );
-    const murmur = Fingerprint2.x64hash128(values.join(""), 31); // an array of components: {key: ..., value: ...}
-    console.log("@@@@@-->", isLogin, murmur);
-    processFingerprint(murmur, isLogin);
-  });
-};
-
-export const processFingerprint = (data: any, isLogin: any) => {
-  setCookieToSpecificTime("fpid", data, 365, 0, 0);
-  if (isLogin) {
-    createPeuuid(data);
-  } else {
-    createPfuuid(data);
-  }
-};
-
-export const createPfuuid = async (fpid: any) => {
-  let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
-  url = url + `?type=7&source=${API_SOURCE}`;
-  console.log("@@@@@-->inpfuuid", url);
-  try {
-    const res: any = await fetch(url, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-type": "application/json",
-        Authorization: fpid,
-      },
-    });
-    const data = await res.json();
-    console.log("res", res, data);
-    if (data && data.id != 0) {
-      var pfuuid = data.id;
-      setCookieToSpecificTime("pfuuid", pfuuid, 365, 0, 0);
-    }
-  } catch (e) {
-    console.log("error in pfuuid api", e);
-  }
-};
-
-export const createPeuuid = async (fpid: any) => {
+export const createPeuuid = async () => {
   let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
   url = url + `?type=0&source=${API_SOURCE}`;
   const res: any = await fetch(url, {
@@ -701,6 +676,7 @@ export const getAllIndices = async (
   const responseData = await response?.json();
   let tableData = [];
   let tableHeaderData = [];
+  let unixDateTime;
   if (responseData?.dataList) {
     tableData = responseData.dataList;
     if (tableData.length > 0 && tableData[0].data) {
@@ -712,10 +688,16 @@ export const getAllIndices = async (
       tableHeaderData = tableData[0].data;
     }
   }
+
+  if (responseData?.dateTime) {
+    unixDateTime = responseData.dateTime * 1000;
+  }
+
   return {
     tableHeaderData,
     tableData,
     exchange,
+    unixDateTime,
   };
 };
 

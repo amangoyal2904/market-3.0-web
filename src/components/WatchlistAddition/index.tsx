@@ -6,6 +6,7 @@ import { useStateContext } from "../../store/StateContext";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import { goToPlansPage, trackingEvent } from "@/utils/ga";
+import toast from "react-hot-toast";
 
 const WatchlistAddition = ({
   companyName,
@@ -115,12 +116,34 @@ const WatchlistAddition = ({
           event_action: "watchlist_add_stock_success",
           event_label: data?.companyName + "-" + data?.companyId,
         });
+
+        toast((t) => (
+          <span className="errorToast">
+            <span>
+              <b>{data?.companyName}</b> added to Watchlist
+            </span>
+            <button onClick={() => toast.dismiss(t.id)}>
+              <i className="eticon_cross"></i>
+            </button>
+          </span>
+        ));
       } else {
         trackingEvent("et_push_event", {
           event_category: "mercury_engagement",
           event_action: "watchlist_remove_stock_success",
           event_label: data?.companyName + "-" + data?.companyId,
         });
+
+        toast((t) => (
+          <span className="errorToast">
+            <span>
+              <b>{data?.companyName}</b> removed from Watchlist
+            </span>
+            <button onClick={() => toast.dismiss(t.id)}>
+              <i className="eticon_cross"></i>
+            </button>
+          </span>
+        ));
       }
 
       dispatch({
@@ -185,9 +208,9 @@ const WatchlistAddition = ({
               <div className={styles.loader}></div>
             </div>
           ) : watchlistCheck ? (
-            <span className="eticon_tick"></span>
+            <span className="eticon_tick icon_22 bold"></span>
           ) : (
-            <span className="eticon_add"></span>
+            <span className="eticon_add bold"></span>
           )}
         </span>
       )}

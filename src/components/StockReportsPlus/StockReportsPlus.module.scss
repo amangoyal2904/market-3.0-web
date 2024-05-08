@@ -383,7 +383,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  column-gap: 10px;
+  column-gap: 24px;
   border-bottom: solid 1px #cdcdcd;
   padding-bottom: 10px;
   .tab {
@@ -403,7 +403,7 @@
         left: 0;
         right: 0;
         bottom: -12px;
-        border-bottom: solid 1px #000000;
+        border-bottom: solid 3px #000000;
       }
     }
   }

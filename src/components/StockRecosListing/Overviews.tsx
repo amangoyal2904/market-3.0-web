@@ -10,13 +10,16 @@ interface Props {
   data: any;
   urlFilterHandle: any;
   activeApi: any;
+  overViewFilterRes: any;
 }
-const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
+const Overview: React.FC<Props> = ({
+  data,
+  urlFilterHandle,
+  activeApi,
+  overViewFilterRes,
+}) => {
   const { state, dispatch } = useStateContext();
-  const { isLogin, ssoid } = state.login;
-  const { watchlist } = state.watchlistStatus;
-
-  console.log("-", activeApi);
+  const { isLogin } = state.login;
 
   const responsive = [
     {
@@ -42,93 +45,117 @@ const Overview: React.FC<Props> = ({ data, urlFilterHandle, activeApi }) => {
     },
   ];
 
+  const handleLowerCase = (item: any) => {
+    return item.toLowerCase().replace(/\s+/g, "-");
+  };
+
   const redirectLink = (apiType: any) => {
-    switch (apiType) {
-      case "newRecos":
-        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["newRecos"]; //"/stocksrecos/newrecos/all";
-      case "highUpside":
-        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["highUpside"]; //"/stocksrecos/mostbuy";
-      case "highDownside":
-        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["highDownside"]; //"/stocksrecos/mostsell";
-      case "recoOnWL":
-        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["recoOnWL"]; //"/stocksrecos/recos-on-your-watchlist";
-      case "recoByFH":
+    let tabName = handleLowerCase(apiType);
+
+    //console.log("tabName --- ", tabName);
+
+    switch (tabName) {
+      case "recoonwl":
+        return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["recos-on-your-watchlist"]; //"/stocksrecos/recos-on-your-watchlist";
+      case "recobyfh":
         return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]; //"/stocksrecos/fundhousedetails";
+      default:
+        return (GLOBAL_CONFIG as any)["STOCK_RECOS"][tabName]; //"/stocksrecos/newrecos/all";
     }
   };
-  return (
-    <>
-      {data?.recoData?.map((obj: any, index: any) => (
-        <div key={`"overView"${index} `} className={styles.overviewMain}>
-          <h2 className={styles.title} key={index}>
-            <Link
-              className="linkHover"
-              href={`${redirectLink(obj.apiType)}${urlFilterHandle()}`}
-            >
-              {obj.name}
-            </Link>
-          </h2>
-          {typeof obj?.data != "undefined" && obj?.data.length > 0 ? (
-            obj?.data.length > 3 ? (
-              <SlickSlider
-                slides={obj.data?.map((card: any, index: any) => ({
-                  content: (
+
+  const overviewHtmlHandle = (data: any) => {
+    console.log(JSON.stringify(data));
+    return (
+      <>
+        {data?.recoData?.map((obj: any, index: any) => (
+          <div
+            key={`overView_${obj.apiType}_${index} `}
+            className={styles.overviewMain}
+          >
+            <h2 className={styles.title} key={index}>
+              <Link
+                className="linkHover"
+                href={`${redirectLink(obj.apiType)}${urlFilterHandle(obj.indexid ? obj.indexid : "")}`}
+              >
+                {obj.name}
+              </Link>
+            </h2>
+            {typeof obj?.data != "undefined" && obj?.data.length > 0 ? (
+              obj?.data.length > 3 ? (
+                <SlickSlider
+                  slides={obj.data?.map((card: any, index: any) => ({
+                    content: (
+                      <StockReco
+                        data={card}
+                        key={index}
+                        activeTab={obj.apiType}
+                        pageName={"stockRecosOverviewTab"}
+                        urlFilterHandle={urlFilterHandle}
+                        filterIndex={obj.indexid ? obj.indexid : ""}
+                      />
+                    ),
+                  }))}
+                  key={`slider${obj.type}`}
+                  sliderId={`slider${obj.type}`}
+                  slidesToShow={3}
+                  slidesToScroll={1}
+                  rows={1}
+                  responsive={responsive}
+                />
+              ) : (
+                <div
+                  className={`${styles.overViewCardWrap} ${obj?.data.length < 3 ? styles.noGridCardView : ""}`}
+                >
+                  {obj?.data?.map((card: any, index: any) => (
                     <StockReco
                       data={card}
-                      key={index}
+                      key={`overview_recos_${index}`}
                       activeTab={obj.apiType}
                       pageName={"stockRecosOverviewTab"}
                       urlFilterHandle={urlFilterHandle}
+                      filterIndex={obj.indexid ? obj.indexid : ""}
                     />
-                  ),
-                }))}
-                key={`slider${obj.type}`}
-                sliderId={`slider${obj.type}`}
-                slidesToShow={3}
-                slidesToScroll={1}
-                rows={1}
-                responsive={responsive}
-              />
+                  ))}
+                </div>
+              )
             ) : (
               <div
-                className={`${styles.overViewCardWrap} ${obj?.data.length == 1 ? styles.noGridCardView : ""}`}
+                className={`${styles.overviewBlockerWrap} ${styles.listingWrap} ${styles.noDataFound}`}
               >
-                {obj?.data?.map((card: any, index: any) => (
-                  <StockReco
-                    data={card}
-                    key={`overview_recos_${index}`}
-                    activeTab={obj.apiType}
-                    pageName={"stockRecosOverviewTab"}
-                    urlFilterHandle={urlFilterHandle}
-                  />
-                ))}
-              </div>
-            )
-          ) : (
-            <div
-              className={`${styles.overviewBlockerWrap} ${styles.listingWrap} ${styles.noDataFound}`}
-            >
-              {obj.apiType == "recoOnWL" ? (
-                !isLogin ? (
-                  <Blocker type="loginBlocker" />
+                {obj.apiType == "recoOnWL" ? (
+                  !isLogin ? (
+                    <Blocker type="loginBlocker" />
+                  ) : (
+                    <Blocker type={"noDataFound"} />
+                  )
                 ) : (
                   <Blocker type={"noDataFound"} />
-                )
-              ) : (
-                <Blocker type={"noDataFound"} />
-              )}
-            </div>
-          )}
-          {obj?.data.length > 3 && (
-            <div className={styles.overviewViewAll}>
-              <Link href={`${redirectLink(obj.apiType)}${urlFilterHandle()}`}>
-                <span className="linkHover">View all {obj.name} </span>
-                <span className={`eticon_next ${styles.arrowIcon}`}></span>
-              </Link>
-            </div>
-          )}
-        </div>
-      ))}
+                )}
+              </div>
+            )}
+            {obj?.data.length > 3 && (
+              <div className={styles.overviewViewAll}>
+                <Link
+                  href={`${redirectLink(obj.apiType)}${urlFilterHandle(obj.indexid ? obj.indexid : "")}`}
+                >
+                  <span className="linkHover">View all {obj.name} </span>
+                  <span className={`eticon_next ${styles.arrowIcon}`}></span>
+                </Link>
+              </div>
+            )}
+          </div>
+        ))}
+      </>
+    );
+  };
+
+  return (
+    <>
+      {overviewHtmlHandle(data)}
+      <div className="overview_filer">
+        {overviewHtmlHandle(overViewFilterRes)}
+      </div>
     </>
   );
 };

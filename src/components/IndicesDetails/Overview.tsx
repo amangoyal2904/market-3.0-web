@@ -3,6 +3,7 @@ import styles from "./IndicesDetails.module.scss";
 import Link from "next/link";
 import { chartIntervals } from "@/utils/utility";
 import { dateFormat, formatNumber } from "@/utils/index";
+import MarketStatus from "../MarketStatus";
 
 const IndicesDetailsOverview = React.memo(
   ({
@@ -108,24 +109,11 @@ const IndicesDetailsOverview = React.memo(
           <span className="default-btn">Share</span>
         </div> */}
         </div>
-        <div className="dflex align-item-center">
-          {!!currentMarketStatus && (
-            <>
-              {currentMarketStatus.toUpperCase() != "CLOSED" && (
-                <span className="liveBlinker"></span>
-              )}
-              <span className="marketStatus withSeparator">
-                {currentMarketStatus}
-              </span>
-            </>
-          )}
-          <span className="updatetime">
-            {dateFormat(
-              parseInt(overviewData?.dateTime) * 1000,
-              "As on %d %MMM, %Y %H:%m IST",
-            )}
-          </span>
-        </div>
+        <MarketStatus
+          currentMarketStatus={currentMarketStatus}
+          dateTime={parseInt(overviewData?.dateTime) * 1000}
+          withSeparator={true}
+        />
         {!!descText && <p className={styles.desc}>{descText}</p>}
         <div id="chart">
           <div className={styles.chartOpts}>
@@ -189,11 +177,11 @@ const IndicesDetailsOverview = React.memo(
               </div>
               <div className="dflex align-item-center space-between">
                 <span className={styles.label}>
-                  {overviewData?.advancesPercentage?.toFixed(2)}
+                  {overviewData?.advancesPercentage}
                   {overviewData?.advancesPercentage && "%"}
                 </span>
                 <span className={styles.label}>
-                  {overviewData?.declinesPercentage?.toFixed(2)}
+                  {overviewData?.declinesPercentage}
                   {overviewData?.declinesPercentage && "%"}
                 </span>
               </div>

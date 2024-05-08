@@ -6,6 +6,10 @@ import BreadCrumb from "@/components/BreadCrumb";
 import { headers } from "next/headers";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
+import dynamic from "next/dynamic";
+const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
+  ssr: false,
+});
 
 const pageTitle =
   "Indian Market Indices, Live Index Watch, Market Indexes | The Economic Time";
@@ -57,11 +61,8 @@ export const metadata: Metadata = {
 const Indices = async () => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
-  const { tableHeaderData, tableData, exchange } = await getAllIndices(
-    "nse",
-    "",
-    "DESC",
-  );
+  const { tableHeaderData, tableData, exchange, unixDateTime } =
+    await getAllIndices("nse", "", "DESC");
 
   return (
     <>
@@ -70,13 +71,15 @@ const Indices = async () => {
         tableData={tableData}
         exchange="nse"
         tableConfig={tableConfig["indicesListing"]}
+        unixDateTime={unixDateTime}
       />
       <BreadCrumb
         pagePath={pageUrl}
         pageName={[{ label: "Indices", redirectUrl: "" }]}
       />
-       <br/>
-       <DfpAds adInfo={AdInfo.dfp.btfAd}/>
+      <br />
+      <DfpAds adInfo={AdInfo.dfp.btfAd} />
+      <PageRefresh refreshTime={180000} />
     </>
   );
 };

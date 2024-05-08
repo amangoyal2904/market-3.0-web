@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "./BreadCrumb.module.scss";
 import { usePathname } from "next/navigation";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 
 interface Props {
   pageName: any;
@@ -8,24 +9,26 @@ interface Props {
 }
 
 const getLiPath = (router: string, pagePath: string) => {
-  if (router == "/stocksrecos/overview") {
+  if (router == "/markets/stock-recos/overview") {
     return {
       showNextLi: false,
       currentLiNode: (
         <li>
-          <span className="eticon_caret_right"></span>Recos
+          <span className="eticon_caret_right"></span>Stock Recommendations
         </li>
       ),
       showCurrLi: true,
       listItemSchema: "",
     };
-  } else if (router.includes("/stocksrecos/")) {
+  } else if (router.includes("/markets/stock-recos/")) {
     return {
       showNextLi: true,
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocksrecos/overview">Recos</a>
+          <a href={(GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"]}>
+            Stock Recommendations
+          </a>
         </li>
       ),
       showCurrLi: true,
@@ -33,7 +36,7 @@ const getLiPath = (router: string, pagePath: string) => {
         "@type": "ListItem",
         position: "3",
         name: "Stock Recommendations",
-        item: { "@id": "/stocksrecos/overview" },
+        item: { "@id": (GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"] },
       },
     };
   } else if (router == "/markets/stock-screener") {
@@ -215,6 +218,29 @@ const getLiPath = (router: string, pagePath: string) => {
         <li>
           <span className="eticon_caret_right"></span>
           <a href="/markets/fii-dii-activity">FII DII Activity</a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router == "/markets/benefits/stockreportsplus") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Stock Reports Plus
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router.includes("/markets/stockreportsplus/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/benefits/stockreportsplus">Stock Reports Plus</a>
         </li>
       ),
       showCurrLi: true,

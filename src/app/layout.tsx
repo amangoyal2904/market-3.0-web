@@ -20,6 +20,7 @@ import NoInternetConnection from "@/components/NoInternetConnection";
 import Footer from "@/components/Footer";
 import BreadCrumb from "@/components/BreadCrumb";
 import { PreloadResources } from "@/components/preloadResources";
+import { Toaster } from "react-hot-toast";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -121,6 +122,7 @@ export default async function RootLayout({
               <div id="ssoLogin" className="ssoLoginElm" />
             </div>
             <RedeemVoucher />
+            <Toaster position="bottom-left" reverseOrder={false} />
           </main>
         </StateProvider>
         <script

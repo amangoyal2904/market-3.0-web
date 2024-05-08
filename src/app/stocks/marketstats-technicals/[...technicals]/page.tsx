@@ -22,6 +22,10 @@ import MarketStats from "../../marketstats/client";
 import BreadCrumb from "@/components/BreadCrumb";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
+import dynamic from "next/dynamic";
+const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
+  ssr: false,
+});
 
 export async function generateMetadata(
   { searchParams, params }: any,
@@ -159,7 +163,7 @@ const Technicals = async ({ params, searchParams }: any) => {
     pagesize,
     pageno,
   };
-  const { tableHeaderData, tableData, pageSummary, payload } =
+  const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
     await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_TECHNICALS");
 
   const selectedFilter = await fetchSelectedFilter(intFilter);
@@ -199,6 +203,7 @@ const Technicals = async ({ params, searchParams }: any) => {
         metaData={meta}
         tabData={tabData}
         activeViewId={activeViewId}
+        unixDateTime={unixDateTime}
         tableHeaderData={tableHeaderData}
         tableData={tableData}
         pageSummary={pageSummary}
@@ -214,9 +219,9 @@ const Technicals = async ({ params, searchParams }: any) => {
         shortUrlMapping={shortUrlMapping}
       />
       <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
-      <br/>
-      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
-
+      <br />
+      <DfpAds adInfo={AdInfo.dfp.btfAd} />
+      <PageRefresh refreshTime={180000} />
     </>
   );
 };

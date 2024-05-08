@@ -8,7 +8,7 @@
 
   td {
     max-width: 150px;
-    padding: 10px 12px;
+    padding: 15px 12px;
     border-right: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
     color: $gray_40;
@@ -172,7 +172,7 @@
   }
   .investNameImg {
     display: flex;
-    justify-content: space-between;
+    column-gap: 10px;
     text-align: left;
     .nameTxt {
       width: calc(100% - 60px);
@@ -313,9 +313,14 @@
   cursor: pointer;
 }
 .buySellSec {
-  padding: 12px 16px;
+  padding: 10px 12px;
   font-size: 14px;
   font-weight: 400;
+  text-transform: capitalize;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
 }
 .buySellSec.BOUGHT {
   background-color: $green-05;
@@ -350,8 +355,8 @@
         text-overflow: ellipsis;
         max-height: 28px;
         line-height: 1.3em;
-        line-break: anywhere;
-        width: 56px;
+        line-break: auto;
+        width: 100px;
       }
     }
     .dotes {
@@ -431,20 +436,74 @@
     }
   }
 }
-.qtrChange {
+.bestPicks {
   tr {
     td {
+      &:first-child,
+      &:nth-of-type(2) {
+        max-width: 350px;
+        width: 350px;
+      }
+    }
+    th + th + th {
+      text-align: right;
+      .thead {
+        justify-content: end;
+        text-align: right;
+      }
+    }
+  }
+}
+.qtrChange {
+  tr {
+    th + th + th {
+      text-align: right;
+      .thead {
+        justify-content: end;
+        text-align: right;
+      }
+    }
+  }
+  tr {
+    td {
+      &:first-child,
+      &:nth-of-type(2) {
+        max-width: 350px;
+        width: 350px;
+      }
       &:last-child {
         color: $black;
       }
+    }
+    td + td + td {
+      width: 160px;
+      max-width: 160px;
     }
   }
 }
 .recentTrans {
   tr {
+    th {
+      &:nth-of-type(2) {
+        .thead {
+          justify-content: center;
+        }
+      }
+    }
+    th + th + th + th {
+      .thead {
+        justify-content: end;
+        text-align: right;
+      }
+    }
     td {
-      &:first-child {
-        max-width: 250px;
+      &:first-child,
+      &:nth-of-type(3) {
+        max-width: 350px;
+      }
+      &:nth-of-type(2) {
+        width: 200px;
+        max-width: 200px;
       }
       &:nth-of-type(4),
       &:nth-of-type(7),
@@ -454,12 +513,37 @@
     }
   }
 }
-.mostHeldTable {
+.topHoldingTableIn {
   tr {
     td {
       &:first-child {
-        max-width: 200px;
+        max-width: 350px;
+        width: 350px;
       }
+    }
+    th + th {
+      .thead {
+        text-align: right;
+        justify-content: end;
+      }
+    }
+  }
+}
+.mostHeldTable {
+  tr {
+    th + th + th {
+      .thead {
+        text-align: right;
+        justify-content: end;
+      }
+    }
+    td {
+      &:first-child,
+      &:nth-of-type(2) {
+        max-width: 350px;
+        width: 350px;
+      }
+
       &:nth-of-type(4) {
         color: $black;
       }

@@ -1,7 +1,7 @@
 import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
-import { generateFpid } from "./utility";
+import { createPeuuid } from "./utility";
 
 declare global {
   interface Window {
@@ -136,12 +136,13 @@ export const verifyLogin = () => {
       //console.log("SUCCESS");
 
       if (typeof window.objUser == "undefined") window.objUser = {};
-      generateFpid(true);
+      //generateFpid(true);
+      createPeuuid();
       window.objUser.ticketId = response.data.ticketId;
       setUserData();
     } else {
       console.log("failure");
-      generateFpid(false);
+      //generateFpid(false);
       ssoLoginWidget();
     }
 
@@ -484,7 +485,13 @@ export const dateFormat = (dt: any, format = "%Y-%M-%d") => {
   }
   return newDate;
 };
-
+export const dateStringToMilliseconds = (
+  dateTimeString: string | number | Date,
+) => {
+  const date = new Date(dateTimeString);
+  const milliseconds = date.getTime();
+  return milliseconds;
+};
 export const setCookies = (
   name: string,
   value: string,
@@ -534,6 +541,12 @@ export const getStockRecosDetail = async ({
 
   console.log("getApiType ---", getApiType);
 
+  const overViewFilterArr = [
+    { type: "mostBuy", indexid: 2365 },
+    { type: "newRecos", indexid: 2365 },
+    { type: "mostSell", indexid: 2369 },
+  ];
+
   const payload = {
     apiType: getApiType,
     filterType:
@@ -541,23 +554,36 @@ export const getStockRecosDetail = async ({
         ? "index"
         : getApiType == "FHDetail"
           ? "fundhouse"
-          : getApiType != "recoByFH" && niftyFilterData?.indexId
+          : getApiType != "recoByFH" &&
+              getApiType != "overviewFilter" &&
+              niftyFilterData?.indexId
             ? "index"
             : "",
-    filterValue: niftyFilterData?.indexId
-      ? [niftyFilterData.indexId]
-      : getApiType == "FHDetail"
-        ? [fundHouseInfo.fundHouseId]
-        : [],
+    filterValue:
+      getApiType != "overviewFilter" && niftyFilterData?.indexId
+        ? [niftyFilterData.indexId]
+        : getApiType == "FHDetail"
+          ? [fundHouseInfo.fundHouseId]
+          : [],
     recoType: (getApiType == "FHDetail" ? slug?.[2] : slug?.[1]) || "all",
     pageSize:
-      getApiType == "recoByFH" ? 100 : getApiType == "overview" ? 6 : 30,
+      getApiType == "recoByFH"
+        ? 100
+        : getApiType == "overview" || getApiType == "overviewFilter"
+          ? 6
+          : 30,
     pageNumber: pageNo || 1,
-    ...(getApiType == "overview" && { deviceId: "web", apiVersion: 2 }),
+    ...((getApiType == "overview" ||
+      getApiType == "mostBuy" ||
+      getApiType == "mostSell" ||
+      getApiType == "overviewFilter") && { deviceId: "web", apiVersion: 2 }),
     ...(getApiType == "FHDetail" && { orgId: [fundHouseInfo.fundHouseId] }),
+    ...(getApiType == "overviewFilter" && {
+      overviewFilter: overViewFilterArr,
+    }),
   };
 
-  // console.log("payload----", payload);
+  console.log("payload----", payload);
 
   const recosDetailPromise = await Service.post({
     url: STOCK_RECOS_DETAIL_Link,

@@ -47,6 +47,7 @@ const MarketTable = React.memo((props: propsType) => {
     fixedCol = 3,
     isprimeuser = false,
   } = props || {};
+  const tableRef = useRef<HTMLDivElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
   const fixedTableRef = useRef<HTMLDivElement>(null);
   const { debounce } = useDebounce();
@@ -255,6 +256,18 @@ const MarketTable = React.memo((props: propsType) => {
     multipleStockCollect(e, companyId, assetType);
   };
 
+  const onPageChange = (pageNumber: any) => {
+    if (props.handlePageChange) {
+      props.handlePageChange(pageNumber);
+    }
+
+    if (tableRef.current) {
+      const tableRect = tableRef.current.getBoundingClientRect();
+      const targetPosition = tableRect.top + window.pageYOffset - 250;
+      window.scrollTo({ top: targetPosition, behavior: "smooth" });
+    }
+  };
+
   useEffect(() => {
     setFilters({});
     setSortData({ field: null, order: "DESC" });
@@ -342,7 +355,7 @@ const MarketTable = React.memo((props: propsType) => {
 
   return (
     <>
-      <div className={styles.tableWrapper} id="table">
+      <div className={styles.tableWrapper} id="table" ref={tableRef}>
         {!!processingLoader && (
           <Loader
             loaderType={
@@ -427,7 +440,7 @@ const MarketTable = React.memo((props: propsType) => {
         pageSummaryData.totalpages > 1 && (
           <Pagination
             pageSummary={pageSummaryData}
-            onPageChange={handlePageChange}
+            onPageChange={onPageChange}
           />
         )
       )}

@@ -4,6 +4,8 @@ interface Props {
   index: number;
   onSelectIndex: any;
   selectedIndex: any;
+  changePeriod: string;
+  percentChange: string;
 }
 
 const StockCards: React.FC<Props> = ({
@@ -11,6 +13,8 @@ const StockCards: React.FC<Props> = ({
   index,
   onSelectIndex,
   selectedIndex,
+  changePeriod,
+  percentChange,
 }) => {
   return (
     <div
@@ -20,18 +24,17 @@ const StockCards: React.FC<Props> = ({
     >
       <p className={styles.indexName}>{item.indexName}</p>
       <p className={`numberFonts ${styles.indexPrice}`}>
-        {item.currentIndexValue}
+        {item.lastTradedPrice}
       </p>
       <p
-        className={`numberFonts ${item.netChange > 0 ? styles.up : item.netChange < 0 ? styles.down : ""} ${styles.indexChange}`}
+        className={`numberFonts ${item[changePeriod] > 0 ? styles.up : item[changePeriod] < 0 ? styles.down : ""} ${styles.indexChange}`}
       >
-        {item?.netChange?.replace("-", "")} (
-        {item?.percentChange?.replace("-", "")}%)
+        {Math.abs(item[changePeriod])}&nbsp;({Math.abs(item[percentChange])}%)
         <span
           className={`${styles.arrowIcons} ${
-            item.netChange > 0
+            item[changePeriod] > 0
               ? `${styles.up} eticon_up_arrow`
-              : item.netChange < 0
+              : item[changePeriod] < 0
                 ? `${styles.down} eticon_down_arrow`
                 : ""
           }`}

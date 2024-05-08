@@ -18,11 +18,15 @@
       font-style: normal;
       font-weight: 700;
       line-height: normal;
+      position: relative;
     }
 
     .headingIcon {
       vertical-align: middle;
       font-size: 40px;
+      position: absolute;
+      top: -3px;
+      margin-left: -10px;
     }
   }
 
@@ -31,7 +35,7 @@
 
     .liveStatus {
       position: absolute;
-      top: 13px;
+      top: 7px;
       left: 35%;
     }
   }
@@ -65,16 +69,17 @@
       align-self: stretch;
       border-bottom: 1px solid #ccc;
       position: relative;
+      justify-content: space-between;
     }
 
     .topNewsTitle {
-      overflow: hidden;
       color: #000;
-      text-overflow: ellipsis;
       font-size: 14px;
       font-style: normal;
       font-weight: 600;
       line-height: 18px;
+      text-overflow: ellipsis;
+      overflow: hidden;
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
@@ -113,6 +118,9 @@
 
   .dataWrapper {
     padding-top: 24px;
+    .slick-slide {
+      width: unset !important;
+    }
   }
 }
 
@@ -132,6 +140,11 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    // text-overflow: ellipsis;
+    // overflow: hidden;
+    // display: -webkit-box;
+    // -webkit-box-orient: vertical;
+    // -webkit-line-clamp: 1;
   }
 
   .indexPrice {
@@ -156,7 +169,7 @@
   border-right: 1px solid #ccc;
   border-left: 1px solid #ccc;
   background: #fffbfa;
-  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.12);
+  //   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.12);
   border-bottom: none;
 }
 
@@ -165,8 +178,8 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid #cccccc;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 16px;
+  margin-bottom: 16px;
 
   span {
     font-size: 18px;
@@ -213,6 +226,7 @@
   display: flex;
   gap: 12px;
   margin: 4px auto;
+  overflow: auto;
 
   .widget {
     flex: 1;
@@ -223,7 +237,7 @@
 
     &:first-child {
       .bottom {
-        margin-top: 10px;
+        margin-top: 16px;
       }
     }
 
@@ -234,6 +248,7 @@
 
     .gap2 {
       gap: 2px;
+      padding-top: 2px;
     }
 
     .gap10 {
@@ -260,14 +275,21 @@
     }
 
     .label {
-      font-size: 14px;
-      line-height: 16px;
-      font-weight: 400;
-      margin: 2px 0;
-
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
       &.bold {
         font-weight: 600;
       }
+    }
+    .date {
+      font-size: 10px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      text-align: center;
+      padding-top: 12px;
     }
 
     .up {
@@ -334,4 +356,35 @@
   font-size: 16px;
   margin-left: 2px;
   vertical-align: bottom;
+}
+@media (max-width: 1024px) {
+  .cards {
+    padding: 10px;
+    min-width: unset;
+  }
+}
+@media (max-width: 1512px) {
+  .cards {
+    padding: 12px 16px;
+  }
+}
+.customTabs {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  .cards {
+    min-width: 180px;
+    border-bottom: none;
+  }
+  .tabActive {
+    position: relative;
+  }
+  .tabActive::after {
+    content: "";
+    content: "";
+    border-bottom: 2px solid #fffbfa;
+    position: absolute;
+    bottom: -1px;
+    width: 100%;
+    left: 0;
+  }
 }

@@ -37,6 +37,13 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
   ];
   const responsive = [
     {
+      breakpoint: 2560,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 5,
+      },
+    },
+    {
       breakpoint: 1921,
       settings: {
         slidesToShow: 4,

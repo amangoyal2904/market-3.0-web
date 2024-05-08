@@ -47,7 +47,7 @@ const InnerLeftNav = (props: any) => {
             </>
           );
         })}
-      {slug.includes("fundhousedetails") && (
+      {slug.includes("brokerages") && (
         <div>
           <ul className={`customScroll ${styles.fundHousesLeftNavWrap}`}>
             <li

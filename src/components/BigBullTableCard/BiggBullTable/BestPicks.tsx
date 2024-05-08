@@ -6,6 +6,11 @@ import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
 import WatchlistAddition from "../../WatchlistAddition";
 import NodataForTable from "../NodataForTable";
+import { useState, Suspense } from "react";
+import dynamic from "next/dynamic";
+const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
+  ssr: false,
+});
 
 const BiggBullBestPicksTable = ({
   tableHead,
@@ -19,169 +24,183 @@ const BiggBullBestPicksTable = ({
   const { isPrime } = state.login;
   //const isPrime = true
   //console.log("isPrime", isPrime);
+  const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
+  const blurNameHandler = () => {
+    setShowNonPrimeBlocker(true);
+    document.body.style.overflow = "hidden";
+  };
+  const blurNameHandlerClose = () => {
+    setShowNonPrimeBlocker(false);
+    document.body.style.overflow = "";
+  };
   return (
-    <div className="prel">
-      <table className={styles.bibBullCustomTable}>
-        <thead>
-          <tr>
-            {tableHead &&
-              tableHead.length > 0 &&
-              tableHead.map((thead: any, index: number) => {
-                return (
-                  <th
-                    key={`${index}-${thead.id}`}
-                    className={`${thead.sort ? styles.enableSort : ""}`}
-                  >
-                    <div
-                      className={`${styles.thead}`}
-                      onClick={() => {
-                        thead.sort
-                          ? handleSort(thead?.id, thead?.orderBy)
-                          : null;
-                      }}
+    <>
+      <div className="prel">
+        <table className={`${styles.bibBullCustomTable} ${styles.bestPicks}`}>
+          <thead>
+            <tr>
+              {tableHead &&
+                tableHead.length > 0 &&
+                tableHead.map((thead: any, index: number) => {
+                  return (
+                    <th
+                      key={`${index}-${thead.id}`}
+                      className={`${thead.sort ? styles.enableSort : ""}`}
                     >
-                      <div className={styles.theading}>{thead.name}</div>
-                      {thead.sort && (
-                        <span className={`${styles.sortIcons}`}>
-                          <span
-                            className={`${
-                              sortData?.field == thead.id &&
-                              sortData?.order == "ASC"
-                                ? styles.asc
-                                : ""
-                            } eticon_up_arrow`}
-                          ></span>
-                          <span
-                            className={`${
-                              sortData?.field == thead.id &&
-                              sortData?.order == "DESC"
-                                ? styles.desc
-                                : ""
-                            } eticon_down_arrow`}
-                          ></span>
-                        </span>
-                      )}
-                    </div>
-                  </th>
-                );
-              })}
-          </tr>
-        </thead>
-        <tbody>
-          {tableData && tableData.length > 0 ? (
-            tableData.map((tdata: any, index: any) => {
-              const currHolding = tdata?.stockdata?.filter(
-                (item: any) =>
-                  item?.uiValue?.statusCheck === "KCompanyQtr-Pre-Value",
-              );
-              const prevHolding = tdata?.stockdata?.filter(
-                (item: any) =>
-                  item?.uiValue?.statusCheck === "KCompanyQtr-Latest-Value",
-              );
-              const indecrease = tdata?.stockdata?.filter(
-                (item: any) =>
-                  item?.uiValue?.statusCheck === "KCompanyInc-Dec-Flag-Value",
-              );
-              const amountInvSold = tdata?.stockdata?.filter(
-                (item: any) =>
-                  item?.uiValue?.statusCheck === "KCompanyQtr-Latest-Value",
-              );
-
-              return (
-                <tr key={`${index}`}>
-                  <td>
-                    <Link
-                      href={`/markets/top-india-investors-portfolio/${tdata?.investorIntro?.sharkSeoName},expertid-${tdata?.investorIntro?.sharkID}`}
-                      target="_blank"
-                      className={styles.investNameImg}
-                    >
-                      <img
-                        src={tdata?.investorIntro?.imageURL}
-                        width={42}
-                        height={42}
-                        alt={tdata?.investorIntro?.name}
-                        className={styles.expertImg}
-                      />
-                      <span className={styles.nameTxt}>
-                        <span
-                          className={`${styles.fillingTxt} ${tdata?.filingAwaitedTrend && tdata.filingAwaitedTrend !== "" ? styles[tdata?.filingAwaitedTrend] : ""}`}
-                        >
-                          {tdata?.filingAwaitedText}
-                        </span>
-                        {tdata?.investorIntro?.name}
-                      </span>
-                    </Link>
-                  </td>
-                  <td>
-                    <div className={styles.comNameSec}>
-                      <div className={styles.comDivSec}>
-                        {isPrime ? (
-                          <>
-                            <WatchlistAddition
-                              companyName={
-                                tdata.bestPickStockData.companyData?.text
-                              }
-                              companyId={
-                                tdata?.bestPickStockData.companyData?.companyId
-                              }
-                              companyType={
-                                tdata?.bestPickStockData.companyData
-                                  ?.companyType
-                              }
-                              customStyle={{
-                                width: "18px",
-                                height: "18px",
-                              }}
-                            />
-                            <a
-                              href={getStockUrl(
-                                tdata?.bestPickStockData?.companyData
-                                  ?.companyId,
-                                tdata?.bestPickStockData?.companyData
-                                  ?.companySeoName,
-                                tdata?.bestPickStockData?.companyData
-                                  ?.companyType,
-                              )}
-                              target="_blank"
-                              className={styles.linkTxt}
-                            >
-                              {tdata?.bestPickStockData?.companyData?.text}
-                              <span>
-                                {
-                                  tdata?.bestPickStockData?.companyData
-                                    ?.marketCapText
-                                }
-                              </span>
-                            </a>
-                          </>
-                        ) : (
-                          <span className={styles.nameBlur}></span>
+                      <div
+                        className={`${styles.thead}`}
+                        onClick={() => {
+                          thead.sort
+                            ? handleSort(thead?.id, thead?.orderBy)
+                            : null;
+                        }}
+                      >
+                        <div className={styles.theading}>{thead.name}</div>
+                        {thead.sort && (
+                          <span className={`${styles.sortIcons}`}>
+                            <span
+                              className={`${
+                                sortData?.field == thead.id &&
+                                sortData?.order == "ASC"
+                                  ? styles.asc
+                                  : ""
+                              } eticon_up_arrow`}
+                            ></span>
+                            <span
+                              className={`${
+                                sortData?.field == thead.id &&
+                                sortData?.order == "DESC"
+                                  ? styles.desc
+                                  : ""
+                              } eticon_down_arrow`}
+                            ></span>
+                          </span>
                         )}
                       </div>
-                    </div>
-                  </td>
-                  {tdata?.bestPickStockData?.stockdata?.length > 0
-                    ? tdata?.bestPickStockData?.stockdata.map(
-                        (stock: any, index: any) => {
-                          const updownClass =
-                            stock.uiValue?.trend === "UP"
-                              ? "up"
-                              : stock.uiValue?.trend === "DOWN"
-                                ? "down"
-                                : "";
-                          return (
-                            <td
-                              className={`${styles.rightTxt} ${styles[updownClass]}`}
-                              key={`${stock?.uiLabel?.statusCheck}-${index}`}
-                              dangerouslySetInnerHTML={{
-                                __html: stock?.uiValue?.text,
-                              }}
-                            ></td>
-                          );
-                        },
-                      )
-                    : ""}
-                  {/* <td>
+                    </th>
+                  );
+                })}
+            </tr>
+          </thead>
+          <tbody>
+            {tableData && tableData.length > 0 ? (
+              tableData.map((tdata: any, index: any) => {
+                const currHolding = tdata?.stockdata?.filter(
+                  (item: any) =>
+                    item?.uiValue?.statusCheck === "KCompanyQtr-Pre-Value",
+                );
+                const prevHolding = tdata?.stockdata?.filter(
+                  (item: any) =>
+                    item?.uiValue?.statusCheck === "KCompanyQtr-Latest-Value",
+                );
+                const indecrease = tdata?.stockdata?.filter(
+                  (item: any) =>
+                    item?.uiValue?.statusCheck === "KCompanyInc-Dec-Flag-Value",
+                );
+                const amountInvSold = tdata?.stockdata?.filter(
+                  (item: any) =>
+                    item?.uiValue?.statusCheck === "KCompanyQtr-Latest-Value",
+                );
+
+                return (
+                  <tr key={`${index}`}>
+                    <td>
+                      <Link
+                        href={`/markets/top-india-investors-portfolio/${tdata?.investorIntro?.sharkSeoName},expertid-${tdata?.investorIntro?.sharkID}`}
+                        target="_blank"
+                        className={styles.investNameImg}
+                      >
+                        <img
+                          src={tdata?.investorIntro?.imageURL}
+                          width={42}
+                          height={42}
+                          alt={tdata?.investorIntro?.name}
+                          className={styles.expertImg}
+                        />
+                        <span className={styles.nameTxt}>
+                          <span
+                            className={`${styles.fillingTxt} ${tdata?.filingAwaitedTrend && tdata.filingAwaitedTrend !== "" ? styles[tdata?.filingAwaitedTrend] : ""}`}
+                          >
+                            {tdata?.filingAwaitedText}
+                          </span>
+                          {tdata?.investorIntro?.name}
+                        </span>
+                      </Link>
+                    </td>
+                    <td>
+                      <div className={styles.comNameSec}>
+                        <div className={styles.comDivSec}>
+                          {isPrime ? (
+                            <>
+                              <WatchlistAddition
+                                companyName={
+                                  tdata.bestPickStockData.companyData?.text
+                                }
+                                companyId={
+                                  tdata?.bestPickStockData.companyData
+                                    ?.companyId
+                                }
+                                companyType={
+                                  tdata?.bestPickStockData.companyData
+                                    ?.companyType
+                                }
+                                customStyle={{
+                                  width: "18px",
+                                  height: "18px",
+                                }}
+                              />
+                              <a
+                                href={getStockUrl(
+                                  tdata?.bestPickStockData?.companyData
+                                    ?.companyId,
+                                  tdata?.bestPickStockData?.companyData
+                                    ?.companySeoName,
+                                  tdata?.bestPickStockData?.companyData
+                                    ?.companyType,
+                                )}
+                                target="_blank"
+                                className={styles.linkTxt}
+                              >
+                                {tdata?.bestPickStockData?.companyData?.text}
+                                <span>
+                                  {
+                                    tdata?.bestPickStockData?.companyData
+                                      ?.marketCapText
+                                  }
+                                </span>
+                              </a>
+                            </>
+                          ) : (
+                            <span
+                              className={styles.nameBlur}
+                              onClick={blurNameHandler}
+                            ></span>
+                          )}
+                        </div>
+                      </div>
+                    </td>
+                    {tdata?.bestPickStockData?.stockdata?.length > 0
+                      ? tdata?.bestPickStockData?.stockdata.map(
+                          (stock: any, index: any) => {
+                            const updownClass =
+                              stock.uiValue?.trend === "UP"
+                                ? "up"
+                                : stock.uiValue?.trend === "DOWN"
+                                  ? "down"
+                                  : "";
+                            return (
+                              <td
+                                className={`${styles.rightTxt} ${styles[updownClass]}`}
+                                key={`${stock?.uiLabel?.statusCheck}-${index}`}
+                                dangerouslySetInnerHTML={{
+                                  __html: stock?.uiValue?.text,
+                                }}
+                              ></td>
+                            );
+                          },
+                        )
+                      : ""}
+                    {/* <td>
                     {currHolding.length > 0
                       ? currHolding[0].uiValue?.text
                       : null}
@@ -207,20 +226,26 @@ const BiggBullBestPicksTable = ({
                       ? amountInvSold[0].uiValue?.text
                       : null}
                   </td> */}
-                </tr>
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan={100} className={styles.nodatafound}>
-                <NodataForTable />
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-      {shouldShowLoader && <Loader loaderType="container" />}
-    </div>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={100} className={styles.nodatafound}>
+                  <NodataForTable />
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+        {shouldShowLoader && <Loader loaderType="container" />}
+      </div>
+      {showNonPrimeBlocker && (
+        <Suspense fallback={<div>Loading</div>}>
+          <NonPrimeBlockerModule oncloseModule={blurNameHandlerClose} />
+        </Suspense>
+      )}
+    </>
   );
 };
 
