@@ -140,11 +140,11 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
+    // text-overflow: ellipsis;
+    // overflow: hidden;
+    // display: -webkit-box;
+    // -webkit-box-orient: vertical;
+    // -webkit-line-clamp: 1;
   }
 
   .indexPrice {
@@ -169,7 +169,7 @@
   border-right: 1px solid #ccc;
   border-left: 1px solid #ccc;
   background: #fffbfa;
-  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.12);
+  //   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.12);
   border-bottom: none;
 }
 
@@ -360,5 +360,31 @@
 @media (max-width: 1024px) {
   .cards {
     padding: 10px;
+    min-width: unset;
+  }
+}
+@media (max-width: 1512px) {
+  .cards {
+    padding: 12px 16px;
+  }
+}
+.customTabs {
+  display: flex;
+  border-bottom: 1px solid #ccc;
+  .cards {
+    min-width: 180px;
+    border-bottom: none;
+  }
+  .tabActive {
+    position: relative;
+  }
+  .tabActive::after {
+    content: "";
+    content: "";
+    border-bottom: 2px solid #fffbfa;
+    position: absolute;
+    bottom: -1px;
+    width: 100%;
+    left: 0;
   }
 }
