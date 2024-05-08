@@ -22,6 +22,10 @@ import MarketStats from "../../marketstats/client";
 import BreadCrumb from "@/components/BreadCrumb";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
+import dynamic from "next/dynamic";
+const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
+  ssr: false,
+});
 
 export async function generateMetadata(
   { searchParams, params }: any,
@@ -217,6 +221,7 @@ const Technicals = async ({ params, searchParams }: any) => {
       <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
       <br />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />
+      <PageRefresh refreshTime={180000} />
     </>
   );
 };
