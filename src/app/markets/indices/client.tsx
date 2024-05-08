@@ -6,6 +6,7 @@ import styles from "./Indices.module.scss";
 import { getAllIndices } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import { dateFormat } from "@/utils";
+import MarketStatus from "@/components/MarketStatus";
 
 const IndicesClient = ({
   tableHeaderData = [],
@@ -76,23 +77,11 @@ const IndicesClient = ({
     <>
       <div className="dflex align-item-center">
         <h1 className={`${styles.heading} ${styles.withRBorder}`}>Indices</h1>
-        <div className="dflex align-item-center">
-          {!!currentMarketStatus && (
-            <>
-              {currentMarketStatus.toUpperCase() != "CLOSED" && (
-                <span className="liveBlinker"></span>
-              )}
-              <span className="marketStatus withSpace">
-                {currentMarketStatus}
-              </span>
-            </>
-          )}
-          {
-            <span className="updatetime">
-              {dateFormat(updateDateTime, "As on %d %MMM, %Y %H:%m IST")}
-            </span>
-          }
-        </div>
+        <MarketStatus
+          currentMarketStatus={currentMarketStatus}
+          dateTime={updateDateTime}
+          withSpace={true}
+        />
       </div>
       <p className={styles.desc}>
         Explore live updates of Indian indices such as Nifty 50 and Sensex on
