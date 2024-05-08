@@ -12,8 +12,8 @@ const PieChart: React.FC<PieChartProps> = React.memo(
       const options: Highcharts.Options = {
         chart: {
           type: "pie",
-          height: 150,
-          width: 150,
+          height: 200,
+          width: 200,
           backgroundColor: "",
         },
         title: {

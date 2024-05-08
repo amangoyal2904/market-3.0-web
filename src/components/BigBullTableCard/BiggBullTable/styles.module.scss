@@ -513,6 +513,22 @@
     }
   }
 }
+.topHoldingTableIn {
+  tr {
+    td {
+      &:first-child {
+        max-width: 350px;
+        width: 350px;
+      }
+    }
+    th + th {
+      .thead {
+        text-align: right;
+        justify-content: end;
+      }
+    }
+  }
+}
 .mostHeldTable {
   tr {
     th + th + th {
