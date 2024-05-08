@@ -29,6 +29,22 @@ interface propsType {
 
 const DEBOUNCE_DELAY = 10;
 
+const tableHeadersTooltipText = {
+  sr_avgScore: `"The Stock Reports Plus Average Score combines a quantitative analysis of five widely-used investment decision making tools - Earnings, Fundamentals, Relative Valuation, Risk, and Momentum.
+  Score 10 means: Most Favorable | 4-7: Neutral | 1-3: Negative"`,
+  sr_targetVsCurrent: `"The Stock Reports Plus Average Score combines a quantitative analysis of five widely-used investment decision making tools - Earnings, Fundamentals, Relative Valuation, Risk, and Momentum.
+  Score 10 means: Most Favorable | 4-7: Neutral | 1-3: Negative"`,
+  sr_analystScore: `"The Earnings Rating is based on a combination of three factors: earnings surprises, estimate revisions and recommendation changes (The number of broker upgrades and downgrades in last 120 days).
+  Score 10 means: Most Favorable | 4-7: Neutral | 1-3: Negative"`,
+  sr_fundScore: `"The Fundamental Rating is based on a combination of four fundamental component factors: Profitability, debt, earnings quality and dividend.
+  Score 10 means: Most Favorable | 4-7: Neutral | 1-3: Negative"`,
+  sr_techScore: `"The Price Momentum Rating is based on a combination of two technical performance factors: relative strength and seasonality (the average return or price performance).
+  Score 10 means: Most Favorable | 4-7: Neutral | 1-3: Negative"`,
+  sr_rvScore: `"The Relative Valuation Rating is based on a combination of three component factors: Price to Sales, Trailing P/E and Forward P/E.
+  Score 10 means: Most Favorable | 4-7: Neutral | 1-3: Negative"`,
+  sr_riskScore: `The Risk Rating displays stocks on a scale of 1 to 10 with 10 being awarded to the least risky stocks. It is dervied by looking at a series of long-term (5-year) and short-term (90-day) stock performance measures including volatility, magnitude of returns, beta and correlation.`,
+};
+
 const MarketTable = React.memo((props: propsType) => {
   const {
     data,
@@ -372,6 +388,7 @@ const MarketTable = React.memo((props: propsType) => {
             >
               <FixedTable
                 highlightLtp={highlightLtp}
+                tableHeadersTooltipText={tableHeadersTooltipText}
                 tableHeaderData={tableHeaderData}
                 tableDataList={tableDataList}
                 scrollLeftPos={scrollLeftPos}
@@ -396,6 +413,7 @@ const MarketTable = React.memo((props: propsType) => {
             >
               <ScrollableTable
                 highlightLtp={highlightLtp}
+                tableHeadersTooltipText={tableHeadersTooltipText}
                 tableHeaderData={tableHeaderData}
                 tableDataList={tableDataList}
                 headerSticky={headerSticky}
