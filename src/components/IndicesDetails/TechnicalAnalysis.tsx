@@ -20,6 +20,7 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
   const { ssoid } = state.login;
   const [userId, setUserId] = useState("");
   const [isScriptReady, setIsScriptReady] = useState(false);
+  const [showTechnicalPopup, setShowTechnicalPopup] = useState(false);
   const { maScore, bullishMA, bearishMA, movingAverage, pivotLevel } = data;
 
   const ma_labels = [""];
@@ -63,6 +64,25 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
     overrides: {},
   };
 
+  const toggleTechnicalPopup = (value: boolean) => {
+    setShowTechnicalPopup(value);
+  };
+
+  const handleEscapeKey = (event: any) => {
+    if (event.key === "Escape") {
+      setShowTechnicalPopup(false);
+    }
+  };
+
+  useEffect(() => {
+    if (showTechnicalPopup) {
+      document.addEventListener("keydown", handleEscapeKey);
+    }
+    return () => {
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [showTechnicalPopup]);
+
   useEffect(() => {
     let user = getCookie("ssoid") || ssoid;
     if (user == null || user == "") {
@@ -83,7 +103,53 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
         }}
       />
       <h2 className={styles.heading}>
-        Technical Analysis <i className="eticon_info"></i>
+        Technical Analysis
+        <div className={styles.helpIcon}>
+          <i
+            className="eticon_info"
+            onClick={() => toggleTechnicalPopup(true)}
+          ></i>
+          {showTechnicalPopup && (
+            <>
+              <div className={styles.popUp}>
+                <div className={styles.header}>
+                  Technical Analysis
+                  <i
+                    className="eticon_cross"
+                    onClick={() => toggleTechnicalPopup(false)}
+                  ></i>
+                </div>
+                <div className={styles.wrapper}>
+                  <div className={styles.zone}>
+                    <p>
+                      {`Understand market patterns with Moving Averages (SMA &
+                      EMA) and Pivot Levels (Classic & Fibonacci), simplifying
+                      information for clear insights.`}
+                    </p>
+                    <p>
+                      {`We categorize 12 values into 5 groups, each group having a
+                      weight of 2.4. If the SMA/EMA is higher than the current
+                      price, it's shown in red; if equal or lower, it's green.
+                      We divide the green SMA/EMA counts by 2.4 and based on
+                      this, we plot the wheel`}
+                    </p>
+                    <ul>
+                      <li>Extremely Bullish: 4 to 5</li>
+                      <li>Bullish: 3 to 4</li>
+                      <li>Neutral: 2 to 3</li>
+                      <li>Bearish: 1 to 2</li>
+                      <li>Extremely Bearish: 0 to 1</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div
+                className={styles.popUpOverlay}
+                onClick={() => toggleTechnicalPopup(false)}
+              ></div>
+            </>
+          )}
+        </div>
       </h2>
       <div className={styles.wrapper}>
         <h3 className={styles.heading3}>Moving Average: SMA & EMA</h3>
