@@ -1,12 +1,10 @@
 "use client";
-import { log } from "console";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import Script from "next/script";
 import { FC, useEffect, useState } from "react";
-import { APP_ENV, verifyLogin } from "../utils";
+import { APP_ENV } from "../utils";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
-import APIS_CONFIG from "@/network/api_config.json";
 import { useStateContext } from "@/store/StateContext";
 import renderDfpAds from "@/components/Ad/AdScript";
 
@@ -17,7 +15,7 @@ interface Props {
 
 declare global {
   interface Window {
-    googletag:any;
+    googletag: any;
     ispopup: any;
     jsso?: {
       getValidLoggedInUser?: any;
@@ -38,8 +36,6 @@ declare global {
       accessibleFeatures?: any;
       primeInfo?: any;
     };
-   
-
   }
 }
 
@@ -203,6 +199,10 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               `,
             }}
           />
+          <Script
+            src="https://survey.survicate.com/workspaces/0be6ae9845d14a7c8ff08a7a00bd9b21/web_surveys.js"
+            strategy="lazyOnload"
+          />
           {!isprimeuser && (
             <Script
               src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
@@ -213,9 +213,12 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               }}
             />
           )}
-           {!isprimeuser && (
-                <Script src="https://static.clmbtech.com/ad/commons/js/2308/colombia_v2.js" strategy="lazyOnload" />
-            )}
+          {!isprimeuser && (
+            <Script
+              src="https://static.clmbtech.com/ad/commons/js/2308/colombia_v2.js"
+              strategy="lazyOnload"
+            />
+          )}
           {/* <Script
             id="tag-manager"
             strategy="lazyOnload"
