@@ -27,6 +27,7 @@ const StockRecosListing = (props: any) => {
     activeApi,
     navListData,
     slug,
+    overViewFilterRes,
   } = props;
   const { state, dispatch } = useStateContext();
   const { isLogin, ssoid } = state.login;
@@ -72,9 +73,16 @@ const StockRecosListing = (props: any) => {
     [pathName, searchParams, router],
   );
 
-  const urlFilterHandle = useCallback(() => {
-    return niftyFilterData?.indexId ? `?filter=${niftyFilterData.indexId}` : "";
-  }, [niftyFilterData]);
+  const urlFilterHandle = useCallback(
+    (filterIndex: any) => {
+      return filterIndex
+        ? `?filter=${filterIndex}`
+        : niftyFilterData?.indexId
+          ? `?filter=${niftyFilterData.indexId}`
+          : "";
+    },
+    [niftyFilterData],
+  );
 
   const fetchDataOnLazyLoad = useCallback(
     async (currentPage: any) => {
@@ -289,8 +297,10 @@ const StockRecosListing = (props: any) => {
             data={recosDetailJSON}
             urlFilterHandle={urlFilterHandle}
             activeApi={activeApi}
+            overViewFilterRes={overViewFilterRes}
           />
-        ) : typeof recosDetailJSON != "undefined" ? (
+        ) : typeof recosDetailJSON != "undefined" &&
+          recosDetailJSON.length > 0 ? (
           <div
             className={`${styles.contentViewWrap} ${activeApi == "newRecos" || activeApi == "FHDetail" || activeApi == "recoByFH" ? styles.gridViewWrap : ""}`}
           >

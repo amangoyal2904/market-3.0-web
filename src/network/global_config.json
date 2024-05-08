@@ -24,13 +24,17 @@
   "gtmId": "GTM-566NCXC",
   "ET_IMG_DOMAIN": "https://img.etimg.com/",
   "STOCK_RECOS": {
-    "home": "/stocksrecos",
-    "fundhousedetails": "/stocksrecos/fundhousedetails",
-    "recos-on-your-watchlist": "/stocksrecos/recos-on-your-watchlist",
-    "highdownside": "/stocksrecos/highdownside",
-    "highupside": "/stocksrecos/highupside",
-    "newrecos": "/stocksrecos/newrecos/all",
-    "overview": "/stocksrecos/overview"
+    "home": "/markets/stock-recos",
+    "fundhousedetails": "/markets/stock-recos/brokerages",
+    "recos-on-your-watchlist": "/markets/stock-recos/recos-on-your-watchlist",
+    "highdownside": "/markets/stock-recos/highdownside",
+    "highupside": "/markets/stock-recos/highupside",
+    "newrecos": "/markets/stock-recos/newrecos/all",
+    "overview": "/markets/stock-recos/overview"
+  },
+  "NAV_CONFIG": {
+    "Auto_Collapsed": true,
+    "Collapsed_Time": 30
   },
   "PAGES_REFRESH": {
     "marketstats": "40",
