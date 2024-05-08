@@ -25,7 +25,7 @@ const BigBullMostHeldClientPage = ({
     tableHead,
     pagination,
   });
-  const __title = `Held By Investors ${lastUpdatedQtr}`;
+  const __title = `Held By Investors <span>(${lastUpdatedQtr})</span>`;
   const pageType = "mostHeld";
   const [aciveFilter, setActiveFilter] = useState("INDIVIDUAL");
   const [_payload, setPayload]: any = useState({

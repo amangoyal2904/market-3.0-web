@@ -1,0 +1,206 @@
+@import "@/styles/variables.scss";
+.nonPrimeSec {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 9999;
+}
+.overlay {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.2);
+}
+.nonPrimeWrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(253, 230, 226, 1);
+  z-index: 3;
+  border-top: solid 4px rgba(222, 186, 174, 1);
+}
+.header {
+  position: relative;
+  .closeIcon {
+    position: absolute;
+    right: 0;
+    top: -18px;
+    background: url("/img/modalClose.svg") no-repeat 0 0;
+    display: inline-block;
+    vertical-align: top;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+  }
+}
+.contentSec {
+  padding: 40px 60px 30px 60px;
+  display: flex;
+  column-gap: 70px;
+  .left {
+    text-align: center;
+    width: 400px;
+    img {
+      width: 100%;
+      height: auto;
+      vertical-align: top;
+    }
+  }
+  .right {
+    margin: 0;
+    width: calc(100% - 500px);
+  }
+}
+.topSec {
+  .head {
+    position: relative;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 40px;
+    color: $black;
+    padding: 26px 0 0 38px;
+    &::after {
+      content: "";
+      position: absolute;
+      display: inline-block;
+      vertical-align: top;
+      width: 71px;
+      height: 55px;
+      background: url("/img/bigbulllogo.svg") no-repeat 0 0;
+      left: 0;
+      top: 0;
+      background-size: cover;
+    }
+    .etprimeLogo {
+      position: absolute;
+      left: 67px;
+      top: 3px;
+      font-size: 12px;
+      font-weight: 600;
+      color: $red-50;
+    }
+    .bigLogo {
+      color: $green-40;
+    }
+  }
+}
+.subHead {
+  font-size: 30px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+.middle {
+  margin-top: 20px;
+  .joinTxt {
+    font-size: 18px;
+    font-weight: 400;
+    span {
+      color: rgba(235, 34, 39, 1);
+    }
+  }
+  .btnSec {
+    margin-top: 10px;
+    .subBtn {
+      display: inline-block;
+      vertical-align: top;
+      cursor: pointer;
+      background: rgba(235, 34, 39, 1);
+      border-radius: 5px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #ffffff;
+      padding: 14px 30px;
+      text-transform: uppercase;
+    }
+  }
+  .loginSec {
+    font-size: 11px;
+    font-weight: 400;
+    margin-top: 6px;
+    text-transform: uppercase;
+    .signTxt {
+      color: rgba(237, 25, 59, 1);
+      cursor: pointer;
+    }
+  }
+}
+.bottom {
+  margin-top: 40px;
+  display: flex;
+}
+.btnList {
+  list-style-type: none;
+  display: flex;
+  column-gap: 10px;
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70px;
+    text-align: center;
+    font-size: 9px;
+    font-weight: 500;
+    .listIcon {
+      width: 40px;
+      height: 40px;
+    }
+    .stockRplus {
+      background: url("/img/srplusicon.png") no-repeat 0 0;
+      background-size: 100%;
+    }
+    .marketMood {
+      background: url("/img/marketMood.png") no-repeat 0 0;
+      background-size: 100%;
+    }
+    .stockAnalyzer {
+      background: url("/img/stockAnalyzer.png") no-repeat 0 0;
+      background-size: 100%;
+    }
+    .inverstmentIdeas {
+      background: url("/img/inverstmentIdeas.png") no-repeat 0 0;
+      background-size: 100%;
+    }
+    .epaper {
+      background: url("/img/epaper.png") no-repeat 0 0;
+      background-size: 100%;
+    }
+    .etprimeExclusives {
+      background: url("/img/etprimeExclusives.png") no-repeat 0 0;
+      background-size: 100%;
+    }
+  }
+}
+.etPrimeBenef {
+  position: relative;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+  padding-top: 12px;
+  padding-right: 30px;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 60px;
+    height: 10px;
+    background: url("/img/etprimelogo.png") no-repeat 0 0;
+    background-size: 100%;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: -18px;
+    width: 14px;
+    height: 70px;
+    background: url("/img/etprimelogoline.png") no-repeat top center;
+    background-size: 100%;
+  }
+}

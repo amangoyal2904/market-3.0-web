@@ -7,7 +7,7 @@ interface Props {
 }
 
 const StockReportsType5: React.FC<Props> = ({ datalist }) => {
-  const isPrime = true;
+  //const isPrime = true;
   const companyUrl = `/${datalist.seoName}/stockreports/companyid-${datalist.companyID}.cms`;
   const reportUrl = `/${datalist.seoName}/stockreports/reportid-${datalist.companyID}.cms`;
   const inputString = datalist.data[0].value;
