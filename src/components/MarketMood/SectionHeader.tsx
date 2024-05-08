@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./MarketMood.module.scss";
 import {
   countPercentageOptions,
@@ -27,6 +27,21 @@ const MarketMoodHeader = React.memo(
     const togglePeriodicPopup = (value: boolean) => {
       setShowPeriodicPopup(value);
     };
+
+    const handleEscapeKey = (event: any) => {
+      if (event.key === "Escape") {
+        setShowPeriodicPopup(false);
+      }
+    };
+
+    useEffect(() => {
+      if (showPeriodicPopup) {
+        document.addEventListener("keydown", handleEscapeKey);
+      }
+      return () => {
+        document.removeEventListener("keydown", handleEscapeKey);
+      };
+    }, [showPeriodicPopup]);
 
     return (
       <>
