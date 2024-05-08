@@ -16,31 +16,59 @@ import FIIDIIWIdget from "../FIIDIIWIdget";
 const IndicesWidget = () => {
   const responsive = [
     {
-      breakpoint: 2560,
+      breakpoint: 2561,
       settings: {
         slidesToShow: 6,
-        slidesToScroll: 6,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1921,
       settings: {
-        slidesToShow: 5,
-        slidesToScroll: 5,
+        slidesToShow: 6,
+        slidesToScroll: 1,
       },
     },
     {
-      breakpoint: 1601,
+      breakpoint: 1819,
       settings: {
         slidesToShow: 5,
-        slidesToScroll: 5,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 1620,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 1511,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 1440,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 1366,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1024,
       settings: {
-        slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToShow: 3,
+        slidesToScroll: 1,
       },
     },
   ];
@@ -55,6 +83,7 @@ const IndicesWidget = () => {
   const [selectedIndex, setSelectedIndex] = useState<any>({});
   const [fiiCash, setFiiCash] = useState<any>({});
   const [diiCash, setDiiCash] = useState<any>({});
+  const [screenWidth, setScreenWidth] = useState<any>("");
 
   const handleIntervalClick = (item: any) => {
     setPeriod(item?.value);
@@ -120,10 +149,12 @@ const IndicesWidget = () => {
         getIndicesWidgetData();
       }
     }, refreshConfig?.indicesDetail);
+    const resWidth = window.screen.width;
+    setScreenWidth(resWidth);
 
     return () => clearInterval(intervalId);
   }, [currentMarketStatus]);
-  console.log("@@@@->inde", indicesData);
+
   return (
     <div className={styles.widgetContainer}>
       <div className={styles.IndicesContainer}>
@@ -140,7 +171,7 @@ const IndicesWidget = () => {
           </div>
         </div>
         <div className={styles.dataWrapper}>
-          {indicesData.length ? (
+          {indicesData.length && screenWidth <= 1820 ? (
             <SlickSlider
               slides={indicesData?.map((slides: any, index: any) => ({
                 content: (
@@ -157,14 +188,26 @@ const IndicesWidget = () => {
               key={`indicesSlider}`}
               sliderId={`slider-indices`}
               slidesToShow={5}
-              slidesToScroll={5}
+              slidesToScroll={1}
               rows={1}
               responsive={responsive}
               noPadding={true}
               topSpaceClass="indices"
             />
           ) : (
-            ""
+            <div className={styles.customTabs}>
+              {indicesData.map((slides, index) => (
+                <StockCards
+                  key={`indicesTab${index}`}
+                  item={slides}
+                  index={index}
+                  selectedIndex={selectedIndex}
+                  onSelectIndex={onSelectIndex}
+                  changePeriod={changePeriod}
+                  percentChange={percentChange}
+                />
+              ))}
+            </div>
           )}
           <div id="chart">
             <div className={styles.chartOpts}>
