@@ -5,13 +5,30 @@ import styles from "./styles.module.scss";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 
 const LeftNav = (props: any) => {
   const { leftNavResult = {} } = props;
   const { markets = {}, markets_pro = {} } = leftNavResult;
   const [isExpanded, setIsExpanded] = useState(true);
   const [isL2Expanded, setIsL2Expanded] = useState(false);
+  const [isAutoCollapsed, setAutoCollapsed] = useState(
+    (GLOBAL_CONFIG as any)["NAV_CONFIG"]["Auto_Collapsed"],
+  );
   const pathname = usePathname();
+  const timerVal = Number(
+    (GLOBAL_CONFIG as any)["NAV_CONFIG"]["Collapsed_Time"],
+  );
+  const [timeoutRef, setTimeoutRef] = useState<any>(null);
+
+  const toggleMenu = () => {
+    if (isAutoCollapsed) {
+      clearTimeout(timeoutRef);
+      setAutoCollapsed(false);
+    }
+    setIsExpanded(!isExpanded);
+    setIsL2Expanded(!isL2Expanded);
+  };
 
   useEffect(() => {
     console.log("isExpanded-----", isExpanded);
@@ -30,10 +47,20 @@ const LeftNav = (props: any) => {
     }
   }, [isExpanded]);
 
-  const toggleMenu = () => {
-    setIsExpanded(!isExpanded);
-    setIsL2Expanded(!isL2Expanded);
-  };
+  useEffect(() => {
+    console.log("isAutoCollapsed --- ", isAutoCollapsed);
+    let timerRef = null;
+    if (isAutoCollapsed) {
+      timerRef = setTimeout(function () {
+        console.log("isAutoCollapsed --3- ", isAutoCollapsed);
+        toggleMenu();
+      }, timerVal * 1000);
+
+      setTimeoutRef(timerRef);
+    }
+
+    //return () => clearTimeout(timerRef);
+  }, []);
 
   const toggleL2Menu = (e: any) => {
     try {

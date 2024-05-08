@@ -192,6 +192,10 @@
       .overViewCardWrap {
         &.noGridCardView {
           display: flex;
+          gap: 20px;
+          & > div {
+            min-width: 360px;
+          }
         }
       }
 
