@@ -136,6 +136,7 @@ const IndicesWidget = () => {
             <MarketStatus
               currentMarketStatus={currentMarketStatus}
               dateTime={dateStringToMilliseconds(selectedIndex?.dateTime)}
+              withSeparator={true}
             />
           </div>
         </div>
