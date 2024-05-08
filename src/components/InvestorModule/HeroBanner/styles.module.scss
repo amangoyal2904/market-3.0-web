@@ -54,7 +54,8 @@
     font-size: 14px;
     font-weight: 400;
     color: #777;
-    min-height: 100px;
+    min-height: 140px;
+    margin-top: 10px;
   }
   .complist {
     list-style-type: none;
@@ -137,12 +138,12 @@
 }
 
 .botomGraphSec {
-  margin-top: 20px;
   display: flex;
   justify-content: space-between;
   .listItemStock {
     list-style-type: none;
     text-align: left;
+    margin-top: 22px;
     li {
       font-size: 10px;
       font-weight: 600;
@@ -174,8 +175,8 @@
     }
     li + li {
       border-top: dotted 1px $gray-80;
-      padding-top: 6px;
-      margin-top: 6px;
+      padding-top: 10px;
+      margin-top: 10px;
     }
   }
   .color {
@@ -192,7 +193,7 @@
   }
   .colPr {
     float: right;
-    padding-left: 5px;
+    padding-left: 15px;
   }
   .graphDo {
     margin: 0;

@@ -35,7 +35,9 @@ const InvestorTopOverviewHolding = ({
   return (
     <>
       <div className="prel">
-        <table className={styles.bibBullCustomTable}>
+        <table
+          className={`${styles.bibBullCustomTable} ${styles.topHoldingTableIn}`}
+        >
           <thead>
             <tr>
               {tableHead &&
