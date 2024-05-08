@@ -108,7 +108,10 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     }
   }, []);
   return (
-    <div className={`stockSlider ${styles.sliderMain}`} id={`${sliderId}`}>
+    <div
+      className={`stockSlider ${styles.sliderMain} ${topSpaceClass === "indices" ? styles.addMargin : ""}`}
+      id={`${sliderId}`}
+    >
       <div className={styles["slick-slider"]}>
         <Slider ref={sliderRef} {...settings}>
           {slides.length &&
