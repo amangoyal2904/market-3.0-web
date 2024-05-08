@@ -65,7 +65,7 @@ const IndicesWidget = () => {
       },
     },
     {
-      breakpoint: 1024,
+      breakpoint: 1180,
       settings: {
         slidesToShow: 3,
         slidesToScroll: 1,
@@ -193,6 +193,7 @@ const IndicesWidget = () => {
               responsive={responsive}
               noPadding={true}
               topSpaceClass="indices"
+              screenWidth={screenWidth}
             />
           ) : (
             <div className={styles.customTabs}>
