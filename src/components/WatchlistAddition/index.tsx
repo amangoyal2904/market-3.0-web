@@ -208,9 +208,9 @@ const WatchlistAddition = ({
               <div className={styles.loader}></div>
             </div>
           ) : watchlistCheck ? (
-            <span className="eticon_tick icon_24"></span>
+            <span className="eticon_tick icon_22 bold"></span>
           ) : (
-            <span className="eticon_add"></span>
+            <span className="eticon_add bold"></span>
           )}
         </span>
       )}

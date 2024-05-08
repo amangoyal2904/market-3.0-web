@@ -39,9 +39,12 @@
       }
       .primeInfo {
         font-size: 9px;
-        margin-left: 2px;
+        margin-left: 4px;
         p {
           line-height: 10px;
+        }
+        p.primeMember {
+          color: #ed193b;
         }
       }
       .signinDDArrow {
