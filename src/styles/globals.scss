@@ -217,8 +217,8 @@ a {
   display: none !important;
 }
 
-.icon_24 {
-  font-size: 24px;
+.icon_22 {
+  font-size: 22px;
 }
 
 .center {
@@ -490,4 +490,8 @@ table {
     font-size: 16px;
     border-radius: 50%;
   }
+}
+.eticon_add.bold,
+.eticon_tick.bold {
+  font-weight: 700;
 }
