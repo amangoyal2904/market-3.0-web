@@ -24,6 +24,7 @@ import {
   getShortUrlMapping,
   getTechincalOperands,
 } from "@/utils/marketstats";
+import MarketStatus from "@/components/MarketStatus";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -401,23 +402,11 @@ const MarketStats = ({
         <h1 className={`${styles.heading} ${styles.withRBorder}`}>
           {_metaData.title}
         </h1>
-        <div className="dflex align-item-center">
-          {!!currentMarketStatus && (
-            <>
-              {currentMarketStatus.toUpperCase() != "CLOSED" && (
-                <span className="liveBlinker"></span>
-              )}
-              <span className="marketStatus withSpace">
-                {currentMarketStatus}
-              </span>
-            </>
-          )}
-          {
-            <span className="updatetime">
-              {dateFormat(updateDateTime, "As on %d %MMM, %Y %H:%m IST")}
-            </span>
-          }
-        </div>
+        <MarketStatus
+          currentMarketStatus={currentMarketStatus}
+          dateTime={updateDateTime}
+          withSpace={true}
+        />
       </div>
       <p className={styles.desc}>{_metaData.desc}</p>
       <div className={styles.marketstatsContainer}>
