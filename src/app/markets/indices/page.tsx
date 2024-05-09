@@ -77,7 +77,6 @@ const Indices = async () => {
         pagePath={pageUrl}
         pageName={[{ label: "Indices", redirectUrl: "" }]}
       />
-      <br />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />
       <PageRefresh refreshTime={180000} />
     </>

@@ -18,6 +18,7 @@ const BigBullMostHeldClientPage = ({
   tableHead,
   pagination,
   lastUpdatedQtr,
+  payload,
 }: any) => {
   console.log({
     selectedFilter,
@@ -28,18 +29,7 @@ const BigBullMostHeldClientPage = ({
   const __title = `Held By Investors <span>(${lastUpdatedQtr})</span>`;
   const pageType = "mostHeld";
   const [aciveFilter, setActiveFilter] = useState("INDIVIDUAL");
-  const [_payload, setPayload]: any = useState({
-    ssoId: "",
-    primeFlag: 1,
-    investorType: "INDIVIDUAL",
-    position: "All",
-    filterType: "index",
-    filterValue: [],
-    sortBy: "noOfBulls",
-    orderBy: "DESC",
-    pageNo: 1,
-    pageSize: 10,
-  });
+  const [_payload, setPayload]: any = useState(payload);
   const fitlerHandler = (value: any) => {
     setActiveFilter(value);
     setPayload({ ..._payload, investorType: value, pageNo: 1 });

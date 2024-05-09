@@ -73,10 +73,10 @@ const Header = () => {
 
     const getMarketStatus = async () => {
       const result = await getCurrentMarketStatus();
-      if (isMounted) {
+      if (isMounted && !!result) {
         setMktStatus({
           currentMarketStatus: result?.currentMarketStatus,
-          marketStatus: result.marketStatus,
+          marketStatus: result?.marketStatus,
         });
         if (result.marketStatus === "ON") {
           const timeoutId = setTimeout(

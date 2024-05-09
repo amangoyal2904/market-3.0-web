@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./BreadCrumb.module.scss";
-import { usePathname } from "next/navigation";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 
 interface Props {
@@ -14,6 +13,7 @@ const getLiPath = (router: string, pagePath: string) => {
       showNextLi: false,
       currentLiNode: (
         <li>
+          <span className="eticon_caret_right"></span>Stock Recommendations
           <span className="eticon_caret_right"></span>Stock Recommendations
         </li>
       ),
@@ -341,7 +341,7 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           pageName?.map((item: any, index: any) => {
             return (
               <>
-                <li key={index}>
+                <li key={item.label + index}>
                   <span className="eticon_caret_right"></span>
                   {item.redirectUrl ? (
                     <a href={item.redirectUrl}>{item.label}</a>

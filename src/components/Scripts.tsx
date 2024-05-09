@@ -1,11 +1,10 @@
 "use client";
-import { log } from "console";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import Script from "next/script";
 import { FC, useEffect, useState } from "react";
-import { APP_ENV, verifyLogin } from "../utils";
+import { APP_ENV, getCookie, verifyLogin } from "../utils";
 import GLOBAL_CONFIG from "../network/global_config.json";
-import { trackingEvent } from "@/utils/ga";
+import { getUserType, trackingEvent } from "@/utils/ga";
 import APIS_CONFIG from "@/network/api_config.json";
 import { useStateContext } from "@/store/StateContext";
 import renderDfpAds from "@/components/Ad/AdScript";
@@ -17,13 +16,14 @@ interface Props {
 
 declare global {
   interface Window {
-    googletag:any;
+    googletag: any;
     ispopup: any;
     jsso?: {
       getValidLoggedInUser?: any;
       getUserDetails?: any;
       signOutUser?: any;
     };
+    isSurveyLoad: any;
     dataLayer: [];
     ssoWidget?: any;
     verifyLoginSuccess?: any;
@@ -32,14 +32,14 @@ declare global {
       ticketId?: any;
       info?: {
         thumbImageUrl: any;
+        primaryEmail: string;
       };
       isPrime?: any;
       permissions?: any;
       accessibleFeatures?: any;
       primeInfo?: any;
     };
-   
-
+    _sva: any;
   }
 }
 
@@ -53,15 +53,54 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   const minifyJS = APP_ENV === "development" ? 0 : 1;
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
-  const jsDomain = "https://etdev8243.indiatimes.com"; //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
+  const jsDomain = "https://etdev8243.indiatimes.com";
+  //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
 
   useEffect(() => {
     prevPath !== null &&
       trackingEvent("page_view", { url: window.location.href });
     setPrevPath(router);
     renderDfpAds(isPrime);
+    if (window.isSurveyLoad) {
+      surveyLoad();
+    } else {
+      document.addEventListener(
+        "surveyLoad",
+        () => {
+          window.isSurveyLoad = true;
+          surveyLoad();
+        },
+        { once: true },
+      );
+    }
   }, [router, isPrime]);
 
+  const surveyLoad = () => {
+    if (window._sva && window._sva.setVisitorTraits) {
+      const subscribeStatus =
+        typeof window.objUser != "undefined" && window?.objUser?.permissions
+          ? getUserType(window.objUser.permissions)
+          : "";
+      var jString = localStorage.getItem("jStorage"),
+        objJstorage = (jString && JSON.parse(jString)) || {};
+      var cnt = Object.keys(objJstorage).filter(function (key) {
+        return key.indexOf("et_article_") != -1;
+      }).length;
+      var loyalCount = 15;
+      window._sva.setVisitorTraits({
+        user_subscription_status: subscribeStatus,
+        user_login_status:
+          typeof window.objUser != "undefined" ? "logged-in" : "logged-out",
+        prime_funnel_last_step: "",
+        country_code: (window.geoinfo && window.geoinfo.CountryCode) || "",
+        email_id: window?.objUser?.info?.primaryEmail
+          ? window?.objUser?.info?.primaryEmail
+          : "",
+        grx_id: getCookie("_grx"),
+        Loyal: cnt >= loyalCount ? "Yes" : "No",
+      });
+    }
+  };
   // useEffect(() => {
   //   if (typeof window !== "undefined" ) {
   //     window.googletag ? renderDfpAds(window.arrDfpAds, isPrime) : document.addEventListener("gptLoaded", function(){renderDfpAds(window.arrDfpAds, isPrime)});
@@ -156,6 +195,14 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
         }}
       /> */}
       <Script
+        src="https://survey.survicate.com/workspaces/0be6ae9845d14a7c8ff08a7a00bd9b21/web_surveys.js"
+        strategy="lazyOnload"
+        onLoad={() => {
+          const surveyLoad = new Event("surveyLoad");
+          document.dispatchEvent(surveyLoad);
+        }}
+      />
+      <Script
         id="tag-manager-init"
         strategy="lazyOnload"
         dangerouslySetInnerHTML={{
@@ -213,9 +260,12 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               }}
             />
           )}
-           {!isprimeuser && (
-                <Script src="https://static.clmbtech.com/ad/commons/js/2308/colombia_v2.js" strategy="lazyOnload" />
-            )}
+          {!isprimeuser && (
+            <Script
+              src="https://static.clmbtech.com/ad/commons/js/2308/colombia_v2.js"
+              strategy="lazyOnload"
+            />
+          )}
           {/* <Script
             id="tag-manager"
             strategy="lazyOnload"
