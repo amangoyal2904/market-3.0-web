@@ -559,6 +559,50 @@
     }
   }
 }
+.investorBulkBlock {
+  tr {
+    th {
+      &:nth-of-type(3) {
+        width: 350px;
+        min-width: 350px;
+      }
+      &:nth-of-type(2) {
+        .thead {
+          text-align: center;
+          justify-content: center;
+        }
+      }
+    }
+    th + th + th {
+      .thead {
+        text-align: right;
+        justify-content: end;
+      }
+    }
+  }
+}
+.holdingInvestor {
+  tr {
+    th {
+      &:first-child {
+        min-width: 350px;
+        width: 350px;
+      }
+    }
+    th + th {
+      .thead {
+        text-align: right;
+        justify-content: end;
+      }
+    }
+    td {
+      &:first-child {
+        min-width: 350px;
+        width: 350px;
+      }
+    }
+  }
+}
 .mostHeldTable {
   tr {
     th + th + th {

@@ -239,6 +239,7 @@ const InvestorPage = async ({ params }: any) => {
     let pageSummaryInfo: any = {};
     let tableHead: any = [];
     let payload: any = {};
+    let rightTabTxt: any = "";
     const selectedFilter = await fetchSelectedFilter(0);
     if (slug === "fresh-entry-exit") {
       const bodyPayload = {
@@ -338,6 +339,8 @@ const InvestorPage = async ({ params }: any) => {
           orderBy: "marketCap",
         },
       ];
+      rightTabTxt =
+        pageData?.datainfo?.holdingsCompanyInfo?.investorIntro?.latestQuartor;
     } else if (slug === "change-in-holdings") {
       const bodyPayload = {
         ssoId: "",
@@ -361,6 +364,9 @@ const InvestorPage = async ({ params }: any) => {
       pageSummaryInfo =
         pageData?.datainfo?.stockIncreaseDecreaseDataInfo?.pageSummaryInfo ||
         {};
+      rightTabTxt =
+        pageData?.datainfo?.stockIncreaseDecreaseDataInfo?.investorIntro
+          ?.latestQuartor;
     } else if (slug === "bulk-block-deals") {
       const bodyPayload = {
         ssoId: "",
@@ -388,14 +394,14 @@ const InvestorPage = async ({ params }: any) => {
         {
           name: "Date",
           id: "0",
-          sort: true,
+          sort: false,
           primeFlag: false,
           orderBy: "dealDate",
         },
         {
           name: "Buy / Sell",
           id: "1",
-          sort: true,
+          sort: false,
           primeFlag: false,
           orderBy: "dealSignal",
         },
@@ -456,6 +462,7 @@ const InvestorPage = async ({ params }: any) => {
           selectedFilter={selectedFilter}
           payload={payload}
           pageUrl={pageUrl}
+          rightTabTxt={rightTabTxt}
         />
       </>
     );

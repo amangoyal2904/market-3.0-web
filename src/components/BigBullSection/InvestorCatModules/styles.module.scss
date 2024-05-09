@@ -20,6 +20,13 @@
   column-gap: 5px;
   .SOLD {
     color: $red-60;
+    font-weight: 600;
+    font-size: 10px;
+  }
+  .BOUGHT {
+    color: $green-60;
+    font-weight: 600;
+    font-size: 10px;
   }
   span + span {
     color: $gray-40;
@@ -52,11 +59,17 @@
     color: $yellow-80;
   }
   .cname {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 700;
     color: $black;
     margin-top: 5px;
     a {
+      display: inline-block;
+      vertical-align: top;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 250px;
       span {
         display: block;
         font-size: 10px;
