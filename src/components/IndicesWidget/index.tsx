@@ -263,7 +263,7 @@ const IndicesWidget = () => {
               text={`See ${selectedIndex?.indexName}`}
               link={`/markets/indices/${selectedIndex.seoName}`}
               alignRight={true}
-              padding="10px 0"
+              padding="0 0 10px 0"
             />
           ) : (
             ""
@@ -308,7 +308,7 @@ const IndicesWidget = () => {
                 {" "}
                 {dateFormat(
                   dateStringToMilliseconds(selectedIndex?.dateTime),
-                  "%MMM %d, %Y",
+                  "%d %MMM, %Y",
                 )}
               </p>
             </div>

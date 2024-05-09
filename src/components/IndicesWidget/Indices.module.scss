@@ -134,6 +134,7 @@
   background: #fffbfa;
   width: fit-content;
   min-width: 150px;
+  border-top: 1px solid #fff;
   cursor: pointer;
   .indexName {
     color: #000;
@@ -173,6 +174,7 @@
   //   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.12);
   border-bottom: none;
   position: relative;
+//   margin-top: -1px;
 }
 
 .chartOpts {
@@ -396,9 +398,9 @@
 }
 .tabActive::after {
   content: "";
-  border-bottom: 2px solid #fffbfa;
+  border-bottom: 3px solid #fffbfa;
   position: absolute;
-  bottom: -1px;
+  bottom: -2px;
   width: 100%;
   left: 0;
 }

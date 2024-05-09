@@ -1,4 +1,5 @@
 .container {
+  position: relative;
   .title {
     color: var(--Primary-Black, var(--Black, #000));
     font-size: 12px;
@@ -83,4 +84,27 @@
 }
 .textGreen {
   color: #147014;
+}
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+  bottom: -2px;
+  font-size: 9px;
+  background: #ccc;
+  padding: 3px 5px;
+  font-weight: 600;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  z-index: 1;
+}
+
+.bars:hover .tooltip {
+  visibility: visible;
+}
+.positive {
+  .tooltip {
+    bottom: 80%;
+  }
 }
