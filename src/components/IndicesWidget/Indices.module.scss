@@ -134,7 +134,7 @@
   background: #fffbfa;
   width: fit-content;
   min-width: 150px;
-  border-top: 1px solid #fff;
+  border-top: 1px solid transparent;
   cursor: pointer;
   .indexName {
     color: #000;
@@ -174,7 +174,7 @@
   //   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.12);
   border-bottom: none;
   position: relative;
-//   margin-top: -1px;
+  //   margin-top: -1px;
 }
 
 .chartOpts {

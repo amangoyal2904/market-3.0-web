@@ -89,8 +89,8 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
           className={`numberFonts ${type == "fiiEquity" ? (fiiCash?.netInvestment > 0 ? styles.textGreen : styles.textRed) : diiCash?.netInvestment > 0 ? styles.textGreen : styles.textRed}`}
         >
           {type == "fiiEquity"
-            ? Math.abs(fiiCash?.netInvestment)
-            : Math.abs(diiCash?.netInvestment)}
+            ? fiiCash?.netInvestment
+            : diiCash?.netInvestment}
           &nbsp;Cr
         </span>
         <span>
