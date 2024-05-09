@@ -13,7 +13,7 @@ import MarketStatus from "../MarketStatus";
 import ViewAllLink from "../ViewAllLink";
 import FIIDIIWIdget from "../FIIDIIWIdget";
 
-const IndicesWidget = () => {
+const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
   const responsive = [
     {
       breakpoint: 2561,
@@ -77,12 +77,10 @@ const IndicesWidget = () => {
   const [period, setPeriod] = useState("1d");
   const [changePeriod, setChangePeriod] = useState("netChange");
   const [percentChange, setPercentChange] = useState("percentChange");
-  const [indicesData, setIndicesData] = useState<any[]>([]);
-  const [topNewsData, setTopNewsData] = useState<any[]>([]);
-  const [fiiDiiCash, setFiiDiiCash] = useState<any[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState<any>({});
-  const [fiiCash, setFiiCash] = useState<any>({});
-  const [diiCash, setDiiCash] = useState<any>({});
+  const [indicesData, setIndicesData] = useState<any[]>(data?.indicesList);
+  const [selectedIndex, setSelectedIndex] = useState<any>(data?.indicesList[0]);
+  const [fiiCash, setFiiCash] = useState<any>(data?.fiiData);
+  const [diiCash, setDiiCash] = useState<any>(data?.diiData);
   const [screenWidth, setScreenWidth] = useState<any>("");
   const [iframeSrc, setIframeSrc] = useState(
     `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=NSE Index&exchange=NSE&period=${period}&height=220&transparentBg=1`,
@@ -96,11 +94,7 @@ const IndicesWidget = () => {
       `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&period=${item?.value}&height=220&transparentBg=1`,
     );
   };
-  useEffect(() => {
-    getIndicesWidgetData();
-    fetchTopNews();
-    fetchFiiDIIData();
-  }, []);
+
   const getIndicesWidgetData = async () => {
     const response = await Service.get({
       url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
@@ -119,38 +113,6 @@ const IndicesWidget = () => {
     setIframeSrc(
       `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedItem?.symbol}&exchange=${selectedItem?.exchange}&period=${period}&height=220&transparentBg=1`,
     );
-  };
-  const fetchTopNews = async () => {
-    try {
-      const response = await Service.get({
-        url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=81409979`,
-        params: {},
-      });
-      const data = await response?.json();
-      const topNewsData =
-        (data &&
-          data.searchResult &&
-          data.searchResult[0] &&
-          data.searchResult[0].data) ||
-        [];
-      setTopNewsData(topNewsData);
-    } catch (e) {
-      console.log("Error in fetching top news", e);
-    }
-  };
-  const fetchFiiDIIData = async () => {
-    try {
-      const response = await Service.get({
-        url: (APIS_CONFIG as any)?.FIIDIICash[APP_ENV],
-        params: {},
-      });
-      const data = await response?.json();
-      const fiidiiData =
-        (data && data.datainfo && data.datainfo.fiiDiiChart) || {};
-      setFiiDiiCash(fiidiiData);
-    } catch (e) {
-      console.log("Error in fetching investment Data", e);
-    }
   };
   useEffect(() => {
     const intervalId: any = setInterval(() => {
@@ -332,7 +294,7 @@ const IndicesWidget = () => {
       <div className={styles.newsContainer}>
         <p className={styles.title}>Top News</p>
         <ul>
-          {topNewsData?.map((list, index) =>
+          {topNewsData?.map((list: any, index: number) =>
             index < 6 ? (
               <li key={`topNews${index}`}>
                 <a href={list?.url} className={styles.topNewsList}>

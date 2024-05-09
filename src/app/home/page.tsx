@@ -23,6 +23,42 @@ const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
 const Home = async () => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
+
+  const getIndicesWidgetData = async () => {
+    const response = await service.get({
+      url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
+      params: {},
+    });
+    const data = await response?.json();
+    return data;
+  };
+
+  const fetchTopNews = async () => {
+    const response = await service.get({
+      url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=81409979`,
+      params: {},
+    });
+    const data = await response?.json();
+    const topNewsData =
+      (data &&
+        data.searchResult &&
+        data.searchResult[0] &&
+        data.searchResult[0].data) ||
+      [];
+    return topNewsData;
+  };
+
+  const fetchFiiDIIData = async () => {
+    const response = await service.get({
+      url: (APIS_CONFIG as any)?.FIIDIICash[APP_ENV],
+      params: {},
+    });
+    const data = await response?.json();
+    const fiidiiData =
+      (data && data.datainfo && data.datainfo.fiiDiiChart) || {};
+    return fiidiiData;
+  };
+
   const getRecosData = async (type: any) => {
     const getRecosDetailApi = `${(APIS_CONFIG as any)?.["GET_RECOS_DETAILS"][APP_ENV]}`;
     // console.log("@@type --- > " , type)
@@ -84,9 +120,17 @@ const Home = async () => {
   };
   const table = await getBuySellTechnicals(buySellTechnicalspayload);
 
+  const topNewsData = await fetchTopNews();
+  const indicesData = await getIndicesWidgetData();
+  const fiiDiiData = await fetchFiiDIIData();
+
   return (
     <>
-      <IndicesWidget />
+      <IndicesWidget
+        data={indicesData}
+        topNewsData={topNewsData}
+        fiiDiiCash={fiiDiiData}
+      />
       <MarketsDashboardWidget />
       <WatchlistWidget />
       <DfpAds adInfo={AdInfo.dfp.mid1} />
