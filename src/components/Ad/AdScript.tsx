@@ -50,10 +50,10 @@ declare global {
             divIds && divIds.push(divId);
             let ad_ref ='';
             if (!(adSlot.match(/^7176/)) && !(adSlot.match(/^\/7176/))) {
-            adSlot = "/7176/Economictimes/" + adSlot;
+            adSlot = "7176/ET_MWeb/" + adSlot;
             }
             adSize = adSize && (typeof adSize == "string" ? JSON.parse(adSize) : adSize);
-            adSize.push("fluid");
+            //adSize.push("fluid");
             if(adSlot!="" && adSize!="" && divId!="" ){
             if(typeof googleTag !="undefined" && googleTag.apiReady){
                 googleTag.cmd.push(function() {

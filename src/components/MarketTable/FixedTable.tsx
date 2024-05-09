@@ -9,6 +9,7 @@ import Image from "next/image";
 const FixedTable = React.memo((props: any) => {
   const {
     highlightLtp,
+    tableHeadersTooltipText,
     tableHeaderData,
     scrollLeftPos,
     headerSticky,
@@ -73,7 +74,11 @@ const FixedTable = React.memo((props: any) => {
             (thead: any, index: number) =>
               index < fixedCol && (
                 <th
-                  title={thead.keyText}
+                  title={
+                    !!tableHeadersTooltipText[thead.keyId]
+                      ? tableHeadersTooltipText[thead.keyId]
+                      : thead.keyText
+                  }
                   onClick={() => {
                     isSorting &&
                     thead.valueType != "date" &&

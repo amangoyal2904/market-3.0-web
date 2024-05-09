@@ -16,6 +16,7 @@ const BigBullAllInvertorsPageClientPage = ({
   tableData,
   tableHead,
   pagination,
+  payload,
 }: any) => {
   const __title = "Individual Investors ";
   const __spanTxt = "";
@@ -28,16 +29,7 @@ const BigBullAllInvertorsPageClientPage = ({
   const [sortData, setSortData] = useState({ field: null, order: "DESC" });
   const [_sortData, _setSortData] = useState({ field: null, order: "DESC" });
   const [tableLoadingShow, setTableLoadingShow] = useState(false);
-  const [_payload, setPayload] = useState({
-    ssoId: "",
-    investorType: "INDIVIDUAL",
-    sortBy: "networth",
-    orderBy: "DESC",
-    primeFlag: 1,
-    pageSize: 10,
-    pageNo: 1,
-    searchText: "",
-  });
+  const [_payload, setPayload] = useState(payload);
   const fitlerHandler = (value: any) => {
     setActiveFilter(value);
     setPayload({ ..._payload, investorType: value, pageNo: 1 });

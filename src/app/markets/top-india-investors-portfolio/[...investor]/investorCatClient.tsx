@@ -22,6 +22,7 @@ const InvestorClientCatePage = ({
   selectedFilter,
   payload,
   pageUrl,
+  rightTabTxt = "",
 }: any) => {
   const [tableLoadingShow, setTableLoadingShow] = useState(false);
   const [sortByTrade, setSortByTrade]: any = useState([
@@ -29,6 +30,7 @@ const InvestorClientCatePage = ({
     { label: "Sold Entries", value: "SOLD" },
     { label: "Bougth Entries", value: "BOUGHT" },
   ]);
+  const [_rightTabTextAPI, setRightTabTextAPI] = useState(rightTabTxt);
   const [sortByTradeActive, setSortByTradeActive] = useState({
     label: "Sold Entries",
     value: "SOLD",
@@ -88,6 +90,7 @@ const InvestorClientCatePage = ({
     title,
     arrayOfCompany,
     pageSummaryInfo,
+    rightTabTxt,
   });
 
   const filterApiCall = async () => {
@@ -227,7 +230,7 @@ const InvestorClientCatePage = ({
       <HeroBanner data={data} />
       <InvestorsTopTabs
         data={tabsData}
-        rightTabTxt="As on Quarter: Dec, 2023"
+        rightTabTxt={_rightTabTextAPI}
         activeTab=""
       />
       <div className={styles.mainContentWraper}>

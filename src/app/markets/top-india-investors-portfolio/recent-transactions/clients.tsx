@@ -17,6 +17,7 @@ const BigBullRecentTransactionsPageClientPage = ({
   tableData,
   tableHead,
   pagination,
+  payload,
 }: any) => {
   console.log({
     selectedFilter,
@@ -27,19 +28,7 @@ const BigBullRecentTransactionsPageClientPage = ({
   const __title = "Investors Recent Transactions";
   const pageType = "recentTransactions";
   const [aciveFilter, setActiveFilter] = useState("INDIVIDUAL");
-  const [_payload, setPayload]: any = useState({
-    ssoId: "",
-    primeFlag: 1,
-    investorType: "INDIVIDUAL",
-    position: "All",
-    filterType: "index",
-    filterValue: [],
-    sortBy: "companyName",
-    orderBy: "ASC",
-    timeSpan: "",
-    pageNo: 1,
-    pageSize: 10,
-  });
+  const [_payload, setPayload]: any = useState(payload);
   const fitlerHandler = (value: any) => {
     setActiveFilter(value);
     setPayload({ ..._payload, investorType: value, pageNo: 1 });

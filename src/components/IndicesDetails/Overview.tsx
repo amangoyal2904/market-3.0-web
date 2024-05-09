@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import styles from "./IndicesDetails.module.scss";
 import Link from "next/link";
 import { chartIntervals } from "@/utils/utility";
-import { dateFormat, formatNumber } from "@/utils/index";
+import { formatNumber } from "@/utils/index";
 import MarketStatus from "../MarketStatus";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils/index";
 
 const IndicesDetailsOverview = React.memo(
   ({
@@ -16,13 +18,17 @@ const IndicesDetailsOverview = React.memo(
   }: any) => {
     const [lastTradedPrice, setLastTradedPrice] = useState<number | null>(null);
     const [interval, setInterval] = useState("1d");
+    const [changePeriod, setChangePeriod] = useState("netChange");
+    const [percentChange, setPercentChange] = useState("percentChange");
     const [iframeSrc, setIframeSrc] = useState(
-      `https://etdev8243.indiatimes.com/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=1d&height=320&transparentBg=1`,
+      `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=1d&height=320&transparentBg=1`,
     );
-    const handleIntervalClick = (period: string) => {
-      setInterval(period);
+    const handleIntervalClick = (item: any) => {
+      setInterval(item?.value);
+      setChangePeriod(item?.change);
+      setPercentChange(item?.percentChange);
       setIframeSrc(
-        `https://etdev8243.indiatimes.com/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=${period}&height=320&transparentBg=1`,
+        `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=${item?.value}&height=320&transparentBg=1`,
       );
     };
     const calcualteScalePercentage = (
@@ -36,9 +42,9 @@ const IndicesDetailsOverview = React.memo(
       return percentage;
     };
     const trend =
-      overviewData?.percentChange > 0
+      overviewData[percentChange] > 0
         ? "up"
-        : overviewData?.percentChange < 0
+        : overviewData[percentChange] < 0
           ? "down"
           : "neutral";
 
@@ -99,8 +105,8 @@ const IndicesDetailsOverview = React.memo(
                 />
               )}
               <span>
-                {overviewData?.netChange?.toFixed(2)} (
-                {overviewData?.percentChange?.toFixed(2)}%)
+                {Math.abs(overviewData[changePeriod])?.toFixed(2)} (
+                {overviewData[percentChange]?.toFixed(2)}%)
               </span>
             </div>
           </div>
@@ -123,7 +129,7 @@ const IndicesDetailsOverview = React.memo(
                   <li
                     key={index}
                     className={interval === item.value ? styles.active : ""}
-                    onClick={() => handleIntervalClick(item.value)}
+                    onClick={() => handleIntervalClick(item)}
                   >
                     {item.label}
                   </li>

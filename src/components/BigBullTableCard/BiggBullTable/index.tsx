@@ -18,6 +18,7 @@ const BiggBullTable = ({
   sortData,
   handleSort,
   shouldShowLoader,
+  parentHasScroll = false,
 }: any) => {
   const { state } = useStateContext();
   const { isPrime } = state.login;
@@ -35,7 +36,9 @@ const BiggBullTable = ({
   return (
     <>
       <div className="prel">
-        <table className={styles.bibBullCustomTable}>
+        <table
+          className={`${styles.bibBullCustomTable} ${styles.allInvestors}`}
+        >
           <thead>
             <tr>
               {tableHead &&
@@ -79,6 +82,9 @@ const BiggBullTable = ({
                     </th>
                   );
                 })}
+              <th
+                className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+              ></th>
             </tr>
           </thead>
           <tbody>
@@ -183,7 +189,10 @@ const BiggBullTable = ({
                           ></span>
                         </div>
                         <div className={styles.rightSec}>
-                          {isPrime && (
+                          {isPrime &&
+                          bestPicks[0].uiValue?.text &&
+                          bestPicks[0].uiLabel?.companyId &&
+                          bestPicks[0].uiLabel?.companyType ? (
                             <WatchlistAddition
                               companyName={bestPicks[0].uiValue?.text}
                               companyId={bestPicks[0].uiLabel?.companyId}
@@ -193,6 +202,8 @@ const BiggBullTable = ({
                                 height: "18px",
                               }}
                             />
+                          ) : (
+                            ""
                           )}
                         </div>
                       </div>
@@ -241,7 +252,10 @@ const BiggBullTable = ({
                           ></span>
                         </div>
                         <div className={styles.rightSec}>
-                          {isPrime && (
+                          {isPrime &&
+                          bestPicksToNext[0].uiValue?.text &&
+                          bestPicksToNext[0].uiLabel?.companyId &&
+                          bestPicksToNext[0].uiLabel?.companyType ? (
                             <WatchlistAddition
                               companyName={bestPicksToNext[0].uiValue?.text}
                               companyId={bestPicksToNext[0].uiLabel?.companyId}
@@ -253,10 +267,15 @@ const BiggBullTable = ({
                                 height: "18px",
                               }}
                             />
+                          ) : (
+                            ""
                           )}
                         </div>
                       </div>
                     </td>
+                    <td
+                      className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+                    ></td>
                   </tr>
                 );
               })
