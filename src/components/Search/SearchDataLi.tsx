@@ -27,7 +27,12 @@ const SearchDataLi: React.FC<Props> = ({ item, entity, count, query }) => {
           index < count - 1 && (
             <li key={index} className={styles.searchliComp}>
               <a
-                href={getStockUrl(item.tagId, item.tagSeoName, item.entityType)}
+                href={getStockUrl(
+                  item.tagId,
+                  item.tagSeoName,
+                  item.entityType,
+                  item.subType,
+                )}
                 target="_blank"
               >
                 <div className={styles.st_row}>
