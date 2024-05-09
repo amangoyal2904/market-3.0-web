@@ -40,9 +40,11 @@
   }
 }
 .contentSec {
-  padding: 40px 60px 30px 60px;
+  padding: 40px 0 30px 0;
   display: flex;
-  column-gap: 70px;
+  justify-content: space-between;
+  max-width: 1150px;
+  margin: 0 auto;
   .left {
     text-align: center;
     width: 400px;
@@ -54,7 +56,7 @@
   }
   .right {
     margin: 0;
-    width: calc(100% - 500px);
+    width: calc(100% - 475px);
   }
 }
 .topSec {
@@ -131,13 +133,13 @@
   }
 }
 .bottom {
-  margin-top: 40px;
   display: flex;
 }
 .btnList {
   list-style-type: none;
   display: flex;
   column-gap: 10px;
+  margin: 24px 0 0 10px;
   .wrap {
     display: flex;
     flex-direction: column;
@@ -183,6 +185,7 @@
   font-weight: 600;
   padding-top: 12px;
   padding-right: 30px;
+  margin-top: 40px;
   &::after {
     content: "";
     position: absolute;
