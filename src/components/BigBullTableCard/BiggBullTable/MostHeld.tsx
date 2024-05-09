@@ -18,6 +18,7 @@ const BiggBullMostHeldTable = ({
   sortData,
   handleSort,
   shouldShowLoader,
+  parentHasScroll = false,
 }: any) => {
   //console.log("tableData", tableData);
   const { state } = useStateContext();
@@ -91,6 +92,9 @@ const BiggBullMostHeldTable = ({
                     </th>
                   );
                 })}
+              <th
+                className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+              ></th>
             </tr>
           </thead>
           <tbody>

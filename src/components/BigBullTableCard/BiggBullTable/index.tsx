@@ -18,6 +18,7 @@ const BiggBullTable = ({
   sortData,
   handleSort,
   shouldShowLoader,
+  parentHasScroll = false,
 }: any) => {
   const { state } = useStateContext();
   const { isPrime } = state.login;
@@ -81,6 +82,9 @@ const BiggBullTable = ({
                     </th>
                   );
                 })}
+              <th
+                className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+              ></th>
             </tr>
           </thead>
           <tbody>
@@ -259,6 +263,9 @@ const BiggBullTable = ({
                         </div>
                       </div>
                     </td>
+                    <td
+                      className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+                    ></td>
                   </tr>
                 );
               })

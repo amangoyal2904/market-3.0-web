@@ -18,6 +18,7 @@ const BiggBullBestPicksTable = ({
   sortData,
   handleSort,
   shouldShowLoader,
+  parentHasScroll = false,
 }: any) => {
   //console.log("tableData", tableData);
   const { state } = useStateContext();
@@ -80,6 +81,9 @@ const BiggBullBestPicksTable = ({
                     </th>
                   );
                 })}
+              <th
+                className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+              ></th>
             </tr>
           </thead>
           <tbody>
@@ -200,32 +204,9 @@ const BiggBullBestPicksTable = ({
                           },
                         )
                       : ""}
-                    {/* <td>
-                    {currHolding.length > 0
-                      ? currHolding[0].uiValue?.text
-                      : null}
-                  </td>
-                  <td>
-                    {prevHolding.length > 0
-                      ? prevHolding[0].uiValue?.text
-                      : null}
-                  </td>
-                  <td>
-                    <span
-                      className={`${styles[updownClass]}`}
-                      dangerouslySetInnerHTML={{
-                        __html:
-                          indecrease.length > 0
-                            ? indecrease[0].uiValue?.text
-                            : null,
-                      }}
-                    />
-                  </td>
-                  <td>
-                    {amountInvSold.length > 0
-                      ? amountInvSold[0].uiValue?.text
-                      : null}
-                  </td> */}
+                    <td
+                      className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+                    ></td>
                   </tr>
                 );
               })
