@@ -106,6 +106,7 @@ const BigBullMostHeldPage = async () => {
         tableHead={bigBullData.tableHead}
         pagination={bigBullData.pagination}
         lastUpdatedQtr={bigBullData.lastUpdatedQtr}
+        payload={payload}
       />
       <BreadCrumb
         pagePath={pageUrl}

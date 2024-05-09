@@ -215,7 +215,7 @@ const InvestorPage = async ({ params }: any) => {
     const InvertorPorfolioOverviewPayload = {
       ssoId: "",
       primeFlag: 1,
-      sharkId: 25,
+      sharkId: invertorId,
       pageSize: 7,
     };
     const InvertorOverviewData = await commonPostAPIHandler(
