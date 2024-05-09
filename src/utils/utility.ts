@@ -276,7 +276,12 @@ export const fetchTableData = async (viewId: any, params?: any) => {
   return response?.json();
 };
 
-export const getStockUrl = (id: string, seoName: string, stockType: string) => {
+export const getStockUrl = (
+  id: string,
+  seoName: string,
+  stockType: string,
+  subType: string = "company",
+) => {
   if (stockType == "index") {
     return "/markets/indices/" + seoName;
   } else {
@@ -298,6 +303,11 @@ export const getStockUrl = (id: string, seoName: string, stockType: string) => {
       ".cms";
     if (stockType != "equity" && stockType !== "" && stockType !== "company")
       stockUrl = stockUrl + "?companytype=" + stockType?.toLowerCase();
+
+    if (subType == "NonList") {
+      stockUrl =
+        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] + "company/" + seoName + "/" + id;
+    }
     return stockUrl;
   }
 };

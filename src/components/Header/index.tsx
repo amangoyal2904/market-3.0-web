@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useStateContext } from "../../store/StateContext";
-import ETLogo from "../../../public/et_markets_logo.svg";
+import ETLogo from "../../../public/et-markets-logo.svg";
 import { goToPlansPage1 } from "@/utils/ga";
 import Login from "../Login";
 import Search from "../Search";
@@ -122,7 +122,7 @@ const Header = () => {
       <header id={styles.pageTopbar}>
         <div className={styles.navbarHeader} id="header">
           <div className={`dflex align-item-center ${styles.logoHeader}`}>
-            <Link href="/">
+            <Link href="/home">
               <Image
                 src={ETLogo}
                 width={138}
