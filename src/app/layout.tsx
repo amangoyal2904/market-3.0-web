@@ -29,12 +29,6 @@ const lato = Lato({
   display: "swap",
   variable: "--font-lato",
 });
-
-const eticons = localFont({
-  src: "../../public/fonts/eticons.ttf",
-  weight: "normal",
-});
-
 declare global {
   interface Window {
     objVc: any;
@@ -97,16 +91,12 @@ export default async function RootLayout({
         <PreloadResources />
         <StateProvider>
           <main>
-            {/* <Headers /> */}
             <Header />
             <div className="container">
               <Suspense fallback={<p>Loading...</p>}>
                 <LeftNav leftNavResult={leftNavResult} />
               </Suspense>
-              <div className="main_container">
-                {children}
-                {/* <BreadCrumb pageName="Page Name" /> */}
-              </div>
+              <div className="main_container">{children}</div>
               <div className="bcAdContainer"></div>
             </div>
             <div className="pageBottomContainer">

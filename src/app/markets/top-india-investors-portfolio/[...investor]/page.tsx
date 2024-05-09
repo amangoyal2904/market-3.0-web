@@ -462,7 +462,7 @@ const InvestorPage = async ({ params }: any) => {
   } else {
     return (
       <>
-        Page not found <br />
+        <h2>Page not found</h2>
         {JSON.stringify(invertorId)}- {JSON.stringify(pageType)}-
         {JSON.stringify(investorArray)}
       </>

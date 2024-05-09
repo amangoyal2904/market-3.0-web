@@ -219,7 +219,6 @@ const Technicals = async ({ params, searchParams }: any) => {
         shortUrlMapping={shortUrlMapping}
       />
       <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
-      <br />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />
       <PageRefresh refreshTime={180000} />
     </>
