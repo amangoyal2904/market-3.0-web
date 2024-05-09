@@ -92,7 +92,7 @@ const Subhead = (props: any) => {
           {recosNavResult?.tabs.map((item: any, index: any) => (
             <li
               key={`recos_main_${index}`}
-              className={`${styles.mainTab} ${item.seoPath == activeTab || (item.seoPath == "fundhousedetails" && activeApi == "recoByFH") ? styles.active : ""}`}
+              className={`${styles.mainTab} ${item.seoPath == activeTab || (item.seoPath == "fundhousedetails" && (activeApi == "recoByFH" || activeApi == "FHDetail")) ? styles.active : ""}`}
             >
               {item.label == "News" ? (
                 <Link
