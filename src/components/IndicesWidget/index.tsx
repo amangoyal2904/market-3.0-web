@@ -75,7 +75,7 @@ const IndicesWidget = () => {
   const { state } = useStateContext();
   const { currentMarketStatus } = state.marketStatus;
   const [period, setPeriod] = useState("1d");
-  const [changePeriod, setChangePeriod] = useState("change1Week");
+  const [changePeriod, setChangePeriod] = useState("netChange");
   const [percentChange, setPercentChange] = useState("percentChange");
   const [indicesData, setIndicesData] = useState<any[]>([]);
   const [topNewsData, setTopNewsData] = useState<any[]>([]);
