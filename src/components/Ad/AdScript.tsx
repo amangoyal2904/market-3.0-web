@@ -98,7 +98,7 @@ const renderDfpAds = (userType=true) => {
   try{
         if(!userType){
             let googleTag :any
-            let maxTry = 5;
+            let maxTry = 10;
             let counter = 1; 
             googleTag = window.googletag || {}
             console.log("userType", userType);
