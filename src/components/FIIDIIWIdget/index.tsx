@@ -41,9 +41,12 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
             key={`fiidii${index}`}
             className={`${styles.bars} ${bars?.[type] > 0 ? styles.positive : ""}`}
           >
-            <div className={`${styles.bar} ${styles.value}`}>
+            <div className={`numberFonts ${styles.bar} ${styles.value}`}>
               {dateFormat(bars.dateLong, "%d")}
             </div>
+            <p className={`numberFonts ${styles.tooltip}`}>
+              {Math.floor(Math.abs(bars?.[type]))}
+            </p>
             <div
               className={`${styles.bar} ${bars?.[type] < 0 ? styles.down : styles.up}`}
               style={{
@@ -57,7 +60,7 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
       </div>
       <p className={styles.label}>
         <span
-          className={`${type == "fiiEquity" ? (fiiCash?.netInvestment > 0 ? styles.textGreen : styles.textRed) : diiCash?.netInvestment > 0 ? styles.textGreen : styles.textRed}`}
+          className={`numberFonts ${type == "fiiEquity" ? (fiiCash?.netInvestment > 0 ? styles.textGreen : styles.textRed) : diiCash?.netInvestment > 0 ? styles.textGreen : styles.textRed}`}
         >
           {type == "fiiEquity"
             ? Math.abs(fiiCash?.netInvestment)
