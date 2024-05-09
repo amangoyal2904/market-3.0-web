@@ -410,7 +410,6 @@ export default async function stocksrecos({
       </div>
       <Disclaimer />
       <BreadCrumb pagePath={header_url} pageName={breadCrumbObj} />
-      <br />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />
     </>
   );
