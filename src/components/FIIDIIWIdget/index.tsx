@@ -42,7 +42,7 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
             className={`${styles.bars} ${bars?.[type] > 0 ? styles.positive : ""}`}
           >
             <div className={`${styles.bar} ${styles.value}`}>
-              {Math.floor(Math.abs(bars?.[type]))}
+              {dateFormat(bars.dateLong, "%d")}
             </div>
             <div
               className={`${styles.bar} ${bars?.[type] < 0 ? styles.down : styles.up}`}
@@ -56,28 +56,18 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
         <div className={styles.liner}></div>
       </div>
       <p className={styles.label}>
-        <span>
-          {dateFormat(
-            type == "fiiEquity" ? fiiCash?.date : diiCash?.date,
-            "%MMM %d",
-          )}
-          :{" "}
-        </span>
         <span
           className={`${type == "fiiEquity" ? (fiiCash?.netInvestment > 0 ? styles.textGreen : styles.textRed) : diiCash?.netInvestment > 0 ? styles.textGreen : styles.textRed}`}
         >
-          <b>
-            {type == "fiiEquity"
-              ? fiiCash?.netInvestment > 0
-                ? "Bought "
-                : "Sold "
-              : diiCash?.netInvestment > 0
-                ? "Bought "
-                : "Sold "}
-          </b>
           {type == "fiiEquity"
-            ? fiiCash?.netInvestment
-            : diiCash?.netInvestment}
+            ? Math.abs(fiiCash?.netInvestment)
+            : Math.abs(diiCash?.netInvestment)}
+        </span>
+        <span>
+          {dateFormat(
+            type == "fiiEquity" ? fiiCash?.date : diiCash?.date,
+            " on %d %MMM",
+          )}
         </span>
       </p>
     </div>
