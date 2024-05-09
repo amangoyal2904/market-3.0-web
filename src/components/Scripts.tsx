@@ -75,6 +75,20 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
     }
   }, [router, isPrime]);
 
+ let execution =0;
+  useEffect(() => {
+    document.addEventListener("visibilitychange", (event) => {
+      if (document.visibilityState == "visible" && execution == 0) {
+        renderDfpAds(isPrime);
+        execution =1;
+        
+      } else{
+        execution =0;
+      }
+     });
+  }, ['', isPrime]);
+
+
   const surveyLoad = () => {
     if (window._sva && window._sva.setVisitorTraits) {
       const subscribeStatus =
@@ -253,12 +267,11 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
           {!isprimeuser && (
             <Script
               src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
-              strategy="lazyOnload"
               onLoad={() => {
                 const gptLoaded = new Event("gptLoaded");
                 document.dispatchEvent(gptLoaded);
               }}
-            />
+            async/>
           )}
           {!isprimeuser && (
             <Script
