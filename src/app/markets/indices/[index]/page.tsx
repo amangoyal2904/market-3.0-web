@@ -20,6 +20,10 @@ import {
 } from "@/utils/customViewAndTables";
 import BreadCrumb from "@/components/BreadCrumb";
 import TextBottom from "@/components/TextBottom";
+import dynamic from "next/dynamic";
+const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
+  ssr: false,
+});
 
 async function fetchData(assetId: number) {
   return Promise.all([
@@ -119,6 +123,7 @@ const Indices = async ({ params }: any) => {
         pagePath={pageUrl}
         pageName={[{ label: overviewData?.assetName, redirectUrl: "" }]}
       />
+      <PageRefresh refreshTime={180000} />
     </>
   );
 };

@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import styles from "./Indices.module.scss";
 import { getAllIndices } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
-import { dateFormat } from "@/utils";
 import MarketStatus from "@/components/MarketStatus";
 
 const IndicesClient = ({

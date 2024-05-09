@@ -126,13 +126,14 @@
 
 .cards {
   display: flex;
-  padding: 12px 18px;
+  padding: 12px 20px;
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
   border-radius: 8px 8px 0px 0px;
-  border-bottom: 1px solid #ccc;
   background: #fffbfa;
+  width: fit-content;
+  min-width: 150px;
 
   .indexName {
     color: #000;
@@ -171,6 +172,7 @@
   background: #fffbfa;
   //   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.12);
   border-bottom: none;
+  position: relative;
 }
 
 .chartOpts {
@@ -368,23 +370,35 @@
     padding: 12px 16px;
   }
 }
+@media (max-width: 1210px) {
+  .cards {
+    width: auto;
+    border-bottom: none;
+    padding: 12px;
+    min-width: unset;
+  }
+  .liveStatus {
+    left: 25% !important;
+  }
+}
 .customTabs {
   display: flex;
   border-bottom: 1px solid #ccc;
   .cards {
-    min-width: 180px;
+    min-width: 130px;
+    width: fit-content;
     border-bottom: none;
+    padding: 12px 18px;
   }
   .tabActive {
     position: relative;
   }
-  .tabActive::after {
-    content: "";
-    content: "";
-    border-bottom: 2px solid #fffbfa;
-    position: absolute;
-    bottom: -1px;
-    width: 100%;
-    left: 0;
-  }
+}
+.tabActive::after {
+  content: "";
+  border-bottom: 2px solid #fffbfa;
+  position: absolute;
+  bottom: -1px;
+  width: 100%;
+  left: 0;
 }

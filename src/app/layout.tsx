@@ -1,8 +1,6 @@
 import { Montserrat, Lato } from "next/font/google";
 import localFont from "next/font/local";
-
 import "../styles/globals.scss";
-import Headers from "@/components/Head";
 import { Suspense } from "react";
 import Header from "@/components/Header";
 import Scripts from "@/components/Scripts";
@@ -15,10 +13,7 @@ import service from "@/network/service";
 import { StateProvider } from "@/store/StateContext";
 import NextTopLoader from "nextjs-toploader";
 import { Metadata } from "next";
-import Disclaimer from "@/components/StockRecosListing/Disclaimer";
-import NoInternetConnection from "@/components/NoInternetConnection";
 import Footer from "@/components/Footer";
-import BreadCrumb from "@/components/BreadCrumb";
 import { PreloadResources } from "@/components/preloadResources";
 import { Toaster } from "react-hot-toast";
 

@@ -285,6 +285,7 @@
     // margin-right: 16px;
     min-width: 340px;
     gap: unset;
+    margin-left: 0;
     .stocksBox {
       gap: unset;
 
@@ -304,6 +305,8 @@
 .stockRecosOverviewTab {
   &.stocksMain {
     gap: unset;
+    margin-top: 0;
+    margin-left: 0;
     .stocksBox {
       gap: unset;
 

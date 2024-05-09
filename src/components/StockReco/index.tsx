@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./StockReco.module.scss"; // Import your CSS styles
 import WatchlistAddition from "../WatchlistAddition";
 import Link from "next/link";
@@ -11,6 +10,7 @@ interface Props {
   activeTab: string;
   pageName: string;
   urlFilterHandle: any;
+  filterIndex: any;
 }
 const formatDate = (timestamp: number) => {
   const months = [
@@ -35,12 +35,13 @@ const formatDate = (timestamp: number) => {
 
   return `${month} ${day}, ${year}`;
 };
-const StockComponent: React.FC<Props> = ({
+const StockComponent = ({
   data,
   activeTab,
   pageName,
   urlFilterHandle,
-}) => {
+  filterIndex,
+}: any) => {
   const formattedDate = formatDate(data.priceAtRecosDate);
   let stockMainClass;
 
@@ -62,12 +63,12 @@ const StockComponent: React.FC<Props> = ({
     <>
       {activeTab == "recoByFH" ? (
         <div
-          className={`${pageName == "stockRecosPage" ? styles.stockRecosPage : ""} ${styles.stockRecoByFHClass} ${styles.stocksMain} ${styles.GreyStock}`}
+          className={`${pageName == "stockRecosPage" ? styles.stockRecosPage : ""} ${styles[pageName]} ${styles.stockRecoByFHClass} ${styles.stocksMain} ${styles.GreyStock}`}
         >
           <div className={styles.stocksBox}>
             <h2 title={data.organisation} className={styles.stocksTitle}>
               <Link
-                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" && urlFilterHandle()}`}
+                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
                 className="linkHover"
                 onClick={() => {
                   trackingEvent("et_push_event", {
@@ -245,7 +246,7 @@ const StockComponent: React.FC<Props> = ({
                 <span>Brokerage:</span>
                 <span>
                   <Link
-                    href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle() : ""}`}
+                    href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
                     className="linkHover"
                   >
                     {data.organisation}

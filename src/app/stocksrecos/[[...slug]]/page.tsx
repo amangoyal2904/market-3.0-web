@@ -278,9 +278,9 @@ export async function generateMetadata(
     const activeObj = recosNavResult?.tabs.filter(
       (item: any) => item.seoPath == slug?.[0],
     );
-    return slug.includes("fundhousedetails") && slug.length > 1
+    return slug.includes("brokerages") && slug.length > 1
       ? "FHDetail"
-      : slug.includes("fundhousedetails")
+      : slug.includes("brokerages")
         ? "recoByFH"
         : activeObj[0]?.apiType;
   };
@@ -328,9 +328,9 @@ export default async function stocksrecos({
     const activeObj = recosNavResult?.tabs.filter(
       (item: any) => item.seoPath == slug?.[0],
     );
-    return slug.includes("fundhousedetails") && slug.length > 1
+    return slug.includes("brokerages") && slug.length > 1
       ? "FHDetail"
-      : slug.includes("fundhousedetails")
+      : slug.includes("brokerages")
         ? "recoByFH"
         : activeObj[0]?.apiType;
   };
@@ -339,7 +339,7 @@ export default async function stocksrecos({
     const activeObj = recosNavResult?.tabs.filter(
       (item: any) => item.seoPath == slug?.[0],
     );
-    return slug.includes("fundhousedetails")
+    return slug.includes("brokerages")
       ? "Recos by Brokerages"
       : activeObj[0]?.label;
   };
@@ -359,6 +359,16 @@ export default async function stocksrecos({
           niftyFilterData: selectedFilter,
         })
       : recosDetailResult;
+
+  const overViewFilterRes =
+    getApiType() == "overview"
+      ? await getStockRecosDetail({
+          getApiType: "overviewFilter",
+          slug,
+          niftyFilterData: selectedFilter,
+          ssoid: ssoidCookie,
+        })
+      : "";
 
   if (getApiType() == "FHDetail") {
     const topSection = recosDetailResult?.recoData?.[0].topSection;
@@ -395,12 +405,13 @@ export default async function stocksrecos({
           navListData={navListData}
           activeApi={getApiType()}
           slug={slug}
+          overViewFilterRes={overViewFilterRes}
         />
       </div>
       <Disclaimer />
       <BreadCrumb pagePath={header_url} pageName={breadCrumbObj} />
-      <br/>
-      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
+      <br />
+      <DfpAds adInfo={AdInfo.dfp.btfAd} />
     </>
   );
 }

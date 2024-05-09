@@ -1,6 +1,5 @@
 "use client";
-import { log } from "console";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import Script from "next/script";
 import { FC, useEffect, useState } from "react";
 import { APP_ENV, getCookie, verifyLogin } from "../utils";
@@ -250,6 +249,10 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
                 document.dispatchEvent(grxLoaded);                
               `,
             }}
+          />
+          <Script
+            src="https://survey.survicate.com/workspaces/0be6ae9845d14a7c8ff08a7a00bd9b21/web_surveys.js"
+            strategy="lazyOnload"
           />
           {!isprimeuser && (
             <Script
