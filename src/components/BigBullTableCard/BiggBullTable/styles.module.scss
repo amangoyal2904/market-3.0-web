@@ -529,6 +529,28 @@
     }
   }
 }
+.allInvestors {
+  tr {
+    th + th {
+      .thead {
+        text-align: right;
+        justify-content: end;
+      }
+    }
+
+    td {
+      &:first-child {
+        max-width: 350px;
+        width: 350px;
+      }
+      &:nth-of-type(5),
+      &:nth-of-type(6) {
+        max-width: 300px;
+        width: 300px;
+      }
+    }
+  }
+}
 .mostHeldTable {
   tr {
     th + th + th {

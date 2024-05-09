@@ -100,6 +100,7 @@ const BigBullAllInvertorsPage = async () => {
         tableData={bigBullData.tableData}
         tableHead={bigBullData.tableHead}
         pagination={bigBullData.pagination}
+        payload={individualInvestorsBodyParams}
       />
       <BreadCrumb
         pagePath={pageUrl}
