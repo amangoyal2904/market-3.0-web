@@ -1,3 +1,4 @@
+import { formatNumber } from "@/utils";
 import styles from "./Indices.module.scss";
 interface Props {
   item: any;
@@ -24,7 +25,7 @@ const StockCards: React.FC<Props> = ({
     >
       <p className={styles.indexName}>{item.indexName}</p>
       <p className={`numberFonts ${styles.indexPrice}`}>
-        {item.lastTradedPrice}
+        {formatNumber(item.lastTradedPrice)}
       </p>
       <p
         className={`numberFonts ${item[changePeriod] > 0 ? styles.up : item[changePeriod] < 0 ? styles.down : ""} ${styles.indexChange}`}
