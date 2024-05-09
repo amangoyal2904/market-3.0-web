@@ -41,10 +41,26 @@ async function generateMetadata(
   const headersList = headers();
   const indexFilterData = await fetchSelectedIndex(params.index);
   const pageUrl = headersList.get("x-url") || "";
+  const overviewData = await getIndicesOverview(indexFilterData.assetId);
+  let pageTitle, pageDesc, pageKeywords;
+  if (indexFilterData.assetId == 2369) {
+    pageTitle = `Nifty 50 Live | NSE Nifty 50 Index Today - S&P CNX Nifty`;
+    pageDesc = `Nifty 50 Today | Nifty 50 Live Updates- Nifty 50 Index, S&P CNX Nifty. Find today's trend for Nifty 50 Companies, News, Target Price, Stock Price, Stock Analysis`;
+    pageKeywords = `Nifty 50,Nifty,Nifty Today,Nifty Live,Nifty 50 Today,Nifty 50 Live,Nifty 50 Index`;
+  } else if (indexFilterData.assetId == 2365) {
+    pageTitle = `Sensex Live updates: Sensex ${overviewData.netChange < 0 ? "down" : "up"} by ${overviewData.netChange} - Why sensex is ${overviewData.netChange < 0 ? "falling" : "rising"} today?`;
+    pageDesc = `Sensex live news on The Economic Times. Find Why Sensex is ${overviewData.netChange < 0 ? "falling" : "rising"} today? Reasons for Sensex ${overviewData.netChange < 0 ? "fall" : "rise"} today. Latest Sensex Analysis, News and more - ETMarkets`;
+    pageKeywords = `Sensex,Sensex Live,Sensex Today,BSE Sensex,Sensex Index,BSE Sensex Today,BSE Sensex Live,Sensex Live Updates`;
+  } else {
+    pageTitle = `${indexFilterData.assetName} Live | NSE ${indexFilterData.assetName} Index Today - S&P CNX ${indexFilterData.assetName}`;
+    pageDesc = `${indexFilterData.assetName} Today | ${indexFilterData.assetName} Live Updates- ${indexFilterData.assetName} Index, S&P CNX NSE. Find today's trend for ${indexFilterData.assetName} Companies, News, Target Price, Stock Price, Stock Analysis`;
+    pageKeywords = `${indexFilterData.assetName}, ${indexFilterData.assetName} Today, ${indexFilterData.assetName} Live, ${indexFilterData.assetName} Index`;
+  }
+
   const meta = {
-    title: `${indexFilterData.assetName} Live | NSE ${indexFilterData.assetName} Index Today - S&P CNX ${indexFilterData.assetName}`,
-    desc: `${indexFilterData.assetName} Today | ${indexFilterData.assetName} Live Updates- ${indexFilterData.assetName} Index, S&P CNX NSE. Find today's trend for ${indexFilterData.assetName} Companies, News, Target Price, Stock Price, Stock Analysis`,
-    keywords: `${indexFilterData.assetName}, ${indexFilterData.assetName} Today, ${indexFilterData.assetName} Live, ${indexFilterData.assetName} Index`,
+    title: pageTitle,
+    desc: pageDesc,
+    keywords: pageKeywords,
     pathname: pageUrl,
     index:
       indexFilterData.assetId == 0 || indexFilterData.assetId == null
