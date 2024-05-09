@@ -201,7 +201,6 @@ const Intraday = async ({ searchParams }: any) => {
         intradayDurationOptions={intradayDurationOptions}
       />
       <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
-      <br />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />
       <PageRefresh refreshTime={180000} />
     </>

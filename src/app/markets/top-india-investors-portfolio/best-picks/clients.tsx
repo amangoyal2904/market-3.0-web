@@ -17,6 +17,7 @@ const BigBullBestPicksPageClientPage = ({
   tableData,
   tableHead,
   pagination,
+  payload,
 }: any) => {
   console.log({
     selectedFilter,
@@ -27,18 +28,7 @@ const BigBullBestPicksPageClientPage = ({
   const __title = "Investors Best Picks";
   const pageType = "bestPicks";
   const [aciveFilter, setActiveFilter] = useState("INDIVIDUAL");
-  const [_payload, setPayload]: any = useState({
-    ssoId: "",
-    primeFlag: 1,
-    investorType: "INDIVIDUAL",
-    position: "All",
-    filterType: "index",
-    filterValue: [],
-    sortBy: "3MReturns",
-    orderBy: "DESC",
-    pageNo: 1,
-    pageSize: 10,
-  });
+  const [_payload, setPayload]: any = useState(payload);
   const fitlerHandler = (value: any) => {
     setActiveFilter(value);
     setPayload({ ..._payload, investorType: value, pageNo: 1 });

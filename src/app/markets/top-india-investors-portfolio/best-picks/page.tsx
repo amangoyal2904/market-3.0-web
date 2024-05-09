@@ -102,6 +102,7 @@ const BigBullBestPicksPage = async () => {
         tableData={bigBullData.tableData}
         tableHead={bigBullData.tableHead}
         pagination={bigBullData.pagination}
+        payload={payload}
       />
       <BreadCrumb
         pagePath={pageUrl}

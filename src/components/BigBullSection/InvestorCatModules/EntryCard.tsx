@@ -54,15 +54,11 @@ const EntryCard = ({ data }: any) => {
                       data?.bestPickStockData?.companyData?.companyType,
                   )}
                   target="_blank"
+                  title={
+                    data?.companyData?.text ||
+                    data?.bestPickStockData?.companyData?.text
+                  }
                 >
-                  {/* {data?.filingAwaitedText &&
-                          data?.filingAwaitedText !== "" ? (
-                          <span>{data?.filingAwaitedText}</span>
-                          ) : data?.dealDateStr && data?.dealDateStr !== "" ? (
-                          <span>{data?.dealDateStr}</span>
-                          ) : (
-                          ""
-                          )} */}
                   {data?.companyData?.text ||
                     data?.bestPickStockData?.companyData?.text}
                 </a>
@@ -112,7 +108,7 @@ const EntryCard = ({ data }: any) => {
                       <h4> {card?.uiLabel.text} </h4>
                       <h5>
                         <span
-                          className={`${styles[__classname]}`}
+                          className={`numberFonts ${styles[__classname]}`}
                           dangerouslySetInnerHTML={{
                             __html: card?.uiValue.text,
                           }}

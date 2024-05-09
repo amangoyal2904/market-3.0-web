@@ -30,6 +30,7 @@
       -webkit-box-pack: end;
       -ms-flex-pack: end;
       justify-content: flex-end;
+      min-width: 90px;
     }
     &.left {
       max-width: 160px;
@@ -115,6 +116,7 @@
       -webkit-box-align: center;
       -ms-flex-align: center;
       align-items: center;
+      min-width: 90px;
     }
     &.left {
       min-width: 160px;
@@ -174,6 +176,7 @@
     display: flex;
     column-gap: 10px;
     text-align: left;
+    width: 320px;
     .nameTxt {
       width: calc(100% - 60px);
       display: flex;
@@ -245,6 +248,7 @@
     padding: 12px;
     min-height: 62px;
     margin: 5px 0;
+    width: 300px;
     .head5 {
       font-size: 14px;
       line-height: 18px;
@@ -340,6 +344,9 @@
       border-right: solid 1px $gray_80;
       padding-right: 5px;
       margin-right: 12px;
+      .investNameImg {
+        width: 136px;
+      }
       img {
         border-radius: 50%;
       }
@@ -461,6 +468,7 @@
       .thead {
         justify-content: end;
         text-align: right;
+        width: 130px;
       }
     }
   }
@@ -529,6 +537,72 @@
     }
   }
 }
+.allInvestors {
+  tr {
+    th + th {
+      .thead {
+        text-align: right;
+        justify-content: end;
+      }
+    }
+
+    td {
+      &:first-child {
+        max-width: 350px;
+        width: 350px;
+      }
+      &:nth-of-type(5),
+      &:nth-of-type(6) {
+        max-width: 300px;
+        width: 300px;
+      }
+    }
+  }
+}
+.investorBulkBlock {
+  tr {
+    th {
+      &:nth-of-type(3) {
+        width: 350px;
+        min-width: 350px;
+      }
+      &:nth-of-type(2) {
+        .thead {
+          text-align: center;
+          justify-content: center;
+        }
+      }
+    }
+    th + th + th {
+      .thead {
+        text-align: right;
+        justify-content: end;
+      }
+    }
+  }
+}
+.holdingInvestor {
+  tr {
+    th {
+      &:first-child {
+        min-width: 350px;
+        width: 350px;
+      }
+    }
+    th + th {
+      .thead {
+        text-align: right;
+        justify-content: end;
+      }
+    }
+    td {
+      &:first-child {
+        min-width: 350px;
+        width: 350px;
+      }
+    }
+  }
+}
 .mostHeldTable {
   tr {
     th + th + th {
@@ -549,4 +623,7 @@
       }
     }
   }
+}
+.comNameSec {
+  width: 320px;
 }

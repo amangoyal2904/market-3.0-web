@@ -105,7 +105,6 @@ const Home = async () => {
         pagePath={pageUrl}
         pageName={[{ label: "Markets", redirectUrl: "" }]}
       />
-      <br />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />
       <PageRefresh refreshTime={420000} />
     </>

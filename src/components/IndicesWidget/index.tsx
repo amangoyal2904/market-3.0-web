@@ -74,8 +74,8 @@ const IndicesWidget = () => {
   ];
   const { state } = useStateContext();
   const { currentMarketStatus } = state.marketStatus;
-  const [period, setPeriod] = useState("1w");
-  const [changePeriod, setChangePeriod] = useState("change1Week");
+  const [period, setPeriod] = useState("1d");
+  const [changePeriod, setChangePeriod] = useState("netChange");
   const [percentChange, setPercentChange] = useState("percentChange");
   const [indicesData, setIndicesData] = useState<any[]>([]);
   const [topNewsData, setTopNewsData] = useState<any[]>([]);
@@ -84,11 +84,17 @@ const IndicesWidget = () => {
   const [fiiCash, setFiiCash] = useState<any>({});
   const [diiCash, setDiiCash] = useState<any>({});
   const [screenWidth, setScreenWidth] = useState<any>("");
+  const [iframeSrc, setIframeSrc] = useState(
+    `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=NSE Index&exchange=NSE&period=${period}&height=220&transparentBg=1`,
+  );
 
   const handleIntervalClick = (item: any) => {
     setPeriod(item?.value);
     setChangePeriod(item?.change);
     setPercentChange(item?.percentChange);
+    setIframeSrc(
+      `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&period=${item?.value}&height=220&transparentBg=1`,
+    );
   };
   useEffect(() => {
     getIndicesWidgetData();
@@ -110,6 +116,9 @@ const IndicesWidget = () => {
   };
   const onSelectIndex = (selectedItem: any) => {
     setSelectedIndex(selectedItem);
+    setIframeSrc(
+      `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedItem?.symbol}&exchange=${selectedItem?.exchange}&period=${period}&height=220&transparentBg=1`,
+    );
   };
   const fetchTopNews = async () => {
     try {
@@ -230,7 +239,7 @@ const IndicesWidget = () => {
                 className={styles.technical}
                 target="_blank"
                 title={`Technicals: ${selectedIndex?.indexName}`}
-                href={`https://economictimes.indiatimes.com/markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.segment}&entity=index`}
+                href={`https://economictimes.indiatimes.com/markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`}
               >
                 <span className="eticon_candlestick">
                   <span className="path1"></span>
@@ -240,7 +249,7 @@ const IndicesWidget = () => {
               </a>
             </div>
             <iframe
-              src={`${selectedIndex?.graphURL}&height=220`}
+              src={iframeSrc}
               style={{
                 width: "100%",
                 height: "220px",
@@ -252,9 +261,9 @@ const IndicesWidget = () => {
           {selectedIndex?.indexName ? (
             <ViewAllLink
               text={`See ${selectedIndex?.indexName}`}
-              link={`/markets/indices/${selectedIndex.seoname}`}
+              link={`/markets/indices/${selectedIndex.seoName}`}
               alignRight={true}
-              padding="10px 0"
+              padding="0 0 10px 0"
             />
           ) : (
             ""
@@ -299,7 +308,7 @@ const IndicesWidget = () => {
                 {" "}
                 {dateFormat(
                   dateStringToMilliseconds(selectedIndex?.dateTime),
-                  "%MMM %d, %Y",
+                  "%d %MMM, %Y",
                 )}
               </p>
             </div>

@@ -18,6 +18,7 @@ const BiggBullQtrChangesTable = ({
   sortData,
   handleSort,
   shouldShowLoader,
+  parentHasScroll = false,
 }: any) => {
   //console.log("tableData", tableData);
   const { state } = useStateContext();
@@ -80,6 +81,9 @@ const BiggBullQtrChangesTable = ({
                     </th>
                   );
                 })}
+              <th
+                className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+              ></th>
             </tr>
           </thead>
           <tbody>
@@ -193,6 +197,9 @@ const BiggBullQtrChangesTable = ({
                           );
                         })
                       : ""}
+                    <td
+                      className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+                    ></td>
                   </tr>
                 );
               })

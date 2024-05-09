@@ -17,6 +17,7 @@ const BigBullQtrChangesPageClientPage = ({
   tableData,
   tableHead,
   pagination,
+  payload,
 }: any) => {
   console.log({
     selectedFilter,
@@ -27,18 +28,7 @@ const BigBullQtrChangesPageClientPage = ({
   const __title = "Qtr. Changes in Holdings from Last Quarters";
   const pageType = "qtrChanges";
   const [aciveFilter, setActiveFilter] = useState("INDIVIDUAL");
-  const [_payload, setPayload]: any = useState({
-    ssoId: "",
-    primeFlag: 1,
-    investorType: "INDIVIDUAL",
-    position: "All",
-    filterType: "index",
-    filterValue: [],
-    sortBy: "companyName",
-    orderBy: "ASC",
-    pageNo: 1,
-    pageSize: 10,
-  });
+  const [_payload, setPayload]: any = useState(payload);
   const fitlerHandler = (value: any) => {
     setActiveFilter(value);
     setPayload({ ..._payload, investorType: value, pageNo: 1 });
