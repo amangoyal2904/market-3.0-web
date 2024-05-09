@@ -189,7 +189,10 @@ const BiggBullTable = ({
                           ></span>
                         </div>
                         <div className={styles.rightSec}>
-                          {isPrime && (
+                          {isPrime &&
+                          bestPicks[0].uiValue?.text &&
+                          bestPicks[0].uiLabel?.companyId &&
+                          bestPicks[0].uiLabel?.companyType ? (
                             <WatchlistAddition
                               companyName={bestPicks[0].uiValue?.text}
                               companyId={bestPicks[0].uiLabel?.companyId}
@@ -199,6 +202,8 @@ const BiggBullTable = ({
                                 height: "18px",
                               }}
                             />
+                          ) : (
+                            ""
                           )}
                         </div>
                       </div>
@@ -247,7 +252,10 @@ const BiggBullTable = ({
                           ></span>
                         </div>
                         <div className={styles.rightSec}>
-                          {isPrime && (
+                          {isPrime &&
+                          bestPicksToNext[0].uiValue?.text &&
+                          bestPicksToNext[0].uiLabel?.companyId &&
+                          bestPicksToNext[0].uiLabel?.companyType ? (
                             <WatchlistAddition
                               companyName={bestPicksToNext[0].uiValue?.text}
                               companyId={bestPicksToNext[0].uiLabel?.companyId}
@@ -259,6 +267,8 @@ const BiggBullTable = ({
                                 height: "18px",
                               }}
                             />
+                          ) : (
+                            ""
                           )}
                         </div>
                       </div>
