@@ -135,7 +135,7 @@ const InvestorTopOverviewHolding = ({
                                 : "";
                           return (
                             <td
-                              className={`${styles.rightTxt} ${styles[updownClass]}`}
+                              className={`numberFonts ${styles.rightTxt} ${styles[updownClass]}`}
                               key={`${stock?.uiLabel?.statusCheck}-${index}`}
                               dangerouslySetInnerHTML={{
                                 __html: stock?.uiValue?.text,

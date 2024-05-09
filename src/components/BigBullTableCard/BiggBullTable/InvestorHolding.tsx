@@ -36,7 +36,9 @@ const BiggBullInvestorHoldingTable = ({
   return (
     <>
       <div className="prel">
-        <table className={styles.bibBullCustomTable}>
+        <table
+          className={`${styles.bibBullCustomTable} ${styles.holdingInvestor}`}
+        >
           <thead>
             <tr>
               {tableHead &&

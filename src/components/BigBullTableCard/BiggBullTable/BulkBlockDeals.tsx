@@ -16,13 +16,15 @@ const BiggBullBulkBlockDealsTable = ({
 }: any) => {
   //console.log("tableData", tableData);
   const { state } = useStateContext();
-  const { isPrime } = state.login;
-  //const isPrime = true;
+  //const { isPrime } = state.login;
+  const isPrime = true;
   //console.log("isPrime", isPrime);
   return (
     <>
       <div className="prel">
-        <table className={styles.bibBullCustomTable}>
+        <table
+          className={`${styles.bibBullCustomTable} ${styles.investorBulkBlock}`}
+        >
           <thead>
             <tr>
               {tableHead &&
@@ -78,7 +80,7 @@ const BiggBullBulkBlockDealsTable = ({
                       <div
                         className={`${styles.buySellSec} ${styles[tdata?.dealSignal]}`}
                       >
-                        {tdata?.dealSignal}
+                        {tdata?.dealSignal.toLowerCase()}
                       </div>
                     </td>
                     <td>
