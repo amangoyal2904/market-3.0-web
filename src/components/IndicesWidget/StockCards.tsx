@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { formatNumber } from "@/utils";
 import styles from "./Indices.module.scss";
 
@@ -20,13 +20,12 @@ const StockCards: React.FC<Props> = ({
   percentChange,
 }) => {
   const prevStockCardRef = useRef<any>([]);
+  const ltpRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     prevStockCardRef.current = item;
     const timer = setTimeout(() => {
-      const highlightBgElements = document.querySelectorAll(".highlightBg");
-      highlightBgElements.forEach((elem) => {
-        elem.classList.remove("upBg", "downBg");
-      });
+      const elem = ltpRef.current;
+      if (elem) elem.classList.remove("upBg", "downBg");
     }, 500);
     return () => clearTimeout(timer);
   }, [item]);
@@ -41,7 +40,8 @@ const StockCards: React.FC<Props> = ({
     >
       <p className={styles.indexName}>{item.indexName}</p>
       <p
-        className={`numberFonts highlightBg ${styles.indexPrice} ${
+        ref={ltpRef}
+        className={`numberFonts ${styles.indexPrice} ${
           prevStockCard?.lastTradedPrice
             ? parseFloat(item.lastTradedPrice) >
               parseFloat(prevStockCard?.lastTradedPrice)
@@ -53,7 +53,7 @@ const StockCards: React.FC<Props> = ({
             : ""
         }`}
       >
-        {formatNumber(item.lastTradedPrice)}
+        {formatNumber(item.lastTradedPrice.toFixed(2))}
       </p>
       <p
         className={`numberFonts ${item[changePeriod] > 0 ? styles.up : item[changePeriod] < 0 ? styles.down : ""} ${styles.indexChange}`}
