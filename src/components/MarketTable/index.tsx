@@ -61,7 +61,7 @@ const MarketTable = React.memo((props: propsType) => {
   const parentRef = useRef<HTMLDivElement>(null);
   const fixedTableRef = useRef<HTMLDivElement>(null);
   const { debounce } = useDebounce();
-  const { loader = false, loaderType } = tableConfig || {};
+  const { loader = false, loaderType, horizontalScroll } = tableConfig || {};
   const [pageSummaryData, setPageSummaryData] = useState(pageSummary);
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
@@ -448,7 +448,7 @@ const MarketTable = React.memo((props: propsType) => {
             </div>
           </>
         )}
-        {verticalScrollEnabled ? (
+        {verticalScrollEnabled && horizontalScroll ? (
           <div id="customScroll" className={styles.customScroll}>
             <button
               id="scrollButton"
