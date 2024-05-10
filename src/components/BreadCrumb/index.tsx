@@ -266,7 +266,7 @@ const jsonLd = (getLiTab: any, pageName: any) => {
       "@type": "ListItem",
       position: "2",
       name: "Markets",
-      item: { "@id": "/home" },
+      item: { "@id": "/markets/live-coverage" },
     },
     ...(getLiTab ? [getLiTab.listItemSchema] : []),
   ];
@@ -323,14 +323,14 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           <a href="https://economictimes.indiatimes.com/">Home</a>
         </li>
         <li className={styles.marketshome}>
-          {router == "/home" ? (
+          {router == "/markets/live-coverage" ? (
             <>
-              <span className="eticon_caret_right"></span>Markets
+              <span className="eticon_caret_right"></span>ET Market Live
             </>
           ) : (
             <>
               <span className="eticon_caret_right"></span>
-              <a href="/home">Markets</a>
+              <a href="/markets/live-coverage">Markets</a>
             </>
           )}
         </li>
