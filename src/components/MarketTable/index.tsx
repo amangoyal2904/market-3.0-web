@@ -74,6 +74,7 @@ const MarketTable = React.memo((props: propsType) => {
   const [hideThead, setHideThead] = useState(false);
   const [parentHasScroll, setParentHasScroll] = useState(false);
   const [shouldShowLoader, setShouldShowLoader] = useState(false);
+  const [verticalScrollEnabled, setVerticalScrollEnabled] = useState(false);
 
   const handleFilterChange = useCallback((e: any) => {
     const { name, value } = e.target;
@@ -226,6 +227,21 @@ const MarketTable = React.memo((props: propsType) => {
     },
     [sortData],
   );
+  const rightClickScroll = () => {
+    const tableWrapper: any = document.getElementById("scrollableTable");
+    if (
+      tableWrapper.scrollLeft <
+      tableWrapper.scrollWidth - tableWrapper.clientWidth
+    ) {
+      tableWrapper.scrollLeft += 50; // Adjust scroll amount as needed
+    }
+  };
+  const leftClickScroll = () => {
+    const tableWrapper: any = document.getElementById("scrollableTable");
+    if (tableWrapper.scrollLeft > 0) {
+      tableWrapper.scrollLeft -= 50; // Adjust scroll amount as needed
+    }
+  };
 
   const handleScroll = useCallback(
     debounce(() => {
@@ -244,6 +260,12 @@ const MarketTable = React.memo((props: propsType) => {
       setTopScrollHeight(heightDifference);
       setHideThead(heightDiff < 25 && heightDiff < -140);
       setHeaderSticky(window.scrollY);
+      const fixedText: any = document.getElementById("customScroll");
+      if (window.scrollY < 100 || heightDiff < 180) {
+        fixedText.style.display = "none";
+      } else if (window.scrollY > 100) {
+        fixedText.style.display = "flex";
+      }
     }, DEBOUNCE_DELAY),
     [debounce],
   );
@@ -421,9 +443,31 @@ const MarketTable = React.memo((props: propsType) => {
                 tableConfig={tableConfig}
                 parentHasScroll={parentHasScroll}
                 fixedCol={fixedCol}
+                setVerticalScrollEnabled={setVerticalScrollEnabled}
               />
             </div>
           </>
+        )}
+        {verticalScrollEnabled ? (
+          <div id="customScroll" className={styles.customScroll}>
+            <button
+              id="scrollButton"
+              onClick={leftClickScroll}
+              className={styles.scrollButton}
+            >
+              &#8592;
+            </button>
+            <span />
+            <button
+              id="scrollButton"
+              onClick={rightClickScroll}
+              className={styles.scrollButton}
+            >
+              &#8594;
+            </button>
+          </div>
+        ) : (
+          ""
         )}
       </div>
       {(tableDataList.length === 0 && tableHeaderData.length === 0) ||

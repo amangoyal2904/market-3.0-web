@@ -438,3 +438,56 @@
     }
   }
 }
+
+.scrollableTable {
+  transition: scroll 0.5s ease-in-out;
+  overflow: scroll;
+}
+
+.customScroll {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  position: fixed;
+  top: 50%;
+  right: -19px;
+  transform: translate(-50%, -50%);
+  background-color: #b62323;
+  padding: 10px;
+  z-index: 999;
+  height: 80px;
+  display: none;
+  padding: 16px 8px;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 0;
+  align-self: stretch;
+  border-radius: 5px;
+  border: 0px solid #ccc;
+  background: #fff;
+  flex-direction: column;
+  gap: 10px;
+  button {
+    background: #2b74e3;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 13px;
+    padding: 2px 2px 4px 3px;
+    font-weight: bold;
+    position: relative;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+  }
+  span {
+    border: 1px solid #ccc;
+    display: inline-block;
+    width: 100%;
+  }
+}
+
+.scrollButton {
+  display: block;
+  margin: auto;
+}
