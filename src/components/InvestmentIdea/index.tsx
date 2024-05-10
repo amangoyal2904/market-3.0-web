@@ -42,10 +42,12 @@ const InvestmentIdea = async () => {
   const investmentData = await fetchInvestMentData();
   return investmentData && investmentData.length ? (
     <div className={styles.investMentWrapper}>
-      <p className={styles.title}>
-        Investment Ideas
+      <h2 className={styles.title}>
+        <a href="https://economictimes.indiatimes.com/prime/investment-ideas">
+          Investment Ideas
+        </a>
         <span className={`eticon_caret_right ${styles.headingIcon}`} />
-      </p>
+      </h2>
       <div className={styles.investmentData}>
         {investmentData?.map((data: any, index: any) =>
           index < 4 ? (

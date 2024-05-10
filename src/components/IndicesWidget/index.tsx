@@ -130,10 +130,10 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
     <div className={styles.widgetContainer}>
       <div className={styles.IndicesContainer}>
         <div className={styles.topWrapper}>
-          <p className={styles.title}>
-            Indices{" "}
+          <h2 className={styles.title}>
+            <a href="/markets/indices">Indices</a>{" "}
             <span className={`eticon_caret_right ${styles.headingIcon}`} />
-          </p>
+          </h2>
           <div className={styles.liveStatus}>
             <MarketStatus
               currentMarketStatus={currentMarketStatus}

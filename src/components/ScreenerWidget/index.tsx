@@ -64,9 +64,10 @@ const StockScreenerWidget = async () => {
 
   return (
     <div className={styles.screenerWrapper}>
-      <h1 className="heading">
-        Stock Screeners <span className={`eticon_caret_right headingIcon`} />
-      </h1>
+      <h2 className="heading">
+        <a href="/markets/stock-screener">Stock Screeners</a>{" "}
+        <span className={`eticon_caret_right headingIcon`} />
+      </h2>
       <div className={styles.screenerCards}>
         {StockScreenerData.length && (
           <SlickSlider
