@@ -65,6 +65,7 @@
       align-items: center;
       gap: 17px;
       align-self: stretch;
+      margin-bottom: 8px;
       .buySellTitle {
         font-size: 14px;
         font-weight: 700;
@@ -289,9 +290,9 @@
     .stocksBox {
       gap: unset;
 
-      .stocksTitle {
-        margin-top: 8px;
-      }
+      // .stocksTitle {
+      //   margin-top: 8px;
+      // }
       .updownTargetBox {
         margin-top: 20px;
       }
@@ -310,9 +311,9 @@
     .stocksBox {
       gap: unset;
 
-      .stocksTitle {
-        margin-top: 8px;
-      }
+      // .stocksTitle {
+      //   margin-top: 8px;
+      // }
       .updownTargetBox {
         margin-top: 20px;
       }

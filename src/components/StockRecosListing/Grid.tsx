@@ -382,7 +382,7 @@ const TableHtml = (props: any) => {
                             customStyle={{
                               position: "relative",
                               marginRight: "10px",
-                              width: "16px",
+                              width: "13px",
                               height: "16px",
                             }}
                           />
