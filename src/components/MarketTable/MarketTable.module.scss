@@ -468,7 +468,7 @@
   background: #fff;
   flex-direction: column;
   gap: 10px;
-  button {
+  .scrollButton {
     background: #2b74e3;
     border-radius: 50%;
     color: #fff;
@@ -487,7 +487,3 @@
   }
 }
 
-.scrollButton {
-  display: block;
-  margin: auto;
-}
