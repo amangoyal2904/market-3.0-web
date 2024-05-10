@@ -542,9 +542,12 @@ export const getStockRecosDetail = async ({
   console.log("getApiType ---", getApiType);
 
   const overViewFilterArr = [
-    { type: "mostBuy", indexid: 2365 },
-    { type: "newRecos", indexid: 2365 },
-    { type: "mostSell", indexid: 2369 },
+    { type: "mostBuy", indexid: 2369 },
+    { type: "newRecos", indexid: 2369 },
+    { type: "mostBuy", indexid: 1913 },
+    { type: "newRecos", indexid: 1913 },
+    { type: "mostBuy", indexid: 2495 },
+    { type: "newRecos", indexid: 2495 },
   ];
 
   const payload = {
