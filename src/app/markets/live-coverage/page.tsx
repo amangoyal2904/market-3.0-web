@@ -16,11 +16,12 @@ import { getBuySellTechnicals } from "@/utils/utility";
 import AdInfo from "@/components/Ad/AdInfo/homeAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
 import dynamic from "next/dynamic";
+
 const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
   ssr: false,
 });
 
-const Home = async () => {
+const LiveCoverage = async () => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
 
@@ -155,4 +156,4 @@ const Home = async () => {
   );
 };
 
-export default Home;
+export default LiveCoverage;

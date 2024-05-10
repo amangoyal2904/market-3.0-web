@@ -122,7 +122,7 @@ const Header = () => {
       <header id={styles.pageTopbar}>
         <div className={styles.navbarHeader} id="header">
           <div className={`dflex align-item-center ${styles.logoHeader}`}>
-            <Link href="/home">
+            <Link href="/markets/live-coverage">
               <Image
                 src={ETLogo}
                 width={138}
