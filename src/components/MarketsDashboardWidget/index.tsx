@@ -53,10 +53,10 @@ const MarketsDashboardWidget = async () => {
 
   return (
     <div className={styles.dashboardWrapper}>
-      <h1 className="heading">
-        Markets Dashboards
+      <h2 className="heading">
+        <a href="/stocks/marketstats/top-gainers">Markets Dashboards</a>
         <span className={`eticon_caret_right headingIcon`} />
-      </h1>
+      </h2>
       <MarketDashBoard
         tabsData={tabData}
         tableData={tableData}

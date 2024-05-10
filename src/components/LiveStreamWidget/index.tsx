@@ -47,10 +47,12 @@ const LiveStreamWidget = async () => {
   const liveStreamData = await fetchLiveStreamData();
   return (
     <>
-      <h1 className="heading marginhead">
-        Live Stream
+      <h2 className="heading marginhead">
+        <a href="https://economictimes.indiatimes.com/etmarkets-livestream">
+          Live Stream
+        </a>
         <span className={`eticon_caret_right ${styles.headingIcon}`} />
-      </h1>
+      </h2>
       <LiveStreamSlider liveStreamData={liveStreamData} />
       <ViewAllLink
         text="See All Live Streams"

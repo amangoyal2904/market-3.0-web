@@ -17,7 +17,6 @@ interface Props {
   srResult: any;
 }
 const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
-  // console.log('@@ -->' ,srResult)
   const tabNames = [
     {
       name: "High Upside",
@@ -105,10 +104,18 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
   };
   return (
     <div className={styles.wrapper}>
-      <h1 className="heading">
-        Stock Reports Plus
+      <h2 className="heading">
+        <a
+          href={
+            APP_ENV == "development"
+              ? "https://etdev8243.indiatimes.com/markets/benefits/stockreportsplus"
+              : "https://etdev8243.indiatimes.com/markets/benefits/stockreportsplus"
+          }
+        >
+          Stock Reports Plus
+        </a>
         <span className={`eticon_caret_right headingIcon`} />
-      </h1>
+      </h2>
       <div className={styles.tabMainBox}>
         <StockReportsTab
           handleTabClick={handleTabClick}
@@ -150,7 +157,11 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
       </div>
       <ViewAllLink
         text="See All Stock Reports"
-        link="/markets/benefits/stockreportsplus"
+        link={
+          APP_ENV == "development"
+            ? "https://etdev8243.indiatimes.com/markets/benefits/stockreportsplus"
+            : "https://etdev8243.indiatimes.com/markets/benefits/stockreportsplus"
+        }
       />
     </div>
   );

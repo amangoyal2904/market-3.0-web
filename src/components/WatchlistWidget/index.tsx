@@ -49,9 +49,10 @@ const WatchlistWidget = () => {
 
   return (
     <div className={styles.watchlistContainer}>
-      <h1 className="heading">
-        My Watchlist <span className={`eticon_caret_right headingIcon`} />
-      </h1>
+      <h2 className="heading">
+        <a href="/watchlist">My Watchlist</a>{" "}
+        <span className={`eticon_caret_right headingIcon`} />
+      </h2>
       {showBlocker ? (
         <Blocker type="loginBlocker" />
       ) : (
