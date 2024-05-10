@@ -116,35 +116,35 @@ const StockComponent = ({
           className={`${styles[pageName]} ${activeTab === "newRecos" ? `${styles.stocksMain} ${styles.stockRecoByFHClass} ${stockMainClass} ${styles.stockGap}` : `${styles.stocksMain} ${stockMainClass}`}`}
         >
           <div className={styles.stocksBox}>
-            {/* {activeTab == "newRecos" && ( */}
-            <div className={styles.stocksCallDates}>
-              <span
-                className={`${styles.buySellTitle} ${activeTab == "mostBuy" || data.recoType == "Buy" || data.recoType == "Add" || data.recoType == "Accumulate" ? styles.green : activeTab == "mostSell" || data.recoType == "Sell" ? styles.red : styles.gray}`}
-              >
-                {activeTab == "mostBuy"
-                  ? "Buy"
-                  : activeTab == "mostSell"
-                    ? "Sell"
-                    : data.recoType}
-              </span>
-              {(activeTab == "newRecos" || activeTab == "FHDetail") && (
-                <span className={styles.callDateBox}>
-                  <span className={styles.callDateTitle}>Call Date:</span>
-                  <span className={styles.callDate}>{formattedDate}</span>
+            {data?.recoType && (
+              <div className={styles.stocksCallDates}>
+                <span
+                  className={`${styles.buySellTitle} ${activeTab == "mostBuy" || data.recoType == "Buy" || data.recoType == "Add" || data.recoType == "Accumulate" ? styles.green : activeTab == "mostSell" || data.recoType == "Sell" ? styles.red : styles.gray}`}
+                >
+                  {activeTab == "mostBuy"
+                    ? "Buy"
+                    : activeTab == "mostSell"
+                      ? "Sell"
+                      : data.recoType}
                 </span>
-              )}
-              <WatchlistAddition
-                companyName={data.companyName}
-                companyId={data.companyId}
-                companyType="equity"
-                customStyle={{
-                  position: "absolute",
-                  top: "16px",
-                  right: "16px",
-                }}
-              />
-            </div>
-            {/* )} */}
+                {(activeTab == "newRecos" || activeTab == "FHDetail") && (
+                  <span className={styles.callDateBox}>
+                    <span className={styles.callDateTitle}>Call Date:</span>
+                    <span className={styles.callDate}>{formattedDate}</span>
+                  </span>
+                )}
+                <WatchlistAddition
+                  companyName={data.companyName}
+                  companyId={data.companyId}
+                  companyType="equity"
+                  customStyle={{
+                    position: "absolute",
+                    top: "13px",
+                    right: "16px",
+                  }}
+                />
+              </div>
+            )}
 
             <h2 title={data.companyName} className={styles.stocksTitle}>
               <Link
@@ -161,6 +161,18 @@ const StockComponent = ({
               >
                 {data.companyName}
               </Link>
+              {!data?.recoType && (
+                <WatchlistAddition
+                  companyName={data.companyName}
+                  companyId={data.companyId}
+                  companyType="equity"
+                  customStyle={{
+                    position: "absolute",
+                    top: "13px",
+                    right: "16px",
+                  }}
+                />
+              )}
             </h2>
             <div className={styles.updownTargetBox}>
               <div className={styles.potensialBox}>
