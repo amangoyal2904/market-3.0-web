@@ -14,7 +14,6 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>Stock Recommendations
-          <span className="eticon_caret_right"></span>Stock Recommendations
         </li>
       ),
       showCurrLi: true,
@@ -169,7 +168,7 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/market-moods/nifty-500">Market Mood</a>
+          <a href="/markets/market-moods/nifty-500">Stock Market Mood</a>
         </li>
       ),
       showCurrLi: true,
