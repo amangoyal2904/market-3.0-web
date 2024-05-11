@@ -102,7 +102,9 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
   return (
     <div className={styles.wrapper}>
       <h2 className="heading ">
-        <a href="/markets/stock-recos/overview">Stock Recommendations</a>
+        <a href="/markets/stock-recos/overview" title="Stock Recommendations">
+          Stock Recommendations
+        </a>
         <span className={`eticon_caret_right headingIcon`} />
       </h2>
 

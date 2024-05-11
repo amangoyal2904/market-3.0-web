@@ -1,30 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./StockReportsPlus.module.scss";
 interface Props {
   datalist: any;
 }
 const StockReportsType4: React.FC<Props> = ({ datalist }) => {
+  const [earningsScore, setEarningsScore] = useState({
+    roundedValue: 0,
+    itemTrend: "",
+  });
+  const [fundamentalsScore, setFundamentalsScore] = useState({
+    roundedValue: 0,
+    itemTrend: "",
+  });
+  const [relativeValuationScore, setRelativeValuationScore] = useState({
+    roundedValue: 0,
+    itemTrend: "",
+  });
+  const [riskScore, setRiskScore] = useState({
+    roundedValue: 0,
+    itemTrend: "",
+  });
+  const [priceMomentumScore, setPriceMomentumScore] = useState({
+    roundedValue: 0,
+    itemTrend: "",
+  });
+  const [prevScore, setPrevScore] = useState({
+    roundedValue: 0,
+    itemTrend: "",
+  });
+
+  const [avgScore, setAvgScore] = useState({
+    roundedValue: 0,
+    itemTrend: "",
+  });
+
+  useEffect(() => {
+    setEarningsScore(upgradeCard(datalist, "sr_analystScore"));
+    setFundamentalsScore(upgradeCard(datalist, "sr_fundScore"));
+    setRelativeValuationScore(upgradeCard(datalist, "sr_rvScore"));
+    setRiskScore(upgradeCard(datalist, "sr_riskScore"));
+    setPriceMomentumScore(upgradeCard(datalist, "sr_techScore"));
+    setPrevScore(upgradeCard(datalist, "sr_avgScore3m"));
+    setAvgScore(upgradeCard(datalist, "sr_avgScore"));
+  }, [datalist]);
+
   function upgradeCard(datalist: any, keyId: string) {
     const itemValue =
       datalist.data?.find((item: { keyId: any }) => item.keyId === keyId)
-        .value || {};
+        ?.value || {};
     const roundedValue = Math.round(itemValue);
     const itemTrend =
       datalist.data?.find((item: { keyId: any }) => item.keyId === keyId)
-        .trend || {};
+        ?.trend || {};
     return { roundedValue, itemTrend };
   }
+
   const companyUrl = `/${datalist.seoName}/stockreports/companyid-${datalist.companyID}.cms`;
-  const earningsScore = upgradeCard(datalist, "sr_analystScore");
-  const fundamentalsScore = upgradeCard(datalist, "sr_fundScore");
-  const relativeValuationScore = upgradeCard(datalist, "sr_rvScore");
-  const riskScore = upgradeCard(datalist, "sr_riskScore");
-  const priceMomentumScore = upgradeCard(datalist, "sr_techScore");
-  const avgScore = upgradeCard(datalist, "sr_avgScore");
-  const prevScore = upgradeCard(datalist, "sr_avgScore3m");
   return (
     <div className={`${styles.cardSec} ${styles.btt}`}>
-      {/* <div className={styles.nameBlur}>no prieme user</div> */}
       <h2 className={styles.heading}>
         <a href={companyUrl} target="_blank">
           {datalist.name}

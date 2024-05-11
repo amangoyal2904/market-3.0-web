@@ -43,7 +43,10 @@ const InvestmentIdea = async () => {
   return investmentData && investmentData.length ? (
     <div className={styles.investMentWrapper}>
       <h2 className={styles.title}>
-        <a href="https://economictimes.indiatimes.com/prime/investment-ideas">
+        <a
+          title="Investment Ideas"
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
+        >
           Investment Ideas
         </a>
         <span className={`eticon_caret_right ${styles.headingIcon}`} />
@@ -59,7 +62,7 @@ const InvestmentIdea = async () => {
       </div>
       <ViewAllLink
         text="See All Investment Ideas"
-        link="https://economictimes.indiatimes.com/prime/investment-ideas"
+        link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
       />
     </div>
   ) : (

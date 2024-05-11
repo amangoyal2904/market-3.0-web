@@ -131,7 +131,9 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       <div className={styles.IndicesContainer}>
         <div className={styles.topWrapper}>
           <h2 className={styles.title}>
-            <a href="/markets/indices">Indices</a>{" "}
+            <a href="/markets/indices" title="Indices">
+              Indices
+            </a>
             <span className={`eticon_caret_right ${styles.headingIcon}`} />
           </h2>
           <div className={styles.liveStatus}>
@@ -201,7 +203,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                 className={styles.technical}
                 target="_blank"
                 title={`Technicals: ${selectedIndex?.indexName}`}
-                href={`https://economictimes.indiatimes.com/markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`}
+                href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`}
               >
                 <span className="eticon_candlestick">
                   <span className="path1"></span>
@@ -292,7 +294,13 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
         </div>
       </div>
       <div className={styles.newsContainer}>
-        <p className={styles.title}>Top News</p>
+        <a
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/stocks`}
+          title="Top News"
+          className={styles.title}
+        >
+          Top News
+        </a>
         <ul>
           {topNewsData?.map((list: any, index: number) =>
             index < 6 ? (
@@ -325,7 +333,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
         </ul>
         <ViewAllLink
           text="See All News"
-          link="https://economictimes.indiatimes.com/markets/stocks"
+          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/stocks`}
           alignRight={true}
           padding="16px 0 0 0"
         />

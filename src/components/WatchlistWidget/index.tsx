@@ -50,7 +50,9 @@ const WatchlistWidget = () => {
   return (
     <div className={styles.watchlistContainer}>
       <h2 className="heading">
-        <a href="/watchlist">My Watchlist</a>{" "}
+        <a href="/watchlist" title="My Watchlist">
+          My Watchlist
+        </a>
         <span className={`eticon_caret_right headingIcon`} />
       </h2>
       {showBlocker ? (

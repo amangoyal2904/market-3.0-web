@@ -93,7 +93,7 @@ const LiveCoverage = async () => {
       screenerId: screenerId,
       viewId: 5246,
       filterType: "index",
-      filterValue: [2365],
+      filterValue: [],
     };
 
     const headers = {

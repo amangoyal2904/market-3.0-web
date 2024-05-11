@@ -138,10 +138,6 @@ const BuySellTechnicalWidget = ({ data, bodyParams }: any) => {
           processingLoader={processingLoader}
         />
       </div>
-      <ViewAllLink
-        text="See All Stocks"
-        link="/stocks/marketstats/top-gainers"
-      />
     </>
   );
 };
