@@ -48,7 +48,10 @@ const LiveStreamWidget = async () => {
   return (
     <>
       <h2 className="heading marginhead">
-        <a href="https://economictimes.indiatimes.com/etmarkets-livestream">
+        <a
+          title="Live Stream"
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/etmarkets-livestream`}
+        >
           Live Stream
         </a>
         <span className={`eticon_caret_right ${styles.headingIcon}`} />

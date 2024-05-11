@@ -54,7 +54,9 @@ const MarketsDashboardWidget = async () => {
   return (
     <div className={styles.dashboardWrapper}>
       <h2 className="heading">
-        <a href="/stocks/marketstats/top-gainers">Markets Dashboards</a>
+        <a href="/stocks/marketstats/top-gainers" title="Markets Dashboards">
+          Markets Dashboards
+        </a>
         <span className={`eticon_caret_right headingIcon`} />
       </h2>
       <MarketDashBoard

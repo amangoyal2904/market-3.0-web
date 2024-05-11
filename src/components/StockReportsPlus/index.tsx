@@ -10,9 +10,6 @@ import StockReportsType3 from "./StockReportsType3";
 import StockReportsTab from "./StockReportsTab";
 import ViewAllLink from "../ViewAllLink";
 
-interface Slide {
-  content: JSX.Element;
-}
 interface Props {
   srResult: any;
 }
@@ -69,11 +66,11 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
   ];
   const [activeTab, setActiveTab] = useState(tabNames[0]);
   const [activeSlides, setActiveSlides] = useState<any[]>(srResult.dataList);
+  const [screenerDetail, setScreenerDetail] = useState(srResult.screenerDetail);
 
   const handleTabClick = (tab: any) => {
     setActiveTab(tab);
     fetchData(tab.screenerId);
-    // console.log('tabName ---> ', tab)
   };
 
   const fetchData = async (screenerId: any) => {
@@ -86,7 +83,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
       screenerId: screenerId,
       viewId: 5246,
       filterType: "index",
-      filterValue: [2365],
+      filterValue: [],
     };
 
     const headers = {
@@ -100,17 +97,14 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
     });
     const data = await stockReportAllTabPromise?.json();
     setActiveSlides(data.dataList);
-    // console.log("@@fetchData --- > " , data)
+    setScreenerDetail(data.screenerDetail);
   };
   return (
     <div className={styles.wrapper}>
       <h2 className="heading">
         <a
-          href={
-            APP_ENV == "development"
-              ? "https://etdev8243.indiatimes.com/markets/benefits/stockreportsplus"
-              : "https://etdev8243.indiatimes.com/markets/benefits/stockreportsplus"
-          }
+          title="Stock Reports Plus"
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/benefits/stockreportsplus`}
         >
           Stock Reports Plus
         </a>
@@ -156,12 +150,8 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
         </div>
       </div>
       <ViewAllLink
-        text="See All Stock Reports"
-        link={
-          APP_ENV == "development"
-            ? "https://etdev8243.indiatimes.com/markets/benefits/stockreportsplus"
-            : "https://etdev8243.indiatimes.com/markets/benefits/stockreportsplus"
-        }
+        text={`See All ${activeTab?.name}`}
+        link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/stockreportsplus/${screenerDetail?.seoName}/stockreportscategory/screenerid-${activeTab?.screenerId}.cms`}
       />
     </div>
   );

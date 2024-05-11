@@ -7,62 +7,63 @@ interface Props {
 }
 
 const StockReportsType5: React.FC<Props> = ({ datalist }) => {
-  //const isPrime = true;
   const companyUrl = `/${datalist.seoName}/stockreports/companyid-${datalist.companyID}.cms`;
   const reportUrl = `/${datalist.seoName}/stockreports/reportid-${datalist.companyID}.cms`;
-  const inputString = datalist.data[0].value;
-  const trimmedString = inputString.trim().replace(/%$/, "");
-  const recoByCount = Math.round(parseFloat(trimmedString));
-  // console.log('datalist ---> ', datalist)
-  function calculateGraphValue(
-    datalist: { data: any[] },
+
+  const calculateGraphValue = (
+    data: any,
     keyId: string,
     recoByCount: number,
-  ) {
+  ) => {
     const item =
-      datalist.data.find((item: { keyId: any }) => item.keyId === keyId) || {};
+      data.find((item: { keyId: any }) => item.keyId === keyId) || {};
     const value = parseFloat(item.value) || 0;
     const roundedValue = Math.round(value);
     const calculatedpercent = `${roundedValue === 0 ? 5 : (roundedValue / recoByCount) * 100 + 5}%`;
     return { roundedValue, calculatedpercent, item };
-  }
+  };
+
+  const recoByCount = Math.round(
+    parseFloat(datalist.data[0].value.trim().replace(/%$/, "")),
+  );
+
   const recoStrongBuyValue = calculateGraphValue(
-    datalist,
+    datalist.data,
     "sr_recStrongBuyCnt",
     recoByCount,
   );
   const recoBuyValue = calculateGraphValue(
-    datalist,
+    datalist.data,
     "sr_recBuyCnt",
     recoByCount,
   );
   const recoHoldValue = calculateGraphValue(
-    datalist,
+    datalist.data,
     "sr_recHoldCnt",
     recoByCount,
   );
   const recoSellValue = calculateGraphValue(
-    datalist,
+    datalist.data,
     "sr_recReduceCnt",
     recoByCount,
   );
   const recoStrongSellValue = calculateGraphValue(
-    datalist,
+    datalist.data,
     "sr_recSellCnt",
     recoByCount,
   );
   const expectedReturn = calculateGraphValue(
-    datalist,
+    datalist.data,
     "sr_targetVsCurrent",
     recoByCount,
   );
   const target = calculateGraphValue(
-    datalist,
+    datalist.data,
     "sr_priceTargetMean",
     recoByCount,
   );
   const currentPrice = calculateGraphValue(
-    datalist,
+    datalist.data,
     "lastTradedPrice",
     recoByCount,
   );
