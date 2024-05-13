@@ -100,7 +100,7 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className="sectionWrapper">
       <h2 className="heading ">
         <a href="/markets/stock-recos/overview" title="Stock Recommendations">
           Stock Recommendations

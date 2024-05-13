@@ -41,7 +41,7 @@ const Card = ({ data }: any) => {
 const InvestmentIdea = async () => {
   const investmentData = await fetchInvestMentData();
   return investmentData && investmentData.length ? (
-    <div className={styles.investMentWrapper}>
+    <div className="sectionWrapper">
       <h2 className={styles.title}>
         <a
           title="Investment Ideas"

@@ -1,28 +1,24 @@
-.investMentWrapper {
-  padding-top: 20px;
-  .title {
-    color: #000;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-  }
-
-  .headingIcon {
-    vertical-align: middle;
-    font-size: 40px;
-  }
-
-  .investmentData {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 36px;
-    padding: 18px 0;
-    cursor: pointer;
-  }
+.title {
+  color: #000;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
+.headingIcon {
+  vertical-align: middle;
+  font-size: 40px;
+}
+
+.investmentData {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 36px;
+  padding: 18px 0;
+  cursor: pointer;
+}
 .card {
   width: 100%;
   border-right: 1px solid #cccccc;
@@ -46,7 +42,7 @@
     -webkit-line-clamp: 3;
     padding-top: 5px;
   }
-  .cardImage{
+  .cardImage {
     width: 100%;
   }
 }

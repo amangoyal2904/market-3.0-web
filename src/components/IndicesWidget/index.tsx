@@ -234,20 +234,25 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           )}
           <div className={styles.bottomWidgets}>
             <div className={styles.widget}>
-              <div className="dflex align-item-center">
+              <div className="dflex align-item-center space-between">
                 <p className={styles.title}>Advance/Decline</p>
+                <span className={`eticon_caret_right ${styles.icon}`} />
               </div>
               <div className={styles.bottom}>
                 <div className="dflex align-item-center space-between">
                   <span className={`numberFonts ${styles.label}`}>
-                    {selectedIndex?.advances
-                      ? parseInt(selectedIndex?.advances)?.toFixed(2)
-                      : ""}
+                    {`${
+                      selectedIndex?.advances
+                        ? parseInt(selectedIndex?.advances)
+                        : ""
+                    } Advance`}
                   </span>
                   <span className={`numberFonts ${styles.label}`}>
-                    {selectedIndex?.declines
-                      ? parseInt(selectedIndex?.declines)?.toFixed(2)
-                      : ""}
+                    {`${
+                      selectedIndex?.declines
+                        ? parseInt(selectedIndex?.declines)
+                        : ""
+                    } Decline`}
                   </span>
                 </div>
                 <div
@@ -269,7 +274,6 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                 </div>
               </div>
               <p className={styles.date}>
-                {" "}
                 {dateFormat(
                   dateStringToMilliseconds(selectedIndex?.dateTime),
                   "%d %MMM, %Y",
@@ -295,7 +299,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       </div>
       <div className={styles.newsContainer}>
         <a
-          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/stocks`}
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`}
           title="Top News"
           className={styles.title}
         >
@@ -333,7 +337,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
         </ul>
         <ViewAllLink
           text="See All News"
-          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/stocks`}
+          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`}
           alignRight={true}
           padding="16px 0 0 0"
         />

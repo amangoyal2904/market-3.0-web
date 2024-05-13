@@ -48,7 +48,7 @@ const WatchlistWidget = () => {
     (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
 
   return (
-    <div className={styles.watchlistContainer}>
+    <div className="sectionWrapper">
       <h2 className="heading">
         <a href="/watchlist" title="My Watchlist">
           My Watchlist

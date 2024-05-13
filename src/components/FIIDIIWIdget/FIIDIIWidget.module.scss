@@ -2,13 +2,13 @@
   position: relative;
   .title {
     color: var(--Primary-Black, var(--Black, #000));
-    font-size: 12px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: 16px;
     .days {
       color: #000;
-      font-size: 10px;
+      font-size: 12px;
       font-style: normal;
       font-weight: 400;
       line-height: normal;
@@ -78,7 +78,7 @@
   overflow: hidden;
   color: #333;
   text-overflow: ellipsis;
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
