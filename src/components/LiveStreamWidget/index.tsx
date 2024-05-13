@@ -3,6 +3,7 @@ import APIS_CONFIG from "../../network/api_config.json";
 import styles from "./Livestream.module.scss";
 import LiveStreamSlider from "./LiveStreamSlider";
 import ViewAllLink from "../ViewAllLink";
+import Image from "next/image";
 
 const fetchLiveStreamData = async () => {
   try {
@@ -46,13 +47,19 @@ const fetchLiveStreamData = async () => {
 const LiveStreamWidget = async () => {
   const liveStreamData = await fetchLiveStreamData();
   return (
-    <>
-      <h2 className="heading marginhead">
+    <div className="sectionWrapper">
+      <h2 className="heading">
         <a
           title="Live Stream"
           href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/etmarkets-livestream`}
         >
-          Live Stream
+          <Image
+            src="/img/liveStream.svg"
+            width={166}
+            height={23}
+            alt="Live Stream"
+            loading="lazy"
+          />
         </a>
         <span className={`eticon_caret_right ${styles.headingIcon}`} />
       </h2>
@@ -61,7 +68,7 @@ const LiveStreamWidget = async () => {
         text="See All Live Streams"
         link="https://economictimes.indiatimes.com/etmarkets-livestream"
       />
-    </>
+    </div>
   );
 };
 export default LiveStreamWidget;

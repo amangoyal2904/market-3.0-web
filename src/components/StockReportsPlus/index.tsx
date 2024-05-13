@@ -36,6 +36,18 @@ const tabNames = [
     seoName: "analyst-favs",
     screenerId: 2695,
   },
+  {
+    name: "Upward Momentum",
+    type: "type-2",
+    seoName: "upward-momentum",
+    screenerId: 2694,
+  },
+  {
+    name: "Score Upgrade",
+    type: "type-2",
+    seoName: "score-upgrade",
+    screenerId: 2518,
+  },
 ];
 const responsive = [
   {
@@ -114,7 +126,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className="sectionWrapper">
       <h2 className="heading">
         <a
           title="Stock Reports Plus"

@@ -301,6 +301,12 @@ table {
   background-color: rgb(255, 226, 218);
   padding: 25px;
 }
+
+.sectionWrapper {
+  position: relative;
+  margin: 30px auto 50px;
+}
+
 .heading {
   font-size: 32px;
   font-style: normal;
@@ -308,9 +314,6 @@ table {
   line-height: normal;
 }
 
-.marginhead {
-  padding-top: 20px;
-}
 .headingIcon {
   vertical-align: middle;
   font-size: 40px;
