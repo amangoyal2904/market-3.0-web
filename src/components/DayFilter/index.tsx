@@ -1,3 +1,4 @@
+import { trackingEvent } from "@/utils/ga";
 import styles from "./DayFilter.module.scss";
 import React, { useRef, useEffect, useState } from "react";
 
@@ -22,6 +23,11 @@ const DayFitler = React.memo(
       }
     };
     const dayOnChangeHandler = (value: any, label: any) => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "duration_filter_applied",
+        event_label: label,
+      });
       filterHandler(value, label);
     };
     useEffect(() => {
