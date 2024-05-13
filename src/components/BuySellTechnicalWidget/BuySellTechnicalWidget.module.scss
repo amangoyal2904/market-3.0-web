@@ -1,0 +1,13 @@
+@import "@/styles/variables.scss";
+
+.helpTxt {
+  margin: 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: $gray_40;
+  span {
+    display: block;
+    text-align: right;
+    margin: 5px 0;
+  }
+}

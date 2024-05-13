@@ -4,8 +4,13 @@
   font-size: 32px;
   font-style: normal;
   font-weight: 700;
-  line-height: normal;
+  line-height: 1;
   color: $black;
+  &.withRBorder {
+    margin-right: 15px;
+    border-right: 1px solid $gray_90;
+    padding-right: 15px;
+  }
 }
 .desc {
   font-size: 12px;

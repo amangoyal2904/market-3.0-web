@@ -46,9 +46,9 @@ export default function StockSRLoginBlocker({
 
   return (
     <>
-      <div id={styles.srPaywalled}>
+      <div id={styles.srPaywalled} ref={modalRef}>
         <div className={styles.srLogo}>
-          <span className="eticon_prime_logo">
+          <span className={`eticon_prime_logo ${styles.logo}`}>
             <span className="path1"></span>
             <span className="path2"></span>
             <span className="path3"></span>
@@ -69,7 +69,7 @@ export default function StockSRLoginBlocker({
           </p>
         )}
       </div>
-      <div id={styles.srPaywalledOverlay} ref={modalRef}></div>
+      <div id={styles.srPaywalledOverlay}></div>
     </>
   );
 }

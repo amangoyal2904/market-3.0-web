@@ -36,6 +36,7 @@ interface SRCardThreeProps {
   catName: string;
   primeUser: boolean;
   loginUser: boolean;
+  handleClick: any;
   tabName: string;
   dataList: DataList;
 }
@@ -51,29 +52,23 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
   catName,
   primeUser,
   loginUser,
+  handleClick,
   tabName,
   dataList,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { name, companyID, seoName, data } = dataList;
   const totalNo = parseFloat(
     data.find((item) => item?.keyId === "sr_recCnt")?.value?.toString() || "0",
   );
 
-  const handleClick = (value: boolean) => {
-    setIsModalOpen(value);
-    if (value) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "visible";
-    }
-  };
-
   const cardClickProps = !primeUser ? { onClick: () => handleClick(true) } : {};
 
   return (
     <>
-      <div className={`${styles.srCard}`} {...cardClickProps}>
+      <div
+        className={`${styles.srCard} ${!primeUser ? styles.pointer : ""}`}
+        {...cardClickProps}
+      >
         <div className={styles.sec}>
           <div className={styles.rsec}>
             <StockName
@@ -221,13 +216,6 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
           </div>
         </div>
       </div>
-      {isModalOpen && (
-        <StockSRLoginBlocker
-          overlayBlockerData={overlayBlockerData}
-          isLoginUser={loginUser}
-          handleClick={handleClick}
-        />
-      )}
     </>
   );
 };

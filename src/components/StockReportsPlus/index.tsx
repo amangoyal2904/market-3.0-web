@@ -12,11 +12,18 @@ import SRCardThree from "../StockReport/SRCardThree";
 import { useStateContext } from "@/store/StateContext";
 import Blocker from "../Blocker";
 import Loader from "../Loader";
+import StockSRLoginBlocker from "../StockSRLoginBlocker";
+import Image from "next/image";
 
 interface Props {
   srResult: any;
 }
-
+const overlayBlockerData = {
+  textForData:
+    "Exclusive stock reports are accessible for ETPrime members only.",
+  ctaText: "Subscribe Now",
+  textBenefits: "Become a member & unlock all reports now.",
+};
 const tabNames = [
   {
     name: "High Upside",
@@ -85,6 +92,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
   const { isLogin, isPrime } = state.login;
   const isPrimeUser = isPrime || false;
   const isLoginUser = isLogin || false;
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [processingLoader, setProcessingLoader] = useState(false);
   const [activeTab, setActiveTab] = useState<any>(tabNames[0]);
   const [activeSlides, setActiveSlides] = useState<any[]>(srResult?.dataList);
@@ -122,88 +130,121 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
 
     const data = await stockReportAllTabPromise?.json();
     setActiveSlides(data.dataList);
+    setScreenerDetail(data.screenerDetail);
     setProcessingLoader(false);
   };
 
-  return (
-    <div className="sectionWrapper">
-      <h2 className="heading">
-        <a
-          target="_blank"
-          title="Stock Reports Plus"
-          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/benefits/stockreportsplus`}
-        >
-          Stock Reports Plus
-          <span className={`eticon_caret_right headingIcon`} />
-        </a>
-      </h2>
-      <div className={styles.tabMainBox}>
-        <StockReportsTab
-          handleTabClick={handleTabClick}
-          tabNames={tabNames}
-          activeTab={activeTab}
-        />
+  const handlePaywallClick = (value: boolean) => {
+    setIsModalOpen(value);
+    if (value) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "visible";
+    }
+  };
 
-        <div className={styles.tabContentWraper}>
-          <div
-            className={`${styles.tabContentBox} ${activeTab.seoName === activeTab.seoName ? styles.active : ""}`}
-          >
-            {!!processingLoader && <Loader loaderType="container" />}
-            {!!activeSlides && activeSlides.length ? (
-              activeTab.type === "type-2" ? (
-                <SlickSlider
-                  slides={activeSlides.map((slide, index) => ({
-                    content: (
-                      <SRCardTwo
-                        key={index}
-                        catName={activeTab?.name}
-                        primeUser={isPrimeUser}
-                        loginUser={isLoginUser}
-                        tabName="MarketLIVECoverage"
-                        dataList={slide}
-                      />
-                    ),
-                  }))}
-                  key={`slider${activeTab}`}
-                  sliderId={`slider${activeTab}`}
-                  slidesToShow={3}
-                  slidesToScroll={3}
-                  rows={2}
-                  responsive={responsive}
-                />
+  return (
+    <>
+      <div className="sectionWrapper">
+        <h2 className="heading">
+          <div className="dflex align-item-center space-between">
+            <a
+              target="_blank"
+              title="Stock Reports Plus"
+              href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/benefits/stockreportsplus`}
+            >
+              Stock Reports Plus
+              <span className={`eticon_caret_right headingIcon`} />
+            </a>
+            <p className={styles.powered}>
+              Powered By
+              <Image
+                src="/img/refinitiv.png"
+                width={88}
+                height={22}
+                alt="Refinitiv"
+                loading="lazy"
+              />
+            </p>
+          </div>
+        </h2>
+        <div className={styles.tabMainBox}>
+          <StockReportsTab
+            handleTabClick={handleTabClick}
+            tabNames={tabNames}
+            activeTab={activeTab}
+          />
+
+          <div className={styles.tabContentWraper}>
+            <div
+              className={`${styles.tabContentBox} ${activeTab.seoName === activeTab.seoName ? styles.active : ""}`}
+            >
+              {!!processingLoader && <Loader loaderType="container" />}
+              {!!activeSlides && activeSlides.length ? (
+                activeTab.type === "type-2" ? (
+                  <SlickSlider
+                    slides={activeSlides.map((slide, index) => ({
+                      content: (
+                        <SRCardTwo
+                          key={index}
+                          catName={activeTab?.name}
+                          primeUser={isPrimeUser}
+                          loginUser={isLoginUser}
+                          tabName="MarketLIVECoverage"
+                          dataList={slide}
+                          handleClick={handlePaywallClick}
+                        />
+                      ),
+                    }))}
+                    key={`slider${activeTab}`}
+                    sliderId={`slider${activeTab}`}
+                    slidesToShow={3}
+                    slidesToScroll={3}
+                    rows={2}
+                    responsive={responsive}
+                  />
+                ) : (
+                  <SlickSlider
+                    slides={activeSlides.map((slide, index) => ({
+                      content: (
+                        <SRCardThree
+                          key={index}
+                          catName={activeTab?.name}
+                          primeUser={isPrimeUser}
+                          loginUser={isLoginUser}
+                          tabName="MarketLIVECoverage"
+                          dataList={slide}
+                          handleClick={handlePaywallClick}
+                        />
+                      ),
+                    }))}
+                    key={`slider${activeTab}`}
+                    sliderId={`slider${activeTab}`}
+                    slidesToShow={3}
+                    slidesToScroll={3}
+                    rows={2}
+                    responsive={responsive}
+                  />
+                )
               ) : (
-                <SlickSlider
-                  slides={activeSlides.map((slide, index) => ({
-                    content: (
-                      <SRCardThree
-                        key={index}
-                        catName={activeTab?.name}
-                        primeUser={isPrimeUser}
-                        loginUser={isLoginUser}
-                        tabName="MarketLIVECoverage"
-                        dataList={slide}
-                      />
-                    ),
-                  }))}
-                  key={`slider${activeTab}`}
-                  sliderId={`slider${activeTab}`}
-                  slidesToShow={3}
-                  slidesToScroll={3}
-                  rows={2}
-                  responsive={responsive}
-                />
-              )
-            ) : (
-              <Blocker type={"noDataMinimal"} />
-            )}
+                <Blocker type={"noDataMinimal"} />
+              )}
+            </div>
           </div>
         </div>
+        <ViewAllLink
+          text={`See All ${activeTab?.name}`}
+          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/stockreportsplus/${screenerDetail?.seoName}/stockreportscategory/screenerid-${activeTab?.screenerId}.cms`}
+        />
       </div>
-      <ViewAllLink
-        text={`See All ${activeTab?.name}`}
-        link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/stockreportsplus/${screenerDetail?.seoName}/stockreportscategory/screenerid-${activeTab?.screenerId}.cms`}
-      />
-    </div>
+      {isModalOpen && (
+        <StockSRLoginBlocker
+          overlayBlockerData={overlayBlockerData}
+          isLoginUser={isLoginUser}
+          handleClick={handlePaywallClick}
+        />
+      )}
+    </>
   );
 };
 
