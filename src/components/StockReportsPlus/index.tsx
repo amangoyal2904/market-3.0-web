@@ -133,8 +133,8 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
           href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/benefits/stockreportsplus`}
         >
           Stock Reports Plus
+          <span className={`eticon_caret_right headingIcon`} />
         </a>
-        <span className={`eticon_caret_right headingIcon`} />
       </h2>
       <div className={styles.tabMainBox}>
         <StockReportsTab

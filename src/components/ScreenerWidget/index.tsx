@@ -6,6 +6,7 @@ import SlickSlider from "../SlickSlider";
 import StockScreenCards from "./StockScreenCards";
 import ViewAllLink from "../ViewAllLink";
 import { useState } from "react";
+import Link from "next/link";
 
 const fetchData = async () => {
   const bodyParams = `?collectiontypeid=5&screenercount=10`;
@@ -65,10 +66,10 @@ const StockScreenerWidget = async () => {
   return (
     <div className="sectionWrapper">
       <h2 className="heading">
-        <a href="/markets/stock-screener" title="Stock Screeners">
+        <Link href="/markets/stock-screener" title="Stock Screeners">
           Stock Screeners
-        </a>
-        <span className={`eticon_caret_right headingIcon`} />
+          <span className={`eticon_caret_right headingIcon`} />
+        </Link>
       </h2>
       <div className={styles.screenerCards}>
         {StockScreenerData.length && (
