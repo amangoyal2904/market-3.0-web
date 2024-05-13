@@ -134,7 +134,7 @@ export const updateOrAddParamToPath = (
     searchParams.append(param, value);
   }
 
-  return url.pathname + "?" + searchParams.toString();
+  return url.pathname + "?" + searchParams?.toString();
 };
 
 export const fnGenerateMetaData = (meta?: any) => {
