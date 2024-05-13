@@ -58,7 +58,7 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { name, companyID, seoName, data } = dataList;
   const totalNo = parseFloat(
-    data.find((item) => item.keyId === "sr_recCnt")!.value.toString(),
+    data.find((item) => item?.keyId === "sr_recCnt")?.value?.toString() || "0",
   );
 
   const handleClick = (value: boolean) => {
@@ -86,7 +86,7 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
               name={name}
             />
             <p className={styles.stockRecoTitle}>
-              {data.find((item) => item.keyId === "sr_recText")!.value}
+              {data.find((item) => item?.keyId === "sr_recText")?.value || ""}
             </p>
             <p className={styles.stockRecoDesc}>
               {`Mean Recos by ${totalNo} Analysts`}
@@ -100,12 +100,12 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
                     "sr_recHoldCnt",
                     "sr_recBuyCnt",
                     "sr_recStrongBuyCnt",
-                  ].includes(item.keyId)
+                  ].includes(item?.keyId)
                 ) {
                   return (
                     <RecoBar
                       key={index}
-                      num={parseFloat(item.value.toString())}
+                      num={parseFloat(item?.value.toString())}
                       totalNo={totalNo}
                     />
                   );
@@ -122,10 +122,10 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
                     "sr_recHoldCnt",
                     "sr_recBuyCnt",
                     "sr_recStrongBuyCnt",
-                  ].includes(item.keyId)
+                  ].includes(item?.keyId)
                 ) {
                   let type = "";
-                  switch (item.keyId) {
+                  switch (item?.keyId) {
                     case "sr_recSellCnt":
                       type = "Strong Sell";
                       break;
@@ -147,7 +147,7 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
                   return (
                     <RecoBarLabel
                       key={index}
-                      num={parseFloat(item.value.toString())}
+                      num={parseFloat(item?.value.toString())}
                       type={type}
                     />
                   );
@@ -156,7 +156,7 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
               })}
             </div>
 
-            {data.find((item) => item.keyId === "sr_targetVsCurrent") ? (
+            {data.find((item) => item?.keyId === "sr_targetVsCurrent") ? (
               <div className={styles.reportCta}>
                 <a
                   href={`/${seoName}/stockreports/reportid-${companyID}.cms`}
@@ -186,26 +186,22 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
             )}
           </div>
           <div
-            className={`${styles.lsec} ${styles.highlightSr} ${styles[data.find((item) => item.keyId === "sr_targetVsCurrent")!.trend]}`}
+            className={`${styles.lsec} ${styles.highlightSr} ${styles[data.find((item) => item?.keyId === "sr_targetVsCurrent")?.trend || ""]}`}
           >
             <ul>
               <li>
                 <p className={styles.title}>Expected Returns</p>
                 <p className={`${styles.val} ${styles.fs16}`}>
-                  {
-                    data.find((item) => item.keyId === "sr_targetVsCurrent")!
-                      .value
-                  }
+                  {data.find((item) => item?.keyId === "sr_targetVsCurrent")
+                    ?.value || ""}
                 </p>
               </li>
               <li>
                 <p className={styles.title}>1Y Target</p>
                 {primeUser ? (
                   <p className={`${styles.val} ${styles.bold}`}>
-                    {
-                      data.find((item) => item.keyId === "sr_priceTargetMean")!
-                        .value
-                    }
+                    {data.find((item) => item?.keyId === "sr_priceTargetMean")
+                      ?.value || ""}
                   </p>
                 ) : (
                   <p className={`${styles.val} ${styles.blur}`}></p>
@@ -215,10 +211,8 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
                 <p className={styles.title}>Current Price</p>
                 {primeUser ? (
                   <p className={styles.val}>
-                    {
-                      data.find((item) => item.keyId === "lastTradedPrice")!
-                        .value
-                    }
+                    {data.find((item) => item?.keyId === "lastTradedPrice")
+                      ?.value || ""}
                   </p>
                 ) : (
                   <p className={`${styles.val} ${styles.blur}`}></p>

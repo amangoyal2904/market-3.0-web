@@ -80,14 +80,6 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
     srResult?.screenerDetail,
   );
 
-  useEffect(() => {
-    if (srResult) {
-      setActiveSlides(srResult?.dataList);
-      setScreenerDetail(srResult?.screenerDetail);
-      setActiveTab(tabNames[0]); // Set default active tab
-    }
-  }, [srResult]);
-
   const handleTabClick = (tab: any) => {
     setProcessingLoader(true);
     setActiveTab(tab);
