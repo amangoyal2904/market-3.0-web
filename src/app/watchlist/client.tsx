@@ -174,6 +174,11 @@ const WatchListClient = () => {
   };
   const removeMultipleStockInWathclist = async () => {
     if (unFollowStocksList.length > 0) {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "page_cta_click",
+        event_label: "remove",
+      });
       setToasterConfirmBoxShow(true);
     } else {
       setShowTableCheckBox(false);
