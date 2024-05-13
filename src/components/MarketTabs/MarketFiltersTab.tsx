@@ -94,6 +94,11 @@ const MarketFiltersTab = React.memo(
         editRemoveStockBtnReset();
       if (isLogin) {
         document.body.style.overflow = "hidden";
+        trackingEvent("et_push_event", {
+          event_category: "mercury_engagement",
+          event_action: "page_cta_click",
+          event_label: "personalize",
+        });
         setOpenPersonaliseModal(true);
       } else {
         initSSOWidget();
