@@ -1,4 +1,3 @@
-import styles from "./DashboardWidget.module.scss";
 import MarketDashBoard from "./MarketDashBoard";
 import {
   getCustomViewTable,
@@ -52,11 +51,8 @@ const MarketsDashboardWidget = async () => {
   const updatedUrl = isExist ? isExist.shortUrl : pageUrl;
 
   return (
-    <div className={styles.dashboardWrapper}>
-      <h1 className="heading">
-        Markets Dashboards
-        <span className={`eticon_caret_right headingIcon`} />
-      </h1>
+    <div className="sectionWrapper">
+      <h2 className="heading">Markets Dashboards</h2>
       <MarketDashBoard
         tabsData={tabData}
         tableData={tableData}

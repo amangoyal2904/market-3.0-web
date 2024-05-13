@@ -113,8 +113,8 @@ const BuySellTechnicalWidget = ({ data, bodyParams }: any) => {
   }, [payload, currentMarketStatus]);
 
   return (
-    <>
-      <h1 className="heading marginhead">Buy/Sell Signals</h1>
+    <div className="sectionWrapper">
+      <h2 className="heading">Buy/Sell Signals</h2>
       <div className="prel">
         <BuySellTab
           activeItem={activeItem}
@@ -138,11 +138,7 @@ const BuySellTechnicalWidget = ({ data, bodyParams }: any) => {
           processingLoader={processingLoader}
         />
       </div>
-      <ViewAllLink
-        text="See All Stocks"
-        link="/stocks/marketstats/top-gainers"
-      />
-    </>
+    </div>
   );
 };
 

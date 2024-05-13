@@ -39,7 +39,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     variableWidth.includes(topSpaceClass) && screenWidth > 1240;
 
   const settings: Settings = {
-    className: "slider variable-width",
+    className: isVariableWidth ? "slider variable-width" : "",
     variableWidth: isVariableWidth,
     speed: 500,
     arrows: false,

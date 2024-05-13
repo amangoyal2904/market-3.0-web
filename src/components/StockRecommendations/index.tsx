@@ -100,11 +100,13 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <h1 className="heading ">
-        Stock Recommendations
+    <div className="sectionWrapper">
+      <h2 className="heading ">
+        <a href="/markets/stock-recos/overview" title="Stock Recommendations">
+          Stock Recommendations
+        </a>
         <span className={`eticon_caret_right headingIcon`} />
-      </h1>
+      </h2>
 
       <div className={styles.tabMainBox}>
         <ul className={styles.tabs}>
@@ -147,7 +149,7 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
       </div>
       <ViewAllLink
         text="See All Stock Recommendations"
-        link="/stocksrecos/overview"
+        link="/markets/stock-recos/overview"
       />
     </div>
   );

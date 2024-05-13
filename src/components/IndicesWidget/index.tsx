@@ -13,7 +13,7 @@ import MarketStatus from "../MarketStatus";
 import ViewAllLink from "../ViewAllLink";
 import FIIDIIWIdget from "../FIIDIIWIdget";
 
-const IndicesWidget = () => {
+const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
   const responsive = [
     {
       breakpoint: 2561,
@@ -77,12 +77,10 @@ const IndicesWidget = () => {
   const [period, setPeriod] = useState("1d");
   const [changePeriod, setChangePeriod] = useState("netChange");
   const [percentChange, setPercentChange] = useState("percentChange");
-  const [indicesData, setIndicesData] = useState<any[]>([]);
-  const [topNewsData, setTopNewsData] = useState<any[]>([]);
-  const [fiiDiiCash, setFiiDiiCash] = useState<any[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState<any>({});
-  const [fiiCash, setFiiCash] = useState<any>({});
-  const [diiCash, setDiiCash] = useState<any>({});
+  const [indicesData, setIndicesData] = useState<any[]>(data?.indicesList);
+  const [selectedIndex, setSelectedIndex] = useState<any>(data?.indicesList[0]);
+  const [fiiCash, setFiiCash] = useState<any>(data?.fiiData);
+  const [diiCash, setDiiCash] = useState<any>(data?.diiData);
   const [screenWidth, setScreenWidth] = useState<any>("");
   const [iframeSrc, setIframeSrc] = useState(
     `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=NSE Index&exchange=NSE&period=${period}&height=220&transparentBg=1`,
@@ -96,11 +94,7 @@ const IndicesWidget = () => {
       `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&period=${item?.value}&height=220&transparentBg=1`,
     );
   };
-  useEffect(() => {
-    getIndicesWidgetData();
-    fetchTopNews();
-    fetchFiiDIIData();
-  }, []);
+
   const getIndicesWidgetData = async () => {
     const response = await Service.get({
       url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
@@ -120,38 +114,6 @@ const IndicesWidget = () => {
       `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedItem?.symbol}&exchange=${selectedItem?.exchange}&period=${period}&height=220&transparentBg=1`,
     );
   };
-  const fetchTopNews = async () => {
-    try {
-      const response = await Service.get({
-        url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=81409979`,
-        params: {},
-      });
-      const data = await response?.json();
-      const topNewsData =
-        (data &&
-          data.searchResult &&
-          data.searchResult[0] &&
-          data.searchResult[0].data) ||
-        [];
-      setTopNewsData(topNewsData);
-    } catch (e) {
-      console.log("Error in fetching top news", e);
-    }
-  };
-  const fetchFiiDIIData = async () => {
-    try {
-      const response = await Service.get({
-        url: (APIS_CONFIG as any)?.FIIDIICash[APP_ENV],
-        params: {},
-      });
-      const data = await response?.json();
-      const fiidiiData =
-        (data && data.datainfo && data.datainfo.fiiDiiChart) || {};
-      setFiiDiiCash(fiidiiData);
-    } catch (e) {
-      console.log("Error in fetching investment Data", e);
-    }
-  };
   useEffect(() => {
     const intervalId: any = setInterval(() => {
       if (currentMarketStatus === "LIVE") {
@@ -168,10 +130,12 @@ const IndicesWidget = () => {
     <div className={styles.widgetContainer}>
       <div className={styles.IndicesContainer}>
         <div className={styles.topWrapper}>
-          <p className={styles.title}>
-            Indices{" "}
+          <h2 className={styles.title}>
+            <a href="/markets/indices" title="Indices">
+              Indices
+            </a>
             <span className={`eticon_caret_right ${styles.headingIcon}`} />
-          </p>
+          </h2>
           <div className={styles.liveStatus}>
             <MarketStatus
               currentMarketStatus={currentMarketStatus}
@@ -239,7 +203,7 @@ const IndicesWidget = () => {
                 className={styles.technical}
                 target="_blank"
                 title={`Technicals: ${selectedIndex?.indexName}`}
-                href={`https://economictimes.indiatimes.com/markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`}
+                href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`}
               >
                 <span className="eticon_candlestick">
                   <span className="path1"></span>
@@ -270,20 +234,25 @@ const IndicesWidget = () => {
           )}
           <div className={styles.bottomWidgets}>
             <div className={styles.widget}>
-              <div className="dflex align-item-center">
+              <div className="dflex align-item-center space-between">
                 <p className={styles.title}>Advance/Decline</p>
+                <span className={`eticon_caret_right ${styles.icon}`} />
               </div>
               <div className={styles.bottom}>
                 <div className="dflex align-item-center space-between">
                   <span className={`numberFonts ${styles.label}`}>
-                    {selectedIndex?.advances
-                      ? parseInt(selectedIndex?.advances)?.toFixed(2)
-                      : ""}
+                    {`${
+                      selectedIndex?.advances
+                        ? parseInt(selectedIndex?.advances)
+                        : ""
+                    } Advance`}
                   </span>
                   <span className={`numberFonts ${styles.label}`}>
-                    {selectedIndex?.declines
-                      ? parseInt(selectedIndex?.declines)?.toFixed(2)
-                      : ""}
+                    {`${
+                      selectedIndex?.declines
+                        ? parseInt(selectedIndex?.declines)
+                        : ""
+                    } Decline`}
                   </span>
                 </div>
                 <div
@@ -305,7 +274,6 @@ const IndicesWidget = () => {
                 </div>
               </div>
               <p className={styles.date}>
-                {" "}
                 {dateFormat(
                   dateStringToMilliseconds(selectedIndex?.dateTime),
                   "%d %MMM, %Y",
@@ -330,9 +298,15 @@ const IndicesWidget = () => {
         </div>
       </div>
       <div className={styles.newsContainer}>
-        <p className={styles.title}>Top News</p>
+        <a
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`}
+          title="Top News"
+          className={styles.title}
+        >
+          Top News
+        </a>
         <ul>
-          {topNewsData?.map((list, index) =>
+          {topNewsData?.map((list: any, index: number) =>
             index < 6 ? (
               <li key={`topNews${index}`}>
                 <a href={list?.url} className={styles.topNewsList}>
@@ -363,7 +337,7 @@ const IndicesWidget = () => {
         </ul>
         <ViewAllLink
           text="See All News"
-          link="https://economictimes.indiatimes.com/markets/stocks"
+          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`}
           alignRight={true}
           padding="16px 0 0 0"
         />

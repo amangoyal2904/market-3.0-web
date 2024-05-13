@@ -8,7 +8,7 @@ const ViewAllLink = (props: any) => {
       className={`${styles.seeAll} ${alignRight ? styles.alignRight : styles.alignLeft}`}
       style={{ padding: `${padding}` }}
     >
-      <Link href={link}>
+      <Link href={link} title={text}>
         {text}
         <span className=" eticon_next" />
       </Link>

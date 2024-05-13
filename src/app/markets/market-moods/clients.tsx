@@ -242,7 +242,31 @@ const MarketMoodsClient = ({
     "@type": "FAQPage",
     mainEntity: faqMainEntity,
   };
-
+  const fetchDesc = (key: string) => {
+    switch (key) {
+      case "overview":
+        return (
+          <p className={styles.mood_desc}>
+            Know the market sentiments. Identify whether the market is
+            predominantly bullish or bearish.
+          </p>
+        );
+      case "periodic":
+        return (
+          <p className={styles.mood_desc}>
+            Compare the periodic highs & lows of different indices to identify
+            trends & make informed decisions.
+          </p>
+        );
+      case "advanceDecline":
+        return (
+          <p className={styles.mood_desc}>
+            Track the no. of stocks closing above their previous day&apos;s
+            close & no. of stocks closing below their previous low.
+          </p>
+        );
+    }
+  };
   return (
     <>
       <div className={styles.logo}>
@@ -305,6 +329,7 @@ const MarketMoodsClient = ({
                     <div className={styles.head}>{item.heading}</div>
                   </div>
                 )}
+                {fetchDesc(item.key)}
                 <Image
                   src={item.img}
                   width={792}
@@ -347,7 +372,10 @@ const MarketMoodsClient = ({
                 countPercentage={countPercentage}
                 handleCountPercentage={handleCountPercentage}
               />
-
+              <p className={styles.mood_desc}>
+                Know the market sentiments. Identify whether the market is
+                predominantly bullish or bearish.
+              </p>
               {overviewData?.dataList?.length > 0 ? (
                 <>
                   <div className={styles.tableWrapper}>
@@ -392,7 +420,10 @@ const MarketMoodsClient = ({
                 duration={duration}
                 handleDuration={handleDuration}
               />
-
+              <p className={styles.mood_desc}>
+                Compare the periodic highs & lows of different indices to
+                identify trends & make informed decisions.
+              </p>
               {periodicData?.dataList?.length > 0 ? (
                 <>
                   <div className={styles.tableWrapper}>
@@ -435,7 +466,10 @@ const MarketMoodsClient = ({
                 monthlyDaily={monthlyDaily}
                 handleMonthlyDaily={handleMonthlyDaily}
               />
-
+              <p className={styles.mood_desc}>
+                Track the no. of stocks closing above their previous day&apos;s
+                close & no. of stocks closing below their previous low.
+              </p>
               {advanceDeclineData?.dataList?.length > 0 ? (
                 <>
                   <div className={styles.tableWrapper}>

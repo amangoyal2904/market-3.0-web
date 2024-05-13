@@ -4,6 +4,7 @@ import styles from "./Blocker.module.scss";
 import { initSSOWidget } from "../../utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import AddStockComponent from "../StockAdd";
+import { trackingEvent } from "@/utils/ga";
 
 interface propsType {
   type: any;
@@ -63,6 +64,11 @@ const Blocker = (props: propsType) => {
   };
 
   const handleAddStocks = () => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "page_cta_click",
+      event_label: "add stock",
+    });
     setAddStockShow(true);
   };
 

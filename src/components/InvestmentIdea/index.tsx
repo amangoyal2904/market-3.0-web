@@ -41,11 +41,16 @@ const Card = ({ data }: any) => {
 const InvestmentIdea = async () => {
   const investmentData = await fetchInvestMentData();
   return investmentData && investmentData.length ? (
-    <div className={styles.investMentWrapper}>
-      <p className={styles.title}>
-        Investment Ideas
+    <div className="sectionWrapper">
+      <h2 className={styles.title}>
+        <a
+          title="Investment Ideas"
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
+        >
+          Investment Ideas
+        </a>
         <span className={`eticon_caret_right ${styles.headingIcon}`} />
-      </p>
+      </h2>
       <div className={styles.investmentData}>
         {investmentData?.map((data: any, index: any) =>
           index < 4 ? (
@@ -57,7 +62,7 @@ const InvestmentIdea = async () => {
       </div>
       <ViewAllLink
         text="See All Investment Ideas"
-        link="https://economictimes.indiatimes.com/prime/investment-ideas"
+        link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
       />
     </div>
   ) : (

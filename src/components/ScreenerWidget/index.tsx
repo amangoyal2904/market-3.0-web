@@ -1,11 +1,11 @@
 import styles from "./styles.module.scss";
-import Link from "next/link";
 import APIS_CONFIG from "../../network/api_config.json";
 import Service from "@/network/service";
 import { APP_ENV } from "../../utils/index";
 import SlickSlider from "../SlickSlider";
 import StockScreenCards from "./StockScreenCards";
 import ViewAllLink from "../ViewAllLink";
+import { useState } from "react";
 
 const fetchData = async () => {
   const bodyParams = `?collectiontypeid=5&screenercount=10`;
@@ -63,10 +63,13 @@ const StockScreenerWidget = async () => {
       : [];
 
   return (
-    <div className={styles.screenerWrapper}>
-      <h1 className="heading">
-        Stock Screeners <span className={`eticon_caret_right headingIcon`} />
-      </h1>
+    <div className="sectionWrapper">
+      <h2 className="heading">
+        <a href="/markets/stock-screener" title="Stock Screeners">
+          Stock Screeners
+        </a>
+        <span className={`eticon_caret_right headingIcon`} />
+      </h2>
       <div className={styles.screenerCards}>
         {StockScreenerData.length && (
           <SlickSlider

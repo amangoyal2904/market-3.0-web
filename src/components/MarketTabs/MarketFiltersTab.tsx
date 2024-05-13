@@ -17,6 +17,7 @@ import StockFilterNifty from "@/components/StockFilterNifty";
 import DayFitler from "@/components/DayFilter";
 import { fetchFilters } from "@/utils/utility";
 import SectorFilter from "../DayFilter/SectorFilter";
+import { trackingEvent } from "@/utils/ga";
 
 const IndustryFilter = dynamic(() => import("@/components/IndustryFilter"), {
   loading: () => (
@@ -155,7 +156,20 @@ const MarketFiltersTab = React.memo(
     };
     const addStockHandler = () => {
       editRemoveStockBtnReset();
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "page_cta_click",
+        event_label: "add stock",
+      });
       setAddStockShow(true);
+    };
+    const editStockHandler = () => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "page_cta_click",
+        event_label: "edit",
+      });
+      setShowTableCheckBox(true);
     };
     const dayFilterHandler = () => {
       setDayFilterShow(true);
@@ -312,10 +326,7 @@ const MarketFiltersTab = React.memo(
                   Remove
                 </span>
               ) : (
-                <span
-                  className={styles.btnStock}
-                  onClick={() => setShowTableCheckBox(true)}
-                >
+                <span className={styles.btnStock} onClick={editStockHandler}>
                   <i className={`${styles.icons} eticon_edit`}></i>Edit
                 </span>
               )}

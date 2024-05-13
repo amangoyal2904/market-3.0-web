@@ -173,6 +173,10 @@
 }
 .wrapper {
   position: relative;
+  p.mood_desc {
+    text-align: left;
+    margin: 5px 0;
+  }
   &.center {
     .section {
       text-align: center;
