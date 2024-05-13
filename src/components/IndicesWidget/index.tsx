@@ -324,9 +324,11 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                 >
                   <p>
                     <span className={styles.topNewsTitle}>{list?.title}</span>
-                    <span className={styles.readTime}>
-                      {list.readtime} Mins ago{" "}
-                    </span>
+                    {!!list.readtime && (
+                      <span className={styles.readTime}>
+                        {`${list.readtime} ${list.readtime == 1 ? "Min ago" : "Mins ago"}`}
+                      </span>
+                    )}
                   </p>
                   <img
                     width="55"

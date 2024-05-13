@@ -36,7 +36,7 @@ const LiveCoverage = async () => {
 
   const fetchTopNews = async () => {
     const response = await service.get({
-      url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=81409979`,
+      url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=53282427`,
       params: {},
     });
     const data = await response?.json();
