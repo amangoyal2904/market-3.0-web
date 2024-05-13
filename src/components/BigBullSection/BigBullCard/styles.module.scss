@@ -252,3 +252,41 @@
   vertical-align: top;
   cursor: pointer;
 }
+
+@media screen and (max-width: 1400px) {
+  .card {
+    width: 29%;
+    padding: 10px;
+  }
+  .middle {
+    .netItemList {
+      li {
+        width: 32%;
+        span {
+          white-space: nowrap;
+          display: inline-block;
+          vertical-align: top;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .card {
+    width: 29%;
+    padding: 10px;
+  }
+  .middle {
+    .netItemList {
+      li {
+        span {
+          white-space: wrap;
+          &:first-child {
+            min-height: 29px;
+          }
+        }
+      }
+    }
+  }
+}

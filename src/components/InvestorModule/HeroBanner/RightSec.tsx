@@ -19,7 +19,7 @@ const RightSecModule = React.memo(
             name: stock?.uiLabel?.text,
             sliced: false,
             selected: false,
-            y: parseFloat(stock?.uiValue?.text),
+            y: parseFloat(stock?.uiValue?.dbValue),
             color: colorChart[index],
           };
         })

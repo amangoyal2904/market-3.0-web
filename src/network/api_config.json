@@ -410,7 +410,7 @@
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/all-investor-overview"
   },
   "BigBullInvestorOverview": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-overview",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/investor-overview",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-overview"
   },
   "BigBullFreshEntryExit": {

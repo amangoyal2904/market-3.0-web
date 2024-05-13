@@ -2,15 +2,31 @@
 import styles from "./styles.module.scss";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
+import { trackingEvent } from "@/utils/ga";
 const BigBullTabs = ({
   data,
   individualFilter,
   aciveFilter,
   fitlerHandler,
+  pageType = "",
 }: any) => {
   const pathname = usePathname();
   const isActive = (path: any) => path === pathname;
+  const gaTrackingEvent = (tabName: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "tab_selected",
+      event_label: tabName,
+    });
+  };
+  const gaTrackingEventFilter = (value: any) => {
+    fitlerHandler(value);
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "individual_filter_applied",
+      event_label: value,
+    });
+  };
   return (
     <>
       <div className={styles.tabSec}>
@@ -20,6 +36,7 @@ const BigBullTabs = ({
               <li
                 className={`${isActive(tab.url) ? styles.active : ""}`}
                 key={`${index}-`}
+                onClick={() => gaTrackingEvent(tab.title)}
               >
                 <Link href={`${tab.url}`}>
                   <span>{tab.title}</span>
@@ -28,21 +45,25 @@ const BigBullTabs = ({
             );
           })}
         </ul>
-        <ul className={styles.rigthTab}>
-          {individualFilter.map((filter: any, index: number) => {
-            return (
-              <li
-                onClick={() => {
-                  fitlerHandler(filter.value);
-                }}
-                className={`${aciveFilter === filter.value ? styles.active : ""}`}
-                key={`${index}-${filter.id}`}
-              >
-                <span>{filter.lable}</span>
-              </li>
-            );
-          })}
-        </ul>
+        {pageType !== "mostHeld" ? (
+          <ul className={styles.rigthTab}>
+            {individualFilter.map((filter: any, index: number) => {
+              return (
+                <li
+                  onClick={() => {
+                    gaTrackingEventFilter(filter.value);
+                  }}
+                  className={`${aciveFilter === filter.value ? styles.active : ""}`}
+                  key={`${index}-${filter.id}`}
+                >
+                  <span>{filter.lable}</span>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          ""
+        )}
       </div>
     </>
   );

@@ -146,10 +146,12 @@ const BiggBullMostHeldTable = ({
                               .slice(0, 2)
                               .map((list: any, index: number) => {
                                 return (
-                                  <li key={`-${index}--`}>
+                                  <li
+                                    key={`-${index}--`}
+                                    className={`${tdata?.investorsList.length === 1 || (tdata?.investorsList.length === 2 && index === 1) ? styles.noBorder : ""}`}
+                                  >
                                     <Link
                                       href={`/markets/top-india-investors-portfolio/${list?.sharkSeoName},expertid-${list?.sharkID}`}
-                                      target="_blank"
                                       className={styles.investNameImg}
                                     >
                                       <img
@@ -193,7 +195,6 @@ const BiggBullMostHeldTable = ({
                                               >
                                                 <Link
                                                   href={`/markets/top-india-investors-portfolio/${list?.sharkSeoName},expertid-${list?.sharkID}`}
-                                                  target="_blank"
                                                   className={
                                                     styles.investNameImg
                                                   }
@@ -238,32 +239,9 @@ const BiggBullMostHeldTable = ({
                           );
                         })
                       : ""}
-                    {/* <td>
-                    {currHolding.length > 0
-                      ? currHolding[0].uiValue?.text
-                      : null}
-                  </td>
-                  <td>
-                    {prevHolding.length > 0
-                      ? prevHolding[0].uiValue?.text
-                      : null}
-                  </td>
-                  <td>
-                    <span
-                      className={`${styles[updownClass]}`}
-                      dangerouslySetInnerHTML={{
-                        __html:
-                          indecrease.length > 0
-                            ? indecrease[0].uiValue?.text
-                            : null,
-                      }}
-                    />
-                  </td>
-                  <td>
-                    {amountInvSold.length > 0
-                      ? amountInvSold[0].uiValue?.text
-                      : null}
-                  </td> */}
+                    <td
+                      className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+                    ></td>
                   </tr>
                 );
               })

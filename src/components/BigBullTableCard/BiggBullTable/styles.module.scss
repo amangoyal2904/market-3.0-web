@@ -5,7 +5,11 @@
   width: 100%;
   border-collapse: collapse;
   overflow-x: auto;
-
+  thead {
+    position: sticky;
+    top: 55px;
+    z-index: 9;
+  }
   td {
     max-width: 150px;
     padding: 15px 12px;
@@ -366,6 +370,9 @@
         width: 100px;
       }
     }
+    .noBorder {
+      border-right: 0;
+    }
     .dotes {
       border: none;
       padding: 0 4px;
@@ -626,4 +633,46 @@
 }
 .comNameSec {
   width: 320px;
+}
+
+@media screen and (max-width: 1024px) {
+  .comNameSec {
+    width: 150px;
+  }
+  .investorBulkBlock {
+    tr th:nth-of-type(3) {
+      width: 150px;
+      max-width: 150px;
+      min-width: 150px;
+    }
+  }
+  .holdingInvestor {
+    tr th:first-child,
+    tr td:first-child {
+      width: 150px;
+      max-width: 150px;
+      min-width: 150px;
+    }
+  }
+  .buySellSec {
+    padding: 8px 2px;
+    width: 100px;
+  }
+  .allInvestors {
+    tr td:first-child {
+      width: 250px;
+      max-width: 250px;
+    }
+  }
+  .bibBullCustomTable {
+    .investNameImg {
+      width: 220px;
+      .nameTxt {
+        flex-wrap: wrap;
+      }
+    }
+    .bestPickSec {
+      width: 200px;
+    }
+  }
 }

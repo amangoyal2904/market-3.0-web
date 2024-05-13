@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Date",
+    "id": "0",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "dealDate"
+  },
+  {
+    "name": "Buy / Sell",
+    "id": "1",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "dealSignal"
+  },
+  {
+    "name": "Company Name",
+    "id": "2",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "companyName"
+  },
+  {
+    "name": "Trans. Value (Cr.)",
+    "id": "3",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "dealValue"
+  },
+  {
+    "name": "Stake Bought/ Sold",
+    "id": "4",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "stakeChange"
+  },
+  {
+    "name": "Chg. Since Bought",
+    "id": "6",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "changeSinceDeal"
+  },
+  {
+    "name": "Deal Qty.",
+    "id": "5",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "dealQuantity"
+  },
+  {
+    "name": "Deal Price (Cr.)",
+    "id": "6",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "dealPrice"
+  }
+]

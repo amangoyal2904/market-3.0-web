@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Investors Name",
+    "id": "0",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "name"
+  },
+  {
+    "name": "Buy / Sell",
+    "id": "01",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": ""
+  },
+  {
+    "name": "Company Name",
+    "id": "1",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "companyName"
+  },
+  {
+    "name": "Trans. Value(Cr.)",
+    "id": "2",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "dealValue"
+  },
+  {
+    "name": "Stake Bought/ Sold",
+    "id": "3",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "dealStakePercent"
+  },
+  {
+    "name": "Chg. Since Bought",
+    "id": "4",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "changeSinceDeal"
+  },
+  {
+    "name": "Deal Qty.",
+    "id": "5",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "dealQuantity"
+  },
+  {
+    "name": "Deal Price (Rs)",
+    "id": "6",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "dealPrice"
+  }
+]

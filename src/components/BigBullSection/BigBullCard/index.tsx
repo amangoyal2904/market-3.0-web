@@ -88,7 +88,6 @@ const BigBullCard = ({ data, type }: any) => {
                     <div key={index}>
                       <Link
                         href={`/markets/top-india-investors-portfolio/${slide?.sharkSeoName},expertid-${slide?.sharkID}`}
-                        target="_blank"
                         className={styles.cardName}
                         title={slide.name}
                       >
@@ -109,7 +108,6 @@ const BigBullCard = ({ data, type }: any) => {
         ) : (
           <Link
             href={`/markets/top-india-investors-portfolio/${data?.investorIntro?.sharkSeoName},expertid-${data?.investorIntro?.sharkID}`}
-            target="_blank"
             className={styles.top}
           >
             <img

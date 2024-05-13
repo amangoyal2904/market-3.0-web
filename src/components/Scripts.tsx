@@ -75,19 +75,17 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
     }
   }, [router, isPrime]);
 
- let execution =0;
+  let execution = 0;
   useEffect(() => {
     document.addEventListener("visibilitychange", (event) => {
       if (document.visibilityState == "visible" && execution == 0) {
         renderDfpAds(isPrime);
-        execution =1;
-        
-      } else{
-        execution =0;
+        execution = 1;
+      } else {
+        execution = 0;
       }
-     });
-  }, ['', isPrime]);
-
+    });
+  }, ["", isPrime]);
 
   const surveyLoad = () => {
     if (window._sva && window._sva.setVisitorTraits) {
@@ -271,7 +269,8 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
                 const gptLoaded = new Event("gptLoaded");
                 document.dispatchEvent(gptLoaded);
               }}
-            async/>
+              async
+            />
           )}
           {!isprimeuser && (
             <Script

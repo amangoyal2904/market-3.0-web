@@ -133,7 +133,7 @@
 }
 
 .card.viewMoreSec {
-  min-height: 124px;
+  min-height: 120px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -154,4 +154,7 @@
     height: 8px;
     margin: 5px auto 0 auto;
   }
+}
+.card.viewMoreSec.small {
+  min-height: 108px;
 }
