@@ -7,6 +7,7 @@ import tableConfig from "../../utils/tableConfig.json";
 import Blocker from "../Blocker";
 import ViewAllLink from "../ViewAllLink";
 import styles from "./WatchlistWidget.module.scss";
+import Link from "next/link";
 
 const WatchlistWidget = () => {
   const [showBlocker, setShowBlocker] = useState(true);
@@ -50,10 +51,10 @@ const WatchlistWidget = () => {
   return (
     <div className="sectionWrapper">
       <h2 className="heading">
-        <a href="/watchlist" title="My Watchlist">
+        <Link href="/watchlist" title="My Watchlist">
           My Watchlist
-        </a>
-        <span className={`eticon_caret_right headingIcon`} />
+          <span className={`eticon_caret_right headingIcon`} />
+        </Link>
       </h2>
       {showBlocker ? (
         <Blocker type="loginBlocker" />

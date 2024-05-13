@@ -60,8 +60,8 @@ const LiveStreamWidget = async () => {
             alt="Live Stream"
             loading="lazy"
           />
+          <span className={`eticon_caret_right ${styles.headingIcon}`} />
         </a>
-        <span className={`eticon_caret_right ${styles.headingIcon}`} />
       </h2>
       <LiveStreamSlider liveStreamData={liveStreamData} />
       <ViewAllLink

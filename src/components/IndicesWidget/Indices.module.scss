@@ -23,10 +23,10 @@
 
     .headingIcon {
       vertical-align: middle;
-      font-size: 40px;
+      font-size: 32px;
       position: absolute;
-      top: -3px;
-      margin-left: -10px;
+      top: 0;
+      margin-left: -5px;
     }
   }
 
@@ -238,6 +238,11 @@
     border-radius: 8px;
     padding: 12px;
     min-height: 110px;
+
+    .icon {
+      font-size: 20px;
+      vertical-align: middle;
+    }
 
     &:first-child {
       .bottom {

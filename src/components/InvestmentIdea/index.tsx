@@ -48,8 +48,8 @@ const InvestmentIdea = async () => {
           href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
         >
           Investment Ideas
+          <span className={`eticon_caret_right ${styles.headingIcon}`} />
         </a>
-        <span className={`eticon_caret_right ${styles.headingIcon}`} />
       </h2>
       <div className={styles.investmentData}>
         {investmentData?.map((data: any, index: any) =>

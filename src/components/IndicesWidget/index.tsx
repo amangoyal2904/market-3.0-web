@@ -12,6 +12,7 @@ import refreshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "../MarketStatus";
 import ViewAllLink from "../ViewAllLink";
 import FIIDIIWIdget from "../FIIDIIWIdget";
+import Link from "next/link";
 
 const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
   const responsive = [
@@ -133,8 +134,8 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           <h2 className={styles.title}>
             <a href="/markets/indices" title="Indices">
               Indices
+              <span className={`eticon_caret_right ${styles.headingIcon}`} />
             </a>
-            <span className={`eticon_caret_right ${styles.headingIcon}`} />
           </h2>
           <div className={styles.liveStatus}>
             <MarketStatus
@@ -233,8 +234,12 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
             ""
           )}
           <div className={styles.bottomWidgets}>
-            <div className={styles.widget}>
-              <div className="dflex align-item-center space-between">
+            <Link
+              href="/markets/market-moods/nifty-500"
+              title="Advance/Decline"
+              className={styles.widget}
+            >
+              <div className="dflex align-item-center">
                 <p className={styles.title}>Advance/Decline</p>
                 <span className={`eticon_caret_right ${styles.icon}`} />
               </div>
@@ -279,7 +284,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                   "%d %MMM, %Y",
                 )}
               </p>
-            </div>
+            </Link>
             <div className={styles.widget}>
               <FIIDIIWIdget
                 fiiDiiCash={fiiDiiCash}
