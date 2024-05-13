@@ -121,6 +121,12 @@ const MarketStats = ({
       setTableHeaderData(_tableHeaderData);
       setPageSummary(_pageSummary);
       setProcessingLoader(false);
+    } else {
+      setUpdateDateTime(new Date().getTime());
+      setTableData([]);
+      setTableHeaderData([]);
+      setPageSummary({});
+      setProcessingLoader(false);
     }
   };
 
