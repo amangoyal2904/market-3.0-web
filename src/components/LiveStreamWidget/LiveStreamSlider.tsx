@@ -34,7 +34,7 @@ const LiveStreamSlider = ({ liveStreamData }: any) => {
     },
   ];
   return (
-    liveStreamData.length && (
+    liveStreamData?.length && (
       <div className={styles.liveStreamWrapper}>
         <SlickSlider
           slides={liveStreamData?.map((slides: any, index: any) => ({

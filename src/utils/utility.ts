@@ -850,7 +850,7 @@ export const getBuySellTechnicals = async (payload: any) => {
         }
     )[];
   }[] = [];
-  originalJson.response.forEach((company: any) => {
+  originalJson?.response.forEach((company: any) => {
     let newDataObj = {
       assetName: company.companyShortName,
       assetSeoName: company.seoName,
