@@ -73,21 +73,9 @@ const SRCardTwo: React.FC<SRCardTwoProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { name, companyID, seoName, data } = dataList;
 
-  const avgScore = data.find((item) => item.keyId === "sr_avgScore")?.value;
+  const avgScore = data.find((item) => item?.keyId === "sr_avgScore")?.value;
   const hasScore3m =
-    data.find((item) => item.keyId === "sr_avgScore3m") !== undefined;
-
-  const calculateStyle = (num: number | string) => {
-    if (num !== "") {
-      if (num === 10) {
-        return { right: "-5px" };
-      } else {
-        return { left: `${Number(num) * 10}%` };
-      }
-    } else {
-      return { left: "10px" };
-    }
-  };
+    data.find((item) => item?.keyId === "sr_avgScore3m") !== undefined;
 
   const handleClick = (value: boolean) => {
     setIsModalOpen(value);
@@ -146,29 +134,29 @@ const SRCardTwo: React.FC<SRCardTwoProps> = ({
                 {data
                   .filter(
                     (item) =>
-                      item.keyId == "sr_analystScore" ||
-                      item.keyId == "sr_fundScore" ||
-                      item.keyId == "sr_rvScore" ||
-                      item.keyId == "sr_riskScore" ||
-                      item.keyId == "sr_techScore",
+                      item?.keyId == "sr_analystScore" ||
+                      item?.keyId == "sr_fundScore" ||
+                      item?.keyId == "sr_rvScore" ||
+                      item?.keyId == "sr_riskScore" ||
+                      item?.keyId == "sr_techScore",
                   )
                   .map((item) => (
-                    <tr key={item.keyId}>
+                    <tr key={item?.keyId}>
                       <td>
                         <span>
-                          {item.keyId === "sr_analystScore" && "Earnings"}
-                          {item.keyId === "sr_fundScore" && "Fundamentals"}
-                          {item.keyId === "sr_rvScore" && "Relative Valuation"}
-                          {item.keyId === "sr_riskScore" && "Risk"}
-                          {item.keyId === "sr_techScore" && "Price Momentum"}
+                          {item?.keyId === "sr_analystScore" && "Earnings"}
+                          {item?.keyId === "sr_fundScore" && "Fundamentals"}
+                          {item?.keyId === "sr_rvScore" && "Relative Valuation"}
+                          {item?.keyId === "sr_riskScore" && "Risk"}
+                          {item?.keyId === "sr_techScore" && "Price Momentum"}
                         </span>
                         <div className={styles.metric}>
                           <span
-                            className={`${styles.value} ${styles[item.trend]}`}
-                            style={researchStyle(item.value)}
+                            className={`${styles.value} ${styles[item?.trend]}`}
+                            style={researchStyle(item?.value)}
                           >
-                            {!!item.value
-                              ? parseInt(item.value).toFixed(0)
+                            {!!item?.value
+                              ? parseInt(item?.value).toFixed(0)
                               : "NR"}
                           </span>
                         </div>
@@ -184,7 +172,7 @@ const SRCardTwo: React.FC<SRCardTwoProps> = ({
             Previous Score:
             <span>
               {parseInt(
-                data.find((item) => item.keyId === "sr_avgScore3m")!.value,
+                data.find((item) => item?.keyId === "sr_avgScore3m")!.value,
               ).toFixed(0)}
               /10
             </span>
