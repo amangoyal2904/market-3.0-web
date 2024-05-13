@@ -347,7 +347,8 @@ const TableHtml = (props: any) => {
               return (
                 ((activeApi == "recoOnWatchlist" &&
                   watchlist.some(
-                    (item: any) => item.companyId == obj.companyId.toString(),
+                    (item: any) =>
+                      item?.companyId == obj?.companyId?.toString(),
                   )) ||
                   activeApi != "recoOnWatchlist") && (
                   <tr key={`recosTable_${index}`}>
@@ -382,7 +383,7 @@ const TableHtml = (props: any) => {
                             customStyle={{
                               position: "relative",
                               marginRight: "10px",
-                              width: "16px",
+                              width: "13px",
                               height: "16px",
                             }}
                           />
@@ -429,7 +430,7 @@ const TableHtml = (props: any) => {
               (activeApi == "recoOnWatchlist" &&
                 !!watchlist &&
                 watchlist.some(
-                  (item: any) => item.companyId == obj.companyId.toString(),
+                  (item: any) => item?.companyId == obj?.companyId?.toString(),
                 )) ||
               activeApi != "recoOnWatchlist" ? (
                 <tr key={`recosTable_${index}`}>

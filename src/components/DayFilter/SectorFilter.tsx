@@ -1,3 +1,4 @@
+import { trackingEvent } from "@/utils/ga";
 import styles from "./DayFilter.module.scss";
 import { fetchSectorFilters } from "@/utils/utility";
 import React, { useEffect, useRef, useState } from "react";
@@ -25,6 +26,11 @@ const SectorFilter = React.memo(
       }
     };
     const sectorOnChangeHandler = (sectorid: number, sectorname: string) => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "sector_filter_applied",
+        event_label: sectorname,
+      });
       sectorFilterHandler(sectorid, sectorname);
     };
 

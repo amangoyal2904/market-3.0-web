@@ -324,6 +324,9 @@
   overflow-y: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .sortIcons {
@@ -437,4 +440,59 @@
       }
     }
   }
+}
+
+.scrollableTable {
+  transition: scroll 0.5s ease-in-out;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+.horizontalCustomScroll {
+  background-color: white;
+  z-index: 999;
+  height: 80px;
+  padding: 16px 8px;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 0;
+  align-self: stretch;
+  border-radius: 5px;
+  border: 0px solid #ccc;
+  flex-direction: column;
+  gap: 10px;
+  transform: translate(-50%, -50%);
+  .scrollButton {
+    background: #2b74e3;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 13px;
+    padding: 2px 2px 4px 3px;
+    font-weight: bold;
+    position: relative;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+  }
+  span {
+    border: 1px solid #ccc;
+    display: inline-block;
+    width: 100%;
+  }
+}
+.widgetCustomScroll {
+  display: flex !important;
+  position: sticky;
+  right: 0px;
+  top: 50%;
+  transform: translate(10%, -30%);
+}
+.customScroll {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  top: 43%;
+  right: -19px;
+  display: none;
 }

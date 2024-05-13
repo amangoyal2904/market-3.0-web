@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./StockReco.module.scss"; // Import your CSS styles
 import WatchlistAddition from "../WatchlistAddition";
 import Link from "next/link";
@@ -11,6 +10,7 @@ interface Props {
   activeTab: string;
   pageName: string;
   urlFilterHandle: any;
+  filterIndex: any;
 }
 const formatDate = (timestamp: number) => {
   const months = [
@@ -35,12 +35,13 @@ const formatDate = (timestamp: number) => {
 
   return `${month} ${day}, ${year}`;
 };
-const StockComponent: React.FC<Props> = ({
+const StockComponent = ({
   data,
   activeTab,
   pageName,
   urlFilterHandle,
-}) => {
+  filterIndex,
+}: any) => {
   const formattedDate = formatDate(data.priceAtRecosDate);
   let stockMainClass;
 
@@ -62,12 +63,12 @@ const StockComponent: React.FC<Props> = ({
     <>
       {activeTab == "recoByFH" ? (
         <div
-          className={`${pageName == "stockRecosPage" ? styles.stockRecosPage : ""} ${styles.stockRecoByFHClass} ${styles.stocksMain} ${styles.GreyStock}`}
+          className={`${pageName == "stockRecosPage" ? styles.stockRecosPage : ""} ${styles[pageName]} ${styles.stockRecoByFHClass} ${styles.stocksMain} ${styles.GreyStock}`}
         >
           <div className={styles.stocksBox}>
             <h2 title={data.organisation} className={styles.stocksTitle}>
               <Link
-                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" && urlFilterHandle()}`}
+                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
                 className="linkHover"
                 onClick={() => {
                   trackingEvent("et_push_event", {
@@ -115,35 +116,35 @@ const StockComponent: React.FC<Props> = ({
           className={`${styles[pageName]} ${activeTab === "newRecos" ? `${styles.stocksMain} ${styles.stockRecoByFHClass} ${stockMainClass} ${styles.stockGap}` : `${styles.stocksMain} ${stockMainClass}`}`}
         >
           <div className={styles.stocksBox}>
-            {/* {activeTab == "newRecos" && ( */}
-            <div className={styles.stocksCallDates}>
-              <span
-                className={`${styles.buySellTitle} ${activeTab == "mostBuy" || data.recoType == "Buy" || data.recoType == "Add" || data.recoType == "Accumulate" ? styles.green : activeTab == "mostSell" || data.recoType == "Sell" ? styles.red : styles.gray}`}
-              >
-                {activeTab == "mostBuy"
-                  ? "Buy"
-                  : activeTab == "mostSell"
-                    ? "Sell"
-                    : data.recoType}
-              </span>
-              {(activeTab == "newRecos" || activeTab == "FHDetail") && (
-                <span className={styles.callDateBox}>
-                  <span className={styles.callDateTitle}>Call Date:</span>
-                  <span className={styles.callDate}>{formattedDate}</span>
+            {data?.recoType && (
+              <div className={styles.stocksCallDates}>
+                <span
+                  className={`${styles.buySellTitle} ${activeTab == "mostBuy" || data.recoType == "Buy" || data.recoType == "Add" || data.recoType == "Accumulate" ? styles.green : activeTab == "mostSell" || data.recoType == "Sell" ? styles.red : styles.gray}`}
+                >
+                  {activeTab == "mostBuy"
+                    ? "Buy"
+                    : activeTab == "mostSell"
+                      ? "Sell"
+                      : data.recoType}
                 </span>
-              )}
-              <WatchlistAddition
-                companyName={data.companyName}
-                companyId={data.companyId}
-                companyType="equity"
-                customStyle={{
-                  position: "absolute",
-                  top: "16px",
-                  right: "16px",
-                }}
-              />
-            </div>
-            {/* )} */}
+                {(activeTab == "newRecos" || activeTab == "FHDetail") && (
+                  <span className={styles.callDateBox}>
+                    <span className={styles.callDateTitle}>Call Date:</span>
+                    <span className={styles.callDate}>{formattedDate}</span>
+                  </span>
+                )}
+                <WatchlistAddition
+                  companyName={data.companyName}
+                  companyId={data.companyId}
+                  companyType="equity"
+                  customStyle={{
+                    position: "absolute",
+                    top: "13px",
+                    right: "16px",
+                  }}
+                />
+              </div>
+            )}
 
             <h2 title={data.companyName} className={styles.stocksTitle}>
               <Link
@@ -160,6 +161,18 @@ const StockComponent: React.FC<Props> = ({
               >
                 {data.companyName}
               </Link>
+              {!data?.recoType && (
+                <WatchlistAddition
+                  companyName={data.companyName}
+                  companyId={data.companyId}
+                  companyType="equity"
+                  customStyle={{
+                    position: "absolute",
+                    top: "13px",
+                    right: "16px",
+                  }}
+                />
+              )}
             </h2>
             <div className={styles.updownTargetBox}>
               <div className={styles.potensialBox}>
@@ -245,7 +258,7 @@ const StockComponent: React.FC<Props> = ({
                 <span>Brokerage:</span>
                 <span>
                   <Link
-                    href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle() : ""}`}
+                    href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
                     className="linkHover"
                   >
                     {data.organisation}

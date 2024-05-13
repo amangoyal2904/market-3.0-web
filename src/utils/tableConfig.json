@@ -9,7 +9,9 @@
     "isHeaderSticky": false,
     "pagination": false,
     "loaderType": "inner",
-    "showWatchlistIcon": false
+    "showWatchlistIcon": false,
+    "horizontalScroll": true,
+    "isWidget": true
   },
   "watchList": {
     "name": "watchList",
@@ -21,7 +23,8 @@
     "isHeaderSticky": true,
     "pagination": false,
     "loaderType": "global",
-    "showWatchlistIcon": false
+    "showWatchlistIcon": false,
+    "horizontalScroll": true
   },
   "marketStatsIntrday": {
     "name": "marketStatsIntrday",
@@ -33,7 +36,8 @@
     "isHeaderSticky": true,
     "pagination": true,
     "loaderType": "inner",
-    "showWatchlistIcon": true
+    "showWatchlistIcon": true,
+    "horizontalScroll": false
   },
   "marketStatsTechnical": {
     "name": "marketStatsTechnical",
@@ -45,7 +49,8 @@
     "isHeaderSticky": true,
     "pagination": true,
     "loaderType": "inner",
-    "showWatchlistIcon": true
+    "showWatchlistIcon": true,
+    "horizontalScroll": false
   },
   "buySell": {
     "name": "buySell",
@@ -57,7 +62,8 @@
     "isHeaderSticky": false,
     "pagination": false,
     "loaderType": "inner",
-    "showWatchlistIcon": true
+    "showWatchlistIcon": true,
+    "horizontalScroll": false
   },
   "marketDashboard": {
     "name": "marketDashboard",
@@ -69,7 +75,9 @@
     "isHeaderSticky": false,
     "pagination": false,
     "loaderType": "inner",
-    "showWatchlistIcon": true
+    "showWatchlistIcon": true,
+    "horizontalScroll": true,
+    "isWidget": true
   },
   "stocksScreener": {
     "name": "stocksScreener",
@@ -81,7 +89,8 @@
     "isHeaderSticky": true,
     "pagination": true,
     "loaderType": "inner",
-    "showWatchlistIcon": true
+    "showWatchlistIcon": true,
+    "horizontalScroll": false
   },
   "indicesListing": {
     "name": "indicesListing",
@@ -93,7 +102,8 @@
     "isHeaderSticky": true,
     "pagination": false,
     "loaderType": "global",
-    "showWatchlistIcon": false
+    "showWatchlistIcon": false,
+    "horizontalScroll": false
   },
   "indicesConstituents": {
     "name": "indicesConstituents",
@@ -105,7 +115,8 @@
     "isHeaderSticky": false,
     "pagination": true,
     "loaderType": "inner",
-    "showWatchlistIcon": true
+    "showWatchlistIcon": true,
+    "horizontalScroll": false
   },
   "buySellTechnicals": {
     "name": "buySellTechnicals",
@@ -117,6 +128,7 @@
     "isHeaderSticky": false,
     "pagination": false,
     "loaderType": "inner",
-    "showWatchlistIcon": true
+    "showWatchlistIcon": true,
+    "horizontalScroll": false
   }
 }

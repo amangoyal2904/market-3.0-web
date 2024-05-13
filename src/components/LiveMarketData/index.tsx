@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./LiveMarketData.module.scss";
 import Service from "@/network/service";
-import { APP_ENV } from "@/utils";
+import { APP_ENV, formatNumber } from "@/utils";
 import APIS_CONFIG from "@/network/api_config.json";
 import { useStateContext } from "@/store/StateContext";
 import refeshConfig from "@/utils/refreshConfig.json";
@@ -87,10 +87,18 @@ const LiveMarketData = () => {
             return (
               <div className={styles.marketIndex} key={`md_${index}`}>
                 <div className={styles.indexName}>
-                  {item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName}
+                  <a
+                    href={
+                      item.indexName == "NIFTY 50"
+                        ? "/markets/indices/nifty-50"
+                        : "/markets/indices/sp-bse-sensex"
+                    }
+                  >
+                    {item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName}
+                  </a>
                 </div>
                 <div className={`${styles.indexValue} numberFonts`}>
-                  {item.currentIndexValue}
+                  {formatNumber(item.currentIndexValue)}
                 </div>
                 <div
                   className={`numberFonts ${styles.indexChange} ${Number(item.netChange) > 0 ? styles.green : styles.red}`}

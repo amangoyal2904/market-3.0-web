@@ -5,6 +5,7 @@ import StockReco from "../StockReco";
 import SlickSlider from "../SlickSlider";
 import service from "@/network/service";
 import ViewAllLink from "../ViewAllLink";
+import Link from "next/link";
 
 interface Slide {
   content: JSX.Element;
@@ -100,11 +101,17 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
   };
 
   return (
-    <div className={styles.wrapper}>
-      <h1 className="heading ">
-        Stock Recommendations
-        <span className={`eticon_caret_right headingIcon`} />
-      </h1>
+    <div className="sectionWrapper">
+      <h2 className="heading ">
+        <Link
+          target="_blank"
+          href="/markets/stock-recos/overview"
+          title="Stock Recommendations"
+        >
+          Stock Recommendations
+          <span className={`eticon_caret_right headingIcon`} />
+        </Link>
+      </h2>
 
       <div className={styles.tabMainBox}>
         <ul className={styles.tabs}>
@@ -147,7 +154,7 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
       </div>
       <ViewAllLink
         text="See All Stock Recommendations"
-        link="/stocksrecos/overview"
+        link="/markets/stock-recos/overview"
       />
     </div>
   );

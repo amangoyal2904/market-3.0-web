@@ -462,7 +462,7 @@ export const dateFormat = (dt: any, format = "%Y-%M-%d") => {
     let dList = {
       "%ss": objD.getMilliseconds(),
       "%Y": objD.getFullYear(),
-      "%y": objD.getFullYear().toString().substr(-2),
+      "%y": objD.getFullYear()?.toString().substr(-2),
       "%MMM": shortMonthName[objD.getMonth()],
       "%MM": fullMonthName[objD.getMonth()],
       "%M": objD.getMonth() + 1,
@@ -500,7 +500,7 @@ export const setCookies = (
   let dt, expires;
   dt = new Date();
   dt.setTime(dt.getTime() + seconds * 1000);
-  expires = "; expires=" + dt.toString();
+  expires = "; expires=" + dt?.toString();
   document.cookie =
     name + "=" + value + expires + `; domain=${window.location.host}; path=/;`;
 };
@@ -541,6 +541,15 @@ export const getStockRecosDetail = async ({
 
   console.log("getApiType ---", getApiType);
 
+  const overViewFilterArr = [
+    { type: "mostBuy", indexid: 2369 },
+    { type: "newRecos", indexid: 2369 },
+    { type: "mostBuy", indexid: 1913 },
+    { type: "newRecos", indexid: 1913 },
+    { type: "mostBuy", indexid: 2495 },
+    { type: "newRecos", indexid: 2495 },
+  ];
+
   const payload = {
     apiType: getApiType,
     filterType:
@@ -548,25 +557,36 @@ export const getStockRecosDetail = async ({
         ? "index"
         : getApiType == "FHDetail"
           ? "fundhouse"
-          : getApiType != "recoByFH" && niftyFilterData?.indexId
+          : getApiType != "recoByFH" &&
+              getApiType != "overviewFilter" &&
+              niftyFilterData?.indexId
             ? "index"
             : "",
-    filterValue: niftyFilterData?.indexId
-      ? [niftyFilterData.indexId]
-      : getApiType == "FHDetail"
-        ? [fundHouseInfo.fundHouseId]
-        : [],
+    filterValue:
+      getApiType != "overviewFilter" && niftyFilterData?.indexId
+        ? [niftyFilterData.indexId]
+        : getApiType == "FHDetail"
+          ? [fundHouseInfo.fundHouseId]
+          : [],
     recoType: (getApiType == "FHDetail" ? slug?.[2] : slug?.[1]) || "all",
     pageSize:
-      getApiType == "recoByFH" ? 100 : getApiType == "overview" ? 6 : 30,
+      getApiType == "recoByFH"
+        ? 100
+        : getApiType == "overview" || getApiType == "overviewFilter"
+          ? 6
+          : 30,
     pageNumber: pageNo || 1,
     ...((getApiType == "overview" ||
       getApiType == "mostBuy" ||
-      getApiType == "mostSell") && { deviceId: "web", apiVersion: 2 }),
+      getApiType == "mostSell" ||
+      getApiType == "overviewFilter") && { deviceId: "web", apiVersion: 2 }),
     ...(getApiType == "FHDetail" && { orgId: [fundHouseInfo.fundHouseId] }),
+    ...(getApiType == "overviewFilter" && {
+      overviewFilter: overViewFilterArr,
+    }),
   };
 
-  // console.log("payload----", payload);
+  console.log("payload----", payload);
 
   const recosDetailPromise = await Service.post({
     url: STOCK_RECOS_DETAIL_Link,
@@ -590,7 +610,7 @@ export const formatNumber = (
     return !!noData ? noData : "-";
   const isInteger = Number.isInteger(Number(number));
   if (isInteger) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return number?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
     const formatter = new Intl.NumberFormat("en-IN", {
       style: "decimal",

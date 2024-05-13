@@ -22,7 +22,7 @@ const Listing = (props: any) => {
               !!watchlist &&
               watchlist.some(
                 (item: any) =>
-                  item.companyId == recoDataValue.companyId.toString(),
+                  item?.companyId == recoDataValue?.companyId?.toString(),
               )) ||
               activeApi != "recoOnWatchlist" ? (
               <StockReco

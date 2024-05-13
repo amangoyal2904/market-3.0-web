@@ -23,10 +23,10 @@
 
     .headingIcon {
       vertical-align: middle;
-      font-size: 40px;
+      font-size: 32px;
       position: absolute;
-      top: -3px;
-      margin-left: -10px;
+      top: 0;
+      margin-left: -5px;
     }
   }
 
@@ -126,14 +126,16 @@
 
 .cards {
   display: flex;
-  padding: 12px 18px;
+  padding: 12px 20px;
   flex-direction: column;
   align-items: flex-start;
   gap: 4px;
   border-radius: 8px 8px 0px 0px;
-  border-bottom: 1px solid #ccc;
   background: #fffbfa;
-
+  width: fit-content;
+  min-width: 150px;
+  border-top: 1px solid transparent;
+  cursor: pointer;
   .indexName {
     color: #000;
     font-size: 16px;
@@ -171,6 +173,8 @@
   background: #fffbfa;
   //   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.12);
   border-bottom: none;
+  position: relative;
+  //   margin-top: -1px;
 }
 
 .chartOpts {
@@ -235,6 +239,11 @@
     padding: 12px;
     min-height: 110px;
 
+    .icon {
+      font-size: 20px;
+      vertical-align: middle;
+    }
+
     &:first-child {
       .bottom {
         margin-top: 16px;
@@ -256,7 +265,7 @@
     }
 
     .title {
-      font-size: 14px;
+      font-size: 16px;
       line-height: 18px;
       font-weight: 700;
     }
@@ -275,7 +284,7 @@
     }
 
     .label {
-      font-size: 12px;
+      font-size: 14px;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
@@ -284,7 +293,7 @@
       }
     }
     .date {
-      font-size: 10px;
+      font-size: 14px;
       font-style: normal;
       font-weight: 400;
       line-height: normal;
@@ -368,23 +377,35 @@
     padding: 12px 16px;
   }
 }
+@media (max-width: 1210px) {
+  .cards {
+    width: auto;
+    border-bottom: none;
+    padding: 12px;
+    min-width: unset;
+  }
+  .liveStatus {
+    left: 25% !important;
+  }
+}
 .customTabs {
   display: flex;
   border-bottom: 1px solid #ccc;
   .cards {
-    min-width: 180px;
+    min-width: 130px;
+    width: fit-content;
     border-bottom: none;
+    padding: 12px 18px;
   }
   .tabActive {
     position: relative;
   }
-  .tabActive::after {
-    content: "";
-    content: "";
-    border-bottom: 2px solid #fffbfa;
-    position: absolute;
-    bottom: -1px;
-    width: 100%;
-    left: 0;
-  }
+}
+.tabActive::after {
+  content: "";
+  border-bottom: 3px solid #fffbfa;
+  position: absolute;
+  bottom: -2px;
+  width: 100%;
+  left: 0;
 }

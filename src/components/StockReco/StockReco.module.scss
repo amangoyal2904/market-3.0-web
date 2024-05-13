@@ -12,6 +12,7 @@
   border: 1px solid #b3b3b3;
   background: #ffffff;
   margin-left: 20px;
+  margin-right: 2px;
 
   // Apply red color if stocksMain has class sellStock
   &.sellStock {
@@ -65,6 +66,7 @@
       align-items: center;
       gap: 17px;
       align-self: stretch;
+      margin-bottom: 8px;
       .buySellTitle {
         font-size: 14px;
         font-weight: 700;
@@ -285,12 +287,13 @@
     // margin-right: 16px;
     min-width: 340px;
     gap: unset;
+    margin-left: 0;
     .stocksBox {
       gap: unset;
 
-      .stocksTitle {
-        margin-top: 8px;
-      }
+      // .stocksTitle {
+      //   margin-top: 8px;
+      // }
       .updownTargetBox {
         margin-top: 20px;
       }
@@ -304,12 +307,14 @@
 .stockRecosOverviewTab {
   &.stocksMain {
     gap: unset;
+    margin-top: 0;
+    margin-left: 0;
     .stocksBox {
       gap: unset;
 
-      .stocksTitle {
-        margin-top: 8px;
-      }
+      // .stocksTitle {
+      //   margin-top: 8px;
+      // }
       .updownTargetBox {
         margin-top: 20px;
       }

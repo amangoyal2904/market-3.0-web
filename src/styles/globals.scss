@@ -301,19 +301,24 @@ table {
   background-color: rgb(255, 226, 218);
   padding: 25px;
 }
+
+.sectionWrapper {
+  position: relative;
+  margin: 30px auto 50px;
+}
+
 .heading {
   font-size: 32px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-}
-
-.marginhead {
-  padding-top: 20px;
-}
-.headingIcon {
-  vertical-align: middle;
-  font-size: 40px;
+  a {
+    display: flex;
+    align-items: center;
+    .headingIcon {
+      font-size: 35px;
+    }
+  }
 }
 
 .two-line-ellipsis {
@@ -483,7 +488,7 @@ table {
     display: flex;
     width: 20px;
     height: 20px;
-    background: $red-60;
+    background: $color-black;
     color: $white;
     align-items: center;
     justify-content: center;

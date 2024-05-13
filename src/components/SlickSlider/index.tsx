@@ -18,6 +18,7 @@ interface SlickSliderProps {
   topSpaceClass?: string;
   responsive: any;
   noPadding?: boolean;
+  screenWidth?: any;
 }
 
 const SlickSlider: React.FC<SlickSliderProps> = ({
@@ -29,14 +30,17 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
   topSpaceClass = "",
   responsive = [],
   noPadding,
+  screenWidth,
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef<Slider>(null);
   const variableWidth = ["indices"];
+  const isVariableWidth =
+    variableWidth.includes(topSpaceClass) && screenWidth > 1240;
 
   const settings: Settings = {
-    // className: "slider variable-width",
-    // variableWidth: variableWidth.includes(topSpaceClass),
+    className: isVariableWidth ? "slider variable-width" : "",
+    variableWidth: isVariableWidth,
     speed: 500,
     arrows: false,
     dots: true,
@@ -116,7 +120,12 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
         <Slider ref={sliderRef} {...settings}>
           {slides.length &&
             slides.map((slide, index) => (
-              <div key={index}>{slide.content}</div>
+              <div
+                key={index}
+                className={`${topSpaceClass === "indices" ? styles.indicesStyle : ""}`}
+              >
+                {slide.content}
+              </div>
             ))}
         </Slider>
       </div>

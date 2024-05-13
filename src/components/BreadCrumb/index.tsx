@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./BreadCrumb.module.scss";
-import { usePathname } from "next/navigation";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 
 interface Props {
   pageName: any;
@@ -8,24 +8,26 @@ interface Props {
 }
 
 const getLiPath = (router: string, pagePath: string) => {
-  if (router == "/stocksrecos/overview") {
+  if (router == "/markets/stock-recos/overview") {
     return {
       showNextLi: false,
       currentLiNode: (
         <li>
-          <span className="eticon_caret_right"></span>Recos
+          <span className="eticon_caret_right"></span>Stock Recommendations
         </li>
       ),
       showCurrLi: true,
       listItemSchema: "",
     };
-  } else if (router.includes("/stocksrecos/")) {
+  } else if (router.includes("/markets/stock-recos/")) {
     return {
       showNextLi: true,
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocksrecos/overview">Recos</a>
+          <a href={(GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"]}>
+            Stock Recommendations
+          </a>
         </li>
       ),
       showCurrLi: true,
@@ -33,7 +35,7 @@ const getLiPath = (router: string, pagePath: string) => {
         "@type": "ListItem",
         position: "3",
         name: "Stock Recommendations",
-        item: { "@id": "/stocksrecos/overview" },
+        item: { "@id": (GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"] },
       },
     };
   } else if (router == "/markets/stock-screener") {
@@ -166,7 +168,7 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/market-moods/nifty-500">Market Mood</a>
+          <a href="/markets/market-moods/nifty-500">Stock Market Mood</a>
         </li>
       ),
       showCurrLi: true,
@@ -264,7 +266,7 @@ const jsonLd = (getLiTab: any, pageName: any) => {
       "@type": "ListItem",
       position: "2",
       name: "Markets",
-      item: { "@id": "/home" },
+      item: { "@id": "/markets/live-coverage" },
     },
     ...(getLiTab ? [getLiTab.listItemSchema] : []),
   ];
@@ -321,14 +323,14 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           <a href="https://economictimes.indiatimes.com/">Home</a>
         </li>
         <li className={styles.marketshome}>
-          {router == "/home" ? (
+          {router == "/markets/live-coverage" ? (
             <>
-              <span className="eticon_caret_right"></span>Markets
+              <span className="eticon_caret_right"></span>ET Market Live
             </>
           ) : (
             <>
               <span className="eticon_caret_right"></span>
-              <a href="/home">Markets</a>
+              <a href="/markets/live-coverage">Markets</a>
             </>
           )}
         </li>
@@ -338,7 +340,7 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           pageName?.map((item: any, index: any) => {
             return (
               <>
-                <li key={index}>
+                <li key={item.label + index}>
                   <span className="eticon_caret_right"></span>
                   {item.redirectUrl ? (
                     <a href={item.redirectUrl}>{item.label}</a>

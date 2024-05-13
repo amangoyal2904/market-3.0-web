@@ -23,17 +23,22 @@ const fetchInvestMentData = async () => {
   }
 };
 
-const Card = ({ title, img, url, style }: any) => {
+const Card = ({ data }: any) => {
   return (
-    <a href={url} className={`${styles.card} ${styles[style]}`} target="_blank">
+    <a
+      href={data?.url}
+      className={`${styles.card}`}
+      target="_blank"
+      title={data?.title}
+    >
       <img
-        src={img}
-        alt={title}
+        src={data?.img}
+        alt={data?.title}
         className={styles.cardImage}
         loading="lazy"
         decoding="async"
       />
-      <h2 className={styles.cardTitle}>{title}</h2>
+      <h2 className={styles.cardTitle}>{data?.title}</h2>
     </a>
   );
 };
@@ -41,39 +46,29 @@ const Card = ({ title, img, url, style }: any) => {
 const InvestmentIdea = async () => {
   const investmentData = await fetchInvestMentData();
   return investmentData && investmentData.length ? (
-    <div className={styles.investMentWrapper}>
-      <p className={styles.title}>
-        Investment Ideas
-        <span className={`eticon_caret_right ${styles.headingIcon}`} />
-      </p>
+    <div className="sectionWrapper">
+      <h2 className={styles.title}>
+        <a
+          title="Investment Ideas"
+          target="_blank"
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
+        >
+          Investment Ideas
+          <span className={`eticon_caret_right ${styles.headingIcon}`} />
+        </a>
+      </h2>
       <div className={styles.investmentData}>
-        <div className={styles.card1Container}>
-          <Card key={0} {...investmentData[0]} style="first" />
-        </div>
-        <div className={styles.card2Container}>
-          <div className={styles.card2InnerContainer}>
-            {investmentData?.map((item: any, index: number) =>
-              index > 0 && index < 4 ? (
-                <Card key={index} {...item} style="second" />
-              ) : (
-                ""
-              ),
-            )}
-          </div>
-          <div className={styles.card3Container}>
-            {investmentData?.map((item: any, index: number) =>
-              index > 3 && index < 6 ? (
-                <Card key={index} {...item} style="third" />
-              ) : (
-                ""
-              ),
-            )}
-          </div>
-        </div>
+        {investmentData?.map((data: any, index: any) =>
+          index < 4 ? (
+            <Card key={`investment${index}`} data={data} index={index} />
+          ) : (
+            ""
+          ),
+        )}
       </div>
       <ViewAllLink
         text="See All Investment Ideas"
-        link="https://economictimes.indiatimes.com/prime/investment-ideas"
+        link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
       />
     </div>
   ) : (

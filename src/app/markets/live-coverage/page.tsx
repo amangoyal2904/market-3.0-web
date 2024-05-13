@@ -15,10 +15,51 @@ import InvestmentIdea from "@/components/InvestmentIdea";
 import { getBuySellTechnicals } from "@/utils/utility";
 import AdInfo from "@/components/Ad/AdInfo/homeAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
+import dynamic from "next/dynamic";
 
-const Home = async () => {
+const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
+  ssr: false,
+});
+
+const LiveCoverage = async () => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
+
+  const getIndicesWidgetData = async () => {
+    const response = await service.get({
+      url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
+      params: {},
+    });
+    const data = await response?.json();
+    return data;
+  };
+
+  const fetchTopNews = async () => {
+    const response = await service.get({
+      url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=53282427`,
+      params: {},
+    });
+    const data = await response?.json();
+    const topNewsData =
+      (data &&
+        data.searchResult &&
+        data.searchResult[0] &&
+        data.searchResult[0].data) ||
+      [];
+    return topNewsData;
+  };
+
+  const fetchFiiDIIData = async () => {
+    const response = await service.get({
+      url: (APIS_CONFIG as any)?.FIIDIICash[APP_ENV],
+      params: {},
+    });
+    const data = await response?.json();
+    const fiidiiData =
+      (data && data.datainfo && data.datainfo.fiiDiiChart) || {};
+    return fiidiiData;
+  };
+
   const getRecosData = async (type: any) => {
     const getRecosDetailApi = `${(APIS_CONFIG as any)?.["GET_RECOS_DETAILS"][APP_ENV]}`;
     // console.log("@@type --- > " , type)
@@ -52,7 +93,7 @@ const Home = async () => {
       screenerId: screenerId,
       viewId: 5246,
       filterType: "index",
-      filterValue: [2365],
+      filterValue: [],
     };
 
     const headers = {
@@ -80,32 +121,39 @@ const Home = async () => {
   };
   const table = await getBuySellTechnicals(buySellTechnicalspayload);
 
+  const topNewsData = await fetchTopNews();
+  const indicesData = await getIndicesWidgetData();
+  const fiiDiiData = await fetchFiiDIIData();
+
   return (
     <>
-      <IndicesWidget />
+      <IndicesWidget
+        data={indicesData}
+        topNewsData={topNewsData}
+        fiiDiiCash={fiiDiiData}
+      />
       <MarketsDashboardWidget />
       <WatchlistWidget />
-      <DfpAds adInfo={AdInfo.dfp.mid1}/>
+      <DfpAds adInfo={AdInfo.dfp.mid1} />
       <InvestmentIdea />
       <StockRecommendations stockRecoResult={stockRecoResult} />
       <StockReportsPlus srResult={srPlusResult} />
       <StockScreenerWidget />
-      <DfpAds adInfo={AdInfo.dfp.mid2}/>
+      <DfpAds adInfo={AdInfo.dfp.mid2} />
       <BuySellTechnicalWidget
         data={table}
         bodyParams={buySellTechnicalspayload}
       />
-      <DfpAds adInfo={AdInfo.dfp.mid3}/>
+      <DfpAds adInfo={AdInfo.dfp.mid3} />
       <LiveStreamWidget />
       <BreadCrumb
         pagePath={pageUrl}
         pageName={[{ label: "Markets", redirectUrl: "" }]}
       />
-      <br/>
-      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
-
+      <DfpAds adInfo={AdInfo.dfp.btfAd} />
+      <PageRefresh refreshTime={420000} />
     </>
   );
 };
 
-export default Home;
+export default LiveCoverage;

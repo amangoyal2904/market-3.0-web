@@ -77,12 +77,12 @@
         align-items: center;
         cursor: pointer;
 
-        .filerName {
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
-          max-width: 90px;
-        }
+        // .filerName {
+        //   text-overflow: ellipsis;
+        //   overflow: hidden;
+        //   white-space: nowrap;
+        //   max-width: 90px;
+        // }
 
         .filterIcon {
           font-size: 20px;
@@ -165,6 +165,7 @@
     margin-top: 0;
     .overviewMain {
       position: relative;
+      padding: 0 5px;
       .title {
         font-size: 24px;
         font-style: normal;
@@ -192,6 +193,10 @@
       .overViewCardWrap {
         &.noGridCardView {
           display: flex;
+          gap: 20px;
+          & > div {
+            min-width: 360px;
+          }
         }
       }
 
@@ -776,6 +781,19 @@
     .mainTabsList {
       .mainTab {
         padding: 8px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1430px) {
+  .niftyWrap {
+    .niftyBtn {
+      .filerName {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        max-width: 90px;
       }
     }
   }

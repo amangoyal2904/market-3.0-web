@@ -1,8 +1,6 @@
 import { Montserrat, Lato } from "next/font/google";
 import localFont from "next/font/local";
-
 import "../styles/globals.scss";
-import Headers from "@/components/Head";
 import { Suspense } from "react";
 import Header from "@/components/Header";
 import Scripts from "@/components/Scripts";
@@ -15,10 +13,7 @@ import service from "@/network/service";
 import { StateProvider } from "@/store/StateContext";
 import NextTopLoader from "nextjs-toploader";
 import { Metadata } from "next";
-import Disclaimer from "@/components/StockRecosListing/Disclaimer";
-import NoInternetConnection from "@/components/NoInternetConnection";
 import Footer from "@/components/Footer";
-import BreadCrumb from "@/components/BreadCrumb";
 import { PreloadResources } from "@/components/preloadResources";
 import { Toaster } from "react-hot-toast";
 
@@ -34,12 +29,6 @@ const lato = Lato({
   display: "swap",
   variable: "--font-lato",
 });
-
-const eticons = localFont({
-  src: "../../public/fonts/eticons.ttf",
-  weight: "normal",
-});
-
 declare global {
   interface Window {
     objVc: any;
@@ -102,16 +91,12 @@ export default async function RootLayout({
         <PreloadResources />
         <StateProvider>
           <main>
-            {/* <Headers /> */}
             <Header />
             <div className="container">
               <Suspense fallback={<p>Loading...</p>}>
                 <LeftNav leftNavResult={leftNavResult} />
               </Suspense>
-              <div className="main_container">
-                {children}
-                {/* <BreadCrumb pageName="Page Name" /> */}
-              </div>
+              <div className="main_container">{children}</div>
               <div className="bcAdContainer"></div>
             </div>
             <div className="pageBottomContainer">
@@ -122,7 +107,7 @@ export default async function RootLayout({
               <div id="ssoLogin" className="ssoLoginElm" />
             </div>
             <RedeemVoucher />
-            <Toaster position="bottom-left" reverseOrder={false} />
+            <Toaster position="bottom-right" reverseOrder={false} />
           </main>
         </StateProvider>
         <script

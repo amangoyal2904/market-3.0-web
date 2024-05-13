@@ -1,13 +1,14 @@
 .container {
+  position: relative;
   .title {
     color: var(--Primary-Black, var(--Black, #000));
-    font-size: 12px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 700;
     line-height: 16px;
     .days {
       color: #000;
-      font-size: 10px;
+      font-size: 12px;
       font-style: normal;
       font-weight: 400;
       line-height: normal;
@@ -21,7 +22,7 @@
     align-self: stretch;
     position: relative;
     margin: 10px 0;
-    min-height: 58px;
+    min-height: 57px;
   }
   .bar {
     display: flex;
@@ -45,7 +46,7 @@
   }
   .liner {
     position: absolute;
-    top: 24px;
+    top: 32px;
     background: #000;
     height: 1px;
     width: 100%;
@@ -56,11 +57,14 @@
   }
 }
 .positive {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column-reverse;
   align-self: self-end;
-  gap: 9px;
+}
+.negative {
+  // align-self: center;
+  .value {
+    position: relative;
+    top: 5px;
+  }
 }
 
 .up {
@@ -68,19 +72,44 @@
 }
 .down {
   background: #d51131;
+  margin-top: 7px;
 }
 .label {
   overflow: hidden;
   color: #333;
   text-overflow: ellipsis;
-  font-size: 10px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  text-align: right;
 }
 .textRed {
   color: #d51131;
 }
 .textGreen {
   color: #147014;
+}
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+  bottom: -2px;
+  font-size: 9px;
+  background: #ccc;
+  padding: 3px 5px;
+  font-weight: 600;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  z-index: 1;
+}
+
+.bars:hover .tooltip {
+  visibility: visible;
+}
+.positive {
+  .tooltip {
+    bottom: 80%;
+  }
 }
