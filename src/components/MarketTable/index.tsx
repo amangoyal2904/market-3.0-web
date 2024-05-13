@@ -60,6 +60,7 @@ const MarketTable = React.memo((props: propsType) => {
   const tableRef = useRef<HTMLDivElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
   const fixedTableRef = useRef<HTMLDivElement>(null);
+  const customScroll = useRef<HTMLDivElement>(null);
   const { debounce } = useDebounce();
   const {
     loader = false,
@@ -266,11 +267,12 @@ const MarketTable = React.memo((props: propsType) => {
       setTopScrollHeight(heightDifference);
       setHideThead(heightDiff < 25 && heightDiff < -140);
       setHeaderSticky(window.scrollY);
-      const fixedText: any = document.getElementById("customScroll");
-      if (window.scrollY < 100 || (heightDiff < 180 && !isWidget)) {
-        fixedText.style.display = "none";
-      } else if (window.scrollY > 100 || isWidget) {
-        fixedText.style.display = "flex";
+      if (customScroll.current) {
+        if (window.scrollY < 100 || (heightDiff < 180 && !isWidget)) {
+          customScroll.current.style.display = "none";
+        } else if (window.scrollY > 100 || isWidget) {
+          customScroll.current.style.display = "flex";
+        }
       }
     }, DEBOUNCE_DELAY),
     [debounce],
@@ -450,6 +452,7 @@ const MarketTable = React.memo((props: propsType) => {
                 parentHasScroll={parentHasScroll}
                 fixedCol={fixedCol}
                 setVerticalScrollEnabled={setVerticalScrollEnabled}
+                verticalScrollEnabled={verticalScrollEnabled}
                 setScrollableTableRef={setScrollableTableRef}
               />
             </div>
@@ -458,6 +461,7 @@ const MarketTable = React.memo((props: propsType) => {
         {verticalScrollEnabled && horizontalScroll ? (
           <div
             id="customScroll"
+            ref={customScroll}
             className={`${styles.horizontalCustomScroll} ${isWidget ? styles.widgetCustomScroll : styles.customScroll}`}
           >
             <button
