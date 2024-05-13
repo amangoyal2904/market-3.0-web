@@ -686,14 +686,14 @@ export const getAllIndices = async (
   const responseData = await response?.json();
   let tableData = [];
   let tableHeaderData = [];
-  let unixDateTime;
+  let unixDateTime = new Date().getTime();
   if (responseData?.dataList) {
     tableData = responseData.dataList;
     if (tableData.length > 0 && tableData[0].data) {
       tableHeaderData = tableData[0].data;
     }
   } else {
-    tableData = responseData;
+    tableData = responseData || [];
     if (tableData?.length > 0 && tableData[0]?.data) {
       tableHeaderData = tableData[0].data;
     }
