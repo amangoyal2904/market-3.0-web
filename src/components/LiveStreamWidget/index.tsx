@@ -50,6 +50,7 @@ const LiveStreamWidget = async () => {
     <div className="sectionWrapper">
       <h2 className="heading">
         <a
+          target="_blank"
           title="Live Stream"
           href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/etmarkets-livestream`}
         >

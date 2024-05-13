@@ -129,6 +129,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
     <div className="sectionWrapper">
       <h2 className="heading">
         <a
+          target="_blank"
           title="Stock Reports Plus"
           href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/benefits/stockreportsplus`}
         >

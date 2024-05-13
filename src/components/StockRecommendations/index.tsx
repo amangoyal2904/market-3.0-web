@@ -104,6 +104,7 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
     <div className="sectionWrapper">
       <h2 className="heading ">
         <Link
+          target="_blank"
           href="/markets/stock-recos/overview"
           title="Stock Recommendations"
         >

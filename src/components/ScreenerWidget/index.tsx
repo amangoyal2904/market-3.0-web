@@ -66,7 +66,11 @@ const StockScreenerWidget = async () => {
   return (
     <div className="sectionWrapper">
       <h2 className="heading">
-        <Link href="/markets/stock-screener" title="Stock Screeners">
+        <Link
+          href="/markets/stock-screener"
+          target="_blank"
+          title="Stock Screeners"
+        >
           Stock Screeners
           <span className={`eticon_caret_right headingIcon`} />
         </Link>
