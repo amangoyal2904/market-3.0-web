@@ -51,7 +51,7 @@ const WatchlistWidget = () => {
   return (
     <div className="sectionWrapper">
       <h2 className="heading">
-        <Link href="/watchlist" title="My Watchlist">
+        <Link href="/watchlist" title="My Watchlist" target="_blank">
           My Watchlist
           <span className={`eticon_caret_right headingIcon`} />
         </Link>

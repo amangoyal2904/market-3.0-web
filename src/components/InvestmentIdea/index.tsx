@@ -25,7 +25,12 @@ const fetchInvestMentData = async () => {
 
 const Card = ({ data }: any) => {
   return (
-    <a href={data?.url} className={`${styles.card}`} target="_blank">
+    <a
+      href={data?.url}
+      className={`${styles.card}`}
+      target="_blank"
+      title={data?.title}
+    >
       <img
         src={data?.img}
         alt={data?.title}
@@ -45,6 +50,7 @@ const InvestmentIdea = async () => {
       <h2 className={styles.title}>
         <a
           title="Investment Ideas"
+          target="_blank"
           href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
         >
           Investment Ideas

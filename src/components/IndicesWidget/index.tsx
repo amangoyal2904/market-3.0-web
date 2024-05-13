@@ -132,7 +132,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       <div className={styles.IndicesContainer}>
         <div className={styles.topWrapper}>
           <h2 className={styles.title}>
-            <a href="/markets/indices" title="Indices">
+            <a href="/markets/indices" title="Indices" target="_blank">
               Indices
               <span className={`eticon_caret_right ${styles.headingIcon}`} />
             </a>
@@ -235,6 +235,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           )}
           <div className={styles.bottomWidgets}>
             <Link
+              target="_blank"
               href="/markets/market-moods/nifty-500"
               title="Advance/Decline"
               className={styles.widget}
@@ -305,6 +306,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       <div className={styles.newsContainer}>
         <a
           href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`}
+          target="_blank"
           title="Top News"
           className={styles.title}
         >
@@ -314,7 +316,12 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           {topNewsData?.map((list: any, index: number) =>
             index < 6 ? (
               <li key={`topNews${index}`}>
-                <a href={list?.url} className={styles.topNewsList}>
+                <a
+                  href={list?.url}
+                  className={styles.topNewsList}
+                  target="_blank"
+                  title={list?.title}
+                >
                   <p>
                     <span className={styles.topNewsTitle}>{list?.title}</span>
                     <span className={styles.readTime}>
