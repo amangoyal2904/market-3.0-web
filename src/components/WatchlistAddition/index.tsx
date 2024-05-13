@@ -181,7 +181,7 @@ const WatchlistAddition = ({
       initSSOWidget();
     }
   };
-
+  console.log("companyId --- watchlist", companyId);
   const mergedStyle = { ...customStyle };
   const watchlistCheck =
     typeof companyId != "undefined" &&
