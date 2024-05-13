@@ -80,6 +80,7 @@ const MarketTable = React.memo((props: propsType) => {
   const [parentHasScroll, setParentHasScroll] = useState(false);
   const [shouldShowLoader, setShouldShowLoader] = useState(false);
   const [verticalScrollEnabled, setVerticalScrollEnabled] = useState(false);
+  const [scrollableTableRef, setScrollableTableRef] = useState({});
 
   const handleFilterChange = useCallback((e: any) => {
     const { name, value } = e.target;
@@ -233,7 +234,7 @@ const MarketTable = React.memo((props: propsType) => {
     [sortData],
   );
   const rightClickScroll = () => {
-    const tableWrapper: any = document.getElementById("scrollableTable");
+    const tableWrapper: any = scrollableTableRef;
     if (
       tableWrapper.scrollLeft <
       tableWrapper.scrollWidth - tableWrapper.clientWidth
@@ -242,7 +243,7 @@ const MarketTable = React.memo((props: propsType) => {
     }
   };
   const leftClickScroll = () => {
-    const tableWrapper: any = document.getElementById("scrollableTable");
+    const tableWrapper: any = scrollableTableRef;
     if (tableWrapper.scrollLeft > 0) {
       tableWrapper.scrollLeft -= 50; // Adjust scroll amount as needed
     }
@@ -449,6 +450,7 @@ const MarketTable = React.memo((props: propsType) => {
                 parentHasScroll={parentHasScroll}
                 fixedCol={fixedCol}
                 setVerticalScrollEnabled={setVerticalScrollEnabled}
+                setScrollableTableRef={setScrollableTableRef}
               />
             </div>
           </>
