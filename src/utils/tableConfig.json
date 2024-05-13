@@ -10,7 +10,8 @@
     "pagination": false,
     "loaderType": "inner",
     "showWatchlistIcon": false,
-    "horizontalScroll": false
+    "horizontalScroll": true,
+    "isWidget": true
   },
   "watchList": {
     "name": "watchList",
@@ -75,7 +76,8 @@
     "pagination": false,
     "loaderType": "inner",
     "showWatchlistIcon": true,
-    "horizontalScroll": false
+    "horizontalScroll": true,
+    "isWidget": true
   },
   "stocksScreener": {
     "name": "stocksScreener",
