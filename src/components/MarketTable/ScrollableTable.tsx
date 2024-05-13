@@ -70,18 +70,18 @@ const ScrollableTable = React.memo((props: any) => {
       count = count + 1;
       if (scrollableTableRef.current) {
         scrollableTableRef.current.style.transition =
-          "transform 1s ease-in-out";
+          "transform 1.2s ease-in-out";
         // scrollableTableRef.current.scrollLeft = scrollableTableRef.current.scrollWidth;
         scrollableTableRef.current.style.transform = `translateX(-${200}px)`;
       }
       setTimeout(() => {
         if (scrollableTableRef.current) {
           scrollableTableRef.current.style.transition =
-            "transform 1s ease-in-out";
+            "transform 1.2s ease-in-out";
           // scrollableTableRef.current.scrollLeft = 0;
           scrollableTableRef.current.style.transform = "translateX(0)";
         }
-      }, 1000);
+      }, 800);
     };
     if (!isShowedScroll && verticalScrollEnabled) {
       scrollTable();
