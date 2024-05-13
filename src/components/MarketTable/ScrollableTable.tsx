@@ -22,6 +22,7 @@ const ScrollableTable = React.memo((props: any) => {
     parentHasScroll = false,
     fixedCol = 3,
     setVerticalScrollEnabled,
+    setScrollableTableRef,
   } = props || {};
   const {
     showFilterInput = true,
@@ -40,6 +41,7 @@ const ScrollableTable = React.memo((props: any) => {
         elem.classList.remove("upBg", "downBg");
       });
     }, 500);
+    setScrollableTableRef(scrollableTableRef.current);
     if (scrollableTableRef.current) {
       setVerticalScrollEnabled(
         scrollableTableRef.current.scrollWidth >

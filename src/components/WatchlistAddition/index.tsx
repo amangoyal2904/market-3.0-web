@@ -166,6 +166,7 @@ const WatchlistAddition = ({
     if (isLogin) {
       console.log("watchlist----------", watchlist);
       const watchlistStatus =
+        typeof companyId != "undefined" &&
         !!watchlist &&
         watchlist.some(
           (item: any) =>
@@ -180,8 +181,10 @@ const WatchlistAddition = ({
       initSSOWidget();
     }
   };
+  console.log("companyId --- watchlist", companyId);
   const mergedStyle = { ...customStyle };
   const watchlistCheck =
+    typeof companyId != "undefined" &&
     !!watchlist &&
     watchlist.some(
       (item: any) =>

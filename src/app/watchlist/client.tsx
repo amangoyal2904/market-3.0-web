@@ -256,7 +256,7 @@ const WatchListClient = () => {
                   tabConfig={tabConfig["watchList"]}
                   onPersonalizeHandler={onPersonalizeHandlerfun}
                   updateTableHandler={updateTableHandlerFun}
-                  watchlistDataLength={tableData.length}
+                  watchlistDataLength={tableData?.length}
                   removePersonaliseView={removePersonaliseViewFun}
                   editRemoveStockBtnReset={editRemoveStockBtnReset}
                 />

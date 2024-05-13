@@ -324,6 +324,9 @@
   overflow-y: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .sortIcons {
@@ -441,23 +444,15 @@
 
 .scrollableTable {
   transition: scroll 0.5s ease-in-out;
-  overflow: scroll;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
-
-.customScroll {
-  position: -webkit-sticky;
-  position: sticky;
-  bottom: 0;
+.horizontalCustomScroll {
   background-color: white;
-  position: fixed;
-  top: 43%;
-  right: -19px;
-  transform: translate(-50%, -50%);
-  background-color: #b62323;
-  padding: 10px;
   z-index: 999;
   height: 80px;
-  display: none;
   padding: 16px 8px;
   justify-content: center;
   align-items: center;
@@ -465,9 +460,9 @@
   align-self: stretch;
   border-radius: 5px;
   border: 0px solid #ccc;
-  background: #fff;
   flex-direction: column;
   gap: 10px;
+  transform: translate(-50%, -50%);
   .scrollButton {
     background: #2b74e3;
     border-radius: 50%;
@@ -486,4 +481,18 @@
     width: 100%;
   }
 }
-
+.widgetCustomScroll {
+  display: flex !important;
+  position: sticky;
+  right: 0px;
+  top: 50%;
+  transform: translate(10%, -30%);
+}
+.customScroll {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  top: 43%;
+  right: -19px;
+  display: none;
+}
