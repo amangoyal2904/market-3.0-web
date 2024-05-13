@@ -462,7 +462,7 @@ export const dateFormat = (dt: any, format = "%Y-%M-%d") => {
     let dList = {
       "%ss": objD.getMilliseconds(),
       "%Y": objD.getFullYear(),
-      "%y": objD.getFullYear().toString().substr(-2),
+      "%y": objD.getFullYear()?.toString().substr(-2),
       "%MMM": shortMonthName[objD.getMonth()],
       "%MM": fullMonthName[objD.getMonth()],
       "%M": objD.getMonth() + 1,
@@ -500,7 +500,7 @@ export const setCookies = (
   let dt, expires;
   dt = new Date();
   dt.setTime(dt.getTime() + seconds * 1000);
-  expires = "; expires=" + dt.toString();
+  expires = "; expires=" + dt?.toString();
   document.cookie =
     name + "=" + value + expires + `; domain=${window.location.host}; path=/;`;
 };
@@ -610,7 +610,7 @@ export const formatNumber = (
     return !!noData ? noData : "-";
   const isInteger = Number.isInteger(Number(number));
   if (isInteger) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return number?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   } else {
     const formatter = new Intl.NumberFormat("en-IN", {
       style: "decimal",

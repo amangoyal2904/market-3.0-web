@@ -52,7 +52,7 @@ const StockRecosListing = (props: any) => {
   );
   const loader = useRef(null);
   const initialSearchParamsRef = useRef<URLSearchParams>(
-    new URLSearchParams(searchParams.toString()),
+    new URLSearchParams(searchParams?.toString()),
   );
 
   const filterDataChangeHandler = useCallback(
@@ -200,7 +200,7 @@ const StockRecosListing = (props: any) => {
 
     if (
       !initialSearchParamsRef.current ||
-      initialSearchParamsRef.current.toString() !== searchParams.toString()
+      initialSearchParamsRef.current?.toString() !== searchParams?.toString()
     ) {
       window.scrollTo(0, 0); // Scroll to top
       recosDetail();
