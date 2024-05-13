@@ -489,8 +489,7 @@
   transform: translate(10%, -30%);
 }
 .customScroll {
-  position: -webkit-sticky;
-  position: sticky;
+  position: fixed;
   bottom: 0;
   top: 43%;
   right: -19px;
