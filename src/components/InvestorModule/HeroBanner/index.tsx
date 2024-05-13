@@ -40,7 +40,7 @@ const HeroBanner = ({ data }: any) => {
   return (
     <>
       <div className={styles.topSec}>
-        <Link href={`/markets/top-india-investors-portfolio/`}>
+        <Link href={`/markets/top-india-investors-portfolio/individual`}>
           <span>back</span>
         </Link>
       </div>

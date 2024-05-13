@@ -1,0 +1,51 @@
+[
+  {
+    "name": "Company Name",
+    "id": "0",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": ""
+  },
+  {
+    "name": "Holdings Value (Cr.)",
+    "id": "1",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "holdingValue"
+  },
+  {
+    "name": "Holdings % Latest Qtr.",
+    "id": "2",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "holdingPercent"
+  },
+  {
+    "name": "Holdings % Prev. Qtr",
+    "id": "3",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "prevHoldingPercent"
+  },
+  {
+    "name": "Chg (QoQ)",
+    "id": "4",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "changeFromPrevQtr"
+  },
+  {
+    "name": "3M Returns %",
+    "id": "6",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "return3Month"
+  },
+  {
+    "name": "M.Cap (Cr)",
+    "id": "5",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "marketCap"
+  }
+]

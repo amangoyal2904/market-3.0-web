@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Investors Name",
+    "id": "0",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "name"
+  },
+  {
+    "name": "No. Of Companies",
+    "id": "1",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "noOfCompanies"
+  },
+  {
+    "name": "Networth (Cr)",
+    "id": "2",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "networth"
+  },
+  {
+    "name": "Networth (QoQ)",
+    "id": "3",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "3MReturn"
+  },
+  {
+    "name": "Best Picks",
+    "id": "4",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "bestPick"
+  },
+  {
+    "name": "Top Activity",
+    "id": "5",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "mostIncrease"
+  }
+]

@@ -3,7 +3,12 @@ import EntryCard from "./EntryCard";
 import EntryCardViewMore from "./EntryCardViewMore";
 import NodataForTable from "../../BigBullTableCard/NodataForTable";
 
-const FreshEntryCard = ({ cardData, linkTitle = "", linkHref = "" }: any) => {
+const FreshEntryCard = ({
+  cardData,
+  linkTitle = "",
+  linkHref = "",
+  cartType = "",
+}: any) => {
   return (
     <>
       {cardData && cardData.length > 0 ? (
@@ -12,7 +17,11 @@ const FreshEntryCard = ({ cardData, linkTitle = "", linkHref = "" }: any) => {
             return <EntryCard key={`${index}-card`} data={company} />;
           })}{" "}
           {linkTitle !== "" && linkHref !== "" && (
-            <EntryCardViewMore linkTitle={linkTitle} linkHref={linkHref} />
+            <EntryCardViewMore
+              cartType={cartType}
+              linkTitle={linkTitle}
+              linkHref={linkHref}
+            />
           )}{" "}
         </div>
       ) : (

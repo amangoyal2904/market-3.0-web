@@ -2,6 +2,7 @@ import styles from "./styles.module.scss";
 import BiggBullInvestorHoldingTable from "./BiggBullTable/InvestorHolding";
 import BiggBullBulkBlockDealsTable from "./BiggBullTable/BulkBlockDeals";
 import Pagination from "./Pagination";
+import NodataForTable from "./NodataForTable";
 
 const InvestorCatModule = ({
   niftyFilterData,
@@ -23,7 +24,7 @@ const InvestorCatModule = ({
 }: any) => {
   return (
     <>
-      {pageType === "holdings" ? (
+      {pageType === "holdings" && tableData && tableData.length > 0 ? (
         <BiggBullInvestorHoldingTable
           tableHead={tableHead}
           tableData={tableData}
@@ -31,7 +32,9 @@ const InvestorCatModule = ({
           handleSort={handleSort}
           shouldShowLoader={shouldShowLoader}
         />
-      ) : pageType === "bulk-block-deals" ? (
+      ) : pageType === "bulk-block-deals" &&
+        tableData &&
+        tableData.length > 0 ? (
         <BiggBullBulkBlockDealsTable
           tableHead={tableHead}
           tableData={tableData}
@@ -40,7 +43,7 @@ const InvestorCatModule = ({
           shouldShowLoader={shouldShowLoader}
         />
       ) : (
-        "no data found"
+        <NodataForTable title="No Recommendations Found!" />
       )}
 
       {tableData?.length === 0 ? (

@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Investors Name",
+    "id": "0",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "name"
+  },
+  {
+    "name": "Company Name",
+    "id": "1",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "companyName"
+  },
+  {
+    "name": "Holdings%",
+    "id": "2",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "holdingPercent"
+  },
+  {
+    "name": "Holdings (Rs in Cr.)",
+    "id": "3",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "holdingValue"
+  },
+  {
+    "name": "3M Return %",
+    "id": "4",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "3MReturns"
+  },
+  {
+    "name": "6M Returns %",
+    "id": "5",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "6MReturns"
+  }
+]
