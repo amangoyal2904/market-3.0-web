@@ -107,7 +107,7 @@ export default async function RootLayout({
               <div id="ssoLogin" className="ssoLoginElm" />
             </div>
             <RedeemVoucher />
-            <Toaster position="bottom-left" reverseOrder={false} />
+            <Toaster position="bottom-right" reverseOrder={false} />
           </main>
         </StateProvider>
         <script

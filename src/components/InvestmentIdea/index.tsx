@@ -25,7 +25,12 @@ const fetchInvestMentData = async () => {
 
 const Card = ({ data }: any) => {
   return (
-    <a href={data?.url} className={`${styles.card}`} target="_blank">
+    <a
+      href={data?.url}
+      className={`${styles.card}`}
+      target="_blank"
+      title={data?.title}
+    >
       <img
         src={data?.img}
         alt={data?.title}
@@ -41,15 +46,16 @@ const Card = ({ data }: any) => {
 const InvestmentIdea = async () => {
   const investmentData = await fetchInvestMentData();
   return investmentData && investmentData.length ? (
-    <div className={styles.investMentWrapper}>
+    <div className="sectionWrapper">
       <h2 className={styles.title}>
         <a
           title="Investment Ideas"
+          target="_blank"
           href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
         >
           Investment Ideas
+          <span className={`eticon_caret_right ${styles.headingIcon}`} />
         </a>
-        <span className={`eticon_caret_right ${styles.headingIcon}`} />
       </h2>
       <div className={styles.investmentData}>
         {investmentData?.map((data: any, index: any) =>

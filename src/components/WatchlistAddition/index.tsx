@@ -100,8 +100,8 @@ const WatchlistAddition = ({
           ? [
               ...watchlist,
               {
-                companyId: data.companyId.toString(),
-                companyType: data.companyType,
+                companyId: data?.companyId?.toString(),
+                companyType: data?.companyType,
               },
             ]
           : watchlist.filter(
@@ -170,7 +170,7 @@ const WatchlistAddition = ({
         !!watchlist &&
         watchlist.some(
           (item: any) =>
-            item.companyId === companyId.toString() &&
+            item.companyId === companyId?.toString() &&
             item.companyType === companyType,
         )
           ? 0
@@ -181,15 +181,15 @@ const WatchlistAddition = ({
       initSSOWidget();
     }
   };
-  console.log("companyId --- watchlist", companyId);
+  //console.log("companyId --- watchlist", companyId);
   const mergedStyle = { ...customStyle };
   const watchlistCheck =
     typeof companyId != "undefined" &&
     !!watchlist &&
     watchlist.some(
       (item: any) =>
-        item.companyId === companyId.toString() &&
-        item.companyType === companyType,
+        item?.companyId === companyId?.toString() &&
+        item?.companyType === companyType,
     );
   return (
     <>

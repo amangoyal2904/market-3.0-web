@@ -12,6 +12,7 @@ import refreshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "../MarketStatus";
 import ViewAllLink from "../ViewAllLink";
 import FIIDIIWIdget from "../FIIDIIWIdget";
+import Link from "next/link";
 
 const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
   const responsive = [
@@ -131,10 +132,10 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       <div className={styles.IndicesContainer}>
         <div className={styles.topWrapper}>
           <h2 className={styles.title}>
-            <a href="/markets/indices" title="Indices">
+            <a href="/markets/indices" title="Indices" target="_blank">
               Indices
+              <span className={`eticon_caret_right ${styles.headingIcon}`} />
             </a>
-            <span className={`eticon_caret_right ${styles.headingIcon}`} />
           </h2>
           <div className={styles.liveStatus}>
             <MarketStatus
@@ -233,21 +234,31 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
             ""
           )}
           <div className={styles.bottomWidgets}>
-            <div className={styles.widget}>
+            <Link
+              target="_blank"
+              href="/markets/market-moods/nifty-500"
+              title="Advance/Decline"
+              className={styles.widget}
+            >
               <div className="dflex align-item-center">
                 <p className={styles.title}>Advance/Decline</p>
+                <span className={`eticon_caret_right ${styles.icon}`} />
               </div>
               <div className={styles.bottom}>
                 <div className="dflex align-item-center space-between">
                   <span className={`numberFonts ${styles.label}`}>
-                    {selectedIndex?.advances
-                      ? parseInt(selectedIndex?.advances)?.toFixed(2)
-                      : ""}
+                    {`${
+                      selectedIndex?.advances
+                        ? parseInt(selectedIndex?.advances)
+                        : ""
+                    } Advance`}
                   </span>
                   <span className={`numberFonts ${styles.label}`}>
-                    {selectedIndex?.declines
-                      ? parseInt(selectedIndex?.declines)?.toFixed(2)
-                      : ""}
+                    {`${
+                      selectedIndex?.declines
+                        ? parseInt(selectedIndex?.declines)
+                        : ""
+                    } Decline`}
                   </span>
                 </div>
                 <div
@@ -269,13 +280,12 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                 </div>
               </div>
               <p className={styles.date}>
-                {" "}
                 {dateFormat(
                   dateStringToMilliseconds(selectedIndex?.dateTime),
                   "%d %MMM, %Y",
                 )}
               </p>
-            </div>
+            </Link>
             <div className={styles.widget}>
               <FIIDIIWIdget
                 fiiDiiCash={fiiDiiCash}
@@ -295,7 +305,8 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       </div>
       <div className={styles.newsContainer}>
         <a
-          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/stocks`}
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`}
+          target="_blank"
           title="Top News"
           className={styles.title}
         >
@@ -305,7 +316,12 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           {topNewsData?.map((list: any, index: number) =>
             index < 6 ? (
               <li key={`topNews${index}`}>
-                <a href={list?.url} className={styles.topNewsList}>
+                <a
+                  href={list?.url}
+                  className={styles.topNewsList}
+                  target="_blank"
+                  title={list?.title}
+                >
                   <p>
                     <span className={styles.topNewsTitle}>{list?.title}</span>
                     <span className={styles.readTime}>
@@ -333,7 +349,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
         </ul>
         <ViewAllLink
           text="See All News"
-          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/stocks`}
+          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`}
           alignRight={true}
           padding="16px 0 0 0"
         />

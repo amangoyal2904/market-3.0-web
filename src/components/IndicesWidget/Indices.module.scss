@@ -23,10 +23,10 @@
 
     .headingIcon {
       vertical-align: middle;
-      font-size: 40px;
+      font-size: 32px;
       position: absolute;
-      top: -3px;
-      margin-left: -10px;
+      top: 0;
+      margin-left: -5px;
     }
   }
 
@@ -239,6 +239,11 @@
     padding: 12px;
     min-height: 110px;
 
+    .icon {
+      font-size: 20px;
+      vertical-align: middle;
+    }
+
     &:first-child {
       .bottom {
         margin-top: 16px;
@@ -260,7 +265,7 @@
     }
 
     .title {
-      font-size: 14px;
+      font-size: 16px;
       line-height: 18px;
       font-weight: 700;
     }
@@ -279,7 +284,7 @@
     }
 
     .label {
-      font-size: 12px;
+      font-size: 14px;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
@@ -288,7 +293,7 @@
       }
     }
     .date {
-      font-size: 10px;
+      font-size: 14px;
       font-style: normal;
       font-weight: 400;
       line-height: normal;

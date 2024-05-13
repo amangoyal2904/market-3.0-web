@@ -65,7 +65,6 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
               key={`fiidii${index}`}
               className={`${styles.bars} ${bars?.[type] < 0 ? styles.negative : ""}`}
             >
-              {" "}
               <div className={`numberFonts ${styles.bar} ${styles.value}`}>
                 {dateFormat(bars.dateLong, "%d")}
               </div>
