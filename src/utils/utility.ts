@@ -820,6 +820,11 @@ export const getBuySellTechnicals = async (payload: any) => {
     params: {},
   });
   const originalJson = await response?.json();
+  let unixDateTime;
+  if (originalJson?.pagesummary?.priceDate) {
+    unixDateTime = originalJson?.pagesummary?.priceDate;
+  }
+
   let convertedData: {
     assetName: any;
     assetSeoName: any;
@@ -950,7 +955,7 @@ export const getBuySellTechnicals = async (payload: any) => {
     };
     convertedData.push(newDataObj);
   });
-  return convertedData;
+  return { table: convertedData, unixDateTime };
 };
 
 const getExpertIdBigbull = (arr: any) => {
