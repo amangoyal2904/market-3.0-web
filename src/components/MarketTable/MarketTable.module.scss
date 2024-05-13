@@ -452,31 +452,32 @@
 .horizontalCustomScroll {
   background-color: white;
   z-index: 999;
-  height: 80px;
+  height: 105px;
   padding: 16px 8px;
   justify-content: center;
   align-items: center;
-  flex: 1 0 0;
+  flex: 1 0;
   align-self: stretch;
   border-radius: 5px;
   border: 0px solid #ccc;
   flex-direction: column;
   gap: 10px;
   transform: translate(-50%, -50%);
+  box-shadow: -4px 0px 3px 0px rgba(0, 0, 0, 0.17);
   .scrollButton {
     background: #2b74e3;
     border-radius: 50%;
     color: #fff;
     font-size: 13px;
-    padding: 2px 2px 4px 3px;
+    padding: 6px 2px 8px 3px;
     font-weight: bold;
     position: relative;
-    width: 22px;
-    height: 22px;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
   }
   span {
-    border: 1px solid #ccc;
+    border: 1px solid #d7d7d7;
     display: inline-block;
     width: 100%;
   }
@@ -492,6 +493,6 @@
   position: fixed;
   bottom: 0;
   top: 43%;
-  right: -19px;
+  right: -12px;
   display: none;
 }
