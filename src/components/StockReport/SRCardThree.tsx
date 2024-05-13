@@ -41,11 +41,10 @@ interface SRCardThreeProps {
 }
 
 const overlayBlockerData = {
-  textForData: "Stock Report Plus is accessible for ET Prime Members only.",
-  textForReport: "",
+  textForData:
+    "Exclusive stock reports are accessible for ETPrime members only.",
   ctaText: "Subscribe Now",
-  textBenefits: "Become a member & unlock all the data and reports now.",
-  discCoupon: "Special Offer: Flat 20% Off on ET Prime",
+  textBenefits: "Become a member & unlock all reports now.",
 };
 
 const SRCardThree: React.FC<SRCardThreeProps> = ({
