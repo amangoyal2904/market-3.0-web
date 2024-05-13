@@ -14,10 +14,10 @@
   display: flex;
   position: relative;
   overflow: auto;
-  overflow-y: "scroll";
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  overflow-x: hidden;
 
   .theading {
     font-size: 12px;
