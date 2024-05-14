@@ -13,6 +13,9 @@
 }
 .headingIcon {
   vertical-align: middle;
+  position: relative;
+  top: 4px;
+  font-size: 40px;
 }
 .textSection {
   padding: 16px;
@@ -59,7 +62,7 @@
     width: 100%;
     vertical-align: top;
     height: 168px;
-    width: 300px;
+    // width: 300px;
     border-radius: 8px 8px 0px 0px;
   }
 }

@@ -43,9 +43,10 @@ const InvestorCatModule = ({
           shouldShowLoader={shouldShowLoader}
         />
       ) : (
-        <NodataForTable title="No Recommendations Found!" />
+        <NodataForTable
+          title={`${pageType === "bulk-block-deals" ? "The investor has not made any bulk/ block deals recently" : "No Recommendations Found!"}`}
+        />
       )}
-
       {tableData?.length === 0 ? (
         <div className="prel"></div>
       ) : (
