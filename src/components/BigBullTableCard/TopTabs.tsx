@@ -13,6 +13,10 @@ const TopTabs = ({
   title,
   spanTxt,
   sortByFilter = false,
+  sortByTimeActive,
+  sortByActive,
+  sortByActiveHandler,
+  pageType = "",
 }: any) => {
   const showIndexFilter = niftyFilter;
   const [showFilter, setShowFilter] = useState(false);
@@ -42,6 +46,33 @@ const TopTabs = ({
         />
 
         <div className={styles.rightFilterSec}>
+          {pageType === "recentTransactions" ? (
+            <>
+              <div className={`${styles.sortFilter}`}>
+                <span className={styles.stTxt}>Sort By: </span>
+                <span className={styles.dyTxt}> {sortByTimeActive?.label}</span>
+                <div className={styles.sortFilterContent}>
+                  <div className={`moduleBody ${styles.body}`}>
+                    <ul>
+                      {sortByActive?.map((sort: any, index: number) => {
+                        return (
+                          <li
+                            onClick={() => sortByActiveHandler(sort)}
+                            className={`${sortByTimeActive.value === sort.value ? styles.active : ""}`}
+                            key={`${index}-${sort.value}`}
+                          >
+                            {sort.label}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
           {sortByFilter ? (
             <div className={styles.sortyByFilter}>
               <div className={styles.sortSec}>
