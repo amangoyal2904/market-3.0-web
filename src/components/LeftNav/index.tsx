@@ -154,6 +154,7 @@ const LeftNav = (props: any) => {
                   {value.link ? (
                     <Link
                       href={value.link}
+                      target={value?.newTab ? "_blank" : "_self"}
                       onClick={() =>
                         navClickTrackingHandle({ l1: value.label, l2: "" })
                       }
@@ -207,6 +208,7 @@ const LeftNav = (props: any) => {
                             >
                               <Link
                                 href={sec.link}
+                                target={sec?.newTab ? "_blank" : "_self"}
                                 onClick={() =>
                                   navClickTrackingHandle({
                                     l1: value.label,
@@ -254,6 +256,7 @@ const LeftNav = (props: any) => {
                   >
                     <Link
                       href={value.link}
+                      target={value?.newTab ? "_blank" : "_self"}
                       onClick={() =>
                         navClickTrackingHandle({ l1: value.label, l2: "" })
                       }

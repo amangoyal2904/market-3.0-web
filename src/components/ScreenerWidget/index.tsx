@@ -65,13 +65,6 @@ const StockScreenerWidget = async () => {
       ? data.datainfo.screenerCollectionMasterInfo
           .listScreenerCollectionMasterDataInfo
       : [];
-  const handleClick = () => {
-    trackingEvent("et_push_event", {
-      event_category: "mercury_engagement",
-      event_action: "SCreener",
-      event_label: "heading click",
-    });
-  };
   return (
     <div className="sectionWrapper">
       <HeadingHome title="Stock Screeners" url="/markets/stock-screener" />
