@@ -5,7 +5,7 @@ import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
 import WatchlistAddition from "../../WatchlistAddition";
-
+import { trackingEvent } from "@/utils/ga";
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
@@ -32,6 +32,20 @@ const BiggBullTable = ({
   const blurNameHandlerClose = () => {
     setShowNonPrimeBlocker(false);
     document.body.style.overflow = "";
+  };
+  const gaTrackingCompanyNameClick = (comname: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "company_clicked",
+      event_label: comname,
+    });
+  };
+  const gaTrackingInvestorNameClick = (investorName: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "investor_clicked",
+      event_label: investorName,
+    });
   };
   return (
     <>
@@ -118,6 +132,11 @@ const BiggBullTable = ({
                   <tr key={`${index}`}>
                     <td>
                       <Link
+                        onClick={() =>
+                          gaTrackingInvestorNameClick(
+                            tdata?.investorIntro?.name,
+                          )
+                        }
                         href={`/markets/top-india-investors-portfolio/${tdata?.investorIntro?.sharkSeoName},expertid-${tdata?.investorIntro?.sharkID}`}
                         className={styles.investNameImg}
                       >
@@ -156,6 +175,11 @@ const BiggBullTable = ({
                           <h5 className={styles.head5}>
                             {isPrime ? (
                               <a
+                                onClick={() =>
+                                  gaTrackingCompanyNameClick(
+                                    bestPicks[0].uiLabel?.text,
+                                  )
+                                }
                                 href={getStockUrl(
                                   bestPicks[0].uiLabel?.companyId,
                                   bestPicks[0].uiLabel?.companySeoName,
@@ -216,6 +240,11 @@ const BiggBullTable = ({
                           <h5 className={styles.head5}>
                             {isPrime ? (
                               <a
+                                onClick={() =>
+                                  gaTrackingCompanyNameClick(
+                                    bestPicksToNext[0].uiLabel?.text,
+                                  )
+                                }
                                 href={getStockUrl(
                                   bestPicksToNext[0].uiLabel?.companyId,
                                   bestPicksToNext[0].uiLabel?.companySeoName,

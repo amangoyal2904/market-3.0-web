@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
+import { trackingEvent } from "@/utils/ga";
 
 const EntryCard = ({ data }: any) => {
   const { state } = useStateContext();
@@ -20,6 +21,13 @@ const EntryCard = ({ data }: any) => {
   const blurNameHandlerClose = () => {
     setShowNonPrimeBlocker(false);
     document.body.style.overflow = "";
+  };
+  const gaTrackingInvestorNameClick = (investorName: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "investor_clicked",
+      event_label: investorName,
+    });
   };
   return (
     <>
@@ -45,6 +53,12 @@ const EntryCard = ({ data }: any) => {
             <div className={styles.cname}>
               {isPrime ? (
                 <a
+                  onClick={() =>
+                    gaTrackingInvestorNameClick(
+                      data?.companyData?.text ||
+                        data?.bestPickStockData?.companyData?.text,
+                    )
+                  }
                   href={getStockUrl(
                     data?.companyData?.companyId ||
                       data?.bestPickStockData?.companyData?.companyId,

@@ -1,6 +1,7 @@
 import styles from "./styles.module.scss";
 import PieChart from "../../HighCharts/PieChart";
 import React, { useEffect, useMemo } from "react";
+import { trackingEvent } from "@/utils/ga";
 
 const RightSecModule = React.memo(
   ({ title, stocksList, tabHandler, activeTab, valueSuffix }: any) => {
@@ -11,6 +12,14 @@ const RightSecModule = React.memo(
       "rgba(95, 226, 95, 1)",
       "rgba(255, 186, 82, 1)",
     ];
+    const gaTrackingTabsNameClick = (tabName: any) => {
+      tabHandler(tabName);
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "filter_clicked",
+        event_label: tabName,
+      });
+    };
     const pieChartData = useMemo(() => {
       return (
         stocksList.length > 0 &&
@@ -33,13 +42,13 @@ const RightSecModule = React.memo(
           <ul className={styles.stockNavTab}>
             <li
               className={`${activeTab === "stocks" ? styles.active : ""}`}
-              onClick={() => tabHandler("stocks")}
+              onClick={() => gaTrackingTabsNameClick("stocks")}
             >
               Stocks
             </li>
             <li
               className={`${activeTab === "sectors" ? styles.active : ""}`}
-              onClick={() => tabHandler("sectors")}
+              onClick={() => gaTrackingTabsNameClick("sectors")}
             >
               Sectors
             </li>
