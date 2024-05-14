@@ -26,6 +26,9 @@ const BigBullTableCard = ({
   spanTxt = "",
   pageType = "",
   paginationLastNode = "",
+  sortByTimeActive,
+  sortByActive,
+  sortByActiveHandler,
 }: any) => {
   return (
     <>
@@ -38,6 +41,10 @@ const BigBullTableCard = ({
         invstrQueryHandler={invstrQueryHandler}
         title={title}
         spanTxt={spanTxt}
+        sortByTimeActive={sortByTimeActive}
+        sortByActive={sortByActive}
+        sortByActiveHandler={sortByActiveHandler}
+        pageType={pageType}
       />
       {tableData && tableData.length > 0 ? (
         <>

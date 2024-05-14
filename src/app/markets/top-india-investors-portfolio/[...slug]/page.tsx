@@ -235,7 +235,7 @@ const BigBullPage = async ({ params }: any) => {
       filterValue: [],
       sortBy: "dealDate",
       orderBy: "DESC",
-      timeSpan: "",
+      timeSpan: "1Y",
       pageNo: 1,
       pageSize: 25,
     };
