@@ -13,6 +13,7 @@ import MarketStatus from "../MarketStatus";
 import ViewAllLink from "../ViewAllLink";
 import FIIDIIWIdget from "../FIIDIIWIdget";
 import Link from "next/link";
+import { trackingEvent } from "@/utils/ga";
 
 const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
   const responsive = [
@@ -91,11 +92,31 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
     setPeriod(item?.value);
     setChangePeriod(item?.change);
     setPercentChange(item?.percentChange);
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "indices_chart_interaction",
+      event_label: `duration_change_${item?.value}`,
+    });
     setIframeSrc(
       `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&period=${item?.value}&height=220&transparentBg=1`,
     );
   };
-
+  const handleTechnicalClick = (url: string) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "indices_chart_interaction",
+      event_label: `chart_type_change_technical`,
+    });
+    window.open(url, "_blank");
+  };
+  const handleNewsClick = (url: string, title: string, index: number) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "top_news_clicked",
+      event_label: `${index} ${title}`,
+    });
+    window.open(url, "_blank");
+  };
   const getIndicesWidgetData = async () => {
     const response = await Service.get({
       url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
@@ -109,8 +130,13 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
     setFiiCash(data?.fiiData);
     setDiiCash(data?.diiData);
   };
-  const onSelectIndex = (selectedItem: any) => {
+  const onSelectIndex = (selectedItem: any, index: any) => {
     setSelectedIndex(selectedItem);
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "indices_selected",
+      event_label: `indices_${selectedItem?.exchange}_${selectedItem?.symbol} ${index}`,
+    });
     setIframeSrc(
       `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedItem?.symbol}&exchange=${selectedItem?.exchange}&period=${period}&height=220&transparentBg=1`,
     );
@@ -204,7 +230,13 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                 className={styles.technical}
                 target="_blank"
                 title={`Technicals: ${selectedIndex?.indexName}`}
-                href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`}
+                onClick={() =>
+                  handleTechnicalClick(
+                    `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`,
+                  )
+                }
+                //href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`}
+                href="#"
               >
                 <span className="eticon_candlestick">
                   <span className="path1"></span>
@@ -309,6 +341,13 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           target="_blank"
           title="Top News"
           className={styles.title}
+          onClick={() =>
+            handleNewsClick(
+              `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`,
+              "heading",
+              0,
+            )
+          }
         >
           Top News
         </a>
@@ -317,10 +356,11 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
             index < 6 ? (
               <li key={`topNews${index}`}>
                 <a
-                  href={list?.url}
+                  href="#"
                   className={styles.topNewsList}
                   target="_blank"
                   title={list?.title}
+                  onClick={() => handleNewsClick(list?.url, list?.title, index)}
                 >
                   <p>
                     <span className={styles.topNewsTitle}>{list?.title}</span>
