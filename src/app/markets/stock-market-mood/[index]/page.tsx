@@ -31,9 +31,9 @@ async function generateMetadata(
   const niftyFilterData = await fetchSelectedFilter(params.index);
   const pageUrl = headersList.get("x-url") || "";
   const meta = {
-    title: "Market Moods | " + niftyFilterData.name,
-    desc: "Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators.",
-    keywords: `market moods, ${niftyFilterData.seoname}, ${niftyFilterData.name}`,
+    title: `MarketMood ${niftyFilterData.name} - Know Stock Market Sentiments`,
+    desc: "MarketMood ${niftyFilterData.name}: Know stock market sentiments. Check the percentage or count of stocks in the selected index / indices with value above the technical indicators",
+    keywords: `MarketMood, Market Sentiments, ${niftyFilterData.name}, stocks in different indices, Stock Analysis, premium feature, ETMarkets`,
     pathname: pageUrl,
     index: niftyFilterData.indexId == 0 ? false : true,
   };
@@ -61,8 +61,8 @@ const MarketMoods = async ({ params }: any) => {
         allFilters={allFilters}
       />
       <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
-      <br/>
-      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
+      <br />
+      <DfpAds adInfo={AdInfo.dfp.btfAd} />
     </>
   );
 };

@@ -4,10 +4,11 @@ import Highcharts from "highcharts";
 interface PieChartProps {
   data: any;
   containerId: string;
+  valueSuffix: string;
 }
 
 const PieChart: React.FC<PieChartProps> = React.memo(
-  ({ data, containerId }: any) => {
+  ({ data, containerId, valueSuffix = "" }: any) => {
     const drawChart = () => {
       const options: Highcharts.Options = {
         chart: {
@@ -20,7 +21,7 @@ const PieChart: React.FC<PieChartProps> = React.memo(
           text: "",
         },
         tooltip: {
-          valueSuffix: "%",
+          valueSuffix: valueSuffix,
         },
         credits: {
           enabled: false,

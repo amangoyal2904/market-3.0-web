@@ -71,30 +71,20 @@ const ScrollableTable = React.memo((props: any) => {
       if (scrollableTableRef.current) {
         scrollableTableRef.current.style.transition =
           "transform 1.2s ease-in-out";
-        // scrollableTableRef.current.scrollLeft = scrollableTableRef.current.scrollWidth;
         scrollableTableRef.current.style.transform = `translateX(-${200}px)`;
       }
       setTimeout(() => {
         if (scrollableTableRef.current) {
           scrollableTableRef.current.style.transition =
             "transform 1.2s ease-in-out";
-          // scrollableTableRef.current.scrollLeft = 0;
           scrollableTableRef.current.style.transform = "translateX(0)";
         }
       }, 800);
     };
     if (!isShowedScroll && verticalScrollEnabled) {
       scrollTable();
+      sessionStorage.setItem("showedScroll", "1");
     }
-    const intervalId = setInterval(() => {
-      if (count < 2 && !isShowedScroll) {
-        verticalScrollEnabled && scrollTable();
-      } else {
-        clearInterval(intervalId);
-        sessionStorage.setItem("showedScroll", "1");
-      }
-    }, 2000);
-    return () => clearInterval(intervalId);
   }, [isInViewPort]);
 
   const prevTableDataList = prevTableDataListRef.current;

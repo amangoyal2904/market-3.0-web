@@ -142,17 +142,22 @@ export const fnGenerateMetaData = (meta?: any) => {
     title: `${meta?.title} | The Economic Times`,
     description: meta?.desc,
     generator: "ET Markets",
-    applicationName: "ET Markets",
+    applicationName: "The Economic Times",
     keywords: meta?.keywords?.split(","),
-    metadataBase: new URL("https://economictimes.indiatimes.com/"),
+    metadataBase: new URL("https://economictimes.indiatimes.com"),
     alternates: {
-      canonical: "https://economictimes.indiatimes.com" + meta?.pathname,
+      canonical: meta?.pathname,
+      media: {
+        handheld: "https://m.economictimes.com" + meta?.pathname,
+        "only screen and (max-width: 600px)":
+          "https://m.economictimes.com" + meta?.pathname,
+      },
     },
     openGraph: {
       title: meta?.title,
       description: meta?.desc,
-      url: "https://economictimes.indiatimes.com" + meta?.pathname,
-      siteName: "ET Markets",
+      url: meta?.pathname,
+      siteName: "The Economic Times",
       images: [
         {
           url: "https://img.etimg.com/photo/msid-65498029/et-logo.jpg",

@@ -12,14 +12,33 @@ import BreadCrumb from "@/components/BreadCrumb";
 import { headers } from "next/headers";
 import BuySellTechnicalWidget from "@/components/BuySellTechnicalWidget";
 import InvestmentIdea from "@/components/InvestmentIdea";
-import { getBuySellTechnicals } from "@/utils/utility";
+import { fnGenerateMetaData, getBuySellTechnicals } from "@/utils/utility";
 import AdInfo from "@/components/Ad/AdInfo/homeAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
 import dynamic from "next/dynamic";
+import { Metadata, ResolvingMetadata } from "next";
 
 const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
   ssr: false,
 });
+
+export async function generateMetadata(
+  { searchParams }: any,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
+  const meta = {
+    title:
+      "Share Market, Nifty, Sensex, NSE/BSE Live Updates, Stock Market Today",
+    desc: "Share Market & Stock Market Live Updates - Latest share market live updates on NIFTY, Sensex Today live, NSE/BSE, big bull, stock reports, stock screeners, indices, market mood, forex, commodity, top investors at The Economic Times",
+    keywords:
+      "Share Market, Stock Market, share market live updates, NIFTY, Sensex Today live, NSE/BSE, big bull, stock reports, stock screeners, indices, market mood, forex, commodity, top investors",
+    pathname: pageUrl,
+    index: true,
+  };
+  return fnGenerateMetaData(meta);
+}
 
 const LiveCoverage = async () => {
   const headersList = headers();

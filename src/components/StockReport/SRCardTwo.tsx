@@ -153,7 +153,7 @@ const SRCardTwo: React.FC<SRCardTwoProps> = ({
         </div>
         {hasScore3m && (
           <div className={styles.srBottomBar}>
-            Previous Score:
+            Previous Score:&nbsp;
             <span>
               {parseInt(
                 data.find((item) => item?.keyId === "sr_avgScore3m")!.value,

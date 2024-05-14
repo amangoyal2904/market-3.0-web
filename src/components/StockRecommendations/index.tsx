@@ -6,6 +6,7 @@ import SlickSlider from "../SlickSlider";
 import service from "@/network/service";
 import ViewAllLink from "../ViewAllLink";
 import Link from "next/link";
+import HeadingHome from "../ViewAllLink/HeadingHome";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV, getStockRecosDetail } from "@/utils";
 import { useStateContext } from "../../store/StateContext";
@@ -92,17 +93,10 @@ const StockRecommendations: React.FC<Props> = ({
 
   return (
     <div className="sectionWrapper">
-      <h2 className="heading ">
-        <Link
-          target="_blank"
-          href="/markets/stock-recos/overview"
-          title="Stock Recommendations"
-        >
-          Stock Recommendations
-          <span className={`eticon_caret_right headingIcon`} />
-        </Link>
-      </h2>
-
+      <HeadingHome
+        title="Stock Recommendations"
+        url={`/markets/stock-recos/overview`}
+      />
       <div className={styles.tabMainBox}>
         <ul className={styles.tabs}>
           {tabNames.map((tab: any, index: any) => (

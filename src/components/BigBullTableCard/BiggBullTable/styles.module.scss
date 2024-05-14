@@ -459,26 +459,9 @@
         width: 350px;
       }
     }
-    th + th + th {
-      text-align: right;
-      .thead {
-        justify-content: end;
-        text-align: right;
-      }
-    }
   }
 }
 .qtrChange {
-  tr {
-    th + th + th {
-      text-align: right;
-      .thead {
-        justify-content: end;
-        text-align: right;
-        width: 130px;
-      }
-    }
-  }
   tr {
     td {
       &:first-child,
@@ -491,8 +474,7 @@
       }
     }
     td + td + td {
-      width: 160px;
-      max-width: 160px;
+      max-width: 180px;
     }
   }
 }
@@ -505,12 +487,7 @@
         }
       }
     }
-    th + th + th + th {
-      .thead {
-        justify-content: end;
-        text-align: right;
-      }
-    }
+
     td {
       &:first-child,
       &:nth-of-type(3) {
@@ -546,13 +523,6 @@
 }
 .allInvestors {
   tr {
-    th + th {
-      .thead {
-        text-align: right;
-        justify-content: end;
-      }
-    }
-
     td {
       &:first-child {
         max-width: 350px;
@@ -580,12 +550,6 @@
         }
       }
     }
-    th + th + th {
-      .thead {
-        text-align: right;
-        justify-content: end;
-      }
-    }
   }
 }
 .holdingInvestor {
@@ -596,12 +560,7 @@
         width: 350px;
       }
     }
-    th + th {
-      .thead {
-        text-align: right;
-        justify-content: end;
-      }
-    }
+
     td {
       &:first-child {
         min-width: 350px;
@@ -612,12 +571,6 @@
 }
 .mostHeldTable {
   tr {
-    th + th + th {
-      .thead {
-        text-align: right;
-        justify-content: end;
-      }
-    }
     td {
       &:first-child,
       &:nth-of-type(2) {

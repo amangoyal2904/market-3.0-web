@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styles from "./ViewAll.module.scss";
+import ViewMore from "./ViewMore";
 
 const ViewAllLink = (props: any) => {
   const { text, link, alignRight, padding = "" } = props || {};
@@ -8,10 +9,7 @@ const ViewAllLink = (props: any) => {
       className={`${styles.seeAll} ${alignRight ? styles.alignRight : styles.alignLeft}`}
       style={{ padding: `${padding}` }}
     >
-      <Link href={link} title={text} target="_blank">
-        {text}
-        <span className=" eticon_next" />
-      </Link>
+      <ViewMore text={text} link={link} />
     </div>
   ) : (
     ""

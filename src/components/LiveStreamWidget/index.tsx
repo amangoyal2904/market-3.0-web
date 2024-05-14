@@ -4,6 +4,7 @@ import styles from "./Livestream.module.scss";
 import LiveStreamSlider from "./LiveStreamSlider";
 import ViewAllLink from "../ViewAllLink";
 import Image from "next/image";
+import HeadingHome from "../ViewAllLink/HeadingHome";
 
 const fetchLiveStreamData = async () => {
   try {
@@ -48,7 +49,11 @@ const LiveStreamWidget = async () => {
   const liveStreamData = await fetchLiveStreamData();
   return (
     <div className="sectionWrapper">
-      <h2 className="heading">
+      <HeadingHome
+        title="Live Stream"
+        url={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/etmarkets-livestream`}
+      />
+      {/* <h2 className="heading">
         <a
           target="_blank"
           title="Live Stream"
@@ -63,7 +68,7 @@ const LiveStreamWidget = async () => {
           />
           <span className={`eticon_caret_right ${styles.headingIcon}`} />
         </a>
-      </h2>
+      </h2> */}
       <LiveStreamSlider liveStreamData={liveStreamData} />
       <ViewAllLink
         text="See All Live Streams"

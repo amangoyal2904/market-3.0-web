@@ -25,15 +25,18 @@ const HeroBanner = ({ data }: any) => {
 
   const [title, setTitle] = useState(_title);
   const [stocksArrayList, setStocksArrayList] = useState(_stocksArrayList);
+  const [valueSuffix, setValueSuffix] = useState(" cr");
   const [activeTab, setActiveTab] = useState("stocks");
   const tabHandler = (tabVal: any) => {
     setActiveTab(tabVal);
     if (tabVal === "stocks") {
       setTitle(_title);
       setStocksArrayList(_stocksArrayList);
+      setValueSuffix(" cr");
     } else {
       setTitle(_title2);
       setStocksArrayList(_stocksArrayList2);
+      setValueSuffix(" %");
     }
   };
 
@@ -57,6 +60,7 @@ const HeroBanner = ({ data }: any) => {
             stocksList={stocksArrayList}
             activeTab={activeTab}
             tabHandler={tabHandler}
+            valueSuffix={valueSuffix}
           />
         </div>
       </div>

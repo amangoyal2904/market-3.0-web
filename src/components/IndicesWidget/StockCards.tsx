@@ -36,7 +36,7 @@ const StockCards: React.FC<Props> = ({
     <div
       key={`indicesTab${index}`}
       className={`${styles.cards} ${item.indexName === selectedIndex.indexName ? styles.tabActive : ""}`}
-      onClick={() => onSelectIndex(item)}
+      onClick={() => onSelectIndex(item, index)}
     >
       <p className={styles.indexName}>{item.indexName}</p>
       <p

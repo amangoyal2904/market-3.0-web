@@ -14,6 +14,7 @@ import Blocker from "../Blocker";
 import Loader from "../Loader";
 import StockSRLoginBlocker from "../StockSRLoginBlocker";
 import Image from "next/image";
+import HeadingHome from "../ViewAllLink/HeadingHome";
 
 interface Props {
   srResult: any;
@@ -146,7 +147,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
   return (
     <>
       <div className="sectionWrapper">
-        <h2 className="heading">
+        {/* <h2 className="heading">
           <div className="dflex align-item-center space-between">
             <a
               target="_blank"
@@ -167,7 +168,11 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
               />
             </p>
           </div>
-        </h2>
+        </h2> */}
+        <HeadingHome
+          title="Stock Reports Plus"
+          url={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/benefits/stockreportsplus`}
+        />
         <div className={styles.tabMainBox}>
           <StockReportsTab
             handleTabClick={handleTabClick}

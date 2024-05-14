@@ -1,5 +1,27 @@
 @import "../../styles/variables.scss";
-
+.title {
+  color: #000;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.headingIcon {
+  vertical-align: middle;
+  font-size: 40px;
+}
+.liveStreamhead .headingIcon {
+  position: relative;
+  top: 5px;
+}
+.powered {
+  display: flex;
+  font-size: 12px;
+  color: #4d4d4d;
+  font-weight: 400;
+  align-items: center;
+  gap: 5px;
+}
 .seeAll {
   color: $blue-60;
   font-size: 14px;
