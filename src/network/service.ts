@@ -25,7 +25,7 @@ export const get = async (config: any) => {
       config["headers"] = {};
     }
     const response = await fetch(url, { ...config });
-
+    //console.log(response?.json())
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }

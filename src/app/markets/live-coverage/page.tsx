@@ -79,6 +79,16 @@ const LiveCoverage = async () => {
     return fiidiiData;
   };
 
+  const getRecosNav = async () => {
+    const RECOS_NAV_Link = `${(APIS_CONFIG as any)?.["STOCK_RECOS_NAV"][APP_ENV]}?pagename=home`;
+    const recosNavPromise = await service.get({
+      url: RECOS_NAV_Link,
+      params: {},
+    });
+    const getRecosNavData = await recosNavPromise?.json();
+    return getRecosNavData;
+  };
+
   const getRecosData = async (type: any) => {
     const getRecosDetailApi = `${(APIS_CONFIG as any)?.["GET_RECOS_DETAILS"][APP_ENV]}`;
     // console.log("@@type --- > " , type)
@@ -157,7 +167,10 @@ const LiveCoverage = async () => {
       <WatchlistWidget />
       <DfpAds adInfo={AdInfo.dfp.mid1} />
       <InvestmentIdea />
-      <StockRecommendations stockRecoResult={stockRecoResult} />
+      <StockRecommendations
+        stockRecoResult={stockRecoResult}
+        recosNav={await getRecosNav()}
+      />
       <StockReportsPlus srResult={srPlusResult} />
       <StockScreenerWidget />
       <DfpAds adInfo={AdInfo.dfp.mid2} />
