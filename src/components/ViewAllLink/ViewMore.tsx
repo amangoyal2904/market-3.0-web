@@ -1,19 +1,15 @@
 "use client";
 import Link from "next/link";
 import styles from "./ViewAll.module.scss";
-import { trackingEvent } from "@/utils/ga";
+import { ga4withlink } from "@/utils/ga";
 
 const ViewMore = ({ text, link }: any) => {
-  const handleClick = (link: string, text: string) => {
-    trackingEvent("et_push_event", {
-      event_category: "mercury_engagement",
-      event_action: "page_cta_click",
-      event_label: text,
-    });
-    window.open(link, "_blank");
-  };
   return (
-    <a href="#" title={text} onClick={() => handleClick(link, text)}>
+    <a
+      href="#"
+      title={text}
+      onClick={() => ga4withlink("page_cta_click", text, link)}
+    >
       {text}
       <span className=" eticon_next" />
     </a>

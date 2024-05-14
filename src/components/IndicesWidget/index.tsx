@@ -13,7 +13,7 @@ import MarketStatus from "../MarketStatus";
 import ViewAllLink from "../ViewAllLink";
 import FIIDIIWIdget from "../FIIDIIWIdget";
 import Link from "next/link";
-import { trackingEvent } from "@/utils/ga";
+import { ga4withlink, trackingEvent } from "@/utils/ga";
 
 const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
   const responsive = [
@@ -101,22 +101,23 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&period=${item?.value}&height=220&transparentBg=1`,
     );
   };
-  const handleTechnicalClick = (url: string) => {
-    trackingEvent("et_push_event", {
-      event_category: "mercury_engagement",
-      event_action: "indices_chart_interaction",
-      event_label: `chart_type_change_technical`,
-    });
-    window.open(url, "_blank");
-  };
-  const handleNewsClick = (url: string, title: string, index: number) => {
-    trackingEvent("et_push_event", {
-      event_category: "mercury_engagement",
-      event_action: "top_news_clicked",
-      event_label: `${index} ${title}`,
-    });
-    window.open(url, "_blank");
-  };
+  // const handleTechnicalClick = (url: string) => {
+  //   trackingEvent("et_push_event", {
+  //     event_category: "mercury_engagement",
+  //     event_action: "indices_chart_interaction",
+  //     event_label: `chart_type_change_technical`,
+  //   });
+  //   window.open(url, "_blank");
+  // };
+  // const handleNewsClick = (url: string, title: string, index: number) => {
+  //   trackingEvent("et_push_event", {
+  //     event_category: "mercury_engagement",
+  //     event_action: "top_news_clicked",
+  //     event_label: `${index} ${title}`,
+  //   });
+  //   window.open(url, "_blank");
+  //   ga4withlink("top_news_clicked",`${index} ${title}`,url);
+  // };
   const getIndicesWidgetData = async () => {
     const response = await Service.get({
       url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
@@ -230,12 +231,17 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                 className={styles.technical}
                 target="_blank"
                 title={`Technicals: ${selectedIndex?.indexName}`}
-                onClick={() =>
-                  handleTechnicalClick(
-                    `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`,
-                  )
+                onClick={
+                  () =>
+                    ga4withlink(
+                      "indices_chart_interaction",
+                      "chart_type_change_technical",
+                      `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`,
+                    )
+                  // handleTechnicalClick(
+                  //   `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`,
+                  // )
                 }
-                //href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`}
                 href="#"
               >
                 <span className="eticon_candlestick">
@@ -342,10 +348,15 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           title="Top News"
           className={styles.title}
           onClick={() =>
-            handleNewsClick(
+            // handleNewsClick(
+            //   `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`,
+            //   "heading",
+            //   0,
+            // )
+            ga4withlink(
+              "top_news_clicked",
+              `widget_heading`,
               `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`,
-              "heading",
-              0,
             )
           }
         >
@@ -360,7 +371,14 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                   className={styles.topNewsList}
                   target="_blank"
                   title={list?.title}
-                  onClick={() => handleNewsClick(list?.url, list?.title, index)}
+                  onClick={() =>
+                    //handleNewsClick(list?.url, list?.title, index)
+                    ga4withlink(
+                      "top_news_clicked",
+                      `${index} ${list?.title}`,
+                      list?.url,
+                    )
+                  }
                 >
                   <p>
                     <span className={styles.topNewsTitle}>{list?.title}</span>
