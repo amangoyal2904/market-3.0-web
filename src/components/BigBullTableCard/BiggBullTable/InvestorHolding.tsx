@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
+import { trackingEvent } from "@/utils/ga";
 
 const BiggBullInvestorHoldingTable = ({
   tableHead,
@@ -32,6 +33,13 @@ const BiggBullInvestorHoldingTable = ({
   const blurNameHandlerClose = () => {
     setShowNonPrimeBlocker(false);
     document.body.style.overflow = "";
+  };
+  const gaTrackingCompanyNameClick = (comname: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "company_clicked",
+      event_label: comname,
+    });
   };
   return (
     <>
@@ -104,6 +112,11 @@ const BiggBullInvestorHoldingTable = ({
                                 }}
                               />
                               <a
+                                onClick={() =>
+                                  gaTrackingCompanyNameClick(
+                                    tdata?.companyData?.text,
+                                  )
+                                }
                                 href={getStockUrl(
                                   tdata?.companyData?.companyId,
                                   tdata?.companyData?.companySeoName,

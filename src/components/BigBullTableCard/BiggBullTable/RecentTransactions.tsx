@@ -12,6 +12,8 @@ const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
 
+import { trackingEvent } from "@/utils/ga";
+
 const BiggBullRecentTransactionsTable = ({
   tableHead,
   tableData,
@@ -32,6 +34,20 @@ const BiggBullRecentTransactionsTable = ({
   const blurNameHandlerClose = () => {
     setShowNonPrimeBlocker(false);
     document.body.style.overflow = "";
+  };
+  const gaTrackingCompanyNameClick = (comname: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "company_clicked",
+      event_label: comname,
+    });
+  };
+  const gaTrackingInvestorNameClick = (investorName: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "investor_clicked",
+      event_label: investorName,
+    });
   };
   return (
     <>
@@ -106,6 +122,11 @@ const BiggBullRecentTransactionsTable = ({
                   <tr key={`${index}`}>
                     <td>
                       <Link
+                        onClick={() =>
+                          gaTrackingInvestorNameClick(
+                            tdata?.investorIntro?.name,
+                          )
+                        }
                         href={`/markets/top-india-investors-portfolio/${tdata?.investorIntro?.sharkSeoName},expertid-${tdata?.investorIntro?.sharkID}`}
                         className={styles.investNameImg}
                       >
@@ -146,6 +167,11 @@ const BiggBullRecentTransactionsTable = ({
                                 }}
                               />
                               <a
+                                onClick={() =>
+                                  gaTrackingCompanyNameClick(
+                                    tdata.companyData?.text,
+                                  )
+                                }
                                 href={getStockUrl(
                                   tdata?.companyData?.companyId,
                                   tdata?.companyData?.companySeoName,

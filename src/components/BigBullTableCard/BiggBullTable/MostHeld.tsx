@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
+import { trackingEvent } from "@/utils/ga";
 
 const BiggBullMostHeldTable = ({
   tableHead,
@@ -42,6 +43,20 @@ const BiggBullMostHeldTable = ({
     } else {
       setShowPopupIndex(index); // Clicking on a different item should show its popup
     }
+  };
+  const gaTrackingCompanyNameClick = (comname: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "company_clicked",
+      event_label: comname,
+    });
+  };
+  const gaTrackingInvestorNameClick = (investorName: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "investor_clicked",
+      event_label: investorName,
+    });
   };
   return (
     <>
@@ -117,6 +132,11 @@ const BiggBullMostHeldTable = ({
                                 }}
                               />
                               <a
+                                onClick={() =>
+                                  gaTrackingCompanyNameClick(
+                                    tdata?.companyData?.text,
+                                  )
+                                }
                                 href={getStockUrl(
                                   tdata?.companyData?.companyId,
                                   tdata?.companyData?.companySeoName,
@@ -151,6 +171,9 @@ const BiggBullMostHeldTable = ({
                                     className={`${tdata?.investorsList.length === 1 || (tdata?.investorsList.length === 2 && index === 1) ? styles.noBorder : ""}`}
                                   >
                                     <Link
+                                      onClick={() =>
+                                        gaTrackingInvestorNameClick(list.name)
+                                      }
                                       href={`/markets/top-india-investors-portfolio/${list?.sharkSeoName},expertid-${list?.sharkID}`}
                                       className={styles.investNameImg}
                                     >
@@ -194,6 +217,11 @@ const BiggBullMostHeldTable = ({
                                                 key={`-${index}--`}
                                               >
                                                 <Link
+                                                  onClick={() =>
+                                                    gaTrackingInvestorNameClick(
+                                                      list.name,
+                                                    )
+                                                  }
                                                   href={`/markets/top-india-investors-portfolio/${list?.sharkSeoName},expertid-${list?.sharkID}`}
                                                   className={
                                                     styles.investNameImg
