@@ -4,7 +4,8 @@ import StockName from "./StockName";
 import RecoBar from "./RecoBar";
 import RecoBarLabel from "./RecoBarLabel";
 import styles from "./StockReport.module.scss";
-import StockSRLoginBlocker from "../StockSRLoginBlocker";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils/index";
 interface DataListItem {
   keyId: string;
   keyText: string;
@@ -35,7 +36,6 @@ interface DataList {
 interface SRCardThreeProps {
   catName: string;
   primeUser: boolean;
-  loginUser: boolean;
   handleClick: any;
   tabName: string;
   dataList: DataList;
@@ -51,7 +51,6 @@ const overlayBlockerData = {
 const SRCardThree: React.FC<SRCardThreeProps> = ({
   catName,
   primeUser,
-  loginUser,
   handleClick,
   tabName,
   dataList,
@@ -153,7 +152,7 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
             {data.find((item) => item?.keyId === "sr_targetVsCurrent") ? (
               <div className={styles.reportCta}>
                 <a
-                  href={`/${seoName}/stockreports/reportid-${companyID}.cms`}
+                  href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${seoName}/stockreports/reportid-${companyID}.cms`}
                   target="_blank"
                   title="View Report"
                   data-ga-onclick={`SR+ ${tabName}#${catName} - ${name} View Report#href`}

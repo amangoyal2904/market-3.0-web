@@ -1,5 +1,8 @@
 import React from "react";
 import styles from "./StockReport.module.scss";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils/index";
+
 interface ScoreBoxProps {
   category: string;
   primeUser: boolean;
@@ -42,7 +45,7 @@ const ScoreBox: React.FC<ScoreBoxProps> = ({
     if (primeUser) {
       return (
         <a
-          href={`/${seoName}/stockreports/reportid-${companyID}.cms`}
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${seoName}/stockreports/reportid-${companyID}.cms`}
           className={styles.scoreBox}
           target="_blank"
           title="Stock Score"

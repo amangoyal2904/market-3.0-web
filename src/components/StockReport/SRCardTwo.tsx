@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import StockName from "./StockName";
 import ScoreBox from "./ScoreBox";
 import styles from "./StockReport.module.scss";
-import StockSRLoginBlocker from "../StockSRLoginBlocker";
 interface DataListItem {
   keyId: string;
   keyText: string;
@@ -34,7 +33,6 @@ interface DataList {
 interface SRCardTwoProps {
   catName: string;
   primeUser: boolean;
-  loginUser: boolean;
   handleClick: any;
   tabName: string;
   dataList: DataList;
