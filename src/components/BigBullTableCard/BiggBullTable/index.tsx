@@ -5,7 +5,7 @@ import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
 import WatchlistAddition from "../../WatchlistAddition";
-import NodataForTable from "../NodataForTable";
+
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
@@ -88,7 +88,8 @@ const BiggBullTable = ({
             </tr>
           </thead>
           <tbody>
-            {tableData && tableData.length > 0 ? (
+            {tableData &&
+              tableData.length > 0 &&
               tableData.map((tdata: any, index: any) => {
                 const networthIncome = tdata?.stockGroupdata?.filter(
                   (item: any) =>
@@ -118,7 +119,6 @@ const BiggBullTable = ({
                     <td>
                       <Link
                         href={`/markets/top-india-investors-portfolio/${tdata?.investorIntro?.sharkSeoName},expertid-${tdata?.investorIntro?.sharkID}`}
-                        target="_blank"
                         className={styles.investNameImg}
                       >
                         <img
@@ -194,7 +194,7 @@ const BiggBullTable = ({
                           bestPicks[0].uiLabel?.companyId &&
                           bestPicks[0].uiLabel?.companyType ? (
                             <WatchlistAddition
-                              companyName={bestPicks[0].uiValue?.text}
+                              companyName={bestPicks[0].uiLabel?.text}
                               companyId={bestPicks[0].uiLabel?.companyId}
                               companyType={bestPicks[0].uiLabel?.companyType}
                               customStyle={{
@@ -253,11 +253,11 @@ const BiggBullTable = ({
                         </div>
                         <div className={styles.rightSec}>
                           {isPrime &&
-                          bestPicksToNext[0].uiValue?.text &&
+                          bestPicksToNext[0].uiLabel?.text &&
                           bestPicksToNext[0].uiLabel?.companyId &&
                           bestPicksToNext[0].uiLabel?.companyType ? (
                             <WatchlistAddition
-                              companyName={bestPicksToNext[0].uiValue?.text}
+                              companyName={bestPicksToNext[0].uiLabel?.text}
                               companyId={bestPicksToNext[0].uiLabel?.companyId}
                               companyType={
                                 bestPicksToNext[0].uiLabel?.companyType
@@ -278,14 +278,7 @@ const BiggBullTable = ({
                     ></td>
                   </tr>
                 );
-              })
-            ) : (
-              <tr>
-                <td colSpan={100} className={styles.nodatafound}>
-                  <NodataForTable />
-                </td>
-              </tr>
-            )}
+              })}
           </tbody>
         </table>
         {shouldShowLoader && <Loader loaderType="container" />}

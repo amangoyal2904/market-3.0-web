@@ -103,9 +103,7 @@ const Pagination = React.memo(({ pageSummary, onPageChange }: any) => {
       id={styles.tablePagination}
       className={`dflex align-item-center space-between ${styles.m20}`}
     >
-      <p>
-        Showing {rangeStart}-{rangeEnd} of {totalRecords} stocks
-      </p>
+      <p>{`Showing ${rangeStart}-${rangeEnd} of ${totalRecords} stocks`}</p>
       <ul>
         {/* <li
           className={`${styles.pageList} ${pageno === 1 ? styles.disabled : ""}`}

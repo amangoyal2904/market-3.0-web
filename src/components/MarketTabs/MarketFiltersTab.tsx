@@ -241,7 +241,7 @@ const MarketFiltersTab = React.memo(
                 className={styles.filterInner}
                 onClick={() => setIndustryFilterShow(true)}
               >
-                Industry <i className="eticon_caret_down"></i>
+                Industry<i className="eticon_caret_down"></i>
               </span>
               {industryFilterShow ? (
                 <IndustryFilter
@@ -283,7 +283,7 @@ const MarketFiltersTab = React.memo(
               className={`${styles.roundBtn} ${styles.filterNseBse}`}
               onClick={() => showFilterMenu(true)}
             >
-              <i className={`eticon_filter ${styles.mr}`}></i>{" "}
+              <i className={`eticon_filter ${styles.mr}`}></i>
               {niftyFilterData?.name}
             </span>
           ) : (
@@ -295,7 +295,8 @@ const MarketFiltersTab = React.memo(
                 className={`${styles.roundBtn} ${styles.fitlerDay}`}
                 onClick={() => dayFilterHandler()}
               >
-                {dayFilterData.label} <i className="eticon_caret_down"></i>
+                {dayFilterData.label}
+                <i className="eticon_caret_down"></i>
               </span>
               {dayFilterShow ? (
                 <DayFitler
@@ -349,7 +350,7 @@ const MarketFiltersTab = React.memo(
           ) : null}
           {showExport ? (
             <span className={styles.roundBtn}>
-              Export <i className={`eticon_caret_down ${styles.ml}`}></i>
+              Export<i className={`eticon_caret_down ${styles.ml}`}></i>
             </span>
           ) : null}
         </div>

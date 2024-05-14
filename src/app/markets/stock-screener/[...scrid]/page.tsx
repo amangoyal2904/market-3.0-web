@@ -159,13 +159,19 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
     filterValue: [],
     screenerId: scrid,
   };
-  const { tableHeaderData, tableData, pageSummary, payload, screenerDetail } =
-    await getCustomViewTable(
-      bodyParams,
-      isprimeuser,
-      ssoid,
-      "screenerGetViewById",
-    );
+  const {
+    tableHeaderData,
+    tableData,
+    pageSummary,
+    unixDateTime,
+    payload,
+    screenerDetail,
+  } = await getCustomViewTable(
+    bodyParams,
+    isprimeuser,
+    ssoid,
+    "screenerGetViewById",
+  );
   console.log("__bodyParams__", bodyParams);
   const title =
     screenerDetail && screenerDetail?.name ? screenerDetail.name : "";
@@ -189,6 +195,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
         metaData={meta}
         tabData={tabData}
         activeViewId={activeViewId}
+        unixDateTime={unixDateTime}
         tableHeaderData={tableHeaderData}
         tableData={tableData}
         pageSummary={pageSummary}

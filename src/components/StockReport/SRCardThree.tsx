@@ -4,7 +4,8 @@ import StockName from "./StockName";
 import RecoBar from "./RecoBar";
 import RecoBarLabel from "./RecoBarLabel";
 import styles from "./StockReport.module.scss";
-import StockSRLoginBlocker from "../StockSRLoginBlocker";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils/index";
 interface DataListItem {
   keyId: string;
   keyText: string;
@@ -35,46 +36,38 @@ interface DataList {
 interface SRCardThreeProps {
   catName: string;
   primeUser: boolean;
-  loginUser: boolean;
+  handleClick: any;
   tabName: string;
   dataList: DataList;
 }
 
 const overlayBlockerData = {
-  textForData: "Stock Report Plus is accessible for ET Prime Members only.",
-  textForReport: "",
+  textForData:
+    "Exclusive stock reports are accessible for ETPrime members only.",
   ctaText: "Subscribe Now",
-  textBenefits: "Become a member & unlock all the data and reports now.",
-  discCoupon: "Special Offer: Flat 20% Off on ET Prime",
+  textBenefits: "Become a member & unlock all reports now.",
 };
 
 const SRCardThree: React.FC<SRCardThreeProps> = ({
   catName,
   primeUser,
-  loginUser,
+  handleClick,
   tabName,
   dataList,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { name, companyID, seoName, data } = dataList;
   const totalNo = parseFloat(
     data.find((item) => item?.keyId === "sr_recCnt")?.value?.toString() || "0",
   );
 
-  const handleClick = (value: boolean) => {
-    setIsModalOpen(value);
-    if (value) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "visible";
-    }
-  };
-
   const cardClickProps = !primeUser ? { onClick: () => handleClick(true) } : {};
 
   return (
     <>
-      <div className={`${styles.srCard}`} {...cardClickProps}>
+      <div
+        className={`${styles.srCard} ${!primeUser ? styles.pointer : ""}`}
+        {...cardClickProps}
+      >
         <div className={styles.sec}>
           <div className={styles.rsec}>
             <StockName
@@ -159,7 +152,7 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
             {data.find((item) => item?.keyId === "sr_targetVsCurrent") ? (
               <div className={styles.reportCta}>
                 <a
-                  href={`/${seoName}/stockreports/reportid-${companyID}.cms`}
+                  href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${seoName}/stockreports/reportid-${companyID}.cms`}
                   target="_blank"
                   title="View Report"
                   data-ga-onclick={`SR+ ${tabName}#${catName} - ${name} View Report#href`}
@@ -222,13 +215,6 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
           </div>
         </div>
       </div>
-      {isModalOpen && (
-        <StockSRLoginBlocker
-          overlayBlockerData={overlayBlockerData}
-          isLoginUser={loginUser}
-          handleClick={handleClick}
-        />
-      )}
     </>
   );
 };

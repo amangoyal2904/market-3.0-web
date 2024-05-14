@@ -1,0 +1,74 @@
+#srPaywalledOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  opacity: 0.8;
+  z-index: 901;
+  cursor: pointer;
+}
+
+#srPaywalled {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff8f6;
+  text-align: center;
+  padding: 20px;
+  z-index: 902;
+  .primeLogo {
+    position: absolute;
+    left: 0;
+    width: 27px;
+    height: 27px;
+    background-position: -332px -95px;
+  }
+  .prime {
+    padding-left: 10px;
+    font-size: 30px;
+    font-weight: 600;
+  }
+  .srLogo {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .logo {
+      font-size: 25px;
+    }
+  }
+  .hl {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 30px;
+  }
+  .desc {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 25px;
+  }
+  .helpTxt {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    a {
+      margin-left: 5px;
+      color: #0f62fe;
+    }
+  }
+  .planCta {
+    position: relative;
+    width: 250px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #fff;
+    margin: 15px auto 5px;
+    padding: 10px 0;
+    background: #eb2227;
+    cursor: pointer;
+  }
+}

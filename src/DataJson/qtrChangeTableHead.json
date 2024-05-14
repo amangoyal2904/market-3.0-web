@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Investors Name",
+    "id": "0",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "name"
+  },
+  {
+    "name": "Company Name",
+    "id": "1",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "companyName"
+  },
+  {
+    "name": "Curr. Holdings%",
+    "id": "2",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "currHoldingPercent"
+  },
+  {
+    "name": "Prev. Holdings%",
+    "id": "3",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "prevHoldingPercent"
+  },
+  {
+    "name": "Increase/Decrease",
+    "id": "4",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "holdingPercentChange"
+  },
+  {
+    "name": "Amt. Invested /Sold (Rs in Cr.)",
+    "id": "5",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "holdingValueChange"
+  }
+]

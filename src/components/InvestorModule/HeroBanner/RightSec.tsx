@@ -3,7 +3,7 @@ import PieChart from "../../HighCharts/PieChart";
 import React, { useEffect, useMemo } from "react";
 
 const RightSecModule = React.memo(
-  ({ title, stocksList, tabHandler, activeTab }: any) => {
+  ({ title, stocksList, tabHandler, activeTab, valueSuffix }: any) => {
     const colorChart: any = [
       "rgba(105, 138, 207, 1)",
       "rgba(255, 214, 151, 1)",
@@ -19,7 +19,7 @@ const RightSecModule = React.memo(
             name: stock?.uiLabel?.text,
             sliced: false,
             selected: false,
-            y: parseFloat(stock?.uiValue?.text),
+            y: parseFloat(stock?.uiValue?.dbValue),
             color: colorChart[index],
           };
         })
@@ -47,7 +47,11 @@ const RightSecModule = React.memo(
         </div>
         <div className={styles.botomGraphSec}>
           <div className={styles.graphDo}>
-            <PieChart data={pieChartData} containerId="myChartContainer" />
+            <PieChart
+              data={pieChartData}
+              valueSuffix={valueSuffix}
+              containerId="myChartContainer"
+            />
             <div id="myChartContainer"></div>
           </div>
           <ul className={styles.listItemStock}>

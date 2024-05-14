@@ -6,6 +6,7 @@ import BiggBullRecentTransactionsTable from "./BiggBullTable/RecentTransactions"
 import BiggBullBestPicksTable from "./BiggBullTable/BestPicks";
 import BiggBullMostHeldTable from "./BiggBullTable/MostHeld";
 import Pagination from "./Pagination";
+import NodataForTable from "./NodataForTable";
 
 const BigBullTableCard = ({
   niftyFilterData,
@@ -25,6 +26,9 @@ const BigBullTableCard = ({
   spanTxt = "",
   pageType = "",
   paginationLastNode = "",
+  sortByTimeActive,
+  sortByActive,
+  sortByActiveHandler,
 }: any) => {
   return (
     <>
@@ -37,47 +41,57 @@ const BigBullTableCard = ({
         invstrQueryHandler={invstrQueryHandler}
         title={title}
         spanTxt={spanTxt}
+        sortByTimeActive={sortByTimeActive}
+        sortByActive={sortByActive}
+        sortByActiveHandler={sortByActiveHandler}
+        pageType={pageType}
       />
-      {pageType === "qtrChanges" ? (
-        <BiggBullQtrChangesTable
-          tableHead={tableHead}
-          tableData={tableData}
-          sortData={sortData}
-          handleSort={handleSort}
-          shouldShowLoader={shouldShowLoader}
-        />
-      ) : pageType === "recentTransactions" ? (
-        <BiggBullRecentTransactionsTable
-          tableHead={tableHead}
-          tableData={tableData}
-          sortData={sortData}
-          handleSort={handleSort}
-          shouldShowLoader={shouldShowLoader}
-        />
-      ) : pageType === "bestPicks" ? (
-        <BiggBullBestPicksTable
-          tableHead={tableHead}
-          tableData={tableData}
-          sortData={sortData}
-          handleSort={handleSort}
-          shouldShowLoader={shouldShowLoader}
-        />
-      ) : pageType === "mostHeld" ? (
-        <BiggBullMostHeldTable
-          tableHead={tableHead}
-          tableData={tableData}
-          sortData={sortData}
-          handleSort={handleSort}
-          shouldShowLoader={shouldShowLoader}
-        />
+      {tableData && tableData.length > 0 ? (
+        <>
+          {pageType === "qtrChanges" ? (
+            <BiggBullQtrChangesTable
+              tableHead={tableHead}
+              tableData={tableData}
+              sortData={sortData}
+              handleSort={handleSort}
+              shouldShowLoader={shouldShowLoader}
+            />
+          ) : pageType === "recentTransactions" ? (
+            <BiggBullRecentTransactionsTable
+              tableHead={tableHead}
+              tableData={tableData}
+              sortData={sortData}
+              handleSort={handleSort}
+              shouldShowLoader={shouldShowLoader}
+            />
+          ) : pageType === "bestPicks" ? (
+            <BiggBullBestPicksTable
+              tableHead={tableHead}
+              tableData={tableData}
+              sortData={sortData}
+              handleSort={handleSort}
+              shouldShowLoader={shouldShowLoader}
+            />
+          ) : pageType === "mostHeld" ? (
+            <BiggBullMostHeldTable
+              tableHead={tableHead}
+              tableData={tableData}
+              sortData={sortData}
+              handleSort={handleSort}
+              shouldShowLoader={shouldShowLoader}
+            />
+          ) : (
+            <BiggBullTable
+              tableHead={tableHead}
+              tableData={tableData}
+              sortData={sortData}
+              handleSort={handleSort}
+              shouldShowLoader={shouldShowLoader}
+            />
+          )}
+        </>
       ) : (
-        <BiggBullTable
-          tableHead={tableHead}
-          tableData={tableData}
-          sortData={sortData}
-          handleSort={handleSort}
-          shouldShowLoader={shouldShowLoader}
-        />
+        <NodataForTable />
       )}
 
       {tableData?.length === 0 ? (

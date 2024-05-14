@@ -142,17 +142,22 @@ export const fnGenerateMetaData = (meta?: any) => {
     title: `${meta?.title} | The Economic Times`,
     description: meta?.desc,
     generator: "ET Markets",
-    applicationName: "ET Markets",
+    applicationName: "The Economic Times",
     keywords: meta?.keywords?.split(","),
-    metadataBase: new URL("https://economictimes.indiatimes.com/"),
+    metadataBase: new URL("https://economictimes.indiatimes.com"),
     alternates: {
-      canonical: "https://economictimes.indiatimes.com" + meta?.pathname,
+      canonical: meta?.pathname,
+      media: {
+        handheld: "https://m.economictimes.com" + meta?.pathname,
+        "only screen and (max-width: 600px)":
+          "https://m.economictimes.com" + meta?.pathname,
+      },
     },
     openGraph: {
       title: meta?.title,
       description: meta?.desc,
-      url: "https://economictimes.indiatimes.com" + meta?.pathname,
-      siteName: "ET Markets",
+      url: meta?.pathname,
+      siteName: "The Economic Times",
       images: [
         {
           url: "https://img.etimg.com/photo/msid-65498029/et-logo.jpg",
@@ -686,14 +691,14 @@ export const getAllIndices = async (
   const responseData = await response?.json();
   let tableData = [];
   let tableHeaderData = [];
-  let unixDateTime;
+  let unixDateTime = new Date().getTime();
   if (responseData?.dataList) {
     tableData = responseData.dataList;
     if (tableData.length > 0 && tableData[0].data) {
       tableHeaderData = tableData[0].data;
     }
   } else {
-    tableData = responseData;
+    tableData = responseData || [];
     if (tableData?.length > 0 && tableData[0]?.data) {
       tableHeaderData = tableData[0].data;
     }
@@ -820,6 +825,11 @@ export const getBuySellTechnicals = async (payload: any) => {
     params: {},
   });
   const originalJson = await response?.json();
+  let unixDateTime;
+  if (originalJson?.pagesummary?.priceDate) {
+    unixDateTime = originalJson?.pagesummary?.priceDate;
+  }
+
   let convertedData: {
     assetName: any;
     assetSeoName: any;
@@ -950,5 +960,212 @@ export const getBuySellTechnicals = async (payload: any) => {
     };
     convertedData.push(newDataObj);
   });
-  return convertedData;
+  return { table: convertedData, unixDateTime };
+};
+
+const getExpertIdBigbull = (arr: any) => {
+  if (arr && arr.length > 0) {
+    // Added null check for arr
+    for (let item of arr) {
+      const parts = item.split(","); // Splitting each item by comma
+      for (let part of parts) {
+        if (part.includes("expertid-")) {
+          // Checking for 'expertid-' substring
+          const idParts = part.split("-");
+          return idParts[idParts.length - 1];
+        }
+      }
+    }
+  }
+  return null;
+};
+export const getBigBullPageName = (slugArray: any) => {
+  const slug = slugArray.join("-");
+  const checkExpertId = slugArray.some((slug: any) =>
+    slug.includes("expertid-"),
+  );
+  console.log("slugArray", checkExpertId);
+  if (slugArray.length === 1 && checkExpertId) {
+    const expertId = getExpertIdBigbull(slugArray);
+    return {
+      page: "investorhomepage",
+      expertId: expertId,
+      subCate: "",
+      slug: "",
+    };
+  }
+  if (slugArray.length === 1 && slugArray.includes("individual")) {
+    return {
+      page: "homepage",
+      expertId: "",
+      subCate: "INDIVIDUAL",
+    };
+  }
+  if (slugArray.length === 1 && slugArray.includes("institutional")) {
+    return {
+      page: "homepage",
+      expertId: "",
+      subCate: "INSTITUTIONAL",
+    };
+  }
+
+  if (slugArray.includes("all-investors") && slugArray.includes("individual")) {
+    return {
+      page: "allInvestors",
+      expertId: "",
+      subCate: "INDIVIDUAL",
+    };
+  } else if (
+    slugArray.includes("all-investors") &&
+    slugArray.includes("institutional")
+  ) {
+    return {
+      page: "allInvestors",
+      expertId: "",
+      subCate: "INSTITUTIONAL",
+    };
+  } else if (
+    slugArray.includes("qtr-changes") &&
+    slugArray.includes("individual")
+  ) {
+    return {
+      page: "qtrChanges",
+      expertId: "",
+      subCate: "INDIVIDUAL",
+    };
+  } else if (
+    slugArray.includes("qtr-changes") &&
+    slugArray.includes("institutional")
+  ) {
+    return {
+      page: "qtrChanges",
+      expertId: "",
+      subCate: "INSTITUTIONAL",
+    };
+  } else if (
+    slugArray.includes("recent-transactions") &&
+    slugArray.includes("individual")
+  ) {
+    return {
+      page: "recentTransactions",
+      expertId: "",
+      subCate: "INDIVIDUAL",
+    };
+  } else if (
+    slugArray.includes("recent-transactions") &&
+    slugArray.includes("institutional")
+  ) {
+    return {
+      page: "recentTransactions",
+      expertId: "",
+      subCate: "INSTITUTIONAL",
+    };
+  } else if (
+    slugArray.includes("best-picks") &&
+    slugArray.includes("individual")
+  ) {
+    return {
+      page: "bestPicks",
+      expertId: "",
+      subCate: "INDIVIDUAL",
+    };
+  } else if (
+    slugArray.includes("best-picks") &&
+    slugArray.includes("institutional")
+  ) {
+    return {
+      page: "bestPicks",
+      expertId: "",
+      subCate: "INSTITUTIONAL",
+    };
+  } else if (slugArray.includes("most-held")) {
+    return {
+      page: "mostHeld",
+      expertId: "",
+      subCate: "INDIVIDUAL",
+    };
+  }
+
+  // Check for expert page with change in holdings
+
+  // Check for expert page with dynamic expert name and "change-in-holdings"
+  if (slugArray.length === 2 && slugArray[1].startsWith("change-in-holdings")) {
+    const expertId = getExpertIdBigbull(slugArray);
+    return {
+      page: "expertPage",
+      expertId: expertId,
+      subCate: "changeinholdings",
+      slug: "change-in-holdings",
+      subCategoryNameSeo: "Change in Holdings",
+    };
+  } else if (
+    slugArray.length === 2 &&
+    slugArray[1].startsWith("fresh-entry-exit")
+  ) {
+    const expertId = getExpertIdBigbull(slugArray);
+    return {
+      page: "expertPage",
+      expertId: expertId,
+      subCate: "freshEntryExit",
+      slug: "fresh-entry-exit",
+      subCategoryNameSeo: "Fresh Entry & Exit",
+    };
+  } else if (slugArray.length === 2 && slugArray[1].startsWith("holdings")) {
+    const expertId = getExpertIdBigbull(slugArray);
+    return {
+      page: "expertPage",
+      expertId: expertId,
+      subCate: "holdings",
+      slug: "holdings",
+      subCategoryNameSeo: "Holdings",
+    };
+  } else if (
+    slugArray.length === 2 &&
+    slugArray[1].startsWith("bulk-block-deals")
+  ) {
+    const expertId = getExpertIdBigbull(slugArray);
+    return {
+      page: "expertPage",
+      expertId: expertId,
+      subCate: "bulkBlockDeals",
+      slug: "bulk-block-deals",
+      subCategoryNameSeo: "Bulk/Block Deals",
+    };
+  }
+  return "UnknownPage";
+};
+
+export const getBigbullTopTabData = (slug: any) => {
+  return [
+    {
+      title: "Overview",
+      id: "overview",
+      url: `/markets/top-india-investors-portfolio/${slug}`,
+    },
+    {
+      title: "All Investors",
+      id: "allInvestors",
+      url: `/markets/top-india-investors-portfolio/${slug}/all-investors`,
+    },
+    {
+      title: "Qtr. Changes",
+      id: "qtrChanges",
+      url: `/markets/top-india-investors-portfolio/${slug}/qtr-changes`,
+    },
+    {
+      title: "Recent Transactions",
+      id: "recentTransactions",
+      url: `/markets/top-india-investors-portfolio/${slug}/recent-transactions`,
+    },
+    {
+      title: "Best Picks",
+      id: "bestPicks",
+      url: `/markets/top-india-investors-portfolio/${slug}/best-picks`,
+    },
+    {
+      title: "Most Held",
+      id: "mostHeld",
+      url: `/markets/top-india-investors-portfolio/most-held`,
+    },
+  ];
 };

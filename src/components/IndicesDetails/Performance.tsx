@@ -82,9 +82,9 @@ const IndicesPerformance = React.memo(({ data, indexName, exchange }: any) => {
 
   return (
     <>
-      <h2 className={styles.heading}>
-        Performance of {indexName} v/s Other Indices
-      </h2>
+      <h2
+        className={styles.heading}
+      >{`Performance of ${indexName} v/s Other Indices`}</h2>
       <table className={styles.marketsCustomTable}>
         <thead>
           <tr>

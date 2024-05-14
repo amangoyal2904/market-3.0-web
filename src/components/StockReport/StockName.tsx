@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "./StockReport.module.scss";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils/index";
 interface StockNameProps {
   category: string;
   primeUser: boolean;
@@ -22,7 +24,7 @@ const StockName: React.FC<StockNameProps> = ({
       return (
         <a
           data-ga-onclick={`SR+ ${tabName}#${category} - ${name} name click#href`}
-          href={`/${seoName}/stocks/companyid-${companyID}.cms`}
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${seoName}/stocks/companyid-${companyID}.cms`}
           target="_blank"
           title={name}
         >

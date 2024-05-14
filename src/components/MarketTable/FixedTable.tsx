@@ -288,9 +288,7 @@ const FixedTable = React.memo((props: any) => {
                                       {tdData.value.split("/")[1]}
                                     </p>
                                   </div>
-                                  <div
-                                    className={`dflex align-item-center space-between ${styles.gap2}`}
-                                  >
+                                  <div className="dflex align-item-center space-between">
                                     <div
                                       className={`${styles.bar} ${styles.up}`}
                                       style={{
@@ -310,12 +308,14 @@ const FixedTable = React.memo((props: any) => {
                               )
                             ) : tdData.valueType == "sparklineGraph" ? (
                               !!tdData.value && (
-                                <img
-                                  src={`${tdData.value}&width=100&height=35`}
-                                  width={140}
-                                  height={35}
-                                  loading="lazy"
-                                />
+                                <div className="dflex align-item-center overH">
+                                  <img
+                                    src={`${tdData.value}&width=115&height=35`}
+                                    width={115}
+                                    height={35}
+                                    loading="lazy"
+                                  />
+                                </div>
                               )
                             ) : tdData.keyId == "lastTradedPrice" ? (
                               <span

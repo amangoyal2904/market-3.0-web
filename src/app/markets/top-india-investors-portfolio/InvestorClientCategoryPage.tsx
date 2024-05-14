@@ -8,10 +8,10 @@ import InvestorCatModule from "@/components/BigBullTableCard/InvestorCatModule";
 import { fetchSelectedFilter } from "@/utils/utility";
 import { fetchFilters } from "@/utils/utility";
 import StockFilterNifty from "@/components/StockFilterNifty";
-import { commonPostAPIHandler } from "../../../../utils/screeners";
+import { commonPostAPIHandler } from "../../../utils/screeners";
 import BreadCrumb from "@/components/BreadCrumb";
 
-const InvestorClientCatePage = ({
+const InvestorClientCategoryPage = ({
   data,
   slug,
   pageData,
@@ -23,6 +23,7 @@ const InvestorClientCatePage = ({
   payload,
   pageUrl,
   rightTabTxt = "",
+  tableThSortFilterID,
 }: any) => {
   const [tableLoadingShow, setTableLoadingShow] = useState(false);
   const [sortByTrade, setSortByTrade]: any = useState([
@@ -32,8 +33,8 @@ const InvestorClientCatePage = ({
   ]);
   const [_rightTabTextAPI, setRightTabTextAPI] = useState(rightTabTxt);
   const [sortByTradeActive, setSortByTradeActive] = useState({
-    label: "Sold Entries",
-    value: "SOLD",
+    label: "All Entries",
+    value: "ALL",
   });
   const [sortByChangeHolding, setSortByChangeHolding]: any = useState([
     { label: "All", value: "All" },
@@ -54,8 +55,14 @@ const InvestorClientCatePage = ({
   const [filterMenuData, setFilterMenuData]: any = useState("");
   const [_pageSummaryInfo, setPageSummaryInfo] = useState(pageSummaryInfo);
   const [_payload, setPayload]: any = useState(payload);
-  const [sortData, setSortData] = useState({ field: null, order: "DESC" });
-  const [_sortData, _setSortData] = useState({ field: null, order: "DESC" });
+  const [sortData, setSortData] = useState({
+    field: tableThSortFilterID,
+    order: payload.orderBy,
+  });
+  const [_sortData, _setSortData] = useState({
+    field: tableThSortFilterID,
+    order: payload.orderBy,
+  });
   const tabsData = [
     {
       title: "Overview",
@@ -354,10 +361,10 @@ const InvestorClientCatePage = ({
       )}
       <BreadCrumb
         pagePath={pageUrl}
-        pageName={[{ label: slug, redirectUrl: "" }]}
+        pageName={[{ label: slug.split("-").join(" "), redirectUrl: "" }]}
       />
     </>
   );
 };
 
-export default InvestorClientCatePage;
+export default InvestorClientCategoryPage;

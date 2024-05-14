@@ -13,7 +13,7 @@
   display: -ms-flexbox;
   display: flex;
   position: relative;
-  overflow: auto;
+  overflow: hidden;
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: flex-start;
@@ -145,6 +145,8 @@
     .lineGraph {
       position: relative;
       margin: 0 auto;
+      max-height: 25px;
+      overflow: hidden;
       .head {
         font-family: var(--font-lato);
         font-size: 12px;

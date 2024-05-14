@@ -18,7 +18,7 @@ export const LiveStreamCards = ({ data }: any) => {
         </div>
         <div className={styles.textSection}>
           <p className={styles.hourAgo}>
-            Streamed {getHours(data?.startTime)} hours ago
+            {`Streamed ${getHours(data?.startTime)} hours ago`}
             <span className={`eticon_share ${styles.shareIcon}`}></span>
           </p>
           <a href={url} className={styles.title}>

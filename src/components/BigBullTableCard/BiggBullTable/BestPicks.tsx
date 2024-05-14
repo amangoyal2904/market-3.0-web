@@ -111,7 +111,6 @@ const BiggBullBestPicksTable = ({
                     <td>
                       <Link
                         href={`/markets/top-india-investors-portfolio/${tdata?.investorIntro?.sharkSeoName},expertid-${tdata?.investorIntro?.sharkID}`}
-                        target="_blank"
                         className={styles.investNameImg}
                       >
                         <img

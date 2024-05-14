@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Company Name",
+    "id": "1",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "companyName"
+  },
+  {
+    "name": "Held By",
+    "id": "6",
+    "sort": false,
+    "primeFlag": false,
+    "orderBy": "noOfBulls"
+  },
+  {
+    "name": "Bull Holdings%",
+    "id": "2",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "bullHolding"
+  },
+  {
+    "name": "Bull Holdings (Rs in Cr.)",
+    "id": "3",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "bullHoldingValue"
+  },
+  {
+    "name": "3M Return %",
+    "id": "4",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "3MReturn"
+  },
+  {
+    "name": "6M Returns %",
+    "id": "5",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "6MReturn"
+  }
+]
