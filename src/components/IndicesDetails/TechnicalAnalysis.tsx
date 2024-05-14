@@ -184,12 +184,12 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
           </table>
           <ul className={styles.legend}>
             <li>
-              <span className={`${styles.point} ${styles.up}`}></span>Bullish
-              Moving Averages ({bullishMA})
+              <span className={`${styles.point} ${styles.up}`}></span>
+              {`Bullish Moving Averages (${bullishMA})`}
             </li>
             <li>
-              <span className={`${styles.point} ${styles.down}`}></span>Bearish
-              Moving Averages ({bearishMA})
+              <span className={`${styles.point} ${styles.down}`}></span>
+              {`Bearish Moving Averages (${bearishMA})`}
             </li>
           </ul>
         </div>

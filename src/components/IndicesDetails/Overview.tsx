@@ -87,9 +87,10 @@ const IndicesDetailsOverview = React.memo(
         </div>
         <div className={styles.indexOpts}>
           <div className="dflex align-item-center">
-            <p className={styles.ltp} id="lastTradedPrice">
-              ₹{formatNumber(overviewData?.lastTradedPrice, 2)}
-            </p>
+            <p
+              className={styles.ltp}
+              id="lastTradedPrice"
+            >{`₹${formatNumber(overviewData?.lastTradedPrice, 2)}`}</p>
             <div
               className={`${styles.change} ${trend == "up" ? styles.up : trend == "down" ? styles.down : ""}`}
             >
@@ -104,10 +105,8 @@ const IndicesDetailsOverview = React.memo(
                   }`}
                 />
               )}
-              <span>
-                {Math.abs(overviewData[changePeriod])?.toFixed(2)} (
-                {overviewData[percentChange]?.toFixed(2)}%)
-              </span>
+              <span>{`${Math.abs(overviewData[changePeriod])?.toFixed(2)} (
+                ${overviewData[percentChange]?.toFixed(2)}%)`}</span>
             </div>
           </div>
           {/* <div className="dflex  align-item-center">
@@ -166,8 +165,12 @@ const IndicesDetailsOverview = React.memo(
             </div>
             <div className={styles.bottom}>
               <div className="dflex align-item-center space-between">
-                <p className={styles.head}>{overviewData?.advances} Advances</p>
-                <p className={styles.head}>{overviewData?.declines} Declines</p>
+                <p
+                  className={styles.head}
+                >{`${overviewData?.advances} Advances`}</p>
+                <p
+                  className={styles.head}
+                >{`${overviewData?.declines} Declines`}</p>
               </div>
               <div
                 className={`dflex align-item-center space-between ${overviewData?.advancesPercentage != "100" && overviewData?.declinesPercentage != "100" ? styles.gap2 : ""}`}
@@ -182,14 +185,14 @@ const IndicesDetailsOverview = React.memo(
                 ></div>
               </div>
               <div className="dflex align-item-center space-between">
-                <span className={styles.label}>
-                  {overviewData?.advancesPercentage}
-                  {overviewData?.advancesPercentage && "%"}
-                </span>
-                <span className={styles.label}>
-                  {overviewData?.declinesPercentage}
-                  {overviewData?.declinesPercentage && "%"}
-                </span>
+                <span
+                  className={styles.label}
+                >{`${overviewData?.advancesPercentage}
+                  ${overviewData?.advancesPercentage && "%"}`}</span>
+                <span
+                  className={styles.label}
+                >{`${overviewData?.declinesPercentage}
+                  ${overviewData?.declinesPercentage && "%"}`}</span>
               </div>
             </div>
           </div>

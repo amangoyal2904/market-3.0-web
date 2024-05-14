@@ -58,8 +58,7 @@ const StockCards: React.FC<Props> = ({
       <p
         className={`numberFonts ${item[changePeriod] > 0 ? styles.up : item[changePeriod] < 0 ? styles.down : ""} ${styles.indexChange}`}
       >
-        {Math.abs(item[changePeriod]).toFixed(2)}&nbsp;(
-        {item[percentChange].toFixed(2)}%)
+        {`${Math.abs(item[changePeriod]).toFixed(2)} (${item[percentChange].toFixed(2)}%)`}
         <span
           className={`${styles.arrowIcons} ${
             item[changePeriod] > 0

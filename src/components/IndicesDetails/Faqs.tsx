@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import styles from "./IndicesDetails.module.scss";
 
 const IndicesFaqs = React.memo(({ faqs }: any) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeItems, setActiveItems] = useState<number[]>([0]);
 
   const handleItemClick = (index: number) => {
-    setActiveIndex(index);
+    // If the clicked item is already active, remove it from activeItems
+    if (activeItems.includes(index)) {
+      setActiveItems(activeItems.filter((item) => item !== index));
+    } else {
+      // Otherwise, add it to activeItems
+      setActiveItems([...activeItems, index]);
+    }
   };
+
   return (
     <>
       <h2 className={styles.heading}>Frequently Asked Questions</h2>
@@ -15,11 +22,11 @@ const IndicesFaqs = React.memo(({ faqs }: any) => {
           {faqs.map((faq: any, index: number) => (
             <li
               key={index}
-              className={`${styles.faq} ${index === activeIndex ? styles.active : ""}`}
+              className={`${styles.faq} ${activeItems.includes(index) ? styles.active : ""}`}
               onClick={() => handleItemClick(index)}
             >
               <div className={styles.heading}>
-                {faq.q}{" "}
+                {faq.q}
                 <span className={styles.navigate}>
                   <i className="eticon_caret_down"></i>
                 </span>
@@ -35,5 +42,6 @@ const IndicesFaqs = React.memo(({ faqs }: any) => {
     </>
   );
 });
+
 IndicesFaqs.displayName = "IndicesFaqs";
 export default IndicesFaqs;
