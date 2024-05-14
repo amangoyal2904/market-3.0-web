@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./FIIDII.module.scss";
 import { formatNumber, getClassAndPercent } from "@/utils";
 import Loader from "../Loader";
+import { trackingEvent } from "@/utils/ga";
 
 const filterTypeOptions = [
   { label: "Daily", value: "daily", id: 11 },
@@ -112,6 +113,11 @@ const FiiDiiOtherTable = React.memo(
                       key={item.id}
                       onClick={() => {
                         setIsLoading(true);
+                        trackingEvent("et_push_event", {
+                          event_category: "mercury_engagement",
+                          event_action: "index_filter_applied",
+                          event_label: item.label,
+                        });
                         handleFilterType(item.value);
                         setActiveFilter(item.value); // Update active filter on click
                       }}

@@ -8,6 +8,7 @@ import tableConfig from "@/utils/tableConfig.json";
 import refeshConfig from "@/utils/refreshConfig.json";
 import styles from "./BuySellTechnicalWidget.module.scss";
 import { dateFormat } from "@/utils";
+import { trackingEvent } from "@/utils/ga";
 
 const macd_opts = [
   { label: "1D", value: "1d", id: 1 },
@@ -46,6 +47,11 @@ const BuySellTechnicalWidget = ({ data, unixDateTime, bodyParams }: any) => {
 
   const onExchangeChange = (exchange: string) => {
     setProcessingLoader(true);
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "index_filter_applied",
+      event_label: exchange,
+    });
     setPayload({ ...payload, exchange });
   };
 
