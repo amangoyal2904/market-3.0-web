@@ -262,7 +262,7 @@ const IndicesConstituents = React.memo(
 
     return (
       <>
-        <h2 className={styles.heading}>{indexName} Constituents</h2>
+        <h2 className={styles.heading}>{`${indexName} Constituents`}</h2>
         <div className={styles.wrapper}>
           <div className="tabsWrap">
             <LeftMenuTabs
@@ -295,7 +295,7 @@ const IndicesConstituents = React.memo(
         </div>
         {!!indexNews.length && (
           <div className={`${styles.wrapper} ${styles.highlightedSection}`}>
-            <h2 className={styles.heading}>{indexName} News</h2>
+            <h2 className={styles.heading}>{`${indexName} News`}</h2>
             <SlickSlider
               slides={indexNews?.map((slides: any, index: any) => ({
                 content: <IndicesNewsCard data={slides} index={index} />,

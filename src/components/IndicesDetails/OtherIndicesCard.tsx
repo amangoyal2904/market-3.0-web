@@ -35,8 +35,8 @@ const OtherIndicesCard = React.memo(({ data }: any) => {
       </div>
       <div className={styles.bottom}>
         <div className="dflex align-item-center space-between">
-          <p className={styles.head}>{data.advances} Advances</p>
-          <p className={styles.head}>{data.declines} Declines</p>
+          <p className={styles.head}>{`${data.advances} Advances`}</p>
+          <p className={styles.head}>{`${data.declines} Declines`}</p>
         </div>
         <div className="dflex align-item-center">
           <div
@@ -49,8 +49,8 @@ const OtherIndicesCard = React.memo(({ data }: any) => {
           ></div>
         </div>
         <div className="dflex align-item-center space-between">
-          <span className={styles.label}>{data.advancesPercentage}%</span>
-          <span className={styles.label}>{data.declinesPercentage}%</span>
+          <span className={styles.label}>{`${data.advancesPercentage}%`}</span>
+          <span className={styles.label}>{`${data.declinesPercentage}%`}</span>
         </div>
       </div>
     </div>
