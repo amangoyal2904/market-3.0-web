@@ -274,7 +274,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           <div className={styles.bottomWidgets}>
             <Link
               target="_blank"
-              href="/markets/market-moods/nifty-500"
+              href="/markets/stock-market-mood/nifty-500"
               title="Advance/Decline"
               className={styles.widget}
             >

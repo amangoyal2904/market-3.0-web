@@ -47,8 +47,24 @@ const BigBullRecentTransactionsClientPage = ({
     field: tableThSortFilterID,
     order: "DESC",
   });
+  const [sortByTimeActive, setSortByTimeActive] = useState({
+    label: "Last 1 Year",
+    value: "1Y",
+  });
+  const [sortByActive, setSortByActive]: any = useState([
+    { label: "Today", value: "1D" },
+    { label: "Last 3 Days", value: "3D" },
+    { label: "Last 1 week", value: "7D" },
+    { label: "Last 30 Days", value: "30D" },
+    { label: "Last 3 Months", value: "3M" },
+    { label: "Last 1 Year", value: "1Y" },
+  ]);
   const [tableLoadingShow, setTableLoadingShow] = useState(false);
   const tabCatName = _payload.investorType.toLowerCase();
+  const sortByActiveHandler = (sortData: any) => {
+    setSortByTimeActive(sortData);
+    setPayload({ ..._payload, timeSpan: sortData.value, pageNo: 1 });
+  };
   const tabs = getBigbullTopTabData(tabCatName);
   const callAPIfitler = async () => {
     setTableLoadingShow(true);
@@ -141,6 +157,9 @@ const BigBullRecentTransactionsClientPage = ({
           title={__title}
           pageType={pageType}
           paginationLastNode="Recent Transactions"
+          sortByTimeActive={sortByTimeActive}
+          sortByActive={sortByActive}
+          sortByActiveHandler={sortByActiveHandler}
         />
       </div>
       <BreadCrumb

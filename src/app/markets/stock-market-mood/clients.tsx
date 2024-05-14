@@ -97,7 +97,7 @@ const MarketMoodsClient = ({
     setLoading(true);
     setShowFilter(false);
     const selectedFilter = await fetchSelectedFilter(id);
-    const newUrl = "/markets/market-moods/" + selectedFilter.seoname;
+    const newUrl = "/markets/stock-market-mood/" + selectedFilter.seoname;
     router.prefetch(newUrl);
     router.push(newUrl, { scroll: false });
   };
@@ -278,7 +278,9 @@ const MarketMoodsClient = ({
           </span>
         </div>
         <div className={styles.prime}>ETPrime</div>
-        <h1 className={styles.heading}>Market Mood</h1>
+        <h1
+          className={styles.heading}
+        >{`Stock Market Mood - ${niftyFilterData.name}`}</h1>
       </div>
       <p className={styles.desc}>
         Know the market sentiments. Check the percentage or count of stocks in
@@ -334,7 +336,8 @@ const MarketMoodsClient = ({
                   src={item.img}
                   width={792}
                   height={370}
-                  alt={`Market Moods ${item.heading}`}
+                  title={item.title}
+                  alt={item.title}
                   loading="lazy"
                 />
                 <p className={styles.title}>{item.title}</p>
