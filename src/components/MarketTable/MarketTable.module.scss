@@ -484,7 +484,7 @@
 }
 .widgetCustomScroll {
   display: flex !important;
-  position: sticky;
+  position: absolute;
   right: 0px;
   top: 50%;
   transform: translate(10%, -30%);

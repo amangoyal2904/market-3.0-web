@@ -54,7 +54,7 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
                 }}
               ></div>
               <p className={`numberFonts ${styles.tooltip}`}>
-                {Math.floor(Math.abs(bars?.[type]))} Cr
+                {Math.floor(Math.abs(bars?.[type]))} Cr.
               </p>
               <div className={`numberFonts ${styles.bar} ${styles.value}`}>
                 {dateFormat(bars.dateLong, "%d")}
@@ -69,7 +69,7 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
                 {dateFormat(bars.dateLong, "%d")}
               </div>
               <p className={`numberFonts ${styles.tooltip}`}>
-                {Math.floor(Math.abs(bars?.[type]))}Cr
+                {Math.floor(Math.abs(bars?.[type]))} Cr.
               </p>
               <div
                 className={`${styles.bar} ${bars?.[type] < 0 ? styles.down : styles.up}`}
@@ -90,7 +90,7 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
           {type == "fiiEquity"
             ? fiiCash?.netInvestment
             : diiCash?.netInvestment}
-          &nbsp;Cr
+          &nbsp;Cr.
         </span>
         <span>
           {dateFormat(
