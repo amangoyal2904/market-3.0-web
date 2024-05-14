@@ -55,15 +55,6 @@ const MarketStatsNav: React.FC<PageProps> = React.memo((props) => {
     }
   };
 
-  const handleClick = (e: any) => {
-    const elm = e.currentTarget;
-    const nav = document.querySelectorAll(`.${styles["subNavWrapLi"]}`);
-    nav.forEach((item) => {
-      item.classList.remove(styles["active"]);
-    });
-    elm.classList.add(styles["active"]);
-  };
-
   const renderLink = (subItem: any) => {
     const isExist: any = shortUrlMapping.find(
       (item: any) => item.longURL == subItem.link,
@@ -98,7 +89,6 @@ const MarketStatsNav: React.FC<PageProps> = React.memo((props) => {
                       <li
                         key={`${index}_${subNavindex}`}
                         className={`${styles.subNavWrapLi} ${(!!subType && subType == subItem.type) || (!!firstOperand && !!operationType && !!secondOperand && firstOperand == subItem.firstoperand && operationType == subItem.operationtype && secondOperand == subItem.secondoperand) ? styles.active : ""}`}
-                        onClick={(e) => handleClick(e)}
                       >
                         {renderLink(subItem)}
                       </li>

@@ -32,6 +32,9 @@
     padding-right: 15px;
     .subNavWrapLi {
       position: relative;
+      a {
+        display: flex;
+      }
     }
   }
   ul.subNavWrap li {
