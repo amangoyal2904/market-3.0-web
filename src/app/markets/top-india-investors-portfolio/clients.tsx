@@ -51,7 +51,7 @@ const BigBullClientPage = ({ data, payload, pageUrl }: any) => {
             __data?.pageData?.investorlist?.investorData.length > 0 && (
               <BigBullSection
                 data={__data?.pageData?.investorlist?.investorData}
-                cartLink={`/markets/top-india-investors-portfolio/all-investors`}
+                cartLink={`/markets/top-india-investors-portfolio/${tabCatName}/all-investors`}
                 title="Individual Investors"
                 type="card1"
                 cartTitle={`View All ${__data?.pageData?.investorlist?.pageSummaryInfo?.totalRecords} Investors`}
@@ -67,7 +67,7 @@ const BigBullClientPage = ({ data, payload, pageUrl }: any) => {
                 data={
                   __data?.pageData?.investorKeyChanges?.investorKeyChangesData
                 }
-                cartLink={`/markets/top-india-investors-portfolio/qtr-changes`}
+                cartLink={`/markets/top-india-investors-portfolio/${tabCatName}/qtr-changes`}
                 cartTitle="View All Holding Changes"
               />
             )}
@@ -78,7 +78,7 @@ const BigBullClientPage = ({ data, payload, pageUrl }: any) => {
                 title="Recent Transactions "
                 type="card2"
                 data={__data?.pageData?.recentDealsInfo?.listRecentDeals}
-                cartLink={`/markets/top-india-investors-portfolio/recent-transactions`}
+                cartLink={`/markets/top-india-investors-portfolio/${tabCatName}/recent-transactions`}
                 cartTitle="View All Recent Transactions"
               />
             )}
@@ -90,7 +90,7 @@ const BigBullClientPage = ({ data, payload, pageUrl }: any) => {
                 title="Best Stock Picks "
                 type="card2"
                 data={__data?.pageData?.bestPicksDataInfo?.bestPicksListInfo}
-                cartLink={`/markets/top-india-investors-portfolio/best-picks`}
+                cartLink={`/markets/top-india-investors-portfolio/${tabCatName}/best-picks`}
                 cartTitle={`View All ${__data?.pageData?.bestPicksDataInfo?.pageSummaryInfo?.totalRecords} Best STock Picks`}
               />
             )}
