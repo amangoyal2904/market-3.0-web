@@ -23,6 +23,7 @@ const ScrollableTable = React.memo((props: any) => {
     fixedCol = 3,
     setVerticalScrollEnabled,
     setScrollableTableRef,
+    verticalScrollEnabled,
   } = props || {};
   const {
     showFilterInput = true,
@@ -51,6 +52,50 @@ const ScrollableTable = React.memo((props: any) => {
 
     return () => clearTimeout(timer);
   }, [tableDataList]);
+  const checkTableInViewport = () => {
+    if (scrollableTableRef.current) {
+      const rect = scrollableTableRef?.current?.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.bottom <=
+          (window.innerHeight || document?.documentElement?.clientHeight)
+      );
+    }
+  };
+  const isInViewPort = checkTableInViewport();
+  useEffect(() => {
+    let count = 0;
+    const isShowedScroll = sessionStorage.getItem("showedScroll") || false;
+    const scrollTable = () => {
+      count = count + 1;
+      if (scrollableTableRef.current) {
+        scrollableTableRef.current.style.transition =
+          "transform 1.2s ease-in-out";
+        // scrollableTableRef.current.scrollLeft = scrollableTableRef.current.scrollWidth;
+        scrollableTableRef.current.style.transform = `translateX(-${200}px)`;
+      }
+      setTimeout(() => {
+        if (scrollableTableRef.current) {
+          scrollableTableRef.current.style.transition =
+            "transform 1.2s ease-in-out";
+          // scrollableTableRef.current.scrollLeft = 0;
+          scrollableTableRef.current.style.transform = "translateX(0)";
+        }
+      }, 800);
+    };
+    if (!isShowedScroll && verticalScrollEnabled) {
+      scrollTable();
+    }
+    const intervalId = setInterval(() => {
+      if (count < 2 && !isShowedScroll) {
+        verticalScrollEnabled && scrollTable();
+      } else {
+        clearInterval(intervalId);
+        sessionStorage.setItem("showedScroll", "1");
+      }
+    }, 2000);
+    return () => clearInterval(intervalId);
+  }, [isInViewPort]);
 
   const prevTableDataList = prevTableDataListRef.current;
 
@@ -222,9 +267,7 @@ const ScrollableTable = React.memo((props: any) => {
                                       {tdData.value.split("/")[1]}
                                     </p>
                                   </div>
-                                  <div
-                                    className={`dflex align-item-center space-between ${styles.gap2}`}
-                                  >
+                                  <div className="dflex align-item-center space-between overH">
                                     <div
                                       className={`${styles.bar} ${styles.up}`}
                                       style={{
@@ -244,12 +287,14 @@ const ScrollableTable = React.memo((props: any) => {
                               )
                             ) : tdData.valueType == "sparklineGraph" ? (
                               !!tdData.value && (
-                                <img
-                                  src={`${tdData.value}&width=140&height=35`}
-                                  width={140}
-                                  height={35}
-                                  loading="lazy"
-                                />
+                                <div className="dflex align-item-center overH">
+                                  <img
+                                    src={`${tdData.value}&width=115&height=35`}
+                                    width={115}
+                                    height={35}
+                                    loading="lazy"
+                                  />
+                                </div>
                               )
                             ) : tdData.keyId == "lastTradedPrice" ? (
                               <span

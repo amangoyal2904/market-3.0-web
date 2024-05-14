@@ -178,7 +178,7 @@ const StockComponent = ({
               <div className={styles.potensialBox}>
                 <h3>{data.potentialText}</h3>
                 {data.potentialValue > 0 ? (
-                  <h4 className={`numberFonts`}>{data.potentialValue}%</h4>
+                  <h4 className={`numberFonts`}>{`${data.potentialValue}%`}</h4>
                 ) : (
                   <h4 className={`${styles.targetMet}`}>Target Met</h4>
                 )}

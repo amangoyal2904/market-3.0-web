@@ -172,7 +172,7 @@ const BuySellTab = ({
             className={`${styles.roundBtn} ${styles.fitlerDay}`}
             onClick={() => handleDropDown()}
           >
-            {dropDownValue.label}{" "}
+            {dropDownValue.label}
             {dropDownOptions.length > 1 && (
               <i className="eticon_caret_down"></i>
             )}

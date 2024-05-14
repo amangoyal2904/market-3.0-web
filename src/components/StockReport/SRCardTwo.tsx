@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import StockName from "./StockName";
 import ScoreBox from "./ScoreBox";
 import styles from "./StockReport.module.scss";
-import StockSRLoginBlocker from "../StockSRLoginBlocker";
 interface DataListItem {
   keyId: string;
   keyText: string;
@@ -34,7 +33,7 @@ interface DataList {
 interface SRCardTwoProps {
   catName: string;
   primeUser: boolean;
-  loginUser: boolean;
+  handleClick: any;
   tabName: string;
   dataList: DataList;
 }
@@ -55,42 +54,27 @@ const researchStyle = (num: string): CSSProperties => {
   }
 };
 
-const overlayBlockerData = {
-  textForData: "Stock Report Plus is accessible for ET Prime Members only.",
-  textForReport: "",
-  ctaText: "Subscribe Now",
-  textBenefits: "Become a member & unlock all the data and reports now.",
-  discCoupon: "Special Offer: Flat 20% Off on ET Prime",
-};
-
 const SRCardTwo: React.FC<SRCardTwoProps> = ({
   catName,
   primeUser,
-  loginUser,
+  handleClick,
   tabName,
   dataList,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { name, companyID, seoName, data } = dataList;
 
   const avgScore = data.find((item) => item?.keyId === "sr_avgScore")?.value;
   const hasScore3m =
     data.find((item) => item?.keyId === "sr_avgScore3m") !== undefined;
 
-  const handleClick = (value: boolean) => {
-    setIsModalOpen(value);
-    if (value) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "visible";
-    }
-  };
-
   const cardClickProps = !primeUser ? { onClick: () => handleClick(true) } : {};
 
   return (
     <>
-      <div className={`${styles.srCard}`} {...cardClickProps}>
+      <div
+        className={`${styles.srCard} ${!primeUser ? styles.pointer : ""}`}
+        {...cardClickProps}
+      >
         <StockName
           category={catName}
           primeUser={primeUser}
@@ -179,13 +163,6 @@ const SRCardTwo: React.FC<SRCardTwoProps> = ({
           </div>
         )}
       </div>
-      {isModalOpen && (
-        <StockSRLoginBlocker
-          overlayBlockerData={overlayBlockerData}
-          isLoginUser={loginUser}
-          handleClick={handleClick}
-        />
-      )}
     </>
   );
 };

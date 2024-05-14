@@ -121,6 +121,12 @@ const MarketStats = ({
       setTableHeaderData(_tableHeaderData);
       setPageSummary(_pageSummary);
       setProcessingLoader(false);
+    } else {
+      setUpdateDateTime(new Date().getTime());
+      setTableData([]);
+      setTableHeaderData([]);
+      setPageSummary({});
+      setProcessingLoader(false);
     }
   };
 
@@ -430,7 +436,7 @@ const MarketStats = ({
           />
         </aside>
         <div className={styles.rhs}>
-          {isTechnical && (
+          {isTechnical && _technicalCategory.firstOperands && (
             <TechincalOperands
               technicalCategory={_technicalCategory}
               handleTechnicalOperands={onTechnicalOperandsUpdate}

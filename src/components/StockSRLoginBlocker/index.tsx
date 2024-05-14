@@ -7,10 +7,8 @@ interface StockSRLoginBlockerProps {
   handleClick: any;
   overlayBlockerData: {
     textForData: string;
-    textForReport: string;
     ctaText: string;
     textBenefits: string;
-    discCoupon: string;
   };
   srTabActivemenu?: string;
   stockname?: string;
@@ -48,33 +46,30 @@ export default function StockSRLoginBlocker({
 
   return (
     <>
-      <div className={styles.loginWrap}>
-        <div className={styles.loginSec} ref={modalRef}>
-          <div className={styles.etPrimeLogo}></div>
-          <div className={styles.textMember}>
-            {overlayBlockerData.textForData}
-          </div>
-          <div className={styles.textMember2}>
-            {overlayBlockerData.textBenefits}
-          </div>
-          <div className={styles.subBtn}>
-            <span className={styles.subLink} onClick={planPageHandler}>
-              {overlayBlockerData.ctaText}
-            </span>
-            {!isLoginUser && (
-              <p>
-                Already a member?
-                <span className={styles.loginBtn} onClick={loginHandler}>
-                  Sign in Now
-                </span>
-              </p>
-            )}
-          </div>
-          <div className={styles.footerTxt}>
-            {overlayBlockerData.discCoupon}
-          </div>
+      <div id={styles.srPaywalled} ref={modalRef}>
+        <div className={styles.srLogo}>
+          <span className={`eticon_prime_logo ${styles.logo}`}>
+            <span className="path1"></span>
+            <span className="path2"></span>
+            <span className="path3"></span>
+          </span>
+          <div className={styles.prime}>ETPrime</div>
         </div>
+        <h2 className={styles.hl}>{overlayBlockerData.textForData}</h2>
+        <h5 className={styles.desc}>{overlayBlockerData.textBenefits}</h5>
+        <div className={styles.planCta} onClick={planPageHandler}>
+          {overlayBlockerData.ctaText}
+        </div>
+        {!isLoginUser && (
+          <p className={styles.helpTxt}>
+            Already a member?
+            <a onClick={loginHandler} title="Sign in Now">
+              Sign in Now
+            </a>
+          </p>
+        )}
       </div>
+      <div id={styles.srPaywalledOverlay}></div>
     </>
   );
 }

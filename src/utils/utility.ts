@@ -686,14 +686,14 @@ export const getAllIndices = async (
   const responseData = await response?.json();
   let tableData = [];
   let tableHeaderData = [];
-  let unixDateTime;
+  let unixDateTime = new Date().getTime();
   if (responseData?.dataList) {
     tableData = responseData.dataList;
     if (tableData.length > 0 && tableData[0].data) {
       tableHeaderData = tableData[0].data;
     }
   } else {
-    tableData = responseData;
+    tableData = responseData || [];
     if (tableData?.length > 0 && tableData[0]?.data) {
       tableHeaderData = tableData[0].data;
     }
@@ -820,6 +820,11 @@ export const getBuySellTechnicals = async (payload: any) => {
     params: {},
   });
   const originalJson = await response?.json();
+  let unixDateTime;
+  if (originalJson?.pagesummary?.priceDate) {
+    unixDateTime = originalJson?.pagesummary?.priceDate;
+  }
+
   let convertedData: {
     assetName: any;
     assetSeoName: any;
@@ -850,7 +855,7 @@ export const getBuySellTechnicals = async (payload: any) => {
         }
     )[];
   }[] = [];
-  originalJson.response.forEach((company: any) => {
+  originalJson?.response.forEach((company: any) => {
     let newDataObj = {
       assetName: company.companyShortName,
       assetSeoName: company.seoName,
@@ -950,7 +955,7 @@ export const getBuySellTechnicals = async (payload: any) => {
     };
     convertedData.push(newDataObj);
   });
-  return convertedData;
+  return { table: convertedData, unixDateTime };
 };
 
 const getExpertIdBigbull = (arr: any) => {

@@ -20,6 +20,7 @@ import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
 import Service from "@/network/service";
 import { useStateContext } from "@/store/StateContext";
+import MarketStatus from "@/components/MarketStatus";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -45,6 +46,7 @@ const StockScreeners = ({
   metaData = {},
   tabData = [],
   activeViewId = null,
+  unixDateTime = new Date(),
   tableHeaderData = [],
   tableData = [],
   pageSummary = {},
@@ -67,6 +69,7 @@ const StockScreeners = ({
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
   const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
+  const [updateDateTime, setUpdateDateTime] = useState(unixDateTime);
   const [resetSort, setResetSort] = useState("");
   const [_payload, setPayload] = useState(payload);
   const [_query, setQuery] = useState(screenerDetail.displayQuery);
@@ -436,23 +439,36 @@ const StockScreeners = ({
       getCookie("isprimeuser") == "true" ? true : false,
       getCookie("ssoid"),
     );
-    setProcessingLoader(false);
-    const _pageSummary = !!responseData?.pageSummary
-      ? responseData?.pageSummary
-      : {};
-    const _tableData = responseData?.dataList ? responseData.dataList : [];
+    if (!!responseData) {
+      const _pageSummary = !!responseData?.pageSummary
+        ? responseData?.pageSummary
+        : {};
+      const _tableData = responseData?.dataList ? responseData.dataList : [];
 
-    const _tableHeaderData =
-      _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
-        ? _tableData[0]?.data
-        : [];
-    const _screenerDetails = !!responseData.screenerDetail
-      ? responseData.screenerDetail
-      : {};
-    setTableData(_tableData);
-    setTableHeaderData(_tableHeaderData);
-    setPageSummary(_pageSummary);
-    setScreenerDetail(_screenerDetails);
+      const _tableHeaderData =
+        _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
+          ? _tableData[0]?.data
+          : [];
+      const _screenerDetails = !!responseData.screenerDetail
+        ? responseData.screenerDetail
+        : {};
+      const _unixDateTime = responseData.unixDateTime
+        ? responseData.unixDateTime
+        : new Date().getTime();
+
+      setUpdateDateTime(_unixDateTime);
+      setTableData(_tableData);
+      setTableHeaderData(_tableHeaderData);
+      setPageSummary(_pageSummary);
+      setScreenerDetail(_screenerDetails);
+    } else {
+      setUpdateDateTime(new Date().getTime());
+      setTableData([]);
+      setTableHeaderData([]);
+      setPageSummary({});
+      setScreenerDetail({});
+    }
+    setProcessingLoader(false);
   };
   const editRemoveStockBtnReset = () => {
     // ===
@@ -557,7 +573,18 @@ const StockScreeners = ({
         </h1>
       );
     } else {
-      return <h1 className={styles.heading}>{_metaData.title}</h1>;
+      return (
+        <div className="dflex align-item-center">
+          <h1 className={`${styles.heading} ${styles.withRBorder}`}>
+            {_metaData.title}
+          </h1>
+          <MarketStatus
+            currentMarketStatus={currentMarketStatus}
+            dateTime={updateDateTime}
+            withSpace={true}
+          />
+        </div>
+      );
     }
   };
   const l3UesrNavAPICall = async () => {

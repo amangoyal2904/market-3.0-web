@@ -20,6 +20,7 @@ import {
   getCustomViewsTab,
 } from "@/utils/customViewAndTables";
 import { trackingEvent } from "@/utils/ga";
+import MarketStatus from "@/components/MarketStatus";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -30,6 +31,7 @@ const WatchListClient = () => {
   const [tableData, setTableData] = useState([]);
   const [tableHeaderData, setTableHeaderData] = useState([]);
   const [activeViewId, setActiveViewId] = useState(null);
+  const [updateDateTime, setUpdateDateTime] = useState({});
   const [requestPayload, setRequestPayload] = useState({});
   const [showBlocker, setShowBlocker] = useState(false);
   const [apiSuccess, setAPISuccess] = useState(false);
@@ -45,7 +47,8 @@ const WatchListClient = () => {
     title: "You have Successfully created your personalise view",
   });
   const { state } = useStateContext();
-  const { isLogin, ssoid, isPrime } = state.login;
+  const { isPrime, isLogin, ssoid } = state.login;
+  const { currentMarketStatus } = state.marketStatus;
   const config = tableConfig["watchList"];
   const pageSummary = {};
   const onTabViewUpdate = async (viewId: any) => {
@@ -87,10 +90,18 @@ const WatchListClient = () => {
   };
   const updateTableData = async () => {
     const bodyParams = requestPayload;
-    const { tableHeaderData, tableData, pageSummary, payload } =
+    const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
       await getCustomViewTable(bodyParams, true, ssoid, "MARKETS_CUSTOM_TABLE");
-    setTableData(tableData);
-    setTableHeaderData(tableHeaderData);
+
+    try {
+      setUpdateDateTime(unixDateTime);
+      setTableData(tableData);
+      setTableHeaderData(tableHeaderData);
+    } catch (e) {
+      setUpdateDateTime(new Date().getTime());
+      setTableData([]);
+      setTableHeaderData([]);
+    }
     setProcessingLoader(false);
   };
 
@@ -102,15 +113,26 @@ const WatchListClient = () => {
     });
 
     const bodyParams = { type: "STOCK", viewId: activeViewId, deviceId: "web" };
-    const { tableHeaderData, tableData, pageSummary, payload } =
+    const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
       await getCustomViewTable(bodyParams, true, ssoid, "MARKETS_CUSTOM_TABLE");
 
-    setTabData(tabData);
-    setActiveViewId(activeViewId);
-    setTableData(tableData);
-    setTableHeaderData(tableHeaderData);
-    setAPISuccess(true);
-    setRequestPayload(payload);
+    try {
+      setTabData(tabData);
+      setActiveViewId(activeViewId);
+      setTableData(tableData);
+      setTableHeaderData(tableHeaderData);
+      setUpdateDateTime(unixDateTime);
+      setAPISuccess(true);
+      setRequestPayload(payload);
+    } catch (e) {
+      setTabData([]);
+      setActiveViewId(null);
+      setTableData([]);
+      setTableHeaderData([]);
+      setUpdateDateTime(new Date().getTime());
+      setAPISuccess(true);
+      setRequestPayload({});
+    }
   };
   const toasterRemovePersonaliseViewCloseHandlerFun = async (
     value: boolean,
@@ -224,7 +246,21 @@ const WatchListClient = () => {
 
   return (
     <>
-      <h1 className={styles.heading}>Watchlist</h1>
+      {isLogin ? (
+        <div className="dflex align-item-center">
+          <h1 className={`${styles.heading} ${styles.withRBorder}`}>
+            Watchlist
+          </h1>
+          <MarketStatus
+            currentMarketStatus={currentMarketStatus}
+            dateTime={updateDateTime}
+            withSpace={true}
+          />
+        </div>
+      ) : (
+        <h1 className={styles.heading}>Watchlist</h1>
+      )}
+
       <p className={styles.desc}>
         My Watchlist: Check you stocks last &amp; recent price on The ET
         Markets. Get all the latest information about your stocks, prev. close,

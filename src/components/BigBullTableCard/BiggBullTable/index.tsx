@@ -194,7 +194,7 @@ const BiggBullTable = ({
                           bestPicks[0].uiLabel?.companyId &&
                           bestPicks[0].uiLabel?.companyType ? (
                             <WatchlistAddition
-                              companyName={bestPicks[0].uiValue?.text}
+                              companyName={bestPicks[0].uiLabel?.text}
                               companyId={bestPicks[0].uiLabel?.companyId}
                               companyType={bestPicks[0].uiLabel?.companyType}
                               customStyle={{
@@ -253,11 +253,11 @@ const BiggBullTable = ({
                         </div>
                         <div className={styles.rightSec}>
                           {isPrime &&
-                          bestPicksToNext[0].uiValue?.text &&
+                          bestPicksToNext[0].uiLabel?.text &&
                           bestPicksToNext[0].uiLabel?.companyId &&
                           bestPicksToNext[0].uiLabel?.companyType ? (
                             <WatchlistAddition
-                              companyName={bestPicksToNext[0].uiValue?.text}
+                              companyName={bestPicksToNext[0].uiLabel?.text}
                               companyId={bestPicksToNext[0].uiLabel?.companyId}
                               companyType={
                                 bestPicksToNext[0].uiLabel?.companyType

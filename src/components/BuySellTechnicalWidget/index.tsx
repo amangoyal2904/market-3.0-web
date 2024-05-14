@@ -6,7 +6,8 @@ import MarketTable from "../MarketTable";
 import { useStateContext } from "@/store/StateContext";
 import tableConfig from "@/utils/tableConfig.json";
 import refeshConfig from "@/utils/refreshConfig.json";
-import ViewAllLink from "../ViewAllLink";
+import styles from "./BuySellTechnicalWidget.module.scss";
+import { dateFormat } from "@/utils";
 
 const macd_opts = [
   { label: "1D", value: "1d", id: 1 },
@@ -24,10 +25,11 @@ const indicator_opts = [
   { label: "EMA200", value: "EMA200", id: 6 },
 ];
 
-const BuySellTechnicalWidget = ({ data, bodyParams }: any) => {
+const BuySellTechnicalWidget = ({ data, unixDateTime, bodyParams }: any) => {
   const { state } = useStateContext();
   const { isLogin, ssoid, isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;
+  const [updateDateTime, setUpdateDateTime] = useState(unixDateTime);
   const [processingLoader, setProcessingLoader] = useState(false);
   const [dropDownOptions, setDropDownOptions] = useState(indicator_opts);
   const [dropDownValue, setDropDownValue] = useState({
@@ -94,8 +96,9 @@ const BuySellTechnicalWidget = ({ data, bodyParams }: any) => {
   };
 
   const updateTableData = async () => {
-    const table = await getBuySellTechnicals(payload);
+    const { table, unixDateTime } = await getBuySellTechnicals(payload);
     setTableData(table);
+    setUpdateDateTime(unixDateTime);
     setProcessingLoader(false);
   };
   const tableHeaderData =
@@ -137,6 +140,14 @@ const BuySellTechnicalWidget = ({ data, bodyParams }: any) => {
           isprimeuser={isPrime}
           processingLoader={processingLoader}
         />
+        <div className={styles.helpTxt}>
+          <span>
+            {`* Note: ${payload.crossoverType == "Bullish" ? "Gain" : "Decline"}%
+            is the average price movement within 7 days of signal in last 5
+            years`}
+          </span>
+          <span>{dateFormat(updateDateTime, "* Formed On %MMM %d , %Y")}</span>
+        </div>
       </div>
     </div>
   );

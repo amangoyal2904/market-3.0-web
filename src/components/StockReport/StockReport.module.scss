@@ -9,6 +9,9 @@
   &:nth-child(0) {
     margin-left: 0;
   }
+  &.pointer {
+    cursor: pointer;
+  }
   .lsec {
     flex: 1;
   }
