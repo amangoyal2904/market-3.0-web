@@ -268,7 +268,7 @@ const ScrollableTable = React.memo((props: any) => {
                                     </p>
                                   </div>
                                   <div
-                                    className={`dflex align-item-center space-between ${styles.gap2}`}
+                                    className={`dflex align-item-center space-between`}
                                   >
                                     <div
                                       className={`${styles.bar} ${styles.up}`}
@@ -289,12 +289,14 @@ const ScrollableTable = React.memo((props: any) => {
                               )
                             ) : tdData.valueType == "sparklineGraph" ? (
                               !!tdData.value && (
-                                <img
-                                  src={`${tdData.value}&width=140&height=35`}
-                                  width={140}
-                                  height={35}
-                                  loading="lazy"
-                                />
+                                <div className={`dflex align-item-center`}>
+                                  <img
+                                    src={`${tdData.value}&width=115&height=35`}
+                                    width={115}
+                                    height={35}
+                                    loading="lazy"
+                                  />
+                                </div>
                               )
                             ) : tdData.keyId == "lastTradedPrice" ? (
                               <span

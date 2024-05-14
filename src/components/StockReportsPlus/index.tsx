@@ -189,7 +189,6 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
                           key={index}
                           catName={activeTab?.name}
                           primeUser={isPrimeUser}
-                          loginUser={isLoginUser}
                           tabName="MarketLIVECoverage"
                           dataList={slide}
                           handleClick={handlePaywallClick}
@@ -211,7 +210,6 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
                           key={index}
                           catName={activeTab?.name}
                           primeUser={isPrimeUser}
-                          loginUser={isLoginUser}
                           tabName="MarketLIVECoverage"
                           dataList={slide}
                           handleClick={handlePaywallClick}
