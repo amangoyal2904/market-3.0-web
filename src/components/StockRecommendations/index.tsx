@@ -1,41 +1,29 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./StockRecommendations.module.scss";
 import StockReco from "../StockReco";
 import SlickSlider from "../SlickSlider";
 import service from "@/network/service";
 import ViewAllLink from "../ViewAllLink";
 import Link from "next/link";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV, getStockRecosDetail } from "@/utils";
+import { useStateContext } from "../../store/StateContext";
+import Blocker from "../Blocker";
+import Loader from "../Loader";
 
 interface Slide {
   content: JSX.Element;
 }
 interface Props {
   stockRecoResult: any;
+  recosNav: any;
 }
-const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
-  const tabNames = [
-    {
-      type: "newRecos",
-      name: "New Recos",
-    },
-    {
-      type: "mostBuy",
-      name: "Most Buy",
-    },
-    {
-      type: "mostSell",
-      name: "Most Sell",
-    },
-    {
-      type: "recoByFH",
-      name: "Reocs by Fund Houses",
-    },
-    // {
-    //   type: "recoOnWL",
-    //   name: "Recos on Your Watchlist",
-    // },
-  ];
+const StockRecommendations: React.FC<Props> = ({
+  stockRecoResult,
+  recosNav,
+}) => {
+  const tabNames = recosNav?.tabs;
   const responsive = [
     {
       breakpoint: 2560,
@@ -67,38 +55,40 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
     },
   ];
   const [activeTab, setActiveTab] = useState(tabNames[0]);
-  const [stockData, setStockData] = useState<any[]>(stockRecoResult?.recoData);
+  const [stockData, setStockData] = useState<any[]>(
+    stockRecoResult?.recoData[0]?.data,
+  );
+  const { state, dispatch } = useStateContext();
+  const { isLogin, ssoid } = state.login;
+  const [loaderState, setLoaderState] = useState(false);
 
   const handleTabClick = (tab: any) => {
+    setLoaderState(true);
     setActiveTab(tab);
-    fetchData(tab.type);
+    fetchData(tab.apiType);
   };
   const fetchData = async (type: any) => {
-    const stockReportAllTabApi =
-      "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail";
-    // console.log("@@type --- > " , type)
-    const payload = {
-      apiType: type,
-      filterType: "",
-      filterValue: [],
-      recoType: "all",
-      pageSize: 30,
-      pageNumber: 1,
-    };
-
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    const stockReportAllTabPromise = await service.post({
-      url: stockReportAllTabApi,
-      headers: headers,
-      body: JSON.stringify(payload),
-      params: {},
+    const recosDetailResult = await getStockRecosDetail({
+      getApiType: type,
+      ssoid: isLogin ? ssoid : "",
+      pageNo: 1,
     });
-    const data = await stockReportAllTabPromise?.json();
-    setStockData(data?.recoData);
-    // console.log("@@fetchData --- > " , data)
+
+    // const payload = {
+    //   apiType: type,
+    //   filterType: "",
+    //   filterValue: [],
+    //   recoType: "all",
+    //   pageSize: 30,
+    //   pageNumber: 1,
+    // };
+
+    setStockData(recosDetailResult?.recoData[0]?.data);
   };
+
+  useEffect(() => {
+    setLoaderState(false);
+  }, [stockData]);
 
   return (
     <div className="sectionWrapper">
@@ -115,40 +105,48 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
 
       <div className={styles.tabMainBox}>
         <ul className={styles.tabs}>
-          {tabNames.map((tab) => (
+          {tabNames.map((tab: any, index: any) => (
             <li
-              key={tab.type}
-              className={`${styles.tab} ${activeTab.type === tab.type ? styles.active : ""}`}
+              key={`${tab.seoPath}_${index}`}
+              className={`${styles.tab} ${activeTab.seoPath === tab.seoPath ? styles.active : ""}`}
               onClick={() => handleTabClick(tab)}
             >
-              {tab.name}
+              {tab.label}
             </li>
           ))}
         </ul>
 
         <div className={styles.tabContentWraper}>
           <div
-            className={`${styles.tabContentBox} ${activeTab.type === activeTab.type ? styles.active : ""}`}
+            className={`stockrecos_slickslide ${styles.tabContentBox} ${activeTab.seoPath === activeTab.seoPath ? styles.active : ""}`}
           >
-            <SlickSlider
-              slides={stockData[0]?.data?.map((card: any, index: any) => ({
-                content: (
-                  <StockReco
-                    data={card}
-                    key={index}
-                    activeTab={activeTab.type}
-                    pageName="homepage_stockRecosWd"
-                    urlFilterHandle={undefined}
-                  />
-                ),
-              }))}
-              key={`slider${activeTab.type}`}
-              sliderId={`slider${activeTab.type}`}
-              slidesToShow={3}
-              slidesToScroll={3}
-              rows={2}
-              responsive={responsive}
-            />
+            {loaderState ? (
+              <Loader loaderType="inner" />
+            ) : typeof stockData != "undefined" && stockData?.length > 0 ? (
+              <SlickSlider
+                slides={stockData?.map((card: any, index: any) => ({
+                  content: (
+                    <StockReco
+                      data={card}
+                      key={index}
+                      activeTab={activeTab.apiType}
+                      pageName="stockRecosPage"
+                      urlFilterHandle={undefined}
+                    />
+                  ),
+                }))}
+                key={`slider${activeTab.apiType}`}
+                sliderId={`slider${activeTab.apiType}`}
+                slidesToShow={3}
+                slidesToScroll={3}
+                rows={2}
+                responsive={responsive}
+              />
+            ) : activeTab.seoPath == "recos-on-your-watchlist" && !isLogin ? (
+              <Blocker type="loginBlocker" />
+            ) : (
+              <Blocker type={"noDataFound"} />
+            )}
           </div>
         </div>
       </div>
