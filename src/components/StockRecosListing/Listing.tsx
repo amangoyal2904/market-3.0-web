@@ -18,13 +18,7 @@ const Listing = (props: any) => {
           className={`${styles.listingWrap} ${recosDetailResult.length < 3 ? styles.noGridCardView : ""}`}
         >
           {recosDetailResult?.map((recoDataValue: any, index: any) => {
-            return (activeApi == "recoOnWatchlist" &&
-              !!watchlist &&
-              watchlist.some(
-                (item: any) =>
-                  item?.companyId == recoDataValue?.companyId?.toString(),
-              )) ||
-              activeApi != "recoOnWatchlist" ? (
+            return (
               <StockReco
                 data={recoDataValue}
                 key={index}
@@ -32,8 +26,6 @@ const Listing = (props: any) => {
                 pageName="stockRecosPage"
                 urlFilterHandle={urlFilterHandle}
               />
-            ) : (
-              recosDetailResult?.length == 0 && <Blocker type={"noDataFound"} />
             );
           })}
         </div>
