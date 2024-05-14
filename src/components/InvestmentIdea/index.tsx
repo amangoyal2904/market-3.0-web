@@ -3,6 +3,8 @@ import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
 import Service from "@/network/service";
 import ViewAllLink from "../ViewAllLink";
+import Card from "./Card";
+import { ga4withlink } from "@/utils/ga";
 
 const fetchInvestMentData = async () => {
   try {
@@ -23,26 +25,6 @@ const fetchInvestMentData = async () => {
   }
 };
 
-const Card = ({ data }: any) => {
-  return (
-    <a
-      href={data?.url}
-      className={`${styles.card}`}
-      target="_blank"
-      title={data?.title}
-    >
-      <img
-        src={data?.img}
-        alt={data?.title}
-        className={styles.cardImage}
-        loading="lazy"
-        decoding="async"
-      />
-      <h2 className={styles.cardTitle}>{data?.title}</h2>
-    </a>
-  );
-};
-
 const InvestmentIdea = async () => {
   const investmentData = await fetchInvestMentData();
   return investmentData && investmentData.length ? (
@@ -51,7 +33,14 @@ const InvestmentIdea = async () => {
         <a
           title="Investment Ideas"
           target="_blank"
-          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
+          href="#"
+          onClick={() =>
+            ga4withlink(
+              "investment_ideas_clicked",
+              `widget_heading`,
+              `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`,
+            )
+          }
         >
           Investment Ideas
           <span className={`eticon_caret_right ${styles.headingIcon}`} />
