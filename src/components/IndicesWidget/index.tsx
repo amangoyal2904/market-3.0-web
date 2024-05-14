@@ -101,23 +101,6 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&period=${item?.value}&height=220&transparentBg=1`,
     );
   };
-  // const handleTechnicalClick = (url: string) => {
-  //   trackingEvent("et_push_event", {
-  //     event_category: "mercury_engagement",
-  //     event_action: "indices_chart_interaction",
-  //     event_label: `chart_type_change_technical`,
-  //   });
-  //   window.open(url, "_blank");
-  // };
-  // const handleNewsClick = (url: string, title: string, index: number) => {
-  //   trackingEvent("et_push_event", {
-  //     event_category: "mercury_engagement",
-  //     event_action: "top_news_clicked",
-  //     event_label: `${index} ${title}`,
-  //   });
-  //   window.open(url, "_blank");
-  //   ga4withlink("top_news_clicked",`${index} ${title}`,url);
-  // };
   const getIndicesWidgetData = async () => {
     const response = await Service.get({
       url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,

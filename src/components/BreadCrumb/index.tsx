@@ -235,8 +235,8 @@ const getLiPath = (router: string, pagePath: string) => {
       listItemSchema: "",
     };
   } else if (
-    (router.includes("/markets/top-india-investors-portfolio/") &&
-      router !== "/markets/top-india-investors-portfolio/individual/") ||
+    router.includes("/markets/top-india-investors-portfolio/") &&
+    router !== "/markets/top-india-investors-portfolio/individual" &&
     router != "/markets/top-india-investors-portfolio/institutional"
   ) {
     return {
