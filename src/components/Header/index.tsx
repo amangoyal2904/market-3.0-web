@@ -6,7 +6,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useStateContext } from "../../store/StateContext";
 import ETLogo from "../../../public/et-markets-logo.svg";
-import { goToPlansPage1 } from "@/utils/ga";
+import { goToPlansPage1, trackingEvent } from "@/utils/ga";
 import Login from "../Login";
 import Search from "../Search";
 import useDebounce from "@/hooks/useDebounce";
@@ -43,6 +43,11 @@ const Header = () => {
       const pagePathName = window.location.pathname;
       let site_section = pagePathName.split("/");
       let lastSlash = site_section[site_section.length - 1];
+      trackingEvent("et_push_event", {
+        event_category: "Subscription Flow ET",
+        event_action: "SYFT | Flow Started",
+        event_label: "ATF - " + window.location.href,
+      });
       const obj = {
         item_name: "atf_" + lastSlash,
         item_brand: "product_interventions",
