@@ -12,6 +12,7 @@ import { APP_ENV, getStockRecosDetail } from "@/utils";
 import { useStateContext } from "../../store/StateContext";
 import Blocker from "../Blocker";
 import Loader from "../Loader";
+import { trackingEvent } from "@/utils/ga";
 
 interface Slide {
   content: JSX.Element;
@@ -64,6 +65,11 @@ const StockRecommendations: React.FC<Props> = ({
   const [loaderState, setLoaderState] = useState(false);
 
   const handleTabClick = (tab: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "tab_selected",
+      event_label: `${tab.label} Stock Recos`,
+    });
     setLoaderState(true);
     setActiveTab(tab);
     fetchData(tab.apiType);
