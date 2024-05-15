@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./MarketTable.module.scss";
 import { dateFormat } from "@/utils";
-import { goToPlansPage } from "@/utils/ga";
+import { goToPlansPage, redirectToPlanPage, trackingEvent } from "@/utils/ga";
 import Image from "next/image";
 
 const ScrollableTable = React.memo((props: any) => {
@@ -24,6 +24,7 @@ const ScrollableTable = React.memo((props: any) => {
     setVerticalScrollEnabled,
     setScrollableTableRef,
     verticalScrollEnabled,
+    objTracking,
   } = props || {};
   const {
     showFilterInput = true,
@@ -241,7 +242,13 @@ const ScrollableTable = React.memo((props: any) => {
                         title={tdData.valueType == "text" ? tdData.value : null}
                       >
                         {!isPrime && tdData.primeFlag ? (
-                          <span onClick={goToPlansPage}>Upgrade to Prime</span>
+                          <span
+                            onClick={() => {
+                              redirectToPlanPage(objTracking);
+                            }}
+                          >
+                            Upgrade to Prime
+                          </span>
                         ) : (
                           <>
                             {tdData.valueType == "date" ? (

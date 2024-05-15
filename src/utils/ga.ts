@@ -13,6 +13,20 @@ declare global {
   }
 }
 
+export const redirectToPlanPage = (objTracking, type = "select_item") => {
+  try {
+    trackingEvent("et_push_event", {
+      event_category: objTracking.category,
+      event_action: objTracking.action,
+      event_label: objTracking.label,
+    });
+    goToPlansPage1(type, objTracking.obj);
+  } catch (Err) {
+    console.log("redirectToPlanPage Err:", Err);
+    goToPlansPage1(type, {});
+  }
+};
+
 export const ga4withlink = (event_action, event_label, url) => {
   trackingEvent("et_push_event", {
     event_category: "mercury_engagement",

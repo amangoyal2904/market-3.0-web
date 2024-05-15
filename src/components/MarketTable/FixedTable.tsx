@@ -3,7 +3,7 @@ import styles from "./MarketTable.module.scss";
 import { getStockUrl } from "@/utils/utility";
 import { dateFormat } from "@/utils";
 import WatchlistAddition from "../WatchlistAddition";
-import { goToPlansPage } from "@/utils/ga";
+import { goToPlansPage, redirectToPlanPage, trackingEvent } from "@/utils/ga";
 import Image from "next/image";
 
 const FixedTable = React.memo((props: any) => {
@@ -25,6 +25,7 @@ const FixedTable = React.memo((props: any) => {
     removeCheckBoxHandle,
     tableConfig = {},
     fixedCol = 3,
+    objTracking,
   } = props || {};
   const {
     showFilterInput = true,
@@ -251,6 +252,13 @@ const FixedTable = React.memo((props: any) => {
                                 : item.assetName,
                               item.assetType,
                             )}
+                            onClick={() =>
+                              trackingEvent("et_push_event", {
+                                event_category: "mercury_engagement",
+                                event_action: `${item.assetType != "index" ? "company_clicked" : "indices_clicked"}`,
+                                event_label: `${!!tdData.value ? tdData.value : item.assetName}`,
+                              })
+                            }
                             target="_blank"
                             title={`${!!tdData.value ? tdData.value : item.assetName}${item.assetType !== "index" ? " Share Price" : ""}`}
                           >
@@ -272,7 +280,13 @@ const FixedTable = React.memo((props: any) => {
                         title={tdData.valueType == "text" ? tdData.value : null}
                       >
                         {!isPrime && tdData.primeFlag ? (
-                          <span onClick={goToPlansPage}>Upgrade to Prime</span>
+                          <span
+                            onClick={() => {
+                              redirectToPlanPage(objTracking);
+                            }}
+                          >
+                            Upgrade to Prime
+                          </span>
                         ) : (
                           <>
                             {tdData.valueType == "date" ? (

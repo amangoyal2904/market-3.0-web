@@ -57,6 +57,24 @@ const MarketTable = React.memo((props: propsType) => {
     fixedCol = 3,
     isprimeuser = false,
   } = props || {};
+
+  const objTracking = {
+    category: "Subscription Flow ET",
+    action: "SYFT | Flow Started",
+    label: location.pathname,
+    obj: {
+      item_name: "gainers",
+      item_brand: "market_tools",
+      item_category: "l3 - l4",
+      item_category2: "gainers",
+      item_category3: "field name",
+      item_category4: "upgrade to prime",
+      feature_name: "marketstats",
+      site_section: "l1",
+      site_sub_section: "l1/l2/l2",
+    },
+  };
+
   const tableRef = useRef<HTMLDivElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
   const fixedTableRef = useRef<HTMLDivElement>(null);
@@ -428,6 +446,7 @@ const MarketTable = React.memo((props: propsType) => {
                 removeCheckBoxHandle={removeCheckBoxHandleFun}
                 tableConfig={tableConfig}
                 fixedCol={fixedCol}
+                objTracking={objTracking}
               />
             </div>
             <div
@@ -454,6 +473,7 @@ const MarketTable = React.memo((props: propsType) => {
                 setVerticalScrollEnabled={setVerticalScrollEnabled}
                 verticalScrollEnabled={verticalScrollEnabled}
                 setScrollableTableRef={setScrollableTableRef}
+                objTracking={objTracking}
               />
             </div>
           </>

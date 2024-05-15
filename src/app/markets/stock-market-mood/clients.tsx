@@ -150,6 +150,11 @@ const MarketMoodsClient = ({
 
   const loadMoreData = useCallback(
     async (type: string) => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "load_more_click",
+        event_label: type,
+      });
       switch (type) {
         case "overview":
           setShowAllOverview(!showAllOverview);
