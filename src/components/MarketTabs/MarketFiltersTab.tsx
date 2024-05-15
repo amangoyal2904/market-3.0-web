@@ -108,12 +108,22 @@ const MarketFiltersTab = React.memo(
       const { id, checked } = event.target;
       if (checked) {
         const getValue = [...checkedIndustryFilterItems, parseFloat(id)];
+        trackingEvent("et_push_event", {
+          event_category: "mercury_engagement",
+          event_action: "industry__filter_applied",
+          event_label: getValue,
+        });
         setCheckedIndustryFilterItems(getValue);
         getIndustryFilterValue(getValue);
       } else {
         const getValue = checkedIndustryFilterItems.filter(
           (item: any) => item !== parseFloat(id),
         );
+        trackingEvent("et_push_event", {
+          event_category: "mercury_engagement",
+          event_action: "industry__filter_applied",
+          event_label: getValue,
+        });
         setCheckedIndustryFilterItems(getValue);
         getIndustryFilterValue(getValue);
       }
@@ -189,6 +199,11 @@ const MarketFiltersTab = React.memo(
       sectorname: string,
     ) => {
       const filterDataSet = { sectorid, sectorname };
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "sector__filter_applied",
+        event_label: sectorname,
+      });
       setSectorFilterData(filterDataSet);
       sectorFitlerHandlerChange(sectorid, sectorname);
       setSectorFilterShow(false);
@@ -196,6 +211,11 @@ const MarketFiltersTab = React.memo(
 
     const filterChangeHandler = (value: any, label: any) => {
       const filterDataSet = { value, label };
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "duration__filter_applied",
+        event_label: label,
+      });
       setDayFilterData(filterDataSet);
       dayFitlerHanlderChange(value, label);
       setDayFilterShow(false);
@@ -207,6 +227,11 @@ const MarketFiltersTab = React.memo(
       else document.body.style.overflow = "";
     };
     const handleChangeData = (id: any, name: string, selectedTab: string) => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "index__filter_applied",
+        event_label: name,
+      });
       setShowFilter(false);
       filterDataChange(id, name, selectedTab);
       document.body.style.overflow = "";

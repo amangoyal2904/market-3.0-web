@@ -30,7 +30,7 @@ import { useStateContext } from "@/store/StateContext";
 import Blocker from "@/components/Blocker";
 import dynamic from "next/dynamic";
 import useDebounce from "@/hooks/useDebounce";
-import { goToPlansPage } from "@/utils/ga";
+import { goToPlansPage, trackingEvent } from "@/utils/ga";
 
 const StockFilterNifty = dynamic(
   () => import("@/components/StockFilterNifty"),
@@ -294,7 +294,14 @@ const MarketMoodsClient = ({
               <li
                 key={item.key}
                 ref={activeItem === item.key ? activeListItemRef : null}
-                onClick={() => handleItemClick(item.key)}
+                onClick={() => {
+                  handleItemClick(item.key);
+                  trackingEvent("et_push_event", {
+                    event_category: "mercury_engagement",
+                    event_action: "tab_selected",
+                    event_label: `${item.label}`,
+                  });
+                }}
                 className={
                   activeItem === item.key || (activeItem === "" && index === 0)
                     ? styles.active

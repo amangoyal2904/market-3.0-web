@@ -1,8 +1,4 @@
 // @ts-nocheck
-
-import * as Config from "./common";
-import * as utils from ".";
-import { useStateContext } from "@/store/StateContext";
 import { getCookie } from "@/utils";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
