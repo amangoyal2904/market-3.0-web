@@ -474,6 +474,9 @@ const MarketStats = ({
             handlePageChange={onPaginationChange}
             processingLoader={processingLoader}
             isprimeuser={isPrime}
+            l1Nav="Markets"
+            l2Nav="Stocks"
+            l3Nav={!isTechnical ? l3NavSubItem : _technicalCategory?.category}
           />
         </div>
       </div>

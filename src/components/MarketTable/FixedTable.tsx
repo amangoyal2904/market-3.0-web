@@ -282,6 +282,7 @@ const FixedTable = React.memo((props: any) => {
                         {!isPrime && tdData.primeFlag ? (
                           <span
                             onClick={() => {
+                              objTracking.obj.item_category3 = tdData.keyId;
                               redirectToPlanPage(objTracking);
                             }}
                           >

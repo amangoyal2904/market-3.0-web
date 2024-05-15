@@ -216,6 +216,8 @@ function MarketDashBoard(props: propsType) {
         tableConfig={tableConfig["marketDashboard"]}
         isprimeuser={isPrime}
         processingLoader={processingLoader}
+        l1Nav="Markets"
+        l2Nav="Market Dashboard Widget"
       />
       {dashBoardTableData.length ? (
         <ViewAllLink text="View All Stocks" link={shortURL} />

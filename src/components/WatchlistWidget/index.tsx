@@ -67,6 +67,8 @@ const WatchlistWidget = () => {
             tableConfig={config}
             pageSummary={pageSummary}
             isprimeuser={isPrime}
+            l1Nav="Markets"
+            l2Nav="Watchlist Widget"
           />
           <ViewAllLink text="View All Watchlisted Stock" link="/watchlist" />
         </>

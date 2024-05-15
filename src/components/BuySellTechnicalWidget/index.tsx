@@ -145,6 +145,9 @@ const BuySellTechnicalWidget = ({ data, unixDateTime, bodyParams }: any) => {
           tableConfig={config}
           isprimeuser={isPrime}
           processingLoader={processingLoader}
+          l1Nav="Markets"
+          l2Nav="Buy/Sell"
+          l3Nav={activeItem}
         />
         <div className={styles.helpTxt}>
           <span>

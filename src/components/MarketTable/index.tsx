@@ -7,6 +7,7 @@ import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
 import Pagination from "./Pagination";
 import useDebounce from "@/hooks/useDebounce";
+import { getPageName } from "@/utils/ga";
 
 interface propsType {
   data: any[];
@@ -25,6 +26,9 @@ interface propsType {
   processingLoader?: boolean;
   fixedCol?: number;
   isprimeuser?: boolean;
+  l1Nav?: any;
+  l2Nav?: any;
+  l3Nav?: any;
 }
 
 const DEBOUNCE_DELAY = 10;
@@ -56,22 +60,27 @@ const MarketTable = React.memo((props: propsType) => {
     processingLoader,
     fixedCol = 3,
     isprimeuser = false,
+    l1Nav = "",
+    l2Nav = "",
+    l3Nav = "",
   } = props || {};
 
   const objTracking = {
     category: "Subscription Flow ET",
     action: "SYFT | Flow Started",
-    label: location.pathname,
+    label: !!l3Nav ? `${l1Nav} / ${l2Nav} / ${l3Nav}` : `${l1Nav} / ${l2Nav}`,
     obj: {
-      item_name: "gainers",
+      item_name: !!l3Nav ? l3Nav : getPageName(),
       item_brand: "market_tools",
-      item_category: "l3 - l4",
-      item_category2: "gainers",
-      item_category3: "field name",
+      item_category: !!l3Nav ? `${l2Nav} - ${l3Nav}` : l2Nav,
+      item_category2: !!l3Nav ? l3Nav : getPageName(),
+      item_category3: "",
       item_category4: "upgrade to prime",
       feature_name: "marketstats",
-      site_section: "l1",
-      site_sub_section: "l1/l2/l2",
+      site_section: l1Nav,
+      site_sub_section: !!l3Nav
+        ? `${l1Nav} / ${l2Nav} / ${l3Nav}`
+        : `${l1Nav} / ${l2Nav}`,
     },
   };
 
