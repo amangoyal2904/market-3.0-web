@@ -28,7 +28,7 @@
     "orderBy": "bullHolding"
   },
   {
-    "name": "Bull Holdings (Rs in Cr.)",
+    "name": "Bull Holdings (cr)",
     "id": "3",
     "sort": true,
     "primeFlag": false,
