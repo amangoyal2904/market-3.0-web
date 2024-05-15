@@ -1,7 +1,8 @@
 "use client";
 import styles from "./ViewAll.module.scss";
-import { ga4withlink } from "@/utils/ga";
+import { ga4withlink, trackingEvent } from "@/utils/ga";
 import Image from "next/image";
+import Link from "next/link";
 
 const HeadingHome = ({ title, url }: any) => {
   return title == "Stock Reports Plus" ? (
@@ -10,8 +11,14 @@ const HeadingHome = ({ title, url }: any) => {
         <a
           target="_blank"
           title={title}
-          href="#"
-          onClick={() => ga4withlink("widget_heading", title, url)}
+          href={url}
+          onClick={() =>
+            trackingEvent("et_push_event", {
+              event_category: "mercury_engagement",
+              event_action: "widget_heading",
+              event_label: title,
+            })
+          }
         >
           {title}
           <span className={`eticon_caret_right headingIcon`} />
