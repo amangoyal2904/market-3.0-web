@@ -130,7 +130,7 @@ const LiveStreamPlay = (props: any) => {
           const tokenValue = (response && response && response.token) || "";
           if (!tokenValue) throw response;
           setToken(tokenValue);
-          const url = `${(APIS_CONFIG as any)?.["SLIKE_CLEO_URL"][APP_ENV]}/#id=${eventId}&jwt=${tokenValue}&apikey=et-n9GgmFF518E5Bknb&qna=false&comments=true&screenshot=false&headless=true&autoplay=1&ffsmobile=false&bgpause=true&log=0&controls=true&theme=et${!liveStatus ? "&dvr=true" : ""}`;
+          const url = `${(APIS_CONFIG as any)?.["SLIKE_CLEO_URL"][APP_ENV]}/#id=${eventId}&jwt=${tokenValue}&apikey=et-n9GgmFF518E5Bknb&qna=false&comments=true&screenshot=false&controls=true&headless=false&autoplay=2&ffsmobile=false&bgpause=false&log=0${!liveStatus ? "&dvr=true" : "&dvr=false"}`;
           setIframeURL(url);
         })
         .catch((e: any) => console.log("error in fetchToken", e));

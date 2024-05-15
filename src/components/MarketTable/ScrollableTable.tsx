@@ -24,6 +24,8 @@ const ScrollableTable = React.memo((props: any) => {
     setVerticalScrollEnabled,
     setScrollableTableRef,
     verticalScrollEnabled,
+    setLeftScrollEnabled,
+    setRightScrollEnabled,
   } = props || {};
   const {
     showFilterInput = true,
@@ -48,10 +50,31 @@ const ScrollableTable = React.memo((props: any) => {
         scrollableTableRef.current.scrollWidth >
           scrollableTableRef.current.clientWidth,
       );
+      setRightScrollEnabled(
+        scrollableTableRef.current.scrollWidth >
+          scrollableTableRef.current.clientWidth,
+      );
+      setLeftScrollEnabled(scrollableTableRef.current?.scrollLeft > 0);
     }
+    const handleScroll = () => {
+      if (scrollableTableRef.current) {
+        const isAtEndOfRight =
+          Math.floor(scrollableTableRef.current?.scrollLeft) +
+            scrollableTableRef.current.clientWidth ===
+          scrollableTableRef.current?.scrollWidth;
+        setRightScrollEnabled(!isAtEndOfRight);
+        setLeftScrollEnabled(scrollableTableRef.current?.scrollLeft > 0);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    scrollableTableRef.current?.addEventListener("scroll", handleScroll);
+
+    return () => {
+      clearTimeout(timer);
+      scrollableTableRef.current?.removeEventListener("scroll", handleScroll);
+    };
   }, [tableDataList]);
+
   const checkTableInViewport = () => {
     if (scrollableTableRef.current) {
       const rect = scrollableTableRef?.current?.getBoundingClientRect();
