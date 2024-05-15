@@ -52,7 +52,10 @@ export const Footer = async () => {
         <div className={styles.ftBrowse}>
           <p>BROWSE COMPANIES:</p>
           <div className={styles.browseAll}>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/a">
+            <a
+              href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/a"
+              title="A"
+            >
               A
             </a>
             <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/b">
@@ -205,7 +208,7 @@ export const Footer = async () => {
                 width={40}
                 height={40}
                 quality={100}
-                alt="X"
+                alt="LinkedIn"
               />
             </a>
             <a
@@ -218,7 +221,7 @@ export const Footer = async () => {
                 width={40}
                 height={40}
                 quality={100}
-                alt="X"
+                alt="RSS"
               />
             </a>
           </div>
@@ -229,6 +232,7 @@ export const Footer = async () => {
               rel="nofollow"
               aria-label="ET Play Store"
               target="_blank"
+              title="Download ET App"
             >
               <Image
                 src={android}
@@ -243,6 +247,7 @@ export const Footer = async () => {
               rel="nofollow"
               aria-label="ET App Store"
               target="_blank"
+              title="Download ET App"
             >
               <Image
                 src={apple}
@@ -259,13 +264,14 @@ export const Footer = async () => {
             <a
               href="https://economictimes.indiatimes.com/subscription"
               target="_blank"
+              title="subscribe to our newsletter"
             >
               <Image
                 src={subscribe}
                 width={52}
                 height={47}
                 quality={100}
-                alt="Subscribe"
+                alt="subscribe to our newsletter"
               />
               <h3 className={styles.footerSubscrTxt}>
                 subscribe to our newsletter
@@ -277,6 +283,7 @@ export const Footer = async () => {
               href="https://economictimes.indiatimes.com/prime?utm_source=economictimes.indiatimes.com&amp;utm_medium=footer&amp;utm_campaign=ETPrimedistribution"
               aria-label="ET Prime"
               target="_blank"
+              title="ET Prime"
             >
               <Image
                 src={et_become}

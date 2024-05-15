@@ -9,10 +9,6 @@ const ViewAllLink = (props: any) => {
       className={`${styles.seeAll} ${alignRight ? styles.alignRight : styles.alignLeft}`}
       style={{ padding: `${padding}` }}
     >
-      {/* <a href={link} title={text} target="_blank" onClick={()=>}>
-        {text}
-        <span className=" eticon_next" />
-      </a> */}
       <ViewMore text={text} link={link} />
     </div>
   ) : (

@@ -152,6 +152,12 @@ a {
   padding: 0 10px;
 }
 
+.stockrecos_slickslide {
+  .slick-slide {
+    padding: 0 10px !important;
+  }
+}
+
 #slider-news .slick-slide {
   padding: 0 15px;
 }
@@ -304,7 +310,7 @@ table {
 
 .sectionWrapper {
   position: relative;
-  margin: 30px auto 50px;
+  margin: 50px auto;
 }
 
 .heading {

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./MarketTabs.module.scss";
 import ShimmerMenu from "@/components/Shimmer/shimmerMenu";
 import useDebounce from "@/hooks/useDebounce";
+import { trackingEvent } from "@/utils/ga";
 
 const LeftMenuTabs = React.memo(
   ({ data, activeViewId, tabsViewIdUpdate, page }: any) => {
@@ -68,6 +69,11 @@ const LeftMenuTabs = React.memo(
             key={item.id + index}
             onClick={() => {
               tabClick(item.viewId);
+              trackingEvent("et_push_event", {
+                event_category: "mercury_engagement",
+                event_action: "tab_selected",
+                event_label: `${item.name}`,
+              });
               setIsAnyInnerActive(false);
             }}
             className={activeViewId === item.viewId ? styles.active : ""}
@@ -90,6 +96,11 @@ const LeftMenuTabs = React.memo(
                     key={item.id + index}
                     onClick={() => {
                       tabClick(item.viewId);
+                      trackingEvent("et_push_event", {
+                        event_category: "mercury_engagement",
+                        event_action: "tab_selected",
+                        event_label: `More_${item.name}`,
+                      });
                       setIsAnyInnerActive(true);
                     }}
                     className={

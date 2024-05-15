@@ -6,6 +6,7 @@ import { useStateContext } from "@/store/StateContext";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import { useEffect, useState } from "react";
+import { trackingEvent } from "@/utils/ga";
 
 const NonPrimeBlockerModule = ({ oncloseModule }: any) => {
   const { state, dispatch } = useStateContext();
@@ -30,6 +31,13 @@ const NonPrimeBlockerModule = ({ oncloseModule }: any) => {
     }
 
     //console.log(resData.data, "____resData")
+  };
+  const gaTrackingBlockerClick = (comname: any) => {
+    // trackingEvent("et_push_event", {
+    //   event_category: "mercury_engagement",
+    //   event_action: "company_clicked",
+    //   event_label: comname,
+    // });
   };
   useEffect(() => {
     getDataFromMetalist();

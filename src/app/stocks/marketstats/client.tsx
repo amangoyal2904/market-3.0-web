@@ -365,7 +365,7 @@ const MarketStats = ({
     if (areObjectsNotEqual(_payload, payload)) {
       if (isTechnical) {
         setTechnicalCategory(technicalCategory);
-        if (payload.apiType != _payload.apiType) {
+        if (payload.viewId != _payload.viewId) {
           tabsChangeHandler(payload.viewId);
           setPayload({ ...payload, sort: [] });
         } else {

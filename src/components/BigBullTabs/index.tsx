@@ -20,12 +20,12 @@ const BigBullTabs = ({
     });
   };
   const gaTrackingEventFilter = (value: any) => {
-    fitlerHandler(value);
     trackingEvent("et_push_event", {
       event_category: "mercury_engagement",
       event_action: "individual_filter_applied",
       event_label: value,
     });
+    fitlerHandler(value);
   };
   return (
     <>

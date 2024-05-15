@@ -3,6 +3,7 @@ import styles from "../MarketTabs/MarketTabs.module.scss";
 import ShimmerMenu from "@/components/Shimmer/shimmerMenu";
 import useDebounce from "@/hooks/useDebounce";
 import DayFitler from "../DayFilter";
+import { trackingEvent } from "@/utils/ga";
 const tabData = [
   {
     label: "<span>Bullish Moving</span>Average Crossover",
@@ -129,6 +130,11 @@ const BuySellTab = ({
             key={index}
             onClick={() => {
               tabClick(item);
+              trackingEvent("et_push_event", {
+                event_category: "mercury_engagement",
+                event_action: "tab_selected",
+                event_label: `Buy/Sell ${item.label}`,
+              });
               setIsAnyInnerActive(false);
             }}
             className={
@@ -154,6 +160,11 @@ const BuySellTab = ({
                     key={index}
                     onClick={() => {
                       tabClick(item);
+                      trackingEvent("et_push_event", {
+                        event_category: "mercury_engagement",
+                        event_action: "tab_selected",
+                        event_label: `Buy/Sell More_${item.label}`,
+                      });
                       setIsAnyInnerActive(true);
                     }}
                     className={activeItem === item.key ? styles.active : ""}

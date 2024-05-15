@@ -2,6 +2,7 @@
 import React, { Fragment } from "react";
 import styles from "./MarketStatsNav.module.scss";
 import Link from "next/link";
+import { trackingEvent } from "@/utils/ga";
 
 interface PageProps {
   leftNavResult: any;
@@ -55,21 +56,25 @@ const MarketStatsNav: React.FC<PageProps> = React.memo((props) => {
     }
   };
 
-  const handleClick = (e: any) => {
-    const elm = e.currentTarget;
-    const nav = document.querySelectorAll(`.${styles["subNavWrapLi"]}`);
-    nav.forEach((item) => {
-      item.classList.remove(styles["active"]);
-    });
-    elm.classList.add(styles["active"]);
-  };
-
-  const renderLink = (subItem: any) => {
+  const renderLink = (subItem: any, l3Label: string) => {
     const isExist: any = shortUrlMapping?.find(
       (item: any) => item.longURL == subItem.link,
     );
     const linkHref = isExist ? isExist.shortUrl : subItem.link;
-    return <Link href={linkHref}>{subItem.label}</Link>;
+    return (
+      <Link
+        href={linkHref}
+        onClick={() =>
+          trackingEvent("et_push_event", {
+            event_category: "mercury_engagement",
+            event_action: "L3_nav_click",
+            event_label: `${l3Label} - ${subItem.label}`,
+          })
+        }
+      >
+        {subItem.label}
+      </Link>
+    );
   };
 
   return (
@@ -98,9 +103,8 @@ const MarketStatsNav: React.FC<PageProps> = React.memo((props) => {
                       <li
                         key={`${index}_${subNavindex}`}
                         className={`${styles.subNavWrapLi} ${(!!subType && subType == subItem.type) || (!!firstOperand && !!operationType && !!secondOperand && firstOperand == subItem.firstoperand && operationType == subItem.operationtype && secondOperand == subItem.secondoperand) ? styles.active : ""}`}
-                        onClick={(e) => handleClick(e)}
                       >
-                        {renderLink(subItem)}
+                        {renderLink(subItem, item.label)}
                       </li>
                     ))}
                   </ul>

@@ -4,6 +4,7 @@ import { APP_ENV } from "@/utils/index";
 import Service from "@/network/service";
 import ViewAllLink from "../ViewAllLink";
 import Card from "./Card";
+import HeadingHome from "../ViewAllLink/HeadingHome";
 
 const fetchInvestMentData = async () => {
   try {
@@ -28,7 +29,11 @@ const InvestmentIdea = async () => {
   const investmentData = await fetchInvestMentData();
   return investmentData && investmentData.length ? (
     <div className="sectionWrapper">
-      <h2 className={styles.title}>
+      <HeadingHome
+        title="Investment Ideas"
+        url={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
+      />
+      {/* <h2 className={styles.title}>
         <a
           title="Investment Ideas"
           target="_blank"
@@ -37,7 +42,7 @@ const InvestmentIdea = async () => {
           Investment Ideas
           <span className={`eticon_caret_right ${styles.headingIcon}`} />
         </a>
-      </h2>
+      </h2> */}
       <div className={styles.investmentData}>
         {investmentData?.map((data: any, index: any) =>
           index < 4 ? (

@@ -1,8 +1,4 @@
 // @ts-nocheck
-
-import * as Config from "./common";
-import * as utils from ".";
-import { useStateContext } from "@/store/StateContext";
 import { getCookie } from "@/utils";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
@@ -16,15 +12,6 @@ declare global {
     customDimension: any;
   }
 }
-
-export const ga4withlink = (event_action, event_label, url) => {
-  trackingEvent("et_push_event", {
-    event_category: "mercury_engagement",
-    event_action: event_action,
-    event_label: event_label,
-  });
-  window.open(url, "_blank");
-};
 
 export const goToPlansPage = () => {
   const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
@@ -267,13 +254,15 @@ export const getPageName = () => {
   let pageName = "";
   if (pagePathName.includes("/marketstats")) {
     pageName = "Mercury_MarketStats";
-  } else if (pagePathName.includes("/stocksrecos")) {
+  } else if (pagePathName.includes("/stock-recos")) {
     pageName = "Mercury_Recos";
   } else if (pagePathName.includes("/stock-screener")) {
     pageName = "Mercury_Screener";
   } else if (pagePathName.includes("/indices")) {
     pageName = "Mercury_Indices";
-  } else if (pagePathName.includes("/bigbull")) {
+  } else if (
+    pagePathName.includes("/top-india-investors-portfolio/individual")
+  ) {
     pageName = "Mercury_BigBull";
   } else if (pagePathName.includes("/stockreportsplus")) {
     pageName = "Mercury_StockReportsPlus";
@@ -281,6 +270,8 @@ export const getPageName = () => {
     pageName = "Mercury_FII/DII";
   } else if (pagePathName.includes("/watchlist")) {
     pageName = "Mercury_Watchlist";
+  } else if (pagePathName.includes("/live-coverage")) {
+    pageName = "Mercury_HomePage";
   } else {
     pageName = "Mercury";
   }

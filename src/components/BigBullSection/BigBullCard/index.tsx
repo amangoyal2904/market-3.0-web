@@ -9,6 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import WatchlistAddition from "../../WatchlistAddition";
 import { useStateContext } from "@/store/StateContext";
 import dynamic from "next/dynamic";
+import { trackingEvent } from "@/utils/ga";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
@@ -67,7 +68,20 @@ const BigBullCard = ({ data, type }: any) => {
     setShowNonPrimeBlocker(false);
     document.body.style.overflow = "";
   };
-
+  const gaTrackingCompanyNameClick = (comname: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "company_clicked",
+      event_label: comname,
+    });
+  };
+  const gaTrackingInvestorNameClick = (investorName: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "investor_clicked",
+      event_label: investorName,
+    });
+  };
   useEffect(() => {
     if (sliderRef.current) {
       sliderRef.current.slickGoTo(0);
@@ -87,6 +101,7 @@ const BigBullCard = ({ data, type }: any) => {
                   data?.investorsList.map((slide: any, index: number) => (
                     <div key={index}>
                       <Link
+                        onClick={() => gaTrackingInvestorNameClick(slide.name)}
                         href={`/markets/top-india-investors-portfolio/${slide?.sharkSeoName},expertid-${slide?.sharkID}`}
                         className={styles.cardName}
                         title={slide.name}
@@ -107,6 +122,9 @@ const BigBullCard = ({ data, type }: any) => {
           </div>
         ) : (
           <Link
+            onClick={() =>
+              gaTrackingInvestorNameClick(data?.investorIntro?.name)
+            }
             href={`/markets/top-india-investors-portfolio/${data?.investorIntro?.sharkSeoName},expertid-${data?.investorIntro?.sharkID}`}
             className={styles.top}
           >
@@ -136,6 +154,12 @@ const BigBullCard = ({ data, type }: any) => {
               <div className={styles.cname}>
                 {isPrime ? (
                   <a
+                    onClick={() =>
+                      gaTrackingCompanyNameClick(
+                        data?.companyData?.text ||
+                          data?.bestPickStockData?.companyData?.text,
+                      )
+                    }
                     href={getStockUrl(
                       data?.companyData?.companyId ||
                         data?.bestPickStockData?.companyData?.companyId,
@@ -303,6 +327,9 @@ const BigBullCard = ({ data, type }: any) => {
                         <h4>
                           {isPrime ? (
                             <a
+                              onClick={() =>
+                                gaTrackingCompanyNameClick(card?.uiLabel.text)
+                              }
                               href={getStockUrl(
                                 card.uiLabel.companyId,
                                 card.uiLabel.companySeoName,

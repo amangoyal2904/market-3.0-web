@@ -345,70 +345,63 @@ const TableHtml = (props: any) => {
           <tbody>
             {recosDetailResult?.map((obj: any, index: any) => {
               return (
-                ((activeApi == "recoOnWatchlist" &&
-                  watchlist.some(
-                    (item: any) =>
-                      item?.companyId == obj?.companyId?.toString(),
-                  )) ||
-                  activeApi != "recoOnWatchlist") && (
-                  <tr key={`recosTable_${index}`}>
-                    {activeApi == "recoByFH" ? (
-                      <td>
-                        <div className={styles.tdColWrap}>
-                          <Link
-                            title={obj.organisation}
-                            href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
-                            className="linkHover"
-                            onClick={() => {
-                              trackingEvent("et_push_event", {
-                                event_category: "mercury_engagement",
-                                event_action: "organisation_clicked",
-                                event_label: `${obj?.organisation}_${activeApi}`,
-                              });
-                            }}
-                          >
-                            <span className={`${styles.companyName} linkHover`}>
-                              {obj.organisation}
-                            </span>
-                          </Link>
-                        </div>
-                      </td>
-                    ) : (
-                      <td>
-                        <div className={styles.tdColWrap}>
-                          <WatchlistAddition
-                            companyName={obj.companyName}
-                            companyId={obj.companyId}
-                            companyType="equity"
-                            customStyle={{
-                              position: "relative",
-                              marginRight: "10px",
-                              width: "13px",
-                              height: "16px",
-                            }}
-                          />
-                          <Link
-                            title={obj.companyName}
-                            target="_blank"
-                            href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/${obj.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${obj.companyId}.cms`}
-                            className="linkHover"
-                            onClick={() => {
-                              trackingEvent("et_push_event", {
-                                event_category: "mercury_engagement",
-                                event_action: "company_clicked",
-                                event_label: `${obj?.companyName}_${activeApi}`,
-                              });
-                            }}
-                          >
-                            <span className={`${styles.companyName} linkHover`}>
-                              {obj.companyName}
-                            </span>
-                          </Link>
-                        </div>
-                      </td>
-                    )}
-                  </tr>
-                )
+                <tr key={`recosTable_${index}`}>
+                  {activeApi == "recoByFH" ? (
+                    <td>
+                      <div className={styles.tdColWrap}>
+                        <Link
+                          title={obj.organisation}
+                          href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
+                          className="linkHover"
+                          onClick={() => {
+                            trackingEvent("et_push_event", {
+                              event_category: "mercury_engagement",
+                              event_action: "organisation_clicked",
+                              event_label: `${obj?.organisation}_${activeApi}`,
+                            });
+                          }}
+                        >
+                          <span className={`${styles.companyName} linkHover`}>
+                            {obj.organisation}
+                          </span>
+                        </Link>
+                      </div>
+                    </td>
+                  ) : (
+                    <td>
+                      <div className={styles.tdColWrap}>
+                        <WatchlistAddition
+                          companyName={obj.companyName}
+                          companyId={obj.companyId}
+                          companyType="equity"
+                          customStyle={{
+                            position: "relative",
+                            marginRight: "10px",
+                            width: "13px",
+                            height: "16px",
+                          }}
+                        />
+                        <Link
+                          title={obj.companyName}
+                          target="_blank"
+                          href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/${obj.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${obj.companyId}.cms`}
+                          className="linkHover"
+                          onClick={() => {
+                            trackingEvent("et_push_event", {
+                              event_category: "mercury_engagement",
+                              event_action: "company_clicked",
+                              event_label: `${obj?.companyName}_${activeApi}`,
+                            });
+                          }}
+                        >
+                          <span className={`${styles.companyName} linkHover`}>
+                            {obj.companyName}
+                          </span>
+                        </Link>
+                      </div>
+                    </td>
+                  )}
+                </tr>
               );
             })}
           </tbody>
@@ -426,27 +419,16 @@ const TableHtml = (props: any) => {
             </tr>
           </thead>
           <tbody>
-            {recosDetailResult?.map((obj: any, index: any) =>
-              (activeApi == "recoOnWatchlist" &&
-                !!watchlist &&
-                watchlist.some(
-                  (item: any) => item?.companyId == obj?.companyId?.toString(),
-                )) ||
-              activeApi != "recoOnWatchlist" ? (
-                <tr key={`recosTable_${index}`}>
-                  {activeApi == "recoByFH"
-                    ? fundHousesDetail(obj)
-                    : activeApi == "newRecos" || activeApi == "FHDetail"
-                      ? newRecosDetail(obj)
-                      : MixTableDetail(obj)}
-                  <td className={styles.lastMaxTD}></td>
-                </tr>
-              ) : (
-                recosDetailResult?.length == 0 && (
-                  <Blocker type={"noDataFound"} />
-                )
-              ),
-            )}
+            {recosDetailResult?.map((obj: any, index: any) => (
+              <tr key={`recosTable_${index}`}>
+                {activeApi == "recoByFH"
+                  ? fundHousesDetail(obj)
+                  : activeApi == "newRecos" || activeApi == "FHDetail"
+                    ? newRecosDetail(obj)
+                    : MixTableDetail(obj)}
+                <td className={styles.lastMaxTD}></td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

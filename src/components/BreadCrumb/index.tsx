@@ -174,31 +174,6 @@ const getLiPath = (router: string, pagePath: string) => {
       showCurrLi: true,
       listItemSchema: "",
     };
-  } else if (router == "/markets/top-india-investors-portfolio") {
-    return {
-      showNextLi: false,
-      currentLiNode: (
-        <li>
-          <span className="eticon_caret_right"></span>Investors Portfolio
-        </li>
-      ),
-      showCurrLi: true,
-      listItemSchema: "",
-    };
-  } else if (router.includes("/markets/top-india-investors-portfolio/")) {
-    return {
-      showNextLi: true,
-      currentLiNode: (
-        <li>
-          <span className="eticon_caret_right"></span>
-          <a href="/markets/top-india-investors-portfolio">
-            Investors Portfolio
-          </a>
-        </li>
-      ),
-      showCurrLi: true,
-      listItemSchema: "",
-    };
   } else if (router == "/markets/fii-dii-activity") {
     return {
       showNextLi: false,
@@ -240,6 +215,38 @@ const getLiPath = (router: string, pagePath: string) => {
         <li>
           <span className="eticon_caret_right"></span>
           <a href="/markets/benefits/stockreportsplus">Stock Reports Plus</a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (
+    router == "/markets/top-india-investors-portfolio/individual" ||
+    router == "/markets/top-india-investors-portfolio/institutional"
+  ) {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Investors Portfolio
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (
+    router.includes("/markets/top-india-investors-portfolio/") &&
+    router !== "/markets/top-india-investors-portfolio/individual" &&
+    router != "/markets/top-india-investors-portfolio/institutional"
+  ) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/top-india-investors-portfolio/individual">
+            Investors Portfolio
+          </a>
         </li>
       ),
       showCurrLi: true,
@@ -330,7 +337,7 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           ) : (
             <>
               <span className="eticon_caret_right"></span>
-              <a href="/markets/live-coverage">Markets</a>
+              <a href="/markets/live-coverage">Markets Live</a>
             </>
           )}
         </li>

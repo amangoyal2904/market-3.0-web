@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
+import { trackingEvent } from "@/utils/ga";
 
 const BiggBullBestPicksTable = ({
   tableHead,
@@ -33,6 +34,20 @@ const BiggBullBestPicksTable = ({
   const blurNameHandlerClose = () => {
     setShowNonPrimeBlocker(false);
     document.body.style.overflow = "";
+  };
+  const gaTrackingCompanyNameClick = (comname: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "company_clicked",
+      event_label: comname,
+    });
+  };
+  const gaTrackingInvestorNameClick = (investorName: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "investor_clicked",
+      event_label: investorName,
+    });
   };
   return (
     <>
@@ -110,6 +125,11 @@ const BiggBullBestPicksTable = ({
                   <tr key={`${index}`}>
                     <td>
                       <Link
+                        onClick={() =>
+                          gaTrackingInvestorNameClick(
+                            tdata?.investorIntro?.name,
+                          )
+                        }
                         href={`/markets/top-india-investors-portfolio/${tdata?.investorIntro?.sharkSeoName},expertid-${tdata?.investorIntro?.sharkID}`}
                         className={styles.investNameImg}
                       >
@@ -153,6 +173,11 @@ const BiggBullBestPicksTable = ({
                                 }}
                               />
                               <a
+                                onClick={() =>
+                                  gaTrackingCompanyNameClick(
+                                    tdata?.bestPickStockData?.companyData?.text,
+                                  )
+                                }
                                 href={getStockUrl(
                                   tdata?.bestPickStockData?.companyData
                                     ?.companyId,
