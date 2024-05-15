@@ -26,11 +26,6 @@ const SectorFilter = React.memo(
       }
     };
     const sectorOnChangeHandler = (sectorid: number, sectorname: string) => {
-      trackingEvent("et_push_event", {
-        event_category: "mercury_engagement",
-        event_action: "sector_filter_applied",
-        event_label: sectorname,
-      });
       sectorFilterHandler(sectorid, sectorname);
     };
 

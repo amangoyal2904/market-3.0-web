@@ -5,6 +5,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ToasterPopup from "../ToasterPopup/ConfirmBox";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import { useStateContext } from "@/store/StateContext";
+import { trackingEvent } from "@/utils/ga";
 
 const PersonaliseModel = ({
   setOpenPersonaliseModal,
@@ -68,6 +69,11 @@ const PersonaliseModel = ({
 
   const saveUserPersonalise = () => {
     updateTabsListDataHandler(listData);
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "watchlist_personalise_saved",
+      event_label: ``,
+    });
   };
   const handleCheckboxChange = (e: any, itemData: any) => {
     setUserTouchField(true);

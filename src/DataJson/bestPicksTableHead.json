@@ -33,12 +33,5 @@
     "sort": true,
     "primeFlag": false,
     "orderBy": "3MReturns"
-  },
-  {
-    "name": "6M Returns %",
-    "id": "5",
-    "sort": true,
-    "primeFlag": false,
-    "orderBy": "6MReturns"
   }
 ]

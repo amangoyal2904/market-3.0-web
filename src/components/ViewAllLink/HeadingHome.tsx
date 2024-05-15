@@ -11,8 +11,14 @@ const HeadingHome = ({ title, url }: any) => {
         <a
           target="_blank"
           title={title}
-          href="#"
-          onClick={() => ga4withlink("widget_heading", title, url)}
+          href={url}
+          onClick={() =>
+            trackingEvent("et_push_event", {
+              event_category: "mercury_engagement",
+              event_action: "widget_heading",
+              event_label: title,
+            })
+          }
         >
           {title}
           <span className={`eticon_caret_right headingIcon`} />

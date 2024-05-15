@@ -49,7 +49,7 @@ const BuySellTechnicalWidget = ({ data, unixDateTime, bodyParams }: any) => {
     setProcessingLoader(true);
     trackingEvent("et_push_event", {
       event_category: "mercury_engagement",
-      event_action: "index_filter_applied",
+      event_action: "exchange_filter_applied",
       event_label: exchange,
     });
     setPayload({ ...payload, exchange });
