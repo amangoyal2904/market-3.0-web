@@ -23,11 +23,6 @@ const DayFitler = React.memo(
       }
     };
     const dayOnChangeHandler = (value: any, label: any) => {
-      trackingEvent("et_push_event", {
-        event_category: "mercury_engagement",
-        event_action: "duration_filter_applied",
-        event_label: label,
-      });
       filterHandler(value, label);
     };
     useEffect(() => {

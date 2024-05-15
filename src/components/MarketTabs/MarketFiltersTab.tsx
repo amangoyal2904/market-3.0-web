@@ -110,7 +110,7 @@ const MarketFiltersTab = React.memo(
         const getValue = [...checkedIndustryFilterItems, parseFloat(id)];
         trackingEvent("et_push_event", {
           event_category: "mercury_engagement",
-          event_action: "industry__filter_applied",
+          event_action: "industry_filter_applied",
           event_label: getValue,
         });
         setCheckedIndustryFilterItems(getValue);
@@ -121,7 +121,7 @@ const MarketFiltersTab = React.memo(
         );
         trackingEvent("et_push_event", {
           event_category: "mercury_engagement",
-          event_action: "industry__filter_applied",
+          event_action: "industry_filter_applied",
           event_label: getValue,
         });
         setCheckedIndustryFilterItems(getValue);
@@ -201,7 +201,7 @@ const MarketFiltersTab = React.memo(
       const filterDataSet = { sectorid, sectorname };
       trackingEvent("et_push_event", {
         event_category: "mercury_engagement",
-        event_action: "sector__filter_applied",
+        event_action: "sector_filter_applied",
         event_label: sectorname,
       });
       setSectorFilterData(filterDataSet);
@@ -213,7 +213,7 @@ const MarketFiltersTab = React.memo(
       const filterDataSet = { value, label };
       trackingEvent("et_push_event", {
         event_category: "mercury_engagement",
-        event_action: "duration__filter_applied",
+        event_action: "duration_filter_applied",
         event_label: label,
       });
       setDayFilterData(filterDataSet);
@@ -229,7 +229,7 @@ const MarketFiltersTab = React.memo(
     const handleChangeData = (id: any, name: string, selectedTab: string) => {
       trackingEvent("et_push_event", {
         event_category: "mercury_engagement",
-        event_action: "index__filter_applied",
+        event_action: "index_filter_applied",
         event_label: name,
       });
       setShowFilter(false);
