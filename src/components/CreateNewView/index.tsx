@@ -5,6 +5,7 @@ import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import NameViewComponent from "./createmodule";
 import ToasterPopup from "../ToasterPopup/OnlyInfo";
+import { trackingEvent } from "@/utils/ga";
 
 const CreateNewViewComponent = ({
   closePopCreateView,
@@ -104,6 +105,11 @@ const CreateNewViewComponent = ({
     }
   };
   const saveUserPersonaliseAPICall = async () => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "personalise_saved",
+      event_label: window.location.href,
+    });
     const modeOfPersonaliseView = editmode?.viewId !== "" ? "update" : "new";
     const ssoid = window.objUser?.ssoid;
     const updatedOrder: any[] = [];
@@ -319,12 +325,7 @@ const CreateNewViewComponent = ({
     setViewNameModule(true);
   };
   //console.log('whatis', selectedView)
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [searchRef]);
+
   const handleResizeTabslist = () => {
     const tabsListWidth = tabsListRef.current?.offsetWidth;
     if (tabsListWidth != null) {
@@ -361,6 +362,12 @@ const CreateNewViewComponent = ({
   };
   //console.log('VisibleTabs', visibleTabs, "_HiddenTabs__", hiddenTabs)
   useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [searchRef]);
+  useEffect(() => {
     const handleClickOutsidePopup = (e: any) => {
       //console.log('___________')
       if (
@@ -379,6 +386,11 @@ const CreateNewViewComponent = ({
   }, [viewWraperRef, closePopCreateView]);
   useEffect(() => {
     ViewDataAPICall();
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "personalise_new_view",
+      event_label: ``,
+    });
     if (editmode && editmode.mode && editmode.viewId !== "") {
       fetchByViewID(editmode.viewId);
     }
