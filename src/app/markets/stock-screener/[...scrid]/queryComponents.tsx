@@ -1,4 +1,5 @@
 import styles from "./stockScreener.module.scss";
+import { trackingEvent } from "@/utils/ga";
 
 const QueryComponets = ({
   data,
@@ -7,6 +8,11 @@ const QueryComponets = ({
   setScreenerEditMode,
 }: any) => {
   const editScreenerModeHandler = () => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "page_cta_click",
+      event_label: "Edit Attributes",
+    });
     showModal(true);
     setScreenerEditMode({
       ...screenerEditMode,
