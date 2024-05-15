@@ -131,17 +131,20 @@ const StockRecommendations: React.FC<Props> = ({ stockRecoResult }) => {
             className={`${styles.tabContentBox} ${activeTab.type === activeTab.type ? styles.active : ""}`}
           >
             <SlickSlider
-              slides={stockData[0]?.data?.map((card: any, index: any) => ({
-                content: (
-                  <StockReco
-                    data={card}
-                    key={index}
-                    activeTab={activeTab.type}
-                    pageName="homepage_stockRecosWd"
-                    urlFilterHandle={undefined}
-                  />
-                ),
-              }))}
+              slides={
+                stockData?.length &&
+                stockData[0]?.data?.map((card: any, index: any) => ({
+                  content: (
+                    <StockReco
+                      data={card}
+                      key={index}
+                      activeTab={activeTab.type}
+                      pageName="homepage_stockRecosWd"
+                      urlFilterHandle={undefined}
+                    />
+                  ),
+                }))
+              }
               key={`slider${activeTab.type}`}
               sliderId={`slider${activeTab.type}`}
               slidesToShow={3}

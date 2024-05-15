@@ -123,7 +123,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
       params: {},
     });
-    const data = await response?.json();
+    const data = response ? await response?.json() : {};
     setIndicesData(data?.indicesList);
     setSelectedIndex((prevState: any) =>
       Object.keys(prevState)?.length ? prevState : data?.indicesList[0],
@@ -173,7 +173,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           </div>
         </div>
         <div className={styles.dataWrapper}>
-          {indicesData.length && screenWidth <= 1820 ? (
+          {indicesData?.length && screenWidth <= 1820 ? (
             <SlickSlider
               slides={indicesData?.map((slides: any, index: any) => ({
                 content: (
@@ -199,7 +199,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
             />
           ) : (
             <div className={styles.customTabs}>
-              {indicesData.map((slides, index) => (
+              {indicesData?.map((slides, index) => (
                 <StockCards
                   key={`indicesTab${index}`}
                   item={slides}

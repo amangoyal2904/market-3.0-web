@@ -191,7 +191,7 @@ const MarketStats = ({
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     updateL3NAV(id, _payload.duration);
-    const isExist: any = shortUrlMapping.find(
+    const isExist: any = shortUrlMapping?.find(
       (item: any) => item.longURL == newUrl,
     );
     const updatedUrl = isExist ? isExist.shortUrl : newUrl;
@@ -206,7 +206,7 @@ const MarketStats = ({
       const newDuration = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
       updateL3NAV(_payload.filterValue[0], newDuration);
-      const isExist: any = shortUrlMapping.find(
+      const isExist: any = shortUrlMapping?.find(
         (item: any) => item.longURL == newUrl,
       );
       const updatedUrl = isExist ? isExist.shortUrl : newUrl;
@@ -215,7 +215,7 @@ const MarketStats = ({
       const url = actualUrl;
       const newTimespan = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "timespan", newTimespan);
-      const isExist: any = shortUrlMapping.find(
+      const isExist: any = shortUrlMapping?.find(
         (item: any) => item.longURL == newUrl,
       );
       const updatedUrl = isExist ? isExist.shortUrl : newUrl;
@@ -300,7 +300,7 @@ const MarketStats = ({
     (url = updateOrAddParamToPath(url, "firstoperand", firstOperand)),
       (url = updateOrAddParamToPath(url, "secondoperand", secondOperand)),
       (url = updateOrAddParamToPath(url, "operationtype", operationType));
-    const isExist: any = shortUrlMapping.find(
+    const isExist: any = shortUrlMapping?.find(
       (item: any) => item.longURL == url,
     );
     const newUrl = isExist ? isExist.shortUrl : url;
