@@ -105,28 +105,23 @@ const MarketFiltersTab = React.memo(
       }
     };
     const industrySelectedFilterHanlder = (event: any) => {
-      const { id, checked } = event.target;
+      const { id, name, checked } = event.target;
       if (checked) {
         const getValue = [...checkedIndustryFilterItems, parseFloat(id)];
-        trackingEvent("et_push_event", {
-          event_category: "mercury_engagement",
-          event_action: "industry_filter_applied",
-          event_label: getValue,
-        });
         setCheckedIndustryFilterItems(getValue);
         getIndustryFilterValue(getValue);
       } else {
         const getValue = checkedIndustryFilterItems.filter(
           (item: any) => item !== parseFloat(id),
         );
-        trackingEvent("et_push_event", {
-          event_category: "mercury_engagement",
-          event_action: "industry_filter_applied",
-          event_label: getValue,
-        });
         setCheckedIndustryFilterItems(getValue);
         getIndustryFilterValue(getValue);
       }
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "industry_filter_applied",
+        event_label: name,
+      });
     };
     const updateTabsListDataHandler = async (updateData: any) => {
       const updatedOrder: any[] = [];

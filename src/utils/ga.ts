@@ -13,6 +13,20 @@ declare global {
   }
 }
 
+export const redirectToPlanPage = (objTracking, type = "select_item") => {
+  try {
+    trackingEvent("et_push_event", {
+      event_category: objTracking.category,
+      event_action: objTracking.action,
+      event_label: objTracking.label,
+    });
+    goToPlansPage1(type, objTracking.obj);
+  } catch (Err) {
+    console.log("redirectToPlanPage Err:", Err);
+    goToPlansPage1(type, {});
+  }
+};
+
 export const goToPlansPage = () => {
   const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
   const ticketId = getCookie("encTicket")

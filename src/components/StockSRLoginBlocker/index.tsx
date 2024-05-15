@@ -1,6 +1,6 @@
 import styles from "./StockSRLoginBlocker.module.scss";
 import { useEffect, useRef } from "react";
-import { goToPlansPage } from "../../utils/ga";
+import { redirectToPlanPage } from "../../utils/ga";
 import { initSSOWidget } from "../../utils";
 interface StockSRLoginBlockerProps {
   isLoginUser: any;
@@ -26,8 +26,25 @@ export default function StockSRLoginBlocker({
     initSSOWidget();
   };
 
+  const objTracking = {
+    category: "Subscription Flow ET",
+    action: "SYFT | Flow Started",
+    label: location.pathname,
+    obj: {
+      item_name: "gainers",
+      item_brand: "market_tools",
+      item_category: "l3 - l4",
+      item_category2: "gainers",
+      item_category3: "field name",
+      item_category4: "upgrade to prime",
+      feature_name: "marketstats",
+      site_section: "l1",
+      site_sub_section: "l1/l2/l2",
+    },
+  };
+
   const planPageHandler = () => {
-    goToPlansPage();
+    redirectToPlanPage(objTracking);
   };
 
   useEffect(() => {
