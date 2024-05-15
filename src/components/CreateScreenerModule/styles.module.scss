@@ -476,7 +476,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 99;
+  z-index: 999;
   .perWrap {
     width: 400px;
     z-index: 2;
@@ -579,12 +579,12 @@
     flex-wrap: wrap;
     row-gap: 20px;
     .symble {
-      padding:6px 12px;
+      padding: 6px 12px;
     }
   }
-  .innerListContainer{
-    ul{
-      max-height:calc(59vh - 240px);
+  .innerListContainer {
+    ul {
+      max-height: calc(59vh - 240px);
     }
   }
 }

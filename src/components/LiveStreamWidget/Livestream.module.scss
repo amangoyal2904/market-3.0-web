@@ -1,6 +1,14 @@
 .liveStreamWrapper {
   padding-top: 20px;
   margin-left: -10px;
+  .heading {
+    color: #000;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding: 0 16px 24px;
+  }
 }
 .cardsWrapper {
   display: inline-block;
@@ -10,6 +18,7 @@
   border: solid 1px #e4e4e4;
   margin-left: 20px;
   border-radius: 8px;
+  height: 442px;
 }
 .headingIcon {
   vertical-align: middle;
@@ -20,6 +29,10 @@
 .textSection {
   padding: 16px;
   min-height: 170px;
+  .topSec {
+    display: flex;
+    justify-content: space-between;
+  }
   .title {
     display: flex;
     flex-direction: column;

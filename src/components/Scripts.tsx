@@ -33,6 +33,7 @@ declare global {
       info?: {
         thumbImageUrl: any;
         primaryEmail: string;
+        firstName: string;
       };
       isPrime?: any;
       permissions?: any;

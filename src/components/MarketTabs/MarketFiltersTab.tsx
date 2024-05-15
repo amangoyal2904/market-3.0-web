@@ -231,6 +231,14 @@ const MarketFiltersTab = React.memo(
       filterDataChange(id, name, selectedTab);
       document.body.style.overflow = "";
     };
+    const createScreenerGrxHandler = () => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "page_cta_click",
+        event_label: "createscreener",
+      });
+      createNewScreener(true);
+    };
     const filterApiCall = async () => {
       const data = await fetchFilters({ all: true, marketcap: true });
       setFilterMenuData(data);
@@ -248,7 +256,7 @@ const MarketFiltersTab = React.memo(
           {showCreateScreener ? (
             <span
               className={`${styles.filterScreener}`}
-              onClick={() => createNewScreener(true)}
+              onClick={createScreenerGrxHandler}
             >
               + Create Screeners
             </span>

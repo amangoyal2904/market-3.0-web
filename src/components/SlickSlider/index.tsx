@@ -16,9 +16,10 @@ interface SlickSliderProps {
   slidesToScroll?: any;
   rows?: any;
   topSpaceClass?: string;
-  responsive: any;
+  responsive?: any;
   noPadding?: boolean;
   screenWidth?: any;
+  onSlideChange?: any;
 }
 
 const SlickSlider: React.FC<SlickSliderProps> = ({
@@ -31,6 +32,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
   responsive = [],
   noPadding,
   screenWidth,
+  onSlideChange,
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef<Slider>(null);
@@ -74,6 +76,9 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     ),
     beforeChange: (oldIndex, newIndex) => {
       setCurrentSlideIndex(newIndex);
+    },
+    afterChange: (newIndex: any) => {
+      topSpaceClass == "liveStreamPlay" ? onSlideChange(newIndex) : "";
     },
     responsive: responsive,
   };

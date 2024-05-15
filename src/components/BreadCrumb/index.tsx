@@ -244,7 +244,7 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/top-india-investors-portfolio">
+          <a href="/markets/top-india-investors-portfolio/individual">
             Investors Portfolio
           </a>
         </li>
@@ -337,7 +337,7 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           ) : (
             <>
               <span className="eticon_caret_right"></span>
-              <a href="/markets/live-coverage">Markets</a>
+              <a href="/markets/live-coverage">Markets Live</a>
             </>
           )}
         </li>
@@ -346,16 +346,14 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           pageName.length > 0 &&
           pageName?.map((item: any, index: any) => {
             return (
-              <>
-                <li key={item.label + index}>
-                  <span className="eticon_caret_right"></span>
-                  {item.redirectUrl ? (
-                    <a href={item.redirectUrl}>{item.label}</a>
-                  ) : (
-                    item.label
-                  )}
-                </li>
-              </>
+              <li key={item.label + index}>
+                <span className="eticon_caret_right"></span>
+                {item.redirectUrl ? (
+                  <a href={item.redirectUrl}>{item.label}</a>
+                ) : (
+                  item.label
+                )}
+              </li>
             );
           })}
       </ul>
