@@ -438,5 +438,13 @@
   "FIIDIICash": {
     "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash"
+  },
+  "ATHENA": {
+    "development": "https://etwebcast.indiatimes.com/ET_WebCast",
+    "production": "https://etwebcast.indiatimes.com/ET_WebCast"
+  },
+  "SLIKE_CLEO_URL": {
+    "production": "https://cpl.sli.ke",
+    "development": "https://cpl.sli.ke"
   }
 }

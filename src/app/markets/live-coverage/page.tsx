@@ -49,7 +49,7 @@ const LiveCoverage = async () => {
       url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
       params: {},
     });
-    const data = await response?.json();
+    const data = response ? await response?.json() : {};
     return data;
   };
 
@@ -58,7 +58,7 @@ const LiveCoverage = async () => {
       url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=53282427`,
       params: {},
     });
-    const data = await response?.json();
+    const data = response ? await response?.json() : {};
     const topNewsData =
       (data &&
         data.searchResult &&
@@ -73,7 +73,7 @@ const LiveCoverage = async () => {
       url: (APIS_CONFIG as any)?.FIIDIICash[APP_ENV],
       params: {},
     });
-    const data = await response?.json();
+    const data = response ? await response?.json() : {};
     const fiidiiData =
       (data && data.datainfo && data.datainfo.fiiDiiChart) || {};
     return fiidiiData;
@@ -91,7 +91,6 @@ const LiveCoverage = async () => {
 
   const getRecosData = async (type: any) => {
     const getRecosDetailApi = `${(APIS_CONFIG as any)?.["GET_RECOS_DETAILS"][APP_ENV]}`;
-    // console.log("@@type --- > " , type)
     const payload = {
       apiType: type,
       filterType: "",

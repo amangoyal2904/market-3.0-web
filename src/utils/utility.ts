@@ -1169,3 +1169,7 @@ export const getBigbullTopTabData = (slug: any) => {
     },
   ];
 };
+export const removeBackSlash = (val: string) => {
+  val = val && typeof val != "object" ? val.replace(/\\/g, "") : "";
+  return val;
+};
