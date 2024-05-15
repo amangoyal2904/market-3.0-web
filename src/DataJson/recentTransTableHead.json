@@ -21,7 +21,7 @@
     "orderBy": "companyName"
   },
   {
-    "name": "Trans. Value(Cr.)",
+    "name": "Deal Value (cr)",
     "id": "2",
     "sort": true,
     "primeFlag": false,

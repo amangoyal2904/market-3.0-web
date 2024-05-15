@@ -21,7 +21,7 @@
     "orderBy": "holdingPercent"
   },
   {
-    "name": "Holdings (Rs in Cr.)",
+    "name": "Holdings (cr)",
     "id": "3",
     "sort": true,
     "primeFlag": false,
