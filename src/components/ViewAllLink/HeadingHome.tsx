@@ -1,6 +1,6 @@
 "use client";
 import styles from "./ViewAll.module.scss";
-import { ga4withlink, trackingEvent } from "@/utils/ga";
+import { trackingEvent } from "@/utils/ga";
 import Image from "next/image";
 import Link from "next/link";
 
