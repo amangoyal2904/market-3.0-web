@@ -244,7 +244,7 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/top-india-investors-portfolio">
+          <a href="/markets/top-india-investors-portfolio/individual">
             Investors Portfolio
           </a>
         </li>
@@ -337,7 +337,7 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           ) : (
             <>
               <span className="eticon_caret_right"></span>
-              <a href="/markets/live-coverage">Markets</a>
+              <a href="/markets/live-coverage">Markets Live</a>
             </>
           )}
         </li>
