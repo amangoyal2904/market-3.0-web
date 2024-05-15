@@ -57,7 +57,7 @@ const MarketStatsNav: React.FC<PageProps> = React.memo((props) => {
   };
 
   const renderLink = (subItem: any, l3Label: string) => {
-    const isExist: any = shortUrlMapping.find(
+    const isExist: any = shortUrlMapping?.find(
       (item: any) => item.longURL == subItem.link,
     );
     const linkHref = isExist ? isExist.shortUrl : subItem.link;

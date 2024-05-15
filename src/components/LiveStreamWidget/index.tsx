@@ -4,6 +4,7 @@ import styles from "./Livestream.module.scss";
 import LiveStreamSlider from "./LiveStreamSlider";
 import ViewAllLink from "../ViewAllLink";
 import Image from "next/image";
+import LiveStreamPlay from "../LiveStreamPlay";
 import HeadingHome from "../ViewAllLink/HeadingHome";
 
 const fetchLiveStreamData = async () => {
@@ -69,6 +70,7 @@ const LiveStreamWidget = async () => {
           <span className={`eticon_caret_right ${styles.headingIcon}`} />
         </a>
       </h2> */}
+      <LiveStreamPlay />
       <LiveStreamSlider liveStreamData={liveStreamData} />
       <ViewAllLink
         text="See All Live Streams"

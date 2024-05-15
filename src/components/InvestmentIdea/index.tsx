@@ -12,7 +12,7 @@ const fetchInvestMentData = async () => {
       url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=81409979`,
       params: {},
     });
-    const data = await response?.json();
+    const data = response ? await response?.json() : {};
     const investmentData =
       (data &&
         data.searchResult &&
