@@ -15,6 +15,7 @@ import Loader from "../Loader";
 import StockSRLoginBlocker from "../StockSRLoginBlocker";
 import Image from "next/image";
 import HeadingHome from "../ViewAllLink/HeadingHome";
+import { trackingEvent } from "@/utils/ga";
 
 interface Props {
   srResult: any;
@@ -102,6 +103,11 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
   );
 
   const handleTabClick = (tab: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "tab_selected",
+      event_label: `${tab.name} Stock reports plus`,
+    });
     setProcessingLoader(true);
     setActiveTab(tab);
     fetchData(tab.screenerId);
