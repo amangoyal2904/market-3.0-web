@@ -81,9 +81,9 @@ const LiveStreamPlay = (props: any) => {
       params: {},
       cache: "no-store",
     });
-
+    const newsData = await response?.json();
     console.log("@@@@-->res", apiUrl, response);
-    return response;
+    return newsData;
   };
   const fetchToken = async () => {
     const requestUrl =
