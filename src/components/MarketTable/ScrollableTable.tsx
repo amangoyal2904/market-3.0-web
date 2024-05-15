@@ -267,6 +267,7 @@ const ScrollableTable = React.memo((props: any) => {
                         {!isPrime && tdData.primeFlag ? (
                           <span
                             onClick={() => {
+                              objTracking.obj.item_category3 = tdData.keyText;
                               redirectToPlanPage(objTracking);
                             }}
                           >
