@@ -49,7 +49,7 @@ const TopTabs = ({
           {pageType === "recentTransactions" ? (
             <>
               <div className={`${styles.sortFilter}`}>
-                <span className={styles.stTxt}>Sort By: </span>
+                <span className={styles.stTxt}>Show records: </span>
                 <span className={styles.dyTxt}> {sortByTimeActive?.label}</span>
                 <div className={styles.sortFilterContent}>
                   <div className={`moduleBody ${styles.body}`}>
