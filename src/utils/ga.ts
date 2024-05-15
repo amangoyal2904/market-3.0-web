@@ -13,15 +13,6 @@ declare global {
   }
 }
 
-export const ga4withlink = (event_action, event_label, url) => {
-  trackingEvent("et_push_event", {
-    event_category: "mercury_engagement",
-    event_action: event_action,
-    event_label: event_label,
-  });
-  window.open(url, "_blank");
-};
-
 export const goToPlansPage = () => {
   const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
   const ticketId = getCookie("encTicket")
