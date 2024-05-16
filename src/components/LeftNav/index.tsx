@@ -137,7 +137,12 @@ const LeftNav = (props: any) => {
           ></span>
         </div>
         <div className={styles.navOptWrap}>
-          <ul className={styles.marketNavWrap}>
+          <ul
+            className={styles.marketNavWrap}
+            itemScope
+            itemType="https://schema.org/SiteNavigationElement"
+            role="menu"
+          >
             {markets?.nav?.map((value: any, index: any) => {
               navSchemaItemListElements.push({
                 "@type": "ListItem",
@@ -205,6 +210,8 @@ const LeftNav = (props: any) => {
                             <li
                               className={`${styles.l2List} ${hasUrlSelect(sec.matchPattern) ? styles.active : ""}`}
                               key={`l2_label_${index}`}
+                              itemProp="name"
+                              role="menuitem"
                             >
                               <Link
                                 href={sec.link}
@@ -253,6 +260,8 @@ const LeftNav = (props: any) => {
                   <li
                     className={styles.navListWrap}
                     key={`market_pro_nav_${index}`}
+                    itemProp="name"
+                    role="menuitem"
                   >
                     <Link
                       href={value.link}
