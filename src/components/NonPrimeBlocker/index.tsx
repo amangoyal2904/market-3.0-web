@@ -1,12 +1,12 @@
 import styles from "./styles.module.scss";
 import Image from "next/image";
-import { goToPlansPage } from "@/utils/ga";
+
 import { initSSOWidget } from "@/utils";
 import { useStateContext } from "@/store/StateContext";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import { useEffect, useState } from "react";
-import { trackingEvent } from "@/utils/ga";
+import { redirectToPlanPage } from "@/utils/ga";
 
 const NonPrimeBlockerModule = ({ oncloseModule }: any) => {
   const { state, dispatch } = useStateContext();
@@ -32,12 +32,25 @@ const NonPrimeBlockerModule = ({ oncloseModule }: any) => {
 
     //console.log(resData.data, "____resData")
   };
-  const gaTrackingBlockerClick = (comname: any) => {
-    // trackingEvent("et_push_event", {
-    //   event_category: "mercury_engagement",
-    //   event_action: "company_clicked",
-    //   event_label: comname,
-    // });
+  const objTracking = {
+    category: "Subscription Flow ET",
+    action: "SYFT | Flow Started",
+    label: window.location.pathname,
+    obj: {
+      item_name: "bigbull_investors",
+      item_id: "bigbull_",
+      item_brand: "market_tools",
+      item_category: "bigbull",
+      item_category2: "bigbull_investors",
+      item_category3: "paywall_blocker_cta",
+      item_category4: "Subscribe to ETPrime",
+      feature_name: "bigbull",
+      site_section: "markets",
+      site_sub_section: window.location.pathname,
+    },
+  };
+  const planPageRedirect = () => {
+    redirectToPlanPage(objTracking);
   };
   useEffect(() => {
     getDataFromMetalist();
@@ -76,7 +89,7 @@ const NonPrimeBlockerModule = ({ oncloseModule }: any) => {
                   {text} <span></span>
                 </div>
                 <div className={styles.btnSec}>
-                  <span onClick={goToPlansPage} className={styles.subBtn}>
+                  <span onClick={planPageRedirect} className={styles.subBtn}>
                     {ctaTxt}
                   </span>
                 </div>

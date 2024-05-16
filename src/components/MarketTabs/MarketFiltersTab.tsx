@@ -223,6 +223,10 @@ const MarketFiltersTab = React.memo(
       const data = await fetchFilters({ all: true, marketcap: true });
       setFilterMenuData(data);
     };
+    const setOpenPersonaliseModalHandler = (value: any) => {
+      setOpenPersonaliseModal(value);
+      document.body.style.overflow = "";
+    };
     useEffect(() => {
       if (showIndexFilter) {
         filterApiCall();
@@ -367,7 +371,7 @@ const MarketFiltersTab = React.memo(
             editmode={setEditMode}
             openPersonaliseModal={openPersonaliseModal}
             data={personaliseDataListItem}
-            setOpenPersonaliseModal={setOpenPersonaliseModal}
+            setOpenPersonaliseModal={setOpenPersonaliseModalHandler}
             updateTabsListDataHandler={updateTabsListDataHandler}
             createNewViewHandler={setOpenPersonaliseCreateModal}
             loading={loading}
