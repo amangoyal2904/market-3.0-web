@@ -113,6 +113,9 @@ const IndicesClient = ({
           handleSortServerSide={onServerSideSort}
           processingLoader={processingLoader}
           isprimeuser={isPrime}
+          l1NavTracking="Stocks"
+          l2NavTracking="Indices"
+          l3NavTracking={selectedExchange}
         />
       </div>
     </>

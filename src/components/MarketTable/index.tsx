@@ -26,9 +26,9 @@ interface propsType {
   processingLoader?: boolean;
   fixedCol?: number;
   isprimeuser?: boolean;
-  l1Nav?: any;
-  l2Nav?: any;
-  l3Nav?: any;
+  l1NavTracking?: any;
+  l2NavTracking?: any;
+  l3NavTracking?: any;
 }
 
 const DEBOUNCE_DELAY = 10;
@@ -60,27 +60,29 @@ const MarketTable = React.memo((props: propsType) => {
     processingLoader,
     fixedCol = 3,
     isprimeuser = false,
-    l1Nav = "",
-    l2Nav = "",
-    l3Nav = "",
+    l1NavTracking = "",
+    l2NavTracking = "",
+    l3NavTracking = "",
   } = props || {};
 
   const objTracking = {
     category: "Subscription Flow ET",
     action: "SYFT | Flow Started",
-    label: !!l3Nav ? `${l1Nav} / ${l2Nav} / ${l3Nav}` : `${l1Nav} / ${l2Nav}`,
+    label: "Upgrade to prime click_",
     obj: {
-      item_name: !!l3Nav ? l3Nav : getPageName(),
+      item_name: !!l3NavTracking ? l3NavTracking : l2NavTracking,
       item_brand: "market_tools",
-      item_category: !!l3Nav ? `${l2Nav} - ${l3Nav}` : l2Nav,
-      item_category2: !!l3Nav ? l3Nav : getPageName(),
-      item_category3: "",
+      item_category: !!l3NavTracking
+        ? `${l2NavTracking} - ${l3NavTracking}`
+        : l2NavTracking,
+      item_category2: !!l3NavTracking ? l3NavTracking : l2NavTracking,
+      item_category3: "field name unknown",
       item_category4: "upgrade to prime",
       feature_name: "marketstats",
-      site_section: l1Nav,
-      site_sub_section: !!l3Nav
-        ? `${l1Nav} / ${l2Nav} / ${l3Nav}`
-        : `${l1Nav} / ${l2Nav}`,
+      site_section: l1NavTracking,
+      site_sub_section: !!l3NavTracking
+        ? `${l1NavTracking} / ${l2NavTracking} / ${l3NavTracking}`
+        : `${l1NavTracking} / ${l2NavTracking}`,
     },
   };
 

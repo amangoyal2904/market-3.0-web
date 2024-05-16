@@ -626,6 +626,15 @@ const StockScreeners = ({
     setL3UserNav(l3UserNav);
     setProcessingLoader(false);
   };
+
+  const getCollectionNameByScreenerId = (screenerId: any) => {
+    const collection = l3Nav.find((collection: any) =>
+      collection.listScreenerMaster.some(
+        (screener: any) => screener.screenerId == screenerId,
+      ),
+    );
+    return collection ? collection.collectionName : null;
+  };
   useEffect(() => {
     onSearchParamChange();
   }, [searchParams]);
@@ -717,6 +726,9 @@ const StockScreeners = ({
                 processingLoader={processingLoader}
                 fixedCol={1}
                 isprimeuser={getCookie("isprimeuser") == "true" ? true : false}
+                l1NavTracking="Screeners"
+                l2NavTracking={getCollectionNameByScreenerId(scrid)}
+                l3NavTracking={screenerDetail.name}
               />
               <div className="">
                 <QueryComponets
