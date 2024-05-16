@@ -332,7 +332,7 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
         <li className={styles.marketshome}>
           {router == "/markets/live-coverage" ? (
             <>
-              <span className="eticon_caret_right"></span>ET Market Live
+              <span className="eticon_caret_right"></span>Markets Live
             </>
           ) : (
             <>
