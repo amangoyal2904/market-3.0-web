@@ -1,6 +1,10 @@
 import styles from "./LiveStreamPlay.module.scss";
 import SlickSlider from "../SlickSlider";
 import Share from "../Share";
+import APIS_CONFIG from "../../network/api_config.json";
+import Service from "../../network/service";
+import { APP_ENV, getCookie, initSSOWidget } from "@/utils";
+import { useStateContext } from "@/store/StateContext";
 
 const LiveStreamCards = ({
   slide,
@@ -9,7 +13,12 @@ const LiveStreamCards = ({
   iframeURL,
   iframeRef,
   onLoadIframe,
+  expertFollowers,
+  followingData,
+  fetchFollowingExperts,
 }: any) => {
+  const { state, dispatch } = useStateContext();
+  const { isLogin } = state.login;
   const utmSource = "?utm_source=MarketHome&utm_medium=Self-Referrals";
   const ET_WAP_URL = "https://m.economictimes.com/";
   const isLive = slide.eventStatus == 3;
@@ -28,9 +37,59 @@ const LiveStreamCards = ({
     `${ET_WAP_URL}markets/etmarkets-live/streams${!isLive ? "recorded" : ""}/streamid-${streamid},expertid-${expertId}.cms${utmSource}`;
   const viewsText = isLive ? slide.concurrentViewsText : slide.totalViewsText;
 
+  const followExpert = async () => {
+    try {
+      if (isLogin) {
+        const data = {
+          action: checkIfAlreadyFollowed(slide._id) ? 0 : 1,
+          applicationname: 1,
+          articletype: 22,
+          position: 0,
+          source: 0,
+          stype: 2,
+          msid: expertId,
+        };
+        const authorization: any = getCookie("peuuid")
+          ? getCookie("peuuid")
+          : "";
+        const apiUrl = (APIS_CONFIG as any)?.["followExpert"][APP_ENV];
+        const response = await Service.post({
+          url: apiUrl,
+          headers: {
+            Authorization: authorization,
+            "Content-Type": "application/json",
+            mode: "cors",
+          },
+          body: JSON.stringify({ ...data }),
+          params: {},
+          cache: "no-store",
+        });
+        const followStatus = await response?.json();
+        if (followStatus && followStatus.status == "success") {
+          fetchFollowingExperts();
+        }
+      } else {
+        initSSOWidget();
+      }
+    } catch (e) {
+      console.log("error in follow api ", e);
+    }
+  };
+
+  const checkIfAlreadyFollowed = (id: any) => {
+    for (let i = 0; i < followingData.length; i++) {
+      if (followingData[i].id === id) {
+        return true;
+      }
+    }
+    return false;
+  };
   return (
     <div className={styles.cardContainer} key={slide.eventId}>
-      <div className={styles.frameWrapper}>
+      <div
+        style={{ backgroundImage: `url(${slide.eventImageUrl})` }}
+        className={styles.frameWrapper}
+      >
         <div className={styles.iframeContent}>
           {iframeURL && index === currentSIndex && (
             <iframe
@@ -71,15 +130,21 @@ const LiveStreamCards = ({
             <p>
               {" "}
               <span className={styles.expertName}>{slide.expertName}</span>
-              <span className={styles.followers}>4118 followers</span>
+              {expertFollowers ? (
+                <span className={styles.followers}>
+                  {expertFollowers} followers
+                </span>
+              ) : (
+                ""
+              )}
             </p>
           </a>
-          <a
-            href={expertURL}
-            // onClick={()=>handleClick("watchButton")}
+          <p
+            onClick={followExpert}
+            className={`${styles.follow} ${checkIfAlreadyFollowed(slide._id) ? styles.following : ""}`}
           >
-            <p className={styles.follow}> + Follow</p>
-          </a>
+            {checkIfAlreadyFollowed(slide._id) ? "Following" : "+ Follow"}
+          </p>
         </div>
       </div>
     </div>
@@ -93,32 +158,36 @@ const LiveStreamPlayCards = ({
   iframeRef,
   onSwitching,
   onLoadIframe,
+  expertFollowers,
+  followingData,
+  fetchFollowingExperts,
 }: any) => {
   return (
     newsData?.length && (
-      <div className={styles.liveStreamWrapper}>
-        <SlickSlider
-          slides={newsData?.map((slides: any, index: any) => ({
-            content: (
-              <LiveStreamCards
-                slide={slides}
-                iframeRef={iframeRef}
-                onLoadIframe={onLoadIframe}
-                iframeURL={iframeURL}
-                index={index}
-                currentSIndex={currentSIndex}
-              />
-            ),
-          }))}
-          key={`liveStreamPlaySlider}`}
-          sliderId={`slider-liveStreamPlay`}
-          slidesToShow={1.1}
-          slidesToScroll={1.1}
-          rows={1}
-          topSpaceClass="liveStreamPlay"
-          onSlideChange={onSwitching}
-        />
-      </div>
+      <SlickSlider
+        slides={newsData?.map((slides: any, index: any) => ({
+          content: (
+            <LiveStreamCards
+              slide={slides}
+              iframeRef={iframeRef}
+              onLoadIframe={onLoadIframe}
+              iframeURL={iframeURL}
+              index={index}
+              currentSIndex={currentSIndex}
+              expertFollowers={expertFollowers}
+              followingData={followingData}
+              fetchFollowingExperts={fetchFollowingExperts}
+            />
+          ),
+        }))}
+        key={`liveStreamPlaySlider}`}
+        sliderId={`slider-liveStreamPlay`}
+        slidesToShow={1.1}
+        slidesToScroll={1.1}
+        rows={1}
+        topSpaceClass="liveStreamPlay"
+        onSlideChange={onSwitching}
+      />
     )
   );
 };
