@@ -349,6 +349,34 @@ const MarketStats = ({
     }
   };
 
+  const getNavName = () => {
+    const navData = l3Nav?.nav || [];
+    for (const navItem of navData) {
+      if (navItem.sub_nav) {
+        let navName;
+        if (isTechnical) {
+          navName = navItem.sub_nav.find(
+            (nav: any) =>
+              nav.firstoperand ===
+                technicalCategory?.selectedFilter?.firstOperand &&
+              nav.operationtype ===
+                technicalCategory?.selectedFilter?.operationType &&
+              nav.secondoperand ===
+                technicalCategory?.selectedFilter?.secondOperand,
+          );
+        } else {
+          navName = navItem.sub_nav.find(
+            (nav: any) => nav.type === l3NavSubItem,
+          );
+        }
+        if (navName) {
+          return navName?.label || null;
+        }
+      }
+    }
+    return null; // Return null if no matching item is found
+  };
+
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
@@ -474,9 +502,11 @@ const MarketStats = ({
             handlePageChange={onPaginationChange}
             processingLoader={processingLoader}
             isprimeuser={isPrime}
-            l1Nav="Markets"
-            l2Nav="Stocks"
-            l3Nav={!isTechnical ? l3NavSubItem : _technicalCategory?.category}
+            l1NavTracking={!isTechnical ? "Stocks" : "Technical Signals"}
+            l2NavTracking={
+              !isTechnical ? "Intraday" : _technicalCategory?.category
+            }
+            l3NavTracking={getNavName()}
           />
         </div>
       </div>

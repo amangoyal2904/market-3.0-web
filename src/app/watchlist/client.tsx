@@ -311,8 +311,8 @@ const WatchListClient = () => {
               updateTableHandler={updateTableHandlerFun}
               processingLoader={processingLoader}
               isprimeuser={isPrime}
-              l1Nav="Markets"
-              l2Nav="Watchlist"
+              l1NavTracking="Markets"
+              l2NavTracking="Watchlist"
             />
           </>
         )}
