@@ -283,6 +283,7 @@ const FixedTable = React.memo((props: any) => {
                           <span
                             onClick={() => {
                               objTracking.obj.item_category3 = tdData.keyId;
+                              objTracking.label = `Upgrade to prime click_${tdData.keyId}`;
                               redirectToPlanPage(objTracking);
                             }}
                           >

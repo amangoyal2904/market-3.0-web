@@ -28,7 +28,7 @@ const IndicesConstituents = React.memo(
     payload,
     indicesNews,
   }: any) => {
-    const indexNews = indicesNews?.Item[0]?.NewsItem;
+    const indexNews = indicesNews?.Item?.[0]?.NewsItem ?? [];
 
     const newsResponsive = [
       {
@@ -291,9 +291,9 @@ const IndicesConstituents = React.memo(
             handlePageChange={onPaginationChange}
             processingLoader={processingLoader}
             isprimeuser={isPrime}
-            l1Nav="Markets"
-            l2Nav="Indices"
-            l3Nav={indexName}
+            l1NavTracking="Markets"
+            l2NavTracking="Indices"
+            l3NavTracking={`${indexName} Constituents Widget`}
           />
         </div>
         {!!indexNews.length && (
