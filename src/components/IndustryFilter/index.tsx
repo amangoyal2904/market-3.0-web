@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 import styles from "./industryFilter.module.scss";
 import { fetchIndustryFilters } from "../../utils/utility";
+import { trackingEvent } from "@/utils/ga";
 
 const IndustryFilter = ({
   onclose,
@@ -41,7 +42,14 @@ const IndustryFilter = ({
                           name={item.name}
                           value={item.id}
                           checked={defaultCheck.includes(item.id)}
-                          onChange={industrySelectedFilter}
+                          onChange={() => {
+                            trackingEvent("et_push_event", {
+                              event_category: "mercury_engagement",
+                              event_action: "industry_filter_applied",
+                              event_label: item.name,
+                            });
+                            industrySelectedFilter();
+                          }}
                         />
                         <label htmlFor={item.id}>{item.name}</label>
                       </li>

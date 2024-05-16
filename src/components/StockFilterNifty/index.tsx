@@ -92,6 +92,11 @@ export default function StockFilterNifty({
   const clickFilterMenu = useCallback(
     (name: any, indexid: any) => {
       const selectedTab = nseBseMenuSelect;
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "index_filter_applied",
+        event_label: name,
+      });
       valuechange(indexid, name, selectedTab);
     },
     [nseBseMenuSelect, valuechange],
