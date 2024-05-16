@@ -6,6 +6,7 @@ import { formatNumber } from "@/utils/index";
 import MarketStatus from "../MarketStatus";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
+import GLOBAL_CONFIG from "@/network/global_config.json";
 
 const IndicesDetailsOverview = React.memo(
   ({
@@ -139,7 +140,7 @@ const IndicesDetailsOverview = React.memo(
               className={styles.technical}
               target="_blank"
               title={`Technicals: ${overviewData?.assetName}`}
-              href={`https://economictimes.indiatimes.com/markets/technical-charts?symbol=${symbol}&exchange=${exchange}&entity=index`}
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/technical-charts?symbol=${symbol}&exchange=${exchange}&entity=index`}
             >
               <span className="eticon_candlestick">
                 <span className="path1"></span>

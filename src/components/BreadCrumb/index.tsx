@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./BreadCrumb.module.scss";
+import { APP_ENV } from "@/utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 
 interface Props {
@@ -327,7 +328,7 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
       />
       <ul className={styles.brUl}>
         <li className={styles.home}>
-          <a href="https://economictimes.indiatimes.com/">Home</a>
+          <a href={(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}>Home</a>
         </li>
         <li className={styles.marketshome}>
           {router == "/markets/live-coverage" ? (

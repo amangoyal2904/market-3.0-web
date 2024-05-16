@@ -1,4 +1,7 @@
 import styles from "./Livestream.module.scss";
+import { APP_ENV } from "@/utils";
+import GLOBAL_CONFIG from "@/network/global_config.json";
+
 export const LiveStreamCards = ({ data }: any) => {
   const getHours = (timestamp: number) => {
     const currentTimestamp = new Date().getTime();
@@ -8,8 +11,8 @@ export const LiveStreamCards = ({ data }: any) => {
     );
     return differenceInHours;
   };
-  const url = `https://economictimes.indiatimes.com/markets/etmarkets-live/${data?.seoName}/streamsrecorded/streamid-${data?.eventId},expertid-${data?.meta?.userData?.expertID}.cms`;
-  const expertUrl = `https://economictimes.indiatimes.com/markets/etmarkets-live/expert-bio/${data?.meta?.userData?.expertSeoName},expertid-${data?.meta?.userData?.expertID}.cms`;
+  const url = `${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/etmarkets-live/${data?.seoName}/streamsrecorded/streamid-${data?.eventId},expertid-${data?.meta?.userData?.expertID}.cms`;
+  const expertUrl = `${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/etmarkets-live/expert-bio/${data?.meta?.userData?.expertSeoName},expertid-${data?.meta?.userData?.expertID}.cms`;
   return (
     <div>
       <div className={styles.cardsWrapper}>
