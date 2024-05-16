@@ -108,6 +108,11 @@ const MarketMoodsClient = ({
   }, []);
 
   const handleCountPercentage = useCallback((widgetType: string) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "page_cta_click",
+      event_label: widgetType,
+    });
     dispatch({
       type: "UPDATE_VIEWTYPES",
       payload: {
@@ -122,6 +127,11 @@ const MarketMoodsClient = ({
 
   const handleDuration = useCallback(
     async (item: string) => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "page_cta_click",
+        event_label: item,
+      });
       setLoading(true);
       dispatch({
         type: "UPDATE_VIEWTYPES",
@@ -137,6 +147,11 @@ const MarketMoodsClient = ({
 
   const handleMonthlyDaily = useCallback(
     async (item: string) => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "page_cta_click",
+        event_label: item,
+      });
       dispatch({
         type: "UPDATE_VIEWTYPES",
         payload: {
@@ -318,12 +333,12 @@ const MarketMoodsClient = ({
                 key={item.key}
                 ref={activeItem === item.key ? activeListItemRef : null}
                 onClick={() => {
-                  handleItemClick(item.key);
                   trackingEvent("et_push_event", {
                     event_category: "mercury_engagement",
                     event_action: "tab_selected",
                     event_label: `${item.label}`,
                   });
+                  handleItemClick(item.key);
                 }}
                 className={
                   activeItem === item.key || (activeItem === "" && index === 0)

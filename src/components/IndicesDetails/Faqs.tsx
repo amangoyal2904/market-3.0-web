@@ -1,15 +1,26 @@
 import React, { useState } from "react";
 import styles from "./IndicesDetails.module.scss";
+import { trackingEvent } from "@/utils/ga";
 
 const IndicesFaqs = React.memo(({ faqs }: any) => {
   const [activeItems, setActiveItems] = useState<number[]>([0]);
 
-  const handleItemClick = (index: number) => {
+  const handleItemClick = (faq: any, index: number) => {
     // If the clicked item is already active, remove it from activeItems
     if (activeItems.includes(index)) {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "faq_collapsed",
+        event_label: faq?.q,
+      });
       setActiveItems(activeItems.filter((item) => item !== index));
     } else {
       // Otherwise, add it to activeItems
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "faq_expand",
+        event_label: faq?.q,
+      });
       setActiveItems([...activeItems, index]);
     }
   };
@@ -23,7 +34,7 @@ const IndicesFaqs = React.memo(({ faqs }: any) => {
             <li
               key={index}
               className={`${styles.faq} ${activeItems.includes(index) ? styles.active : ""}`}
-              onClick={() => handleItemClick(index)}
+              onClick={() => handleItemClick(faq, index)}
             >
               <div className={styles.heading}>
                 {faq.q}
