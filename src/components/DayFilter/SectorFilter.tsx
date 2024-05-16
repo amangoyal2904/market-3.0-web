@@ -52,9 +52,14 @@ const SectorFilter = React.memo(
                 return (
                   <li
                     key={index}
-                    onClick={() =>
-                      sectorOnChangeHandler(item.sectorid, item.sectorname)
-                    }
+                    onClick={() => {
+                      trackingEvent("et_push_event", {
+                        event_category: "mercury_engagement",
+                        event_action: "sector_filter_applied",
+                        event_label: item.sectorname,
+                      });
+                      sectorOnChangeHandler(item.sectorid, item.sectorname);
+                    }}
                     className={
                       sectorFilterData.sectorid === item.sectorid
                         ? styles.active

@@ -6,6 +6,7 @@ import styles from "./Indices.module.scss";
 import { getAllIndices } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "@/components/MarketStatus";
+import { trackingEvent } from "@/utils/ga";
 
 const IndicesClient = ({
   tableHeaderData = [],
@@ -46,6 +47,11 @@ const IndicesClient = ({
   const nseBseMenuSelect = useCallback((e: any) => {
     setProcessingLoader(true);
     const selectedMenu = e.target.textContent.toLowerCase();
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "page_cta_click",
+      event_label: selectedMenu,
+    });
     setSelectedExchange(selectedMenu);
   }, []);
 

@@ -2,6 +2,7 @@ import { formatNumber } from "@/utils";
 import styles from "./IndicesDetails.module.scss";
 import Link from "next/link";
 import React from "react";
+import { trackingEvent } from "@/utils/ga";
 const OtherIndicesCard = React.memo(({ data }: any) => {
   const trend =
     data.percentChange > 0 ? "up" : data.percentChange < 0 ? "down" : "neutral";
@@ -12,6 +13,13 @@ const OtherIndicesCard = React.memo(({ data }: any) => {
         href={`/markets/indices/${data.indexSeoName}`}
         target="_blank"
         title={data.indexName}
+        onClick={() => {
+          trackingEvent("et_push_event", {
+            event_category: "mercury_engagement",
+            event_action: "other_indices_click",
+            event_label: data.indexName,
+          });
+        }}
       >
         <span>{data.indexName}</span>
         <i className="eticon_caret_right"></i>

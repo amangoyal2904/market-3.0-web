@@ -117,11 +117,6 @@ const MarketFiltersTab = React.memo(
         setCheckedIndustryFilterItems(getValue);
         getIndustryFilterValue(getValue);
       }
-      trackingEvent("et_push_event", {
-        event_category: "mercury_engagement",
-        event_action: "industry_filter_applied",
-        event_label: name,
-      });
     };
     const updateTabsListDataHandler = async (updateData: any) => {
       const updatedOrder: any[] = [];
@@ -194,11 +189,6 @@ const MarketFiltersTab = React.memo(
       sectorname: string,
     ) => {
       const filterDataSet = { sectorid, sectorname };
-      trackingEvent("et_push_event", {
-        event_category: "mercury_engagement",
-        event_action: "sector_filter_applied",
-        event_label: sectorname,
-      });
       setSectorFilterData(filterDataSet);
       sectorFitlerHandlerChange(sectorid, sectorname);
       setSectorFilterShow(false);
@@ -206,11 +196,6 @@ const MarketFiltersTab = React.memo(
 
     const filterChangeHandler = (value: any, label: any) => {
       const filterDataSet = { value, label };
-      trackingEvent("et_push_event", {
-        event_category: "mercury_engagement",
-        event_action: "duration_filter_applied",
-        event_label: label,
-      });
       setDayFilterData(filterDataSet);
       dayFitlerHanlderChange(value, label);
       setDayFilterShow(false);
@@ -222,11 +207,6 @@ const MarketFiltersTab = React.memo(
       else document.body.style.overflow = "";
     };
     const handleChangeData = (id: any, name: string, selectedTab: string) => {
-      trackingEvent("et_push_event", {
-        event_category: "mercury_engagement",
-        event_action: "index_filter_applied",
-        event_label: name,
-      });
       setShowFilter(false);
       filterDataChange(id, name, selectedTab);
       document.body.style.overflow = "";
