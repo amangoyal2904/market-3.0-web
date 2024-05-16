@@ -14,7 +14,8 @@
 
     .title {
       color: #000;
-      font-size: 24px;
+      //font-size: 24px;
+      font-size: 2em;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
@@ -35,8 +36,8 @@
 
     .liveStatus {
       position: absolute;
-      top: 7px;
-      left: 35%;
+      top: 11px;
+      left: 15%;
     }
   }
 
@@ -45,7 +46,8 @@
 
     .title {
       color: #000;
-      font-size: 24px;
+      // font-size: 24px;
+      font-size: 1.6em;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
