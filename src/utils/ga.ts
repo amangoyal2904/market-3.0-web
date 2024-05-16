@@ -5,6 +5,7 @@ import { APP_ENV } from "@/utils/index";
 import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import grxMappingObj from "@/utils/grxMappingObj.json";
+import { usePathname } from "next/navigation";
 declare global {
   interface Window {
     trackingEvent: (type: string, gaData: object) => void;
@@ -230,7 +231,8 @@ export const getUserType = (permissionsArr) => {
 };
 
 export const getPageName = () => {
-  const pagePathName = window.location.pathname;
+  const pagePathName = window && window.location.pathname;
+  console.log("Router------>", pagePathName);
   let pageName = "";
   if (pagePathName.includes("/marketstats")) {
     pageName = "Mercury_MarketStats";
