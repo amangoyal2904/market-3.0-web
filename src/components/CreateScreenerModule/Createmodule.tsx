@@ -51,7 +51,7 @@ const ScreenerNameViewPopup = ({
                 value={name}
                 onChange={(e: any) => setName(e.target.value)}
                 placeholder="Enter a name..."
-                maxLength={70}
+                maxLength={25}
               />
             </div>
           </div>

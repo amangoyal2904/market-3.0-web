@@ -22,6 +22,8 @@ const LiveStreamPlay = (props: any) => {
   const [eventId, setEventId] = useState("");
   const [eventToken, setEventToken] = useState("");
   const [iframeURL, setIframeURL] = useState("");
+  const [followingData, setFollowingData] = useState<any>([]);
+  const [expertFollowers, setExpertFollowers] = useState("");
   const [impressionLabel, setImpressionLabel] = useState("");
   const utmSource = "?utm_source=MainHome&utm_medium=Self-Referrals";
   const iframeRef = useRef();
@@ -82,7 +84,6 @@ const LiveStreamPlay = (props: any) => {
       cache: "no-store",
     });
     const newsData = await response?.json();
-    console.log("@@@@-->res", apiUrl, response);
     return newsData;
   };
   const fetchToken = async () => {
@@ -130,7 +131,7 @@ const LiveStreamPlay = (props: any) => {
           const tokenValue = (response && response && response.token) || "";
           if (!tokenValue) throw response;
           setToken(tokenValue);
-          const url = `${(APIS_CONFIG as any)?.["SLIKE_CLEO_URL"][APP_ENV]}/#id=${eventId}&jwt=${tokenValue}&apikey=et-n9GgmFF518E5Bknb&qna=false&comments=true&screenshot=false&controls=true&headless=false&autoplay=2&ffsmobile=false&bgpause=false&log=0${!liveStatus ? "&dvr=true" : "&dvr=false"}`;
+          const url = `${(APIS_CONFIG as any)?.["SLIKE_CLEO_URL"][APP_ENV]}/#id=${eventId}&jwt=${tokenValue}&apikey=et-n9GgmFF518E5Bknb&qna=false&comments=false&screenshot=false&controls=true&headless=false&autoplay=2&ffsmobile=false&bgpause=false&log=0${!liveStatus ? "&dvr=true" : "&dvr=false"}`;
           setIframeURL(url);
         })
         .catch((e: any) => console.log("error in fetchToken", e));
@@ -180,9 +181,7 @@ const LiveStreamPlay = (props: any) => {
   const startFetching = () => {
     fetchList()
       .then((response: any) => {
-        // const { data = {} } = response;
         const { result = [] } = response;
-        console.log("@@@@--->", result);
         if (result.length) {
           setNewsData(result);
           prepareData(result[0]);
@@ -191,11 +190,56 @@ const LiveStreamPlay = (props: any) => {
       })
       .catch((e: any) => console.log("error in Athena fetchList", e));
   };
+  const fetchFollowingExperts = async () => {
+    try {
+      const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
+      const requestUrl = (APIS_CONFIG as any)?.["getFollowedExperts"][APP_ENV];
+      const followings = await Service.get({
+        url: requestUrl,
+        headers: {
+          Authorization: authorization,
+          "Content-Type": "application/json",
+          mode: "cors",
+        },
+        params: {},
+        cache: "no-store",
+      });
+      const followingsData = await followings?.json();
+      setFollowingData(followingsData);
+    } catch (e) {
+      console.log("Error in fetching following experts", e);
+    }
+  };
   const prepareData = (item: any) => {
     setActiveData(item);
     setEventId(item.eventId);
     setEventToken(item.eventToken);
     setLiveStatus(item.eventStatus == 3 ? true : false);
+    if (item.eventStatus == 3) {
+      fetchFollowingExperts();
+      fetchFollowingData(item);
+    }
+  };
+  const fetchFollowingData = async (item: any) => {
+    try {
+      const data = [
+        { prefDataVal: item.expertId, userSettingSubType: "Expert" },
+      ];
+      const apiUrl = (APIS_CONFIG as any)?.["expertFollower"][APP_ENV];
+      const response = await Service.post({
+        url: apiUrl,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+        params: {},
+        cache: "no-store",
+      });
+      const followingData = await response?.json();
+      setExpertFollowers(followingData?.prefDataValCountList[0]?.count);
+    } catch (e) {
+      console.log("Error in fetching following data", e);
+    }
   };
   useEffect(() => {
     startFetching();
@@ -226,8 +270,7 @@ const LiveStreamPlay = (props: any) => {
   //     }
   //     //grxEvent('event', {'event_category': 'ETLive-Core', 'event_action': 'et-main-hp-widget', 'event_label': label});
   //   }
-  console.log("@@@@newsData", newsData);
-  return newsData ? (
+  return newsData && liveStatus ? (
     <div className={styles.sliderContainer}>
       {newsData?.length ? (
         <LiveStreamPlayCards
@@ -237,24 +280,14 @@ const LiveStreamPlay = (props: any) => {
           onSwitching={onSwitching}
           currentSIndex={currentSIndex}
           onLoadIframe={onLoadIframe}
+          expertFollowers={expertFollowers}
+          followingData={followingData}
+          fetchFollowingExperts={fetchFollowingExperts}
         />
       ) : (
         ""
       )}
-
-      <div className={styles.sDetails}>
-        <div className={styles.currentSIcon}>
-          {newsData &&
-            newsData?.map((item: any, index: any) => {
-              return (
-                <div
-                  key={`slideIc${index}`}
-                  className={index == currentSIndex ? styles.activeIcon : ""}
-                />
-              );
-            })}
-        </div>
-      </div>
+      <h2 className={styles.heading}>Previous Active Streams</h2>
     </div>
   ) : (
     ""
