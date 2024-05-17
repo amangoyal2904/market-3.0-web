@@ -173,7 +173,11 @@ const IndicesDetailsOverview = React.memo(
           />
         </div>
         <div className={styles.bottomWidgets}>
-          <div className={styles.widget}>
+          <Link
+            href="/markets/stock-market-mood"
+            title={`${overviewData?.assetName} Advance/Decline`}
+            className={styles.widget}
+          >
             <div className="dflex align-item-center">
               <p className={styles.title}>Advance/Decline</p>
             </div>
@@ -209,7 +213,7 @@ const IndicesDetailsOverview = React.memo(
                   ${overviewData?.declinesPercentage && "%"}`}</span>
               </div>
             </div>
-          </div>
+          </Link>
           <div className={styles.widget}>
             <div className="dflex align-item-center">
               <p className={styles.title}>1D Range</p>

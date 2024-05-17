@@ -20,6 +20,7 @@ import {
 } from "@/components/MarketMood/config";
 import MarketMoodTabConfig from "@/components/MarketMood/tabConfig.json";
 import {
+  encodeHTML,
   fetchSelectedFilter,
   getAdvanceDeclineData,
   getPeriodicData,
@@ -46,6 +47,7 @@ const MarketMoodsClient = ({
 }: any) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, isPrime } = state.login;
+  const [activeFaqs, setActiveFaqs] = useState<number[]>([0]);
   const { countPercentage, duration, monthlyDaily } = state.MarketMoodStatus;
   const router = useRouter();
   const pathname = usePathname();
@@ -285,6 +287,26 @@ const MarketMoodsClient = ({
             close & no. of stocks closing below their previous low.
           </p>
         );
+    }
+  };
+
+  const handleFaqClick = (faq: any, index: number) => {
+    // If the clicked item is already active, remove it from activeFaqs
+    if (activeFaqs.includes(index)) {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "faq_collapsed",
+        event_label: faq?.ques,
+      });
+      setActiveFaqs(activeFaqs.filter((item) => item !== index));
+    } else {
+      // Otherwise, add it to activeFaqs
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "faq_expand",
+        event_label: faq?.ques,
+      });
+      setActiveFaqs([...activeFaqs, index]);
     }
   };
 
@@ -555,25 +577,39 @@ const MarketMoodsClient = ({
             </div>
           </>
         )}
-        <div id="faq" className={`${styles.faq} sections`} ref={contentRefs}>
+        <div className={`${styles.faqSection} sections`} ref={contentRefs}>
           <div className={styles.head}>Frequently Asked Questions</div>
-          {faqData.map((item: any, index: number) => {
-            faqMainEntity.push({
-              "@type": "Question",
-              name: item.ques,
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: item.ans,
-              },
-            });
+          <ul id={styles.faqList}>
+            {faqData.map((faq: any, index: number) => {
+              faqMainEntity.push({
+                "@type": "Question",
+                name: faq.ques,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: encodeHTML(faq.ans),
+                },
+              });
 
-            return (
-              <div className={styles.faqItem} key={index}>
-                <p className={styles.ques}>{item.ques}</p>
-                <p className={styles.ans}>{item.ans}</p>
-              </div>
-            );
-          })}
+              return (
+                <li
+                  key={index}
+                  className={`${styles.faq} ${activeFaqs.includes(index) ? styles.active : ""}`}
+                  onClick={() => handleFaqClick(faq, index)}
+                >
+                  <div className={styles.ques}>
+                    {faq.ques}
+                    <span className={styles.navigate}>
+                      <i className="eticon_caret_down"></i>
+                    </span>
+                  </div>
+                  <div
+                    className={styles.ans}
+                    dangerouslySetInnerHTML={{ __html: faq.ans }}
+                  ></div>
+                </li>
+              );
+            })}
+          </ul>
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
