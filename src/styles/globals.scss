@@ -510,3 +510,9 @@ table {
 .eticon_tick.bold {
   font-weight: 700;
 }
+
+@media screen and (max-width: 1024px) and (max-height: 600px) {
+  .customModule .moduleWrap {
+    margin-top: 40px;
+  }
+}

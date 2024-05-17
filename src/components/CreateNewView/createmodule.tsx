@@ -37,10 +37,11 @@ const NameViewComponent = ({
   const closeNameViewModule = () => {
     const viewScreenerName: any = screenerName.trim();
     if (viewScreenerName === "") {
-      closeViewNamePopup(false);
+      // closeViewNamePopup(false);
     } else {
-      createViewNameHandler(viewScreenerName);
+      //createViewNameHandler(viewScreenerName);
     }
+    closeViewNamePopup(false);
   };
   // const createViewHandler = () => {
   //   if (screenerName && screenerName !== "") {
