@@ -199,50 +199,43 @@ const BiggBullMostHeldTable = ({
                                 <i></i>
                                 <i></i>
                               </span>
-                              {showPopupIndex === index && (
-                                <div className={styles.popup}>
-                                  <div className={styles.popupContent}>
-                                    <span
-                                      className={styles.closeBtn}
-                                      onClick={() => setShowPopupIndex(null)}
-                                    ></span>
-                                    <div className={styles.contentWraper}>
-                                      {tdata?.investorsList.length > 0 &&
-                                        tdata?.investorsList
-                                          .slice(2, 6)
-                                          .map((list: any, index: number) => {
-                                            return (
-                                              <div
-                                                className={styles.userSec}
-                                                key={`-${index}--`}
+
+                              <div className={styles.popup}>
+                                <div className={styles.popupContent}>
+                                  <div className={styles.contentWraper}>
+                                    {tdata?.investorsList.length > 0 &&
+                                      tdata?.investorsList
+                                        .slice(2, 6)
+                                        .map((list: any, index: number) => {
+                                          return (
+                                            <div
+                                              className={styles.userSec}
+                                              key={`-${index}--`}
+                                            >
+                                              <Link
+                                                onClick={() =>
+                                                  gaTrackingInvestorNameClick(
+                                                    list.name,
+                                                  )
+                                                }
+                                                href={`/markets/top-india-investors-portfolio/${list?.sharkSeoName},expertid-${list?.sharkID}`}
+                                                className={styles.investNameImg}
                                               >
-                                                <Link
-                                                  onClick={() =>
-                                                    gaTrackingInvestorNameClick(
-                                                      list.name,
-                                                    )
-                                                  }
-                                                  href={`/markets/top-india-investors-portfolio/${list?.sharkSeoName},expertid-${list?.sharkID}`}
-                                                  className={
-                                                    styles.investNameImg
-                                                  }
-                                                >
-                                                  <img
-                                                    src={list.imageURL}
-                                                    width={28}
-                                                    height={28}
-                                                    alt={list.name}
-                                                    title={list.name}
-                                                  />
-                                                  <h4>{list.name}</h4>
-                                                </Link>
-                                              </div>
-                                            );
-                                          })}
-                                    </div>
+                                                <img
+                                                  src={list.imageURL}
+                                                  width={28}
+                                                  height={28}
+                                                  alt={list.name}
+                                                  title={list.name}
+                                                />
+                                                <h4>{list.name}</h4>
+                                              </Link>
+                                            </div>
+                                          );
+                                        })}
                                   </div>
                                 </div>
-                              )}
+                              </div>
                             </li>
                           )}
                         </ul>
