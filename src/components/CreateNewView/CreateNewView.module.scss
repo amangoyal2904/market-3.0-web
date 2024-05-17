@@ -519,7 +519,7 @@
 @media (max-height: 650px) {
   .filterSec {
     .rightSec {
-      height: 60vh;
+      height: 55vh;
       min-height: auto;
     }
   }
@@ -535,8 +535,24 @@
     .leftSec {
       width: 220px;
     }
-    .rightSec{
+    .rightSec {
       width: calc(100% - 220px);
     }
+  }
+}
+
+@media screen and (max-width: 1024px) and (max-height: 600px) {
+  .footer {
+    padding: 16px;
+    .updateBtn {
+      padding: 8px 12px;
+    }
+  }
+  .filterSec,
+  .rightSec {
+    height: 55vh;
+  }
+  .viewList {
+    max-height: 240px;
   }
 }

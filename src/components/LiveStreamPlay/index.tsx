@@ -73,7 +73,7 @@ const LiveStreamPlay = (props: any) => {
       pageNumber: 1,
       pageSize: 5,
     };
-    const apiUrl = (APIS_CONFIG as any)?.["ATHENA"][APP_ENV] + "/getEventData";
+    const apiUrl = (APIS_CONFIG as any)?.liveStream[APP_ENV] + "/getEventData";
     const response = await Service.post({
       url: apiUrl,
       headers: {
@@ -88,7 +88,7 @@ const LiveStreamPlay = (props: any) => {
   };
   const fetchToken = async () => {
     const requestUrl =
-      (APIS_CONFIG as any)?.["ATHENA"][APP_ENV] + "/generateToken";
+      (APIS_CONFIG as any)?.liveStream[APP_ENV] + "/generateToken";
     const name =
       window.objUser && isLogin
         ? window.objUser?.info?.firstName
@@ -182,9 +182,12 @@ const LiveStreamPlay = (props: any) => {
     fetchList()
       .then((response: any) => {
         const { result = [] } = response;
-        if (result.length) {
-          setNewsData(result);
-          prepareData(result[0]);
+        if (result?.length) {
+          const filteredEvents = result?.filter(
+            (event: { eventStatus: number }) => event.eventStatus === 3,
+          );
+          setNewsData(filteredEvents);
+          prepareData(filteredEvents[0]);
           // prepareImpression(result[0]);
         }
       })

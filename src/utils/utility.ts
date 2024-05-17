@@ -176,11 +176,11 @@ export const fnGenerateMetaData = (meta?: any) => {
       images: ["https://img.etimg.com/photo/msid-65498029/et-logo.jpg"],
     },
     robots: {
-      index: meta?.index,
-      follow: meta?.index,
+      index: meta?.index || true,
+      follow: meta?.index || true,
       googleBot: {
-        index: meta?.index,
-        follow: meta?.index,
+        index: meta?.index || true,
+        follow: meta?.index || true,
       },
     },
     icons: {
@@ -1185,4 +1185,13 @@ export const getBigbullTopTabData = (slug: any) => {
 export const removeBackSlash = (val: string) => {
   val = val && typeof val != "object" ? val.replace(/\\/g, "") : "";
   return val;
+};
+
+export const encodeHTML = (html: any) => {
+  return html
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 };

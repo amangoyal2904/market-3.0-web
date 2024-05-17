@@ -378,6 +378,11 @@
       padding: 0 4px;
       margin: 0;
       position: relative;
+      &:hover {
+        .popup {
+          display: block;
+        }
+      }
       .iconBtn {
         cursor: pointer;
         flex-direction: column;
@@ -392,6 +397,7 @@
         }
       }
       .popup {
+        display: none;
         padding: 10px;
         background: $white;
         box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25);
@@ -406,17 +412,7 @@
 }
 .popupContent {
   position: relative;
-  .closeBtn {
-    position: absolute;
-    right: -10px;
-    top: -10px;
-    background: url("/img/closeModule.svg") no-repeat 0 0;
-    display: inline-block;
-    vertical-align: top;
-    width: 12px;
-    height: 12px;
-    cursor: pointer;
-  }
+
   .contentWraper {
     margin: 0;
     display: flex;

@@ -8,7 +8,7 @@ import GLOBAL_CONFIG from "@/network/global_config.json";
 
 const fetchLiveStreamData = async () => {
   try {
-    const apiUrl = (APIS_CONFIG as any)?.liveStream[APP_ENV];
+    const apiUrl = (APIS_CONFIG as any)?.liveStream[APP_ENV] + "/getEventData";
     const conditions = [
       { fieldName: "eventStatus", value: [3, 5], operation: "in" },
       {
@@ -47,6 +47,9 @@ const fetchLiveStreamData = async () => {
 
 const LiveStreamWidget = async () => {
   const liveStreamData = await fetchLiveStreamData();
+  const previousLiveEvents = liveStreamData?.filter(
+    (event: { eventStatus: number }) => event.eventStatus !== 3,
+  );
   return (
     <div className="sectionWrapper">
       <HeadingHome
@@ -54,7 +57,7 @@ const LiveStreamWidget = async () => {
         url={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/etmarkets-livestream`}
       />
       <LiveStreamPlay />
-      <LiveStreamSlider liveStreamData={liveStreamData} />
+      <LiveStreamSlider liveStreamData={previousLiveEvents} />
       <ViewAllLink
         text="See All Live Streams"
         link={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}etmarkets-livestream`}

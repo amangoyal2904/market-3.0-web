@@ -291,7 +291,7 @@ const IndicesConstituents = React.memo(
             handlePageChange={onPaginationChange}
             processingLoader={processingLoader}
             isprimeuser={isPrime}
-            l1NavTracking="Markets"
+            l1NavTracking="Markets LIVE"
             l2NavTracking="Indices"
             l3NavTracking={`${indexName} Constituents Widget`}
           />

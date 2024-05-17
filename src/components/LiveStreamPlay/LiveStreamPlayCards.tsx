@@ -77,7 +77,7 @@ const LiveStreamCards = ({
   };
 
   const checkIfAlreadyFollowed = (id: any) => {
-    for (let i = 0; i < followingData.length; i++) {
+    for (let i = 0; i < followingData?.length; i++) {
       if (followingData[i].id === id) {
         return true;
       }
@@ -159,7 +159,7 @@ const LiveStreamPlayCards = ({
   onSwitching,
   onLoadIframe,
   expertFollowers,
-  followingData,
+  followingData = [],
   fetchFollowingExperts,
 }: any) => {
   return (

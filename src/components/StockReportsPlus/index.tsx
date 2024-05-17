@@ -96,7 +96,9 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
   const isLoginUser = isLogin || false;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [processingLoader, setProcessingLoader] = useState(false);
-  const [activeTab, setActiveTab] = useState<any>(tabNames[0]);
+  const [activeTab, setActiveTab] = useState<any>(
+    tabNames && tabNames?.length ? tabNames[0] : [],
+  );
   const [activeSlides, setActiveSlides] = useState<any[]>(srResult?.dataList);
   const [screenerDetail, setScreenerDetail] = useState(
     srResult?.screenerDetail,

@@ -186,8 +186,8 @@ const BigBullPage = async ({ params }: any) => {
       position: "All",
       filterType: "index",
       filterValue: [],
-      sortBy: "companyName",
-      orderBy: "ASC",
+      sortBy: "qtrDate+absHoldingPercentChange",
+      orderBy: "DESC",
       pageNo: 1,
       pageSize: 25,
     };

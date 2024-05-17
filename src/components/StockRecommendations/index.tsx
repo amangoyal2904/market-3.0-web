@@ -56,7 +56,9 @@ const StockRecommendations: React.FC<Props> = ({
       },
     },
   ];
-  const [activeTab, setActiveTab] = useState(tabNames[0]);
+  const [activeTab, setActiveTab] = useState(
+    tabNames && tabNames?.length ? tabNames[0] : [],
+  );
   const [stockData, setStockData] = useState<any[]>(
     stockRecoResult?.recoData[0]?.data,
   );
