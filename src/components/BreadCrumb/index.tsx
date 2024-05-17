@@ -163,6 +163,17 @@ const getLiPath = (router: string, pagePath: string) => {
       showCurrLi: true,
       listItemSchema: "",
     };
+  } else if (router == "/markets/stock-market-mood") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Stock Market Mood
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
   } else if (router == "/markets/fii-dii-activity") {
     return {
       showNextLi: false,
