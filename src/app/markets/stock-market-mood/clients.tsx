@@ -23,6 +23,7 @@ import {
   encodeHTML,
   fetchSelectedFilter,
   getAdvanceDeclineData,
+  getOverviewData,
   getPeriodicData,
 } from "@/utils/utility";
 import Loader from "@/components/Loader";
@@ -45,18 +46,17 @@ const MarketMoodsClient = ({
   periodic = {},
   allFilters = {},
 }: any) => {
-  const { state, dispatch } = useStateContext();
+  const { state } = useStateContext();
   const { isLogin, isPrime } = state.login;
   const [activeFaqs, setActiveFaqs] = useState<number[]>([0]);
-  const { countPercentage, duration, monthlyDaily } = state.MarketMoodStatus;
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const [countPercentage, setCountPercentage] = useState("percentage");
+  const [duration, setDuration] = useState("1M");
+  const [monthlyDaily, setMonthlyDaily] = useState("daily");
   const [overviewData, setOverviewData] = useState<any>(overview);
   const [advanceDeclineData, setAdvanceDeclineData] =
     useState<any>(advanceDecline);
   const [periodicData, setPeriodicData] = useState<any>(periodic);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [showAllOverview, setShowAllOverview] = useState<boolean>(false);
   const [showAllAdvanceDecline, setShowAllAdvanceDecline] =
     useState<boolean>(false);
@@ -64,11 +64,20 @@ const MarketMoodsClient = ({
   const [activeItem, setActiveItem] = useState<string>("");
   const [activeItemFromClick, setActiveItemFromClick] = useState<string>("");
   const [showFilter, setShowFilter] = useState(false);
+  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const contentRefs = useRef<HTMLDivElement>(null);
   const activeListItemRef = useRef<HTMLLIElement>(null);
-  const niftyFilterData = useMemo(() => selectedFilter, [selectedFilter]);
   const allFilterData = useMemo(() => allFilters, [allFilters]);
   const { debounce } = useDebounce();
+
+  const fetchData = async (indexId: number) => {
+    return Promise.all([
+      getOverviewData(indexId, 1),
+      getAdvanceDeclineData(indexId, monthlyDaily, 1),
+      getPeriodicData(indexId, duration, 1),
+    ]);
+  };
+
   const updatePeriodic = async (duration: string) => {
     const newPeriodicData = await getPeriodicData(
       niftyFilterData.indexId,
@@ -99,9 +108,14 @@ const MarketMoodsClient = ({
     setLoading(true);
     setShowFilter(false);
     const selectedFilter = await fetchSelectedFilter(id);
-    const newUrl = "/markets/stock-market-mood/" + selectedFilter.seoname;
-    router.prefetch(newUrl);
-    router.push(newUrl, { scroll: false });
+    const [overviewData, advanceDeclineData, periodicData] = await fetchData(
+      selectedFilter.indexId,
+    );
+    setNiftyFilterData(selectedFilter);
+    setOverviewData(overviewData);
+    setAdvanceDeclineData(advanceDeclineData);
+    setPeriodicData(periodicData);
+    setLoading(false);
   };
 
   const handleItemClick = useCallback((item: string) => {
@@ -115,12 +129,7 @@ const MarketMoodsClient = ({
       event_action: "page_cta_click",
       event_label: widgetType,
     });
-    dispatch({
-      type: "UPDATE_VIEWTYPES",
-      payload: {
-        countPercentage: widgetType,
-      },
-    });
+    setCountPercentage(widgetType);
   }, []);
 
   const showFilterMenu = useCallback((value: boolean) => {
@@ -128,39 +137,29 @@ const MarketMoodsClient = ({
   }, []);
 
   const handleDuration = useCallback(
-    async (item: string) => {
+    async (durationOpts: string) => {
       trackingEvent("et_push_event", {
         event_category: "mercury_engagement",
         event_action: "page_cta_click",
-        event_label: item,
+        event_label: durationOpts,
       });
       setLoading(true);
-      dispatch({
-        type: "UPDATE_VIEWTYPES",
-        payload: {
-          duration: item,
-        },
-      });
-      updatePeriodic(item);
+      setDuration(durationOpts);
+      updatePeriodic(durationOpts);
       setLoading(false); // Set loading to false after data is fetched
     },
     [niftyFilterData],
   );
 
   const handleMonthlyDaily = useCallback(
-    async (item: string) => {
+    async (monthlyDailyOpts: string) => {
       trackingEvent("et_push_event", {
         event_category: "mercury_engagement",
         event_action: "page_cta_click",
-        event_label: item,
+        event_label: monthlyDailyOpts,
       });
-      dispatch({
-        type: "UPDATE_VIEWTYPES",
-        payload: {
-          monthlyDaily: item,
-        },
-      });
-      updateAdvanceDecline(item);
+      setMonthlyDaily(monthlyDailyOpts);
+      updateAdvanceDecline(monthlyDailyOpts);
     },
     [niftyFilterData],
   );
@@ -247,17 +246,6 @@ const MarketMoodsClient = ({
     }
   }, [activeItemFromClick, scrollToActiveContent]);
 
-  useEffect(() => {
-    if (duration != "1M") {
-      updatePeriodic(duration);
-    }
-    if (monthlyDaily != "daily") {
-      updateAdvanceDecline(monthlyDaily);
-    }
-    window.scrollTo(0, 0);
-    setLoading(false);
-  }, [pathname, searchParams]);
-
   const faqMainEntity: any[] = [];
   const faqSchema = {
     "@context": "https://schema.org",
@@ -338,9 +326,7 @@ const MarketMoodsClient = ({
           </span>
         </div>
         <div className={styles.prime}>ETPrime</div>
-        <h1
-          className={styles.heading}
-        >{`Stock Market Mood - ${niftyFilterData.name}`}</h1>
+        <h1 className={styles.heading}>Stock Market Mood</h1>
       </div>
       <p className={styles.desc}>
         Know the market sentiments. Check the percentage or count of stocks in
@@ -577,7 +563,11 @@ const MarketMoodsClient = ({
             </div>
           </>
         )}
-        <div className={`${styles.faqSection} sections`} ref={contentRefs}>
+        <div
+          id="faq"
+          className={`${styles.faqSection} sections`}
+          ref={contentRefs}
+        >
           <div className={styles.head}>Frequently Asked Questions</div>
           <ul id={styles.faqList}>
             {faqData.map((faq: any, index: number) => {
