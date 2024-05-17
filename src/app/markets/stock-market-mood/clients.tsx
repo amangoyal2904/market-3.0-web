@@ -30,7 +30,7 @@ import { useStateContext } from "@/store/StateContext";
 import Blocker from "@/components/Blocker";
 import dynamic from "next/dynamic";
 import useDebounce from "@/hooks/useDebounce";
-import { goToPlansPage, redirectToPlanPage, trackingEvent } from "@/utils/ga";
+import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 
 const StockFilterNifty = dynamic(
   () => import("@/components/StockFilterNifty"),
