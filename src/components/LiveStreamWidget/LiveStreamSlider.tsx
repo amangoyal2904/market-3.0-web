@@ -33,23 +33,23 @@ const LiveStreamSlider = ({ liveStreamData }: any) => {
       },
     },
   ];
-  return (
-    liveStreamData?.length && (
-      <div className={styles.liveStreamWrapper}>
-        <SlickSlider
-          slides={liveStreamData?.map((slides: any, index: any) => ({
-            content: <LiveStreamCards data={slides} index={index} />,
-          }))}
-          key={`liveStreamSlider}`}
-          sliderId={`slider-liveStream`}
-          slidesToShow={5}
-          slidesToScroll={5}
-          rows={1}
-          topSpaceClass="liveStream"
-          responsive={responsive}
-        />
-      </div>
-    )
+  return liveStreamData?.length ? (
+    <div className={styles.liveStreamWrapper}>
+      <SlickSlider
+        slides={liveStreamData?.map((slides: any, index: any) => ({
+          content: <LiveStreamCards data={slides} index={index} />,
+        }))}
+        key={`liveStreamSlider}`}
+        sliderId={`slider-liveStream`}
+        slidesToShow={5}
+        slidesToScroll={5}
+        rows={1}
+        topSpaceClass="liveStream"
+        responsive={responsive}
+      />
+    </div>
+  ) : (
+    ""
   );
 };
 

@@ -166,8 +166,8 @@
     "production": "https://screener.indiatimes.com/screener/periodic"
   },
   "liveStream": {
-    "development": "https://json.bselivefeeds.indiatimes.com/ET_WebCast/getEventData",
-    "production": "https://etwebcast.indiatimes.com/ET_WebCast/getEventData"
+    "development": "https://json.bselivefeeds.indiatimes.com/ET_WebCast",
+    "production": "https://etwebcast.indiatimes.com/ET_WebCast"
   },
   "MARKETSTATS_INTRADAY_NEXTJS": {
     "development": "http://localhost:3009/api/intradaystats",
@@ -438,10 +438,6 @@
   "FIIDIICash": {
     "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash"
-  },
-  "ATHENA": {
-    "development": "https://etwebcast.indiatimes.com/ET_WebCast",
-    "production": "https://etwebcast.indiatimes.com/ET_WebCast"
   },
   "SLIKE_CLEO_URL": {
     "production": "https://cpl.sli.ke",

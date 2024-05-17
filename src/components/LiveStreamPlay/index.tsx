@@ -73,7 +73,7 @@ const LiveStreamPlay = (props: any) => {
       pageNumber: 1,
       pageSize: 5,
     };
-    const apiUrl = (APIS_CONFIG as any)?.["ATHENA"][APP_ENV] + "/getEventData";
+    const apiUrl = (APIS_CONFIG as any)?.liveStream[APP_ENV] + "/getEventData";
     const response = await Service.post({
       url: apiUrl,
       headers: {
@@ -88,7 +88,7 @@ const LiveStreamPlay = (props: any) => {
   };
   const fetchToken = async () => {
     const requestUrl =
-      (APIS_CONFIG as any)?.["ATHENA"][APP_ENV] + "/generateToken";
+      (APIS_CONFIG as any)?.liveStream[APP_ENV] + "/generateToken";
     const name =
       window.objUser && isLogin
         ? window.objUser?.info?.firstName
