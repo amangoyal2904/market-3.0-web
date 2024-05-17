@@ -68,7 +68,6 @@ const SearchData: React.FC<Props> = ({
       );
       setCompanyNonListed(filteredNonListed);
       setIndex(filterData(data, "index"));
-      console.log("Indices Data---> ", index);
       const filterPrimeData = newsData.filter((item: any) =>
         item.link.includes("/prime/"),
       );
