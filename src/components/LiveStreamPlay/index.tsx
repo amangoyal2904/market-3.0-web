@@ -183,8 +183,11 @@ const LiveStreamPlay = (props: any) => {
       .then((response: any) => {
         const { result = [] } = response;
         if (result?.length) {
-          setNewsData(result);
-          prepareData(result[0]);
+          const filteredEvents = result?.filter(
+            (event: { eventStatus: number }) => event.eventStatus === 3,
+          );
+          setNewsData(filteredEvents);
+          prepareData(filteredEvents[0]);
           // prepareImpression(result[0]);
         }
       })
