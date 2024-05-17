@@ -306,12 +306,25 @@ export const getStockUrl = (
       "/stocks/companyid-" +
       id +
       ".cms";
-    if (stockType != "equity" && stockType !== "" && stockType !== "company")
+    if (
+      stockType != "equity" &&
+      stockType !== "" &&
+      stockType !== "company" &&
+      stockType.toLowerCase() !== "etf"
+    )
       stockUrl = stockUrl + "?companytype=" + stockType?.toLowerCase();
 
     if (subType == "NonList") {
       stockUrl =
         (APIS_CONFIG as any)?.DOMAIN[APP_ENV] + "company/" + seoName + "/" + id;
+    }
+    if (stockType == "ETF") {
+      stockUrl =
+        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        seoName +
+        "/mffactsheet/schemeid-" +
+        id +
+        ".cms";
     }
     return stockUrl;
   }
