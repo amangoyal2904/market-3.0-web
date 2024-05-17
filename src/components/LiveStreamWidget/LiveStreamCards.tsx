@@ -1,6 +1,9 @@
 "use client";
 import Share from "../Share";
 import styles from "./Livestream.module.scss";
+import { APP_ENV } from "@/utils";
+import GLOBAL_CONFIG from "@/network/global_config.json";
+
 export const LiveStreamCards = ({ data }: any) => {
   const getHours = (timestamp: number) => {
     const currentTimestamp = new Date().getTime();

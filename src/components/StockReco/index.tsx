@@ -1,7 +1,7 @@
 import styles from "./StockReco.module.scss"; // Import your CSS styles
 import WatchlistAddition from "../WatchlistAddition";
 import Link from "next/link";
-import { formatNumber } from "@/utils";
+import { formatNumber, APP_ENV } from "@/utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 
@@ -149,7 +149,7 @@ const StockComponent = ({
             <h2 title={data.companyName} className={styles.stocksTitle}>
               <Link
                 target="_blank"
-                href={`https://economictimes.indiatimes.com/${data.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${data.companyId}.cms`}
+                href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}${data.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${data.companyId}.cms`}
                 className="linkHover"
                 onClick={() => {
                   trackingEvent("et_push_event", {

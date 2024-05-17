@@ -15,6 +15,7 @@ import FooterList from "./FooterList";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import service from "@/network/service";
+import GLOBAL_CONFIG from "@/network/global_config.json";
 
 export const Footer = async () => {
   // =====  Get Left Nav Data =======
@@ -53,111 +54,179 @@ export const Footer = async () => {
           <p>BROWSE COMPANIES:</p>
           <div className={styles.browseAll}>
             <a
-              href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/a"
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/a`}
               title="A"
             >
               A
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/b">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/b`}
+            >
               B
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/c">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/c`}
+            >
               C
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/d">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/d`}
+            >
               D
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/e">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/e`}
+            >
               E
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/f">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/f`}
+            >
               F
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/g">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/g`}
+            >
               G
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/h">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/h`}
+            >
               H
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/i">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/i`}
+            >
               I
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/j">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/j`}
+            >
               J
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/k">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/k`}
+            >
               K
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/l">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/l`}
+            >
               L
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/m">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/m`}
+            >
               M
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/n">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/n`}
+            >
               N
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/o">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/o`}
+            >
               O
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/p">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/p`}
+            >
               P
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/q">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/q`}
+            >
               Q
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/r">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/r`}
+            >
               R
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/s">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/s`}
+            >
               S
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/t">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/t`}
+            >
               T
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/u">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/u`}
+            >
               U
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/v">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/v`}
+            >
               V
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/w">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/w`}
+            >
               W
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/x">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/x`}
+            >
               X
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/y">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/y`}
+            >
               Y
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/z">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/z`}
+            >
               Z
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/numeric-1">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-1`}
+            >
               1
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/numeric-2">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-2`}
+            >
               2
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/numeric-3">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-3`}
+            >
               3
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/numeric-4">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-4`}
+            >
               4
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/numeric-5">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-5`}
+            >
               5
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/numeric-6">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-6`}
+            >
               6
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/numeric-7">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-7`}
+            >
               7
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/numeric-8">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-8`}
+            >
               8
             </a>
-            <a href="https://economictimes.indiatimes.com/markets/stocks/stock-quotes/numeric-9">
+            <a
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-9`}
+            >
               9
             </a>
           </div>
@@ -212,7 +281,7 @@ export const Footer = async () => {
               />
             </a>
             <a
-              href="https://economictimes.indiatimes.com/rss.cms"
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}rss.cms`}
               target="_blank"
               title="RSS"
             >
@@ -262,7 +331,7 @@ export const Footer = async () => {
         <div className={styles.alignRight}>
           <div className={styles.subscribe}>
             <a
-              href="https://economictimes.indiatimes.com/subscription"
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}subscription`}
               target="_blank"
               title="subscribe to our newsletter"
             >
@@ -280,7 +349,7 @@ export const Footer = async () => {
           </div>
           <div className={styles.etprime}>
             <a
-              href="https://economictimes.indiatimes.com/prime?utm_source=economictimes.indiatimes.com&amp;utm_medium=footer&amp;utm_campaign=ETPrimedistribution"
+              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}prime?utm_source=economictimes.indiatimes.com&utm_medium=footer&utm_campaign=ETPrimedistribution`}
               aria-label="ET Prime"
               target="_blank"
               title="ET Prime"
