@@ -227,6 +227,14 @@ const MarketFiltersTab = React.memo(
       setOpenPersonaliseModal(value);
       document.body.style.overflow = "";
     };
+    const createPersonalizeModulehandler = () => {
+      setOpenPersonaliseCreateModal(true);
+      document.body.style.overflow = "hidden";
+    };
+    const closePersonalizeModulehandler = () => {
+      setOpenPersonaliseCreateModal(false);
+      document.body.style.overflow = "";
+    };
     useEffect(() => {
       if (showIndexFilter) {
         filterApiCall();
@@ -373,7 +381,7 @@ const MarketFiltersTab = React.memo(
             data={personaliseDataListItem}
             setOpenPersonaliseModal={setOpenPersonaliseModalHandler}
             updateTabsListDataHandler={updateTabsListDataHandler}
-            createNewViewHandler={setOpenPersonaliseCreateModal}
+            createNewViewHandler={createPersonalizeModulehandler}
             loading={loading}
             setloading={setLoading}
           />
@@ -382,7 +390,7 @@ const MarketFiltersTab = React.memo(
         )}
         {openPersonaliseCreateModal ? (
           <CreateNewViewComponent
-            closePopCreateView={setOpenPersonaliseCreateModal}
+            closePopCreateView={closePersonalizeModulehandler}
             onPersonalizeHandler={onPersonalizeHandler}
             editmode={editMode}
             removePersonaliseView={removePersonaliseView}
