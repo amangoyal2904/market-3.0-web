@@ -4,6 +4,7 @@ import LiveStreamSlider from "./LiveStreamSlider";
 import ViewAllLink from "../ViewAllLink";
 import LiveStreamPlay from "../LiveStreamPlay";
 import HeadingHome from "../ViewAllLink/HeadingHome";
+import GLOBAL_CONFIG from "@/network/global_config.json";
 
 const fetchLiveStreamData = async () => {
   try {
@@ -56,7 +57,7 @@ const LiveStreamWidget = async () => {
       <LiveStreamSlider liveStreamData={liveStreamData} />
       <ViewAllLink
         text="See All Live Streams"
-        link="https://economictimes.indiatimes.com/etmarkets-livestream"
+        link={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}etmarkets-livestream`}
       />
     </div>
   );

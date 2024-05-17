@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "./TextBottom.module.scss";
+import { APP_ENV } from "@/utils";
+import GLOBAL_CONFIG from "@/network/global_config.json";
 
 interface Props {
   indicesName: string;
@@ -173,7 +175,7 @@ const TextBottom: React.FC<Props> = ({ indicesName }) => {
                     <a
                       className={styles.semibold}
                       target="_blank"
-                      href="https://economictimes.indiatimes.com/markets/stocks/news/what-is-share-market/articleshow/59531308.cms"
+                      href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/news/what-is-share-market/articleshow/59531308.cms`}
                     >
                       What is share market?
                     </a>
@@ -195,7 +197,7 @@ const TextBottom: React.FC<Props> = ({ indicesName }) => {
                     <a
                       className={styles.semibold}
                       target="_blank"
-                      href="https://economictimes.indiatimes.com/markets/stocks/news/how-to-buy-shares/articleshow/59531362.cms"
+                      href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/news/how-to-buy-shares/articleshow/59531362.cms`}
                     >
                       How to buy shares?
                     </a>
@@ -216,7 +218,7 @@ const TextBottom: React.FC<Props> = ({ indicesName }) => {
                     <a
                       className={styles.semibold}
                       target="_blank"
-                      href="https://economictimes.indiatimes.com/markets/stocks/news/how-can-i-invest-in-share-market/articleshow/59530915.cms"
+                      href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/news/how-can-i-invest-in-share-market/articleshow/59530915.cms`}
                     >
                       How can I invest in share market?
                     </a>
@@ -238,7 +240,7 @@ const TextBottom: React.FC<Props> = ({ indicesName }) => {
                     <a
                       className={styles.semibold}
                       target="_blank"
-                      href="https://economictimes.indiatimes.com/markets/stocks/news/how-can-i-start-investing-in-financial-market-in-india/articleshow/59531261.cms"
+                      href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/news/how-can-i-start-investing-in-financial-market-in-india/articleshow/59531261.cms`}
                     >
                       How can I start investing in financial market in India?
                     </a>
@@ -260,7 +262,7 @@ const TextBottom: React.FC<Props> = ({ indicesName }) => {
                     <a
                       className={styles.semibold}
                       target="_blank"
-                      href="https://economictimes.indiatimes.com/markets/stocks/news/how-to-invest-in-dividend-stocks/articleshow/59646546.cms"
+                      href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/news/how-to-invest-in-dividend-stocks/articleshow/59646546.cms`}
                     >
                       How to invest in dividend stocks?
                     </a>
@@ -283,7 +285,7 @@ const TextBottom: React.FC<Props> = ({ indicesName }) => {
                     <a
                       className={styles.semibold}
                       target="_blank"
-                      href="https://economictimes.indiatimes.com/markets/stocks/news/all-you-need-to-know-about-analyst-ratings/articleshow/59802338.cms"
+                      href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/news/all-you-need-to-know-about-analyst-ratings/articleshow/59802338.cms`}
                     >
                       How to read analyst ratings of stocks?
                     </a>

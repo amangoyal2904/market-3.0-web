@@ -16,6 +16,7 @@ import { Metadata } from "next";
 import Footer from "@/components/Footer";
 import { PreloadResources } from "@/components/preloadResources";
 import { Toaster } from "react-hot-toast";
+import GLOBAL_CONFIG from "@/network/global_config.json";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -52,7 +53,7 @@ const webSchema = {
   "@context": "https://schema.org",
   "@type": "NewsMediaOrganization",
   name: "Economic Times",
-  url: "https://economictimes.indiatimes.com/",
+  url: (GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"],
   logo: {
     "@type": "ImageObject",
     url: "https://img.etimg.com/thumb/msid-76939477,width-600,height-60,quality-100/economictimes.jpg",

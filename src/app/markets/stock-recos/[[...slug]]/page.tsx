@@ -22,7 +22,12 @@ import { Metadata, ResolvingMetadata } from "next";
 import BreadCrumb from "@/components/BreadCrumb";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 
-const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
+const StockRecosMeta = ({
+  activeApi,
+  niftyFilterData,
+  slug,
+  recosDetailResult,
+}: any) => {
   const filterName =
     niftyFilterData.name == "All Stocks" ? "all" : niftyFilterData.name;
   try {
@@ -177,7 +182,9 @@ const StockRecosMeta = (activeApi: any, niftyFilterData: any, slug: any) => {
               <span>Brokerages</span>
               <span className={styles.pipe}> | </span>
               <span>
-                {fundHouseInfo.fundHounseName} {slug?.[2]}{" "}
+                {recosDetailResult?.recoData[0]?.topSection?.organisation ||
+                  fundHouseInfo.fundHounseName}{" "}
+                {slug?.[2]}{" "}
                 {niftyFilterData.name != "All Stocks"
                   ? " in " + niftyFilterData.name
                   : ""}
@@ -285,7 +292,11 @@ export async function generateMetadata(
         : activeObj[0]?.apiType;
   };
 
-  const metaDetail = StockRecosMeta(getApiType(), niftyFilterData, slug);
+  const metaDetail = StockRecosMeta({
+    activeApi: getApiType(),
+    niftyFilterData,
+    slug,
+  });
   const meta = {
     title: metaDetail.title,
     desc: metaDetail.desc,
@@ -392,9 +403,23 @@ export default async function stocksrecos({
     <>
       <div className={styles.recosPageWrap}>
         <div className={styles.recosHeadWrap}>
-          {StockRecosMeta(getApiType(), selectedFilter, slug).pageTitle}
+          {
+            StockRecosMeta({
+              activeApi: getApiType(),
+              niftyFilterData: selectedFilter,
+              slug,
+              recosDetailResult,
+            }).pageTitle
+          }
           <p className={styles.desc}>
-            {StockRecosMeta(getApiType(), selectedFilter, slug).pageDesc}
+            {
+              StockRecosMeta({
+                activeApi: getApiType(),
+                niftyFilterData: selectedFilter,
+                slug,
+                recosDetailResult,
+              }).pageDesc
+            }
           </p>
         </div>
         <StockRecosListing
