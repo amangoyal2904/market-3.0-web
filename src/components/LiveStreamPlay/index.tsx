@@ -182,7 +182,7 @@ const LiveStreamPlay = (props: any) => {
     fetchList()
       .then((response: any) => {
         const { result = [] } = response;
-        if (result.length) {
+        if (result?.length) {
           setNewsData(result);
           prepareData(result[0]);
           // prepareImpression(result[0]);
