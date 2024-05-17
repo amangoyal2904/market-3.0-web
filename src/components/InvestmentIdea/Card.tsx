@@ -1,19 +1,20 @@
 "use client";
+import Link from "next/link";
 import styles from "./InvestmentIdea.module.scss";
-import { ga4withlink } from "@/utils/ga";
+import { trackingEvent } from "@/utils/ga";
 
 const Card = ({ data, index }: any) => {
   return (
-    <a
+    <Link
       href="#"
       className={`${styles.card}`}
       title={data?.title}
       onClick={() =>
-        ga4withlink(
-          "investment_ideas_clicked",
-          `${index} ${data?.title}`,
-          data?.url,
-        )
+        trackingEvent("et_push_event", {
+          event_category: "mercury_engagement",
+          event_action: "investment_ideas_clicked",
+          event_label: `${index} ${data?.title}`,
+        })
       }
     >
       <img
@@ -24,7 +25,7 @@ const Card = ({ data, index }: any) => {
         decoding="async"
       />
       <h2 className={styles.cardTitle}>{data?.title}</h2>
-    </a>
+    </Link>
   );
 };
 

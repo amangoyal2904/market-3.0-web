@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./MarketTable.module.scss";
 import { dateFormat } from "@/utils";
-import { goToPlansPage } from "@/utils/ga";
+import { goToPlansPage, redirectToPlanPage, trackingEvent } from "@/utils/ga";
 import Image from "next/image";
 
 const ScrollableTable = React.memo((props: any) => {
@@ -24,6 +24,9 @@ const ScrollableTable = React.memo((props: any) => {
     setVerticalScrollEnabled,
     setScrollableTableRef,
     verticalScrollEnabled,
+    objTracking,
+    setLeftScrollEnabled,
+    setRightScrollEnabled,
   } = props || {};
   const {
     showFilterInput = true,
@@ -48,10 +51,31 @@ const ScrollableTable = React.memo((props: any) => {
         scrollableTableRef.current.scrollWidth >
           scrollableTableRef.current.clientWidth,
       );
+      setRightScrollEnabled(
+        scrollableTableRef.current.scrollWidth >
+          scrollableTableRef.current.clientWidth,
+      );
+      setLeftScrollEnabled(scrollableTableRef.current?.scrollLeft > 0);
     }
+    const handleScroll = () => {
+      if (scrollableTableRef.current) {
+        const isAtEndOfRight =
+          Math.floor(scrollableTableRef.current?.scrollLeft) +
+            scrollableTableRef.current.clientWidth ===
+          scrollableTableRef.current?.scrollWidth;
+        setRightScrollEnabled(!isAtEndOfRight);
+        setLeftScrollEnabled(scrollableTableRef.current?.scrollLeft > 0);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    scrollableTableRef.current?.addEventListener("scroll", handleScroll);
+
+    return () => {
+      clearTimeout(timer);
+      scrollableTableRef.current?.removeEventListener("scroll", handleScroll);
+    };
   }, [tableDataList]);
+
   const checkTableInViewport = () => {
     if (scrollableTableRef.current) {
       const rect = scrollableTableRef?.current?.getBoundingClientRect();
@@ -241,7 +265,14 @@ const ScrollableTable = React.memo((props: any) => {
                         title={tdData.valueType == "text" ? tdData.value : null}
                       >
                         {!isPrime && tdData.primeFlag ? (
-                          <span onClick={goToPlansPage}>Upgrade to Prime</span>
+                          <span
+                            onClick={() => {
+                              objTracking.obj.item_category3 = tdData.keyText;
+                              redirectToPlanPage(objTracking);
+                            }}
+                          >
+                            Upgrade to Prime
+                          </span>
                         ) : (
                           <>
                             {tdData.valueType == "date" ? (

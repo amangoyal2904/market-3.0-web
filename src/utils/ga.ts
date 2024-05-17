@@ -1,14 +1,11 @@
 // @ts-nocheck
-
-import * as Config from "./common";
-import * as utils from ".";
-import { useStateContext } from "@/store/StateContext";
 import { getCookie } from "@/utils";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
 import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import grxMappingObj from "@/utils/grxMappingObj.json";
+import { usePathname } from "next/navigation";
 declare global {
   interface Window {
     trackingEvent: (type: string, gaData: object) => void;
@@ -17,13 +14,18 @@ declare global {
   }
 }
 
-export const ga4withlink = (event_action, event_label, url) => {
-  trackingEvent("et_push_event", {
-    event_category: "mercury_engagement",
-    event_action: event_action,
-    event_label: event_label,
-  });
-  window.open(url, "_blank");
+export const redirectToPlanPage = (objTracking, type = "select_item") => {
+  try {
+    trackingEvent("et_push_event", {
+      event_category: objTracking.category,
+      event_action: objTracking.action,
+      event_label: objTracking.label,
+    });
+    goToPlansPage1(type, objTracking.obj);
+  } catch (Err) {
+    console.log("redirectToPlanPage Err:", Err);
+    goToPlansPage1(type, {});
+  }
 };
 
 export const goToPlansPage = () => {
@@ -79,9 +81,6 @@ export const trackPushData = (_gtmEventDimension: any, planDim: any) => {
 
   const objGTMdata = Object.assign({}, _gtmEventDimension);
   let sendGTMdata = Object.assign({}, planDim);
-  // const pageElem = window.location.pathname.split("/");
-  // let site_section = pageElem.toString();
-  // planDim["item_brand"] = "market_tools";
   sendGTMdata["feature_name"] = objGTMdata.feature_name;
   sendGTMdata["site_section"] = objGTMdata.site_section;
   sendGTMdata["site_sub_section"] = objGTMdata.site_sub_section;
@@ -93,7 +92,6 @@ export const trackPushData = (_gtmEventDimension: any, planDim: any) => {
     objUserData.fname = firstName;
     objUserData.fullname = fullName;
   }
-  //console.log("objUser", window.objUser, objUserData);
   const dataToPost = {
     ET: {},
     grxMappingObj: newGrxMapObj,
@@ -118,7 +116,6 @@ export const trackPushData = (_gtmEventDimension: any, planDim: any) => {
     "&grxId=" +
     getCookie("_grx") +
     ticketId;
-  console.log("grxPushData-----------", planDim);
   const headers = {
     "Content-Type": "application/json",
   };
@@ -129,7 +126,6 @@ export const trackPushData = (_gtmEventDimension: any, planDim: any) => {
     params: {},
   })
     .then((res) => {
-      console.log("res------->", res);
       window.location.href = newPlanUrl;
     })
     .catch((err) => {
@@ -144,14 +140,6 @@ export const trackingEvent = (type, data) => {
     const pageElem = window.location.pathname.split("/");
     let site_section = pagePathName.slice(1);
     let lastSlash = site_section.lastIndexOf("/");
-    // pageElem.forEach((element) => {site_section+=element;});
-    console.log("site_section--->", site_section);
-    console.log("getPageName------->", getPageName());
-    console.log("Permissions Array---------->", window?.objUser?.permissions);
-    console.log(
-      "AccessibleFeatures---------->",
-      window?.objUser?.accessibleFeatures,
-    );
     _gtmEventDimension["feature_name"] = getPageName();
     _gtmEventDimension["site_section"] =
       site_section.indexOf("/") == -1
@@ -206,26 +194,6 @@ export const trackingEvent = (type, data) => {
     _gtmEventDimension = Object.assign(_gtmEventDimension, data);
     window.dataLayer.push(_gtmEventDimension);
   }
-  // if (window.grx && data) {
-  //   const grxDimension = data;
-  //   const localobjVc = {};
-  //   grxDimension["url"] = grxDimension["url"] || window.location.href;
-  //   if (window.customDimension && localobjVc["growthRxDimension"]) {
-  //     const objDim = localobjVc["growthRxDimension"];
-  //     for (const key in window.customDimension) {
-  //       const dimId = "d" + key.substr(9, key.length);
-  //       if (objDim[dimId] && [key] && typeof window.customDimension[key] !== "undefined") {
-  //         grxDimension[objDim[dimId]] = window.customDimension[key];
-  //       } else if ([key] && typeof window.customDimension[key] !== "undefined") {
-  //         grxDimension[key] = window.customDimension[key];
-  //       }
-  //     }
-  //   }
-  //   window.grx("track", type, grxDimension);
-  //   if (gaEvent && window.ga && type == "event") {
-  //     window.ga("send", "event", data.event_category, data.event_action, data.event_label, window.customDimension);
-  //   }
-  // }
 };
 
 export const getUserType = (permissionsArr) => {
@@ -263,7 +231,8 @@ export const getUserType = (permissionsArr) => {
 };
 
 export const getPageName = () => {
-  const pagePathName = window.location.pathname;
+  const pagePathName = window && window.location.pathname;
+  console.log("Router------>", pagePathName);
   let pageName = "";
   if (pagePathName.includes("/marketstats")) {
     pageName = "Mercury_MarketStats";

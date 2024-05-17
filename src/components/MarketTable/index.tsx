@@ -7,6 +7,7 @@ import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
 import Pagination from "./Pagination";
 import useDebounce from "@/hooks/useDebounce";
+import { getPageName } from "@/utils/ga";
 
 interface propsType {
   data: any[];
@@ -25,6 +26,9 @@ interface propsType {
   processingLoader?: boolean;
   fixedCol?: number;
   isprimeuser?: boolean;
+  l1NavTracking?: any;
+  l2NavTracking?: any;
+  l3NavTracking?: any;
 }
 
 const DEBOUNCE_DELAY = 10;
@@ -56,7 +60,32 @@ const MarketTable = React.memo((props: propsType) => {
     processingLoader,
     fixedCol = 3,
     isprimeuser = false,
+    l1NavTracking = "",
+    l2NavTracking = "",
+    l3NavTracking = "",
   } = props || {};
+
+  const objTracking = {
+    category: "Subscription Flow ET",
+    action: "SYFT | Flow Started",
+    label: "Upgrade to prime click_",
+    obj: {
+      item_name: !!l3NavTracking ? l3NavTracking : l2NavTracking,
+      item_brand: "market_tools",
+      item_category: !!l3NavTracking
+        ? `${l2NavTracking} - ${l3NavTracking}`
+        : l2NavTracking,
+      item_category2: !!l3NavTracking ? l3NavTracking : l2NavTracking,
+      item_category3: "field name unknown",
+      item_category4: "upgrade to prime",
+      feature_name: "marketstats",
+      site_section: l1NavTracking,
+      site_sub_section: !!l3NavTracking
+        ? `${l1NavTracking} / ${l2NavTracking} / ${l3NavTracking}`
+        : `${l1NavTracking} / ${l2NavTracking}`,
+    },
+  };
+
   const tableRef = useRef<HTMLDivElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
   const fixedTableRef = useRef<HTMLDivElement>(null);
@@ -82,6 +111,8 @@ const MarketTable = React.memo((props: propsType) => {
   const [shouldShowLoader, setShouldShowLoader] = useState(false);
   const [verticalScrollEnabled, setVerticalScrollEnabled] = useState(false);
   const [scrollableTableRef, setScrollableTableRef] = useState({});
+  const [rightScrollEnabled, setRightScrollEnabled] = useState(false);
+  const [leftScrollEnabled, setLeftScrollEnabled] = useState(false);
 
   const handleFilterChange = useCallback((e: any) => {
     const { name, value } = e.target;
@@ -428,6 +459,7 @@ const MarketTable = React.memo((props: propsType) => {
                 removeCheckBoxHandle={removeCheckBoxHandleFun}
                 tableConfig={tableConfig}
                 fixedCol={fixedCol}
+                objTracking={objTracking}
               />
             </div>
             <div
@@ -454,6 +486,9 @@ const MarketTable = React.memo((props: propsType) => {
                 setVerticalScrollEnabled={setVerticalScrollEnabled}
                 verticalScrollEnabled={verticalScrollEnabled}
                 setScrollableTableRef={setScrollableTableRef}
+                objTracking={objTracking}
+                setLeftScrollEnabled={setLeftScrollEnabled}
+                setRightScrollEnabled={setRightScrollEnabled}
               />
             </div>
           </>
@@ -467,7 +502,7 @@ const MarketTable = React.memo((props: propsType) => {
             <button
               id="scrollButton"
               onClick={leftClickScroll}
-              className={styles.scrollButton}
+              className={`${styles.scrollButton} ${!leftScrollEnabled ? styles.disableBtn : ""}`}
             >
               &#8592;
             </button>
@@ -475,7 +510,7 @@ const MarketTable = React.memo((props: propsType) => {
             <button
               id="scrollButton"
               onClick={rightClickScroll}
-              className={styles.scrollButton}
+              className={`${styles.scrollButton} ${!rightScrollEnabled ? styles.disableBtn : ""}`}
             >
               &#8594;
             </button>

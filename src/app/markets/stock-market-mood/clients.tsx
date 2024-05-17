@@ -30,7 +30,7 @@ import { useStateContext } from "@/store/StateContext";
 import Blocker from "@/components/Blocker";
 import dynamic from "next/dynamic";
 import useDebounce from "@/hooks/useDebounce";
-import { goToPlansPage } from "@/utils/ga";
+import { goToPlansPage, redirectToPlanPage, trackingEvent } from "@/utils/ga";
 
 const StockFilterNifty = dynamic(
   () => import("@/components/StockFilterNifty"),
@@ -108,6 +108,11 @@ const MarketMoodsClient = ({
   }, []);
 
   const handleCountPercentage = useCallback((widgetType: string) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "page_cta_click",
+      event_label: widgetType,
+    });
     dispatch({
       type: "UPDATE_VIEWTYPES",
       payload: {
@@ -122,6 +127,11 @@ const MarketMoodsClient = ({
 
   const handleDuration = useCallback(
     async (item: string) => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "page_cta_click",
+        event_label: item,
+      });
       setLoading(true);
       dispatch({
         type: "UPDATE_VIEWTYPES",
@@ -137,6 +147,11 @@ const MarketMoodsClient = ({
 
   const handleMonthlyDaily = useCallback(
     async (item: string) => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "page_cta_click",
+        event_label: item,
+      });
       dispatch({
         type: "UPDATE_VIEWTYPES",
         payload: {
@@ -150,6 +165,11 @@ const MarketMoodsClient = ({
 
   const loadMoreData = useCallback(
     async (type: string) => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "load_more_click",
+        event_label: type,
+      });
       switch (type) {
         case "overview":
           setShowAllOverview(!showAllOverview);
@@ -267,6 +287,24 @@ const MarketMoodsClient = ({
         );
     }
   };
+
+  const objTracking = {
+    category: "Subscription Flow ET",
+    action: "SYFT | Flow Started",
+    label: "markets/stock-market-mood",
+    obj: {
+      item_name: "stock_market_mood",
+      item_id: "stock_market_mood_" + activeItem,
+      item_brand: "market_tools",
+      item_category: "stock_market_mood",
+      item_category2: "Stock Market Mood",
+      item_category3: "paywall_blocker_cta",
+      item_category4: "Subscribe Now",
+      feature_name: "market-mood",
+      site_section: "Stock Market Mood",
+      site_sub_section: "markets/stock-market-mood",
+    },
+  };
   return (
     <>
       <div className={styles.logo}>
@@ -294,7 +332,14 @@ const MarketMoodsClient = ({
               <li
                 key={item.key}
                 ref={activeItem === item.key ? activeListItemRef : null}
-                onClick={() => handleItemClick(item.key)}
+                onClick={() => {
+                  trackingEvent("et_push_event", {
+                    event_category: "mercury_engagement",
+                    event_action: "tab_selected",
+                    event_label: `${item.label}`,
+                  });
+                  handleItemClick(item.key);
+                }}
                 className={
                   activeItem === item.key || (activeItem === "" && index === 0)
                     ? styles.active
@@ -343,7 +388,12 @@ const MarketMoodsClient = ({
                 <p className={styles.title}>{item.title}</p>
                 <p className={styles.desc}>{item.desc}</p>
                 <div className={styles.plan}>
-                  <span className={styles.subscribeBtn} onClick={goToPlansPage}>
+                  <span
+                    className={styles.subscribeBtn}
+                    onClick={() => {
+                      redirectToPlanPage(objTracking);
+                    }}
+                  >
                     Subscribe Now
                   </span>
                   {!isLogin && (

@@ -310,11 +310,12 @@ table {
 
 .sectionWrapper {
   position: relative;
-  margin: 50px auto;
+  margin: 35px auto;
 }
 
 .heading {
-  font-size: 32px;
+  //font-size: 32px;
+  font-size: 2em;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -322,7 +323,7 @@ table {
     display: flex;
     align-items: center;
     .headingIcon {
-      font-size: 35px;
+      font-size: 40px;
     }
   }
 }
@@ -509,4 +510,10 @@ table {
 .eticon_add.bold,
 .eticon_tick.bold {
   font-weight: 700;
+}
+
+@media screen and (max-width: 1024px) and (max-height: 600px) {
+  .customModule .moduleWrap {
+    margin-top: 40px;
+  }
 }

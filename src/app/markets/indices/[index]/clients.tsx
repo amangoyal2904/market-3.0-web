@@ -18,6 +18,7 @@ import IndicesFaqs from "@/components/IndicesDetails/Faqs";
 import IndicesTechnicalAnalysis from "@/components/IndicesDetails/TechnicalAnalysis";
 import IndicesConstituents from "@/components/IndicesDetails/Constituents";
 import IndicesPerformance from "@/components/IndicesDetails/Performance";
+import { trackingEvent } from "@/utils/ga";
 
 const pageTabData = [
   { label: "Key Metrics", key: "keymetrics" },
@@ -143,7 +144,14 @@ const IndicesDetailsClient = ({
                 (item.key === "faqs" && !!indexFaq.length)
               ) && (
                 <li
-                  onClick={() => handleItemClick(item.key)}
+                  onClick={() => {
+                    trackingEvent("et_push_event", {
+                      event_category: "mercury_engagement",
+                      event_action: "indices_section click",
+                      event_label: item.label,
+                    });
+                    handleItemClick(item.key);
+                  }}
                   className={activeItem === item.key ? styles.active : ""}
                 >
                   {item.label}

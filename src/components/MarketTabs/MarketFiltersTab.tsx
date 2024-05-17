@@ -105,7 +105,7 @@ const MarketFiltersTab = React.memo(
       }
     };
     const industrySelectedFilterHanlder = (event: any) => {
-      const { id, checked } = event.target;
+      const { id, name, checked } = event.target;
       if (checked) {
         const getValue = [...checkedIndustryFilterItems, parseFloat(id)];
         setCheckedIndustryFilterItems(getValue);
@@ -211,9 +211,21 @@ const MarketFiltersTab = React.memo(
       filterDataChange(id, name, selectedTab);
       document.body.style.overflow = "";
     };
+    const createScreenerGrxHandler = () => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "page_cta_click",
+        event_label: "createscreener",
+      });
+      createNewScreener(true);
+    };
     const filterApiCall = async () => {
       const data = await fetchFilters({ all: true, marketcap: true });
       setFilterMenuData(data);
+    };
+    const setOpenPersonaliseModalHandler = (value: any) => {
+      setOpenPersonaliseModal(value);
+      document.body.style.overflow = "";
     };
     useEffect(() => {
       if (showIndexFilter) {
@@ -228,7 +240,7 @@ const MarketFiltersTab = React.memo(
           {showCreateScreener ? (
             <span
               className={`${styles.filterScreener}`}
-              onClick={() => createNewScreener(true)}
+              onClick={createScreenerGrxHandler}
             >
               + Create Screeners
             </span>
@@ -359,7 +371,7 @@ const MarketFiltersTab = React.memo(
             editmode={setEditMode}
             openPersonaliseModal={openPersonaliseModal}
             data={personaliseDataListItem}
-            setOpenPersonaliseModal={setOpenPersonaliseModal}
+            setOpenPersonaliseModal={setOpenPersonaliseModalHandler}
             updateTabsListDataHandler={updateTabsListDataHandler}
             createNewViewHandler={setOpenPersonaliseCreateModal}
             loading={loading}

@@ -12,7 +12,7 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   const { state, dispatch } = useStateContext();
   const { watchlist } = state.watchlistStatus;
 
-  console.log("watchlist___", watchlist);
+  //console.log("watchlist___", watchlist);
 
   const [viewStocks, setViewStocks]: any = useState([]);
   const [mostStocks, setMostStocks]: any = useState([]);
@@ -21,6 +21,7 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [watchlistStock, setWatchlistStock] = useState([]);
   const viewWraperRef = useRef<HTMLDivElement>(null);
+  const [showTextDefault, setShowTextDefault] = useState(false);
   const addStockModuleHandler = () => {
     moduelClose(false);
   };
@@ -116,6 +117,9 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
           console.log(err);
           setLoading(false);
         });
+      setTimeout(() => {
+        setShowTextDefault(true);
+      }, 1000);
     } catch (error) {
       console.log("most search api error ", error);
       setLoading(false);
@@ -211,7 +215,8 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
               viewDataListSet(viewStocks)
             ) : (
               <div className={styles.noData}>
-                Company not found! Please refine your search
+                {showTextDefault &&
+                  `Company not found! Please refine your search`}
               </div>
             )}
           </div>

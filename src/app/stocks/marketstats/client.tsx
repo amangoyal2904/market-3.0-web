@@ -191,7 +191,7 @@ const MarketStats = ({
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     updateL3NAV(id, _payload.duration);
-    const isExist: any = shortUrlMapping.find(
+    const isExist: any = shortUrlMapping?.find(
       (item: any) => item.longURL == newUrl,
     );
     const updatedUrl = isExist ? isExist.shortUrl : newUrl;
@@ -206,7 +206,7 @@ const MarketStats = ({
       const newDuration = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
       updateL3NAV(_payload.filterValue[0], newDuration);
-      const isExist: any = shortUrlMapping.find(
+      const isExist: any = shortUrlMapping?.find(
         (item: any) => item.longURL == newUrl,
       );
       const updatedUrl = isExist ? isExist.shortUrl : newUrl;
@@ -215,7 +215,7 @@ const MarketStats = ({
       const url = actualUrl;
       const newTimespan = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "timespan", newTimespan);
-      const isExist: any = shortUrlMapping.find(
+      const isExist: any = shortUrlMapping?.find(
         (item: any) => item.longURL == newUrl,
       );
       const updatedUrl = isExist ? isExist.shortUrl : newUrl;
@@ -300,7 +300,7 @@ const MarketStats = ({
     (url = updateOrAddParamToPath(url, "firstoperand", firstOperand)),
       (url = updateOrAddParamToPath(url, "secondoperand", secondOperand)),
       (url = updateOrAddParamToPath(url, "operationtype", operationType));
-    const isExist: any = shortUrlMapping.find(
+    const isExist: any = shortUrlMapping?.find(
       (item: any) => item.longURL == url,
     );
     const newUrl = isExist ? isExist.shortUrl : url;
@@ -347,6 +347,34 @@ const MarketStats = ({
       console.log("removeViewById", removeViewById);
       onPersonalizeHandlerfun();
     }
+  };
+
+  const getNavName = () => {
+    const navData = l3Nav?.nav || [];
+    for (const navItem of navData) {
+      if (navItem.sub_nav) {
+        let navName;
+        if (isTechnical) {
+          navName = navItem.sub_nav.find(
+            (nav: any) =>
+              nav.firstoperand ===
+                technicalCategory?.selectedFilter?.firstOperand &&
+              nav.operationtype ===
+                technicalCategory?.selectedFilter?.operationType &&
+              nav.secondoperand ===
+                technicalCategory?.selectedFilter?.secondOperand,
+          );
+        } else {
+          navName = navItem.sub_nav.find(
+            (nav: any) => nav.type === l3NavSubItem,
+          );
+        }
+        if (navName) {
+          return navName?.label || null;
+        }
+      }
+    }
+    return null; // Return null if no matching item is found
   };
 
   useEffect(() => {
@@ -474,6 +502,11 @@ const MarketStats = ({
             handlePageChange={onPaginationChange}
             processingLoader={processingLoader}
             isprimeuser={isPrime}
+            l1NavTracking={!isTechnical ? "Stocks" : "Technical Signals"}
+            l2NavTracking={
+              !isTechnical ? "Intraday" : _technicalCategory?.category
+            }
+            l3NavTracking={getNavName()}
           />
         </div>
       </div>

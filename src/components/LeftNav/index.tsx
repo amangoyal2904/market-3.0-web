@@ -129,7 +129,12 @@ const LeftNav = (props: any) => {
     <div
       className={`${styles.navWrap} ${isExpanded ? styles.expanded : styles.collapsed}`}
     >
-      <div className={styles.navInnerWrap}>
+      <div
+        className={styles.navInnerWrap}
+        itemScope
+        itemType="https://schema.org/SiteNavigationElement"
+        role="menu"
+      >
         <div className={styles.toggleMenuWrap}>
           <span
             className={`${styles.toggleMenu} ${isExpanded ? "eticon_prev" : "eticon_next"}`}
@@ -150,6 +155,8 @@ const LeftNav = (props: any) => {
                 <li
                   className={`${styles.navListWrap} ${!isExpanded ? styles.l2Collapsed : ""}`}
                   key={`market_nav_${index}`}
+                  // itemProp="name"
+                  // role="menuitem"
                 >
                   {value.link ? (
                     <Link
@@ -158,8 +165,10 @@ const LeftNav = (props: any) => {
                       onClick={() =>
                         navClickTrackingHandle({ l1: value.label, l2: "" })
                       }
+                      // itemProp="url"
                       className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
                     >
+                      {/* <meta itemProp="name" content={value.label} /> */}
                       <span
                         className={`${value.icon} ${styles.navIcon}`}
                       ></span>
@@ -205,10 +214,13 @@ const LeftNav = (props: any) => {
                             <li
                               className={`${styles.l2List} ${hasUrlSelect(sec.matchPattern) ? styles.active : ""}`}
                               key={`l2_label_${index}`}
+                              // itemProp="name"
+                              role="menuitem"
                             >
                               <Link
                                 href={sec.link}
                                 target={sec?.newTab ? "_blank" : "_self"}
+                                itemProp="url"
                                 onClick={() =>
                                   navClickTrackingHandle({
                                     l1: value.label,
@@ -216,6 +228,7 @@ const LeftNav = (props: any) => {
                                   })
                                 }
                               >
+                                <meta itemProp="name" content={sec.label} />
                                 {sec.label}
                               </Link>
                             </li>
@@ -253,6 +266,8 @@ const LeftNav = (props: any) => {
                   <li
                     className={styles.navListWrap}
                     key={`market_pro_nav_${index}`}
+                    // itemProp="name"
+                    role="menuitem"
                   >
                     <Link
                       href={value.link}
@@ -260,8 +275,10 @@ const LeftNav = (props: any) => {
                       onClick={() =>
                         navClickTrackingHandle({ l1: value.label, l2: "" })
                       }
+                      itemProp="url"
                       className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
                     >
+                      <meta itemProp="name" content={value.label} />
                       <span
                         className={`${value.icon} ${styles.navIcon}`}
                       ></span>

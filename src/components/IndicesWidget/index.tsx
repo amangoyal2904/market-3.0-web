@@ -13,7 +13,7 @@ import MarketStatus from "../MarketStatus";
 import ViewAllLink from "../ViewAllLink";
 import FIIDIIWIdget from "../FIIDIIWIdget";
 import Link from "next/link";
-import { ga4withlink, trackingEvent } from "@/utils/ga";
+import { trackingEvent } from "@/utils/ga";
 
 const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
   const responsive = [
@@ -106,7 +106,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
       params: {},
     });
-    const data = await response?.json();
+    const data = response ? await response?.json() : {};
     setIndicesData(data?.indicesList);
     setSelectedIndex((prevState: any) =>
       Object.keys(prevState)?.length ? prevState : data?.indicesList[0],
@@ -156,7 +156,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           </div>
         </div>
         <div className={styles.dataWrapper}>
-          {indicesData.length && screenWidth <= 1820 ? (
+          {indicesData?.length && screenWidth <= 1820 ? (
             <SlickSlider
               slides={indicesData?.map((slides: any, index: any) => ({
                 content: (
@@ -182,7 +182,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
             />
           ) : (
             <div className={styles.customTabs}>
-              {indicesData.map((slides, index) => (
+              {indicesData?.map((slides, index) => (
                 <StockCards
                   key={`indicesTab${index}`}
                   item={slides}
@@ -213,19 +213,15 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
               <a
                 className={styles.technical}
                 target="_blank"
+                href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`}
                 title={`Technicals: ${selectedIndex?.indexName}`}
-                onClick={
-                  () =>
-                    ga4withlink(
-                      "indices_chart_interaction",
-                      "chart_type_change_technical",
-                      `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`,
-                    )
-                  // handleTechnicalClick(
-                  //   `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`,
-                  // )
+                onClick={() =>
+                  trackingEvent("et_push_event", {
+                    event_category: "mercury_engagement",
+                    event_action: "indices_chart_interaction",
+                    event_label: "chart_type_change_technical",
+                  })
                 }
-                href="#"
               >
                 <span className="eticon_candlestick">
                   <span className="path1"></span>
@@ -331,16 +327,11 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           title="Top News"
           className={styles.title}
           onClick={() =>
-            // handleNewsClick(
-            //   `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`,
-            //   "heading",
-            //   0,
-            // )
-            ga4withlink(
-              "top_news_clicked",
-              `widget_heading`,
-              `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`,
-            )
+            trackingEvent("et_push_event", {
+              event_category: "mercury_engagement",
+              event_action: "top_news_clicked",
+              event_label: `widget_heading`,
+            })
           }
         >
           Top News
@@ -350,17 +341,16 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
             index < 6 ? (
               <li key={`topNews${index}`}>
                 <a
-                  href="#"
+                  href={list?.url}
                   className={styles.topNewsList}
                   target="_blank"
                   title={list?.title}
                   onClick={() =>
-                    //handleNewsClick(list?.url, list?.title, index)
-                    ga4withlink(
-                      "top_news_clicked",
-                      `${index} ${list?.title}`,
-                      list?.url,
-                    )
+                    trackingEvent("et_push_event", {
+                      event_category: "mercury_engagement",
+                      event_action: "top_news_clicked",
+                      event_label: `${index} ${list?.title}`,
+                    })
                   }
                 >
                   <p>

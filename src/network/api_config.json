@@ -438,5 +438,25 @@
   "FIIDIICash": {
     "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash"
+  },
+  "ATHENA": {
+    "development": "https://etwebcast.indiatimes.com/ET_WebCast",
+    "production": "https://etwebcast.indiatimes.com/ET_WebCast"
+  },
+  "SLIKE_CLEO_URL": {
+    "production": "https://cpl.sli.ke",
+    "development": "https://cpl.sli.ke"
+  },
+  "expertFollower": {
+    "development": "https://etup.economictimes.indiatimes.com/et/fetchprefdatavalcount",
+    "production": "https://etup.economictimes.indiatimes.com/et/fetchprefdatavalcount"
+  },
+  "followExpert": {
+    "development": "https://etup.economictimes.indiatimes.com/et/savesettings/json",
+    "production": "https://etup.economictimes.indiatimes.com/et/savesettings/json"
+  },
+  "getFollowedExperts": {
+    "development": "https://etup.economictimes.indiatimes.com/et/getpref?type=Follow&usersettingsubType=23",
+    "production": "https://etup.economictimes.indiatimes.com/et/getpref?type=Follow&usersettingsubType=23"
   }
 }

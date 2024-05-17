@@ -14,6 +14,13 @@
     "orderBy": "noOfBulls"
   },
   {
+    "name": "No of Bulls",
+    "id": "60",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "noOfBulls"
+  },
+  {
     "name": "Bull Holdings%",
     "id": "2",
     "sort": true,
@@ -21,7 +28,7 @@
     "orderBy": "bullHolding"
   },
   {
-    "name": "Bull Holdings (Rs in Cr.)",
+    "name": "Bull Holdings (cr)",
     "id": "3",
     "sort": true,
     "primeFlag": false,

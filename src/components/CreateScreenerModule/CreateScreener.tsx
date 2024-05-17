@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import NameViewComponent from "./Createmodule";
+import { trackingEvent } from "@/utils/ga";
 
 const CreateScreenerModule = ({
   closeModuleScreenerNew,
@@ -80,6 +81,11 @@ const CreateScreenerModule = ({
       alert("Please select at least one query");
     } else {
       runQueryhandler(queryInput);
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "screener_query_run",
+        event_label: window.location.href,
+      });
     }
   };
   const handleTabClick = (index: number) => {

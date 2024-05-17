@@ -1,5 +1,6 @@
 import styles from "./styles.module.scss";
 import { useState } from "react";
+import { trackingEvent } from "@/utils/ga";
 const ScreenerNameViewPopup = ({
   createViewNameHandler,
   screenerName,
@@ -12,6 +13,11 @@ const ScreenerNameViewPopup = ({
   const createViewHandler = () => {
     if (name && name.trim() !== "") {
       createViewNameHandler(name.trim());
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "screener_save_click",
+        event_label: window.location.href,
+      });
     } else {
       alert("Plase fill your screener name");
     }
@@ -45,7 +51,7 @@ const ScreenerNameViewPopup = ({
                 value={name}
                 onChange={(e: any) => setName(e.target.value)}
                 placeholder="Enter a name..."
-                maxLength={70}
+                maxLength={25}
               />
             </div>
           </div>

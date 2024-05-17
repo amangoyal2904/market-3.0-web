@@ -21,7 +21,7 @@
     "orderBy": "holdingPercent"
   },
   {
-    "name": "Holdings (Rs in Cr.)",
+    "name": "Holdings (cr)",
     "id": "3",
     "sort": true,
     "primeFlag": false,
@@ -33,12 +33,5 @@
     "sort": true,
     "primeFlag": false,
     "orderBy": "3MReturns"
-  },
-  {
-    "name": "6M Returns %",
-    "id": "5",
-    "sort": true,
-    "primeFlag": false,
-    "orderBy": "6MReturns"
   }
 ]

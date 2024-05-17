@@ -1,6 +1,7 @@
 import { dateFormat } from "@/utils";
 import styles from "./IndicesDetails.module.scss";
 import React from "react";
+import { trackingEvent } from "@/utils/ga";
 const IndicesNewsCard = React.memo(({ data }: any) => {
   const updateURLDimensions = (url: string) => {
     if (!!url) {
@@ -34,6 +35,13 @@ const IndicesNewsCard = React.memo(({ data }: any) => {
       href={data.wu}
       target="_blank"
       title={data.hl}
+      onClick={() => {
+        trackingEvent("et_push_event", {
+          event_category: "mercury_engagement",
+          event_action: "indices_news_click",
+          event_label: data.hl,
+        });
+      }}
     >
       <div className={styles.content}>
         <p className={styles.headline}>{data.hl}</p>

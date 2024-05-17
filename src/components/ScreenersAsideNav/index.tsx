@@ -2,7 +2,7 @@
 import React, { Fragment } from "react";
 import styles from "./Screeners.module.scss";
 import Link from "next/link";
-
+import { trackingEvent } from "@/utils/ga";
 interface PageProps {
   leftNavResult: any;
   activeId: any;
@@ -42,17 +42,23 @@ const StocksScreenerNav: React.FC<PageProps> = (props) => {
       console.log("Error toggleL2Menu: ", e);
     }
   };
-  const handleClick = (e: any) => {
-    const elm = e.currentTarget;
-    const nav = document.querySelectorAll(`.${styles["subNavWrapLi"]}`);
-    nav.forEach((item) => {
-      item.classList.remove(styles["active"]);
+  const gaLinkforL3Menu = (lable: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "lhsmenu_click",
+      event_label: lable,
     });
-    elm.classList.add(styles["active"]);
   };
-  const renderLink = (subItem: any) => {
+  const renderLink = (subItem: any, l3lableName: string) => {
     const linkHref = `/markets/stock-screener/${subItem.seoName ? subItem.seoName : "test-seo-page"}/screens/scrid-${subItem.screenerId}`;
-    return <Link href={linkHref}>{subItem.name}</Link>;
+    return (
+      <Link
+        href={linkHref}
+        onClick={() => gaLinkforL3Menu(`${l3lableName} - ${subItem.name}`)}
+      >
+        {subItem.name}
+      </Link>
+    );
   };
   return (
     <>
@@ -79,9 +85,8 @@ const StocksScreenerNav: React.FC<PageProps> = (props) => {
                     key={`${item.screenerId}-${index}-subLi`}
                     id={item.screenerId}
                     className={`${styles.subNavWrapLi} ${activeId == item.screenerId ? styles.active : null}`}
-                    onClick={(e) => handleClick(e)}
                   >
-                    {renderLink(item)}
+                    {renderLink(item, item.collectionName)}
                   </li>
                 );
               })}
@@ -118,9 +123,8 @@ const StocksScreenerNav: React.FC<PageProps> = (props) => {
                         key={`${subItem.screenerId}-${index}-subLi`}
                         id={subItem.screenerId}
                         className={`${styles.subNavWrapLi} ${activeId == subItem.screenerId ? styles.active : null}`}
-                        onClick={(e) => handleClick(e)}
                       >
-                        {renderLink(subItem)}
+                        {renderLink(subItem, item.collectionName)}
                       </li>
                     ))}
                   </ul>

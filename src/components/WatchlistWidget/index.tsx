@@ -65,8 +65,10 @@ const WatchlistWidget = () => {
             tableHeaders={tableHeaderData}
             apiSuccess={apiSuccess}
             tableConfig={config}
-            pageSummary={pageSummary}
+            // pageSummary={pageSummary}
             isprimeuser={isPrime}
+            l1NavTracking="Markets"
+            l2NavTracking="Watchlist Widget"
           />
           <ViewAllLink text="View All Watchlisted Stock" link="/watchlist" />
         </>

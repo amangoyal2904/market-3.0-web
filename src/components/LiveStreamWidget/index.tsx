@@ -1,9 +1,8 @@
 import { APP_ENV } from "@/utils";
 import APIS_CONFIG from "../../network/api_config.json";
-import styles from "./Livestream.module.scss";
 import LiveStreamSlider from "./LiveStreamSlider";
 import ViewAllLink from "../ViewAllLink";
-import Image from "next/image";
+import LiveStreamPlay from "../LiveStreamPlay";
 import HeadingHome from "../ViewAllLink/HeadingHome";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 
@@ -54,22 +53,7 @@ const LiveStreamWidget = async () => {
         title="Live Stream"
         url={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/etmarkets-livestream`}
       />
-      {/* <h2 className="heading">
-        <a
-          target="_blank"
-          title="Live Stream"
-          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/etmarkets-livestream`}
-        >
-          <Image
-            src="/img/liveStream.svg"
-            width={166}
-            height={23}
-            alt="Live Stream"
-            loading="lazy"
-          />
-          <span className={`eticon_caret_right ${styles.headingIcon}`} />
-        </a>
-      </h2> */}
+      <LiveStreamPlay />
       <LiveStreamSlider liveStreamData={liveStreamData} />
       <ViewAllLink
         text="See All Live Streams"

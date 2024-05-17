@@ -14,7 +14,8 @@
 
     .title {
       color: #000;
-      font-size: 24px;
+      //font-size: 24px;
+      font-size: 2em;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
@@ -35,8 +36,8 @@
 
     .liveStatus {
       position: absolute;
-      top: 7px;
-      left: 35%;
+      top: 11px;
+      left: 15%;
     }
   }
 
@@ -45,7 +46,8 @@
 
     .title {
       color: #000;
-      font-size: 24px;
+      // font-size: 24px;
+      font-size: 1.6em;
       font-style: normal;
       font-weight: 700;
       line-height: normal;
@@ -181,7 +183,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 2px solid #cccccc;
   margin-top: 16px;
   margin-bottom: 16px;
 
@@ -209,7 +211,7 @@
 
       &.active,
       &:hover {
-        border-bottom: 2px solid #000;
+        border-bottom: 3px solid #000;
       }
 
       &.active {

@@ -173,7 +173,7 @@ function MarketDashBoard(props: propsType) {
 
   const updateShortUrl = async () => {
     const pageUrl = `/stocks/marketstats?type=${await getApiType(activeViewID)}${payload.duration ? "&duration=" + payload.duration : ""}${payload.timespan ? "&timespan=" + payload.timespan : ""}&filter=2369`;
-    const isExist: any = shortUrlMapping.find(
+    const isExist: any = shortUrlMapping?.find(
       (item: any) => item.longURL == pageUrl,
     );
     const updatedUrl = isExist ? isExist.shortUrl : pageUrl;
@@ -216,6 +216,8 @@ function MarketDashBoard(props: propsType) {
         tableConfig={tableConfig["marketDashboard"]}
         isprimeuser={isPrime}
         processingLoader={processingLoader}
+        l1NavTracking="Markets"
+        l2NavTracking="Market Dashboard Widget"
       />
       {dashBoardTableData.length ? (
         <ViewAllLink text="View All Stocks" link={shortURL} />

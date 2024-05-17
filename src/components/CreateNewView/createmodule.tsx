@@ -37,10 +37,11 @@ const NameViewComponent = ({
   const closeNameViewModule = () => {
     const viewScreenerName: any = screenerName.trim();
     if (viewScreenerName === "") {
-      closeViewNamePopup(false);
+      // closeViewNamePopup(false);
     } else {
-      createViewNameHandler(viewScreenerName);
+      //createViewNameHandler(viewScreenerName);
     }
+    closeViewNamePopup(false);
   };
   // const createViewHandler = () => {
   //   if (screenerName && screenerName !== "") {
@@ -78,7 +79,7 @@ const NameViewComponent = ({
                 value={screenerName}
                 onChange={(e: any) => setScreenerName(e.target.value)}
                 placeholder="Custome View "
-                maxLength={70}
+                maxLength={25}
               />
             </div>
           </div>

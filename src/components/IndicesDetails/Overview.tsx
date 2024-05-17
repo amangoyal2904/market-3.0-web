@@ -6,6 +6,7 @@ import { formatNumber } from "@/utils/index";
 import MarketStatus from "../MarketStatus";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
+import { trackingEvent } from "@/utils/ga";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 
 const IndicesDetailsOverview = React.memo(
@@ -25,6 +26,11 @@ const IndicesDetailsOverview = React.memo(
       `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=1d&height=320&transparentBg=1`,
     );
     const handleIntervalClick = (item: any) => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "indices_chart_interaction",
+        event_label: `duration_change_${item?.value}`,
+      });
       setInterval(item?.value);
       setChangePeriod(item?.change);
       setPercentChange(item?.percentChange);
@@ -140,6 +146,13 @@ const IndicesDetailsOverview = React.memo(
               className={styles.technical}
               target="_blank"
               title={`Technicals: ${overviewData?.assetName}`}
+              onClick={() => {
+                trackingEvent("et_push_event", {
+                  event_category: "mercury_engagement",
+                  event_action: "indices_chart_interaction",
+                  event_label: "chart_type_change_technical",
+                });
+              }}
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/technical-charts?symbol=${symbol}&exchange=${exchange}&entity=index`}
             >
               <span className="eticon_candlestick">
