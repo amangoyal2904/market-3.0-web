@@ -37,7 +37,7 @@
     "pagination": true,
     "loaderType": "inner",
     "showWatchlistIcon": true,
-    "horizontalScroll": false
+    "horizontalScroll": true
   },
   "marketStatsTechnical": {
     "name": "marketStatsTechnical",
@@ -50,7 +50,7 @@
     "pagination": true,
     "loaderType": "inner",
     "showWatchlistIcon": true,
-    "horizontalScroll": false
+    "horizontalScroll": true
   },
   "buySell": {
     "name": "buySell",
@@ -63,7 +63,7 @@
     "pagination": false,
     "loaderType": "inner",
     "showWatchlistIcon": true,
-    "horizontalScroll": false
+    "horizontalScroll": true
   },
   "marketDashboard": {
     "name": "marketDashboard",
@@ -90,7 +90,7 @@
     "pagination": true,
     "loaderType": "inner",
     "showWatchlistIcon": true,
-    "horizontalScroll": false
+    "horizontalScroll": true
   },
   "indicesListing": {
     "name": "indicesListing",
@@ -103,7 +103,7 @@
     "pagination": false,
     "loaderType": "global",
     "showWatchlistIcon": false,
-    "horizontalScroll": false
+    "horizontalScroll": true
   },
   "indicesConstituents": {
     "name": "indicesConstituents",
@@ -116,7 +116,8 @@
     "pagination": true,
     "loaderType": "inner",
     "showWatchlistIcon": true,
-    "horizontalScroll": false
+    "horizontalScroll": true,
+    "isWidget": true
   },
   "buySellTechnicals": {
     "name": "buySellTechnicals",
@@ -129,6 +130,6 @@
     "pagination": false,
     "loaderType": "inner",
     "showWatchlistIcon": true,
-    "horizontalScroll": false
+    "horizontalScroll": true
   }
 }
