@@ -176,11 +176,11 @@ export const fnGenerateMetaData = (meta?: any) => {
       images: ["https://img.etimg.com/photo/msid-65498029/et-logo.jpg"],
     },
     robots: {
-      index: meta?.index,
-      follow: meta?.index,
+      index: meta?.index || true,
+      follow: meta?.index || true,
       googleBot: {
-        index: meta?.index,
-        follow: meta?.index,
+        index: meta?.index || true,
+        follow: meta?.index || true,
       },
     },
     icons: {
