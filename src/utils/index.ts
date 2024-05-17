@@ -597,7 +597,7 @@ export const getStockRecosDetail = async ({
   });
 
   const recosDetailResult = await recosDetailPromise?.json();
-  console.log("recosDetailResult----", recosDetailResult);
+  console.log("recosDetailResult----", JSON.stringify(recosDetailResult));
   return recosDetailResult;
 };
 

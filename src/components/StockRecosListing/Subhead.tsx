@@ -35,7 +35,6 @@ const Subhead = (props: any) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  console.log("activeApi ---- 34", activeApi);
   // ====  Here only Filter tabs code start here
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);

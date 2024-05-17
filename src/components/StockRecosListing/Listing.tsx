@@ -9,7 +9,6 @@ const Listing = (props: any) => {
   const { recosDetailResult, activeApi, urlFilterHandle } = props;
   const { state, dispatch } = useStateContext();
   const { watchlist } = state.watchlistStatus;
-  console.log("watchlist", watchlist);
 
   return (
     <>
