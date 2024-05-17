@@ -36,7 +36,6 @@ const LiveStreamSlider = ({ liveStreamData }: any) => {
   return (
     liveStreamData?.length && (
       <div className={styles.liveStreamWrapper}>
-        <h2 className={styles.heading}>Previous Active Streams</h2>
         <SlickSlider
           slides={liveStreamData?.map((slides: any, index: any) => ({
             content: <LiveStreamCards data={slides} index={index} />,

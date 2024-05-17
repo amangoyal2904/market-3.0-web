@@ -67,6 +67,7 @@ const SearchData: React.FC<Props> = ({
           item.subType.toLowerCase() === "nonlist",
       );
       setCompanyNonListed(filteredNonListed);
+      setIndex(filterData(data, "index"));
       const filterPrimeData = newsData.filter((item: any) =>
         item.link.includes("/prime/"),
       );
@@ -78,7 +79,6 @@ const SearchData: React.FC<Props> = ({
       setCrypto(filterData(data, "crypto"));
       setForex(filterData(data, "forex"));
       setCommodity(filterData(data, "commodity"));
-      setIndex(filterData(data, "index"));
     }
   }, [data, newsData]);
 
@@ -103,6 +103,14 @@ const SearchData: React.FC<Props> = ({
                   item={companyNonListed}
                   entity={"Non Listed Companies"}
                   count={records.nonlistcount}
+                  query={query}
+                />
+              )}
+              {index.length > 0 && (
+                <SearchDataLi
+                  item={index}
+                  entity={"INDEX"}
+                  count={records.inetcount}
                   query={query}
                 />
               )}
@@ -151,14 +159,6 @@ const SearchData: React.FC<Props> = ({
                   item={commodity}
                   entity={"COMMODITY"}
                   count={records.cmdtcount}
-                  query={query}
-                />
-              )}
-              {index.length > 0 && (
-                <SearchDataLi
-                  item={index}
-                  entity={"INDEX"}
-                  count={records.inetcount}
                   query={query}
                 />
               )}

@@ -22,10 +22,10 @@
   "SEARCH": {
     "main": {
       "development": [
-        "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&realstate=true&pp=new&dvr=new&idr=new&trust=true&mcx=true&mf=true&crypto=true&nps=true&insideet=true&detail=false&forex=false&index=true&mecklai=true&etf=true&nonList=true&pagesize=6&language=&outputtype=json"
+        "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&realstate=true&pp=new&dvr=true&idr=true&trust=true&mcx=true&mf=true&crypto=true&nps=true&insideet=true&detail=false&forex=false&index=true&mecklai=true&etf=true&nonList=true&pagesize=6&language=&outputtype=json"
       ],
       "production": [
-        "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&realstate=true&pp=new&dvr=new&idr=new&trust=true&mcx=true&mf=true&crypto=true&nps=true&insideet=true&detail=false&forex=false&index=true&mecklai=true&etf=true&nonList=true&pagesize=6&language=&outputtype=json"
+        "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep?matchCompanyName=true&realstate=true&pp=new&dvr=true&idr=true&trust=true&mcx=true&mf=true&crypto=true&nps=true&insideet=true&detail=false&forex=false&index=true&mecklai=true&etf=true&nonList=true&pagesize=6&language=&outputtype=json"
       ]
     },
     "mostPopular": {
@@ -446,5 +446,17 @@
   "SLIKE_CLEO_URL": {
     "production": "https://cpl.sli.ke",
     "development": "https://cpl.sli.ke"
+  },
+  "expertFollower": {
+    "development": "https://etup.economictimes.indiatimes.com/et/fetchprefdatavalcount",
+    "production": "https://etup.economictimes.indiatimes.com/et/fetchprefdatavalcount"
+  },
+  "followExpert": {
+    "development": "https://etup.economictimes.indiatimes.com/et/savesettings/json",
+    "production": "https://etup.economictimes.indiatimes.com/et/savesettings/json"
+  },
+  "getFollowedExperts": {
+    "development": "https://etup.economictimes.indiatimes.com/et/getpref?type=Follow&usersettingsubType=23",
+    "production": "https://etup.economictimes.indiatimes.com/et/getpref?type=Follow&usersettingsubType=23"
   }
 }

@@ -1,11 +1,13 @@
 import { Metadata } from "next";
 import WatchListClient from "./client";
 import BreadCrumb from "@/components/BreadCrumb";
+import { APP_ENV } from "@/utils";
+import GLOBAL_CONFIG from "@/network/global_config.json";
 
 const pageTitle = "Watchlist | The Economic Time";
 const pageDesc =
   "My Watchlist: Check you stocks last & recent price on The ET Markets. Get all the latest information about your stocks, prev. close, stocks price change, stocks percentage change, low & High stocks and more.";
-const pageUrl = "https://economictimes.indiatimes.com/watchlist";
+const pageUrl = `${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}watchlist`;
 const imageUrl = "https://img.etimg.com/photo/msid-65498029/et-logo.jpg";
 export const metadata: Metadata = {
   title: pageTitle,
