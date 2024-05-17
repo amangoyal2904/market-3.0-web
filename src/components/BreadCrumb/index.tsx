@@ -163,13 +163,12 @@ const getLiPath = (router: string, pagePath: string) => {
       showCurrLi: true,
       listItemSchema: "",
     };
-  } else if (router.includes("/markets/stock-market-mood/")) {
+  } else if (router == "/markets/stock-market-mood") {
     return {
-      showNextLi: true,
+      showNextLi: false,
       currentLiNode: (
         <li>
-          <span className="eticon_caret_right"></span>
-          <a href="/markets/stock-market-mood/nifty-500">Stock Market Mood</a>
+          <span className="eticon_caret_right"></span>Stock Market Mood
         </li>
       ),
       showCurrLi: true,
