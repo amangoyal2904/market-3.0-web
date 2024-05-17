@@ -68,6 +68,9 @@
       font-weight: 400;
       display: flex;
       column-gap: 8px;
+      span{
+        white-space: nowrap;
+      }
       .bold {
         font-weight: 700;
       }
@@ -88,8 +91,8 @@
         content: "";
         position: absolute;
         left: 0;
-        top: 0;
-        bottom: 0;
+        top: 3px;
+        bottom: 3px;
         border-left: solid 1px #777;
       }
     }
@@ -203,14 +206,34 @@
 @media screen and (max-width: 1400px) {
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1250px) {
+  .heroWraper{
+    column-gap: 18px;
+  }
   .leftTxt {
     column-gap: 10px;
-    flex-wrap: wrap;
+    .leftImg{
+        width: 100px;
+        height: 100px;
+    }
+  }
+  .heroWraper{
+    .left{
+      width:50%;
+    }
+    .right{
+      width: 48%;
+      padding-left: 18px;
+    }
   }
   .rightTxt {
     .head1 {
       font-size: 20px;
+    }
+    .complist{
+      li{
+        flex-direction: column;
+      }
     }
   }
 }
