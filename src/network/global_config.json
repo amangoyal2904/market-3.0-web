@@ -34,7 +34,7 @@
   },
   "NAV_CONFIG": {
     "Auto_Collapsed": true,
-    "Collapsed_Time": 30
+    "Collapsed_Time": 90
   },
   "PAGES_REFRESH": {
     "marketstats": "40",
