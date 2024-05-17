@@ -51,8 +51,8 @@ const HeadingHome = ({ title, url }: any) => {
       >
         <Image
           src="/img/liveStream.svg"
-          width={190}
-          height={29}
+          width={170}
+          height={26}
           alt={title}
           loading="lazy"
         />

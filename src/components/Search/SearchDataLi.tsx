@@ -21,7 +21,7 @@ const SearchDataLi: React.FC<Props> = ({ item, entity, count, query }) => {
   };
   return (
     <>
-      <li className={styles.head}>{entity}</li>
+      <li className={styles.head}>{entity == "INDEX" ? "INDICES" : entity}</li>
       {item.map(
         (item: any, index: number) =>
           index < count - 1 && (
