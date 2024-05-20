@@ -4,6 +4,7 @@ import Link from "next/link";
 import { formatNumber, APP_ENV } from "@/utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
+import { PdfReport } from "./PdfReport";
 
 interface Props {
   data: any; // Define the type of data correctly
@@ -41,6 +42,7 @@ const StockComponent = ({
   pageName,
   urlFilterHandle,
   filterIndex,
+  source = "list",
 }: any) => {
   const formattedDate = formatDate(data.priceAtRecosDate);
   let stockMainClass;
@@ -221,37 +223,19 @@ const StockComponent = ({
                 </ul>
               )}
             </div>
-          </div>
-          {(activeTab == "newRecos" || activeTab == "FHDetail") && (
-            <div className={styles.viewReportWrap}>
-              <a
-                href={data.pdfUrl}
-                className={styles.viewReportBox}
-                target="_blank"
-                onClick={() => {
-                  trackingEvent("et_push_event", {
-                    event_category: "mercury_engagement",
-                    event_action: "view_rerport_click",
-                    event_label: data?.companyName,
-                  });
-                }}
+            {(activeTab == "newRecos" || activeTab == "FHDetail") && (
+              <div
+                className={`${styles.reportCta} ${source == "home" ? styles["homeReport"] : ""}`}
               >
-                <img
-                  src="/icon_pdf.svg"
-                  className={styles.pdfIcon}
-                  width="28"
-                  height="28"
+                <PdfReport
+                  pdfUrl={data.pdfUrl}
+                  companyName={data?.companyName}
+                  classNameReportBox="viewReportWrap"
                 />
-                {/* <span className={`eticon_pdf ${styles.pdfIcon}`}>
-                  <span className="path1"></span>
-                  <span className="path2"></span>
-                  <span className="path3"></span>
-                  <span className="path4"></span>
-                </span> */}
-                <span className={styles.viewReport}>View Report</span>
-              </a>
-            </div>
-          )}
+              </div>
+            )}
+          </div>
+
           {activeTab != "FHDetail" &&
             (activeTab == "newRecos" ? (
               <div className={styles.brokerageBox}>

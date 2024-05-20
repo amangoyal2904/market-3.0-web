@@ -6,6 +6,7 @@ import RecoBarLabel from "./RecoBarLabel";
 import styles from "./StockReport.module.scss";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
+import { PdfReport } from "../StockReco/PdfReport";
 interface DataListItem {
   keyId: string;
   keyText: string;
@@ -70,86 +71,88 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
       >
         <div className={styles.sec}>
           <div className={styles.rsec}>
-            <StockName
-              category={catName}
-              primeUser={primeUser}
-              tabName={tabName}
-              seoName={seoName}
-              companyID={companyID}
-              name={name}
-            />
-            <p className={styles.stockRecoTitle}>
-              {data.find((item) => item?.keyId === "sr_recText")?.value || ""}
-            </p>
-            <p className={styles.stockRecoDesc}>
-              {`Mean Recos by ${totalNo} Analysts`}
-            </p>
-            <div className={styles.stockRecoChart}>
-              {data.map((item, index) => {
-                if (
-                  [
-                    "sr_recSellCnt",
-                    "sr_recReduceCnt",
-                    "sr_recHoldCnt",
-                    "sr_recBuyCnt",
-                    "sr_recStrongBuyCnt",
-                  ].includes(item?.keyId)
-                ) {
-                  return (
-                    <RecoBar
-                      key={index}
-                      num={parseFloat(item?.value.toString())}
-                      totalNo={totalNo}
-                    />
-                  );
-                }
-                return null;
-              })}
-            </div>
-            <div className={styles.barlabel}>
-              {data.map((item, index) => {
-                if (
-                  [
-                    "sr_recSellCnt",
-                    "sr_recReduceCnt",
-                    "sr_recHoldCnt",
-                    "sr_recBuyCnt",
-                    "sr_recStrongBuyCnt",
-                  ].includes(item?.keyId)
-                ) {
-                  let type = "";
-                  switch (item?.keyId) {
-                    case "sr_recSellCnt":
-                      type = "Strong Sell";
-                      break;
-                    case "sr_recReduceCnt":
-                      type = "Sell";
-                      break;
-                    case "sr_recHoldCnt":
-                      type = "Hold";
-                      break;
-                    case "sr_recBuyCnt":
-                      type = "Buy";
-                      break;
-                    case "sr_recStrongBuyCnt":
-                      type = "Strong Buy";
-                      break;
-                    default:
-                      break;
+            <div className={styles.columnBox}>
+              <StockName
+                category={catName}
+                primeUser={primeUser}
+                tabName={tabName}
+                seoName={seoName}
+                companyID={companyID}
+                name={name}
+              />
+              <p className={styles.stockRecoTitle}>
+                {data.find((item) => item?.keyId === "sr_recText")?.value || ""}
+              </p>
+              <p className={styles.stockRecoDesc}>
+                {`Mean Recos by ${totalNo} Analysts`}
+              </p>
+              <div className={styles.stockRecoChart}>
+                {data.map((item, index) => {
+                  if (
+                    [
+                      "sr_recSellCnt",
+                      "sr_recReduceCnt",
+                      "sr_recHoldCnt",
+                      "sr_recBuyCnt",
+                      "sr_recStrongBuyCnt",
+                    ].includes(item?.keyId)
+                  ) {
+                    return (
+                      <RecoBar
+                        key={index}
+                        num={parseFloat(item?.value.toString())}
+                        totalNo={totalNo}
+                      />
+                    );
                   }
-                  return (
-                    <RecoBarLabel
-                      key={index}
-                      num={parseFloat(item?.value.toString())}
-                      type={type}
-                    />
-                  );
-                }
-                return null;
-              })}
+                  return null;
+                })}
+              </div>
+              <div className={styles.barlabel}>
+                {data.map((item, index) => {
+                  if (
+                    [
+                      "sr_recSellCnt",
+                      "sr_recReduceCnt",
+                      "sr_recHoldCnt",
+                      "sr_recBuyCnt",
+                      "sr_recStrongBuyCnt",
+                    ].includes(item?.keyId)
+                  ) {
+                    let type = "";
+                    switch (item?.keyId) {
+                      case "sr_recSellCnt":
+                        type = "Strong Sell";
+                        break;
+                      case "sr_recReduceCnt":
+                        type = "Sell";
+                        break;
+                      case "sr_recHoldCnt":
+                        type = "Hold";
+                        break;
+                      case "sr_recBuyCnt":
+                        type = "Buy";
+                        break;
+                      case "sr_recStrongBuyCnt":
+                        type = "Strong Buy";
+                        break;
+                      default:
+                        break;
+                    }
+                    return (
+                      <RecoBarLabel
+                        key={index}
+                        num={parseFloat(item?.value.toString())}
+                        type={type}
+                      />
+                    );
+                  }
+                  return null;
+                })}
+              </div>
             </div>
-
             {data.find((item) => item?.keyId === "sr_targetVsCurrent") ? (
+              // <PdfReport pdfUrl={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${seoName}/stockreports/reportid-${companyID}.cms`} companyName={name} classNameReportBox="styles.reportCta"/>
               <div className={styles.reportCta}>
                 <a
                   href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${seoName}/stockreports/reportid-${companyID}.cms`}

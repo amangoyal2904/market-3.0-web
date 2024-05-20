@@ -134,6 +134,7 @@ const StockRecommendations: React.FC<Props> = ({
                       activeTab={activeTab.apiType}
                       pageName="stockRecosPage"
                       urlFilterHandle={undefined}
+                      source="home"
                     />
                   ),
                 }))}

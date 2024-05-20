@@ -155,7 +155,7 @@ const BuySellTechnicalWidget = ({ data, unixDateTime, bodyParams }: any) => {
             is the average price movement within 7 days of signal in last 5
             years`}
           </span>
-          <span>{dateFormat(updateDateTime, "* Formed On %MMM %d , %Y")}</span>
+          <span>{dateFormat(updateDateTime, "* Formed On %MMM %d, %Y")}</span>
         </div>
       </div>
     </div>
