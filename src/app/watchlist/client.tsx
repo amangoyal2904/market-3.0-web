@@ -86,7 +86,7 @@ const WatchListClient = () => {
       setAPISuccess(true);
       setActiveViewId(viewId);
       setResetSort(viewId);
-      setRequestPayload({ ...requestPayload, viewId: viewId });
+      setRequestPayload({ ...requestPayload, sort: [], viewId: viewId });
     }
   };
   const onPersonalizeHandlerfun = async (newActiveId: any = "", mode = "") => {
@@ -142,7 +142,12 @@ const WatchListClient = () => {
       ssoid: ssoid,
     });
 
-    const bodyParams = { type: "STOCK", viewId: activeViewId, deviceId: "web" };
+    const bodyParams = {
+      type: "STOCK",
+      viewId: activeViewId,
+      deviceId: "web",
+      sort: [],
+    };
     const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
       await getCustomViewTable(bodyParams, true, ssoid, "MARKETS_CUSTOM_TABLE");
 
