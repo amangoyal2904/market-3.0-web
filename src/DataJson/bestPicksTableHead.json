@@ -14,6 +14,13 @@
     "orderBy": "companyName"
   },
   {
+    "name": "3M Return %",
+    "id": "4",
+    "sort": true,
+    "primeFlag": false,
+    "orderBy": "3MReturns"
+  },
+  {
     "name": "Holdings%",
     "id": "2",
     "sort": true,
@@ -26,12 +33,5 @@
     "sort": true,
     "primeFlag": false,
     "orderBy": "holdingValue"
-  },
-  {
-    "name": "3M Return %",
-    "id": "4",
-    "sort": true,
-    "primeFlag": false,
-    "orderBy": "3MReturns"
   }
 ]
