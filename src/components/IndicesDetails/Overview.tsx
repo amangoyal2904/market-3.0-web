@@ -112,8 +112,7 @@ const IndicesDetailsOverview = React.memo(
                   }`}
                 />
               )}
-              <span>{`${Math.abs(overviewData[changePeriod])?.toFixed(2)} (
-                ${overviewData[percentChange]?.toFixed(2)}%)`}</span>
+              <span>{`${Math.abs(overviewData[changePeriod])?.toFixed(2)} (${overviewData[percentChange]?.toFixed(2)}%)`}</span>
             </div>
           </div>
           {/* <div className="dflex  align-item-center">
@@ -180,6 +179,7 @@ const IndicesDetailsOverview = React.memo(
           >
             <div className="dflex align-item-center">
               <p className={styles.title}>Advance/Decline</p>
+              <span className={`eticon_caret_right ${styles.icon}`} />
             </div>
             <div className={styles.bottom}>
               <div className="dflex align-item-center space-between">

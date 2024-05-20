@@ -46,7 +46,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     speed: 500,
     arrows: false,
     dots: true,
-    infinite: false,
+    infinite: true,
     swipe: true,
     slidesToShow: slidesToShow || 5,
     slidesToScroll: 1,
