@@ -29,7 +29,7 @@ const StockScreener = async () => {
     <>
       <div className={styles.wraper}>
         <div className={styles.topSec}>
-          <h1 className="heading">Stock Screener</h1>
+          <h1 className="heading">Stock Screeners</h1>
           <p className={styles.desc}>
             Know the market sentiments. Check the percentage or count of stocks
             in the selected index with value above the technical indicators.
@@ -42,9 +42,8 @@ const StockScreener = async () => {
       </div>
 
       <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
-      <br/>
-      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
-
+      <br />
+      <DfpAds adInfo={AdInfo.dfp.btfAd} />
     </>
   );
 };
