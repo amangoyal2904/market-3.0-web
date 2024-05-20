@@ -27,9 +27,11 @@
     }
     .SOLD {
       color: $red-80;
+      text-transform: uppercase;
     }
     .BOUGHT {
       color: $green-80;
+      text-transform: uppercase;
     }
   }
 }
@@ -174,7 +176,7 @@
   }
   .cname {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     color: $black;
     margin-top: 5px;
     a {
