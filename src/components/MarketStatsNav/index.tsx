@@ -81,7 +81,7 @@ const MarketStatsNav: React.FC<PageProps> = React.memo((props) => {
     <>
       <div className={`${styles.navWrap} customScroll`}>
         {leftNavResult &&
-          leftNavResult.nav.map((item: any, index: number) => {
+          leftNavResult.map((item: any, index: number) => {
             return (
               <Fragment key={index}>
                 <div
