@@ -341,7 +341,9 @@ const WatchListClient = () => {
             )}
             <MarketTable
               data={tableData}
-              highlightLtp={false}
+              highlightLtp={
+                !!currentMarketStatus && currentMarketStatus != "CLOSED"
+              }
               tableHeaders={tableHeaderData}
               tabsViewIdUpdate={resetSort}
               handleSortServerSide={onServerSideSort}
