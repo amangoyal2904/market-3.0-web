@@ -19,6 +19,7 @@ const QueryComponets = ({
       mode: true,
       screenerStage: "popup",
     });
+    document.body.style.overflow = "hidden";
   };
   return (
     <>
