@@ -14,7 +14,7 @@ import DfpAds from "@/components/Ad/DfpAds";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
 
 const individualFilter = indiFilter;
-
+// .investorType
 const BigBullClientPage = ({ data, payload, pageUrl }: any) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [__data, setData] = useState(data);
@@ -25,6 +25,8 @@ const BigBullClientPage = ({ data, payload, pageUrl }: any) => {
     router.push(`/markets/top-india-investors-portfolio/${pushValue}`);
   };
   const tabCatName = _payload.investorType.toLowerCase();
+  let investorType = _payload.investorType.toLowerCase();
+  investorType = investorType.charAt(0).toUpperCase() + investorType.slice(1);
   const tabs = getBigbullTopTabData(tabCatName);
 
   return (
@@ -52,7 +54,7 @@ const BigBullClientPage = ({ data, payload, pageUrl }: any) => {
               <BigBullSection
                 data={__data?.pageData?.investorlist?.investorData}
                 cartLink={`/markets/top-india-investors-portfolio/${tabCatName}/all-investors`}
-                title="Individual Investors"
+                title={`${investorType} Investors`}
                 type="card1"
                 cartTitle={`View All ${__data?.pageData?.investorlist?.pageSummaryInfo?.totalRecords} Investors`}
               />
@@ -68,7 +70,7 @@ const BigBullClientPage = ({ data, payload, pageUrl }: any) => {
                   __data?.pageData?.investorKeyChanges?.investorKeyChangesData
                 }
                 cartLink={`/markets/top-india-investors-portfolio/${tabCatName}/qtr-changes`}
-                cartTitle="View All Holding Changes"
+                cartTitle="View All Holdings Changes"
               />
             )}
 
@@ -91,7 +93,7 @@ const BigBullClientPage = ({ data, payload, pageUrl }: any) => {
                 type="card2"
                 data={__data?.pageData?.bestPicksDataInfo?.bestPicksListInfo}
                 cartLink={`/markets/top-india-investors-portfolio/${tabCatName}/best-picks`}
-                cartTitle={`View All ${__data?.pageData?.bestPicksDataInfo?.pageSummaryInfo?.totalRecords} Best STock Picks`}
+                cartTitle={`View All ${__data?.pageData?.bestPicksDataInfo?.pageSummaryInfo?.totalRecords} Best Stock Picks`}
               />
             )}
 
