@@ -29,19 +29,23 @@ const ScreenerNameViewPopup = ({
       alert("Plase fill your screener name");
     }
   };
+  const modalCloseHandler = () => {
+    document.body.style.overflow = "";
+    closePopUp(false);
+  };
   return (
     <>
       <div className={`customeModule ${styles.wraperSmall}`}>
         <div
           className={`${styles.overlaySmall}`}
-          onClick={() => closePopUp(false)}
+          onClick={modalCloseHandler}
         ></div>
         <div className={`moduleWrap ${styles.perWrap}`}>
           <div className={styles.header}>
             Name your screener view
             <span
               className={`${styles.closeIcon}`}
-              onClick={() => closePopUp(false)}
+              onClick={modalCloseHandler}
             ></span>
           </div>
           <div className={styles.body}>
@@ -58,7 +62,7 @@ const ScreenerNameViewPopup = ({
           <div className={styles.footer}>
             <span
               className={`${styles.updateBtn} ${styles.cancelBtn}`}
-              onClick={() => closePopUp(false)}
+              onClick={modalCloseHandler}
             >
               Cancel
             </span>
