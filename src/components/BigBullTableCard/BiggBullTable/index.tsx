@@ -21,9 +21,9 @@ const BiggBullTable = ({
   parentHasScroll = false,
 }: any) => {
   const { state } = useStateContext();
-  //const { isPrime } = state.login;
+  const { isPrime } = state.login;
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
-  const isPrime = true;
+  //const isPrime = true;
   //console.log("tableHead", tableHead);
   const blurNameHandler = () => {
     setShowNonPrimeBlocker(true);
