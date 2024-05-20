@@ -354,7 +354,12 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                   }
                 >
                   <p>
-                    <span className={styles.topNewsTitle}>{list?.title}</span>
+                    <span
+                      className={styles.topNewsTitle}
+                      dangerouslySetInnerHTML={{
+                        __html: list?.title,
+                      }}
+                    />
                     {!!list.readtime && (
                       <span className={styles.readTime}>
                         {`${list.readtime} ${list.readtime == 1 ? "Min ago" : "Mins ago"}`}
