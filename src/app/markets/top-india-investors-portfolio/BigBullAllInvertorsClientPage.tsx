@@ -25,7 +25,6 @@ const BigBullAllInvertorsClientPage = ({
   pageUrl,
   tableThSortFilterID,
 }: any) => {
-  const __title = "Individual Investors ";
   const __spanTxt = "";
   const router = useRouter();
   //console.log("___data", tableThSortFilterID, tableThSortFilterID);
@@ -45,6 +44,9 @@ const BigBullAllInvertorsClientPage = ({
   const [tableLoadingShow, setTableLoadingShow] = useState(false);
   const [_payload, setPayload] = useState(payload);
   const tabCatName = _payload.investorType.toLowerCase();
+  let investorType = _payload.investorType.toLowerCase();
+  investorType = investorType.charAt(0).toUpperCase() + investorType.slice(1);
+  const __title = `${investorType} Investors`;
   const tabs = getBigbullTopTabData(tabCatName);
   const fitlerHandler = (value: any) => {
     const pushValue = value.toLowerCase();

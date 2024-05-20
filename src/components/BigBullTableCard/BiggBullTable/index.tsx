@@ -180,11 +180,15 @@ const BiggBullTable = ({
                                     bestPicks[0].uiLabel?.text,
                                   )
                                 }
-                                href={getStockUrl(
-                                  bestPicks[0].uiLabel?.companyId,
-                                  bestPicks[0].uiLabel?.companySeoName,
-                                  bestPicks[0].uiLabel?.companyType,
-                                )}
+                                href={`${
+                                  bestPicks[0]?.uiLabel?.text
+                                    ? getStockUrl(
+                                        bestPicks[0].uiLabel?.companyId,
+                                        bestPicks[0].uiLabel?.companySeoName,
+                                        bestPicks[0].uiLabel?.companyType,
+                                      )
+                                    : null
+                                }`}
                                 target="_blank"
                               >
                                 {bestPicks.length > 0
@@ -245,11 +249,16 @@ const BiggBullTable = ({
                                     bestPicksToNext[0].uiLabel?.text,
                                   )
                                 }
-                                href={getStockUrl(
-                                  bestPicksToNext[0].uiLabel?.companyId,
-                                  bestPicksToNext[0].uiLabel?.companySeoName,
-                                  bestPicksToNext[0].uiLabel?.companyType,
-                                )}
+                                href={`${
+                                  bestPicksToNext[0]?.uiLabel?.text
+                                    ? getStockUrl(
+                                        bestPicksToNext[0].uiLabel?.companyId,
+                                        bestPicksToNext[0].uiLabel
+                                          ?.companySeoName,
+                                        bestPicksToNext[0].uiLabel?.companyType,
+                                      )
+                                    : null
+                                }`}
                                 target="_blank"
                               >
                                 {bestPicksToNext.length > 0
