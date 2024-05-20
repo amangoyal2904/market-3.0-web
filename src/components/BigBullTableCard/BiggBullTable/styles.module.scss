@@ -246,13 +246,15 @@
   .bestPickSec {
     text-align: left;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    column-gap: 5px;
     background: rgba(255, 251, 245, 1);
     padding: 12px;
     min-height: 62px;
     margin: 5px 0;
     width: 300px;
+    .rightSec {
+      padding-top: 2px;
+    }
     .head5 {
       font-size: 14px;
       line-height: 18px;
