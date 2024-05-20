@@ -1,5 +1,4 @@
 "use client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import styles from "./MarketMoods.module.scss";
 import React, {
   useState,

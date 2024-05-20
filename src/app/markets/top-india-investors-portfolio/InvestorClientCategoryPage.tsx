@@ -29,7 +29,7 @@ const InvestorClientCategoryPage = ({
   const [sortByTrade, setSortByTrade]: any = useState([
     { label: "All Entries", value: "ALL" },
     { label: "Sold Entries", value: "SOLD" },
-    { label: "Bougth Entries", value: "BOUGHT" },
+    { label: "Bought Entries", value: "BOUGHT" },
   ]);
   const [_rightTabTextAPI, setRightTabTextAPI] = useState(rightTabTxt);
   const [sortByTradeActive, setSortByTradeActive] = useState({

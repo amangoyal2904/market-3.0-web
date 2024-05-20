@@ -6,7 +6,6 @@ import loginReducer from "../Reducers/loginReducer.ts";
 import marketReducer from "../Reducers/marketReducer.ts";
 import watchlistReducer from "../Reducers/watchlistReducer.ts";
 import stockRecosReducer from "../Reducers/stockRecosReducer.ts";
-import marketMoodReducer from "../Reducers/marketMoodReducer";
 
 const initialState = {
   login: {
@@ -29,12 +28,6 @@ const initialState = {
     viewType: "card",
     error: null,
   },
-  MarketMoodStatus: {
-    countPercentage: "percentage",
-    duration: "1M",
-    monthlyDaily: "daily",
-    error: null,
-  },
 };
 
 const StateContext = createContext();
@@ -46,7 +39,6 @@ export function StateProvider({ children }) {
       marketStatus: marketReducer,
       watchlistStatus: watchlistReducer,
       StockRecosStatus: stockRecosReducer,
-      MarketMoodStatus: marketMoodReducer,
     }),
     initialState,
   );

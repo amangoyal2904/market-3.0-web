@@ -78,7 +78,7 @@ const NameViewComponent = ({
                 type="text"
                 value={screenerName}
                 onChange={(e: any) => setScreenerName(e.target.value)}
-                placeholder="Custome View "
+                placeholder="Custom View "
                 maxLength={25}
               />
             </div>

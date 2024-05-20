@@ -7,7 +7,6 @@ import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
 import Pagination from "./Pagination";
 import useDebounce from "@/hooks/useDebounce";
-import { getPageName } from "@/utils/ga";
 
 interface propsType {
   data: any[];
@@ -328,8 +327,8 @@ const MarketTable = React.memo((props: propsType) => {
   };
 
   const onPageChange = (pageNumber: any) => {
-    if (props.handlePageChange) {
-      props.handlePageChange(pageNumber);
+    if (!!handlePageChange) {
+      handlePageChange(pageNumber);
     }
 
     if (tableRef.current) {
