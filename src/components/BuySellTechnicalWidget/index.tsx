@@ -28,7 +28,7 @@ const indicator_opts = [
 
 const BuySellTechnicalWidget = ({ data, unixDateTime, bodyParams }: any) => {
   const { state } = useStateContext();
-  const { isLogin, ssoid, isPrime } = state.login;
+  const { isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;
   const [updateDateTime, setUpdateDateTime] = useState(unixDateTime);
   const [processingLoader, setProcessingLoader] = useState(false);
