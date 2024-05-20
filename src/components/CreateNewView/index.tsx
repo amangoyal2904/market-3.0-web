@@ -5,6 +5,7 @@ import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import NameViewComponent from "./createmodule";
 import ToasterPopup from "../ToasterPopup/OnlyInfo";
+import ToasterPopupConfirm from "../ToasterPopup/ConfirmBox";
 import { trackingEvent } from "@/utils/ga";
 
 const CreateNewViewComponent = ({
@@ -25,22 +26,47 @@ const CreateNewViewComponent = ({
   const viewWraperRef = useRef<HTMLDivElement>(null);
   const [viewNameModule, setViewNameModule] = useState(false);
   const [sateUpdate, setSateUpdate] = useState(true);
+  const [userTouchField, setUserTouchField] = useState(false);
   const [loading, setLoading] = useState(false);
   const [visibleTabs, setVisibleTabs] = useState<any[]>([]);
   const [hiddenTabs, setHiddenTabs] = useState<any[]>([]);
   const tabsListRef = useRef<HTMLUListElement>(null);
   const [showToaster, setShowToaster] = useState(false);
-  console.log("showToaster", showToaster);
+  const [showToasterConfirm, setShowToasterConfirm] = useState(false);
+
+  //console.log("showToaster", showToaster);
   const [toasterData, setToasterData] = useState({
     title: "",
     errorModule: "",
   });
+  const [toasterDataConfirmBox, setToasterDataConfirmBox] = useState({
+    title: "",
+    errorModule: "",
+    yes: "",
+    no: "",
+    action: "",
+  });
   const closeToaster = () => {
     setShowToaster(false);
   };
+  const closeToasterConfirm = () => {
+    setShowToasterConfirm(false);
+  };
   const CreateViewNameModalClose = () => {
-    setViewNameModule(false);
-    closePopCreateView(false);
+    if (userTouchField) {
+      setShowToasterConfirm(true);
+      setToasterDataConfirmBox({
+        title: "Do you want to save the changes made?",
+        errorModule: "error",
+        yes: "Yes ",
+        no: "Continue without saving",
+        action: "closemodal",
+      });
+    } else {
+      closePopCreateView(false);
+      setViewNameModule(false);
+      closePersonaliseCreateViewModal();
+    }
   };
   //console.log('editmode', editmode)
   const ViewDataAPICall = async () => {
@@ -98,7 +124,7 @@ const CreateNewViewComponent = ({
       setViewNameModule(true);
       // const randomNumber = Math.floor(Math.random() * 100) + 1;
       // setScreenerName(`Custom View ${userCustomeViewNo}`);
-      //closePopCreateView(false);
+      //closePersonaliseCreateViewModal();
       hideElementsByClass("hideSecElement");
     } else {
       saveUserPersonaliseAPICall();
@@ -196,6 +222,7 @@ const CreateNewViewComponent = ({
   };
 
   const viewCheckHandler = (e: any, addData: any) => {
+    setUserTouchField(true);
     const isChecked = e.target.checked;
     console.log("selectedView", selectedView);
     if (selectedView.length >= 20 && isChecked) {
@@ -226,6 +253,7 @@ const CreateNewViewComponent = ({
   };
   const handleOnDragEnd = (result: any) => {
     //console.log('result',result)
+    setUserTouchField(true);
     if (!result.destination) return; // Dropped outside the list
 
     const updatedListData = [...selectedView];
@@ -242,7 +270,7 @@ const CreateNewViewComponent = ({
   const removeUserPersonalise = () => {
     if (editmode && editmode.mode && editmode.viewId !== "") {
       //removeByViewID(editmode.viewId);
-      closePopCreateView(false);
+      closePersonaliseCreateViewModal();
       removePersonaliseView(editmode.viewId);
     }
   };
@@ -294,14 +322,29 @@ const CreateNewViewComponent = ({
     //console.log('resdata', resData)
     setLoading(false);
     if (resData && resData.responseCode === 200) {
-      closePopCreateView(false);
+      closePersonaliseCreateViewModal();
       //alert(resData.response)
       onPersonalizeHandler();
     } else {
       alert("some error please check api or code");
     }
   };
+  const closePersonaliseCreateViewModal = () => {
+    if (userTouchField) {
+      setShowToasterConfirm(true);
+      setToasterDataConfirmBox({
+        title: "Do you want to save the changes made?",
+        errorModule: "error",
+        yes: "Yes ",
+        no: "Continue without saving",
+        action: "closemodal",
+      });
+    } else {
+      closePopCreateView(false);
+    }
+  };
   const removeItemList = (itemList: any, e: any) => {
+    setUserTouchField(true);
     //e.stopPropagation()
     // e.preventDefault();
     const fieldName = itemList.sourceFieldName;
@@ -360,6 +403,17 @@ const CreateNewViewComponent = ({
       setHiddenTabs(newHiddenTabs);
     }
   };
+  const toasterActionFun = (action = "") => {
+    if (action === "closemodal") {
+      setShowToasterConfirm(false);
+      closePopCreateView(false);
+      document.body.style.overflow = "";
+      //console.log('___clar blank ____ListData_',listData)
+    } else if (action === "createnew") {
+      setShowToasterConfirm(false);
+      setViewNameModule(true);
+    }
+  };
   //console.log('VisibleTabs', visibleTabs, "_HiddenTabs__", hiddenTabs)
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -376,7 +430,7 @@ const CreateNewViewComponent = ({
         e.target.classList[0] !== "refRemoveList"
       ) {
         //console.log('___________++++++++',viewWraperRef.current, !viewWraperRef.current.contains(e.target), "sateUpdate",sateUpdate)
-        // closePopCreateView(false);
+        // closePersonaliseCreateViewModal();
       }
     };
     document.addEventListener("click", handleClickOutsidePopup);
@@ -418,7 +472,7 @@ const CreateNewViewComponent = ({
       <div className={`customModule ${styles.wraper}`}>
         <div
           className={styles.divOverlya}
-          onClick={() => closePopCreateView(false)}
+          onClick={closePersonaliseCreateViewModal}
         ></div>
         <div className={`moduleWrap ${styles.perWrap}`} ref={viewWraperRef}>
           <div className={`hideSecElement ${styles.header}`}>
@@ -429,7 +483,7 @@ const CreateNewViewComponent = ({
             </span>
             <span
               className={`${styles.closeIcon}`}
-              onClick={() => closePopCreateView(false)}
+              onClick={closePersonaliseCreateViewModal}
             ></span>
             {editmode && editmode.mode && editmode.viewId != "" ? (
               <span className={styles.editViewName}>
@@ -742,6 +796,16 @@ const CreateNewViewComponent = ({
       </div>
       {showToaster ? (
         <ToasterPopup data={toasterData} toasterCloseHandler={closeToaster} />
+      ) : (
+        ""
+      )}
+
+      {showToasterConfirm ? (
+        <ToasterPopupConfirm
+          data={toasterDataConfirmBox}
+          toasterCloseHandler={closeToasterConfirm}
+          toasterActionFun={toasterActionFun}
+        />
       ) : (
         ""
       )}
