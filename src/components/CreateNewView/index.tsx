@@ -147,7 +147,7 @@ const CreateNewViewComponent = ({
     ];
     const bodyPost: any = {
       fields: updatedOrder,
-      name: screenerName,
+      name: screenerName.trim(),
       selectedFlag: 1,
       ssoId: ssoid,
       viewType: "USER",
