@@ -44,7 +44,7 @@ const getLiPath = (router: string, pagePath: string) => {
       showNextLi: false,
       currentLiNode: (
         <li>
-          <span className="eticon_caret_right"></span>Stock Screener
+          <span className="eticon_caret_right"></span>Stock Screeners
         </li>
       ),
       showCurrLi: true,
@@ -56,14 +56,14 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/stock-screener">Stock Screener</a>
+          <a href="/markets/stock-screener">Stock Screeners</a>
         </li>
       ),
       showCurrLi: true,
       listItemSchema: {
         "@type": "ListItem",
         position: "3",
-        name: "Stock Screener",
+        name: "Stock Screeners",
         item: { "@id": "/markets/stock-screener" },
       },
     };
