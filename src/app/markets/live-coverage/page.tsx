@@ -1,5 +1,5 @@
 import StockRecommendations from "@/components/StockRecommendations";
-import WatchListWidget from "@/components/WatchListWidget";
+import WatchListWidget from "@/components/WatchlistWidget";
 import StockReportsPlus from "@/components/StockReportsPlus";
 import APIS_CONFIG from "@/network/api_config.json";
 import service from "@/network/service";
