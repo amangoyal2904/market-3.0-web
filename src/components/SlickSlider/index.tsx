@@ -51,28 +51,37 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     slidesToShow: slidesToShow || 5,
     slidesToScroll: 1,
     rows: rows || 1,
-    appendDots: (dots) => (
-      <div>
-        <div
-          className={`stockSliderIcons ${styles.SliderCommonIcons} ${styles[`${topSpaceClass}`]}`}
-        >
+    appendDots: (dots: any) => (
+      console.log("@@@@dots", dots),
+      (
+        <div>
           <div
-            className={`slick-prev slick-arrow ${styles.arrowIcon}`}
-            onClick={prevSlide}
+            className={`stockSliderIcons ${styles.SliderCommonIcons} ${styles[`${topSpaceClass}`]}`}
           >
-            <span className={`eticon_prev ${styles.commonArrow}`}></span>
-          </div>
-          <div className={`custom-slick-dots ${styles.commonDots}`}>
-            <ul> {dots} </ul>
-          </div>
-          <div
-            className={`slick-next slick-arrow ${styles.arrowIcon}`}
-            onClick={nextSlide}
-          >
-            <span className={`eticon_next ${styles.commonArrow}`}></span>
+            <div
+              className={`slick-prev slick-arrow ${styles.arrowIcon}`}
+              onClick={currentSlideIndex == 0 ? () => {} : prevSlide}
+            >
+              <span
+                className={`eticon_prev ${styles.commonArrow} ${currentSlideIndex == 0 ? styles.disableBtn : ""}`}
+              ></span>
+            </div>
+            <div className={`custom-slick-dots ${styles.commonDots}`}>
+              <ul> {dots} </ul>
+            </div>
+            <div
+              className={`slick-next slick-arrow ${styles.arrowIcon} `}
+              onClick={
+                dots?.length == currentSlideIndex + 1 ? () => {} : nextSlide
+              }
+            >
+              <span
+                className={`eticon_next ${styles.commonArrow} ${dots?.length == currentSlideIndex + 1 ? styles.disableBtn : ""}`}
+              ></span>
+            </div>
           </div>
         </div>
-      </div>
+      )
     ),
     beforeChange: (oldIndex, newIndex) => {
       setCurrentSlideIndex(newIndex);
@@ -94,7 +103,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
       sliderRef.current.slickPrev();
     }
   };
-
+  console.log("@@@@--->slides", slides.length, currentSlideIndex);
   useEffect(() => {
     if (sliderRef.current) {
       sliderRef.current.slickGoTo(0);
