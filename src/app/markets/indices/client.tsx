@@ -82,7 +82,7 @@ const IndicesClient = ({
       <div className="dflex align-item-center">
         <h1
           className={`${styles.heading} ${styles.withRBorder}`}
-        >{`${exchange.toUpperCase()} - All Indices`}</h1>
+        >{`All Indices ${exchange.toUpperCase()} - Indian Stock Market Index`}</h1>
         <MarketStatus
           currentMarketStatus={currentMarketStatus}
           dateTime={updateDateTime}

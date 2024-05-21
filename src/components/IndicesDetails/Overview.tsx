@@ -85,7 +85,9 @@ const IndicesDetailsOverview = React.memo(
         <div className="dflex align-item-center">
           <h1 className={styles.headline}>{overviewData?.assetName}</h1>
           <Link
-            href="/markets/indices"
+            href={
+              exchangeId == "47" ? "/markets/indices/bse" : "/markets/indices"
+            }
             title="View all Indices"
             className={styles.viewAll}
           >

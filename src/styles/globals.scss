@@ -506,6 +506,11 @@ table {
     font-size: 16px;
     border-radius: 50%;
   }
+  &.withRed {
+    button {
+      background: $red-50;
+    }
+  }
 }
 .eticon_add.bold,
 .eticon_tick.bold {
