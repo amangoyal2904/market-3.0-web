@@ -487,25 +487,28 @@ const CreateScreenerModule = ({
                         viewData[activeTab].screenerCategoryLevelTwo.length >
                           0 ? (
                           viewData[activeTab].screenerCategoryLevelTwo.map(
-                            (subItem: any) => (
-                              <li key={subItem.categoryFieldMasterID}>
-                                <div className={styles.subHeadName}>
-                                  {subItem.displayName}
-                                </div>
-                                {subItem.screenerCategoryFields &&
-                                  subItem.screenerCategoryFields.length > 0 && (
-                                    <ul
-                                      className={`customScroll ${styles.innerList}`}
-                                    >
-                                      {subItem.screenerCategoryFields.map(
-                                        (childSubItem: any) => (
-                                          <li
-                                            key={
-                                              childSubItem.categoryFieldMasterID
-                                            }
-                                          >
-                                            <div className={styles.forGroup}>
-                                              {/* <input
+                            (subItem: any) =>
+                              subItem.screenerCategoryFields &&
+                              subItem.screenerCategoryFields.length > 0 && (
+                                <li key={subItem.categoryFieldMasterID}>
+                                  <div className={styles.subHeadName}>
+                                    {subItem.displayName}
+                                  </div>
+                                  {subItem.screenerCategoryFields &&
+                                    subItem.screenerCategoryFields.length >
+                                      0 && (
+                                      <ul
+                                        className={`customScroll ${styles.innerList}`}
+                                      >
+                                        {subItem.screenerCategoryFields.map(
+                                          (childSubItem: any) => (
+                                            <li
+                                              key={
+                                                childSubItem.categoryFieldMasterID
+                                              }
+                                            >
+                                              <div className={styles.forGroup}>
+                                                {/* <input
                                                 type="checkbox"
                                                 id={
                                                   childSubItem.categoryMasterID
@@ -527,32 +530,34 @@ const CreateScreenerModule = ({
                                                 )}
                                               /> */}
 
-                                              <span
-                                                className={styles.valTxt}
-                                                id={
-                                                  childSubItem.categoryMasterID
-                                                }
-                                                onClick={() =>
-                                                  viewCheckHandler(childSubItem)
-                                                }
-                                              >
                                                 <span
-                                                  className={
-                                                    styles.checkBoxStyle
+                                                  className={styles.valTxt}
+                                                  id={
+                                                    childSubItem.categoryMasterID
                                                   }
-                                                ></span>
-                                                <span>
-                                                  {childSubItem.displayName}
+                                                  onClick={() =>
+                                                    viewCheckHandler(
+                                                      childSubItem,
+                                                    )
+                                                  }
+                                                >
+                                                  <span
+                                                    className={
+                                                      styles.checkBoxStyle
+                                                    }
+                                                  ></span>
+                                                  <span>
+                                                    {childSubItem.displayName}
+                                                  </span>
                                                 </span>
-                                              </span>
-                                            </div>
-                                          </li>
-                                        ),
-                                      )}
-                                    </ul>
-                                  )}
-                              </li>
-                            ),
+                                              </div>
+                                            </li>
+                                          ),
+                                        )}
+                                      </ul>
+                                    )}
+                                </li>
+                              ),
                           )
                         ) : (
                           <div>No inner data found</div>

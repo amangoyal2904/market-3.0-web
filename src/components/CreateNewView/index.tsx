@@ -687,68 +687,71 @@ const CreateNewViewComponent = ({
                         viewData[activeTab].screenerCategoryLevelTwo.length >
                           0 ? (
                           viewData[activeTab].screenerCategoryLevelTwo.map(
-                            (subItem: any) => (
-                              <li key={subItem.categoryFieldMasterID}>
-                                <div className={styles.subHeadName}>
-                                  {subItem.displayName}
-                                </div>
-                                {subItem.screenerCategoryFields &&
-                                  subItem.screenerCategoryFields.length > 0 && (
-                                    <ul
-                                      className={`customScroll ${styles.innerList}`}
-                                    >
-                                      {subItem.screenerCategoryFields.map(
-                                        (childSubItem: any) => (
-                                          <li
-                                            key={
-                                              childSubItem.categoryFieldMasterID
-                                            }
-                                          >
-                                            <div className={styles.forGroup}>
-                                              <input
-                                                type="checkbox"
-                                                id={
-                                                  childSubItem.categoryMasterID
-                                                }
-                                                value={
-                                                  childSubItem.categoryMasterID
-                                                }
-                                                className={styles.checkBoxSec}
-                                                onChange={(e) =>
-                                                  viewCheckHandler(
-                                                    e,
-                                                    childSubItem,
-                                                  )
-                                                }
-                                                checked={selectedView.some(
-                                                  (item: any) =>
-                                                    item.sourceFieldName ===
-                                                    childSubItem.sourceFieldName,
-                                                )}
-                                              />
-
-                                              <label
-                                                htmlFor={
-                                                  childSubItem.categoryMasterID
-                                                }
-                                              >
-                                                <span
-                                                  className={
-                                                    styles.checkBoxStyle
+                            (subItem: any) =>
+                              subItem.screenerCategoryFields &&
+                              subItem.screenerCategoryFields.length > 0 && (
+                                <li key={subItem.categoryFieldMasterID}>
+                                  <div className={styles.subHeadName}>
+                                    {subItem.displayName}
+                                  </div>
+                                  {subItem.screenerCategoryFields &&
+                                    subItem.screenerCategoryFields.length >
+                                      0 && (
+                                      <ul
+                                        className={`customScroll ${styles.innerList}`}
+                                      >
+                                        {subItem.screenerCategoryFields.map(
+                                          (childSubItem: any) => (
+                                            <li
+                                              key={
+                                                childSubItem.categoryFieldMasterID
+                                              }
+                                            >
+                                              <div className={styles.forGroup}>
+                                                <input
+                                                  type="checkbox"
+                                                  id={
+                                                    childSubItem.categoryMasterID
                                                   }
-                                                ></span>
-                                                <span>
-                                                  {childSubItem.displayName}
-                                                </span>
-                                              </label>
-                                            </div>
-                                          </li>
-                                        ),
-                                      )}
-                                    </ul>
-                                  )}
-                              </li>
-                            ),
+                                                  value={
+                                                    childSubItem.categoryMasterID
+                                                  }
+                                                  className={styles.checkBoxSec}
+                                                  onChange={(e) =>
+                                                    viewCheckHandler(
+                                                      e,
+                                                      childSubItem,
+                                                    )
+                                                  }
+                                                  checked={selectedView.some(
+                                                    (item: any) =>
+                                                      item.sourceFieldName ===
+                                                      childSubItem.sourceFieldName,
+                                                  )}
+                                                />
+
+                                                <label
+                                                  htmlFor={
+                                                    childSubItem.categoryMasterID
+                                                  }
+                                                >
+                                                  <span
+                                                    className={
+                                                      styles.checkBoxStyle
+                                                    }
+                                                  ></span>
+                                                  <span>
+                                                    {childSubItem.displayName}
+                                                  </span>
+                                                </label>
+                                              </div>
+                                            </li>
+                                          ),
+                                        )}
+                                      </ul>
+                                    )}
+                                </li>
+                              ),
                           )
                         ) : (
                           <li>No inner data found</li>
