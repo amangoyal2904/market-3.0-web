@@ -224,9 +224,7 @@ const StockComponent = ({
               )}
             </div>
             {(activeTab == "newRecos" || activeTab == "FHDetail") && (
-              <div
-                className={`${styles.reportCta} ${source == "home" ? styles["homeReport"] : ""}`}
-              >
+              <div className={`${styles.reportCta}`}>
                 <PdfReport
                   pdfUrl={data.pdfUrl}
                   companyName={data?.companyName}
