@@ -52,36 +52,33 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     slidesToScroll: 1,
     rows: rows || 1,
     appendDots: (dots: any) => (
-      console.log("@@@@dots", dots),
-      (
-        <div>
+      <div>
+        <div
+          className={`stockSliderIcons ${styles.SliderCommonIcons} ${styles[`${topSpaceClass}`]}`}
+        >
           <div
-            className={`stockSliderIcons ${styles.SliderCommonIcons} ${styles[`${topSpaceClass}`]}`}
+            className={`slick-prev slick-arrow ${styles.arrowIcon}`}
+            onClick={currentSlideIndex == 0 ? () => {} : prevSlide}
           >
-            <div
-              className={`slick-prev slick-arrow ${styles.arrowIcon}`}
-              onClick={currentSlideIndex == 0 ? () => {} : prevSlide}
-            >
-              <span
-                className={`eticon_prev ${styles.commonArrow} ${currentSlideIndex == 0 ? styles.disableBtn : ""}`}
-              ></span>
-            </div>
-            <div className={`custom-slick-dots ${styles.commonDots}`}>
-              <ul> {dots} </ul>
-            </div>
-            <div
-              className={`slick-next slick-arrow ${styles.arrowIcon} `}
-              onClick={
-                dots?.length == currentSlideIndex + 1 ? () => {} : nextSlide
-              }
-            >
-              <span
-                className={`eticon_next ${styles.commonArrow} ${dots?.length == currentSlideIndex + 1 ? styles.disableBtn : ""}`}
-              ></span>
-            </div>
+            <span
+              className={`eticon_prev ${styles.commonArrow} ${currentSlideIndex == 0 ? styles.disableBtn : ""}`}
+            ></span>
+          </div>
+          <div className={`custom-slick-dots ${styles.commonDots}`}>
+            <ul> {dots} </ul>
+          </div>
+          <div
+            className={`slick-next slick-arrow ${styles.arrowIcon} `}
+            onClick={
+              dots?.length == currentSlideIndex + 1 ? () => {} : nextSlide
+            }
+          >
+            <span
+              className={`eticon_next ${styles.commonArrow} ${dots?.length == currentSlideIndex + 1 ? styles.disableBtn : ""}`}
+            ></span>
           </div>
         </div>
-      )
+      </div>
     ),
     beforeChange: (oldIndex, newIndex) => {
       setCurrentSlideIndex(newIndex);
