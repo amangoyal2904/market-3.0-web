@@ -68,7 +68,7 @@
       font-weight: 400;
       display: flex;
       column-gap: 8px;
-      span{
+      span {
         white-space: nowrap;
       }
       .bold {
@@ -207,21 +207,21 @@
 }
 
 @media screen and (max-width: 1250px) {
-  .heroWraper{
+  .heroWraper {
     column-gap: 18px;
   }
   .leftTxt {
     column-gap: 10px;
-    .leftImg{
-        width: 100px;
-        height: 100px;
+    .leftImg {
+      width: 100px;
+      height: 100px;
     }
   }
-  .heroWraper{
-    .left{
-      width:50%;
+  .heroWraper {
+    .left {
+      width: 50%;
     }
-    .right{
+    .right {
       width: 48%;
       padding-left: 18px;
     }
@@ -230,9 +230,29 @@
     .head1 {
       font-size: 20px;
     }
-    .complist{
-      li{
+    .complist {
+      li {
         flex-direction: column;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .leftTxt {
+    .leftImg {
+      width: 90px;
+      height: 90px;
+    }
+  }
+  .rightTxt {
+    .complist {
+      li {
+        font-size: 12px;
+      }
+      li + li {
+        padding-left: 8px;
+        margin-left: 8px;
       }
     }
   }
