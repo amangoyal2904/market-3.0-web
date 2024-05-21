@@ -88,7 +88,7 @@ const BuySellTab = ({
     const newVisibleTabs: any[] = [];
     const newHiddenTabs: any[] = [];
     for (const tab of filterData) {
-      const tabWidth = tab.label.length * 3.5; // Adjust the width calculation as per your requirement
+      const tabWidth = tab.label.length * 3; // Adjust the width calculation as per your requirement
       if (currentWidth + tabWidth < tabsListWidth) {
         newVisibleTabs.push(tab);
         currentWidth += tabWidth;

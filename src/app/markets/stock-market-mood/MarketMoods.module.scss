@@ -245,12 +245,45 @@
         line-height: 30px;
         color: $black;
         margin: 5px auto 15px;
+        max-width: 1080px;
       }
       .desc {
         font-size: 18px;
         font-weight: 400;
         line-height: 22px;
         color: $black;
+      }
+      .paywalledList {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 15px;
+        li {
+          position: relative;
+          font-size: 12px;
+          font-weight: 500;
+          line-height: 14px;
+          strong {
+            font-weight: 600;
+          }
+          &:after {
+            position: absolute;
+            content: "";
+            width: 7px;
+            height: 7px;
+            top: 3px;
+            left: -10px;
+            border-radius: 50%;
+            background: #ec193a;
+          }
+          &.high:after {
+            background: #1ead1f;
+          }
+          &.mid:after {
+            background: #ffd698;
+          }
+        }
       }
       .plan {
         margin: 5px auto 30px;
