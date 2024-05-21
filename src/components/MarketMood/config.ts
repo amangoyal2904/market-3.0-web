@@ -3,22 +3,28 @@ export const payWallMarketMood = [
     key: "overview",
     heading: "",
     img: "/img/marketmood1.png",
-    title: "Visualise the heatmap based on Technical Indicators & Levels",
+    title:
+      "Market Mood is a comprehensive tool to help you identify trend reversal & understand market sentiments better.",
     desc: "Join ETPrime & unlock complete access to Market Mood.",
+    cta: "Subscribe Now",
   },
   {
     key: "periodic",
     heading: "Periodic High/Low",
     img: "/img/marketmood2.png",
-    title: "Determine the trading zones of the stocks-Low, Mid, High",
-    desc: "Join ETPrime & unlock complete access to Market Mood.",
+    title:
+      "Check the stocks reaching their all time highs & lows across indices & time frame",
+    desc: "",
+    cta: "Subscribe & Unlock Insights",
   },
   {
     key: "advanceDecline",
     heading: "Advance/Decline",
     img: "/img/marketmood3.png",
-    title: "Get to know the market trend with Advances & Declines",
-    desc: "Join ETPrime & unlock complete access to Market Mood.",
+    title:
+      "Track the no. of stocks closing above their previous day's close & no. of stocks closing below their previous low.",
+    desc: "",
+    cta: "Subscribe & Unlock Insights",
   },
 ];
 

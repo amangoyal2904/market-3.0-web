@@ -38,6 +38,34 @@ const StockFilterNifty = dynamic(
   { ssr: false },
 );
 
+const overviewList = (
+  <ul className={styles.paywalledList}>
+    <li>
+      <strong>Track Performance:</strong> Monitor short & long term market
+      performance using SMA & EMA.
+    </li>
+    <li>
+      <strong>Identify Phases:</strong> Effortlessly determine if the market is
+      bullish or bearish.
+    </li>
+  </ul>
+);
+const periodicList = (
+  <ul className={styles.paywalledList}>
+    <li className={styles.high}>
+      <strong>High Zone:</strong> Stocks trading within 20% of their respective
+      High Range
+    </li>
+    <li className={styles.mid}>
+      <strong>Mid Zone:</strong> Stocks in Neutral Range
+    </li>
+    <li>
+      <strong>Low Zone:</strong> Stocks Trading within 20% of their respective
+      Low Range
+    </li>
+  </ul>
+);
+
 const MarketMoodsClient = ({
   selectedFilter = {},
   overview = {},
@@ -393,7 +421,12 @@ const MarketMoodsClient = ({
                   loading="lazy"
                 />
                 <p className={styles.title}>{item.title}</p>
-                <p className={styles.desc}>{item.desc}</p>
+                {item.key == "overview"
+                  ? overviewList
+                  : item.key == "periodic"
+                    ? periodicList
+                    : ""}
+                {!!item.desc && <p className={styles.desc}>{item.desc}</p>}
                 <div className={styles.plan}>
                   <span
                     className={styles.subscribeBtn}
@@ -401,7 +434,7 @@ const MarketMoodsClient = ({
                       redirectToPlanPage(objTracking);
                     }}
                   >
-                    Subscribe Now
+                    {item.cta}
                   </span>
                   {!isLogin && (
                     <p className={styles.defaultLink}>

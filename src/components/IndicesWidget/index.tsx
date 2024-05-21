@@ -1,5 +1,5 @@
 "use client";
-import { chartIntervals } from "@/utils/utility";
+import { chartIntervals, saveLogs } from "@/utils/utility";
 import styles from "./Indices.module.scss";
 import SlickSlider from "../SlickSlider";
 import StockCards from "./StockCards";
@@ -102,17 +102,26 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
     );
   };
   const getIndicesWidgetData = async () => {
-    const response = await Service.get({
-      url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
-      params: {},
-    });
-    const data = response ? await response?.json() : {};
-    setIndicesData(data?.indicesList);
-    setSelectedIndex((prevState: any) =>
-      Object.keys(prevState)?.length ? prevState : data?.indicesList[0],
-    );
-    setFiiCash(data?.fiiData);
-    setDiiCash(data?.diiData);
+    try {
+      const response = await Service.get({
+        url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
+        params: {},
+      });
+      const data = response ? await response?.json() : {};
+      saveLogs({
+        res: "success",
+        msg: "Successfully fetched indices widget data",
+      });
+      setIndicesData(data?.indicesList);
+      setSelectedIndex((prevState: any) =>
+        Object.keys(prevState)?.length ? prevState : data?.indicesList[0],
+      );
+      setFiiCash(data?.fiiData);
+      setDiiCash(data?.diiData);
+    } catch (e) {
+      console.log("error in fetching indices data", e);
+      saveLogs({ res: "error", msg: "Error in fetching indices widget data" });
+    }
   };
   const onSelectIndex = (selectedItem: any, index: any) => {
     setSelectedIndex(selectedItem);
@@ -354,7 +363,12 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                   }
                 >
                   <p>
-                    <span className={styles.topNewsTitle}>{list?.title}</span>
+                    <span
+                      className={styles.topNewsTitle}
+                      dangerouslySetInnerHTML={{
+                        __html: list?.title,
+                      }}
+                    />
                     {!!list.readtime && (
                       <span className={styles.readTime}>
                         {`${list.readtime} ${list.readtime == 1 ? "Min ago" : "Mins ago"}`}

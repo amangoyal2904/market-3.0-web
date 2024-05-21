@@ -51,25 +51,31 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     slidesToShow: slidesToShow || 5,
     slidesToScroll: 1,
     rows: rows || 1,
-    appendDots: (dots) => (
+    appendDots: (dots: any) => (
       <div>
         <div
           className={`stockSliderIcons ${styles.SliderCommonIcons} ${styles[`${topSpaceClass}`]}`}
         >
           <div
             className={`slick-prev slick-arrow ${styles.arrowIcon}`}
-            onClick={prevSlide}
+            onClick={currentSlideIndex == 0 ? () => {} : prevSlide}
           >
-            <span className={`eticon_prev ${styles.commonArrow}`}></span>
+            <span
+              className={`eticon_prev ${styles.commonArrow} ${currentSlideIndex == 0 ? styles.disableBtn : ""}`}
+            ></span>
           </div>
           <div className={`custom-slick-dots ${styles.commonDots}`}>
             <ul> {dots} </ul>
           </div>
           <div
-            className={`slick-next slick-arrow ${styles.arrowIcon}`}
-            onClick={nextSlide}
+            className={`slick-next slick-arrow ${styles.arrowIcon} `}
+            onClick={
+              dots?.length == currentSlideIndex + 1 ? () => {} : nextSlide
+            }
           >
-            <span className={`eticon_next ${styles.commonArrow}`}></span>
+            <span
+              className={`eticon_next ${styles.commonArrow} ${dots?.length == currentSlideIndex + 1 ? styles.disableBtn : ""}`}
+            ></span>
           </div>
         </div>
       </div>
@@ -94,7 +100,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
       sliderRef.current.slickPrev();
     }
   };
-
+  console.log("@@@@--->slides", slides.length, currentSlideIndex);
   useEffect(() => {
     if (sliderRef.current) {
       sliderRef.current.slickGoTo(0);

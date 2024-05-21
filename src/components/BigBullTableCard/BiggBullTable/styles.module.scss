@@ -450,6 +450,11 @@
 }
 .bestPicks {
   tr {
+    th + th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     td {
       &:first-child,
       &:nth-of-type(2) {
@@ -461,6 +466,12 @@
 }
 .qtrChange {
   tr {
+    th + th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
+
     td {
       &:first-child,
       &:nth-of-type(2) {
@@ -483,6 +494,11 @@
         .thead {
           justify-content: center;
         }
+      }
+    }
+    th + th + th + th {
+      .thead {
+        justify-content: flex-end;
       }
     }
 
@@ -521,6 +537,11 @@
 }
 .allInvestors {
   tr {
+    th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     td {
       &:first-child {
         max-width: 350px;
@@ -536,6 +557,11 @@
 }
 .investorBulkBlock {
   tr {
+    th + th + th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     th {
       &:nth-of-type(3) {
         width: 350px;
@@ -552,6 +578,11 @@
 }
 .holdingInvestor {
   tr {
+    th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     th {
       &:first-child {
         min-width: 350px;
@@ -569,6 +600,11 @@
 }
 .mostHeldTable {
   tr {
+    th + th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     td {
       &:first-child,
       &:nth-of-type(2) {

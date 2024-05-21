@@ -158,3 +158,13 @@
 .card.viewMoreSec.small {
   min-height: 108px;
 }
+
+@media screen and (max-width: 1024px) {
+  .cartWraper {
+    column-gap: 20px;
+    row-gap: 20px;
+    .card {
+      min-width: 280px;
+    }
+  }
+}

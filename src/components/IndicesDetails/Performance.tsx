@@ -62,7 +62,7 @@ const IndicesPerformance = React.memo(({ data, indexName, exchange }: any) => {
       setPeersData(updatedPeerData);
     } else {
       toast((t) => (
-        <span className="errorToast">
+        <span className="errorToast withRed">
           <b>{name}</b> Indices is already added
           <button onClick={() => toast.dismiss(t.id)}>
             <i className="eticon_cross"></i>
