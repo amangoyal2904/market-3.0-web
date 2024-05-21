@@ -11,8 +11,8 @@ import { trackingEvent } from "@/utils/ga";
 
 const EntryCard = ({ data }: any) => {
   const { state } = useStateContext();
-  const { isPrime } = state.login;
-  //const isPrime = true;
+  //const { isPrime } = state.login;
+  const isPrime = true;
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
   const blurNameHandler = () => {
     setShowNonPrimeBlocker(true);
