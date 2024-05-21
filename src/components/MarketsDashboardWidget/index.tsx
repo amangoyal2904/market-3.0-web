@@ -52,7 +52,7 @@ const MarketsDashboardWidget = async () => {
 
   return (
     <div className="sectionWrapper">
-      <h2 className="heading">Markets Dashboards</h2>
+      <h1 className="heading">Markets Dashboard</h1>
       <MarketDashBoard
         tabsData={tabData}
         tableData={tableData}
