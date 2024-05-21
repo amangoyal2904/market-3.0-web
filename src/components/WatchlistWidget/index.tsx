@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import MarketTable from "../../components/MarketTable";
+import MarketTable from "../MarketTable";
 import { fetchTabsData, fetchTableData } from "@/utils/utility";
 import { useStateContext } from "../../store/StateContext";
 import tableConfig from "../../utils/tableConfig.json";
@@ -8,7 +8,7 @@ import Blocker from "../Blocker";
 import ViewAllLink from "../ViewAllLink";
 import Link from "next/link";
 
-const WatchlistWidget = () => {
+const WatchListWidget = () => {
   const [showBlocker, setShowBlocker] = useState(true);
   const [apiSuccess, setAPISuccess] = useState(false);
   const [tableData, setTableData] = useState<any>([]);
@@ -73,4 +73,4 @@ const WatchlistWidget = () => {
   );
 };
 
-export default WatchlistWidget;
+export default WatchListWidget;

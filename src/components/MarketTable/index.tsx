@@ -298,9 +298,16 @@ const MarketTable = React.memo((props: propsType) => {
       setHideThead(heightDiff < 25 && heightDiff < -140);
       setHeaderSticky(window.scrollY);
       if (customScroll.current) {
-        if (window.scrollY < 100 || (heightDiff < 180 && !isWidget)) {
+        if (
+          (window.scrollY < 100 && window.screen.width < 1950) ||
+          (heightDiff < 180 && !isWidget)
+        ) {
           customScroll.current.style.display = "none";
-        } else if (window.scrollY > 100 || isWidget) {
+        } else if (
+          window.scrollY > 100 ||
+          isWidget ||
+          window.screen.width > 1950
+        ) {
           customScroll.current.style.display = "flex";
         }
       }

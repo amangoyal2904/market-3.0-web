@@ -23,10 +23,15 @@ const convertJSONToParams = (jsonObject: any) => {
 };
 
 export const getCurrentMarketStatus = async () => {
-  const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
-  const res = await Service.get({ url, params: {} });
-  if (res?.status === 200) {
-    return res?.json();
+  try {
+    const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
+    const res = await Service.get({ url, params: {} });
+    if (res?.status === 200) {
+      return res?.json();
+    }
+  } catch (e) {
+    console.log("error in fetching market status", e);
+    saveLogs({ res: "error", msg: "Error in fetching market status" });
   }
 };
 
@@ -190,12 +195,17 @@ export const fnGenerateMetaData = (meta?: any) => {
 };
 
 export const fetchIndices = async () => {
-  const apiUrl = (APIS_CONFIG as any)?.["INDICES_LIST"][APP_ENV];
-  const response = await Service.get({
-    url: apiUrl,
-    params: {},
-  });
-  return response?.json();
+  try {
+    const apiUrl = (APIS_CONFIG as any)?.["INDICES_LIST"][APP_ENV];
+    const response = await Service.get({
+      url: apiUrl,
+      params: {},
+    });
+    return response?.json();
+  } catch (e) {
+    console.log("error in fetching indices data", e);
+    saveLogs({ res: "error", msg: "Error in fetching indices data" });
+  }
 };
 
 export const fetchFilters = async ({
@@ -204,22 +214,27 @@ export const fetchFilters = async ({
   mostrecent = false,
   marketcap = false,
 }) => {
-  let apiUrl = (APIS_CONFIG as any)?.["INDEX_FILTERS"][APP_ENV];
-  let queryParams = [];
-  if (all) queryParams.push("all=true");
-  if (watchlist) queryParams.push("watchlist=true");
-  if (mostrecent) queryParams.push("mostrecent=true");
-  if (marketcap) queryParams.push("marketcap=true");
-  const queryString = queryParams.join("&");
-  if (!!queryString) {
-    apiUrl = apiUrl + "?" + queryString;
-  }
+  try {
+    let apiUrl = (APIS_CONFIG as any)?.["INDEX_FILTERS"][APP_ENV];
+    let queryParams = [];
+    if (all) queryParams.push("all=true");
+    if (watchlist) queryParams.push("watchlist=true");
+    if (mostrecent) queryParams.push("mostrecent=true");
+    if (marketcap) queryParams.push("marketcap=true");
+    const queryString = queryParams.join("&");
+    if (!!queryString) {
+      apiUrl = apiUrl + "?" + queryString;
+    }
 
-  const response = await Service.get({
-    url: apiUrl,
-    params: {},
-  });
-  return response?.json();
+    const response = await Service.get({
+      url: apiUrl,
+      params: {},
+    });
+    return response?.json();
+  } catch (e) {
+    console.log("error in fetching filters data", e);
+    saveLogs({ res: "error", msg: "Error in fetching filters data" });
+  }
 };
 
 export const fetchTabsData = async () => {
@@ -241,44 +256,54 @@ export const fetchViewTable = async (
   isprimeuser: any,
   ssoid: any,
 ) => {
-  const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
-  const response = await Service.post({
-    url: apiUrl,
-    headers: {
-      "Content-Type": "application/json",
-      ssoid: ssoid,
-      isprime: isprimeuser,
-    },
-    cache: "no-store",
-    body: JSON.stringify({ ...requestObj }),
-    params: {},
-  });
-  return response?.json();
+  try {
+    const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
+    const response = await Service.post({
+      url: apiUrl,
+      headers: {
+        "Content-Type": "application/json",
+        ssoid: ssoid,
+        isprime: isprimeuser,
+      },
+      cache: "no-store",
+      body: JSON.stringify({ ...requestObj }),
+      params: {},
+    });
+    return response?.json();
+  } catch (e) {
+    console.log("error in fetching viewTable data", e);
+    saveLogs({ res: "error", msg: "Error in fetching viewTable data" });
+  }
 };
 
 export const fetchTableData = async (viewId: any, params?: any) => {
-  const ssoid = window.objUser?.ssoid;
-  const isprimeuser = getCookie("isprimeuser") == "true" ? true : false;
-  const apiUrl = `${(APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE[APP_ENV]}`;
-  const response = await Service.post({
-    url: apiUrl,
-    headers: {
-      "Content-Type": "application/json",
-      ssoid: ssoid,
-      isprime: isprimeuser ? isprimeuser : false,
-    },
-    cache: "no-store",
-    body: JSON.stringify({
-      sort: [],
-      type: "STOCK",
-      viewId: viewId,
-      deviceId: "web",
-      ...params,
-    }),
-    params: {},
-  });
+  try {
+    const ssoid = window.objUser?.ssoid;
+    const isprimeuser = getCookie("isprimeuser") == "true" ? true : false;
+    const apiUrl = `${(APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE[APP_ENV]}`;
+    const response = await Service.post({
+      url: apiUrl,
+      headers: {
+        "Content-Type": "application/json",
+        ssoid: ssoid,
+        isprime: isprimeuser ? isprimeuser : false,
+      },
+      cache: "no-store",
+      body: JSON.stringify({
+        sort: [],
+        type: "STOCK",
+        viewId: viewId,
+        deviceId: "web",
+        ...params,
+      }),
+      params: {},
+    });
 
-  return response?.json();
+    return response?.json();
+  } catch (e) {
+    console.log("error in fetching table data", e);
+    saveLogs({ res: "error", msg: "Error in fetching table data" });
+  }
 };
 
 export const getStockUrl = (
@@ -399,20 +424,25 @@ export const saveStockInWatchList = async (followData: any) => {
 };
 
 export const createPeuuid = async () => {
-  let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
-  url = url + `?type=0&source=${API_SOURCE}`;
-  const res: any = await fetch(url, {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      "Content-type": "application/json",
-    },
-  });
-  const data = await res.json();
-  console.log("res", res, data);
-  if (data && data.id != 0) {
-    const peuuid: any = data.id;
-    setCookieToSpecificTime("peuuid", peuuid, 365, 0, 0);
+  try {
+    let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
+    url = url + `?type=0&source=${API_SOURCE}`;
+    const res: any = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    const data = await res.json();
+    console.log("res", res, data);
+    if (data && data.id != 0) {
+      const peuuid: any = data.id;
+      setCookieToSpecificTime("peuuid", peuuid, 365, 0, 0);
+    }
+  } catch (e) {
+    console.log("error in creating peuuid ", e);
+    saveLogs({ res: "error", msg: "Error in creating peuuid" });
   }
 };
 
@@ -1194,4 +1224,55 @@ export const encodeHTML = (html: any) => {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+};
+
+export const saveLogs = (data: any) => {
+  if (data) {
+    try {
+      const isLive = APP_ENV == "development" ? 0 : 1;
+      data.TicketId = getCookie("TicketId");
+      data.ssoid = getCookie("ssoid");
+      data.gid = getCookie("_grx") || "-";
+      if (window.objUser) {
+        if (
+          !data.emailid &&
+          window.objUser.info &&
+          window.objUser.info.primaryEmail
+        ) {
+          data.emailid = window.objUser.info.primaryEmail;
+        }
+        if (!data.ssoid && window.objUser.ssoid) {
+          data.ssoid = window.objUser.ssoid;
+        }
+        if (!data.TicketId && window.objUser.ticketId) {
+          data.TicketId = window.objUser.ticketId;
+        }
+      }
+      data.geoinfo = window?.geoinfo;
+      data.ua = (navigator && navigator.userAgent) || "";
+      var logdata =
+        "logdata=" +
+        JSON.stringify({
+          ref: (isLive ? "live" : "dev") + "_react",
+          data: data,
+          url: window.location.href,
+        });
+
+      var xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
+
+      xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+          console.log(this.responseText);
+        }
+      });
+      //console.log("Log Data>>>>",logdata);
+
+      xhr.open("POST", "https://etx.indiatimes.com/log?et=desktop");
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.send(logdata);
+    } catch (e) {
+      console.log("Error in save logs api");
+    }
+  }
 };
