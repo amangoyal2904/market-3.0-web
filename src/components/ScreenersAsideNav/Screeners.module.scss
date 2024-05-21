@@ -55,11 +55,9 @@
       &.active:hover {
         background-color: $salmon-40;
         font-weight: 600;
-        color: $red-50;
       }
       &:hover {
         background-color: $salmon-20;
-        color: $red-50;
       }
     }
   }
@@ -71,7 +69,6 @@
     li.active {
       background-color: $salmon-20;
       font-weight: 600;
-      color: $red-50;
     }
   }
 }
