@@ -70,7 +70,7 @@ const StockComponent = ({
           <div className={styles.stocksBox}>
             <h2 title={data.organisation} className={styles.stocksTitle}>
               <Link
-                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
+                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.seoName}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
                 className="linkHover"
                 onClick={() => {
                   trackingEvent("et_push_event", {
@@ -151,7 +151,7 @@ const StockComponent = ({
             <h2 title={data.companyName} className={styles.stocksTitle}>
               <Link
                 target="_blank"
-                href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}${data.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${data.companyId}.cms`}
+                href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}${data?.companySeoName}/stocks/companyid-${data.companyId}.cms`}
                 className="linkHover"
                 onClick={() => {
                   trackingEvent("et_push_event", {
@@ -240,7 +240,7 @@ const StockComponent = ({
                 <span>Brokerage:</span>
                 <span>
                   <Link
-                    href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
+                    href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.seoName}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
                     className="linkHover"
                   >
                     {data.organisation}

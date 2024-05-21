@@ -52,8 +52,6 @@ const Overview: React.FC<Props> = ({
   const redirectLink = (apiType: any) => {
     let tabName = handleLowerCase(apiType);
 
-    //console.log("tabName --- ", tabName);
-
     switch (tabName) {
       case "recoonwl":
         return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["recos-on-your-watchlist"]; //"/stocksrecos/recos-on-your-watchlist";
@@ -65,7 +63,6 @@ const Overview: React.FC<Props> = ({
   };
 
   const overviewHtmlHandle = (data: any) => {
-    console.log(JSON.stringify(data));
     return (
       <>
         {data?.recoData?.map((obj: any, index: any) => (
