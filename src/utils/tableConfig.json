@@ -30,7 +30,7 @@
     "name": "marketStatsIntrday",
     "tabs": true,
     "loader": false,
-    "showFilterInput": false,
+    "showFilterInput": true,
     "isSorting": true,
     "serverSideSort": true,
     "isHeaderSticky": true,
