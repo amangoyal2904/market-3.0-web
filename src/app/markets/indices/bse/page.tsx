@@ -1,6 +1,6 @@
 import { fnGenerateMetaData, getAllIndices } from "@/utils/utility";
 import { Metadata } from "next";
-import IndicesClient from "./client";
+import IndicesClient from "../client";
 import tableConfig from "@/utils/tableConfig.json";
 import BreadCrumb from "@/components/BreadCrumb";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
@@ -10,14 +10,14 @@ const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
   ssr: false,
 });
 
-const pageUrl = "/markets/indices";
+const pageUrl = "/markets/indices/bse";
 
 export async function generateMetadata(): Promise<Metadata> {
   const meta = {
-    title: "Indian Market Indices, Live Index Watch, Market Indexes",
-    desc: "Indian Market Indices Live - Checkout Latest & comprehensive value all major stock market indices. Live NSE / BSE Indices Watch to measure the performance against a relevant market index.",
+    title: "BSE Live | BSE India - Bombay Stock Exchange Today",
+    desc: "BSE Today | BSE Live Updates - All Indices stock exchange Index live prices, volume, Bombay Stock Exchange (BSE) ALL 30 constituent companies and 52-week high low price for SENSEX Index.",
     keywords:
-      "Indian Indices, All Indices, All Index, Indian Market Indices, Indian Stock Indices, Indian Stock Market Indices, Stock Market Indices",
+      "BSE,Bombay Stock Exchange,BSE Today,BSE India,BSE Live,BSE Sensex,BSE Live Updates",
     pathname: pageUrl,
   };
   return fnGenerateMetaData(meta);
@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const Indices = async () => {
   const { tableHeaderData, tableData, exchange, unixDateTime } =
-    await getAllIndices("nse", "", "DESC");
+    await getAllIndices("bse", "", "DESC");
 
   return (
     <>
@@ -38,7 +38,7 @@ const Indices = async () => {
       />
       <BreadCrumb
         pagePath={pageUrl}
-        pageName={[{ label: "Indices", redirectUrl: "" }]}
+        pageName={[{ label: "BSE", redirectUrl: "" }]}
       />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />
       <PageRefresh refreshTime={180000} />

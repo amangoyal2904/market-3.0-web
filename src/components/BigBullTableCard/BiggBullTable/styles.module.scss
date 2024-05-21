@@ -246,13 +246,15 @@
   .bestPickSec {
     text-align: left;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    column-gap: 5px;
     background: rgba(255, 251, 245, 1);
     padding: 12px;
     min-height: 62px;
     margin: 5px 0;
     width: 300px;
+    .rightSec {
+      padding-top: 2px;
+    }
     .head5 {
       font-size: 14px;
       line-height: 18px;
@@ -448,6 +450,11 @@
 }
 .bestPicks {
   tr {
+    th + th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     td {
       &:first-child,
       &:nth-of-type(2) {
@@ -459,6 +466,12 @@
 }
 .qtrChange {
   tr {
+    th + th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
+
     td {
       &:first-child,
       &:nth-of-type(2) {
@@ -481,6 +494,11 @@
         .thead {
           justify-content: center;
         }
+      }
+    }
+    th + th + th + th {
+      .thead {
+        justify-content: flex-end;
       }
     }
 
@@ -519,6 +537,11 @@
 }
 .allInvestors {
   tr {
+    th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     td {
       &:first-child {
         max-width: 350px;
@@ -534,6 +557,11 @@
 }
 .investorBulkBlock {
   tr {
+    th + th + th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     th {
       &:nth-of-type(3) {
         width: 350px;
@@ -550,6 +578,11 @@
 }
 .holdingInvestor {
   tr {
+    th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     th {
       &:first-child {
         min-width: 350px;
@@ -567,6 +600,11 @@
 }
 .mostHeldTable {
   tr {
+    th + th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     td {
       &:first-child,
       &:nth-of-type(2) {

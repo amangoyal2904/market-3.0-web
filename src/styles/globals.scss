@@ -167,7 +167,7 @@ a {
   bottom: unset !important;
 }
 .slick-dots .custom-slick-dots {
-  margin: 0 10px;
+  margin: 5px 10px 0;
 }
 .slick-dots .custom-slick-dots li {
   width: 10px;
@@ -506,6 +506,11 @@ table {
     font-size: 16px;
     border-radius: 50%;
   }
+  &.withRed {
+    button {
+      background: $red-50;
+    }
+  }
 }
 .eticon_add.bold,
 .eticon_tick.bold {
@@ -518,5 +523,13 @@ table {
   }
   .customModule .moduleBody {
     max-height: 62vh;
+  }
+}
+@media screen and (min-width: 1000px) and (max-width: 1130px) {
+  .slick-dots .custom-slick-dots {
+    margin: 5px 5px 0;
+  }
+  .slick-dots li {
+    margin: 0 2px;
   }
 }

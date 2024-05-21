@@ -1,21 +1,19 @@
 "use client";
 import { useState, useEffect } from "react";
-import MarketTable from "../../components/MarketTable";
+import MarketTable from "../MarketTable";
 import { fetchTabsData, fetchTableData } from "@/utils/utility";
 import { useStateContext } from "../../store/StateContext";
 import tableConfig from "../../utils/tableConfig.json";
 import Blocker from "../Blocker";
 import ViewAllLink from "../ViewAllLink";
-import styles from "./WatchlistWidget.module.scss";
 import Link from "next/link";
 
-const WatchlistWidget = () => {
+const WatchListWidget = () => {
   const [showBlocker, setShowBlocker] = useState(true);
   const [apiSuccess, setAPISuccess] = useState(false);
   const [tableData, setTableData] = useState<any>([]);
   const { state } = useStateContext();
-  const [pageSummary, setPageSummary] = useState(false);
-  const { isLogin, userInfo, isPrime } = state.login;
+  const { isLogin, isPrime } = state.login;
   const config = tableConfig["watchListWidget"];
 
   const fetchWatchListData = async (activeViewId: any = "") => {
@@ -32,7 +30,6 @@ const WatchlistWidget = () => {
     const res = await fetchTableData(viewId, params);
     if (res.message == "success") {
       setTableData(res.dataList);
-      setPageSummary(res?.pageSummary);
       setAPISuccess(true);
     }
   };
@@ -65,7 +62,6 @@ const WatchlistWidget = () => {
             tableHeaders={tableHeaderData}
             apiSuccess={apiSuccess}
             tableConfig={config}
-            // pageSummary={pageSummary}
             isprimeuser={isPrime}
             l1NavTracking="Markets"
             l2NavTracking="Watchlist Widget"
@@ -77,4 +73,4 @@ const WatchlistWidget = () => {
   );
 };
 
-export default WatchlistWidget;
+export default WatchListWidget;

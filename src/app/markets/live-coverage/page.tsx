@@ -1,5 +1,5 @@
 import StockRecommendations from "@/components/StockRecommendations";
-import WatchlistWidget from "@/components/WatchlistWidget";
+import WatchListWidget from "@/components/WatchlistWidget";
 import StockReportsPlus from "@/components/StockReportsPlus";
 import APIS_CONFIG from "@/network/api_config.json";
 import service from "@/network/service";
@@ -12,7 +12,11 @@ import BreadCrumb from "@/components/BreadCrumb";
 import { headers } from "next/headers";
 import BuySellTechnicalWidget from "@/components/BuySellTechnicalWidget";
 import InvestmentIdea from "@/components/InvestmentIdea";
-import { fnGenerateMetaData, getBuySellTechnicals } from "@/utils/utility";
+import {
+  fnGenerateMetaData,
+  getBuySellTechnicals,
+  saveLogs,
+} from "@/utils/utility";
 import AdInfo from "@/components/Ad/AdInfo/homeAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
 import dynamic from "next/dynamic";
@@ -45,96 +49,128 @@ const LiveCoverage = async () => {
   const pageUrl = headersList.get("x-url") || "";
 
   const getIndicesWidgetData = async () => {
-    const response = await service.get({
-      url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
-      params: {},
-    });
-    const data = response ? await response?.json() : {};
-    return data;
+    try {
+      const response = await service.get({
+        url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
+        params: {},
+      });
+      const data = response ? await response?.json() : {};
+      return data;
+    } catch (e) {
+      saveLogs({
+        res: "error",
+        msg: "Error in fetching indices widget data data",
+      });
+    }
   };
 
   const fetchTopNews = async () => {
-    const response = await service.get({
-      url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=53282427`,
-      params: {},
-    });
-    const data = response ? await response?.json() : {};
-    const topNewsData =
-      (data &&
-        data.searchResult &&
-        data.searchResult[0] &&
-        data.searchResult[0].data) ||
-      [];
-    return topNewsData;
+    try {
+      const response = await service.get({
+        url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=53282427`,
+        params: {},
+      });
+      const data = response ? await response?.json() : {};
+      const topNewsData =
+        (data &&
+          data.searchResult &&
+          data.searchResult[0] &&
+          data.searchResult[0].data) ||
+        [];
+      return topNewsData;
+    } catch (e) {
+      console.log("error in fetching indices data", e);
+      saveLogs({ res: "error", msg: "Error in fetching top news data" });
+    }
   };
 
   const fetchFiiDIIData = async () => {
-    const response = await service.get({
-      url: (APIS_CONFIG as any)?.FIIDIICash[APP_ENV],
-      params: {},
-    });
-    const data = response ? await response?.json() : {};
-    const fiidiiData =
-      (data && data.datainfo && data.datainfo.fiiDiiChart) || {};
-    return fiidiiData;
+    try {
+      const response = await service.get({
+        url: (APIS_CONFIG as any)?.FIIDIICash[APP_ENV],
+        params: {},
+      });
+      const data = response ? await response?.json() : {};
+      const fiidiiData =
+        (data && data.datainfo && data.datainfo.fiiDiiChart) || {};
+      return fiidiiData;
+    } catch (e) {
+      console.log("error in fetching FiiDIIData data", e);
+      saveLogs({ res: "error", msg: "Error in fetching FiiDIIData data" });
+    }
   };
 
   const getRecosNav = async () => {
-    const RECOS_NAV_Link = `${(APIS_CONFIG as any)?.["STOCK_RECOS_NAV"][APP_ENV]}?pagename=home`;
-    const recosNavPromise = await service.get({
-      url: RECOS_NAV_Link,
-      params: {},
-    });
-    const getRecosNavData = await recosNavPromise?.json();
-    return getRecosNavData;
+    try {
+      const RECOS_NAV_Link = `${(APIS_CONFIG as any)?.["STOCK_RECOS_NAV"][APP_ENV]}?pagename=home`;
+      const recosNavPromise = await service.get({
+        url: RECOS_NAV_Link,
+        params: {},
+      });
+      const getRecosNavData = await recosNavPromise?.json();
+      return getRecosNavData;
+    } catch (e) {
+      console.log("error in fetching recosNav data", e);
+      saveLogs({ res: "error", msg: "Error in fetching recosNav data" });
+    }
   };
 
   const getRecosData = async (type: any) => {
-    const getRecosDetailApi = `${(APIS_CONFIG as any)?.["GET_RECOS_DETAILS"][APP_ENV]}`;
-    const payload = {
-      apiType: type,
-      filterType: "",
-      filterValue: [],
-      recoType: "all",
-      pageSize: 30,
-      pageNumber: 1,
-    };
+    try {
+      const getRecosDetailApi = `${(APIS_CONFIG as any)?.["GET_RECOS_DETAILS"][APP_ENV]}`;
+      const payload = {
+        apiType: type,
+        filterType: "",
+        filterValue: [],
+        recoType: "all",
+        pageSize: 30,
+        pageNumber: 1,
+      };
 
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    const getRecosDetailPromise = await service.post({
-      url: getRecosDetailApi,
-      headers: headers,
-      body: JSON.stringify(payload),
-      params: {},
-    });
-    const getRecosDetailData = await getRecosDetailPromise?.json();
-    return getRecosDetailData;
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const getRecosDetailPromise = await service.post({
+        url: getRecosDetailApi,
+        headers: headers,
+        body: JSON.stringify(payload),
+        params: {},
+      });
+      const getRecosDetailData = await getRecosDetailPromise?.json();
+      return getRecosDetailData;
+    } catch (e) {
+      console.log("error in fetching recos data", e);
+      saveLogs({ res: "error", msg: "Error in fetching recos data" });
+    }
   };
   const getSrPlusData = async (screenerId: any) => {
-    const getSrPlusDataApi = `${(APIS_CONFIG as any)?.["SCREENER_BY_SCREENERID"][APP_ENV]}`;
-    const payload = {
-      deviceId: "web",
-      pageno: 1,
-      pagesize: 20,
-      screenerId: screenerId,
-      viewId: 5246,
-      filterType: "index",
-      filterValue: [],
-    };
+    try {
+      const getSrPlusDataApi = `${(APIS_CONFIG as any)?.["SCREENER_BY_SCREENERID"][APP_ENV]}`;
+      const payload = {
+        deviceId: "web",
+        pageno: 1,
+        pagesize: 20,
+        screenerId: screenerId,
+        viewId: 5246,
+        filterType: "index",
+        filterValue: [],
+      };
 
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    const getSrPlusDataPromise = await service.post({
-      url: getSrPlusDataApi,
-      headers: headers,
-      body: JSON.stringify(payload),
-      params: {},
-    });
-    const data = await getSrPlusDataPromise?.json();
-    return data;
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const getSrPlusDataPromise = await service.post({
+        url: getSrPlusDataApi,
+        headers: headers,
+        body: JSON.stringify(payload),
+        params: {},
+      });
+      const data = await getSrPlusDataPromise?.json();
+      return data;
+    } catch (e) {
+      console.log("error in fetching srPlus data", e);
+      saveLogs({ res: "error", msg: "Error in fetching srPlus data" });
+    }
   };
   const stockRecoResult = await getRecosData("newRecos");
   const srPlusResult = await getSrPlusData("2554");
@@ -163,7 +199,7 @@ const LiveCoverage = async () => {
         fiiDiiCash={fiiDiiData}
       />
       <MarketsDashboardWidget />
-      <WatchlistWidget />
+      <WatchListWidget />
       <DfpAds adInfo={AdInfo.dfp.mid1} />
       <InvestmentIdea />
       <StockRecommendations

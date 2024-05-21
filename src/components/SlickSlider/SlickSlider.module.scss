@@ -8,7 +8,7 @@
   }
   .SliderCommonIcons {
     position: absolute;
-    top: -50px;
+    top: -37px;
     right: 0;
     display: flex;
     justify-content: center;
@@ -57,4 +57,12 @@
 .indicesStyle {
   border-bottom: 1px solid #ccc;
   border-top: 1px solid transparent;
+}
+.disableBtn {
+  border: 1px solid rgba(204, 204, 204, 0.8) !important;
+  background: rgba(204, 204, 204, 0.8);
+  color: white;
+  &::before {
+    color: white !important;
+  }
 }

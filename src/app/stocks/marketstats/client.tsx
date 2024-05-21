@@ -130,15 +130,15 @@ const MarketStats = ({
     }
   };
 
-  const updateL3NAV = async (intFilter: any, duration: any) => {
-    const { l3Nav } = await getMarketStatsNav({
-      l3NavMenuItem,
-      l3NavSubItem,
-      intFilter,
-      duration,
-    });
-    setL3Nav(l3Nav);
-  };
+  // const updateL3NAV = async (intFilter: any, duration: any) => {
+  //   const { l3Nav } = await getMarketStatsNav({
+  //     l3NavMenuItem,
+  //     l3NavSubItem,
+  //     intFilter,
+  //     duration,
+  //   });
+  //   setL3Nav(l3Nav);
+  // };
 
   const onPaginationChange = async (pageNumber: number) => {
     setProcessingLoader(true);
@@ -190,7 +190,7 @@ const MarketStats = ({
           : 0;
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
-    updateL3NAV(id, _payload.duration);
+    // updateL3NAV(id, _payload.duration);
     const isExist: any = shortUrlMapping?.find(
       (item: any) => item.longURL == newUrl,
     );
@@ -200,12 +200,11 @@ const MarketStats = ({
 
   const dayFitlerHanlderChange = async (value: any, label: any) => {
     setProcessingLoader(true);
-    setResetSort(value);
     if (l3NavSubItem == "gainers" || l3NavSubItem == "losers") {
       const url = actualUrl;
       const newDuration = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
-      updateL3NAV(_payload.filterValue[0], newDuration);
+      // updateL3NAV(_payload.filterValue[0], newDuration);
       const isExist: any = shortUrlMapping?.find(
         (item: any) => item.longURL == newUrl,
       );
@@ -304,23 +303,22 @@ const MarketStats = ({
       (item: any) => item.longURL == url,
     );
     const newUrl = isExist ? isExist.shortUrl : url;
+    // const technicalCategory = await getTechincalOperands(
+    //   l3NavMenuItem,
+    //   firstOperand,
+    //   operationType,
+    //   secondOperand
+    // );
+    // const descTxt = `Discover the stocks in the Indian stock market with ${technicalCategory?.selectedFilterLabel?.firstOperand} ${technicalCategory?.selectedFilterLabel?.operationType} ${technicalCategory?.selectedFilterLabel?.secondOperand} exclusively on The Economic Times`;
+    // setMetaData({ ..._metaData, desc: descTxt });
+    // setPayload({
+    //   ..._payload,
+    //   firstOperand: firstOperand,
+    //   operationType: operationType,
+    //   secondOperand: secondOperand,
+    //   pageno: 1,
+    // });
     router.push(newUrl, { scroll: false });
-    const technicalCategory = await getTechincalOperands(
-      l3NavMenuItem,
-      firstOperand,
-      operationType,
-      secondOperand,
-    );
-    const descTxt = `Discover the stocks in the Indian stock market with ${technicalCategory?.selectedFilterLabel?.firstOperand} ${technicalCategory?.selectedFilterLabel?.operationType} ${technicalCategory?.selectedFilterLabel?.secondOperand} exclusively on The Economic Times`;
-    setMetaData({ ..._metaData, desc: descTxt });
-
-    setPayload({
-      ..._payload,
-      firstOperand: firstOperand,
-      operationType: operationType,
-      secondOperand: secondOperand,
-      pageno: 1,
-    });
   };
   const removePersonaliseViewFun = (viewId: any) => {
     setToasterPersonaliseViewRemove(true);
@@ -442,7 +440,7 @@ const MarketStats = ({
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
           <MarketStatsNav
-            leftNavResult={_l3Nav}
+            leftNavResult={_l3Nav?.nav}
             type={l3NavMenuItem}
             subType={!isTechnical ? l3NavSubItem : null}
             firstOperand={

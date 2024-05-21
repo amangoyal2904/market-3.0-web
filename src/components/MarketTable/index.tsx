@@ -7,7 +7,6 @@ import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
 import Pagination from "./Pagination";
 import useDebounce from "@/hooks/useDebounce";
-import { getPageName } from "@/utils/ga";
 
 interface propsType {
   data: any[];
@@ -299,9 +298,16 @@ const MarketTable = React.memo((props: propsType) => {
       setHideThead(heightDiff < 25 && heightDiff < -140);
       setHeaderSticky(window.scrollY);
       if (customScroll.current) {
-        if (window.scrollY < 100 || (heightDiff < 180 && !isWidget)) {
+        if (
+          (window.scrollY < 100 && window.screen.width < 1950) ||
+          (heightDiff < 180 && !isWidget)
+        ) {
           customScroll.current.style.display = "none";
-        } else if (window.scrollY > 100 || isWidget) {
+        } else if (
+          window.scrollY > 100 ||
+          isWidget ||
+          window.screen.width > 1950
+        ) {
           customScroll.current.style.display = "flex";
         }
       }
@@ -328,8 +334,8 @@ const MarketTable = React.memo((props: propsType) => {
   };
 
   const onPageChange = (pageNumber: any) => {
-    if (props.handlePageChange) {
-      props.handlePageChange(pageNumber);
+    if (!!handlePageChange) {
+      handlePageChange(pageNumber);
     }
 
     if (tableRef.current) {

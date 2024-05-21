@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
 import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
@@ -14,6 +14,7 @@ import Blocker from "@/components/Blocker";
 import ToasterPopup from "@/components/ToasterPopup";
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
+import refeshConfig from "@/utils/refreshConfig.json";
 import styles from "./Watchlist.module.scss";
 import {
   getCustomViewTable,
@@ -31,6 +32,7 @@ const WatchListClient = () => {
   const [tableData, setTableData] = useState([]);
   const [tableHeaderData, setTableHeaderData] = useState([]);
   const [activeViewId, setActiveViewId] = useState(null);
+  const [resetSort, setResetSort] = useState("");
   const [updateDateTime, setUpdateDateTime] = useState({});
   const [requestPayload, setRequestPayload] = useState({});
   const [showBlocker, setShowBlocker] = useState(false);
@@ -51,12 +53,40 @@ const WatchListClient = () => {
   const { currentMarketStatus } = state.marketStatus;
   const config = tableConfig["watchList"];
   const pageSummary = {};
+
+  const onServerSideSort = useCallback(
+    async (field: any) => {
+      setProcessingLoader(true);
+      setRequestPayload((prevPayload: any) => {
+        const sortConfig = prevPayload.sort;
+        const isFieldSorted = sortConfig.find(
+          (config: any) => config.field === field,
+        );
+        let newSortConfig;
+
+        if (isFieldSorted) {
+          newSortConfig = sortConfig.map((config: any) =>
+            config.field === field
+              ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
+              : config,
+          );
+        } else {
+          newSortConfig = [{ field, order: "DESC" }];
+        }
+
+        return { ...prevPayload, sort: newSortConfig };
+      });
+    },
+    [requestPayload],
+  );
+
   const onTabViewUpdate = async (viewId: any) => {
     if (viewId && viewId != "") {
       setProcessingLoader(true);
       setAPISuccess(true);
       setActiveViewId(viewId);
-      setRequestPayload({ ...requestPayload, viewId: viewId });
+      setResetSort(viewId);
+      setRequestPayload({ ...requestPayload, sort: [], viewId: viewId });
     }
   };
   const onPersonalizeHandlerfun = async (newActiveId: any = "", mode = "") => {
@@ -112,7 +142,12 @@ const WatchListClient = () => {
       ssoid: ssoid,
     });
 
-    const bodyParams = { type: "STOCK", viewId: activeViewId, deviceId: "web" };
+    const bodyParams = {
+      type: "STOCK",
+      viewId: activeViewId,
+      deviceId: "web",
+      sort: [],
+    };
     const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
       await getCustomViewTable(bodyParams, true, ssoid, "MARKETS_CUSTOM_TABLE");
 
@@ -242,7 +277,13 @@ const WatchListClient = () => {
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-  }, [requestPayload]);
+    const intervalId = setInterval(() => {
+      if (currentMarketStatus === "LIVE") {
+        updateTableData();
+      }
+    }, refeshConfig.watchlist);
+    return () => clearInterval(intervalId);
+  }, [requestPayload, isPrime, currentMarketStatus]);
 
   return (
     <>
@@ -300,9 +341,12 @@ const WatchListClient = () => {
             )}
             <MarketTable
               data={tableData}
-              highlightLtp={false}
+              highlightLtp={
+                !!currentMarketStatus && currentMarketStatus != "CLOSED"
+              }
               tableHeaders={tableHeaderData}
-              tabsViewIdUpdate={onTabViewUpdate}
+              tabsViewIdUpdate={resetSort}
+              handleSortServerSide={onServerSideSort}
               apiSuccess={apiSuccess}
               showTableCheckBox={showTableCheckBox}
               multipleStockCollect={multipleStockCollect}

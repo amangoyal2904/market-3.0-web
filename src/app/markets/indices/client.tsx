@@ -7,6 +7,7 @@ import { getAllIndices } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "@/components/MarketStatus";
 import { trackingEvent } from "@/utils/ga";
+import { useRouter } from "next/navigation";
 
 const IndicesClient = ({
   tableHeaderData = [],
@@ -15,13 +16,12 @@ const IndicesClient = ({
   tableConfig = {},
   unixDateTime = new Date(),
 }: any) => {
+  const router = useRouter();
   const { state } = useStateContext();
   const { isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;
   const [updateDateTime, setUpdateDateTime] = useState(unixDateTime);
   const [_tableData, setTableData] = useState(tableData);
-  const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
-  const [selectedExchange, setSelectedExchange] = useState(exchange);
   const [processingLoader, setProcessingLoader] = useState(false);
   const [sortData, setSortData] = useState({ field: null, order: "DESC" });
 
@@ -45,30 +45,29 @@ const IndicesClient = ({
   );
 
   const nseBseMenuSelect = useCallback((e: any) => {
-    setProcessingLoader(true);
     const selectedMenu = e.target.textContent.toLowerCase();
     trackingEvent("et_push_event", {
       event_category: "mercury_engagement",
       event_action: "page_cta_click",
       event_label: selectedMenu,
     });
-    setSelectedExchange(selectedMenu);
+    const updatedUrl =
+      selectedMenu == "bse" ? "/markets/indices/bse" : "/markets/indices";
+    router.push(updatedUrl, { scroll: false });
   }, []);
 
   const updateTableData = async () => {
-    const { tableHeaderData, tableData, unixDateTime } = await getAllIndices(
-      selectedExchange,
+    const { tableData, unixDateTime } = await getAllIndices(
+      exchange,
       sortData.field,
       sortData.order,
     );
     setUpdateDateTime(unixDateTime);
     setTableData(tableData);
-    setTableHeaderData(tableHeaderData);
     setProcessingLoader(false);
   };
 
   useEffect(() => {
-    setProcessingLoader(true);
     updateTableData();
     const intervalId = setInterval(() => {
       if (currentMarketStatus === "LIVE") {
@@ -76,12 +75,14 @@ const IndicesClient = ({
       }
     }, refeshConfig.indicesListing);
     return () => clearInterval(intervalId);
-  }, [selectedExchange, sortData, isPrime, currentMarketStatus]);
+  }, [sortData, isPrime, currentMarketStatus]);
 
   return (
     <>
       <div className="dflex align-item-center">
-        <h1 className={`${styles.heading} ${styles.withRBorder}`}>Indices</h1>
+        <h1
+          className={`${styles.heading} ${styles.withRBorder}`}
+        >{`All Indices ${exchange.toUpperCase()} - Indian Stock Market Index`}</h1>
         <MarketStatus
           currentMarketStatus={currentMarketStatus}
           dateTime={updateDateTime}
@@ -96,34 +97,30 @@ const IndicesClient = ({
       </p>
       <ul className={styles.menuNseBse}>
         <li
-          className={selectedExchange === "nse" ? styles.active : ""}
+          className={exchange === "nse" ? styles.active : ""}
           onClick={nseBseMenuSelect}
         >
           nse
         </li>
         <li
-          className={selectedExchange === "bse" ? styles.active : ""}
+          className={exchange === "bse" ? styles.active : ""}
           onClick={nseBseMenuSelect}
         >
           bse
         </li>
       </ul>
-      <div className={styles.marketstatsContainer}>
-        <MarketTable
-          data={_tableData}
-          highlightLtp={
-            !!currentMarketStatus && currentMarketStatus != "CLOSED"
-          }
-          tableHeaders={_tableHeaderData}
-          tableConfig={tableConfig}
-          handleSortServerSide={onServerSideSort}
-          processingLoader={processingLoader}
-          isprimeuser={isPrime}
-          l1NavTracking="Markets LIVE"
-          l2NavTracking="Indices"
-          l3NavTracking={selectedExchange}
-        />
-      </div>
+      <MarketTable
+        data={_tableData}
+        highlightLtp={!!currentMarketStatus && currentMarketStatus != "CLOSED"}
+        tableHeaders={tableHeaderData}
+        tableConfig={tableConfig}
+        handleSortServerSide={onServerSideSort}
+        processingLoader={processingLoader}
+        isprimeuser={isPrime}
+        l1NavTracking="Markets LIVE"
+        l2NavTracking="Indices"
+        l3NavTracking={exchange}
+      />
     </>
   );
 };

@@ -171,6 +171,24 @@ const BiggBullTable = ({
                     </td>
                     <td className={styles.bestPicWraper}>
                       <div className={styles.bestPickSec}>
+                        <div className={styles.rightSec}>
+                          {isPrime &&
+                          bestPicks[0].uiValue?.text &&
+                          bestPicks[0].uiLabel?.companyId &&
+                          bestPicks[0].uiLabel?.companyType ? (
+                            <WatchlistAddition
+                              companyName={bestPicks[0].uiLabel?.text}
+                              companyId={bestPicks[0].uiLabel?.companyId}
+                              companyType={bestPicks[0].uiLabel?.companyType}
+                              customStyle={{
+                                width: "18px",
+                                height: "18px",
+                              }}
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </div>
                         <div className={styles.leftSec}>
                           <h5 className={styles.head5}>
                             {isPrime ? (
@@ -180,11 +198,15 @@ const BiggBullTable = ({
                                     bestPicks[0].uiLabel?.text,
                                   )
                                 }
-                                href={getStockUrl(
-                                  bestPicks[0].uiLabel?.companyId,
-                                  bestPicks[0].uiLabel?.companySeoName,
-                                  bestPicks[0].uiLabel?.companyType,
-                                )}
+                                href={`${
+                                  bestPicks[0]?.uiLabel?.text
+                                    ? getStockUrl(
+                                        bestPicks[0].uiLabel?.companyId,
+                                        bestPicks[0].uiLabel?.companySeoName,
+                                        bestPicks[0].uiLabel?.companyType,
+                                      )
+                                    : null
+                                }`}
                                 target="_blank"
                               >
                                 {bestPicks.length > 0
@@ -212,15 +234,23 @@ const BiggBullTable = ({
                             }}
                           ></span>
                         </div>
+                      </div>
+                    </td>
+                    <td
+                      className={`${styles.bestPicWraper} ${styles.bestPic2Wraper}`}
+                    >
+                      <div className={styles.bestPickSec}>
                         <div className={styles.rightSec}>
                           {isPrime &&
-                          bestPicks[0].uiValue?.text &&
-                          bestPicks[0].uiLabel?.companyId &&
-                          bestPicks[0].uiLabel?.companyType ? (
+                          bestPicksToNext[0].uiLabel?.text &&
+                          bestPicksToNext[0].uiLabel?.companyId &&
+                          bestPicksToNext[0].uiLabel?.companyType ? (
                             <WatchlistAddition
-                              companyName={bestPicks[0].uiLabel?.text}
-                              companyId={bestPicks[0].uiLabel?.companyId}
-                              companyType={bestPicks[0].uiLabel?.companyType}
+                              companyName={bestPicksToNext[0].uiLabel?.text}
+                              companyId={bestPicksToNext[0].uiLabel?.companyId}
+                              companyType={
+                                bestPicksToNext[0].uiLabel?.companyType
+                              }
                               customStyle={{
                                 width: "18px",
                                 height: "18px",
@@ -230,12 +260,6 @@ const BiggBullTable = ({
                             ""
                           )}
                         </div>
-                      </div>
-                    </td>
-                    <td
-                      className={`${styles.bestPicWraper} ${styles.bestPic2Wraper}`}
-                    >
-                      <div className={styles.bestPickSec}>
                         <div className={styles.leftSec}>
                           <h5 className={styles.head5}>
                             {isPrime ? (
@@ -245,11 +269,16 @@ const BiggBullTable = ({
                                     bestPicksToNext[0].uiLabel?.text,
                                   )
                                 }
-                                href={getStockUrl(
-                                  bestPicksToNext[0].uiLabel?.companyId,
-                                  bestPicksToNext[0].uiLabel?.companySeoName,
-                                  bestPicksToNext[0].uiLabel?.companyType,
-                                )}
+                                href={`${
+                                  bestPicksToNext[0]?.uiLabel?.text
+                                    ? getStockUrl(
+                                        bestPicksToNext[0].uiLabel?.companyId,
+                                        bestPicksToNext[0].uiLabel
+                                          ?.companySeoName,
+                                        bestPicksToNext[0].uiLabel?.companyType,
+                                      )
+                                    : null
+                                }`}
                                 target="_blank"
                               >
                                 {bestPicksToNext.length > 0
@@ -279,26 +308,6 @@ const BiggBullTable = ({
                                   : null,
                             }}
                           ></span>
-                        </div>
-                        <div className={styles.rightSec}>
-                          {isPrime &&
-                          bestPicksToNext[0].uiLabel?.text &&
-                          bestPicksToNext[0].uiLabel?.companyId &&
-                          bestPicksToNext[0].uiLabel?.companyType ? (
-                            <WatchlistAddition
-                              companyName={bestPicksToNext[0].uiLabel?.text}
-                              companyId={bestPicksToNext[0].uiLabel?.companyId}
-                              companyType={
-                                bestPicksToNext[0].uiLabel?.companyType
-                              }
-                              customStyle={{
-                                width: "18px",
-                                height: "18px",
-                              }}
-                            />
-                          ) : (
-                            ""
-                          )}
                         </div>
                       </div>
                     </td>
