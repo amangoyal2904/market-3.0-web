@@ -74,10 +74,10 @@ const NonPrimeBlockerModule = ({ oncloseModule }: any) => {
             </div>
             <div className={styles.right}>
               <div className={styles.topSec}>
-                <div className={`heading ${styles.head}`}>
-                  <span className={styles.etprimeLogo}>ETPrime</span>
+                <div className={styles.head}>
+                  {/* <span className={styles.etprimeLogo}>ETPrime</span>
                   <span className={styles.bigLogo}>Big</span>
-                  <span className={styles.bullTxt}>Bull Portfolio</span>
+                  <span className={styles.bullTxt}>Bull Portfolio</span> */}
                 </div>
                 <p className={styles.subHead}>
                   Get to know where the big bulls are investing & identify the
@@ -85,12 +85,15 @@ const NonPrimeBlockerModule = ({ oncloseModule }: any) => {
                 </p>
               </div>
               <div className={styles.middle}>
-                <div className={styles.joinTxt}>
+                {/* <div className={styles.joinTxt}>
                   {text} <span></span>
-                </div>
+                </div> */}
                 <div className={styles.btnSec}>
                   <span onClick={planPageRedirect} className={styles.subBtn}>
                     {ctaTxt}
+                  </span>
+                  <span onClick={planPageRedirect} className={styles.boxTxt}>
+                    {text}
                   </span>
                 </div>
                 <div className={styles.loginSec}>
@@ -120,7 +123,10 @@ const NonPrimeBlockerModule = ({ oncloseModule }: any) => {
                       <span
                         className={`${styles.listIcon} ${styles.marketMood}`}
                       ></span>
-                      <p>Market Mood</p>
+                      <p>
+                        Market
+                        <br /> Mood
+                      </p>
                     </div>
                   </li>
                   <li>
