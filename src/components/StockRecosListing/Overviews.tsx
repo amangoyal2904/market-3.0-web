@@ -26,21 +26,18 @@ const Overview: React.FC<Props> = ({
       breakpoint: 1921,
       settings: {
         slidesToShow: 4,
-        slidesToScroll: 4,
       },
     },
     {
       breakpoint: 1601,
       settings: {
         slidesToShow: 3,
-        slidesToScroll: 3,
       },
     },
     {
       breakpoint: 1281,
       settings: {
         slidesToShow: 2,
-        slidesToScroll: 2,
       },
     },
   ];

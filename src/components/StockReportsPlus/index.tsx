@@ -62,28 +62,24 @@ const responsive = [
     breakpoint: 2560,
     settings: {
       slidesToShow: 5,
-      slidesToScroll: 5,
     },
   },
   {
     breakpoint: 1921,
     settings: {
       slidesToShow: 4,
-      slidesToScroll: 4,
     },
   },
   {
     breakpoint: 1601,
     settings: {
       slidesToShow: 3,
-      slidesToScroll: 3,
     },
   },
   {
     breakpoint: 1281,
     settings: {
       slidesToShow: 2,
-      slidesToScroll: 2,
     },
   },
 ];
@@ -188,7 +184,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
                     key={`slider${activeTab}`}
                     sliderId={`slider${activeTab}`}
                     slidesToShow={3}
-                    slidesToScroll={3}
+                    slidesToScroll={1}
                     rows={2}
                     responsive={responsive}
                   />
@@ -209,7 +205,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
                     key={`slider${activeTab}`}
                     sliderId={`slider${activeTab}`}
                     slidesToShow={3}
-                    slidesToScroll={3}
+                    slidesToScroll={1}
                     rows={2}
                     responsive={responsive}
                   />

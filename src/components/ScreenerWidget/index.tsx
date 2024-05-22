@@ -24,33 +24,33 @@ const StockScreenerWidget = async () => {
       breakpoint: 2560,
       settings: {
         slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1921,
       settings: {
         slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1601,
       settings: {
         slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1361,
       settings: {
         slidesToShow: 2,
-        slidesToScroll: 2,
+        slidesToScroll: 1,
       },
     },
   ];
   const data = await fetchData();
-  const StockScreenerData: any =
+  let StockScreenerData: any =
     data &&
     data.datainfo &&
     data.datainfo.screenerCollectionMasterInfo &&
@@ -58,8 +58,10 @@ const StockScreenerWidget = async () => {
       .listScreenerCollectionMasterDataInfo &&
     data.datainfo.screenerCollectionMasterInfo
       .listScreenerCollectionMasterDataInfo.length > 0
-      ? data.datainfo.screenerCollectionMasterInfo
-          .listScreenerCollectionMasterDataInfo
+      ? data.datainfo.screenerCollectionMasterInfo.listScreenerCollectionMasterDataInfo?.slice(
+          0,
+          8,
+        )
       : [];
   return (
     <div className="sectionWrapper">
@@ -73,7 +75,7 @@ const StockScreenerWidget = async () => {
             key={`screenerSlider}`}
             sliderId={`slider-screener`}
             slidesToShow={3}
-            slidesToScroll={3}
+            slidesToScroll={1}
             rows={1}
             topSpaceClass="screener"
             responsive={responsive}

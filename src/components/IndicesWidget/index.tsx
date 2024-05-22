@@ -165,7 +165,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           </div>
         </div>
         <div className={styles.dataWrapper}>
-          {indicesData?.length && screenWidth <= 1820 ? (
+          {indicesData?.length && screenWidth && screenWidth <= 1820 ? (
             <SlickSlider
               slides={indicesData?.map((slides: any, index: any) => ({
                 content: (
