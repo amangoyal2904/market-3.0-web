@@ -6,9 +6,6 @@ import { APP_ENV } from "../../utils/index";
 import SlickSlider from "../SlickSlider";
 import StockScreenCards from "./StockScreenCards";
 import ViewAllLink from "../ViewAllLink";
-import { useState } from "react";
-import Link from "next/link";
-import { trackingEvent } from "@/utils/ga";
 import HeadingHome from "../ViewAllLink/HeadingHome";
 
 const fetchData = async () => {
