@@ -125,6 +125,7 @@ const BiggBullQtrChangesTable = ({
                   <tr key={`${index}`}>
                     <td>
                       <Link
+                        title={tdata?.investorIntro?.name}
                         onClick={() =>
                           gaTrackingInvestorNameClick(
                             tdata?.investorIntro?.name,
@@ -139,6 +140,7 @@ const BiggBullQtrChangesTable = ({
                           height={42}
                           alt={tdata?.investorIntro?.name}
                           className={styles.expertImg}
+                          title={tdata?.investorIntro?.name}
                         />
                         <span className={styles.nameTxt}>
                           <span
@@ -165,6 +167,7 @@ const BiggBullQtrChangesTable = ({
                                 }}
                               />
                               <a
+                                title={tdata?.companyData?.text}
                                 onClick={() =>
                                   gaTrackingCompanyNameClick(
                                     tdata.companyData?.text,

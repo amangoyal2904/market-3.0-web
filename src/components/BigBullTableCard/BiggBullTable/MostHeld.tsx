@@ -132,6 +132,7 @@ const BiggBullMostHeldTable = ({
                                 }}
                               />
                               <a
+                                title={tdata?.companyData?.text}
                                 onClick={() =>
                                   gaTrackingCompanyNameClick(
                                     tdata?.companyData?.text,
@@ -171,6 +172,7 @@ const BiggBullMostHeldTable = ({
                                     className={`${tdata?.investorsList.length === 1 || (tdata?.investorsList.length === 2 && index === 1) ? styles.noBorder : ""}`}
                                   >
                                     <Link
+                                      title={list.name}
                                       onClick={() =>
                                         gaTrackingInvestorNameClick(list.name)
                                       }
@@ -213,6 +215,7 @@ const BiggBullMostHeldTable = ({
                                               key={`-${index}--`}
                                             >
                                               <Link
+                                                title={list.name}
                                                 onClick={() =>
                                                   gaTrackingInvestorNameClick(
                                                     list.name,

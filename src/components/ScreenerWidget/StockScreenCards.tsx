@@ -36,6 +36,7 @@ const StockScreenCards: React.FC<Props> = ({ item, index }) => {
                       screen.seoName ? screen.seoName : "test-seo-page"
                     }/screens/scrid-${screen.screenerId}`}
                     className={styles.liItemList}
+                    title={screen.name}
                   >
                     <div className={styles.info}>
                       <h3 className={styles.infoTitle}>{screen.name}</h3>

@@ -316,6 +316,7 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV]["MY_SUBS"]}`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="My Subscriptions"
                   >
                     My Subscriptions
                   </a>
@@ -326,6 +327,7 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}prime_preferences.cms`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="My Preferences"
                   >
                     My Preferences
                   </a>
@@ -342,6 +344,7 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}et_benefits.cms`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="Redeem Benefits"
                   >
                     Redeem Benefits
                   </a>
@@ -352,6 +355,7 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}subscription`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="Manage Newsletters"
                   >
                     Manage Newsletters
                   </a>
@@ -364,7 +368,11 @@ const Login = () => {
                     <span className="path4"></span>
                     <span className="path5"></span>
                   </span>
-                  <a href="/watchlist" rel="nofollow noreferrer">
+                  <a
+                    href="/watchlist"
+                    rel="nofollow noreferrer"
+                    title="My Watchlist"
+                  >
                     My Watchlist
                   </a>
                 </li>
@@ -373,6 +381,7 @@ const Login = () => {
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}bookmarkslist`}
                     rel="nofollow noreferrer"
+                    title="Saved Stories"
                   >
                     Saved Stories
                   </a>
@@ -394,6 +403,7 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}contactus.cms`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="Contact Us"
                   >
                     Contact Us
                   </a>

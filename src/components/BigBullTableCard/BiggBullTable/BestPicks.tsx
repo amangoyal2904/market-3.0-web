@@ -125,6 +125,7 @@ const BiggBullBestPicksTable = ({
                   <tr key={`${index}`}>
                     <td>
                       <Link
+                        title={tdata?.investorIntro?.name}
                         onClick={() =>
                           gaTrackingInvestorNameClick(
                             tdata?.investorIntro?.name,

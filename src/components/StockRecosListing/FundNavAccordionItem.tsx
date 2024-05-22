@@ -45,6 +45,7 @@ const FundNavAccordionItem = ({
                   className={`${fundHouseSeoName(getFundHouseInfo.fundHounseName) == fundHouseSeoName(item?.organisation) && slug?.[2] == fundHouseSeoName(filter) ? styles.active : ""} ${styles.fundFilter}`}
                 >
                   <Link
+                    title={filter}
                     href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${fundHouseSeoName(item?.organisation)}-${item.omId}/${fundHouseSeoName(filter)}${urlFilterHandle()}`}
                   >
                     {filter}

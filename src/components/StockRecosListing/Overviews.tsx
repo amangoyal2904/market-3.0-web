@@ -72,6 +72,7 @@ const Overview: React.FC<Props> = ({
           >
             <h2 className={styles.title} key={index}>
               <Link
+                title={obj.name}
                 className="linkHover"
                 href={`${redirectLink(obj.apiType)}${urlFilterHandle(obj.indexid ? obj.indexid : "")}`}
               >
@@ -134,6 +135,7 @@ const Overview: React.FC<Props> = ({
             {obj?.data.length > 3 && (
               <div className={styles.overviewViewAll}>
                 <Link
+                  title={`View all ${obj.name}`}
                   href={`${redirectLink(obj.apiType)}${urlFilterHandle(obj.indexid ? obj.indexid : "")}`}
                 >
                   <span className="linkHover">View all {obj.name} </span>

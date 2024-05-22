@@ -238,6 +238,7 @@ const TableHtml = (props: any) => {
               <Link
                 href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.seoName}-${obj.omId}/all${urlFilterHandle()}`}
                 className="linkHover"
+                title={obj.organisation}
               >
                 {obj.organisation}
               </Link>
@@ -253,10 +254,17 @@ const TableHtml = (props: any) => {
                 event_label: obj?.companyName,
               });
             }}
+            title={`${obj.companyName} View Report`}
             href={obj.pdfUrl}
             target="_blank"
           >
-            <img src="/icon_pdf.svg" width="20" height="20" />
+            <img
+              src="/icon_pdf.svg"
+              width="20"
+              height="20"
+              alt={`${obj.companyName} View Report`}
+              title={`${obj.companyName} View Report`}
+            />
           </Link>
         </td>
       </>

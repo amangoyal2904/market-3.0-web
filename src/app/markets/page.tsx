@@ -2,10 +2,14 @@ import Link from "next/link";
 const MarketPage = () => {
   return (
     <>
-      <Link className="default-btn" href="/markets">
+      <Link title="Markets" className="default-btn" href="/markets">
         Markets
       </Link>
-      <Link className="default-btn" href="/markets/stock-screener">
+      <Link
+        title="Go to Stock Screener"
+        className="default-btn"
+        href="/markets/stock-screener"
+      >
         Go to Stock Screener
       </Link>
     </>

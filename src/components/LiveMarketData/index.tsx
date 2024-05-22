@@ -93,6 +93,9 @@ const LiveMarketData = () => {
                         ? "/markets/indices/nifty-50"
                         : "/markets/indices/sp-bse-sensex"
                     }
+                    title={
+                      item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName
+                    }
                   >
                     {item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName}
                   </a>
