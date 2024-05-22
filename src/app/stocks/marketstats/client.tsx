@@ -6,7 +6,7 @@ import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useCallback, useEffect, useState } from "react";
-import { areObjectsNotEqual, dateFormat, getCookie } from "@/utils";
+import { areObjectsNotEqual, getCookie } from "@/utils";
 import {
   fetchSelectedFilter,
   removePersonalizeViewById,
@@ -19,7 +19,6 @@ import refeshConfig from "@/utils/refreshConfig.json";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import TechincalOperands from "@/components/TechincalOperands";
 
-import { getMarketStatsNav, getTechincalOperands } from "@/utils/marketstats";
 import MarketStatus from "@/components/MarketStatus";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
