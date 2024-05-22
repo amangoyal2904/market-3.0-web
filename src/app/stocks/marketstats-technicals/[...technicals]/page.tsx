@@ -186,7 +186,7 @@ const Technicals = async ({ params, searchParams }: any) => {
 
   const shortUrlMapping = await getAllShortUrls();
 
-  const breadCrumbObj = getBreadcrumbObj(
+  const breadCrumbObj = await getBreadcrumbObj(
     l3Nav,
     L3NavMenuItem,
     technicalCategory.selectedFilter,
