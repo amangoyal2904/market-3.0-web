@@ -6,7 +6,7 @@ import { trackingEvent } from "@/utils/ga";
 const Card = ({ data, index }: any) => {
   return (
     <Link
-      href="#"
+      href={data?.url}
       className={`${styles.card}`}
       title={data?.title}
       onClick={() =>
@@ -24,7 +24,12 @@ const Card = ({ data, index }: any) => {
         loading="lazy"
         decoding="async"
       />
-      <h2 className={styles.cardTitle}>{data?.title}</h2>
+      <h2
+        className={styles.cardTitle}
+        dangerouslySetInnerHTML={{
+          __html: data?.title,
+        }}
+      />
     </Link>
   );
 };

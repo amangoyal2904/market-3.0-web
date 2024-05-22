@@ -19,13 +19,16 @@ const PageRefresh: React.FC<PageRefreshProps> = ({ refreshTime = 180000 }) => {
 
   const reloadPage = () => {
     const _ifOnline = () => {
-      const expTime = Date.now() + 120000; // 2 minutes
-      document.cookie = `popout_autorefresh_open=true; expires=${new Date(expTime).toUTCString()}; path=/; domain=.indiatimes.com`;
-      document.cookie = `rw_default=true; expires=${new Date(expTime).toUTCString()}; path=/; domain=.indiatimes.com`;
-      // Implement GA Here
-      sessionStorage.pageReload = "1";
-      console.log("Page Reload at", new Date());
-      window.location.reload();
+      const doNotRefreshPage = sessionStorage.getItem("doNotRefreshPage");
+      if (!doNotRefreshPage) {
+        const expTime = Date.now() + 120000; // 2 minutes
+        document.cookie = `popout_autorefresh_open=true; expires=${new Date(expTime).toUTCString()}; path=/; domain=.indiatimes.com`;
+        document.cookie = `rw_default=true; expires=${new Date(expTime).toUTCString()}; path=/; domain=.indiatimes.com`;
+        // Implement GA Here
+        sessionStorage.pageReload = "1";
+        console.log("Page Reload at", new Date());
+        window.location.reload();
+      }
     };
 
     if (navigator.onLine) {

@@ -114,7 +114,6 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
           (element: {
             classList: any;
             style: {
-              minWidth: string;
               padding: string;
             };
           }) => {

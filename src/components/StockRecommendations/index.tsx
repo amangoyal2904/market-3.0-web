@@ -31,28 +31,28 @@ const StockRecommendations: React.FC<Props> = ({
       breakpoint: 2560,
       settings: {
         slidesToShow: 5,
-        slidesToScroll: 5,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1921,
       settings: {
         slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1601,
       settings: {
         slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1281,
       settings: {
         slidesToShow: 2,
-        slidesToScroll: 2,
+        slidesToScroll: 1,
       },
     },
   ];
@@ -141,7 +141,7 @@ const StockRecommendations: React.FC<Props> = ({
                 key={`slider${activeTab.apiType}`}
                 sliderId={`slider${activeTab.apiType}`}
                 slidesToShow={3}
-                slidesToScroll={3}
+                slidesToScroll={1}
                 rows={2}
                 responsive={responsive}
               />
