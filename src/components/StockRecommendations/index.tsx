@@ -3,20 +3,13 @@ import React, { useEffect, useState } from "react";
 import styles from "./StockRecommendations.module.scss";
 import StockReco from "../StockReco";
 import SlickSlider from "../SlickSlider";
-import service from "@/network/service";
 import ViewAllLink from "../ViewAllLink";
-import Link from "next/link";
 import HeadingHome from "../ViewAllLink/HeadingHome";
-import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV, getStockRecosDetail } from "@/utils";
+import { getStockRecosDetail } from "@/utils";
 import { useStateContext } from "../../store/StateContext";
 import Blocker from "../Blocker";
 import Loader from "../Loader";
 import { trackingEvent } from "@/utils/ga";
-
-interface Slide {
-  content: JSX.Element;
-}
 interface Props {
   stockRecoResult: any;
   recosNav: any;

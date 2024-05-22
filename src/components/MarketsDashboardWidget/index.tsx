@@ -8,7 +8,7 @@ import {
   fetchSelectedFilter,
   generateIntradayDurations,
 } from "@/utils/utility";
-import { getAllShortUrls, getShortUrlMapping } from "@/utils/marketstats";
+import { getAllShortUrls } from "@/utils/marketstats";
 
 const MarketsDashboardWidget = async () => {
   const cookieStore = cookies();

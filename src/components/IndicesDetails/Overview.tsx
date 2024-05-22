@@ -121,7 +121,7 @@ const IndicesDetailsOverview = React.memo(
                   }`}
                 />
               )}
-              <span>{`${Math.abs(overviewData[changePeriod])?.toFixed(2)} (${overviewData[percentChange]?.toFixed(2)}%)`}</span>
+              <span>{`${overviewData[changePeriod]?.toFixed(2)} (${overviewData[percentChange]?.toFixed(2)}%)`}</span>
             </div>
           </div>
           {/* <div className="dflex  align-item-center">

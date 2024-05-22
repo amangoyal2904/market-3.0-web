@@ -23,7 +23,6 @@ const StockName: React.FC<StockNameProps> = ({
     if (primeUser) {
       return (
         <a
-          data-ga-onclick={`SR+ ${tabName}#${category} - ${name} name click#href`}
           href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${seoName}/stocks/companyid-${companyID}.cms`}
           target="_blank"
           title={name}

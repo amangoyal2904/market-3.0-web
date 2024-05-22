@@ -163,6 +163,8 @@ const Header = () => {
                     src="/prime_icon.svg"
                     height="12"
                     width="12"
+                    alt="Subscribe"
+                    title="Subscribe"
                     className={styles.prime_icon}
                   />
                   Subscribe

@@ -49,7 +49,6 @@ const ScoreBox: React.FC<ScoreBoxProps> = ({
           className={styles.scoreBox}
           target="_blank"
           title="Stock Score"
-          data-ga-onclick={`SR+ ${tabName}#${category} - ${name} View Report#href`}
         >
           {score}
           {helpText}

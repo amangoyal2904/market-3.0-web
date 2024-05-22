@@ -6,13 +6,6 @@ import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 import { PdfReport } from "./PdfReport";
 
-interface Props {
-  data: any; // Define the type of data correctly
-  activeTab: string;
-  pageName: string;
-  urlFilterHandle: any;
-  filterIndex: any;
-}
 const formatDate = (timestamp: number) => {
   const months = [
     "Jan",
@@ -60,7 +53,6 @@ const StockComponent = ({
     default:
       stockMainClass = styles.buyStock;
   }
-  // console.log("##" + activeTab + "--- >", activeTab);
   return (
     <>
       {activeTab == "recoByFH" ? (
