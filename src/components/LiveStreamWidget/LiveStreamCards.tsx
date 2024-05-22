@@ -27,11 +27,11 @@ export const LiveStreamCards = ({ data }: any) => {
           </p>
           <Share title={data.title} streamURL={url} />
         </div>
-        <a href={url} className={styles.title}>
+        <a href={url} className={styles.title} title={data.title}>
           <p>{data.title}</p>
         </a>
         <div className={styles.profileSection}>
-          <a className={styles.userPic}>
+          <a className={styles.userPic} title={data.title}>
             <img
               width={40}
               height={40}
@@ -40,7 +40,9 @@ export const LiveStreamCards = ({ data }: any) => {
           </a>
           <div className={styles.userName}>
             <p className={styles.expertName}>
-              <a href={expertUrl}>{data.expertName}</a>
+              <a href={expertUrl} title={data.expertName}>
+                {data.expertName}
+              </a>
             </p>
             <p className={styles.totalViewsText}>{data.totalViewsText}</p>
           </div>

@@ -53,6 +53,7 @@ const StocksScreenerNav: React.FC<PageProps> = (props) => {
     const linkHref = `/markets/stock-screener/${subItem.seoName ? subItem.seoName : "test-seo-page"}/screens/scrid-${subItem.screenerId}`;
     return (
       <Link
+        title={subItem.name}
         href={linkHref}
         onClick={() => gaLinkforL3Menu(`${l3lableName} - ${subItem.name}`)}
       >

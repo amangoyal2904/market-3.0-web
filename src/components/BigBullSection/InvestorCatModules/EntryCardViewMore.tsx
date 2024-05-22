@@ -17,6 +17,7 @@ const EntryCardViewMore = ({ linkTitle, linkHref, cartType }: any) => {
       <Link
         href={`${linkHref}`}
         onClick={() => gaTrackingTabNameClick(linkTitle)}
+        title={linkTitle}
       >
         <span className={styles.linkTxt}>{linkTitle}</span>
         <span className={styles.arrow}></span>

@@ -33,6 +33,7 @@ const InnerLeftNav = (props: any) => {
                           className={`${styles.newRecosSSList} ${slug?.[1] == ssItem.recoType ? styles.active : ""}`}
                         >
                           <Link
+                            title={ssItem.label}
                             className={styles.ssLabel}
                             href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["home"]}/${item.seoPath}/${ssItem.recoType}${urlFilterHandle()}`}
                           >
@@ -54,6 +55,7 @@ const InnerLeftNav = (props: any) => {
               className={`${styles.fundHousesLeftNav} ${styles.allBrokeragesTab} ${activeApi == "recoByFH" ? styles.active : ""}`}
             >
               <Link
+                title="All Brokerages"
                 href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}${urlFilterHandle()}`}
               >
                 All Brokerages

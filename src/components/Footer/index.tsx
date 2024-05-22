@@ -60,172 +60,206 @@ export const Footer = async () => {
               A
             </a>
             <a
+              title="B"
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/b`}
             >
               B
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/c`}
+              title="C"
             >
               C
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/d`}
+              title="D"
             >
               D
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/e`}
+              title="E"
             >
               E
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/f`}
+              title="F"
             >
               F
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/g`}
+              title="G"
             >
               G
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/h`}
+              title="H"
             >
               H
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/i`}
+              title="I"
             >
               I
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/j`}
+              title="J"
             >
               J
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/k`}
+              title="K"
             >
               K
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/l`}
+              title="L"
             >
               L
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/m`}
+              title="M"
             >
               M
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/n`}
+              title="N"
             >
               N
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/o`}
+              title="O"
             >
               O
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/p`}
+              title="P"
             >
               P
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/q`}
+              title="Q"
             >
               Q
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/r`}
+              title="R"
             >
               R
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/s`}
+              title="S"
             >
               S
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/t`}
+              title="T"
             >
               T
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/u`}
+              title="U"
             >
               U
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/v`}
+              title="V"
             >
               V
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/w`}
+              title="W"
             >
               W
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/x`}
+              title="X"
             >
               X
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/y`}
+              title="Y"
             >
               Y
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/stock-quotes/z`}
+              title="Z"
             >
               Z
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-1`}
+              title="1"
             >
               1
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-2`}
+              title="2"
             >
               2
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-3`}
+              title="3"
             >
               3
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-4`}
+              title="4"
             >
               4
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-5`}
+              title="5"
             >
               5
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-6`}
+              title="6"
             >
               6
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-7`}
+              title="7"
             >
               7
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-8`}
+              title="8"
             >
               8
             </a>
             <a
               href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/markets/stocks/stock-quotes/numeric-9`}
+              title="9"
             >
               9
             </a>

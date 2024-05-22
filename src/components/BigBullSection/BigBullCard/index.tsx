@@ -125,6 +125,7 @@ const BigBullCard = ({ data, type }: any) => {
             onClick={() =>
               gaTrackingInvestorNameClick(data?.investorIntro?.name)
             }
+            title={data?.investorIntro?.name}
             href={`/markets/top-india-investors-portfolio/${data?.investorIntro?.sharkSeoName},expertid-${data?.investorIntro?.sharkID}`}
             className={styles.top}
           >
@@ -133,6 +134,7 @@ const BigBullCard = ({ data, type }: any) => {
               width={52}
               height={52}
               alt={data?.investorIntro?.name}
+              title={data?.investorIntro?.name}
               className={styles.expertImg}
             />
             <span className={styles.expertName}>
