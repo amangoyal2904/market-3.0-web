@@ -29,9 +29,9 @@
   position: relative;
   .closeIcon {
     position: absolute;
-    right: 0;
-    top: -18px;
-    background: url("/img/modalClose.svg") no-repeat 0 0;
+    right: -1px;
+    top: -11px;
+    background: url("/img/modalClose2.svg") no-repeat 0 0;
     display: inline-block;
     vertical-align: top;
     width: 36px;
@@ -40,62 +40,39 @@
   }
 }
 .contentSec {
-  padding: 40px 0 30px 0;
+  padding: 30px 0 30px 0;
   display: flex;
   justify-content: space-between;
-  max-width: 1150px;
+  max-width: 1000px;
   margin: 0 auto;
   .left {
     text-align: center;
-    width: 400px;
+    width: 320px;
     img {
       width: 100%;
       height: auto;
       vertical-align: top;
+      margin-top: 30px;
     }
   }
   .right {
     margin: 0;
-    width: calc(100% - 475px);
+    width: calc(100% - 368px);
   }
 }
 .topSec {
   .head {
     position: relative;
-    font-size: 32px;
-    font-weight: 700;
-    line-height: 40px;
-    color: $black;
-    padding: 26px 0 0 38px;
-    &::after {
-      content: "";
-      position: absolute;
-      display: inline-block;
-      vertical-align: top;
-      width: 71px;
-      height: 55px;
-      background: url("/img/bigbulllogo.svg") no-repeat 0 0;
-      left: 0;
-      top: 0;
-      background-size: cover;
-    }
-    .etprimeLogo {
-      position: absolute;
-      left: 67px;
-      top: 3px;
-      font-size: 12px;
-      font-weight: 600;
-      color: $red-50;
-    }
-    .bigLogo {
-      color: $green-40;
-    }
+    background: url("/img/logoBlockerBig.svg") no-repeat 0 0;
+    background-size: 100%;
+    width: 216px;
+    height: 40px;
   }
 }
 .subHead {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 700;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 .middle {
   margin-top: 20px;
@@ -107,7 +84,9 @@
     }
   }
   .btnSec {
-    margin-top: 10px;
+    margin-top: 28px;
+    display: flex;
+    align-items: center;
     .subBtn {
       display: inline-block;
       vertical-align: top;
@@ -117,18 +96,46 @@
       font-size: 18px;
       font-weight: 600;
       color: #ffffff;
-      padding: 14px 30px;
-      text-transform: uppercase;
+      padding: 10px 30px;
+      text-transform: capitalize;
+    }
+    .boxTxt {
+      display: inline-block;
+      position: relative;
+      vertical-align: top;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 400;
+      color: rgb(235, 34, 39);
+      background-color: rgba(255, 255, 255, 0.5);
+      padding: 10px 20px 10px 40px;
+      text-transform: capitalize;
+      border: solid 1px rgb(235, 34, 39);
+      margin-left: 10px;
+      &::after {
+        content: "";
+        position: absolute;
+        left: 13px;
+        top: 50%;
+        margin-top: -9px;
+        background: url("/img/logobigbullStar.svg") no-repeat 0 0;
+        display: inline-block;
+        vertical-align: top;
+        width: 20px;
+        height: 20px;
+      }
     }
   }
   .loginSec {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 400;
     margin-top: 6px;
-    text-transform: uppercase;
+    text-transform: capitalize;
     .signTxt {
       color: rgba(237, 25, 59, 1);
       cursor: pointer;
+      text-decoration: underline;
     }
   }
 }
@@ -146,7 +153,7 @@
     align-items: center;
     width: 70px;
     text-align: center;
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 500;
     .listIcon {
       width: 40px;
@@ -180,9 +187,9 @@
 }
 .etPrimeBenef {
   position: relative;
-  text-transform: uppercase;
+  text-transform: capitalize;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 400;
   padding-top: 12px;
   padding-right: 30px;
   margin-top: 40px;
