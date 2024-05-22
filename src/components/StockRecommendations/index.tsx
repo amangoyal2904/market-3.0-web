@@ -107,7 +107,7 @@ const StockRecommendations: React.FC<Props> = ({
       />
       <div className={styles.tabMainBox}>
         <ul className={styles.tabs}>
-          {tabNames.map((tab: any, index: any) => (
+          {tabNames?.map((tab: any, index: any) => (
             <li
               key={`${tab.seoPath}_${index}`}
               className={`${styles.tab} ${activeTab.seoPath === tab.seoPath ? styles.active : ""}`}
