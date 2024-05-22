@@ -127,7 +127,12 @@ const LiveStreamCards = ({
             // onClick={()=>handleClick("expert")}
           >
             {expertImg && (
-              <img src={expertImg} alt={expertName} loading="lazy" />
+              <img
+                src={expertImg}
+                alt={expertName}
+                title={expertName}
+                loading="lazy"
+              />
             )}
             <p>
               {" "}

@@ -18,7 +18,7 @@ export const LiveStreamCards = ({ data }: any) => {
   return data ? (
     <div className={styles.cardsWrapper}>
       <div className={styles.imgSection}>
-        <img src={data.eventImageUrl} />
+        <img src={data.eventImageUrl} alt={data.title} title={data.title} />
       </div>
       <div className={styles.textSection}>
         <div className={styles.topSec}>
@@ -36,6 +36,8 @@ export const LiveStreamCards = ({ data }: any) => {
               width={40}
               height={40}
               src={data?.meta?.userData?.expertImagePath}
+              title={data.title}
+              alt={data.title}
             />
           </a>
           <div className={styles.userName}>

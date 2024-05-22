@@ -33,6 +33,7 @@ const SearchDataLi: React.FC<Props> = ({ item, entity, count, query }) => {
                   item.entityType,
                   item.subType,
                 )}
+                title={item.tagName}
                 target="_blank"
               >
                 <div className={styles.st_row}>

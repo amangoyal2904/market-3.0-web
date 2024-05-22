@@ -7,6 +7,7 @@ export const PdfReport = ({ pdfUrl, companyName }: any) => {
     <>
       <a
         href={pdfUrl}
+        title={`${companyName} View Report`}
         className={styles.viewReportBox}
         target="_blank"
         onClick={() => {

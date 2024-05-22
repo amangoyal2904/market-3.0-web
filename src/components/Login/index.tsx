@@ -198,6 +198,8 @@ const Login = () => {
                       height="15"
                       width="15"
                       className={styles.primeUsericon}
+                      alt="Prime User"
+                      title="Prime User"
                     />
                     <div className={styles.primeInfo}>
                       <p className={styles.primeMember}>ETPrime Member</p>
@@ -218,6 +220,8 @@ const Login = () => {
                       height="34"
                       className={styles.thumbImg}
                       src={userInfo?.thumbImageUrl}
+                      alt={userInfo?.firstName}
+                      title={userInfo?.firstName}
                     />
                   ) : (
                     <span className={styles.userFChar}>
@@ -293,6 +297,8 @@ const Login = () => {
                       <img
                         width="72"
                         src="https://img.etimg.com/photo/105086027.cms"
+                        alt={userInfo?.loginId}
+                        title={userInfo?.loginId}
                       />
                     </span>
                   )}
@@ -337,6 +343,7 @@ const Login = () => {
                     className={styles.rght12}
                     src="/icon_svgs/Redeem_Benefits_01.svg"
                     alt="Redeem_Benefits_Icons"
+                    title="Redeem_Benefits_Icons"
                     width="16"
                     height="23"
                   />
@@ -395,7 +402,8 @@ const Login = () => {
                   <img
                     className={styles.rght12}
                     src="/icon_svgs/live-chat01.svg"
-                    alt="Redeem_Benefits_Icons"
+                    alt="Redeem Benefits"
+                    title="Redeem Benefits"
                     width="18"
                     height="16"
                   />
@@ -416,11 +424,7 @@ const Login = () => {
             </div>
           </div>
         ) : (
-          <div
-            className={styles.defaultLink}
-            data-ga-onclick="ET Login#Signin - Sign In - Click#ATF - url"
-            onClick={handleLoginToggle}
-          >
+          <div className={styles.defaultLink} onClick={handleLoginToggle}>
             Sign In
           </div>
         )

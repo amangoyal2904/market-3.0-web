@@ -381,6 +381,8 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                     src={list?.img}
                     loading="lazy"
                     decoding="async"
+                    alt={list?.title}
+                    title={list?.title}
                   />
                   {list?.type == "videoshow" ? (
                     <span className={styles.videoIcon} />

@@ -20,6 +20,7 @@ const Card = ({ data, index }: any) => {
       <img
         src={data?.img}
         alt={data?.title}
+        title={data?.title}
         className={styles.cardImage}
         loading="lazy"
         decoding="async"

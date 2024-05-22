@@ -233,6 +233,7 @@ const RedeemVoucher = () => {
                 : (GLOBAL_CONFIG as any).ET_IMG_DOMAIN + "/photo/76647778.cms"
             }
             alt={success ? "Success" : "Coupon"}
+            title={success ? "Success" : "Coupon"}
           />
           <p className={styles.heading}>
             {success ? "Voucher redeemed successfully" : "REDEEM VOUCHER"}

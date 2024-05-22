@@ -111,6 +111,7 @@ const BigBullCard = ({ data, type }: any) => {
                           width={28}
                           height={28}
                           alt={slide.name}
+                          title={slide.name}
                           className={styles.imgWraper}
                         />
                         <span className={styles.smallTxt}>{slide.name}</span>

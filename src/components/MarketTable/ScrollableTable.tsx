@@ -314,6 +314,8 @@ const ScrollableTable = React.memo((props: any) => {
                                     width={115}
                                     height={35}
                                     loading="lazy"
+                                    alt={`${item.assetName} Intraday Chart`}
+                                    title={`${item.assetName} Intraday Chart`}
                                   />
                                 </div>
                               )

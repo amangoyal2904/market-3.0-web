@@ -1,4 +1,3 @@
-"use client";
 import styles from "./styles.module.scss";
 import APIS_CONFIG from "../../network/api_config.json";
 import Service from "@/network/service";
@@ -65,17 +64,6 @@ const StockScreenerWidget = async () => {
   return (
     <div className="sectionWrapper">
       <HeadingHome title="Stock Screeners" url="/markets/stock-screener" />
-      {/* <h2 className="heading">
-        <Link
-          href="/markets/stock-screener"
-          target="_blank"
-          title="Stock Screeners"
-          onClick = {()=> handleClick}
-        >
-          Stock Screeners
-          <span className={`eticon_caret_right headingIcon`} />
-        </Link>
-      </h2> */}
       <div className={styles.screenerCards}>
         {StockScreenerData.length && (
           <SlickSlider

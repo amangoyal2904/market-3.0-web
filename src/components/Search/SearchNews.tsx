@@ -24,6 +24,7 @@ const SearchNews: React.FC<Props> = ({ item, entity, count, query }) => {
               <a
                 href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${item.seo}`}
                 target="_blank"
+                title={item.name}
               >
                 <div className={styles.st_row}>
                   <div
@@ -42,6 +43,7 @@ const SearchNews: React.FC<Props> = ({ item, entity, count, query }) => {
               <a
                 href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${item.link}`}
                 target="_blank"
+                title={item.title}
               >
                 <div className={styles.st_row}>
                   <div
