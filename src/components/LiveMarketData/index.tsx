@@ -93,17 +93,21 @@ const LiveMarketData = () => {
                         ? "/markets/indices/nifty-50"
                         : "/markets/indices/sp-bse-sensex"
                     }
+                    title={
+                      item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName
+                    }
                   >
-                    {item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName}
+                    {`${item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName} :`}
+                    {/* {item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName} */}
                   </a>
                 </div>
+                {/* <div className={styles.indexContainer}> */}
                 <div className={`${styles.indexValue} numberFonts`}>
                   {formatNumber(item.currentIndexValue)}
                 </div>
                 <div
                   className={`numberFonts ${styles.indexChange} ${Number(item.netChange) > 0 ? styles.green : styles.red}`}
                 >
-                  {item?.percentChange}%
                   <i
                     className={
                       Number(item?.netChange) > 0
@@ -111,7 +115,10 @@ const LiveMarketData = () => {
                         : "eticon_down_arrow"
                     }
                   ></i>
+                  <span>{item.netChange}</span>{" "}
+                  <span>{`(${item?.percentChange}%)`} </span>
                 </div>
+                {/* </div> */}
               </div>
             );
           })}

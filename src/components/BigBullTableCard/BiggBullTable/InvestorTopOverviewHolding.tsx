@@ -112,6 +112,7 @@ const InvestorTopOverviewHolding = ({
                                 }}
                               />
                               <a
+                                title={tdata?.companyData?.text}
                                 onClick={() =>
                                   gaTrackingCompanyNameClick(
                                     tdata?.companyData?.text,

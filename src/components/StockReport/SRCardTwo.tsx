@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import StockName from "./StockName";
 import ScoreBox from "./ScoreBox";
 import styles from "./StockReport.module.scss";

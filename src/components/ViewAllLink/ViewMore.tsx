@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import styles from "./ViewAll.module.scss";
 import { trackingEvent } from "@/utils/ga";
 
 const ViewMore = ({ text, link }: any) => {

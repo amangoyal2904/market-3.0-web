@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./StockReportsPlus.module.scss";
 import SlickSlider from "../SlickSlider";
 import APIS_CONFIG from "@/network/api_config.json";
@@ -13,7 +13,6 @@ import { useStateContext } from "@/store/StateContext";
 import Blocker from "../Blocker";
 import Loader from "../Loader";
 import StockSRLoginBlocker from "../StockSRLoginBlocker";
-import Image from "next/image";
 import HeadingHome from "../ViewAllLink/HeadingHome";
 import { trackingEvent } from "@/utils/ga";
 
@@ -63,28 +62,24 @@ const responsive = [
     breakpoint: 2560,
     settings: {
       slidesToShow: 5,
-      slidesToScroll: 5,
     },
   },
   {
     breakpoint: 1921,
     settings: {
       slidesToShow: 4,
-      slidesToScroll: 4,
     },
   },
   {
     breakpoint: 1601,
     settings: {
       slidesToShow: 3,
-      slidesToScroll: 3,
     },
   },
   {
     breakpoint: 1281,
     settings: {
       slidesToShow: 2,
-      slidesToScroll: 2,
     },
   },
 ];
@@ -155,28 +150,6 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
   return (
     <>
       <div className="sectionWrapper">
-        {/* <h2 className="heading">
-          <div className="dflex align-item-center space-between">
-            <a
-              target="_blank"
-              title="Stock Reports Plus"
-              href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/benefits/stockreportsplus`}
-            >
-              Stock Reports Plus
-              <span className={`eticon_caret_right headingIcon`} />
-            </a>
-            <p className={styles.powered}>
-              Powered By
-              <Image
-                src="/img/refinitiv.png"
-                width={88}
-                height={22}
-                alt="Refinitiv"
-                loading="lazy"
-              />
-            </p>
-          </div>
-        </h2> */}
         <HeadingHome
           title="Stock Reports Plus"
           url={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/benefits/stockreportsplus`}
@@ -211,7 +184,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
                     key={`slider${activeTab}`}
                     sliderId={`slider${activeTab}`}
                     slidesToShow={3}
-                    slidesToScroll={3}
+                    slidesToScroll={1}
                     rows={2}
                     responsive={responsive}
                   />
@@ -232,7 +205,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
                     key={`slider${activeTab}`}
                     sliderId={`slider${activeTab}`}
                     slidesToShow={3}
-                    slidesToScroll={3}
+                    slidesToScroll={1}
                     rows={2}
                     responsive={responsive}
                   />

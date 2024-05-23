@@ -166,7 +166,7 @@ const Intraday = async ({ searchParams }: any) => {
   const shortUrlMapping = await getAllShortUrls();
   const intradayDurationOptions = await generateIntradayDurations(L3NavSubItem);
 
-  const breadCrumbObj = getBreadcrumbObj(
+  const breadCrumbObj = await getBreadcrumbObj(
     l3Nav,
     L3NavMenuItem,
     L3NavSubItem,
@@ -175,7 +175,6 @@ const Intraday = async ({ searchParams }: any) => {
   );
 
   breadCrumbObj.push({ label: selectedFilter?.name, redirectUrl: "" });
-
   return (
     <>
       <MarketStats

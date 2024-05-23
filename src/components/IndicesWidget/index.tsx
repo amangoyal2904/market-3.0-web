@@ -156,16 +156,14 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
               <span className={`eticon_caret_right ${styles.headingIcon}`} />
             </a>
           </h2>
-          <div className={styles.liveStatus}>
-            <MarketStatus
-              currentMarketStatus={currentMarketStatus}
-              dateTime={dateStringToMilliseconds(selectedIndex?.dateTime)}
-              withSeparator={true}
-            />
-          </div>
+          <MarketStatus
+            currentMarketStatus={currentMarketStatus}
+            dateTime={dateStringToMilliseconds(selectedIndex?.dateTime)}
+            withSeparator={true}
+          />
         </div>
         <div className={styles.dataWrapper}>
-          {indicesData?.length && screenWidth <= 1820 ? (
+          {indicesData?.length && screenWidth && screenWidth <= 1820 ? (
             <SlickSlider
               slides={indicesData?.map((slides: any, index: any) => ({
                 content: (
@@ -381,6 +379,8 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                     src={list?.img}
                     loading="lazy"
                     decoding="async"
+                    alt={list?.title}
+                    title={list?.title}
                   />
                   {list?.type == "videoshow" ? (
                     <span className={styles.videoIcon} />

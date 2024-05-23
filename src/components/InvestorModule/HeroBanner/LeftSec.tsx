@@ -6,6 +6,7 @@ const LeftSecModule = ({ investorIntro, investorStockData }: any) => {
       <img
         src={investorIntro.imageURL}
         alt={investorIntro.name}
+        title={investorIntro.name}
         width={140}
         height={140}
         className={styles.leftImg}

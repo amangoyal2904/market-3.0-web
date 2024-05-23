@@ -120,6 +120,7 @@ const InvestorClientHomePage = ({
               />
               <div className={styles.viewHoldingLinkSec}>
                 <Link
+                  title="View all Top Holdings"
                   href={`/markets/top-india-investors-portfolio/${sharkSeoName},expertid-${sharkID}/holdings`}
                 >
                   <span>View all Top Holdings</span>

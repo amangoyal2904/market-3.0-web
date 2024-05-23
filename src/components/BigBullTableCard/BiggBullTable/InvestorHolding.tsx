@@ -117,6 +117,7 @@ const BiggBullInvestorHoldingTable = ({
                                     tdata?.companyData?.text,
                                   )
                                 }
+                                title={tdata?.companyData?.text}
                                 href={getStockUrl(
                                   tdata?.companyData?.companyId,
                                   tdata?.companyData?.companySeoName,

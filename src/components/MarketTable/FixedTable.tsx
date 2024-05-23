@@ -330,6 +330,8 @@ const FixedTable = React.memo((props: any) => {
                                     width={115}
                                     height={35}
                                     loading="lazy"
+                                    alt={`${item.assetName} Intraday Chart`}
+                                    title={`${item.assetName} Intraday Chart`}
                                   />
                                 </div>
                               )
@@ -372,7 +374,7 @@ const FixedTable = React.memo((props: any) => {
                             ) : (
                               "-"
                             )}
-                            {tdData.trend && (
+                            {tdData.trend && tdData.valueType == "number" && (
                               <span
                                 className={`${styles.arrowIcons} ${
                                   tdData.trend == "up"

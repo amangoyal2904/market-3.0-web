@@ -8,28 +8,24 @@ const LiveStreamSlider = ({ liveStreamData }: any) => {
       breakpoint: 2560,
       settings: {
         slidesToShow: 6,
-        slidesToScroll: 6,
       },
     },
     {
       breakpoint: 1921,
       settings: {
         slidesToShow: 5,
-        slidesToScroll: 5,
       },
     },
     {
       breakpoint: 1601,
       settings: {
         slidesToShow: 5,
-        slidesToScroll: 5,
       },
     },
     {
       breakpoint: 1361,
       settings: {
         slidesToShow: 4,
-        slidesToScroll: 4,
       },
     },
   ];
@@ -42,7 +38,7 @@ const LiveStreamSlider = ({ liveStreamData }: any) => {
         key={`liveStreamSlider}`}
         sliderId={`slider-liveStream`}
         slidesToShow={5}
-        slidesToScroll={5}
+        slidesToScroll={1}
         rows={1}
         topSpaceClass="liveStream"
         responsive={responsive}

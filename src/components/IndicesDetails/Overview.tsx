@@ -90,6 +90,13 @@ const IndicesDetailsOverview = React.memo(
             }
             title="View all Indices"
             className={styles.viewAll}
+            onClick={() =>
+              trackingEvent("et_push_event", {
+                event_category: "mercury_engagement",
+                event_action: "page_cta_click",
+                event_label: "View all Indices",
+              })
+            }
           >
             View all Indices
           </Link>
@@ -114,7 +121,7 @@ const IndicesDetailsOverview = React.memo(
                   }`}
                 />
               )}
-              <span>{`${Math.abs(overviewData[changePeriod])?.toFixed(2)} (${overviewData[percentChange]?.toFixed(2)}%)`}</span>
+              <span>{`${overviewData[changePeriod]?.toFixed(2)} (${overviewData[percentChange]?.toFixed(2)}%)`}</span>
             </div>
           </div>
           {/* <div className="dflex  align-item-center">

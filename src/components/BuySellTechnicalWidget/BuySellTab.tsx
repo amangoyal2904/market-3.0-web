@@ -180,8 +180,10 @@ const BuySellTab = ({
       <div className={styles.rightSide}>
         <div className="prel">
           <span
-            className={`${styles.roundBtn} ${styles.fitlerDay}`}
-            onClick={() => handleDropDown()}
+            className={`${styles.roundBtn} ${styles.fitlerDay} ${dropDownOptions.length > 1 ? "" : styles.noPointer}`}
+            onClick={
+              dropDownOptions.length > 1 ? () => handleDropDown() : undefined
+            }
           >
             {dropDownValue.label}
             {dropDownOptions.length > 1 && (

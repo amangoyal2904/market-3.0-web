@@ -219,8 +219,11 @@ const LiveStreamPlay = (props: any) => {
     setEventToken(item.eventToken);
     setLiveStatus(item.eventStatus == 3 ? true : false);
     if (item.eventStatus == 3) {
+      sessionStorage.setItem("doNotRefreshPage", "1");
       fetchFollowingExperts();
       fetchFollowingData(item);
+    } else {
+      sessionStorage.removeItem("doNotRefreshPage");
     }
   };
   const fetchFollowingData = async (item: any) => {

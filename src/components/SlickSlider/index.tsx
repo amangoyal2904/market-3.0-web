@@ -70,11 +70,13 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
           <div
             className={`slick-next slick-arrow ${styles.arrowIcon} `}
             onClick={
-              dots?.length == currentSlideIndex + 1 ? () => {} : nextSlide
+              dots?.length == Math.ceil(currentSlideIndex / slidesToScroll) + 1
+                ? () => {}
+                : nextSlide
             }
           >
             <span
-              className={`eticon_next ${styles.commonArrow} ${dots?.length == currentSlideIndex + 1 ? styles.disableBtn : ""}`}
+              className={`eticon_next ${styles.commonArrow} ${dots?.length == Math.ceil(currentSlideIndex / slidesToScroll) + 1 ? styles.disableBtn : ""}`}
             ></span>
           </div>
         </div>
@@ -100,7 +102,7 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
       sliderRef.current.slickPrev();
     }
   };
-  console.log("@@@@--->slides", slides.length, currentSlideIndex);
+
   useEffect(() => {
     if (sliderRef.current) {
       sliderRef.current.slickGoTo(0);
@@ -112,7 +114,6 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
           (element: {
             classList: any;
             style: {
-              minWidth: string;
               padding: string;
             };
           }) => {

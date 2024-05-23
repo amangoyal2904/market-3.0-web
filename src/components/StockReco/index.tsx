@@ -6,13 +6,6 @@ import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 import { PdfReport } from "./PdfReport";
 
-interface Props {
-  data: any; // Define the type of data correctly
-  activeTab: string;
-  pageName: string;
-  urlFilterHandle: any;
-  filterIndex: any;
-}
 const formatDate = (timestamp: number) => {
   const months = [
     "Jan",
@@ -72,6 +65,7 @@ const StockComponent = ({
               <Link
                 href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.seoName}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
                 className="linkHover"
+                title={data.organisation}
                 onClick={() => {
                   trackingEvent("et_push_event", {
                     event_category: "mercury_engagement",
@@ -150,6 +144,7 @@ const StockComponent = ({
 
             <h2 title={data.companyName} className={styles.stocksTitle}>
               <Link
+                title={data.companyName}
                 target="_blank"
                 href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}${data?.companySeoName}/stocks/companyid-${data.companyId}.cms`}
                 className="linkHover"
@@ -240,6 +235,7 @@ const StockComponent = ({
                 <span>Brokerage:</span>
                 <span>
                   <Link
+                    title={data.organisation}
                     href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.seoName}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
                     className="linkHover"
                   >

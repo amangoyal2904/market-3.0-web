@@ -59,7 +59,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
 
   useEffect(() => {
     prevPath !== null &&
-      trackingEvent("page_view", { url: window.location.href });
+      trackingEvent("et_push_pageload", { url: window.location.href });
     setPrevPath(router);
     renderDfpAds(isPrime);
     if (window.isSurveyLoad) {

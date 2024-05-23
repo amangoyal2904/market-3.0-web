@@ -175,6 +175,7 @@ const TextBottom: React.FC<Props> = ({ indicesName }) => {
                     <a
                       className={styles.semibold}
                       target="_blank"
+                      title="What is share market?"
                       href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/news/what-is-share-market/articleshow/59531308.cms`}
                     >
                       What is share market?
@@ -195,6 +196,7 @@ const TextBottom: React.FC<Props> = ({ indicesName }) => {
                   </div>
                   <h3 className={styles.story_list}>
                     <a
+                      title="How to buy shares?"
                       className={styles.semibold}
                       target="_blank"
                       href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/news/how-to-buy-shares/articleshow/59531362.cms`}
@@ -216,6 +218,7 @@ const TextBottom: React.FC<Props> = ({ indicesName }) => {
                   </div>
                   <h3 className={styles.story_list}>
                     <a
+                      title="How can I invest in share market?"
                       className={styles.semibold}
                       target="_blank"
                       href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/news/how-can-i-invest-in-share-market/articleshow/59530915.cms`}
@@ -240,6 +243,7 @@ const TextBottom: React.FC<Props> = ({ indicesName }) => {
                     <a
                       className={styles.semibold}
                       target="_blank"
+                      title="How can I start investing in financial market in India?"
                       href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/news/how-can-i-start-investing-in-financial-market-in-india/articleshow/59531261.cms`}
                     >
                       How can I start investing in financial market in India?
@@ -262,6 +266,7 @@ const TextBottom: React.FC<Props> = ({ indicesName }) => {
                     <a
                       className={styles.semibold}
                       target="_blank"
+                      title="How to invest in dividend stocks?"
                       href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/news/how-to-invest-in-dividend-stocks/articleshow/59646546.cms`}
                     >
                       How to invest in dividend stocks?
@@ -285,6 +290,7 @@ const TextBottom: React.FC<Props> = ({ indicesName }) => {
                     <a
                       className={styles.semibold}
                       target="_blank"
+                      title="How to read analyst ratings of stocks?"
                       href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}markets/stocks/news/all-you-need-to-know-about-analyst-ratings/articleshow/59802338.cms`}
                     >
                       How to read analyst ratings of stocks?

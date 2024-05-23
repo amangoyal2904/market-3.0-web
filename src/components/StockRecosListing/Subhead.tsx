@@ -98,6 +98,7 @@ const Subhead = (props: any) => {
                   href={item.redirectLink}
                   target="_blank"
                   onClick={() => handleTabTracking(item.label)}
+                  title={item.label}
                 >
                   {item.label}
                 </Link>
@@ -106,6 +107,7 @@ const Subhead = (props: any) => {
                   data-tt={item.seoPath}
                   href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"][item.seoPath]}${urlFilterHandle()}`}
                   onClick={() => handleTabTracking(item.label)}
+                  title={item.label}
                 >
                   {item.label}
                 </Link>

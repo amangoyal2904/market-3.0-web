@@ -223,6 +223,7 @@ const SearchData: React.FC<Props> = ({
                         item.seoname,
                         item.companytype,
                       )}
+                      title={item.companyname}
                       target="_blank"
                     >
                       <div className={styles.st_row}>

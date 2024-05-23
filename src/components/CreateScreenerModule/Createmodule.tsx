@@ -42,7 +42,7 @@ const ScreenerNameViewPopup = ({
         ></div>
         <div className={`moduleWrap ${styles.perWrap}`}>
           <div className={styles.header}>
-            Name your screener view
+            Name Your Screener
             <span
               className={`${styles.closeIcon}`}
               onClick={modalCloseHandler}
@@ -70,8 +70,8 @@ const ScreenerNameViewPopup = ({
               {screenerEditMode.userMode === "USER" &&
               (screenerEditMode.screenerStage === "popup" ||
                 screenerEditMode.screenerStage === "")
-                ? "Update view"
-                : "Create view"}
+                ? "Update Screener"
+                : "Create Screener"}
             </span>
           </div>
         </div>

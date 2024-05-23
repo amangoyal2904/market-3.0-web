@@ -127,13 +127,14 @@ const Header = () => {
       <header id={styles.pageTopbar}>
         <div className={styles.navbarHeader} id="header">
           <div className={`dflex align-item-center ${styles.logoHeader}`}>
-            <Link href="/markets/live-coverage">
+            <Link href="/markets/live-coverage" title="ET Markets">
               <Image
                 src={ETLogo}
                 width={138}
                 height={24}
                 quality={100}
                 alt="ET Markets"
+                title="ET Markets"
               />
             </Link>
           </div>
@@ -146,7 +147,11 @@ const Header = () => {
             </div>
             <div className={`dflex align-item-center`}>
               {shouldRenderComponent && <LiveMarketData />}
-              <Link className="default-btn" href="/watchlist">
+              <Link
+                className="default-btn"
+                href="/watchlist"
+                title="My Watchlist"
+              >
                 My Watchlist
               </Link>
               {!isPrime && (
@@ -158,6 +163,8 @@ const Header = () => {
                     src="/prime_icon.svg"
                     height="12"
                     width="12"
+                    alt="Subscribe"
+                    title="Subscribe"
                     className={styles.prime_icon}
                   />
                   Subscribe

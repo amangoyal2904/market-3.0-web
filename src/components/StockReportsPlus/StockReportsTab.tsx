@@ -6,7 +6,7 @@ const StockReportsTab = (props: any) => {
   return (
     <div>
       <ul className={styles.tabs}>
-        {tabNames.map((tab: any) => (
+        {tabNames?.map((tab: any) => (
           <li
             key={tab.seoName}
             className={`${styles.tab} ${activeTab.seoName === tab.seoName ? styles.active : ""}`}

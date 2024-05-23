@@ -6,7 +6,9 @@ import { useStateContext } from "../../store/StateContext";
 import tableConfig from "../../utils/tableConfig.json";
 import Blocker from "../Blocker";
 import ViewAllLink from "../ViewAllLink";
-import Link from "next/link";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils/index";
+import HeadingHome from "../ViewAllLink/HeadingHome";
 
 const WatchListWidget = () => {
   const [showBlocker, setShowBlocker] = useState(true);
@@ -47,12 +49,10 @@ const WatchListWidget = () => {
 
   return (
     <div className="sectionWrapper">
-      <h2 className="heading">
-        <Link href="/watchlist" title="My Watchlist" target="_blank">
-          My Watchlist
-          <span className={`eticon_caret_right headingIcon`} />
-        </Link>
-      </h2>
+      <HeadingHome
+        title="My Watchlist"
+        url={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}watchlist`}
+      />
       {showBlocker ? (
         <Blocker type="loginBlocker" />
       ) : (

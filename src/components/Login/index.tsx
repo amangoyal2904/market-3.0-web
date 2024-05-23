@@ -198,6 +198,8 @@ const Login = () => {
                       height="15"
                       width="15"
                       className={styles.primeUsericon}
+                      alt="Prime User"
+                      title="Prime User"
                     />
                     <div className={styles.primeInfo}>
                       <p className={styles.primeMember}>ETPrime Member</p>
@@ -218,6 +220,8 @@ const Login = () => {
                       height="34"
                       className={styles.thumbImg}
                       src={userInfo?.thumbImageUrl}
+                      alt={userInfo?.firstName}
+                      title={userInfo?.firstName}
                     />
                   ) : (
                     <span className={styles.userFChar}>
@@ -293,6 +297,8 @@ const Login = () => {
                       <img
                         width="72"
                         src="https://img.etimg.com/photo/105086027.cms"
+                        alt={userInfo?.loginId}
+                        title={userInfo?.loginId}
                       />
                     </span>
                   )}
@@ -316,6 +322,7 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV]["MY_SUBS"]}`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="My Subscriptions"
                   >
                     My Subscriptions
                   </a>
@@ -326,6 +333,7 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}prime_preferences.cms`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="My Preferences"
                   >
                     My Preferences
                   </a>
@@ -335,6 +343,7 @@ const Login = () => {
                     className={styles.rght12}
                     src="/icon_svgs/Redeem_Benefits_01.svg"
                     alt="Redeem_Benefits_Icons"
+                    title="Redeem_Benefits_Icons"
                     width="16"
                     height="23"
                   />
@@ -342,6 +351,7 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}et_benefits.cms`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="Redeem Benefits"
                   >
                     Redeem Benefits
                   </a>
@@ -352,6 +362,7 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}subscription`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="Manage Newsletters"
                   >
                     Manage Newsletters
                   </a>
@@ -364,7 +375,11 @@ const Login = () => {
                     <span className="path4"></span>
                     <span className="path5"></span>
                   </span>
-                  <a href="/watchlist" rel="nofollow noreferrer">
+                  <a
+                    href="/watchlist"
+                    rel="nofollow noreferrer"
+                    title="My Watchlist"
+                  >
                     My Watchlist
                   </a>
                 </li>
@@ -373,6 +388,7 @@ const Login = () => {
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}bookmarkslist`}
                     rel="nofollow noreferrer"
+                    title="Saved Stories"
                   >
                     Saved Stories
                   </a>
@@ -386,7 +402,8 @@ const Login = () => {
                   <img
                     className={styles.rght12}
                     src="/icon_svgs/live-chat01.svg"
-                    alt="Redeem_Benefits_Icons"
+                    alt="Redeem Benefits"
+                    title="Redeem Benefits"
                     width="18"
                     height="16"
                   />
@@ -394,6 +411,7 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}contactus.cms`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="Contact Us"
                   >
                     Contact Us
                   </a>
@@ -406,11 +424,7 @@ const Login = () => {
             </div>
           </div>
         ) : (
-          <div
-            className={styles.defaultLink}
-            data-ga-onclick="ET Login#Signin - Sign In - Click#ATF - url"
-            onClick={handleLoginToggle}
-          >
+          <div className={styles.defaultLink} onClick={handleLoginToggle}>
             Sign In
           </div>
         )

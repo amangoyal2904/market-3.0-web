@@ -64,6 +64,7 @@ const MarketStatsNav: React.FC<PageProps> = React.memo((props) => {
     return (
       <Link
         href={linkHref}
+        title={subItem.label}
         onClick={() =>
           trackingEvent("et_push_event", {
             event_category: "mercury_engagement",
