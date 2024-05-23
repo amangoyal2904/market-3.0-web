@@ -242,9 +242,7 @@ export const getPageName = () => {
     pageName = "Mercury_Screener";
   } else if (pagePathName.includes("/indices")) {
     pageName = "Mercury_Indices";
-  } else if (
-    pagePathName.includes("/top-india-investors-portfolio/individual")
-  ) {
+  } else if (pagePathName.includes("/top-india-investors-portfolio/")) {
     pageName = "Mercury_BigBull";
   } else if (pagePathName.includes("/stockreportsplus")) {
     pageName = "Mercury_StockReportsPlus";
@@ -254,6 +252,8 @@ export const getPageName = () => {
     pageName = "Mercury_Watchlist";
   } else if (pagePathName.includes("/live-coverage")) {
     pageName = "Mercury_HomePage";
+  } else if (pagePathName.includes("/stock-market-mood")) {
+    pageName = "Mercury_MarketMood";
   } else {
     pageName = "Mercury";
   }
