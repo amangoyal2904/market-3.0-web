@@ -10,7 +10,7 @@
     "X_SITE_CODE": "d8bf11298a038d8f20be2c4486c3c728"
   },
   "production": {
-    "ssoWidget": "https://jssocdn.indiatimes.com/crosswalk/41/widget/main.bundle.min.js",
+    "ssoWidget": "https://jssocdn.indiatimes.com/crosswalk/42/widget/main.bundle.min.js",
     "jssoSDK": "https://jssocdn.indiatimes.com/crosswalk_sdk/sdk/jsso_crosswalk_legacy_0.7.95.min.js",
     "ET_WEB_URL": "https://etdev8243.indiatimes.com/",
     "ET_WAP_URL": "https://spmdev8243.economictimes.com/",
