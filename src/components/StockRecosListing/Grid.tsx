@@ -376,17 +376,19 @@ const TableHtml = (props: any) => {
                   ) : (
                     <td>
                       <div className={styles.tdColWrap}>
-                        <WatchlistAddition
-                          companyName={obj.companyName}
-                          companyId={obj.companyId}
-                          companyType="equity"
-                          customStyle={{
-                            position: "relative",
-                            marginRight: "10px",
-                            width: "13px",
-                            height: "16px",
-                          }}
-                        />
+                        {activeApi != "recoOnWatchlist" && (
+                          <WatchlistAddition
+                            companyName={obj.companyName}
+                            companyId={obj.companyId}
+                            companyType="equity"
+                            customStyle={{
+                              position: "relative",
+                              marginRight: "10px",
+                              width: "13px",
+                              height: "16px",
+                            }}
+                          />
+                        )}
                         <Link
                           title={obj.companyName}
                           target="_blank"
