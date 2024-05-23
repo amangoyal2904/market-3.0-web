@@ -129,16 +129,18 @@ const StockComponent = ({
                     <span className={styles.callDate}>{formattedDate}</span>
                   </span>
                 )}
-                <WatchlistAddition
-                  companyName={data.companyName}
-                  companyId={data.companyId}
-                  companyType="equity"
-                  customStyle={{
-                    position: "absolute",
-                    top: "13px",
-                    right: "16px",
-                  }}
-                />
+                {activeTab != "recoOnWL" && activeTab != "recoOnWatchlist" && (
+                  <WatchlistAddition
+                    companyName={data.companyName}
+                    companyId={data.companyId}
+                    companyType="equity"
+                    customStyle={{
+                      position: "absolute",
+                      top: "13px",
+                      right: "16px",
+                    }}
+                  />
+                )}
               </div>
             )}
 
@@ -158,18 +160,20 @@ const StockComponent = ({
               >
                 {data.companyName}
               </Link>
-              {!data?.recoType && (
-                <WatchlistAddition
-                  companyName={data.companyName}
-                  companyId={data.companyId}
-                  companyType="equity"
-                  customStyle={{
-                    position: "absolute",
-                    top: "13px",
-                    right: "16px",
-                  }}
-                />
-              )}
+              {!data?.recoType &&
+                activeTab != "recoOnWL" &&
+                activeTab != "recoOnWatchlist" && (
+                  <WatchlistAddition
+                    companyName={data.companyName}
+                    companyId={data.companyId}
+                    companyType="equity"
+                    customStyle={{
+                      position: "absolute",
+                      top: "13px",
+                      right: "16px",
+                    }}
+                  />
+                )}
             </h2>
             <div className={styles.updownTargetBox}>
               <div className={styles.potensialBox}>
