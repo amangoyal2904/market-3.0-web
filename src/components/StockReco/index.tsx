@@ -60,7 +60,7 @@ const StockComponent = ({
     default:
       stockMainClass = styles.buyStock;
   }
-  // console.log("##" + activeTab + "--- >", activeTab);
+  console.log("##" + activeTab + "--- >", activeTab);
   return (
     <>
       {activeTab == "recoByFH" ? (

@@ -300,8 +300,8 @@ const Login = () => {
                 <div className={styles.userId}>{userInfo?.loginId}</div>
               </div>
               <ul className={styles.ddListWrap}>
-                {/* <li className={styles.ddList}>
-                  <span className=""></span>
+                <li className={styles.ddList}>
+                  <span className="eticon_user_profile"></span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}userprofile.cms`}
                     rel="noreferrer"
@@ -309,7 +309,7 @@ const Login = () => {
                   >
                     Edit Profile
                   </a>
-                </li> */}
+                </li>
                 <li className={styles.ddList}>
                   <span className="eticon_subscription"></span>
                   <a
