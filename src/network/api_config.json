@@ -448,7 +448,7 @@
     "production": "https://etup.economictimes.indiatimes.com/et/fetchprefdatavalcount"
   },
   "followExpert": {
-    "development": "https://etup.economictimes.indiatimes.com/et/savesettings/json",
+    "development": "https://etusersqc2.economictimes.indiatimes.com/et/savesettings/json",
     "production": "https://etup.economictimes.indiatimes.com/et/savesettings/json"
   },
   "getFollowedExperts": {

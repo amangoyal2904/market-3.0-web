@@ -503,7 +503,9 @@ const MarketTable = React.memo((props: propsType) => {
           <div
             id="customScroll"
             ref={customScroll}
-            className={`${styles.horizontalCustomScroll} ${isWidget ? styles.widgetCustomScroll : styles.customScroll}`}
+            className={`${styles.horizontalCustomScroll} 
+            ${isWidget ? styles.widgetCustomScroll : styles.customScroll}
+            ${tableDataList.length == 1 ? styles.singleRowDesign : ""}`}
           >
             <button
               id="scrollButton"

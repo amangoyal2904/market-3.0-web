@@ -5,13 +5,23 @@ import { APP_ENV } from "@/utils";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 
 export const LiveStreamCards = ({ data }: any) => {
-  const getHours = (timestamp: number) => {
+  const getTimeDifference = (timestamp: number) => {
     const currentTimestamp = new Date().getTime();
     const differenceInMilliseconds = currentTimestamp - timestamp;
-    const differenceInHours = Math.floor(
-      differenceInMilliseconds / (1000 * 60 * 60),
-    );
-    return differenceInHours;
+    const hours = Math.floor(differenceInMilliseconds / (1000 * 60 * 60));
+    const remainingMilliseconds =
+      differenceInMilliseconds - hours * 60 * 60 * 1000;
+
+    const minutes = Math.floor(remainingMilliseconds / (1000 * 60));
+    const remainingMillisecondsAfterMinutes =
+      remainingMilliseconds - minutes * 60 * 1000;
+    const seconds = Math.floor(remainingMillisecondsAfterMinutes / 1000);
+
+    return {
+      hours,
+      minutes,
+      seconds,
+    };
   };
   const url = `https://economictimes.indiatimes.com/markets/etmarkets-live/${data?.seoName}/streamsrecorded/streamid-${data?.eventId},expertid-${data?.meta?.userData?.expertID}.cms`;
   const expertUrl = `https://economictimes.indiatimes.com/markets/etmarkets-live/expert-bio/${data?.meta?.userData?.expertSeoName},expertid-${data?.meta?.userData?.expertID}.cms`;
@@ -23,7 +33,15 @@ export const LiveStreamCards = ({ data }: any) => {
       <div className={styles.textSection}>
         <div className={styles.topSec}>
           <p className={styles.hourAgo}>
-            {`Streamed ${getHours(data?.startTime)} hours ago`}
+            {`Streamed ${
+              getTimeDifference(data?.startTime)?.hours != 0
+                ? `${getTimeDifference(data?.startTime)?.hours} hours ago`
+                : getTimeDifference(data?.startTime)?.minutes != 0
+                  ? `${getTimeDifference(data?.startTime)?.minutes} minutes ago`
+                  : getTimeDifference(data?.startTime)?.seconds != 0
+                    ? `${getTimeDifference(data?.startTime)?.seconds} seconds ago`
+                    : ""
+            }`}
           </p>
           <Share title={data.title} streamURL={url} />
         </div>
