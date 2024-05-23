@@ -1,27 +1,27 @@
 {
   "dfp": {
     "topad": {
-      "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Stocks/ET_ROS_ATF_MKT_STK_728",
+      "slot": "/7176/Economictimes/ET_Markets/ET_Markets_MKTData/ET_Markets_MKTData_HOPA_ATF_728",
       "size": "[[728,90]]",
       "id": "div-gpt-leaderboard"
     },
     "mid1": {
-      "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Stocks/ET_ROS_BTF_MKT_STK_728",
+      "slot": "/7176/Economictimes/ET_Markets/ET_Markets_MKTData/ET_Markets_MKTData_HOPA_Mid1_728",
       "size": "[[728,90]]",
       "id": "div-gpt-mid1"
     },
     "mid2": {
-      "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Stocks/ET_ROS_BTF_MKT_STK_728",
+      "slot": "/7176/Economictimes/ET_Markets/ET_Markets_MKTData/ET_Markets_MKTData_HOPA_Mid2_728",
       "size": "[[728,90]]",
       "id": "div-gpt-mid2"
     },
     "mid3": {
-      "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Stocks/ET_ROS_BTF_MKT_STK_728",
+      "slot": "/7176/Economictimes/ET_Markets/ET_Markets_MKTData/ET_Markets_MKTData_HOPA_Mid3_728",
       "size": "[[728,90]]",
       "id": "div-gpt-mid3"
     },
     "btfAd": {
-      "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Stocks/ET_ROS_BTF_MKT_STK_728",
+      "slot": "/7176/Economictimes/ET_Markets/ET_Markets_MKTData/ET_Markets_MKTData_HOPA_BTF_728",
       "size": "[[728,90]]",
       "id": "div-gpt-btf"
     }
