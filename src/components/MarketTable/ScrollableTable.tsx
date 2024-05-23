@@ -51,19 +51,15 @@ const ScrollableTable = React.memo((props: any) => {
         scrollableTableRef.current.scrollWidth >
           scrollableTableRef.current.clientWidth,
       );
-      setRightScrollEnabled(
-        scrollableTableRef.current.scrollWidth >
-          scrollableTableRef.current.clientWidth,
-      );
       setLeftScrollEnabled(scrollableTableRef.current?.scrollLeft > 0);
     }
     const handleScroll = () => {
       if (scrollableTableRef.current) {
         const isAtEndOfRight =
           Math.floor(scrollableTableRef.current?.scrollLeft) +
-            scrollableTableRef.current.clientWidth ===
-          scrollableTableRef.current?.scrollWidth;
-        setRightScrollEnabled(!isAtEndOfRight);
+            scrollableTableRef.current.clientWidth >=
+          scrollableTableRef.current?.scrollWidth - 10;
+        setRightScrollEnabled(!!isAtEndOfRight);
         setLeftScrollEnabled(scrollableTableRef.current?.scrollLeft > 0);
       }
     };

@@ -111,7 +111,7 @@ const MarketTable = React.memo((props: propsType) => {
   const [verticalScrollEnabled, setVerticalScrollEnabled] = useState(false);
   const [scrollableTableRef, setScrollableTableRef] = useState({});
   const [rightScrollEnabled, setRightScrollEnabled] = useState(false);
-  const [leftScrollEnabled, setLeftScrollEnabled] = useState(false);
+  const [leftScrollEnabled, setLeftScrollEnabled] = useState(true);
 
   const handleFilterChange = useCallback((e: any) => {
     const { name, value } = e.target;
@@ -518,7 +518,7 @@ const MarketTable = React.memo((props: propsType) => {
             <button
               id="scrollButton"
               onClick={rightClickScroll}
-              className={`${styles.scrollButton} ${!rightScrollEnabled ? styles.disableBtn : ""}`}
+              className={`${styles.scrollButton} ${!!rightScrollEnabled ? styles.disableBtn : ""}`}
             >
               &#8594;
             </button>
