@@ -77,7 +77,10 @@ const LiveCoverage = async () => {
           data.searchResult[0] &&
           data.searchResult[0].data) ||
         [];
-      return topNewsData;
+      const topNewsFilteredData = topNewsData?.filter(
+        (data: { type: string }) => data.type === "articleshow",
+      );
+      return topNewsFilteredData;
     } catch (e) {
       console.log("error in fetching indices data", e);
       saveLogs({ res: "error", msg: "Error in fetching top news data" });
