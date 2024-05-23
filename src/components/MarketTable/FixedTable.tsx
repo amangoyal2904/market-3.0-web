@@ -374,7 +374,7 @@ const FixedTable = React.memo((props: any) => {
                             ) : (
                               "-"
                             )}
-                            {tdData.trend && (
+                            {tdData.trend && tdData.valueType == "number" && (
                               <span
                                 className={`${styles.arrowIcons} ${
                                   tdData.trend == "up"
