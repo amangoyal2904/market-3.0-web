@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 360px;
+  width: 475px;
   .marketIndex {
     display: flex;
     padding: 0 10px 0 12px;
@@ -11,6 +11,8 @@
     line-height: 18px;
     font-weight: 700;
     align-items: center;
+    // .indexContainer{display: flex;flex-direction: column;}
+
     .indexName {
       font-size: 12px;
       font-weight: 700;
