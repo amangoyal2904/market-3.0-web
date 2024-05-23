@@ -126,7 +126,8 @@ const MarketMoodsClient = ({
   const scrollToActiveContent = useCallback(() => {
     const element = document.getElementById(activeItem!);
     if (element) {
-      const offset = element.offsetTop + 220;
+      const pos = !!isPrime ? 100 : 220;
+      const offset = element.offsetTop + pos;
       window.scrollTo({ top: offset, behavior: "smooth" });
     }
   }, [activeItem]);
@@ -230,7 +231,8 @@ const MarketMoodsClient = ({
           const element = document.getElementById(type);
 
           if (element) {
-            const offset = element.offsetTop + 220;
+            const pos = !!isPrime ? 100 : 220;
+            const offset = element.offsetTop + pos;
             window.scrollTo({ top: offset, behavior: "smooth" });
           }
         }, 100);
