@@ -33,12 +33,9 @@
 
   .topWrapper {
     position: relative;
-
-    .liveStatus {
-      position: absolute;
-      top: 11px;
-      left: 15%;
-    }
+    display: flex;
+    gap: 30px;
+    align-items: center;
   }
 
   .newsContainer {

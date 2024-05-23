@@ -156,13 +156,11 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
               <span className={`eticon_caret_right ${styles.headingIcon}`} />
             </a>
           </h2>
-          <div className={styles.liveStatus}>
-            <MarketStatus
-              currentMarketStatus={currentMarketStatus}
-              dateTime={dateStringToMilliseconds(selectedIndex?.dateTime)}
-              withSeparator={true}
-            />
-          </div>
+          <MarketStatus
+            currentMarketStatus={currentMarketStatus}
+            dateTime={dateStringToMilliseconds(selectedIndex?.dateTime)}
+            withSeparator={true}
+          />
         </div>
         <div className={styles.dataWrapper}>
           {indicesData?.length && screenWidth && screenWidth <= 1820 ? (
