@@ -233,21 +233,15 @@ export const initSSOWidget = () => {
     socialLogin: [
       {
         type: "Google",
-        logoUrl: "https://jsso.indiatimes.com/staticsso/images/et.png",
-        label: "Economictimes",
         clientId:
           "891351984915-kodsh6b9vik3h6ue008fh8jgfstageh6.apps.googleusercontent.com",
       },
       {
         type: "Facebook",
-        logoUrl: "https://jsso.indiatimes.com/staticsso/images/et.png",
-        label: "Economictimes",
         clientId: "424450167700259",
       },
       {
         type: "Apple",
-        logoUrl: "https://jsso.indiatimes.com/staticsso/images/et.png",
-        label: "Economictimes",
         clientId: "com.economictimes.login",
       },
     ],
