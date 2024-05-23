@@ -233,15 +233,11 @@ export const initSSOWidget = () => {
     socialLogin: [
       {
         type: "Google",
-        logoUrl: "",
-        label: "",
         clientId:
           "891351984915-kodsh6b9vik3h6ue008fh8jgfstageh6.apps.googleusercontent.com",
       },
       {
         type: "Facebook",
-        label: "",
-        logoUrl: "",
         clientId: "424450167700259",
       },
       {

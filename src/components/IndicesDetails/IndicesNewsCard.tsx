@@ -52,6 +52,7 @@ const IndicesNewsCard = React.memo(({ data }: any) => {
         width={66}
         height={55}
         alt={data.hl}
+        title={data.hl}
         loading="lazy"
       />
     </a>

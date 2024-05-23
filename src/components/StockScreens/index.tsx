@@ -32,6 +32,7 @@ const StockScreens: React.FC<Props> = ({ slide }) => {
           <a
             href="javascript:void(0);"
             className={`dflex ${styles.viewReportBox}`}
+            title="View Report"
           >
             <span className={`eticon_srplus ${styles.pdfIcon}`}></span>
             <span className={styles.viewReport}>View Report</span>

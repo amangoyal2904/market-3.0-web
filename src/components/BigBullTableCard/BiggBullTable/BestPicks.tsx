@@ -125,6 +125,7 @@ const BiggBullBestPicksTable = ({
                   <tr key={`${index}`}>
                     <td>
                       <Link
+                        title={tdata?.investorIntro?.name}
                         onClick={() =>
                           gaTrackingInvestorNameClick(
                             tdata?.investorIntro?.name,
@@ -138,6 +139,7 @@ const BiggBullBestPicksTable = ({
                           width={42}
                           height={42}
                           alt={tdata?.investorIntro?.name}
+                          title={tdata?.investorIntro?.name}
                           className={styles.expertImg}
                         />
                         <span className={styles.nameTxt}>

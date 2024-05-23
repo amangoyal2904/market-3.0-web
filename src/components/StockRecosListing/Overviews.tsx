@@ -26,21 +26,18 @@ const Overview: React.FC<Props> = ({
       breakpoint: 1921,
       settings: {
         slidesToShow: 4,
-        slidesToScroll: 4,
       },
     },
     {
       breakpoint: 1601,
       settings: {
         slidesToShow: 3,
-        slidesToScroll: 3,
       },
     },
     {
       breakpoint: 1281,
       settings: {
         slidesToShow: 2,
-        slidesToScroll: 2,
       },
     },
   ];
@@ -72,6 +69,7 @@ const Overview: React.FC<Props> = ({
           >
             <h2 className={styles.title} key={index}>
               <Link
+                title={obj.name}
                 className="linkHover"
                 href={`${redirectLink(obj.apiType)}${urlFilterHandle(obj.indexid ? obj.indexid : "")}`}
               >
@@ -134,6 +132,7 @@ const Overview: React.FC<Props> = ({
             {obj?.data.length > 3 && (
               <div className={styles.overviewViewAll}>
                 <Link
+                  title={`View all ${obj.name}`}
                   href={`${redirectLink(obj.apiType)}${urlFilterHandle(obj.indexid ? obj.indexid : "")}`}
                 >
                   <span className="linkHover">View all {obj.name} </span>

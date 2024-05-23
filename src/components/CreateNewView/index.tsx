@@ -710,9 +710,7 @@ const CreateNewViewComponent = ({
                                               <div className={styles.forGroup}>
                                                 <input
                                                   type="checkbox"
-                                                  id={
-                                                    childSubItem.categoryMasterID
-                                                  }
+                                                  id={`${childSubItem.categoryMasterID}-cpv`}
                                                   value={
                                                     childSubItem.categoryMasterID
                                                   }
@@ -731,9 +729,7 @@ const CreateNewViewComponent = ({
                                                 />
 
                                                 <label
-                                                  htmlFor={
-                                                    childSubItem.categoryMasterID
-                                                  }
+                                                  htmlFor={`${childSubItem.categoryMasterID}-cpv`}
                                                 >
                                                   <span
                                                     className={

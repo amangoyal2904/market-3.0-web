@@ -129,6 +129,7 @@ const BiggBullRecentTransactionsTable = ({
                         }
                         href={`/markets/top-india-investors-portfolio/${tdata?.investorIntro?.sharkSeoName},expertid-${tdata?.investorIntro?.sharkID}`}
                         className={styles.investNameImg}
+                        title={tdata?.investorIntro?.name}
                       >
                         <img
                           src={tdata?.investorIntro?.imageURL}
@@ -136,6 +137,7 @@ const BiggBullRecentTransactionsTable = ({
                           height={42}
                           alt={tdata?.investorIntro?.name}
                           className={styles.expertImg}
+                          title={tdata?.investorIntro?.name}
                         />
                         <span className={styles.nameTxt}>
                           <span className={styles.fillingTxt}>
@@ -179,6 +181,7 @@ const BiggBullRecentTransactionsTable = ({
                                 )}
                                 target="_blank"
                                 className={styles.linkTxt}
+                                title={tdata?.companyData?.text}
                               >
                                 {tdata.companyData?.text}
                               </a>

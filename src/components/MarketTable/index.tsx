@@ -538,7 +538,9 @@ const MarketTable = React.memo((props: propsType) => {
           {apiSuccess && (
             <Blocker
               type={
-                tableConfig.name === "watchList" && tableHeaderData.length === 0
+                (tableConfig.name === "watchListWidget" ||
+                  tableConfig.name === "watchList") &&
+                tableHeaderData.length === 0
                   ? "noStocks"
                   : "noDataFound"
               }

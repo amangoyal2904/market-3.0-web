@@ -32,10 +32,9 @@ const StockScreenCards: React.FC<Props> = ({ item, index }) => {
                   className={`${index > 3 ? styles.hidden : ""}`}
                 >
                   <Link
-                    href={`/markets/stock-screener/${
-                      screen.seoName ? screen.seoName : "test-seo-page"
-                    }/screens/scrid-${screen.screenerId}`}
+                    href={`/markets/stock-screener/${screen.seoName}/screens/scrid-${screen.screenerId}`}
                     className={styles.liItemList}
+                    title={screen.name}
                   >
                     <div className={styles.info}>
                       <h3 className={styles.infoTitle}>{screen.name}</h3>

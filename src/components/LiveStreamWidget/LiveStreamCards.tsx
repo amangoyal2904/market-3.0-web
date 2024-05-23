@@ -18,7 +18,7 @@ export const LiveStreamCards = ({ data }: any) => {
   return data ? (
     <div className={styles.cardsWrapper}>
       <div className={styles.imgSection}>
-        <img src={data.eventImageUrl} />
+        <img src={data.eventImageUrl} alt={data.title} title={data.title} />
       </div>
       <div className={styles.textSection}>
         <div className={styles.topSec}>
@@ -27,20 +27,24 @@ export const LiveStreamCards = ({ data }: any) => {
           </p>
           <Share title={data.title} streamURL={url} />
         </div>
-        <a href={url} className={styles.title}>
+        <a href={url} className={styles.title} title={data.title}>
           <p>{data.title}</p>
         </a>
         <div className={styles.profileSection}>
-          <a className={styles.userPic}>
+          <a className={styles.userPic} title={data.title}>
             <img
               width={40}
               height={40}
               src={data?.meta?.userData?.expertImagePath}
+              title={data.title}
+              alt={data.title}
             />
           </a>
           <div className={styles.userName}>
             <p className={styles.expertName}>
-              <a href={expertUrl}>{data.expertName}</a>
+              <a href={expertUrl} title={data.expertName}>
+                {data.expertName}
+              </a>
             </p>
             <p className={styles.totalViewsText}>{data.totalViewsText}</p>
           </div>

@@ -26,7 +26,10 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href={(GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"]}>
+          <a
+            href={(GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"]}
+            title="Stock Recommendations"
+          >
             Stock Recommendations
           </a>
         </li>
@@ -56,7 +59,9 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/stock-screener">Stock Screeners</a>
+          <a href="/markets/stock-screener" title="Stock Screeners">
+            Stock Screeners
+          </a>
         </li>
       ),
       showCurrLi: true,
@@ -96,7 +101,9 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocks/marketstats/top-gainers">Stocks</a>
+          <a href="/stocks/marketstats/top-gainers" title="Stocks">
+            Stocks
+          </a>
         </li>
       ),
       showCurrLi: false,
@@ -113,7 +120,9 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocks/marketstats-technicals/golden-cross">Stocks</a>
+          <a href="/stocks/marketstats-technicals/golden-cross" title="Stocks">
+            Stocks
+          </a>
         </li>
       ),
       showCurrLi: false,
@@ -141,7 +150,9 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/indices">Indices</a>
+          <a href="/markets/indices" title="Indices">
+            Indices
+          </a>
         </li>
       ),
       showCurrLi: true,
@@ -191,7 +202,9 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/fii-dii-activity">FII DII Activity</a>
+          <a href="/markets/fii-dii-activity" title="FII DII Activity">
+            FII DII Activity
+          </a>
         </li>
       ),
       showCurrLi: true,
@@ -214,7 +227,12 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/benefits/stockreportsplus">Stock Reports Plus</a>
+          <a
+            href="/markets/benefits/stockreportsplus"
+            title="Stock Reports Plus"
+          >
+            Stock Reports Plus
+          </a>
         </li>
       ),
       showCurrLi: true,
@@ -244,7 +262,10 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/top-india-investors-portfolio/individual">
+          <a
+            href="/markets/top-india-investors-portfolio/individual"
+            title="Investors Portfolio"
+          >
             Investors Portfolio
           </a>
         </li>
@@ -327,7 +348,9 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
       />
       <ul className={styles.brUl}>
         <li className={styles.home}>
-          <a href={(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}>Home</a>
+          <a href={(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]} title="Home">
+            Home
+          </a>
         </li>
         <li className={styles.marketshome}>
           {router == "/markets/live-coverage" ? (
@@ -337,7 +360,9 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           ) : (
             <>
               <span className="eticon_caret_right"></span>
-              <a href="/markets/live-coverage">Markets Live</a>
+              <a href="/markets/live-coverage" title="Markets Live">
+                Markets Live
+              </a>
             </>
           )}
         </li>
@@ -349,7 +374,9 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
               <li key={item.label + index}>
                 <span className="eticon_caret_right"></span>
                 {item.redirectUrl ? (
-                  <a href={item.redirectUrl}>{item.label}</a>
+                  <a href={item.redirectUrl} title={item.label}>
+                    {item.label}
+                  </a>
                 ) : (
                   item.label
                 )}

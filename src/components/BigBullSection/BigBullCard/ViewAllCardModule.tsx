@@ -16,6 +16,7 @@ const ViewAllCardModule = ({ cartTitle = "", cartLink = "" }: any) => {
         <Link
           href={`${cartLink}`}
           onClick={() => gaTrackingEventFilter(cartTitle)}
+          title={cartTitle}
         >
           {cartTitle}
           <span className={styles.rightArrow}></span>

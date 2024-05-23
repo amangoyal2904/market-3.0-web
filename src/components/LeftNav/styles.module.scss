@@ -67,6 +67,9 @@
         background-color: $salmon-10;
         font-weight: 700;
         border-radius: 4px;
+        .l1LabelName {
+          font-weight: 700;
+        }
       }
     }
 
@@ -89,6 +92,13 @@
     &.l2Collapsed {
       .l2ListWrap {
         display: none;
+      }
+    }
+
+    &:not(.l2Collapsed) {
+      .caret_right {
+        rotate: -90deg;
+        margin-top: -7px;
       }
     }
 

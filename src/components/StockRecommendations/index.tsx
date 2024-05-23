@@ -3,20 +3,13 @@ import React, { useEffect, useState } from "react";
 import styles from "./StockRecommendations.module.scss";
 import StockReco from "../StockReco";
 import SlickSlider from "../SlickSlider";
-import service from "@/network/service";
 import ViewAllLink from "../ViewAllLink";
-import Link from "next/link";
 import HeadingHome from "../ViewAllLink/HeadingHome";
-import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV, getStockRecosDetail } from "@/utils";
+import { getStockRecosDetail } from "@/utils";
 import { useStateContext } from "../../store/StateContext";
 import Blocker from "../Blocker";
 import Loader from "../Loader";
 import { trackingEvent } from "@/utils/ga";
-
-interface Slide {
-  content: JSX.Element;
-}
 interface Props {
   stockRecoResult: any;
   recosNav: any;
@@ -31,28 +24,28 @@ const StockRecommendations: React.FC<Props> = ({
       breakpoint: 2560,
       settings: {
         slidesToShow: 5,
-        slidesToScroll: 5,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1921,
       settings: {
         slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1601,
       settings: {
         slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToScroll: 1,
       },
     },
     {
       breakpoint: 1281,
       settings: {
         slidesToShow: 2,
-        slidesToScroll: 2,
+        slidesToScroll: 1,
       },
     },
   ];
@@ -141,7 +134,7 @@ const StockRecommendations: React.FC<Props> = ({
                 key={`slider${activeTab.apiType}`}
                 sliderId={`slider${activeTab.apiType}`}
                 slidesToShow={3}
-                slidesToScroll={3}
+                slidesToScroll={1}
                 rows={2}
                 responsive={responsive}
               />
