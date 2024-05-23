@@ -493,7 +493,10 @@
   right: 0px;
   top: 50%;
   transform: translate(10%, -30%);
-  z-index: 0;
+  z-index: 1;
+}
+.singleRowDesign {
+  top: 31% !important;
 }
 .customScroll {
   position: fixed;
