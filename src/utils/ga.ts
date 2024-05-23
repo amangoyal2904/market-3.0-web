@@ -232,7 +232,6 @@ export const getUserType = (permissionsArr) => {
 
 export const getPageName = () => {
   const pagePathName = window && window.location.pathname;
-  console.log("Router------>", pagePathName);
   let pageName = "";
   if (pagePathName.includes("/marketstats")) {
     pageName = "Mercury_MarketStats";
