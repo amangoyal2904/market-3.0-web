@@ -42,13 +42,13 @@ const IndustryFilter = ({
                           name={item.name}
                           value={item.id}
                           checked={defaultCheck.includes(item.id)}
-                          onChange={() => {
+                          onChange={(e: any) => {
                             trackingEvent("et_push_event", {
                               event_category: "mercury_engagement",
                               event_action: "industry_filter_applied",
                               event_label: item.name,
                             });
-                            industrySelectedFilter();
+                            industrySelectedFilter(e);
                           }}
                         />
                         <label htmlFor={item.id}>{item.name}</label>
