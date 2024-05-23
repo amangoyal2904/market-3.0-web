@@ -48,7 +48,6 @@ const MarketMoodHeader = React.memo(
         <div className={styles.header}>
           <div className={styles.head}>
             {heading}
-            <span className={styles.subHeading}>{niftyFilterData.name}</span>
             {showHelp && (
               <div className="prel">
                 <i
@@ -105,6 +104,7 @@ const MarketMoodHeader = React.memo(
                 )}
               </div>
             )}
+            <span className={styles.subHeading}>{niftyFilterData.name}</span>
           </div>
           <div className={styles.options}>
             {showDuration && (
