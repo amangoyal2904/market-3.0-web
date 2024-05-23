@@ -1,13 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./MarketTable.module.scss";
 import { dateFormat } from "@/utils";
-import { goToPlansPage, redirectToPlanPage, trackingEvent } from "@/utils/ga";
+import { redirectToPlanPage } from "@/utils/ga";
 import Image from "next/image";
 
 const ScrollableTable = React.memo((props: any) => {
   const {
     highlightLtp,
-    tableHeadersTooltipText,
     tableHeaderData,
     headerSticky,
     topScrollHeight,
@@ -137,9 +136,11 @@ const ScrollableTable = React.memo((props: any) => {
                 index >= fixedCol && (
                   <th
                     title={
-                      !!tableHeadersTooltipText[thead.keyId]
-                        ? tableHeadersTooltipText[thead.keyId]
-                        : thead.keyText
+                      !!thead.toolTipHover
+                        ? thead.toolTipHover
+                        : !!thead.displayNameHover
+                          ? thead.displayNameHover
+                          : thead.keyText
                     }
                     className={`${
                       isSorting &&

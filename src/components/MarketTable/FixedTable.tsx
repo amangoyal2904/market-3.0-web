@@ -3,15 +3,13 @@ import styles from "./MarketTable.module.scss";
 import { getStockUrl } from "@/utils/utility";
 import { dateFormat } from "@/utils";
 import WatchlistAddition from "../WatchlistAddition";
-import { goToPlansPage, redirectToPlanPage, trackingEvent } from "@/utils/ga";
+import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 import Image from "next/image";
 
 const FixedTable = React.memo((props: any) => {
   const {
     highlightLtp,
-    tableHeadersTooltipText,
     tableHeaderData,
-    scrollLeftPos,
     headerSticky,
     topScrollHeight,
     handleSort,
@@ -76,9 +74,11 @@ const FixedTable = React.memo((props: any) => {
               index < fixedCol && (
                 <th
                   title={
-                    !!tableHeadersTooltipText[thead.keyId]
-                      ? tableHeadersTooltipText[thead.keyId]
-                      : thead.keyText
+                    !!thead.toolTipHover
+                      ? thead.toolTipHover
+                      : !!thead.displayNameHover
+                        ? thead.displayNameHover
+                        : thead.keyText
                   }
                   onClick={() => {
                     isSorting &&
