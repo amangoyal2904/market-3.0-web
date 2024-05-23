@@ -65,6 +65,7 @@ const LiveStreamCards = ({
           cache: "no-store",
         });
         const followStatus = await response?.json();
+        console.log("@@@@@-->folllow", followStatus);
         if (followStatus && followStatus.status == "success") {
           fetchFollowingExperts();
         }
