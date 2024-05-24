@@ -184,7 +184,7 @@ const LiveStreamPlay = (props: any) => {
         const { result = [] } = response;
         if (result?.length) {
           const filteredEvents = result?.filter(
-            (event: { eventStatus: number }) => event.eventStatus === 5,
+            (event: { eventStatus: number }) => event.eventStatus === 3,
           );
           setNewsData(filteredEvents);
           prepareData(filteredEvents[0]);
@@ -216,8 +216,8 @@ const LiveStreamPlay = (props: any) => {
     setActiveData(item);
     setEventId(item.eventId);
     setEventToken(item.eventToken);
-    setLiveStatus(item.eventStatus == 5 ? true : false);
-    if (item.eventStatus == 5) {
+    setLiveStatus(item.eventStatus == 3 ? true : false);
+    if (item.eventStatus == 3) {
       sessionStorage.setItem("doNotRefreshPage", "1");
       fetchFollowingExperts();
       fetchFollowingData(item);
