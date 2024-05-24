@@ -42,10 +42,9 @@ const LiveStreamCards = ({
       if (isLogin) {
         const data = {
           action: checkIfAlreadyFollowed(slide._id) ? 0 : 1,
-          applicationname: 1,
-          articletype: 22,
+          userSettingSubType: 23,
           position: 0,
-          source: 0,
+          source: 1,
           stype: 2,
           msid: expertId,
         };
