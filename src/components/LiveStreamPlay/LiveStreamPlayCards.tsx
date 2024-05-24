@@ -41,7 +41,7 @@ const LiveStreamCards = ({
     try {
       if (isLogin) {
         const data = {
-          action: checkIfAlreadyFollowed(slide._id) ? 0 : 1,
+          action: checkIfAlreadyFollowed(expertId) ? 0 : 1,
           userSettingSubType: 23,
           position: 0,
           source: 1,
@@ -77,7 +77,7 @@ const LiveStreamCards = ({
 
   const checkIfAlreadyFollowed = (id: any) => {
     for (let i = 0; i < followingData?.length; i++) {
-      if (followingData[i].id === id) {
+      if (followingData[i].prefDataVal === id) {
         return true;
       }
     }
@@ -147,9 +147,9 @@ const LiveStreamCards = ({
           </a>
           <p
             onClick={followExpert}
-            className={`${styles.follow} ${checkIfAlreadyFollowed(slide._id) ? styles.following : ""}`}
+            className={`${styles.follow} ${checkIfAlreadyFollowed(expertId) ? styles.following : ""}`}
           >
-            {checkIfAlreadyFollowed(slide._id) ? "Following" : "+ Follow"}
+            {checkIfAlreadyFollowed(expertId) ? "Following" : "+ Follow"}
           </p>
         </div>
       </div>
