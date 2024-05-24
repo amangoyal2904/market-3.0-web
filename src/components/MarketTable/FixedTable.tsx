@@ -364,7 +364,8 @@ const FixedTable = React.memo((props: any) => {
                                   : "-"}
                               </span>
                             ) : tdData.valueType == "number" ? (
-                              !!tdData.value ? (
+                              !!tdData.value &&
+                              parseFloat(tdData.filterFormatValue) !== 0 ? (
                                 tdData.value.replaceAll(" ", "")
                               ) : (
                                 "-"

@@ -345,7 +345,8 @@ const ScrollableTable = React.memo((props: any) => {
                                   : "-"}
                               </span>
                             ) : tdData.valueType == "number" ? (
-                              !!tdData.value ? (
+                              !!tdData.value &&
+                              parseFloat(tdData.filterFormatValue) !== 0 ? (
                                 tdData.value.replaceAll(" ", "")
                               ) : (
                                 "-"
@@ -355,17 +356,19 @@ const ScrollableTable = React.memo((props: any) => {
                             ) : (
                               "-"
                             )}
-                            {tdData.trend && tdData.valueType == "number" && (
-                              <span
-                                className={`${styles.arrowIcons} ${
-                                  tdData.trend == "up"
-                                    ? "eticon_up_arrow"
-                                    : tdData.trend == "down"
-                                      ? "eticon_down_arrow"
-                                      : ""
-                                }`}
-                              />
-                            )}
+                            {tdData.trend &&
+                              tdData.valueType == "number" &&
+                              parseFloat(tdData.filterFormatValue) !== 0 && (
+                                <span
+                                  className={`${styles.arrowIcons} ${
+                                    tdData.trend == "up"
+                                      ? "eticon_up_arrow"
+                                      : tdData.trend == "down"
+                                        ? "eticon_down_arrow"
+                                        : ""
+                                  }`}
+                                />
+                              )}
                           </>
                         )}
                       </td>
