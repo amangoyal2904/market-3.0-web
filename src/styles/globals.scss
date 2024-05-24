@@ -200,7 +200,10 @@ a {
     }
   }
 }
-
+.slick-slider .slick-track.noTransform {
+  margin-left: 0;
+  transform: translate3d(0, 0, 0) !important;
+}
 .default-btn {
   font-size: 12px;
   font-style: normal;

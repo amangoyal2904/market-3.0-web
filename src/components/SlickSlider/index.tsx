@@ -123,9 +123,29 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
       }
     }
   }, []);
+  useEffect(() => {
+    if (topSpaceClass === "recoOnWatchlist") {
+      const elements: NodeListOf<HTMLElement> =
+        document.querySelectorAll(".recoOnWatchlist");
+      let NoOfChild: number = 0;
+      elements.forEach((element) => {
+        const activeElements = element.querySelectorAll(".slick-active");
+        if (activeElements) {
+          NoOfChild = activeElements.length;
+        }
+        if (NoOfChild < slidesToShow) {
+          const slickTrackElement = element.querySelector(".slick-track");
+          slickTrackElement?.classList.add("noTransform");
+        }
+      });
+
+      // console.log("slidesToShow --->", slidesToShow, NoOfChild, topSpaceClass);
+    }
+  }, [slidesToShow, topSpaceClass]);
+
   return (
     <div
-      className={`stockSlider ${styles.sliderMain} ${topSpaceClass === "indices" ? styles.addMargin : ""}`}
+      className={`stockSlider ${styles.sliderMain} ${topSpaceClass === "indices" ? styles.addMargin : ""} ${topSpaceClass === "recoOnWatchlist" ? "recoOnWatchlist" : ""}`}
       id={`${sliderId}`}
     >
       <div className={styles["slick-slider"]}>

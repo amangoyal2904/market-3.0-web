@@ -136,6 +136,7 @@ const StockRecommendations: React.FC<Props> = ({
                 slidesToShow={3}
                 slidesToScroll={1}
                 rows={2}
+                topSpaceClass={activeTab?.apiType}
                 responsive={responsive}
               />
             ) : activeTab.seoPath == "recos-on-your-watchlist" && !isLogin ? (
