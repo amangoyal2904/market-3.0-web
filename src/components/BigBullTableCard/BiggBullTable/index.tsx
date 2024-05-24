@@ -5,7 +5,7 @@ import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
 import WatchlistAddition from "../../WatchlistAddition";
-import { trackingEvent } from "@/utils/ga";
+import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
@@ -25,7 +25,24 @@ const BiggBullTable = ({
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
   //const isPrime = true;
   //console.log("tableHead", tableHead);
-  const blurNameHandler = () => {
+  const [companyName, setCompanyName] = useState("");
+  const blurNameHandler = (companyName: string) => {
+    const objTracking = {
+      category: "Subscription Flow ET",
+      action: "SYFT | Flow Started",
+      label: "",
+      obj: {
+        item_name: "bigbull_investors",
+        item_id: companyName,
+        item_brand: "market_tools",
+        item_category: "bigbull",
+        item_category2: "bigbull_investors",
+        item_category3: "",
+        item_category4: "",
+      },
+    };
+    redirectToPlanPage(objTracking, "view_item_list", false);
+    setCompanyName(companyName);
     setShowNonPrimeBlocker(true);
     document.body.style.overflow = "hidden";
   };
@@ -218,7 +235,9 @@ const BiggBullTable = ({
                             ) : (
                               <span
                                 className={styles.nameBlur}
-                                onClick={blurNameHandler}
+                                onClick={() =>
+                                  blurNameHandler(bestPicks[0].uiLabel?.text)
+                                }
                               ></span>
                             )}
                           </h5>
@@ -290,7 +309,11 @@ const BiggBullTable = ({
                             ) : (
                               <span
                                 className={styles.nameBlur}
-                                onClick={blurNameHandler}
+                                onClick={() =>
+                                  blurNameHandler(
+                                    bestPicksToNext[0].uiLabel?.text,
+                                  )
+                                }
                               ></span>
                             )}
                           </h5>
@@ -325,7 +348,10 @@ const BiggBullTable = ({
       </div>
       {showNonPrimeBlocker && (
         <Suspense fallback={<div>Loading</div>}>
-          <NonPrimeBlockerModule oncloseModule={blurNameHandlerClose} />
+          <NonPrimeBlockerModule
+            oncloseModule={blurNameHandlerClose}
+            companyName={companyName}
+          />
         </Suspense>
       )}
     </>

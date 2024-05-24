@@ -56,11 +56,10 @@ const Header = () => {
         item_category3: "atf_cta",
         item_category4: "Subscribe Now",
       };
-      goToPlansPage1("select_item", obj);
+      goToPlansPage1("select_item", obj, true);
     } catch (Err) {
       console.log("redirectToPlanPage Err:", Err);
-
-      goToPlansPage1("select_item", {});
+      goToPlansPage1("select_item", {}, true);
     }
   };
 
