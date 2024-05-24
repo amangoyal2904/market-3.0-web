@@ -36,7 +36,7 @@ const LiveStreamCards = ({
     streamid &&
     `${ET_WAP_URL}markets/etmarkets-live/streams${!isLive ? "recorded" : ""}/streamid-${streamid},expertid-${expertId}.cms${utmSource}`;
   const viewsText = isLive ? slide.concurrentViewsText : slide.totalViewsText;
-
+  console.log("@@@@@-->fff", slide.id, followingData);
   const followExpert = async () => {
     try {
       if (isLogin) {
@@ -52,7 +52,7 @@ const LiveStreamCards = ({
           ? getCookie("peuuid")
           : "";
         const apiUrl = (APIS_CONFIG as any)?.["followExpert"][APP_ENV];
-        const response = await Service.post({
+        const response: any = await Service.post({
           url: apiUrl,
           headers: {
             Authorization: authorization,
@@ -161,6 +161,7 @@ const LiveStreamPlayCards = ({
   followingData = [],
   fetchFollowingExperts,
 }: any) => {
+  console.log("@@@@--->followingData", followingData);
   return (
     newsData?.length && (
       <SlickSlider
