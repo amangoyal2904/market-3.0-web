@@ -154,13 +154,34 @@ export const trackingEvent = (type, data) => {
     const pageElem = window.location.pathname.split("/");
     let site_section = pagePathName.slice(1);
     let lastSlash = site_section.lastIndexOf("/");
-    _gtmEventDimension["feature_name"] = getPageName();
+    _gtmEventDimension["feature_name"] = getPageName().replace("Mercury_", "");
     _gtmEventDimension["site_section"] =
       site_section.indexOf("/") == -1
         ? site_section.substring(site_section.indexOf("/") + 1)
         : site_section.substring(0, site_section.indexOf("/"));
     _gtmEventDimension["login_status"] =
-      typeof window.objUser != "undefined" ? "Yes" : "No";
+      typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+    _gtmEventDimension["user_login_status_hit"] =
+      typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+    _gtmEventDimension["user_login_status_session"] =
+      typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+    _gtmEventDimension["last_click_source"] = site_section;
+    let trafficSource = "direct";
+    let dref = document.referrer,
+      wlh = window.location.href.toLowerCase();
+    if (/google|bing|yahoo/gi.test(dref)) {
+      trafficSource = "organic";
+    } else if (
+      /facebook|linkedin|instagram|twitter/gi.test(dref) ||
+      wlh.indexOf("utm_medium=social") != -1
+    ) {
+      trafficSource = "social";
+    } else if (wlh.indexOf("utm_medium=email") != -1) {
+      trafficSource = "newsletter";
+    } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
+      trafficSource = "notifications";
+    }
+    _gtmEventDimension["internal_source"] = trafficSource;
     _gtmEventDimension["user_id"] =
       typeof window.objUser != "undefined" && window.objUser?.ssoid
         ? window.objUser.ssoid
@@ -172,7 +193,15 @@ export const trackingEvent = (type, data) => {
     _gtmEventDimension["subscription_status"] =
       typeof window.objUser != "undefined" && window?.objUser?.permissions
         ? getUserType(window.objUser.permissions)
-        : "";
+        : "Free User";
+    _gtmEventDimension["current_subscriber_status"] =
+      typeof window.objUser != "undefined" && window?.objUser?.permissions
+        ? getUserType(window.objUser.permissions)
+        : "Free User";
+    _gtmEventDimension["user_subscription_status"] =
+      typeof window.objUser != "undefined" && window?.objUser?.permissions
+        ? getUserType(window.objUser.permissions)
+        : "Free User";
     _gtmEventDimension["platform"] = "Web";
     _gtmEventDimension["page_template"] = site_section.substring(lastSlash + 1);
     _gtmEventDimension["feature_permission"] =
