@@ -154,13 +154,6 @@ export const trackingEvent = (type, data) => {
     const pageElem = window.location.pathname.split("/");
     let site_section = pagePathName.slice(1);
     let lastSlash = site_section.lastIndexOf("/");
-    const sdfsdf =
-      typeof window.objUser != "undefined" &&
-      window?.objUser?.accessibleFeatures &&
-      window.objUser.accessibleFeatures.length > 0
-        ? window.objUser.accessibleFeatures
-        : "?????????";
-    console.log("Feature Permissions----->", sdfsdf);
     _gtmEventDimension["feature_name"] = getPageName().replace("Mercury_", "");
     _gtmEventDimension["site_section"] =
       site_section.indexOf("/") == -1

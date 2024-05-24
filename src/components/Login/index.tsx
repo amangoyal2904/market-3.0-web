@@ -14,6 +14,7 @@ import {
 import { fetchAllWatchListData } from "../../utils/utility";
 import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
+import { trackingEvent } from "@/utils/ga";
 
 const Login = () => {
   const { state, dispatch } = useStateContext();
@@ -43,8 +44,6 @@ const Login = () => {
         );
       });
     }
-
-    console.log("watchlistArr----", watchlistArr);
     if (watchlistArr.length > 0) {
       dispatch({
         type: "UPDATE_MSID",
@@ -59,9 +58,8 @@ const Login = () => {
     try {
       fetchWatchListStocks();
       const primeRes = await loadPrimeApi();
-      //console.log(permissionRes.)
-
       if (primeRes.status === "SUCCESS") {
+        trackingEvent("user_profile_create", { url: window.location.href });
         const isPrime =
           primeRes.data &&
           primeRes.data.permissions.some(function (item: any) {
