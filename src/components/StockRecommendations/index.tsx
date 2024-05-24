@@ -133,7 +133,7 @@ const StockRecommendations: React.FC<Props> = ({
                 }))}
                 key={`slider${activeTab.apiType}`}
                 sliderId={`slider${activeTab.apiType}`}
-                slidesToShow={3}
+                slidesToShow={5}
                 slidesToScroll={1}
                 rows={2}
                 topSpaceClass={activeTab?.apiType}
