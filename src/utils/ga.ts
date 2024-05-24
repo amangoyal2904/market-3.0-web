@@ -14,17 +14,23 @@ declare global {
   }
 }
 
-export const redirectToPlanPage = (objTracking, type = "select_item") => {
+export const redirectToPlanPage = (
+  objTracking,
+  type = "select_item",
+  redirect = true,
+) => {
   try {
-    trackingEvent("et_push_event", {
-      event_category: objTracking.category,
-      event_action: objTracking.action,
-      event_label: objTracking.label,
-    });
-    goToPlansPage1(type, objTracking.obj);
+    if (redirect) {
+      trackingEvent("et_push_event", {
+        event_category: objTracking.category,
+        event_action: objTracking.action,
+        event_label: objTracking.label,
+      });
+    }
+    goToPlansPage1(type, objTracking.obj, redirect);
   } catch (Err) {
     console.log("redirectToPlanPage Err:", Err);
-    goToPlansPage1(type, {});
+    goToPlansPage1(type, {}, redirect);
   }
 };
 
@@ -44,7 +50,7 @@ export const goToPlansPage = () => {
   window.location.href = newPlanUrl;
 };
 
-export const goToPlansPage1 = (type, data) => {
+export const goToPlansPage1 = (type, data, redirect) => {
   if (window.dataLayer) {
     let _gtmEventDimension = {};
     const pagePathName = window.location.pathname;
@@ -68,11 +74,15 @@ export const goToPlansPage1 = (type, data) => {
     _gtmEventDimension["items"] = items;
     console.log("gtm Event Dimension------->>> ", _gtmEventDimension);
     window.dataLayer.push(_gtmEventDimension);
-    trackPushData(_gtmEventDimension, data);
+    trackPushData(_gtmEventDimension, data, redirect);
   }
 };
 
-export const trackPushData = (_gtmEventDimension: any, planDim: any) => {
+export const trackPushData = (
+  _gtmEventDimension: any,
+  planDim: any,
+  redirect,
+) => {
   let url = (APIS_CONFIG as any)?.PUSHDATA[APP_ENV],
     grxMapObj = {},
     newGrxMapObj = grxMappingObj,
@@ -126,10 +136,14 @@ export const trackPushData = (_gtmEventDimension: any, planDim: any) => {
     params: {},
   })
     .then((res) => {
-      window.location.href = newPlanUrl;
+      if (redirect) {
+        window.location.href = newPlanUrl;
+      }
     })
     .catch((err) => {
-      window.location.href = newPlanUrl;
+      if (redirect) {
+        window.location.href = newPlanUrl;
+      }
     });
 };
 

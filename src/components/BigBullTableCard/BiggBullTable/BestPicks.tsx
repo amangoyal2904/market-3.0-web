@@ -11,7 +11,7 @@ import dynamic from "next/dynamic";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
-import { trackingEvent } from "@/utils/ga";
+import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 
 const BiggBullBestPicksTable = ({
   tableHead,
@@ -26,8 +26,25 @@ const BiggBullBestPicksTable = ({
   const { isPrime } = state.login;
   //const isPrime = true
   //console.log("isPrime", isPrime);
+  const [companyName, setCompanyName] = useState("");
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
-  const blurNameHandler = () => {
+  const blurNameHandler = (companyName: string) => {
+    const objTracking = {
+      category: "Subscription Flow ET",
+      action: "SYFT | Flow Started",
+      label: "",
+      obj: {
+        item_name: "bigbull_investors",
+        item_id: companyName,
+        item_brand: "market_tools",
+        item_category: "bigbull",
+        item_category2: "bigbull_investors",
+        item_category3: "",
+        item_category4: "",
+      },
+    };
+    setCompanyName(companyName);
+    redirectToPlanPage(objTracking, "view_item_list", false);
     setShowNonPrimeBlocker(true);
     document.body.style.overflow = "hidden";
   };
@@ -203,7 +220,11 @@ const BiggBullBestPicksTable = ({
                           ) : (
                             <span
                               className={styles.nameBlur}
-                              onClick={blurNameHandler}
+                              onClick={() =>
+                                blurNameHandler(
+                                  tdata.bestPickStockData.companyData?.text,
+                                )
+                              }
                             ></span>
                           )}
                         </div>
@@ -249,7 +270,10 @@ const BiggBullBestPicksTable = ({
       </div>
       {showNonPrimeBlocker && (
         <Suspense fallback={<div>Loading</div>}>
-          <NonPrimeBlockerModule oncloseModule={blurNameHandlerClose} />
+          <NonPrimeBlockerModule
+            oncloseModule={blurNameHandlerClose}
+            companyName={companyName}
+          />
         </Suspense>
       )}
     </>
