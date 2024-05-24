@@ -264,7 +264,7 @@ const StockScreeners = ({
       trackingEvent("et_push_event", {
         event_category: "mercury_engagement",
         event_action: "screener_save_successfully",
-        event_label: window.location.href,
+        // event_label: window.location.href,
       });
       setScreenerLoading(false);
       setCreateModuleScreener(false);
