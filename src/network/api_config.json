@@ -444,7 +444,7 @@
     "development": "https://cpl.sli.ke"
   },
   "expertFollower": {
-    "development": "https://etup.economictimes.indiatimes.com/et/fetchprefdatavalcount",
+    "development": "https://etusersqc2.economictimes.indiatimes.com/et/fetchprefdatavalcount",
     "production": "https://etup.economictimes.indiatimes.com/et/fetchprefdatavalcount"
   },
   "followExpert": {
@@ -452,7 +452,7 @@
     "production": "https://etup.economictimes.indiatimes.com/et/savesettings/json"
   },
   "getFollowedExperts": {
-    "development": "https://etup.economictimes.indiatimes.com/et/getpref?type=Follow&usersettingsubType=23",
+    "development": "https://etusersqc2.economictimes.indiatimes.com/et/getpref?type=Follow&usersettingsubType=23",
     "production": "https://etup.economictimes.indiatimes.com/et/getpref?type=Follow&usersettingsubType=23"
   }
 }

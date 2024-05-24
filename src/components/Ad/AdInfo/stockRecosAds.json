@@ -1,12 +1,12 @@
 {
     "dfp":{  
             "topad": {
-                "slot": "/7176/Economictimes/ET_Markets/ET_Markets_MKTData/ET_Markets_ROS_MKTStats_ATF_728",
+                "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Stocks/ET_Markets_ROS_STKRECOS_ATF_728",
                 "size": "[[728,90]]",
                 "id":"div-gpt-leaderboard"
             }, 
             "btfAd": {
-                "slot": "/7176/Economictimes/ET_Markets/ET_Markets_MKTData/ET_Markets_ROS_MKTStats_BTF_728",
+                "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Stocks/ET_Markets_ROS_STKRECOS_BTF_728",
                 "size": "[[728,90]]",
                 "id":"div-gpt-btf"
             }

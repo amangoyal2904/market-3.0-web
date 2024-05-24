@@ -28,7 +28,11 @@ const callDfpAd = async function () {
     let pathName = location.pathname;
     if (pathName.indexOf("/markets/live-coverage") > -1) {
       dfp = await import("./AdInfo/homeAds.json");
-    } else {
+    }else if(pathName.indexOf("/indices") > -1){
+      dfp = await import("./AdInfo/indicesAds.json");
+    }else if(pathName.indexOf("/stock-recos") > -1){
+      dfp = await import("./AdInfo/stockRecosAds.json");
+    }else {
       dfp = await import("./AdInfo/marketstatsAds.json");
     }
     // console.log("Helloooooooooooo", dfp);
