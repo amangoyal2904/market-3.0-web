@@ -156,8 +156,8 @@ export const trackingEvent = (type, data) => {
     let lastSlash = site_section.lastIndexOf("/");
     const sdfsdf =
       typeof window.objUser != "undefined" &&
-      window.objUser.accessibleFeatures &&
-      window.objUser.accessibleFeatures > 0
+      window?.objUser?.accessibleFeatures &&
+      window.objUser.accessibleFeatures.length > 0
         ? window.objUser.accessibleFeatures
         : "?????????";
     console.log("Feature Permissions----->", sdfsdf);
@@ -214,7 +214,7 @@ export const trackingEvent = (type, data) => {
     _gtmEventDimension["feature_permission"] =
       typeof window.objUser != "undefined" &&
       window.objUser.accessibleFeatures &&
-      window.objUser.accessibleFeatures > 0
+      window.objUser.accessibleFeatures.length > 0
         ? window.objUser.accessibleFeatures
         : "";
     _gtmEventDimension["country"] = window?.geoinfo.CountryCode;
