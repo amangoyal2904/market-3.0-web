@@ -57,7 +57,6 @@ const LiveStreamCards = ({
           headers: {
             Authorization: authorization,
             "Content-Type": "application/json",
-            mode: "cors",
           },
           body: JSON.stringify({ ...data }),
           params: {},
