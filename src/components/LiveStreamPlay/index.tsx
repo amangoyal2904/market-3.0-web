@@ -202,7 +202,6 @@ const LiveStreamPlay = (props: any) => {
         headers: {
           Authorization: authorization,
           "Content-Type": "application/json",
-          mode: "cors",
         },
         params: {},
         cache: "no-store",
