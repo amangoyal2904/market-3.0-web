@@ -40,7 +40,6 @@ const BasicTabs = ({
     const tabsListWidth = tabsListRef.current?.offsetWidth;
     if (tabsListWidth != null) {
       let currentWidth = 0;
-      console.log("@@@@@_---->>", data);
       const filterData =
         data.length > 0 ? data.filter((item: any) => item.viewId) : [];
       const newVisibleTabs: any[] = [];

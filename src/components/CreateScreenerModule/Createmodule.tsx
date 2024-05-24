@@ -16,7 +16,7 @@ const ScreenerNameViewPopup = ({
       trackingEvent("et_push_event", {
         event_category: "mercury_engagement",
         event_action: "screener_save_click",
-        event_label: window.location.href,
+        // event_label: window.location.href,
       });
     } else {
       alert("Plase fill your screener name");
