@@ -634,6 +634,16 @@
   }
 }
 @media screen and (max-width: 1312px) {
+  .investorBulkBlock{
+    tr {
+      th{
+        &:nth-last-of-type(3){
+          width: 280px;
+          min-width: 280px;
+        }
+      }
+    }
+  }
   .bibBullCustomTable {
     .investNameImg {
       width: 190px;
@@ -648,6 +658,19 @@
   .buySellSec {
     padding: 8px 2px;
     width: 100px;
+  }
+}
+
+@media screen and (max-width: 1168) {
+  .investorBulkBlock{
+    tr {
+      th{
+        &:nth-last-of-type(3){
+          width: 280px;
+          min-width: 280px;
+        }
+      }
+    }
   }
 }
 
