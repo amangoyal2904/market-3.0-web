@@ -84,7 +84,7 @@ const CreateScreenerModule = ({
       trackingEvent("et_push_event", {
         event_category: "mercury_engagement",
         event_action: "screener_query_run",
-        event_label: window.location.href,
+        // event_label: window.location.href,
       });
     }
   };
