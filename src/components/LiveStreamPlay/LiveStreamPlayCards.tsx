@@ -168,7 +168,6 @@ const LiveStreamPlayCards = ({
   followingData = [],
   fetchFollowingExperts,
 }: any) => {
-  console.log("@@@@--->followingData", followingData);
   return (
     newsData?.length && (
       <SlickSlider
