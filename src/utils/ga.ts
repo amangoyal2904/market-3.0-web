@@ -53,23 +53,17 @@ export const goToPlansPage = () => {
 export const goToPlansPage1 = (type, data, redirect) => {
   if (window.dataLayer) {
     let _gtmEventDimension = {};
-    const pagePathName = window.location.pathname;
-    const site_section = pagePathName.slice(1);
-    _gtmEventDimension["feature_name"] = getPageName();
-    _gtmEventDimension["site_section"] =
-      site_section.indexOf("/") == -1
-        ? site_section.substring(site_section.indexOf("/") + 1)
-        : site_section.substring(0, site_section.indexOf("/"));
-    _gtmEventDimension["site_sub_section"] = site_section;
+    _gtmEventDimension = updateGtm(_gtmEventDimension);
     _gtmEventDimension["event"] = type;
     let items = [];
-    // data["item_brand"] = "market_tools";
-    // data["item_name"] = site_section.substring(
-    //   0,
-    //   site_section.indexOf(","),
-    // );
-    // data["item_category"] = site_section.substring(lastSlash + 1);
-    // data["item_category4"] = "upgrade to prime";
+    data["subscription_status"] =
+      typeof window.objUser != "undefined" && window?.objUser?.permissions
+        ? getUserType(window.objUser.permissions)
+        : "Free User";
+    data["subscription_type"] =
+      typeof window.objUser != "undefined" && window?.objUser?.permissions
+        ? getUserType(window.objUser.permissions)
+        : "Free User";
     items.push(data);
     _gtmEventDimension["items"] = items;
     console.log("gtm Event Dimension------->>> ", _gtmEventDimension);
@@ -146,92 +140,10 @@ export const trackPushData = (
       }
     });
 };
-
 export const trackingEvent = (type, data) => {
   if (window.dataLayer) {
     let _gtmEventDimension = {};
-    const pagePathName = window.location.pathname;
-    const pageElem = window.location.pathname.split("/");
-    let site_section = pagePathName.slice(1);
-    let lastSlash = site_section.lastIndexOf("/");
-    _gtmEventDimension["feature_name"] = getPageName().replace("Mercury_", "");
-    _gtmEventDimension["site_section"] =
-      site_section.indexOf("/") == -1
-        ? site_section.substring(site_section.indexOf("/") + 1)
-        : site_section.substring(0, site_section.indexOf("/"));
-    _gtmEventDimension["login_status"] =
-      typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
-    _gtmEventDimension["user_login_status_hit"] =
-      typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
-    _gtmEventDimension["user_login_status_session"] =
-      typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
-    _gtmEventDimension["last_click_source"] = site_section;
-    let trafficSource = "direct";
-    let dref = document.referrer,
-      wlh = window.location.href.toLowerCase();
-    if (/google|bing|yahoo/gi.test(dref)) {
-      trafficSource = "organic";
-    } else if (
-      /facebook|linkedin|instagram|twitter/gi.test(dref) ||
-      wlh.indexOf("utm_medium=social") != -1
-    ) {
-      trafficSource = "social";
-    } else if (wlh.indexOf("utm_medium=email") != -1) {
-      trafficSource = "newsletter";
-    } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
-      trafficSource = "notifications";
-    }
-    _gtmEventDimension["internal_source"] = trafficSource;
-    _gtmEventDimension["user_id"] =
-      typeof window.objUser != "undefined" && window.objUser?.ssoid
-        ? window.objUser.ssoid
-        : "";
-    _gtmEventDimension["site_sub_section"] = site_section;
-    _gtmEventDimension["user_grx_id"] = getCookie("_grx")
-      ? getCookie("_grx")
-      : "";
-    _gtmEventDimension["subscription_status"] =
-      typeof window.objUser != "undefined" && window?.objUser?.permissions
-        ? getUserType(window.objUser.permissions)
-        : "Free User";
-    _gtmEventDimension["current_subscriber_status"] =
-      typeof window.objUser != "undefined" && window?.objUser?.permissions
-        ? getUserType(window.objUser.permissions)
-        : "Free User";
-    _gtmEventDimension["user_subscription_status"] =
-      typeof window.objUser != "undefined" && window?.objUser?.permissions
-        ? getUserType(window.objUser.permissions)
-        : "Free User";
-    _gtmEventDimension["platform"] = "Web";
-    _gtmEventDimension["page_template"] = site_section.substring(lastSlash + 1);
-    _gtmEventDimension["feature_permission"] =
-      typeof window.objUser != "undefined" &&
-      window.objUser.accessibleFeatures &&
-      window.objUser.accessibleFeatures.length > 0
-        ? window.objUser.accessibleFeatures
-        : "";
-    _gtmEventDimension["country"] = window?.geoinfo.CountryCode;
-    _gtmEventDimension["email"] = window?.objUser?.info?.primaryEmail
-      ? window?.objUser?.info?.primaryEmail
-      : "";
-    _gtmEventDimension["et_product"] = getPageName();
-    _gtmEventDimension["et_uuid"] = getCookie("peuuid")
-      ? getCookie("peuuid")
-      : getCookie("pfuuid");
-    _gtmEventDimension["first_name"] = window?.objUser?.info?.firstName
-      ? window?.objUser?.info?.firstName
-      : "";
-    _gtmEventDimension["last_name"] = window?.objUser?.info?.lastName
-      ? window?.objUser?.info?.lastName
-      : "";
-    _gtmEventDimension["loggedin"] =
-      typeof window.objUser != "undefined" ? "Yes" : "No";
-    _gtmEventDimension["pageTitle"] = document.title;
-    _gtmEventDimension["referral_url"] = document.referrer;
-    _gtmEventDimension["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
-    _gtmEventDimension["user_region"] = window?.geoinfo.region_code;
-    _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
-    _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
+    _gtmEventDimension = updateGtm(_gtmEventDimension);
     _gtmEventDimension["event"] = type;
     _gtmEventDimension = Object.assign(_gtmEventDimension, data);
     window.dataLayer.push(_gtmEventDimension);
@@ -299,4 +211,90 @@ export const getPageName = () => {
     pageName = "Mercury";
   }
   return pageName;
+};
+
+export const updateGtm = (_gtmEventDimension) => {
+  const pagePathName = window.location.pathname;
+  const pageElem = window.location.pathname.split("/");
+  let site_section = pagePathName.slice(1);
+  let lastSlash = site_section.lastIndexOf("/");
+  _gtmEventDimension["feature_name"] = getPageName().replace("Mercury_", "");
+  _gtmEventDimension["site_section"] =
+    site_section.indexOf("/") == -1
+      ? site_section.substring(site_section.indexOf("/") + 1)
+      : site_section.substring(0, site_section.indexOf("/"));
+  _gtmEventDimension["login_status"] =
+    typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+  _gtmEventDimension["user_login_status_hit"] =
+    typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+  _gtmEventDimension["user_login_status_session"] =
+    typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+  _gtmEventDimension["last_click_source"] = site_section;
+  let trafficSource = "direct";
+  let dref = document.referrer,
+    wlh = window.location.href.toLowerCase();
+  if (/google|bing|yahoo/gi.test(dref)) {
+    trafficSource = "organic";
+  } else if (
+    /facebook|linkedin|instagram|twitter/gi.test(dref) ||
+    wlh.indexOf("utm_medium=social") != -1
+  ) {
+    trafficSource = "social";
+  } else if (wlh.indexOf("utm_medium=email") != -1) {
+    trafficSource = "newsletter";
+  } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
+    trafficSource = "notifications";
+  }
+  _gtmEventDimension["internal_source"] = trafficSource;
+  _gtmEventDimension["user_id"] =
+    typeof window.objUser != "undefined" && window.objUser?.ssoid
+      ? window.objUser.ssoid
+      : "";
+  _gtmEventDimension["site_sub_section"] = site_section;
+  _gtmEventDimension["user_grx_id"] = getCookie("_grx")
+    ? getCookie("_grx")
+    : "";
+  _gtmEventDimension["subscription_status"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "Free User";
+  _gtmEventDimension["current_subscriber_status"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "Free User";
+  _gtmEventDimension["user_subscription_status"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "Free User";
+  _gtmEventDimension["platform"] = "Web";
+  _gtmEventDimension["page_template"] = site_section.substring(lastSlash + 1);
+  _gtmEventDimension["feature_permission"] =
+    typeof window.objUser != "undefined" &&
+    window.objUser.accessibleFeatures &&
+    window.objUser.accessibleFeatures.length > 0
+      ? window.objUser.accessibleFeatures
+      : "";
+  _gtmEventDimension["country"] = window?.geoinfo.CountryCode;
+  _gtmEventDimension["email"] = window?.objUser?.info?.primaryEmail
+    ? window?.objUser?.info?.primaryEmail
+    : "";
+  _gtmEventDimension["et_product"] = getPageName();
+  _gtmEventDimension["et_uuid"] = getCookie("peuuid")
+    ? getCookie("peuuid")
+    : getCookie("pfuuid");
+  _gtmEventDimension["first_name"] = window?.objUser?.info?.firstName
+    ? window?.objUser?.info?.firstName
+    : "";
+  _gtmEventDimension["last_name"] = window?.objUser?.info?.lastName
+    ? window?.objUser?.info?.lastName
+    : "";
+  _gtmEventDimension["loggedin"] =
+    typeof window.objUser != "undefined" ? "Yes" : "No";
+  _gtmEventDimension["pageTitle"] = document.title;
+  _gtmEventDimension["referral_url"] = document.referrer;
+  _gtmEventDimension["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
+  _gtmEventDimension["user_region"] = window?.geoinfo.region_code;
+  _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
+  _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
+  return _gtmEventDimension;
 };
