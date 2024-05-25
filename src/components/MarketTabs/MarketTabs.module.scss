@@ -53,6 +53,9 @@
   display: flex;
   column-gap: 22px;
   width: calc(100% - 480px);
+  &.lg {
+    width: calc(100% - 240px);
+  }
   li {
     font-size: 14px;
     font-style: normal;

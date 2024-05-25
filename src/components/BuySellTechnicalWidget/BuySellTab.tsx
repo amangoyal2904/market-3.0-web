@@ -123,7 +123,7 @@ const BuySellTab = ({
 
   return (
     <div className={styles.tabsWrap}>
-      <ul className={`${styles.tabsList}`} ref={tabsListRef}>
+      <ul className={`${styles.tabsList} ${styles.lg}`} ref={tabsListRef}>
         {!visibleTabs.length && !hiddenTabs.length && <ShimmerMenu />}
         {visibleTabs.map((item: any, index: number) => (
           <li

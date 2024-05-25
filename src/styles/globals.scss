@@ -297,7 +297,8 @@ table {
   display: flex;
 }
 
-.linkHover:hover {
+.linkHover:hover,
+.linkUnderline {
   text-decoration: underline;
 }
 
@@ -521,6 +522,14 @@ table {
 }
 
 @media screen and (max-width: 1024px) and (max-height: 600px) {
+  .customModule .moduleWrap {
+    margin-top: 20px;
+  }
+  .customModule .moduleBody {
+    max-height: 62vh;
+  }
+}
+@media screen  and (max-height: 600px) {
   .customModule .moduleWrap {
     margin-top: 20px;
   }
