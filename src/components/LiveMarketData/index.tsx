@@ -6,6 +6,7 @@ import { APP_ENV, formatNumber } from "@/utils";
 import APIS_CONFIG from "@/network/api_config.json";
 import { useStateContext } from "@/store/StateContext";
 import refeshConfig from "@/utils/refreshConfig.json";
+import { saveLogs } from "@/utils/utility";
 
 const LiveMarketData = () => {
   const { state } = useStateContext();
@@ -19,6 +20,11 @@ const LiveMarketData = () => {
       setMarketData(result.searchresult[0]);
     } catch (err) {
       console.log("Error in Live Market Live ", err);
+      saveLogs({
+        type: "Mercury",
+        res: "error",
+        msg: "Live Market Data API Error" + err,
+      });
     }
   };
   const marketlivedata = (data: any) => {

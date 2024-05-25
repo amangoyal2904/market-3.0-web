@@ -4,6 +4,7 @@ import { APP_ENV } from "../../utils";
 import APIS_CONFIG from "../../network/api_config.json";
 import styles from "./Search.module.scss";
 import SearchData from "./SearchData";
+import { saveLogs } from "@/utils/utility";
 
 const debounce = <T extends any[]>(
   func: (...args: T) => void,
@@ -49,6 +50,11 @@ const Search: React.FC<Props> = ({ location }) => {
         })
         .catch((err) => {
           console.log(err);
+          saveLogs({
+            type: "Mercury",
+            res: "error",
+            msg: "Search Most popular API Error" + err,
+          });
         });
     }
   };
@@ -108,6 +114,11 @@ const Search: React.FC<Props> = ({ location }) => {
               })
               .catch((error) => {
                 console.error(`Data Fetch Error Inner: ${error}`);
+                saveLogs({
+                  type: "Mercury",
+                  res: "error",
+                  msg: "Search Data API Error" + error,
+                });
               });
           }),
         )
