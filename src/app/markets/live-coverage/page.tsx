@@ -186,7 +186,7 @@ const LiveCoverage = async () => {
     pagesize: 10,
     crossoverType: "Bullish",
   };
-  const { table, unixDateTime } = await getBuySellTechnicals(
+  const { table, otherData } = await getBuySellTechnicals(
     buySellTechnicalspayload,
   );
 
@@ -214,7 +214,7 @@ const LiveCoverage = async () => {
       <DfpAds adInfo={AdInfo.dfp.mid2} />
       <BuySellTechnicalWidget
         data={table}
-        unixDateTime={unixDateTime}
+        otherData={otherData}
         bodyParams={buySellTechnicalspayload}
       />
       <DfpAds adInfo={AdInfo.dfp.mid3} />
