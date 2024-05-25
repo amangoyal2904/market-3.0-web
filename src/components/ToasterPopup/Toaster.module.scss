@@ -54,11 +54,11 @@
     cursor: pointer;
   }
   .primaryBtn {
-    background: $white;
-    color: $black;
-  }
-  .secondaryBtn {
     background: $black;
     color: $white;
+  }
+  .secondaryBtn {
+    background: $white;
+    color: $black;
   }
 }
