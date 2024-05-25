@@ -266,139 +266,147 @@ export const Footer = async () => {
           </div>
         </div>
       </div>
-      <div className={`${styles.footerMidContainer} ${styles.footerSection}`}>
-        {footerResult &&
-          footerResult?.widgets.map((item: any, index: number) => (
-            <FooterList key={index} data={item.data} title={item.title} />
-          ))}
-      </div>
-      <div
-        className={`${styles.footerBottomContainer} ${styles.footerSection}`}
-      >
-        <div className={styles.alignLeft}>
-          <div className={styles.followUs}>
-            <h3>Follow us on:</h3>
-            <a
-              href="https://www.facebook.com/EconomicTimes"
-              rel="nofollow"
-              title="Facebook"
-              target="_blank"
-            >
-              <Image
-                src={fbIcon}
-                width={40}
-                height={40}
-                quality={100}
-                alt="Facebook"
-              />
-            </a>
-            <a
-              href="https://twitter.com/economictimes"
-              rel="nofollow"
-              target="_blank"
-              title="Twitter"
-            >
-              <Image src={xIcon} width={40} height={40} quality={100} alt="X" />
-            </a>
-            <a
-              href="https://www.linkedin.com/company/economictimes"
-              rel="nofollow"
-              target="_blank"
-              title="LinkedIn"
-            >
-              <Image
-                src={linkedIcon}
-                width={40}
-                height={40}
-                quality={100}
-                alt="LinkedIn"
-              />
-            </a>
-            <a
-              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}rss.cms`}
-              target="_blank"
-              title="RSS"
-            >
-              <Image
-                src={rssIcon}
-                width={40}
-                height={40}
-                quality={100}
-                alt="RSS"
-              />
-            </a>
+      <footer>
+        <div className={`${styles.footerMidContainer} ${styles.footerSection}`}>
+          {footerResult &&
+            footerResult?.widgets.map((item: any, index: number) => (
+              <FooterList key={index} data={item.data} title={item.title} />
+            ))}
+        </div>
+        <div
+          className={`${styles.footerBottomContainer} ${styles.footerSection}`}
+        >
+          <div className={styles.alignLeft}>
+            <div className={styles.followUs}>
+              <h3>Follow us on:</h3>
+              <a
+                href="https://www.facebook.com/EconomicTimes"
+                rel="nofollow"
+                title="Facebook"
+                target="_blank"
+              >
+                <Image
+                  src={fbIcon}
+                  width={40}
+                  height={40}
+                  quality={100}
+                  alt="Facebook"
+                />
+              </a>
+              <a
+                href="https://twitter.com/economictimes"
+                rel="nofollow"
+                target="_blank"
+                title="Twitter"
+              >
+                <Image
+                  src={xIcon}
+                  width={40}
+                  height={40}
+                  quality={100}
+                  alt="X"
+                />
+              </a>
+              <a
+                href="https://www.linkedin.com/company/economictimes"
+                rel="nofollow"
+                target="_blank"
+                title="LinkedIn"
+              >
+                <Image
+                  src={linkedIcon}
+                  width={40}
+                  height={40}
+                  quality={100}
+                  alt="LinkedIn"
+                />
+              </a>
+              <a
+                href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}rss.cms`}
+                target="_blank"
+                title="RSS"
+              >
+                <Image
+                  src={rssIcon}
+                  width={40}
+                  height={40}
+                  quality={100}
+                  alt="RSS"
+                />
+              </a>
+            </div>
+            <div className={styles.etDwnld}>
+              <h3>Download ET App:</h3>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.et.reader.activities"
+                rel="nofollow"
+                aria-label="ET Play Store"
+                target="_blank"
+                title="Download ET App"
+              >
+                <Image
+                  src={android}
+                  width={98}
+                  height={27}
+                  quality={100}
+                  alt="ET Markets"
+                />
+              </a>
+              <a
+                href="https://itunes.apple.com/us/app/the-economic-times/id474766725?ls=1&amp;t=8apple.com/us"
+                rel="nofollow"
+                aria-label="ET App Store"
+                target="_blank"
+                title="Download ET App"
+              >
+                <Image
+                  src={apple}
+                  width={98}
+                  height={27}
+                  quality={100}
+                  alt="ET Markets"
+                />
+              </a>
+            </div>
           </div>
-          <div className={styles.etDwnld}>
-            <h3>Download ET App:</h3>
-            <a
-              href="https://play.google.com/store/apps/details?id=com.et.reader.activities"
-              rel="nofollow"
-              aria-label="ET Play Store"
-              target="_blank"
-              title="Download ET App"
-            >
-              <Image
-                src={android}
-                width={98}
-                height={27}
-                quality={100}
-                alt="ET Markets"
-              />
-            </a>
-            <a
-              href="https://itunes.apple.com/us/app/the-economic-times/id474766725?ls=1&amp;t=8apple.com/us"
-              rel="nofollow"
-              aria-label="ET App Store"
-              target="_blank"
-              title="Download ET App"
-            >
-              <Image
-                src={apple}
-                width={98}
-                height={27}
-                quality={100}
-                alt="ET Markets"
-              />
-            </a>
+          <div className={styles.alignRight}>
+            <div className={styles.subscribe}>
+              <a
+                href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}subscription`}
+                target="_blank"
+                title="subscribe to our newsletter"
+              >
+                <Image
+                  src={subscribe}
+                  width={52}
+                  height={47}
+                  quality={100}
+                  alt="subscribe to our newsletter"
+                />
+                <h3 className={styles.footerSubscrTxt}>
+                  subscribe to our newsletter
+                </h3>
+              </a>
+            </div>
+            <div className={styles.etprime}>
+              <a
+                href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}prime?utm_source=economictimes.indiatimes.com&utm_medium=footer&utm_campaign=ETPrimedistribution`}
+                aria-label="ET Prime"
+                target="_blank"
+                title="ET Prime"
+              >
+                <Image
+                  src={et_become}
+                  width={160}
+                  height={59}
+                  quality={100}
+                  alt="ET Markets"
+                />
+              </a>
+            </div>
           </div>
         </div>
-        <div className={styles.alignRight}>
-          <div className={styles.subscribe}>
-            <a
-              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}subscription`}
-              target="_blank"
-              title="subscribe to our newsletter"
-            >
-              <Image
-                src={subscribe}
-                width={52}
-                height={47}
-                quality={100}
-                alt="subscribe to our newsletter"
-              />
-              <h3 className={styles.footerSubscrTxt}>
-                subscribe to our newsletter
-              </h3>
-            </a>
-          </div>
-          <div className={styles.etprime}>
-            <a
-              href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}prime?utm_source=economictimes.indiatimes.com&utm_medium=footer&utm_campaign=ETPrimedistribution`}
-              aria-label="ET Prime"
-              target="_blank"
-              title="ET Prime"
-            >
-              <Image
-                src={et_become}
-                width={160}
-                height={59}
-                quality={100}
-                alt="ET Markets"
-              />
-            </a>
-          </div>
-        </div>
-      </div>
+      </footer>
     </div>
   );
 };
