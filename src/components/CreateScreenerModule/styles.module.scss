@@ -573,6 +573,14 @@
   .innerListContainer li {
     max-height: calc(60vh - 175px);
   }
+  .newCreate.wraper {
+    
+    .filterSec{
+      .rightSec{
+        height: auto;
+      }
+    }
+  }
 }
 @media (max-width: 1240px) {
   .topSearchSec {
