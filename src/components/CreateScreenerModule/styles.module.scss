@@ -574,7 +574,12 @@
     max-height: calc(60vh - 175px);
   }
   .newCreate.wraper {
-    
+    .innerListContainer{
+      ul{
+        max-height: calc(56vh - 180px);
+      }
+    }
+    zoom:0.8;
     .filterSec{
       .rightSec{
         height: auto;
