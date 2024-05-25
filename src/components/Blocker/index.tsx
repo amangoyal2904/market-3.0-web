@@ -5,6 +5,7 @@ import { initSSOWidget } from "../../utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import AddStockComponent from "../StockAdd";
 import { trackingEvent } from "@/utils/ga";
+import { APP_ENV } from "@/utils/index";
 
 interface propsType {
   type: any;
@@ -85,6 +86,14 @@ const Blocker = (props: propsType) => {
           />
         )}
         {message && <p dangerouslySetInnerHTML={{ __html: message }} />}
+        {type == "notFound" && (
+          <a
+            className="linkUnderline"
+            href={(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}
+          >
+            Go to Economictimes.com
+          </a>
+        )}
         {cta && (
           <button onClick={id == 3 ? handleAddStocks : action}>{cta}</button>
         )}

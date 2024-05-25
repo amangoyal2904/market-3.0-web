@@ -297,7 +297,8 @@ table {
   display: flex;
 }
 
-.linkHover:hover {
+.linkHover:hover,
+.linkUnderline {
   text-decoration: underline;
 }
 
