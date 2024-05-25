@@ -101,7 +101,7 @@ export default async function RootLayout({
               <div className="bcAdContainer"></div>
             </div>
             <div className="pageBottomContainer">
-              <Footer />
+              <Footer pageUrl={pageUrl} />
             </div>
             <Scripts objVc={versionControl} isprimeuser={isprimeuser} />
             <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">

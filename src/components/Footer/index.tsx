@@ -16,8 +16,38 @@ import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import service from "@/network/service";
 import GLOBAL_CONFIG from "@/network/global_config.json";
+import { getPageName } from "@/utils/ga";
 
-export const Footer = async () => {
+// const getPageName = (pagePathName:string) => {
+//   let pageName = "";
+//   if (pagePathName.includes("/marketstats")) {
+//     pageName = "arketStats";
+//   } else if (pagePathName.includes("/stock-recos")) {
+//     pageName = "recos";
+//   } else if (pagePathName.includes("/stock-screener")) {
+//     pageName = "screener";
+//   } else if (pagePathName.includes("/indices")) {
+//     pageName = "indices";
+//   } else if (pagePathName.includes("/top-india-investors-portfolio/")) {
+//     pageName = "bigBull";
+//   } else if (pagePathName.includes("/stockreportsplus")) {
+//     pageName = "stockReportsPlus";
+//   } else if (pagePathName.includes("/fiidii")) {
+//     pageName = "FII/DII";
+//   } else if (pagePathName.includes("/watchlist")) {
+//     pageName = "watchlist";
+//   } else if (pagePathName.includes("/live-coverage")) {
+//     pageName = "homePage";
+//   } else if (pagePathName.includes("/stock-market-mood")) {
+//     pageName = "marketMood";
+//   } else {
+//     pageName = "mercury";
+//   }
+//   return pageName;
+// };
+
+export const Footer = async ({ pageUrl }: any) => {
+  console.log("Page U R L---->", getPageName(pageUrl).replace("Mercury_", ""));
   // =====  Get Left Nav Data =======
   const footerApi = (APIS_CONFIG as any)["FOOTER_LINKS"][APP_ENV];
   const footerPromise = await service.get({

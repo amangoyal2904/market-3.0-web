@@ -184,8 +184,8 @@ export const getUserType = (permissionsArr) => {
   }
 };
 
-export const getPageName = () => {
-  const pagePathName = window && window.location.pathname;
+export const getPageName = (pageURL = "") => {
+  const pagePathName = pageURL || (window && window.location.pathname);
   let pageName = "";
   if (pagePathName.includes("/marketstats")) {
     pageName = "Mercury_MarketStats";
