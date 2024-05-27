@@ -7,6 +7,7 @@ import { useStateContext } from "../../store/StateContext";
 import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
+import Image from "next/image";
 
 const TableHtml = (props: any) => {
   const { recosDetailResult, activeApi, urlFilterHandle } = props;
@@ -258,7 +259,7 @@ const TableHtml = (props: any) => {
             href={obj.pdfUrl}
             target="_blank"
           >
-            <img
+            <Image
               src="/icon_pdf.svg"
               width="20"
               height="20"

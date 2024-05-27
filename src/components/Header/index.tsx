@@ -134,6 +134,7 @@ const Header = () => {
                 quality={100}
                 alt="ET Markets"
                 title="ET Markets"
+                priority={true}
               />
             </Link>
           </div>
@@ -158,7 +159,7 @@ const Header = () => {
                   className={`default-btn ${styles.subscribeBtn}`}
                   onClick={redirectToPlanPage}
                 >
-                  <img
+                  <Image
                     src="/prime_icon.svg"
                     height="12"
                     width="12"
