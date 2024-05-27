@@ -171,7 +171,7 @@ export const getUserType = (permissionsArr) => {
         permissionsArr.some((str) => str.includes("active_subscription")) ||
         permissionsArr.some((str) => str.includes("subscribed"))
       ) {
-        userType = "Paid";
+        userType = "Paid Active";
       } else if (
         permissionsArr.some((str) => str.includes("can_buy_subscription"))
       ) {
@@ -224,11 +224,11 @@ export const updateGtm = (_gtmEventDimension) => {
       ? site_section.substring(site_section.indexOf("/") + 1)
       : site_section.substring(0, site_section.indexOf("/"));
   _gtmEventDimension["login_status"] =
-    typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
   _gtmEventDimension["user_login_status_hit"] =
-    typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
   _gtmEventDimension["user_login_status_session"] =
-    typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
   _gtmEventDimension["last_click_source"] = site_section;
   let trafficSource = "direct";
   let dref = document.referrer,
