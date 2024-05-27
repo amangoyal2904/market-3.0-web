@@ -535,7 +535,7 @@ export const getStockRecosDetail = async ({
     ssoid: ssoid,
   };
 
-  console.log("getApiType ---", getApiType);
+  //console.log("getApiType ---", getApiType);
 
   const overViewFilterArr = [
     { type: "mostBuy", indexid: 2369 },
@@ -582,7 +582,7 @@ export const getStockRecosDetail = async ({
     }),
   };
 
-  console.log("payload----", payload);
+  //console.log("payload----", payload);
 
   const recosDetailPromise = await Service.post({
     url: STOCK_RECOS_DETAIL_Link,
@@ -593,7 +593,7 @@ export const getStockRecosDetail = async ({
   });
 
   const recosDetailResult = await recosDetailPromise?.json();
-  console.log("recosDetailResult----", recosDetailResult);
+  //console.log("recosDetailResult----", recosDetailResult);
   return recosDetailResult;
 };
 

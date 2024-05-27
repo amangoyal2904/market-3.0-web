@@ -93,13 +93,15 @@ const StockRecommendations: React.FC<Props> = ({
     setLoaderState(false);
   }, [stockData]);
 
+  console.log("activeTab -- ", activeTab);
+
   return (
     <div className="sectionWrapper">
       <HeadingHome
         title="Stock Recommendations"
         url={
           (GLOBAL_CONFIG as any)["STOCK_RECOS"][activeTab.seoPath] ||
-          "/markets/stock-recos/overview"
+          (GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"]
         }
       />
       <div className={styles.tabMainBox}>
@@ -152,10 +154,10 @@ const StockRecommendations: React.FC<Props> = ({
         </div>
       </div>
       <ViewAllLink
-        text="See All Stock Recommendations"
+        text={`See All ${activeTab.label}`}
         link={
           (GLOBAL_CONFIG as any)["STOCK_RECOS"][activeTab.seoPath] ||
-          "/markets/stock-recos/overview"
+          (GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"]
         }
       />
     </div>
