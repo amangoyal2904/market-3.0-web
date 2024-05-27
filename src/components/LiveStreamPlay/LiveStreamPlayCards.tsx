@@ -5,6 +5,7 @@ import APIS_CONFIG from "../../network/api_config.json";
 import Service from "../../network/service";
 import { APP_ENV, getCookie, initSSOWidget } from "@/utils";
 import { useStateContext } from "@/store/StateContext";
+import { useEffect, useRef, useState } from "react";
 
 const LiveStreamCards = ({
   slide,
@@ -18,6 +19,8 @@ const LiveStreamCards = ({
   fetchFollowingExperts,
 }: any) => {
   const { state, dispatch } = useStateContext();
+  const [isVisible, setIsVisible] = useState(false);
+  const liveStreamRef = useRef(null);
   const { isLogin } = state.login;
   const utmSource = "?utm_source=MarketHome&utm_medium=Self-Referrals";
   const ET_WAP_URL = "https://m.economictimes.com/";
@@ -83,22 +86,53 @@ const LiveStreamCards = ({
     }
     return false;
   };
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        alert(entry.isIntersecting);
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.5,
+      },
+    );
+    if (liveStreamRef.current) {
+      observer.observe(liveStreamRef.current);
+    }
+    return () => {
+      if (liveStreamRef.current) {
+        observer.unobserve(liveStreamRef.current);
+      }
+    };
+  }, []);
+  const loadVideo = (url: string | undefined) => {
+    return (
+      <iframe
+        src={url}
+        ref={iframeRef}
+        onLoad={onLoadIframe}
+        allowFullScreen={true}
+        allow="autoplay"
+      />
+    );
+  };
   return (
-    <div className={styles.cardContainer} key={slide.eventId}>
+    <div
+      className={styles.cardContainer}
+      key={slide.eventId}
+      ref={liveStreamRef}
+    >
       <div
         style={{ backgroundImage: `url(${slide.eventImageUrl})` }}
         className={styles.frameWrapper}
       >
         <div className={styles.iframeContent}>
-          {iframeURL && index === currentSIndex && (
-            <iframe
-              src={iframeURL}
-              ref={iframeRef}
-              onLoad={onLoadIframe}
-              allowFullScreen={true}
-              allow="autoplay"
-            />
-          )}
+          {isVisible &&
+            iframeURL &&
+            index === currentSIndex &&
+            loadVideo(iframeURL)}
         </div>
       </div>
       <div className={styles.desc}>
@@ -136,9 +170,9 @@ const LiveStreamCards = ({
             <p>
               {" "}
               <span className={styles.expertName}>{slide.expertName}</span>
-              {expertFollowers ? (
+              {expertFollowers > 50 ? (
                 <span className={styles.followers}>
-                  {expertFollowers} followers
+                  {expertFollowers + 500} followers
                 </span>
               ) : (
                 ""
@@ -188,8 +222,8 @@ const LiveStreamPlayCards = ({
         }))}
         key={`liveStreamPlaySlider}`}
         sliderId={`slider-liveStreamPlay`}
-        slidesToShow={1.1}
-        slidesToScroll={1.1}
+        slidesToShow={1}
+        slidesToScroll={1}
         rows={1}
         topSpaceClass="liveStreamPlay"
         onSlideChange={onSwitching}
