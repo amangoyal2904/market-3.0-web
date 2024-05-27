@@ -97,7 +97,10 @@ const StockRecommendations: React.FC<Props> = ({
     <div className="sectionWrapper">
       <HeadingHome
         title="Stock Recommendations"
-        url={`/markets/stock-recos/overview`}
+        url={
+          (GLOBAL_CONFIG as any)["STOCK_RECOS"][activeTab.seoPath] ||
+          "/markets/stock-recos/overview"
+        }
       />
       <div className={styles.tabMainBox}>
         <ul className={styles.tabs}>
