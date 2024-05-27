@@ -154,7 +154,7 @@ const StockRecommendations: React.FC<Props> = ({
         </div>
       </div>
       <ViewAllLink
-        text={`See All ${activeTab.label}`}
+        text={`View All ${activeTab.label}`}
         link={
           (GLOBAL_CONFIG as any)["STOCK_RECOS"][activeTab.seoPath] ||
           (GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"]

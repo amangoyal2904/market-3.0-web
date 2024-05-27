@@ -217,7 +217,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
           </div>
         </div>
         <ViewAllLink
-          text={`See All ${activeTab?.name}`}
+          text={`View Stocks with ${activeTab?.name}`}
           link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/stockreportsplus/${screenerDetail?.seoName}/stockreportscategory/screenerid-${activeTab?.screenerId}.cms`}
         />
       </div>

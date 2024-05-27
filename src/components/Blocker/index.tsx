@@ -20,7 +20,7 @@ const blockerList: any = {
   loginBlocker: {
     id: 1,
     message:
-      "Stay Informed on your Favourite Stocks <br /> Login to Manage your Watchlist",
+      "Track your favorite stocks in one place. <br /> Login & manage your Watchlist.",
     cta: "Login",
     action: handleLoginToggle,
     icon: 107522568,
@@ -35,7 +35,7 @@ const blockerList: any = {
   },
   noStocks: {
     id: 3,
-    message: "You have not added any stocks to your Watchlist yet.",
+    message: "You've not added any stocks to your Watchlist yet.",
     cta: "Add Stocks Now",
     action: "",
     icon: 107522570,

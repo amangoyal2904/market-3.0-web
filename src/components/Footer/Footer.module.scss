@@ -152,6 +152,10 @@
       max-width: 300px;
     }
   }
+
+  .footerList:last-child {
+    margin-bottom: 0;
+  }
   .footerList.visible {
     height: auto;
     overflow: visible;
