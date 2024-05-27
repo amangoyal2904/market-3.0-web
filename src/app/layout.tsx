@@ -72,7 +72,6 @@ export default async function RootLayout({
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
   const pathname = headersList.get("x-pathname");
-  console.log("PageURL LAYOUT ----", pageUrl);
   const footerData = await footerAPIHit(pageUrl);
   // =====  Get Left Nav Data =======
   const leftNavApi = (APIS_CONFIG as any)["LEFT_NAV"][APP_ENV];

@@ -66,7 +66,10 @@ const WatchListWidget = () => {
             l1NavTracking="Markets"
             l2NavTracking="Watchlist Widget"
           />
-          <ViewAllLink text="View All Watchlisted Stock" link="/watchlist" />
+          <ViewAllLink
+            text="View All Stocks In Your Watchlist"
+            link="/watchlist"
+          />
         </>
       )}
     </div>

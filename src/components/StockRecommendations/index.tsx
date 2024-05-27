@@ -148,7 +148,7 @@ const StockRecommendations: React.FC<Props> = ({
         </div>
       </div>
       <ViewAllLink
-        text="See All Stock Recommendations"
+        text="View All Stock Recommendations"
         link="/markets/stock-recos/overview"
       />
     </div>

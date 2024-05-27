@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./Footer.module.scss";
 import Image from "next/image";
 import Search from "../Search";
-import ETLogo from "../../../public/et_markets_logo.svg";
 import fbIcon from "../../../public/img/logos_facebook.svg";
 import xIcon from "../../../public/img/logos_x.com.svg";
 import linkedIcon from "../../../public/img/logos_linkedin.svg";
@@ -13,17 +12,9 @@ import android from "../../../public/img/android-on-google.svg";
 import apple from "../../../public/img/app-store-download.svg";
 import subscribe from "../../../public/img/subscribe-newsletter.svg";
 import FooterList from "./FooterList";
-import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV, footerAPIHit } from "@/utils";
-import service from "@/network/service";
 import GLOBAL_CONFIG from "@/network/global_config.json";
-import { getPageName } from "@/utils/ga";
-import {
-  usePathname,
-  useSearchParams,
-  useRouter,
-  useSelectedLayoutSegment,
-} from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const Footer = ({ footerData }: any) => {
   const pathName = usePathname();
