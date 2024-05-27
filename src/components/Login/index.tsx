@@ -15,6 +15,7 @@ import { fetchAllWatchListData } from "../../utils/utility";
 import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
+import Image from "next/image";
 
 const Login = () => {
   const { state, dispatch } = useStateContext();
@@ -190,7 +191,7 @@ const Login = () => {
               {isPrime ? (
                 <>
                   <span className={`default-btn ${styles.defaultBtn}`}>
-                    <img
+                    <Image
                       src="/prime_icon.svg"
                       height="15"
                       width="15"
@@ -230,59 +231,6 @@ const Login = () => {
                   ></span>
                 </>
               )}
-
-              {/* {userInfo?.thumbImageUrl ? (
-                <img
-                  width="34"
-                  height="34"
-                  className={styles.thumbImg}
-                  src={userInfo?.thumbImageUrl}
-                />
-              ) : (
-                <span className={styles.userFChar}>
-                  {userInfo?.firstName.charAt(0)}
-                </span>
-              )} */}
-              {/* <span className={`default-btn ${styles.defaultBtn}`}>
-                  <img
-                    src="/prime_icon.svg"
-                    height="16"
-                    width="16"
-                    className={styles.primeUsericon}
-                  />
-                  <div className={styles.primeInfo}>
-                    <p className={styles.primeMember}>ETPrime Member</p>
-                    <p className={styles.userName}>{userInfo?.firstName} {userInfo?.lastName}</p>
-                  </div>
-                  <span className={`eticon_caret_down ${styles.signinDDArrow}`}></span>
-                </span> */}
-              {/* {isPrime && (
-                <img
-                  src="/prime_icon.svg"
-                  height="12"
-                  width="12"
-                  className={styles.prime_icon}
-                />
-              )} */}
-              {/* {isPrime && (
-                <span className={`default-btn ${styles.defaultBtn}`}>
-                  <img
-                    src="/prime_icon.svg"
-                    height="20"
-                    width="20"
-                    className={styles.prime_icon}
-                  />
-                  <div className={styles.primeInfo}>
-                    <p className={styles.primeMember}>ETPrime Member</p>
-                    <p className={styles.userName}>{userInfo?.firstName} {userInfo?.lastName}</p>
-                  </div>
-                  <span className={`eticon_caret_down ${styles.signinDDArrow}`}></span>
-                </span>
-              )} */}
-
-              {/* <span
-                className={`eticon_caret_down ${styles.signinDDArrow}`}
-              ></span> */}
             </span>
             <div className={`${styles.menuListWrap}`}>
               <div className={styles.userNameWrap}>
@@ -336,7 +284,7 @@ const Login = () => {
                   </a>
                 </li>
                 <li className={styles.ddList}>
-                  <img
+                  <Image
                     className={styles.rght12}
                     src="/icon_svgs/Redeem_Benefits_01.svg"
                     alt="Redeem_Benefits_Icons"
@@ -396,7 +344,7 @@ const Login = () => {
                 </li>
                 <li className={styles.ddList}>
                   {/* <span className="eticon_recos"></span> */}
-                  <img
+                  <Image
                     className={styles.rght12}
                     src="/icon_svgs/live-chat01.svg"
                     alt="Redeem Benefits"
