@@ -6,9 +6,8 @@ import { useStateContext } from "../../store/StateContext";
 import tableConfig from "../../utils/tableConfig.json";
 import Blocker from "../Blocker";
 import ViewAllLink from "../ViewAllLink";
-import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV } from "@/utils/index";
 import HeadingHome from "../ViewAllLink/HeadingHome";
+import refeshConfig from "@/utils/refreshConfig.json";
 
 const WatchListWidget = () => {
   const [showBlocker, setShowBlocker] = useState(true);
@@ -16,6 +15,7 @@ const WatchListWidget = () => {
   const [tableData, setTableData] = useState<any>([]);
   const { state } = useStateContext();
   const { isLogin, isPrime } = state.login;
+  const { currentMarketStatus } = state.marketStatus;
   const config = tableConfig["watchListWidget"];
 
   const fetchWatchListData = async (activeViewId: any = "") => {
@@ -40,19 +40,23 @@ const WatchListWidget = () => {
     if (isLogin === true) {
       fetchWatchListData();
       setShowBlocker(false);
+      const intervalId = setInterval(() => {
+        if (currentMarketStatus === "LIVE") {
+          fetchWatchListData();
+        }
+      }, refeshConfig.watchlist);
+      return () => clearInterval(intervalId);
     } else if (isLogin === false) {
       setShowBlocker(true);
     }
-  }, [isLogin]);
+  }, [isLogin, isPrime, currentMarketStatus]);
+
   const tableHeaderData =
     (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
 
   return (
     <div className="sectionWrapper">
-      <HeadingHome
-        title="My Watchlist"
-        url={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}watchlist`}
-      />
+      <HeadingHome title="My Watchlist" url="/watchlist" />
       {showBlocker ? (
         <Blocker type="loginBlocker" />
       ) : (
