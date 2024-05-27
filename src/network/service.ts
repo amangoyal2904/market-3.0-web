@@ -1,3 +1,4 @@
+import { saveLogs } from "@/utils/utility";
 import { getParameterByName, APP_ENV } from "../utils";
 const headerWhiteList = ["X-FORWARDED-FOR", "X-ISBOT", "fullcontent"];
 const getApiUrl = (config: any, index: any) => {
@@ -28,11 +29,23 @@ export const get = async (config: any) => {
     //console.log(response?.json())
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
+      saveLogs({
+        type: "Mercury",
+        res: "error",
+        msg: response.status,
+        resData: config,
+      });
     }
 
     return response;
   } catch (e) {
     //console.log("error in get request", e);
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: e,
+      resData: config,
+    });
   }
 };
 
@@ -52,11 +65,23 @@ export const post = async (config: any) => {
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
+      saveLogs({
+        type: "Mercury",
+        res: "error",
+        msg: response.status,
+        resData: config,
+      });
     }
 
     return response;
   } catch (e) {
     //console.log("error in post request", e);
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: e,
+      resData: config,
+    });
   }
 };
 

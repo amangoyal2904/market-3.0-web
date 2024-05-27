@@ -10,6 +10,7 @@ import { useStateContext } from "../../store/StateContext";
 import Blocker from "../Blocker";
 import Loader from "../Loader";
 import { trackingEvent } from "@/utils/ga";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 interface Props {
   stockRecoResult: any;
   recosNav: any;
@@ -149,7 +150,10 @@ const StockRecommendations: React.FC<Props> = ({
       </div>
       <ViewAllLink
         text="See All Stock Recommendations"
-        link="/markets/stock-recos/overview"
+        link={
+          (GLOBAL_CONFIG as any)["STOCK_RECOS"][activeTab.seoPath] ||
+          "/markets/stock-recos/overview"
+        }
       />
     </div>
   );
