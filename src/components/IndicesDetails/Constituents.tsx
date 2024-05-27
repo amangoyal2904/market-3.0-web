@@ -13,6 +13,9 @@ import SlickSlider from "../SlickSlider";
 import { getCookie } from "@/utils";
 import IndicesNewsCard from "./IndicesNewsCard";
 import OtherIndicesCard from "./OtherIndicesCard";
+import Link from "next/link";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils";
 
 const IndicesConstituents = React.memo(
   ({
@@ -27,7 +30,9 @@ const IndicesConstituents = React.memo(
     tabConfig,
     payload,
     indicesNews,
+    liveblog,
   }: any) => {
+    const liveBlog = liveblog?.lb || {};
     const indexNews = indicesNews?.Item?.[0]?.NewsItem ?? [];
 
     const newsResponsive = [
@@ -296,6 +301,23 @@ const IndicesConstituents = React.memo(
             l3NavTracking={`${indexName} Constituents Widget`}
           />
         </div>
+        {!!liveBlog && liveBlog.msid != "" && (
+          <div className={`${styles.wrapper} ${styles.liveBlog}`}>
+            <div className="prel">
+              <span className={styles.liveBlinker}></span>
+              <span className={styles.heading}>Live Blog</span>
+            </div>
+            <Link
+              className={styles.linkBlog}
+              href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${liveBlog.seolocation}/liveblog/${liveBlog.msid}.cms`}
+              target="_blank"
+              title={liveBlog?.title}
+              dangerouslySetInnerHTML={{
+                __html: liveBlog?.title,
+              }}
+            ></Link>
+          </div>
+        )}
         {!!indexNews.length && (
           <div className={`${styles.wrapper} ${styles.highlightedSection}`}>
             <h2 className={styles.heading}>{`${indexName} News`}</h2>
