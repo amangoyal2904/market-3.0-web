@@ -2,6 +2,8 @@ import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
 import { createPeuuid } from "./utility";
+import service from "../network/service";
+import { getPageName } from "./ga";
 
 declare global {
   interface Window {
@@ -535,8 +537,6 @@ export const getStockRecosDetail = async ({
     ssoid: ssoid,
   };
 
-  console.log("getApiType ---", getApiType);
-
   const overViewFilterArr = [
     { type: "mostBuy", indexid: 2369 },
     { type: "newRecos", indexid: 2369 },
@@ -582,8 +582,6 @@ export const getStockRecosDetail = async ({
     }),
   };
 
-  console.log("payload----", payload);
-
   const recosDetailPromise = await Service.post({
     url: STOCK_RECOS_DETAIL_Link,
     headers: headers,
@@ -593,7 +591,6 @@ export const getStockRecosDetail = async ({
   });
 
   const recosDetailResult = await recosDetailPromise?.json();
-  console.log("recosDetailResult----", recosDetailResult);
   return recosDetailResult;
 };
 
@@ -638,4 +635,18 @@ export const getClassAndPercent = (percentChange: any) => {
   } else {
     return "neutral";
   }
+};
+export const footerAPIHit = async (pageUrl: string) => {
+  const pageName = getPageName(pageUrl).replace("Mercury_", "");
+  const footerApi =
+    (APIS_CONFIG as any)["FOOTER_LINKS"][APP_ENV] +
+    "&pagename=" +
+    pageName.toLowerCase();
+  const footerPromise = await service.get({
+    url: footerApi,
+    params: {},
+  });
+  const footerResult: any = await footerPromise?.json();
+  console.log("Footer API HIT ---> ", footerResult);
+  return footerResult;
 };

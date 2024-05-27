@@ -8,7 +8,7 @@ import LeftNav from "@/components/LeftNav";
 import { cookies, headers } from "next/headers";
 import RedeemVoucher from "@/components/RedeemVoucher";
 import APIS_CONFIG from "../network/api_config.json";
-import { APP_ENV } from "@/utils";
+import { APP_ENV, footerAPIHit } from "@/utils";
 import service from "@/network/service";
 import { StateProvider } from "@/store/StateContext";
 import NextTopLoader from "nextjs-toploader";
@@ -71,8 +71,9 @@ export default async function RootLayout({
   const isprimeuser = cookies().get("isprimeuser") ? true : false;
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
-  //console.log("headersList----", headersList);
-
+  const pathname = headersList.get("x-pathname");
+  console.log("PageURL LAYOUT ----", pageUrl);
+  const footerData = await footerAPIHit(pageUrl);
   // =====  Get Left Nav Data =======
   const leftNavApi = (APIS_CONFIG as any)["LEFT_NAV"][APP_ENV];
   const leftNavPromise = await service.get({
@@ -101,7 +102,7 @@ export default async function RootLayout({
               <div className="bcAdContainer"></div>
             </div>
             <div className="pageBottomContainer">
-              <Footer pageUrl={pageUrl} />
+              <Footer footerData={footerData} />
             </div>
             <Scripts objVc={versionControl} isprimeuser={isprimeuser} />
             <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">

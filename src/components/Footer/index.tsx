@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./Footer.module.scss";
 import Image from "next/image";
 import Search from "../Search";
@@ -13,49 +14,35 @@ import apple from "../../../public/img/app-store-download.svg";
 import subscribe from "../../../public/img/subscribe-newsletter.svg";
 import FooterList from "./FooterList";
 import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV } from "@/utils";
+import { APP_ENV, footerAPIHit } from "@/utils";
 import service from "@/network/service";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 import { getPageName } from "@/utils/ga";
+import {
+  usePathname,
+  useSearchParams,
+  useRouter,
+  useSelectedLayoutSegment,
+} from "next/navigation";
 
-// const getPageName = (pagePathName:string) => {
-//   let pageName = "";
-//   if (pagePathName.includes("/marketstats")) {
-//     pageName = "arketStats";
-//   } else if (pagePathName.includes("/stock-recos")) {
-//     pageName = "recos";
-//   } else if (pagePathName.includes("/stock-screener")) {
-//     pageName = "screener";
-//   } else if (pagePathName.includes("/indices")) {
-//     pageName = "indices";
-//   } else if (pagePathName.includes("/top-india-investors-portfolio/")) {
-//     pageName = "bigBull";
-//   } else if (pagePathName.includes("/stockreportsplus")) {
-//     pageName = "stockReportsPlus";
-//   } else if (pagePathName.includes("/fiidii")) {
-//     pageName = "FII/DII";
-//   } else if (pagePathName.includes("/watchlist")) {
-//     pageName = "watchlist";
-//   } else if (pagePathName.includes("/live-coverage")) {
-//     pageName = "homePage";
-//   } else if (pagePathName.includes("/stock-market-mood")) {
-//     pageName = "marketMood";
-//   } else {
-//     pageName = "mercury";
-//   }
-//   return pageName;
-// };
+const Footer = ({ footerData }: any) => {
+  const pathName = usePathname();
+  const [footerRes, setFooterRes] = useState(footerData);
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    async function footerFunc() {
+      console.log("PathName----------->", pathName);
+      const footerData = await footerAPIHit(pathName);
+      setFooterRes(footerData);
+    }
+    if (isFirstRender.current) {
+      // Skip the first render
+      isFirstRender.current = false;
+      return;
+    }
+    footerFunc();
+  }, [pathName]);
 
-export const Footer = async ({ pageUrl }: any) => {
-  console.log("Page U R L---->", getPageName(pageUrl).replace("Mercury_", ""));
-  // =====  Get Left Nav Data =======
-  const footerApi = (APIS_CONFIG as any)["FOOTER_LINKS"][APP_ENV];
-  const footerPromise = await service.get({
-    url: footerApi,
-    params: {},
-  });
-  const footerResult = await footerPromise?.json();
-  //console.log("FOoter result---->", footerResult?.widgets);
   return (
     <div className={styles.footerContainer}>
       <div className={`${styles.footerTopContainer} ${styles.footerSection}`}>
@@ -298,8 +285,8 @@ export const Footer = async ({ pageUrl }: any) => {
       </div>
       <footer>
         <div className={`${styles.footerMidContainer} ${styles.footerSection}`}>
-          {footerResult &&
-            footerResult?.widgets.map((item: any, index: number) => (
+          {footerRes &&
+            footerRes?.widgets?.map((item: any, index: number) => (
               <FooterList key={index} data={item.data} title={item.title} />
             ))}
         </div>
