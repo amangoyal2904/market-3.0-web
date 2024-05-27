@@ -56,7 +56,7 @@ const PieChart: React.FC<PieChartProps> = React.memo(
         series: [
           {
             type: "pie",
-            name: "Percentage",
+            name: "holding value",
             data: data,
           },
         ],

@@ -8,7 +8,7 @@ import { APP_ENV } from "@/utils";
 import { useEffect, useState } from "react";
 import { redirectToPlanPage } from "@/utils/ga";
 
-const NonPrimeBlockerModule = ({ oncloseModule }: any) => {
+const NonPrimeBlockerModule = ({ oncloseModule, companyName }: any) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, isPrime } = state.login;
   const [ctaTxt, setCtaTxt] = useState("");
@@ -35,18 +35,15 @@ const NonPrimeBlockerModule = ({ oncloseModule }: any) => {
   const objTracking = {
     category: "Subscription Flow ET",
     action: "SYFT | Flow Started",
-    label: window.location.pathname,
+    label: `BigBull_${companyName}`,
     obj: {
       item_name: "bigbull_investors",
-      item_id: "bigbull_",
+      item_id: companyName,
       item_brand: "market_tools",
       item_category: "bigbull",
       item_category2: "bigbull_investors",
       item_category3: "paywall_blocker_cta",
       item_category4: "Subscribe to ETPrime",
-      feature_name: "bigbull",
-      site_section: "markets",
-      site_sub_section: window.location.pathname,
     },
   };
   const planPageRedirect = () => {

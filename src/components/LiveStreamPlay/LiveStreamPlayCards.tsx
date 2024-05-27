@@ -36,16 +36,15 @@ const LiveStreamCards = ({
     streamid &&
     `${ET_WAP_URL}markets/etmarkets-live/streams${!isLive ? "recorded" : ""}/streamid-${streamid},expertid-${expertId}.cms${utmSource}`;
   const viewsText = isLive ? slide.concurrentViewsText : slide.totalViewsText;
-
+  console.log("@@@@@-->fff", slide.id, followingData);
   const followExpert = async () => {
     try {
       if (isLogin) {
         const data = {
-          action: checkIfAlreadyFollowed(slide._id) ? 0 : 1,
-          applicationname: 1,
-          articletype: 22,
+          action: checkIfAlreadyFollowed(expertId) ? 0 : 1,
+          userSettingSubType: 23,
           position: 0,
-          source: 0,
+          source: 1,
           stype: 2,
           msid: expertId,
         };
@@ -53,12 +52,11 @@ const LiveStreamCards = ({
           ? getCookie("peuuid")
           : "";
         const apiUrl = (APIS_CONFIG as any)?.["followExpert"][APP_ENV];
-        const response = await Service.post({
+        const response: any = await Service.post({
           url: apiUrl,
           headers: {
             Authorization: authorization,
             "Content-Type": "application/json",
-            mode: "cors",
           },
           body: JSON.stringify({ ...data }),
           params: {},
@@ -79,7 +77,7 @@ const LiveStreamCards = ({
 
   const checkIfAlreadyFollowed = (id: any) => {
     for (let i = 0; i < followingData?.length; i++) {
-      if (followingData[i].id === id) {
+      if (followingData[i].prefDataVal == id) {
         return true;
       }
     }
@@ -149,9 +147,9 @@ const LiveStreamCards = ({
           </a>
           <p
             onClick={followExpert}
-            className={`${styles.follow} ${checkIfAlreadyFollowed(slide._id) ? styles.following : ""}`}
+            className={`${styles.follow} ${checkIfAlreadyFollowed(expertId) ? styles.following : ""}`}
           >
-            {checkIfAlreadyFollowed(slide._id) ? "Following" : "+ Follow"}
+            {checkIfAlreadyFollowed(expertId) ? "Following" : "+ Follow"}
           </p>
         </div>
       </div>

@@ -9,7 +9,7 @@ import "slick-carousel/slick/slick-theme.css";
 import WatchlistAddition from "../../WatchlistAddition";
 import { useStateContext } from "@/store/StateContext";
 import dynamic from "next/dynamic";
-import { trackingEvent } from "@/utils/ga";
+import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
@@ -20,7 +20,7 @@ const BigBullCard = ({ data, type }: any) => {
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
   //const isPrime = true;
   //console.log("isPrime", isPrime);
-
+  const [companyName, setCompanyName] = useState("");
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef<Slider>(null);
 
@@ -61,6 +61,22 @@ const BigBullCard = ({ data, type }: any) => {
     }
   };
   const blurNameHandler = () => {
+    const objTracking = {
+      category: "Subscription Flow ET",
+      action: "SYFT | Flow Started",
+      label: "",
+      obj: {
+        item_name: "bigbull_investors",
+        item_id: data?.investorIntro?.name,
+        item_brand: "market_tools",
+        item_category: "bigbull",
+        item_category2: "bigbull_investors",
+        item_category3: "",
+        item_category4: "",
+      },
+    };
+    setCompanyName(data?.investorIntro?.name);
+    redirectToPlanPage(objTracking, "view_item_list", false);
     setShowNonPrimeBlocker(true);
     document.body.style.overflow = "hidden";
   };
@@ -367,7 +383,10 @@ const BigBullCard = ({ data, type }: any) => {
       </div>
       {showNonPrimeBlocker && (
         <Suspense fallback={<div>Loading</div>}>
-          <NonPrimeBlockerModule oncloseModule={blurNameHandlerClose} />
+          <NonPrimeBlockerModule
+            oncloseModule={blurNameHandlerClose}
+            companyName={companyName}
+          />
         </Suspense>
       )}
     </>
