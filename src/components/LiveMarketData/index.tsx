@@ -97,7 +97,7 @@ const LiveMarketData = () => {
                     href={
                       item.indexName == "NIFTY 50"
                         ? "/markets/indices/nifty-50"
-                        : "/markets/indices/sp-bse-sensex"
+                        : "/markets/indices/bse-sensex"
                     }
                     title={
                       item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName

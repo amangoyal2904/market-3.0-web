@@ -45,6 +45,7 @@ const IndicesDetailsClient = ({
   tabConfig = {},
   payload = {},
   indicesNews = {},
+  liveblog = {},
   faq = {},
 }: any) => {
   const { state } = useStateContext();
@@ -202,6 +203,7 @@ const IndicesDetailsClient = ({
                     tabConfig={tabConfig}
                     payload={payload}
                     indicesNews={indicesNews}
+                    liveblog={liveblog}
                   />
                 )}
                 {item.key === "faqs" && <IndicesFaqs faqs={indexFaq} />}
