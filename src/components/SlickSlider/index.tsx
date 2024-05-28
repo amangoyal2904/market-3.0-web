@@ -154,12 +154,6 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
             element.querySelector(".stockSliderIcons");
           stockSliderIconsElement?.classList.add("disNone");
         }
-        console.log(
-          "slidesToShow --->",
-          slidesToShow,
-          activeElements.length,
-          sliderId,
-        );
       }
     }
   }, [sliderId, slidesToShow]);
