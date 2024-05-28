@@ -11,7 +11,7 @@ import {
   setCookieToSpecificTime,
   delete_cookie,
 } from "../../utils";
-import { fetchAllWatchListData } from "../../utils/utility";
+import { fetchAllWatchListData, saveLogs } from "../../utils/utility";
 import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
@@ -75,6 +75,14 @@ const Login = () => {
           setCookieToSpecificTime("OTR", primeRes.token, 30, 0, 0, "");
         }
         trackingEvent("user_profile_create", { url: window.location.href });
+
+        saveLogs({
+          type: "Mercury",
+          res: "SUCCESS",
+          msg: "verifyLoginSuccessCallback",
+          resData: primeRes,
+          objUser: window.objUser,
+        });
       } else {
         window.objUser.permissions = [];
         window.objUser.accessibleFeatures = [];
@@ -84,6 +92,13 @@ const Login = () => {
         if (primeRes && primeRes.token) {
           delete_cookie("OTR");
         }
+        saveLogs({
+          type: "Mercury",
+          res: "Fail",
+          msg: "verifyLoginSuccessCallback",
+          resData: primeRes,
+          objUser: window.objUser,
+        });
       }
 
       dispatch({

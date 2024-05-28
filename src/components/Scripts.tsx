@@ -201,7 +201,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
       </Script>
       <Script
         src="https://survey.survicate.com/workspaces/0be6ae9845d14a7c8ff08a7a00bd9b21/web_surveys.js"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         onLoad={() => {
           const surveyLoad = new Event("surveyLoad");
           document.dispatchEvent(surveyLoad);

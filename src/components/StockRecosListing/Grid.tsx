@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./styles.module.scss";
-import WatchlistAddition from "../WatchlistAddition";
+// import WatchlistAddition from "../WatchlistAddition";
 import Blocker from "../Blocker";
 import { APP_ENV, dateFormat, formatNumber } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
@@ -8,6 +8,10 @@ import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
+  ssr: false,
+});
 
 const TableHtml = (props: any) => {
   const { recosDetailResult, activeApi, urlFilterHandle } = props;

@@ -1,10 +1,14 @@
 import styles from "./StockReco.module.scss"; // Import your CSS styles
-import WatchlistAddition from "../WatchlistAddition";
+// import WatchlistAddition from "../WatchlistAddition";
 import Link from "next/link";
 import { formatNumber, APP_ENV } from "@/utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 import { PdfReport } from "./PdfReport";
+import dynamic from "next/dynamic";
+const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
+  ssr: false,
+});
 
 const formatDate = (timestamp: number) => {
   const months = [
