@@ -8,16 +8,39 @@ export const LiveStreamCards = ({ data }: any) => {
   const getTimeDifference = (timestamp: number) => {
     const currentTimestamp = new Date().getTime();
     const differenceInMilliseconds = currentTimestamp - timestamp;
-    const hours = Math.floor(differenceInMilliseconds / (1000 * 60 * 60));
-    const remainingMilliseconds =
-      differenceInMilliseconds - hours * 60 * 60 * 1000;
+
+    const millisecondsInDay = 1000 * 60 * 60 * 24;
+
+    const months = Math.floor(
+      differenceInMilliseconds / (millisecondsInDay * 30),
+    ); // Assuming a month is 30 days initially
+    const remainingMillisecondsAfterMonths =
+      differenceInMilliseconds - months * millisecondsInDay * 30;
+
+    let days = Math.floor(remainingMillisecondsAfterMonths / millisecondsInDay);
+
+    // Calculate the actual number of days in the remaining months
+    let remainingMilliseconds =
+      remainingMillisecondsAfterMonths - days * millisecondsInDay;
+    const currentDate = new Date(currentTimestamp);
+    for (let i = 0; i < months; i++) {
+      const month = currentDate.getMonth() - i;
+      const year = currentDate.getFullYear();
+      const daysInMonth = new Date(year, month, 0).getDate(); // Get the number of days in the month
+      days += daysInMonth;
+    }
+
+    const hours = Math.floor(remainingMilliseconds / (1000 * 60 * 60));
+    remainingMilliseconds -= hours * 60 * 60 * 1000;
 
     const minutes = Math.floor(remainingMilliseconds / (1000 * 60));
-    const remainingMillisecondsAfterMinutes =
-      remainingMilliseconds - minutes * 60 * 1000;
-    const seconds = Math.floor(remainingMillisecondsAfterMinutes / 1000);
+    remainingMilliseconds -= minutes * 60 * 1000;
+
+    const seconds = Math.floor(remainingMilliseconds / 1000);
 
     return {
+      months,
+      days,
       hours,
       minutes,
       seconds,
@@ -34,13 +57,17 @@ export const LiveStreamCards = ({ data }: any) => {
         <div className={styles.topSec}>
           <p className={styles.hourAgo}>
             {`Streamed ${
-              getTimeDifference(data?.startTime)?.hours != 0
-                ? `${getTimeDifference(data?.startTime)?.hours} hours ago`
-                : getTimeDifference(data?.startTime)?.minutes != 0
-                  ? `${getTimeDifference(data?.startTime)?.minutes} minutes ago`
-                  : getTimeDifference(data?.startTime)?.seconds != 0
-                    ? `${getTimeDifference(data?.startTime)?.seconds} seconds ago`
-                    : ""
+              getTimeDifference(data?.startTime)?.months != 0
+                ? `${getTimeDifference(data?.startTime)?.months} months ago`
+                : getTimeDifference(data?.startTime)?.days != 0
+                  ? `${getTimeDifference(data?.startTime)?.days} days ago`
+                  : getTimeDifference(data?.startTime)?.hours != 0
+                    ? `${getTimeDifference(data?.startTime)?.hours} hours ago`
+                    : getTimeDifference(data?.startTime)?.minutes != 0
+                      ? `${getTimeDifference(data?.startTime)?.minutes} minutes ago`
+                      : getTimeDifference(data?.startTime)?.seconds != 0
+                        ? `${getTimeDifference(data?.startTime)?.seconds} seconds ago`
+                        : ""
             }`}
           </p>
           <Share title={data.title} streamURL={url} />

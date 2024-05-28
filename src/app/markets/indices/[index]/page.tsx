@@ -11,6 +11,7 @@ import {
   getIndicesNews,
   getIndicesOverview,
   getIndicesTechnicals,
+  getMarketsLiveBlog,
   getOtherIndices,
   getPeerIndices,
 } from "@/utils/utility";
@@ -88,6 +89,8 @@ const Indices = async ({ params }: any) => {
     overviewData.assetExchangeId,
   );
 
+  const { liveblog } = await getMarketsLiveBlog();
+
   const indicesNews = await getIndicesNews(
     overviewData.assetId,
     overviewData.assetExchangeId,
@@ -132,6 +135,7 @@ const Indices = async ({ params }: any) => {
         payload={payload}
         ssoid={ssoid}
         indicesNews={indicesNews}
+        liveblog={liveblog}
         faq={faqData}
       />
       <TextBottom indicesName={overviewData?.assetName} />

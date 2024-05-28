@@ -153,6 +153,10 @@
     "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getMfCashData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getMfCashData.json"
   },
+  "MARKETS_LIVEBLOG": {
+    "development": "https://economictimes.indiatimes.com/etstatic/liveblogs/host-et,format-json.htm",
+    "production": "https://economictimes.indiatimes.com/etstatic/liveblogs/host-et,format-json.htm"
+  },
   "MARKETMOODS_OVERVIEW": {
     "development": "https://screener.indiatimes.com/screener/marketbreadth/overview",
     "production": "https://screener.indiatimes.com/screener/marketbreadth/overview"
@@ -396,8 +400,8 @@
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/most-held"
   },
   "FOOTER_LINKS": {
-    "development": "https://etdev8243.indiatimes.com/reactfeed_footermenu.cms?feedtype=etjson&msid=1977021501",
-    "production": "https://economictimes.indiatimes.com/reactfeed_footermenu.cms?feedtype=etjson&msid=1977021501"
+    "development": "https://etdev8243.indiatimes.com/feed_mercury_footermenu.cms?feedtype=etjson",
+    "production": "https://etdev8243.indiatimes.com/feed_mercury_footermenu.cms?feedtype=etjson"
   },
   "BigBullGetSearchData": {
     "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-search",

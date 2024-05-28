@@ -790,6 +790,15 @@ export const getPeerIndices = async (indexid: number, exchangeid?: number) => {
   return originalJson;
 };
 
+export const getMarketsLiveBlog = async () => {
+  const response = await Service.get({
+    url: (APIS_CONFIG as any)?.MARKETS_LIVEBLOG[APP_ENV],
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
 export const getIndicesNews = async (indexid: number, exchangeid: number) => {
   const response = await Service.get({
     url: `${(APIS_CONFIG as any)?.INDICES_NEWS[APP_ENV]}?feedtype=etjson&indexid=${indexid}&exchange=${exchangeid}`,

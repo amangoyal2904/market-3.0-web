@@ -60,7 +60,6 @@ const Login = () => {
       fetchWatchListStocks();
       const primeRes = await loadPrimeApi();
       if (primeRes.status === "SUCCESS") {
-        trackingEvent("user_profile_create", { url: window.location.href });
         const isPrime =
           primeRes.data &&
           primeRes.data.permissions.some(function (item: any) {
@@ -72,10 +71,10 @@ const Login = () => {
         window.objUser.primeInfo = primeRes.data;
         window.objUser.isPrime = isPrime;
         setCookieToSpecificTime("isprimeuser", isPrime, 30, 0, 0, "");
-
         if (primeRes && primeRes.token) {
           setCookieToSpecificTime("OTR", primeRes.token, 30, 0, 0, "");
         }
+        trackingEvent("user_profile_create", { url: window.location.href });
       } else {
         window.objUser.permissions = [];
         window.objUser.accessibleFeatures = [];
