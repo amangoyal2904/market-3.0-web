@@ -204,6 +204,9 @@ a {
   margin-left: 0;
   transform: translate3d(0, 0, 0) !important;
 }
+.disNone {
+  display: none !important;
+}
 .default-btn {
   font-size: 12px;
   font-style: normal;
@@ -532,7 +535,7 @@ table {
     max-height: 62vh;
   }
 }
-@media screen  and (max-height: 600px) {
+@media screen and (max-height: 600px) {
   .customModule .moduleWrap {
     margin-top: 20px;
   }
