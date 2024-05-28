@@ -161,6 +161,7 @@ const BiggBullQtrChangesTable = ({
                           alt={tdata?.investorIntro?.name}
                           className={styles.expertImg}
                           title={tdata?.investorIntro?.name}
+                          loading="lazy"
                         />
                         <span className={styles.nameTxt}>
                           <span

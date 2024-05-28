@@ -132,6 +132,7 @@ const BigBullCard = ({ data, type }: any) => {
                           alt={slide.name}
                           title={slide.name}
                           className={styles.imgWraper}
+                          loading="lazy"
                         />
                         <span className={styles.smallTxt}>{slide.name}</span>
                       </Link>
@@ -156,6 +157,7 @@ const BigBullCard = ({ data, type }: any) => {
               alt={data?.investorIntro?.name}
               title={data?.investorIntro?.name}
               className={styles.expertImg}
+              loading="lazy"
             />
             <span className={styles.expertName}>
               {data && data.dealSignal && data.dealSignal !== "" ? (

@@ -235,6 +235,7 @@ const Login = () => {
                       src={userInfo?.thumbImageUrl}
                       alt={userInfo?.firstName}
                       title={userInfo?.firstName}
+                      loading="lazy"
                     />
                   ) : (
                     <span className={styles.userFChar}>
@@ -259,6 +260,7 @@ const Login = () => {
                         src="https://img.etimg.com/photo/105086027.cms"
                         alt={userInfo?.loginId}
                         title={userInfo?.loginId}
+                        loading="lazy"
                       />
                     </span>
                   )}
