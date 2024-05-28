@@ -379,8 +379,6 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                     width="55"
                     height="41"
                     src={list?.img}
-                    loading="lazy"
-                    decoding="async"
                     alt={list?.title}
                     title={list?.title}
                   />
