@@ -4,11 +4,14 @@ import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
-import WatchlistAddition from "../../WatchlistAddition";
+// import WatchlistAddition from "../../WatchlistAddition";
 import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
+  ssr: false,
+});
+const WatchlistAddition = dynamic(() => import("../../WatchlistAddition"), {
   ssr: false,
 });
 
@@ -165,6 +168,7 @@ const BiggBullTable = ({
                           alt={tdata?.investorIntro?.name}
                           title={tdata?.investorIntro?.name}
                           className={styles.expertImg}
+                          loading="lazy"
                         />
                         <span className={styles.nameTxt}>
                           {tdata?.investorIntro?.name}

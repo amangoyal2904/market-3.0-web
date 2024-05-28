@@ -4,7 +4,7 @@ import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
-import WatchlistAddition from "../../WatchlistAddition";
+// import WatchlistAddition from "../../WatchlistAddition";
 import NodataForTable from "../NodataForTable";
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
@@ -12,6 +12,9 @@ const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
 import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
+const WatchlistAddition = dynamic(() => import("../../WatchlistAddition"), {
+  ssr: false,
+});
 
 const BiggBullQtrChangesTable = ({
   tableHead,
@@ -158,6 +161,7 @@ const BiggBullQtrChangesTable = ({
                           alt={tdata?.investorIntro?.name}
                           className={styles.expertImg}
                           title={tdata?.investorIntro?.name}
+                          loading="lazy"
                         />
                         <span className={styles.nameTxt}>
                           <span

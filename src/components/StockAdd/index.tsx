@@ -2,12 +2,17 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./StockAdd.module.scss";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
-import WatchlistAddition from "../WatchlistAddition";
+// import WatchlistAddition from "../WatchlistAddition";
 import { useStateContext } from "../../store/StateContext";
 import {
   fetchAllWatchListData,
   saveStockInWatchList,
 } from "../../utils/utility";
+import dynamic from "next/dynamic";
+const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
+  ssr: false,
+});
+
 const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   const { state, dispatch } = useStateContext();
   const { watchlist } = state.watchlistStatus;

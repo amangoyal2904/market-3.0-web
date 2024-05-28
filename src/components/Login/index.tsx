@@ -11,7 +11,7 @@ import {
   setCookieToSpecificTime,
   delete_cookie,
 } from "../../utils";
-import { fetchAllWatchListData } from "../../utils/utility";
+import { fetchAllWatchListData, saveLogs } from "../../utils/utility";
 import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
@@ -75,6 +75,14 @@ const Login = () => {
           setCookieToSpecificTime("OTR", primeRes.token, 30, 0, 0, "");
         }
         trackingEvent("user_profile_create", { url: window.location.href });
+
+        saveLogs({
+          type: "Mercury",
+          res: "SUCCESS",
+          msg: "verifyLoginSuccessCallback",
+          resData: primeRes,
+          objUser: window.objUser,
+        });
       } else {
         window.objUser.permissions = [];
         window.objUser.accessibleFeatures = [];
@@ -84,6 +92,13 @@ const Login = () => {
         if (primeRes && primeRes.token) {
           delete_cookie("OTR");
         }
+        saveLogs({
+          type: "Mercury",
+          res: "Fail",
+          msg: "verifyLoginSuccessCallback",
+          resData: primeRes,
+          objUser: window.objUser,
+        });
       }
 
       dispatch({
@@ -220,6 +235,7 @@ const Login = () => {
                       src={userInfo?.thumbImageUrl}
                       alt={userInfo?.firstName}
                       title={userInfo?.firstName}
+                      loading="lazy"
                     />
                   ) : (
                     <span className={styles.userFChar}>
@@ -244,6 +260,7 @@ const Login = () => {
                         src="https://img.etimg.com/photo/105086027.cms"
                         alt={userInfo?.loginId}
                         title={userInfo?.loginId}
+                        loading="lazy"
                       />
                     </span>
                   )}

@@ -6,11 +6,14 @@ import { getStockUrl } from "@/utils/utility";
 import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import WatchlistAddition from "../../WatchlistAddition";
+// import WatchlistAddition from "../../WatchlistAddition";
 import { useStateContext } from "@/store/StateContext";
 import dynamic from "next/dynamic";
 import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
+  ssr: false,
+});
+const WatchlistAddition = dynamic(() => import("../../WatchlistAddition"), {
   ssr: false,
 });
 
@@ -129,6 +132,7 @@ const BigBullCard = ({ data, type }: any) => {
                           alt={slide.name}
                           title={slide.name}
                           className={styles.imgWraper}
+                          loading="lazy"
                         />
                         <span className={styles.smallTxt}>{slide.name}</span>
                       </Link>
@@ -153,6 +157,7 @@ const BigBullCard = ({ data, type }: any) => {
               alt={data?.investorIntro?.name}
               title={data?.investorIntro?.name}
               className={styles.expertImg}
+              loading="lazy"
             />
             <span className={styles.expertName}>
               {data && data.dealSignal && data.dealSignal !== "" ? (

@@ -2,9 +2,13 @@ import React, { useEffect, useRef } from "react";
 import styles from "./MarketTable.module.scss";
 import { getStockUrl } from "@/utils/utility";
 import { dateFormat } from "@/utils";
-import WatchlistAddition from "../WatchlistAddition";
+// import WatchlistAddition from "../WatchlistAddition";
 import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
+  ssr: false,
+});
 
 const FixedTable = React.memo((props: any) => {
   const {
