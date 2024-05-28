@@ -261,11 +261,6 @@ const StockScreeners = ({
     });
     const responseData = await data.json();
     if (responseData && responseData.statusCode === 200) {
-      trackingEvent("et_push_event", {
-        event_category: "mercury_engagement",
-        event_action: "screener_save_successfully",
-        // event_label: window.location.href,
-      });
       setScreenerLoading(false);
       setCreateModuleScreener(false);
 
@@ -427,6 +422,11 @@ const StockScreeners = ({
     }
     const resData = await createNewScreener(screenerPayload);
     setProcessingLoader(false);
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "screener_save_successfully",
+      // event_label: window.location.href,
+    });
     if (
       resData &&
       resData.screenerId &&
