@@ -83,6 +83,7 @@ const Blocker = (props: propsType) => {
             alt={message}
             title={message}
             src={(GLOBAL_CONFIG as any).ET_IMG_DOMAIN + `/photo/${icon}.cms`}
+            loading="lazy"
           />
         )}
         {message && <p dangerouslySetInnerHTML={{ __html: message }} />}

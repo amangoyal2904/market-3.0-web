@@ -207,6 +207,7 @@ const BiggBullMostHeldTable = ({
                                         height={28}
                                         alt={list.name}
                                         title={list.name}
+                                        loading="lazy"
                                       />
                                       <h4>{list.name}</h4>
                                     </Link>
@@ -252,6 +253,7 @@ const BiggBullMostHeldTable = ({
                                                   height={28}
                                                   alt={list.name}
                                                   title={list.name}
+                                                  loading="lazy"
                                                 />
                                                 <h4>{list.name}</h4>
                                               </Link>

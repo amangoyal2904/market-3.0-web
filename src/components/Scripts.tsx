@@ -201,7 +201,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
       </Script>
       <Script
         src="https://survey.survicate.com/workspaces/0be6ae9845d14a7c8ff08a7a00bd9b21/web_surveys.js"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
         onLoad={() => {
           const surveyLoad = new Event("surveyLoad");
           document.dispatchEvent(surveyLoad);
@@ -258,17 +258,12 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
           {!isprimeuser && !searchParams?.get("opt") && (
             <Script
               src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
+              strategy="lazyOnload"
               onLoad={() => {
                 const gptLoaded = new Event("gptLoaded");
                 document.dispatchEvent(gptLoaded);
               }}
               async
-            />
-          )}
-          {!isprimeuser && (
-            <Script
-              src="https://static.clmbtech.com/ad/commons/js/2308/colombia_v2.js"
-              strategy="lazyOnload"
             />
           )}
           {/* <Script

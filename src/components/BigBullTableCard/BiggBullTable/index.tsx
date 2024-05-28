@@ -168,6 +168,7 @@ const BiggBullTable = ({
                           alt={tdata?.investorIntro?.name}
                           title={tdata?.investorIntro?.name}
                           className={styles.expertImg}
+                          loading="lazy"
                         />
                         <span className={styles.nameTxt}>
                           {tdata?.investorIntro?.name}

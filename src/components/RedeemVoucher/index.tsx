@@ -234,6 +234,7 @@ const RedeemVoucher = () => {
             }
             alt={success ? "Success" : "Coupon"}
             title={success ? "Success" : "Coupon"}
+            loading="lazy"
           />
           <p className={styles.heading}>
             {success ? "Voucher redeemed successfully" : "REDEEM VOUCHER"}
