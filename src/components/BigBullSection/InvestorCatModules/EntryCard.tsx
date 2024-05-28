@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import WatchlistAddition from "../../WatchlistAddition";
+// import WatchlistAddition from "../../WatchlistAddition";
 import { useStateContext } from "@/store/StateContext";
 import { getStockUrl } from "@/utils/utility";
 import { useState, Suspense } from "react";
@@ -8,6 +8,9 @@ const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
 import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
+const WatchlistAddition = dynamic(() => import("../../WatchlistAddition"), {
+  ssr: false,
+});
 
 const EntryCard = ({ data }: any) => {
   const { state } = useStateContext();

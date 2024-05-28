@@ -54,7 +54,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   const minifyJS = APP_ENV === "development" ? 0 : 1;
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
-  const jsDomain = "https://etdev8243.indiatimes.com";
   //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
 
   useEffect(() => {
@@ -77,6 +76,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   }, [router, isPrime]);
 
   let execution = 0;
+
   useEffect(() => {
     document.addEventListener("visibilitychange", (event) => {
       if (document.visibilityState == "visible" && execution == 0) {
@@ -199,17 +199,9 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
           }
         `}
       </Script>
-      {/* <Script
-        src={jsIntsURL}
-        strategy="afterInteractive"
-        onLoad={() => {
-          const objIntsLoaded = new Event("objIntsLoaded");
-          document.dispatchEvent(objIntsLoaded);
-        }}
-      /> */}
       <Script
         src="https://survey.survicate.com/workspaces/0be6ae9845d14a7c8ff08a7a00bd9b21/web_surveys.js"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         onLoad={() => {
           const surveyLoad = new Event("surveyLoad");
           document.dispatchEvent(surveyLoad);
