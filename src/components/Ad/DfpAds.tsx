@@ -54,7 +54,7 @@ const DfpAds: FC<AdInfoProps> = function (props) {
   return (
     !isPrime && (
       <>
-        <div className={styles.midAdContainer}>
+        <div className={`${styles.midAdContainer} hideAd`}>
           <div id={adInfo.id} className="dfpAd"></div>
         </div>
       </>
