@@ -269,6 +269,7 @@ const CreateScreenerModule = ({
       FetchDataSearchView();
     }
   }, [debouncedSearchTerm]);
+  //console.log("vis", visibleTabs)
   return (
     <>
       <div
@@ -422,17 +423,23 @@ const CreateScreenerModule = ({
                   <div className={styles.resultSec}>
                     <ul className={styles.topLevelList} ref={tabsListRef}>
                       {visibleTabs.length > 0 ? (
-                        visibleTabs.map((item: any, index: number) => (
-                          <li
-                            key={item.categoryMappingID}
-                            className={index === activeTab ? styles.active : ""}
-                            onClick={() => handleTabClick(index)}
-                          >
-                            <div className={styles.catHead}>
-                              {item.displayName}
-                            </div>
-                          </li>
-                        ))
+                        visibleTabs.map((item: any, index: number) => {
+                          if (item.categoryMappingID !== 2392) {
+                            return (
+                              <li
+                                key={item.categoryMappingID}
+                                className={
+                                  index === activeTab ? styles.active : ""
+                                }
+                                onClick={() => handleTabClick(index)}
+                              >
+                                <div className={styles.catHead}>
+                                  {item.displayName}
+                                </div>
+                              </li>
+                            );
+                          }
+                        })
                       ) : (
                         <li>No data found</li>
                       )}
@@ -447,23 +454,27 @@ const CreateScreenerModule = ({
                             </div>
                             <ul className={styles.moreListItem}>
                               {hiddenTabs.map((item: any, index: number) => {
-                                return (
-                                  <li
-                                    key={item.categoryMappingID}
-                                    className={
-                                      visibleTabs.length + index === activeTab
-                                        ? styles.active
-                                        : ""
-                                    }
-                                    onClick={() =>
-                                      handleTabClick(visibleTabs.length + index)
-                                    }
-                                  >
-                                    <div className={styles.catHead}>
-                                      {item.displayName}
-                                    </div>
-                                  </li>
-                                );
+                                if (item.categoryMappingID !== 2392) {
+                                  return (
+                                    <li
+                                      key={item.categoryMappingID}
+                                      className={
+                                        visibleTabs.length + index === activeTab
+                                          ? styles.active
+                                          : ""
+                                      }
+                                      onClick={() =>
+                                        handleTabClick(
+                                          visibleTabs.length + index,
+                                        )
+                                      }
+                                    >
+                                      <div className={styles.catHead}>
+                                        {item.displayName}
+                                      </div>
+                                    </li>
+                                  );
+                                }
                               })}
                             </ul>
                           </div>
