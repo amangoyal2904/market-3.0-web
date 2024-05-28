@@ -116,9 +116,9 @@ const renderDfpAds = (userType = true) => {
       );
       showAd = true;
     }
-    if (userType == true) {
-      document.querySelectorAll(".hideAd").forEach((el) => el.remove());
-    }
+    // if (userType == true) {
+    //   document.querySelectorAll(".hideAd").forEach((el) => el.remove());
+    // }
     if (!userType && showAd == true) {
       let googleTag: any;
       let maxTry = 10;
