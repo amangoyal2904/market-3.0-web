@@ -11,7 +11,7 @@ const QueryComponets = ({
     trackingEvent("et_push_event", {
       event_category: "mercury_engagement",
       event_action: "page_cta_click",
-      event_label: "Edit Attributes",
+      event_label: "",
     });
     showModal(true);
     setScreenerEditMode({
