@@ -155,7 +155,16 @@ const WatchlistAddition = ({
 
       console.log("newWatchList----", newWatchList, action);
     } else if (addWathlistResAPI?.status === "failure") {
-      alert(addWathlistResAPI.meessage);
+      toast((t) => (
+        <span className="errorToast">
+          <span>
+            Oops! There is some error while updating watchlist. Please retry.
+          </span>
+          <button onClick={() => toast.dismiss(t.id)}>
+            <i className="eticon_cross"></i>
+          </button>
+        </span>
+      ));
     }
 
     setLoadingStatus(false);
