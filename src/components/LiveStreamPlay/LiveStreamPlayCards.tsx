@@ -89,7 +89,6 @@ const LiveStreamCards = ({
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        alert(entry.isIntersecting);
         setIsVisible(entry.isIntersecting);
       },
       {
