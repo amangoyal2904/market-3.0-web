@@ -70,8 +70,8 @@
     "production": "https://etapi.indiatimes.com/et-screener/indices-data"
   },
   "INDEX_FILTERS": {
-    "development": "https://etapipre.indiatimes.com/api/indexfilters",
-    "production": "https://etapipre.indiatimes.com/api/indexfilters"
+    "development": "https://etapipre.indiatimes.com/api/mercury/indexfilters",
+    "production": "https://etapipre.indiatimes.com/api/mercury/indexfilters"
   },
   "MARKETSINTRADAY_CUSTOM_TAB": {
     "development": "https://screener.indiatimes.com/screener/overviewids",
@@ -182,8 +182,8 @@
     "production": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher"
   },
   "LEFT_NAV": {
-    "development": "https://etapipre.indiatimes.com/api/nav?platform=web",
-    "production": "https://etapipre.indiatimes.com/api/nav?platform=web"
+    "development": "https://etapipre.indiatimes.com/api/mercury/nav?platform=web",
+    "production": "https://etapipre.indiatimes.com/api/mercury/nav?platform=web"
   },
   "PERSONALISE_VIEW": {
     "updateTabs": {
@@ -296,12 +296,12 @@
     ]
   },
   "MARKET_STATS_SHORTURLS_MAPPING": {
-    "development": "https://etapipre.indiatimes.com/api/shorturlmapping/marketstats",
-    "production": "https://etapipre.indiatimes.com/api/shorturlmapping/marketstats"
+    "development": "https://etapipre.indiatimes.com/api/mercury/shorturlmapping/marketstats",
+    "production": "https://etapipre.indiatimes.com/api/mercury/shorturlmapping/marketstats"
   },
   "MARKET_STATS_NAV": {
-    "development": "https://etapipre.indiatimes.com/api/marketstatsnav",
-    "production": "https://etapipre.indiatimes.com/api/marketstatsnav"
+    "development": "https://etapipre.indiatimes.com/api/mercury/marketstatsnav",
+    "production": "https://etapipre.indiatimes.com/api/mercury/marketstatsnav"
   },
   "SCREENER_BY_SCREENERID": {
     "development": "https://screener.indiatimes.com/screener/getScreenerByScreenerId",
@@ -312,8 +312,8 @@
     "production": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail"
   },
   "STOCK_RECOS_NAV": {
-    "development": "https://etapipre.indiatimes.com/api/stockrecosnav",
-    "production": "https://etapipre.indiatimes.com/api/stockrecosnav"
+    "development": "https://etapipre.indiatimes.com/api/mercury/stockrecosnav",
+    "production": "https://etapipre.indiatimes.com/api/mercury/stockrecosnav"
   },
   "STOCK_RECOS_DETAIL": {
     "development": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail",
