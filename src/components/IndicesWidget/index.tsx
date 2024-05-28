@@ -5,7 +5,12 @@ import SlickSlider from "../SlickSlider";
 import StockCards from "./StockCards";
 import { useEffect, useState } from "react";
 import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV, dateFormat, dateStringToMilliseconds } from "@/utils/index";
+import {
+  APP_ENV,
+  dateFormat,
+  dateStringToMilliseconds,
+  replaceWidthHeigh,
+} from "@/utils/index";
 import Service from "@/network/service";
 import { useStateContext } from "@/store/StateContext";
 import refreshConfig from "@/utils/refreshConfig.json";
@@ -378,7 +383,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                   <img
                     width="55"
                     height="41"
-                    src={list?.img}
+                    src={replaceWidthHeigh(list?.img, "55", "41")}
                     alt={list?.title}
                     title={list?.title}
                   />

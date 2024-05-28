@@ -80,6 +80,7 @@ const LiveCoverage = async () => {
       const topNewsFilteredData = topNewsData?.filter(
         (data: { type: string }) => data.type === "articleshow",
       );
+      console.log("topNewsFilteredData ---", topNewsFilteredData);
       return topNewsFilteredData;
     } catch (e) {
       console.log("error in fetching indices data", e);
@@ -126,7 +127,7 @@ const LiveCoverage = async () => {
         filterType: "",
         filterValue: [],
         recoType: "all",
-        pageSize: 30,
+        pageSize: 20,
         pageNumber: 1,
       };
 

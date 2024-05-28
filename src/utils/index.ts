@@ -650,3 +650,24 @@ export const footerAPIHit = async (pageUrl: string) => {
   console.log("Footer API HIT ---> ", footerResult);
   return footerResult;
 };
+
+export const replaceWidthHeigh = (url: any, newWidth: any, newHeight: any) => {
+  // Regular expression to match width and height parameters
+  const regex = /width-(\d+)|height-(\d+)/g;
+
+  // Replace width and height parameters with new values
+  const newUrl = url.replace(regex, (match: any, p1: any, p2: any) => {
+    if (p1 && p2) {
+      // Both width and height are present, replace both
+      return `width-${newWidth},height-${newHeight}`;
+    } else if (p1) {
+      // Only width is present, replace width
+      return `width-${newWidth}`;
+    } else if (p2) {
+      // Only height is present, replace height
+      return `height-${newHeight}`;
+    }
+  });
+
+  return newUrl;
+};
