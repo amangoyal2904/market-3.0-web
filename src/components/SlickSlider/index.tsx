@@ -143,6 +143,27 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
     }
   }, [slidesToShow, topSpaceClass]);
 
+  useEffect(() => {
+    const element: HTMLElement | null = document.getElementById(sliderId);
+    if (element) {
+      const slickTrack = element.querySelector(".slick-track");
+      if (slickTrack) {
+        const activeElements = slickTrack.querySelectorAll(".slick-slide");
+        if (activeElements.length === 1) {
+          const stockSliderIconsElement =
+            element.querySelector(".stockSliderIcons");
+          stockSliderIconsElement?.classList.add("disNone");
+        }
+        console.log(
+          "slidesToShow --->",
+          slidesToShow,
+          activeElements.length,
+          sliderId,
+        );
+      }
+    }
+  }, [sliderId, slidesToShow]);
+
   return (
     <div
       className={`stockSlider ${styles.sliderMain} ${topSpaceClass === "indices" ? styles.addMargin : ""} ${topSpaceClass === "recoOnWatchlist" ? "recoOnWatchlist" : ""}`}
