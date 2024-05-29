@@ -261,11 +261,6 @@ const StockScreeners = ({
     });
     const responseData = await data.json();
     if (responseData && responseData.statusCode === 200) {
-      trackingEvent("et_push_event", {
-        event_category: "mercury_engagement",
-        event_action: "screener_save_successfully",
-        event_label: window.location.href,
-      });
       setScreenerLoading(false);
       setCreateModuleScreener(false);
 
@@ -329,11 +324,13 @@ const StockScreeners = ({
         screenerEditMode.screenerStage === "popup"
       ) {
         setEditQueryScreener(false);
+        document.body.style.overflow = "";
       } else if (
         screenerEditMode.userMode === "ET" &&
         screenerEditMode.screenerStage === "popup"
       ) {
         setEditQueryScreener(false);
+        document.body.style.overflow = "";
         setMetaData({
           ..._metaData,
           title: "Unsaved Screener",
@@ -379,6 +376,7 @@ const StockScreeners = ({
   const cancelScreenerCreateFun = () => {
     if (screenerEditMode.mode) {
       setEditQueryScreener(false);
+      document.body.style.overflow = "";
     } else {
       setCreateModuleScreener(false);
     }
@@ -393,12 +391,14 @@ const StockScreeners = ({
   };
   const saveScreenerhandler = async () => {
     setCeateScreenerNamePopup(true);
+    document.body.style.overflow = "hidden";
   };
   const screenerNameUpdateHandler = (value: any) => {
     setMetaData({ ..._metaData, title: value });
   };
   const createViewNameHandlerHandler = async (value: any) => {
     setCeateScreenerNamePopup(false);
+    document.body.style.overflow = "";
     setProcessingLoader(true);
     const userInfo: any =
       window.objUser && window.objUser.ssoid && window.objUser.ssoid !== ""
@@ -422,6 +422,11 @@ const StockScreeners = ({
     }
     const resData = await createNewScreener(screenerPayload);
     setProcessingLoader(false);
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "screener_save_successfully",
+      // event_label: window.location.href,
+    });
     if (
       resData &&
       resData.screenerId &&
@@ -433,9 +438,13 @@ const StockScreeners = ({
       );
       // console.log('refresh---',resData.screenerId === parseInt(scrid))
     } else if (parseInt(resData?.screenerId) === parseInt(scrid)) {
-      window.location.reload();
+      //window.location.reload();
       // console.log('refresh')
       // router.refresh();
+      router.push(
+        `/markets/stock-screener/${resData.seoName || "test-seo-name"}/screens/scrid-${resData.screenerId}`,
+        { scroll: false },
+      );
     }
   };
   const updateTableData = async () => {

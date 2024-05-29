@@ -133,7 +133,6 @@ const LeftNav = (props: any) => {
         className={styles.navInnerWrap}
         itemScope
         itemType="https://schema.org/SiteNavigationElement"
-        role="menu"
       >
         <div className={styles.toggleMenuWrap}>
           <span
@@ -141,8 +140,12 @@ const LeftNav = (props: any) => {
             onClick={toggleMenu}
           ></span>
         </div>
-        <div className={styles.navOptWrap}>
-          <ul className={styles.marketNavWrap}>
+        <div
+          className={styles.navOptWrap}
+          role="menu"
+          aria-labelledby="menubutton"
+        >
+          <ul className={styles.marketNavWrap} role="group">
             {markets?.nav?.map((value: any, index: any) => {
               navSchemaItemListElements.push({
                 "@type": "ListItem",
@@ -156,10 +159,11 @@ const LeftNav = (props: any) => {
                   className={`${styles.navListWrap} ${!isExpanded ? styles.l2Collapsed : ""}`}
                   key={`market_nav_${index}`}
                   // itemProp="name"
-                  // role="menuitem"
+                  role="presentation"
                 >
                   {value.link ? (
                     <Link
+                      title={value.label}
                       href={value.link}
                       target={value?.newTab ? "_blank" : "_self"}
                       onClick={() =>
@@ -167,6 +171,7 @@ const LeftNav = (props: any) => {
                       }
                       // itemProp="url"
                       className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
+                      role="menuitem"
                     >
                       {/* <meta itemProp="name" content={value.label} /> */}
                       <span
@@ -208,6 +213,7 @@ const LeftNav = (props: any) => {
                       <ul
                         className={styles.l2ListWrap}
                         key={`market_nav___${index}`}
+                        role="group"
                       >
                         {value?.sec.map((sec: any, index: number) => {
                           return (
@@ -215,9 +221,10 @@ const LeftNav = (props: any) => {
                               className={`${styles.l2List} ${hasUrlSelect(sec.matchPattern) ? styles.active : ""}`}
                               key={`l2_label_${index}`}
                               // itemProp="name"
-                              role="menuitem"
+                              role="presentation"
                             >
                               <Link
+                                title={sec.label}
                                 href={sec.link}
                                 target={sec?.newTab ? "_blank" : "_self"}
                                 itemProp="url"
@@ -227,6 +234,7 @@ const LeftNav = (props: any) => {
                                     l2: sec.label,
                                   })
                                 }
+                                role="menuitem"
                               >
                                 <meta itemProp="name" content={sec.label} />
                                 {sec.label}
@@ -242,7 +250,7 @@ const LeftNav = (props: any) => {
             })}
           </ul>
           <div className={styles.marketProWrap}>
-            <h3 className={styles.proHeading}>
+            <h3 className={styles.proHeading} role="presentation">
               <span className={styles.expandTitle}>
                 <span className="eticon_prime_logo">
                   <span className="path1"></span>
@@ -260,23 +268,26 @@ const LeftNav = (props: any) => {
               </span>
               {/* {isExpanded ?  : } */}
             </h3>
-            <ul>
+            <ul role="group">
               {markets_pro?.nav?.map((value: any, index: any) => {
                 return (
                   <li
                     className={styles.navListWrap}
                     key={`market_pro_nav_${index}`}
                     // itemProp="name"
-                    role="menuitem"
+
+                    role="presentation"
                   >
                     <Link
                       href={value.link}
+                      title={value.label}
                       target={value?.newTab ? "_blank" : "_self"}
                       onClick={() =>
                         navClickTrackingHandle({ l1: value.label, l2: "" })
                       }
                       itemProp="url"
                       className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
+                      role="menuitem"
                     >
                       <meta itemProp="name" content={value.label} />
                       <span

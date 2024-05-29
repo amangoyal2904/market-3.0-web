@@ -25,7 +25,7 @@ const InvestorsTopTabs = ({ data, rightTabTxt = "" }: any) => {
                 key={`${index}-`}
                 onClick={() => gaTrackingTabsNameClick(tab.title)}
               >
-                <Link href={`${tab.url}`}>
+                <Link href={`${tab.url}`} title={tab.title}>
                   <span>{tab.title}</span>
                 </Link>
               </li>

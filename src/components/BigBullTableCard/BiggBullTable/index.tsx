@@ -4,11 +4,14 @@ import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
-import WatchlistAddition from "../../WatchlistAddition";
-import { trackingEvent } from "@/utils/ga";
+// import WatchlistAddition from "../../WatchlistAddition";
+import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
+  ssr: false,
+});
+const WatchlistAddition = dynamic(() => import("../../WatchlistAddition"), {
   ssr: false,
 });
 
@@ -25,7 +28,24 @@ const BiggBullTable = ({
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
   //const isPrime = true;
   //console.log("tableHead", tableHead);
-  const blurNameHandler = () => {
+  const [companyName, setCompanyName] = useState("");
+  const blurNameHandler = (companyName: string) => {
+    const objTracking = {
+      category: "Subscription Flow ET",
+      action: "SYFT | Flow Started",
+      label: "",
+      obj: {
+        item_name: "bigbull_investors",
+        item_id: companyName,
+        item_brand: "market_tools",
+        item_category: "bigbull",
+        item_category2: "bigbull_investors",
+        item_category3: "",
+        item_category4: "",
+      },
+    };
+    redirectToPlanPage(objTracking, "view_item_list", false);
+    setCompanyName(companyName);
     setShowNonPrimeBlocker(true);
     document.body.style.overflow = "hidden";
   };
@@ -132,6 +152,7 @@ const BiggBullTable = ({
                   <tr key={`${index}`}>
                     <td>
                       <Link
+                        title={tdata?.investorIntro?.name}
                         onClick={() =>
                           gaTrackingInvestorNameClick(
                             tdata?.investorIntro?.name,
@@ -145,7 +166,9 @@ const BiggBullTable = ({
                           width={42}
                           height={42}
                           alt={tdata?.investorIntro?.name}
+                          title={tdata?.investorIntro?.name}
                           className={styles.expertImg}
+                          loading="lazy"
                         />
                         <span className={styles.nameTxt}>
                           {tdata?.investorIntro?.name}
@@ -216,7 +239,9 @@ const BiggBullTable = ({
                             ) : (
                               <span
                                 className={styles.nameBlur}
-                                onClick={blurNameHandler}
+                                onClick={() =>
+                                  blurNameHandler(bestPicks[0].uiLabel?.text)
+                                }
                               ></span>
                             )}
                           </h5>
@@ -288,7 +313,11 @@ const BiggBullTable = ({
                             ) : (
                               <span
                                 className={styles.nameBlur}
-                                onClick={blurNameHandler}
+                                onClick={() =>
+                                  blurNameHandler(
+                                    bestPicksToNext[0].uiLabel?.text,
+                                  )
+                                }
                               ></span>
                             )}
                           </h5>
@@ -323,7 +352,10 @@ const BiggBullTable = ({
       </div>
       {showNonPrimeBlocker && (
         <Suspense fallback={<div>Loading</div>}>
-          <NonPrimeBlockerModule oncloseModule={blurNameHandlerClose} />
+          <NonPrimeBlockerModule
+            oncloseModule={blurNameHandlerClose}
+            companyName={companyName}
+          />
         </Suspense>
       )}
     </>

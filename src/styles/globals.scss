@@ -200,7 +200,13 @@ a {
     }
   }
 }
-
+.slick-slider .slick-track.noTransform {
+  margin-left: 0;
+  transform: translate3d(0, 0, 0) !important;
+}
+.disNone {
+  display: none !important;
+}
 .default-btn {
   font-size: 12px;
   font-style: normal;
@@ -294,7 +300,8 @@ table {
   display: flex;
 }
 
-.linkHover:hover {
+.linkHover:hover,
+.linkUnderline {
   text-decoration: underline;
 }
 
@@ -320,7 +327,7 @@ table {
   font-weight: 700;
   line-height: normal;
   a {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     .headingIcon {
       font-size: 40px;
@@ -506,10 +513,18 @@ table {
     font-size: 16px;
     border-radius: 50%;
   }
+  &.withRed {
+    button {
+      background: $red-50;
+    }
+  }
 }
 .eticon_add.bold,
 .eticon_tick.bold {
   font-weight: 700;
+}
+.displayHide {
+  display: none !important;
 }
 
 @media screen and (max-width: 1024px) and (max-height: 600px) {
@@ -518,5 +533,21 @@ table {
   }
   .customModule .moduleBody {
     max-height: 62vh;
+  }
+}
+@media screen and (max-height: 600px) {
+  .customModule .moduleWrap {
+    margin-top: 20px;
+  }
+  .customModule .moduleBody {
+    max-height: 62vh;
+  }
+}
+@media screen and (min-width: 1000px) and (max-width: 1130px) {
+  .slick-dots .custom-slick-dots {
+    margin: 5px 5px 0;
+  }
+  .slick-dots li {
+    margin: 0 2px;
   }
 }

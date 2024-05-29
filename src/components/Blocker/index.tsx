@@ -5,6 +5,7 @@ import { initSSOWidget } from "../../utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import AddStockComponent from "../StockAdd";
 import { trackingEvent } from "@/utils/ga";
+import { APP_ENV } from "@/utils/index";
 
 interface propsType {
   type: any;
@@ -19,7 +20,7 @@ const blockerList: any = {
   loginBlocker: {
     id: 1,
     message:
-      "Stay Informed on your Favourite Stocks <br /> Login to Manage your Watchlist",
+      "Track your favorite stocks in one place. <br /> Login & manage your Watchlist.",
     cta: "Login",
     action: handleLoginToggle,
     icon: 107522568,
@@ -34,7 +35,7 @@ const blockerList: any = {
   },
   noStocks: {
     id: 3,
-    message: "You have not added any stocks to your Watchlist yet.",
+    message: "You've not added any stocks to your Watchlist yet.",
     cta: "Add Stocks Now",
     action: "",
     icon: 107522570,
@@ -80,10 +81,20 @@ const Blocker = (props: propsType) => {
             width={150}
             height={150}
             alt={message}
+            title={message}
             src={(GLOBAL_CONFIG as any).ET_IMG_DOMAIN + `/photo/${icon}.cms`}
+            loading="lazy"
           />
         )}
         {message && <p dangerouslySetInnerHTML={{ __html: message }} />}
+        {type == "notFound" && (
+          <a
+            className="linkUnderline"
+            href={(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}
+          >
+            Go to Economictimes.com
+          </a>
+        )}
         {cta && (
           <button onClick={id == 3 ? handleAddStocks : action}>{cta}</button>
         )}

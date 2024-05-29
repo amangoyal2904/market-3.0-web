@@ -43,7 +43,7 @@ const InvestmentIdea = async () => {
         )}
       </div>
       <ViewAllLink
-        text="See All Investment Ideas"
+        text="Check Latest Investment Ideas"
         link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
       />
     </div>

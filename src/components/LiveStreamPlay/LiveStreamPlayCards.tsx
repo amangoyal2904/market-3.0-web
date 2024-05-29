@@ -143,6 +143,7 @@ const LiveStreamCards = ({
         <div>
           <a
             href={streamURL}
+            title={slide.title}
             // onClick={()=>handleClick("storyTitle")}
           >
             <p className={styles.cardTitle}>{slide.title}</p>
@@ -153,10 +154,16 @@ const LiveStreamCards = ({
           <a
             href={expertURL}
             target="_blank"
+            title={slide.expertName}
             // onClick={()=>handleClick("expert")}
           >
             {expertImg && (
-              <img src={expertImg} alt={expertName} loading="lazy" />
+              <img
+                src={expertImg}
+                alt={expertName}
+                title={expertName}
+                loading="lazy"
+              />
             )}
             <p>
               {" "}

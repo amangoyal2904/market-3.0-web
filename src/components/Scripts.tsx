@@ -54,12 +54,11 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   const minifyJS = APP_ENV === "development" ? 0 : 1;
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
-  const jsDomain = "https://etdev8243.indiatimes.com";
   //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
 
   useEffect(() => {
     prevPath !== null &&
-      trackingEvent("page_view", { url: window.location.href });
+      trackingEvent("et_push_pageload", { url: window.location.href });
     setPrevPath(router);
     renderDfpAds(isPrime);
     if (window.isSurveyLoad) {
@@ -77,6 +76,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   }, [router, isPrime]);
 
   let execution = 0;
+
   useEffect(() => {
     document.addEventListener("visibilitychange", (event) => {
       if (document.visibilityState == "visible" && execution == 0) {
@@ -199,14 +199,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
           }
         `}
       </Script>
-      {/* <Script
-        src={jsIntsURL}
-        strategy="afterInteractive"
-        onLoad={() => {
-          const objIntsLoaded = new Event("objIntsLoaded");
-          document.dispatchEvent(objIntsLoaded);
-        }}
-      /> */}
       <Script
         src="https://survey.survicate.com/workspaces/0be6ae9845d14a7c8ff08a7a00bd9b21/web_surveys.js"
         strategy="lazyOnload"
@@ -263,20 +255,15 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               `,
             }}
           />
-          {!isprimeuser && (
+          {!isprimeuser && !searchParams?.get("opt") && (
             <Script
               src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
+              strategy="lazyOnload"
               onLoad={() => {
                 const gptLoaded = new Event("gptLoaded");
                 document.dispatchEvent(gptLoaded);
               }}
               async
-            />
-          )}
-          {!isprimeuser && (
-            <Script
-              src="https://static.clmbtech.com/ad/commons/js/2308/colombia_v2.js"
-              strategy="lazyOnload"
             />
           )}
           {/* <Script

@@ -49,8 +49,6 @@ const Overview: React.FC<Props> = ({
   const redirectLink = (apiType: any) => {
     let tabName = handleLowerCase(apiType);
 
-    //console.log("tabName --- ", tabName);
-
     switch (tabName) {
       case "recoonwl":
         return (GLOBAL_CONFIG as any)["STOCK_RECOS"]["recos-on-your-watchlist"]; //"/stocksrecos/recos-on-your-watchlist";
@@ -62,7 +60,6 @@ const Overview: React.FC<Props> = ({
   };
 
   const overviewHtmlHandle = (data: any) => {
-    console.log(JSON.stringify(data));
     return (
       <>
         {data?.recoData?.map((obj: any, index: any) => (
@@ -72,6 +69,7 @@ const Overview: React.FC<Props> = ({
           >
             <h2 className={styles.title} key={index}>
               <Link
+                title={obj.name}
                 className="linkHover"
                 href={`${redirectLink(obj.apiType)}${urlFilterHandle(obj.indexid ? obj.indexid : "")}`}
               >
@@ -134,6 +132,7 @@ const Overview: React.FC<Props> = ({
             {obj?.data.length > 3 && (
               <div className={styles.overviewViewAll}>
                 <Link
+                  title={`View all ${obj.name}`}
                   href={`${redirectLink(obj.apiType)}${urlFilterHandle(obj.indexid ? obj.indexid : "")}`}
                 >
                   <span className="linkHover">View all {obj.name} </span>

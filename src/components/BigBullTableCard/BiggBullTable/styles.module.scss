@@ -450,6 +450,11 @@
 }
 .bestPicks {
   tr {
+    th + th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     td {
       &:first-child,
       &:nth-of-type(2) {
@@ -461,6 +466,12 @@
 }
 .qtrChange {
   tr {
+    th + th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
+
     td {
       &:first-child,
       &:nth-of-type(2) {
@@ -483,6 +494,11 @@
         .thead {
           justify-content: center;
         }
+      }
+    }
+    th + th + th + th {
+      .thead {
+        justify-content: flex-end;
       }
     }
 
@@ -521,6 +537,16 @@
 }
 .allInvestors {
   tr {
+    th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
+    th + th + th + th + th {
+      .thead {
+        justify-content: flex-start;
+      }
+    }
     td {
       &:first-child {
         max-width: 350px;
@@ -536,6 +562,11 @@
 }
 .investorBulkBlock {
   tr {
+    th + th + th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     th {
       &:nth-of-type(3) {
         width: 350px;
@@ -552,6 +583,11 @@
 }
 .holdingInvestor {
   tr {
+    th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     th {
       &:first-child {
         min-width: 350px;
@@ -569,6 +605,11 @@
 }
 .mostHeldTable {
   tr {
+    th + th + th {
+      .thead {
+        justify-content: flex-end;
+      }
+    }
     td {
       &:first-child,
       &:nth-of-type(2) {
@@ -584,6 +625,53 @@
 }
 .comNameSec {
   width: 320px;
+}
+@media screen and (max-width: 1496px) {
+  .bibBullCustomTable {
+    .investNameImg {
+      width: 235px;
+    }
+  }
+}
+@media screen and (max-width: 1312px) {
+  .investorBulkBlock {
+    tr {
+      th {
+        &:nth-last-of-type(3) {
+          width: 280px;
+          min-width: 280px;
+        }
+      }
+    }
+  }
+  .bibBullCustomTable {
+    .investNameImg {
+      width: 190px;
+    }
+    .bestPickSec {
+      width: 240px;
+    }
+  }
+  .comNameSec {
+    width: 150px;
+  }
+  .buySellSec {
+    padding: 8px 2px;
+    width: 100px;
+  }
+}
+
+@media screen and (max-width: 1168) {
+  .investorBulkBlock {
+    tr {
+      th {
+        &:nth-last-of-type(3) {
+          width: 280px;
+          min-width: 280px;
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 1024px) {
@@ -617,13 +705,13 @@
   }
   .bibBullCustomTable {
     .investNameImg {
-      width: 220px;
+      width: 180px;
       .nameTxt {
         flex-wrap: wrap;
       }
     }
     .bestPickSec {
-      width: 200px;
+      width: 180px;
     }
   }
 }

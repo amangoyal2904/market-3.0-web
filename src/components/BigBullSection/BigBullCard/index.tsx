@@ -6,11 +6,14 @@ import { getStockUrl } from "@/utils/utility";
 import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import WatchlistAddition from "../../WatchlistAddition";
+// import WatchlistAddition from "../../WatchlistAddition";
 import { useStateContext } from "@/store/StateContext";
 import dynamic from "next/dynamic";
-import { trackingEvent } from "@/utils/ga";
+import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
+  ssr: false,
+});
+const WatchlistAddition = dynamic(() => import("../../WatchlistAddition"), {
   ssr: false,
 });
 
@@ -20,7 +23,7 @@ const BigBullCard = ({ data, type }: any) => {
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
   //const isPrime = true;
   //console.log("isPrime", isPrime);
-
+  const [companyName, setCompanyName] = useState("");
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef<Slider>(null);
 
@@ -61,6 +64,22 @@ const BigBullCard = ({ data, type }: any) => {
     }
   };
   const blurNameHandler = () => {
+    const objTracking = {
+      category: "Subscription Flow ET",
+      action: "SYFT | Flow Started",
+      label: "",
+      obj: {
+        item_name: "bigbull_investors",
+        item_id: data?.investorIntro?.name,
+        item_brand: "market_tools",
+        item_category: "bigbull",
+        item_category2: "bigbull_investors",
+        item_category3: "",
+        item_category4: "",
+      },
+    };
+    setCompanyName(data?.investorIntro?.name);
+    redirectToPlanPage(objTracking, "view_item_list", false);
     setShowNonPrimeBlocker(true);
     document.body.style.overflow = "hidden";
   };
@@ -111,7 +130,9 @@ const BigBullCard = ({ data, type }: any) => {
                           width={28}
                           height={28}
                           alt={slide.name}
+                          title={slide.name}
                           className={styles.imgWraper}
+                          loading="lazy"
                         />
                         <span className={styles.smallTxt}>{slide.name}</span>
                       </Link>
@@ -125,6 +146,7 @@ const BigBullCard = ({ data, type }: any) => {
             onClick={() =>
               gaTrackingInvestorNameClick(data?.investorIntro?.name)
             }
+            title={data?.investorIntro?.name}
             href={`/markets/top-india-investors-portfolio/${data?.investorIntro?.sharkSeoName},expertid-${data?.investorIntro?.sharkID}`}
             className={styles.top}
           >
@@ -133,7 +155,9 @@ const BigBullCard = ({ data, type }: any) => {
               width={52}
               height={52}
               alt={data?.investorIntro?.name}
+              title={data?.investorIntro?.name}
               className={styles.expertImg}
+              loading="lazy"
             />
             <span className={styles.expertName}>
               {data && data.dealSignal && data.dealSignal !== "" ? (
@@ -364,7 +388,10 @@ const BigBullCard = ({ data, type }: any) => {
       </div>
       {showNonPrimeBlocker && (
         <Suspense fallback={<div>Loading</div>}>
-          <NonPrimeBlockerModule oncloseModule={blurNameHandlerClose} />
+          <NonPrimeBlockerModule
+            oncloseModule={blurNameHandlerClose}
+            companyName={companyName}
+          />
         </Suspense>
       )}
     </>

@@ -4,14 +4,17 @@ import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
-import WatchlistAddition from "../../WatchlistAddition";
+// import WatchlistAddition from "../../WatchlistAddition";
 import NodataForTable from "../NodataForTable";
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
-import { trackingEvent } from "@/utils/ga";
+import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
+const WatchlistAddition = dynamic(() => import("../../WatchlistAddition"), {
+  ssr: false,
+});
 
 const BiggBullMostHeldTable = ({
   tableHead,
@@ -26,8 +29,25 @@ const BiggBullMostHeldTable = ({
   const { isPrime } = state.login;
   //const isPrime = true;
   //console.log("isPrime", isPrime);
+  const [companyName, setCompanyName] = useState("");
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
-  const blurNameHandler = () => {
+  const blurNameHandler = (companyName: string) => {
+    const objTracking = {
+      category: "Subscription Flow ET",
+      action: "SYFT | Flow Started",
+      label: "",
+      obj: {
+        item_name: "bigbull_investors",
+        item_id: companyName,
+        item_brand: "market_tools",
+        item_category: "bigbull",
+        item_category2: "bigbull_investors",
+        item_category3: "",
+        item_category4: "",
+      },
+    };
+    redirectToPlanPage(objTracking, "view_item_list", false);
+    setCompanyName(companyName);
     setShowNonPrimeBlocker(true);
     document.body.style.overflow = "hidden";
   };
@@ -132,6 +152,7 @@ const BiggBullMostHeldTable = ({
                                 }}
                               />
                               <a
+                                title={tdata?.companyData?.text}
                                 onClick={() =>
                                   gaTrackingCompanyNameClick(
                                     tdata?.companyData?.text,
@@ -152,7 +173,9 @@ const BiggBullMostHeldTable = ({
                           ) : (
                             <span
                               className={styles.nameBlur}
-                              onClick={blurNameHandler}
+                              onClick={() =>
+                                blurNameHandler(tdata?.companyData?.text)
+                              }
                             ></span>
                           )}
                         </div>
@@ -171,6 +194,7 @@ const BiggBullMostHeldTable = ({
                                     className={`${tdata?.investorsList.length === 1 || (tdata?.investorsList.length === 2 && index === 1) ? styles.noBorder : ""}`}
                                   >
                                     <Link
+                                      title={list.name}
                                       onClick={() =>
                                         gaTrackingInvestorNameClick(list.name)
                                       }
@@ -183,6 +207,7 @@ const BiggBullMostHeldTable = ({
                                         height={28}
                                         alt={list.name}
                                         title={list.name}
+                                        loading="lazy"
                                       />
                                       <h4>{list.name}</h4>
                                     </Link>
@@ -213,6 +238,7 @@ const BiggBullMostHeldTable = ({
                                               key={`-${index}--`}
                                             >
                                               <Link
+                                                title={list.name}
                                                 onClick={() =>
                                                   gaTrackingInvestorNameClick(
                                                     list.name,
@@ -227,6 +253,7 @@ const BiggBullMostHeldTable = ({
                                                   height={28}
                                                   alt={list.name}
                                                   title={list.name}
+                                                  loading="lazy"
                                                 />
                                                 <h4>{list.name}</h4>
                                               </Link>
@@ -279,7 +306,10 @@ const BiggBullMostHeldTable = ({
       </div>
       {showNonPrimeBlocker && (
         <Suspense fallback={<div>Loading</div>}>
-          <NonPrimeBlockerModule oncloseModule={blurNameHandlerClose} />
+          <NonPrimeBlockerModule
+            oncloseModule={blurNameHandlerClose}
+            companyName={companyName}
+          />
         </Suspense>
       )}
     </>

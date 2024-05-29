@@ -4,9 +4,7 @@ import { FC, useEffect } from "react";
 import { useStateContext } from "@/store/StateContext";
 
 declare global {
-  interface Window {
-  
-  }
+  interface Window {}
 }
 interface AdInfoProps {
   adInfo: {
@@ -22,39 +20,38 @@ const DfpAds: FC<AdInfoProps> = function (props) {
   const { isLogin, isPrime } = state.login;
   const { adInfo } = props;
   //const router = useRouter();
- 
-//    let objAd:{
-//     id:string;
-//     adslot:string;
-//     adsize:string;
-//    }
-   
-//    useEffect(
-//     () => {
-//         objAd ={
-//             id:adInfo.id,
-//             adslot:adInfo.slot,
-//             adsize:adInfo.size
-        
-//             };
-         
-//     if(window.arrAdsDivs){
-//         window.arrAdsDivs?.push(adInfo.id);   
-//         window.arrDfpAds?.push(objAd);   
-//     }else{
-//         window.arrAdsDivs = [adInfo.id]
-//         window.arrDfpAds = [objAd];
-//     }     
 
-//     },
-//     [adInfo]
-//   );
-   
+  //    let objAd:{
+  //     id:string;
+  //     adslot:string;
+  //     adsize:string;
+  //    }
+
+  //    useEffect(
+  //     () => {
+  //         objAd ={
+  //             id:adInfo.id,
+  //             adslot:adInfo.slot,
+  //             adsize:adInfo.size
+
+  //             };
+
+  //     if(window.arrAdsDivs){
+  //         window.arrAdsDivs?.push(adInfo.id);
+  //         window.arrDfpAds?.push(objAd);
+  //     }else{
+  //         window.arrAdsDivs = [adInfo.id]
+  //         window.arrDfpAds = [objAd];
+  //     }
+
+  //     },
+  //     [adInfo]
+  //   );
 
   return (
     !isPrime && (
       <>
-        <div className={styles.midAdContainer}>
+        <div className={`${styles.midAdContainer} hideAd`}>
           <div id={adInfo.id} className="dfpAd"></div>
         </div>
       </>

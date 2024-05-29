@@ -26,11 +26,11 @@ const indicator_opts = [
   { label: "EMA200", value: "EMA200", id: 6 },
 ];
 
-const BuySellTechnicalWidget = ({ data, unixDateTime, bodyParams }: any) => {
+const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
   const { state } = useStateContext();
-  const { isLogin, ssoid, isPrime } = state.login;
+  const { isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;
-  const [updateDateTime, setUpdateDateTime] = useState(unixDateTime);
+  const [otherDataSet, setOtherDataSet] = useState(otherData);
   const [processingLoader, setProcessingLoader] = useState(false);
   const [dropDownOptions, setDropDownOptions] = useState(indicator_opts);
   const [dropDownValue, setDropDownValue] = useState({
@@ -102,9 +102,9 @@ const BuySellTechnicalWidget = ({ data, unixDateTime, bodyParams }: any) => {
   };
 
   const updateTableData = async () => {
-    const { table, unixDateTime } = await getBuySellTechnicals(payload);
+    const { table, otherData } = await getBuySellTechnicals(payload);
     setTableData(table);
-    setUpdateDateTime(unixDateTime);
+    setOtherDataSet(otherData);
     setProcessingLoader(false);
   };
   const tableHeaderData =
@@ -152,10 +152,11 @@ const BuySellTechnicalWidget = ({ data, unixDateTime, bodyParams }: any) => {
         <div className={styles.helpTxt}>
           <span>
             {`* Note: ${payload.crossoverType == "Bullish" ? "Gain" : "Decline"}%
-            is the average price movement within 7 days of signal in last 5
-            years`}
+            is the average price movement within ${otherDataSet.gainLossDays} of signal in last ${otherDataSet.gainLossYears}`}
           </span>
-          <span>{dateFormat(updateDateTime, "* Formed On %MMM %d, %Y")}</span>
+          <span>
+            {dateFormat(otherDataSet.unixDateTime, "* Formed On %MMM %d, %Y")}
+          </span>
         </div>
       </div>
     </div>

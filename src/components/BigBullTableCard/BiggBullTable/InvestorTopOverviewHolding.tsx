@@ -4,13 +4,16 @@ import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
-import WatchlistAddition from "../../WatchlistAddition";
+// import WatchlistAddition from "../../WatchlistAddition";
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
-import { trackingEvent } from "@/utils/ga";
+import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
+const WatchlistAddition = dynamic(() => import("../../WatchlistAddition"), {
+  ssr: false,
+});
 
 const InvestorTopOverviewHolding = ({
   tableHead,
@@ -24,8 +27,25 @@ const InvestorTopOverviewHolding = ({
   const { isPrime } = state.login;
   //const isPrime = true;
   //console.log("isPrime", isPrime);
+  const [companyName, setCompanyName] = useState("");
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
-  const blurNameHandler = () => {
+  const blurNameHandler = (companyName: string) => {
+    const objTracking = {
+      category: "Subscription Flow ET",
+      action: "SYFT | Flow Started",
+      label: "",
+      obj: {
+        item_name: "bigbull_investors",
+        item_id: companyName,
+        item_brand: "market_tools",
+        item_category: "bigbull",
+        item_category2: "bigbull_investors",
+        item_category3: "",
+        item_category4: "",
+      },
+    };
+    redirectToPlanPage(objTracking, "view_item_list", false);
+    setCompanyName(companyName);
     setShowNonPrimeBlocker(true);
     document.body.style.overflow = "hidden";
   };
@@ -112,6 +132,7 @@ const InvestorTopOverviewHolding = ({
                                 }}
                               />
                               <a
+                                title={tdata?.companyData?.text}
                                 onClick={() =>
                                   gaTrackingCompanyNameClick(
                                     tdata?.companyData?.text,
@@ -132,7 +153,9 @@ const InvestorTopOverviewHolding = ({
                           ) : (
                             <span
                               className={styles.nameBlur}
-                              onClick={blurNameHandler}
+                              onClick={() =>
+                                blurNameHandler(tdata?.companyData?.text)
+                              }
                             ></span>
                           )}
                         </div>
@@ -166,7 +189,10 @@ const InvestorTopOverviewHolding = ({
       </div>
       {showNonPrimeBlocker && (
         <Suspense fallback={<div>Loading</div>}>
-          <NonPrimeBlockerModule oncloseModule={blurNameHandlerClose} />
+          <NonPrimeBlockerModule
+            oncloseModule={blurNameHandlerClose}
+            companyName={companyName}
+          />
         </Suspense>
       )}
     </>

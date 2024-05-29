@@ -85,9 +85,18 @@ const IndicesDetailsOverview = React.memo(
         <div className="dflex align-item-center">
           <h1 className={styles.headline}>{overviewData?.assetName}</h1>
           <Link
-            href="/markets/indices"
+            href={
+              exchangeId == "47" ? "/markets/indices/bse" : "/markets/indices"
+            }
             title="View all Indices"
             className={styles.viewAll}
+            onClick={() =>
+              trackingEvent("et_push_event", {
+                event_category: "mercury_engagement",
+                event_action: "page_cta_click",
+                event_label: "View all Indices",
+              })
+            }
           >
             View all Indices
           </Link>
@@ -112,8 +121,7 @@ const IndicesDetailsOverview = React.memo(
                   }`}
                 />
               )}
-              <span>{`${Math.abs(overviewData[changePeriod])?.toFixed(2)} (
-                ${overviewData[percentChange]?.toFixed(2)}%)`}</span>
+              <span>{`${overviewData[changePeriod]?.toFixed(2)} (${overviewData[percentChange]?.toFixed(2)}%)`}</span>
             </div>
           </div>
           {/* <div className="dflex  align-item-center">
@@ -180,6 +188,7 @@ const IndicesDetailsOverview = React.memo(
           >
             <div className="dflex align-item-center">
               <p className={styles.title}>Advance/Decline</p>
+              <span className={`eticon_caret_right ${styles.icon}`} />
             </div>
             <div className={styles.bottom}>
               <div className="dflex align-item-center space-between">

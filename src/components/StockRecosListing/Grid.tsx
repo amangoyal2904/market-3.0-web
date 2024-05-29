@@ -1,12 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./styles.module.scss";
-import WatchlistAddition from "../WatchlistAddition";
+// import WatchlistAddition from "../WatchlistAddition";
 import Blocker from "../Blocker";
 import { APP_ENV, dateFormat, formatNumber } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
 import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
+import Image from "next/image";
+import dynamic from "next/dynamic";
+const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
+  ssr: false,
+});
 
 const TableHtml = (props: any) => {
   const { recosDetailResult, activeApi, urlFilterHandle } = props;
@@ -16,10 +21,8 @@ const TableHtml = (props: any) => {
   const { watchlist } = state.watchlistStatus;
 
   const handleScroll = () => {
-    //console.log(12345, fixedTableRef.current, scrollableTableRef.current)
     let scrollTopValue =
       window.pageYOffset || document.documentElement.scrollTop;
-    console.log("scrollTopValue---", scrollTopValue);
     const element = document.querySelector(`.${styles["gridMainBox"]}`);
     let topValue = element instanceof HTMLElement ? element.offsetTop : 0;
     let finalScrollTopValue =
@@ -238,8 +241,9 @@ const TableHtml = (props: any) => {
           <td className={styles.newRecosfundName}>
             <div className={styles.organisationName}>
               <Link
-                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
+                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.seoName}-${obj.omId}/all${urlFilterHandle()}`}
                 className="linkHover"
+                title={obj.organisation}
               >
                 {obj.organisation}
               </Link>
@@ -255,10 +259,17 @@ const TableHtml = (props: any) => {
                 event_label: obj?.companyName,
               });
             }}
+            title={`${obj.companyName} View Report`}
             href={obj.pdfUrl}
             target="_blank"
           >
-            <img src="/icon_pdf.svg" width="20" height="20" />
+            <Image
+              src="/icon_pdf.svg"
+              width="20"
+              height="20"
+              alt={`${obj.companyName} View Report`}
+              title={`${obj.companyName} View Report`}
+            />
           </Link>
         </td>
       </>
@@ -351,7 +362,7 @@ const TableHtml = (props: any) => {
                       <div className={styles.tdColWrap}>
                         <Link
                           title={obj.organisation}
-                          href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.organisation?.toLowerCase().replace(/ /g, "-")}-${obj.omId}/all${urlFilterHandle()}`}
+                          href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.seoName}-${obj.omId}/all${urlFilterHandle()}`}
                           className="linkHover"
                           onClick={() => {
                             trackingEvent("et_push_event", {
@@ -370,21 +381,23 @@ const TableHtml = (props: any) => {
                   ) : (
                     <td>
                       <div className={styles.tdColWrap}>
-                        <WatchlistAddition
-                          companyName={obj.companyName}
-                          companyId={obj.companyId}
-                          companyType="equity"
-                          customStyle={{
-                            position: "relative",
-                            marginRight: "10px",
-                            width: "13px",
-                            height: "16px",
-                          }}
-                        />
+                        {activeApi != "recoOnWatchlist" && (
+                          <WatchlistAddition
+                            companyName={obj.companyName}
+                            companyId={obj.companyId}
+                            companyType="equity"
+                            customStyle={{
+                              position: "relative",
+                              marginRight: "10px",
+                              width: "13px",
+                              height: "16px",
+                            }}
+                          />
+                        )}
                         <Link
                           title={obj.companyName}
                           target="_blank"
-                          href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/${obj.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${obj.companyId}.cms`}
+                          href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/${obj?.companySeoName}/stocks/companyid-${obj.companyId}.cms`}
                           className="linkHover"
                           onClick={() => {
                             trackingEvent("et_push_event", {

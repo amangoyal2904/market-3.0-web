@@ -84,7 +84,7 @@ const CreateScreenerModule = ({
       trackingEvent("et_push_event", {
         event_category: "mercury_engagement",
         event_action: "screener_query_run",
-        event_label: window.location.href,
+        event_label: "",
       });
     }
   };
@@ -269,6 +269,7 @@ const CreateScreenerModule = ({
       FetchDataSearchView();
     }
   }, [debouncedSearchTerm]);
+  //console.log("vis", visibleTabs)
   return (
     <>
       <div
@@ -422,17 +423,23 @@ const CreateScreenerModule = ({
                   <div className={styles.resultSec}>
                     <ul className={styles.topLevelList} ref={tabsListRef}>
                       {visibleTabs.length > 0 ? (
-                        visibleTabs.map((item: any, index: number) => (
-                          <li
-                            key={item.categoryMappingID}
-                            className={index === activeTab ? styles.active : ""}
-                            onClick={() => handleTabClick(index)}
-                          >
-                            <div className={styles.catHead}>
-                              {item.displayName}
-                            </div>
-                          </li>
-                        ))
+                        visibleTabs.map((item: any, index: number) => {
+                          if (item.categoryMappingID !== 2392) {
+                            return (
+                              <li
+                                key={item.categoryMappingID}
+                                className={
+                                  index === activeTab ? styles.active : ""
+                                }
+                                onClick={() => handleTabClick(index)}
+                              >
+                                <div className={styles.catHead}>
+                                  {item.displayName}
+                                </div>
+                              </li>
+                            );
+                          }
+                        })
                       ) : (
                         <li>No data found</li>
                       )}
@@ -447,23 +454,27 @@ const CreateScreenerModule = ({
                             </div>
                             <ul className={styles.moreListItem}>
                               {hiddenTabs.map((item: any, index: number) => {
-                                return (
-                                  <li
-                                    key={item.categoryMappingID}
-                                    className={
-                                      visibleTabs.length + index === activeTab
-                                        ? styles.active
-                                        : ""
-                                    }
-                                    onClick={() =>
-                                      handleTabClick(visibleTabs.length + index)
-                                    }
-                                  >
-                                    <div className={styles.catHead}>
-                                      {item.displayName}
-                                    </div>
-                                  </li>
-                                );
+                                if (item.categoryMappingID !== 2392) {
+                                  return (
+                                    <li
+                                      key={item.categoryMappingID}
+                                      className={
+                                        visibleTabs.length + index === activeTab
+                                          ? styles.active
+                                          : ""
+                                      }
+                                      onClick={() =>
+                                        handleTabClick(
+                                          visibleTabs.length + index,
+                                        )
+                                      }
+                                    >
+                                      <div className={styles.catHead}>
+                                        {item.displayName}
+                                      </div>
+                                    </li>
+                                  );
+                                }
                               })}
                             </ul>
                           </div>
@@ -487,25 +498,28 @@ const CreateScreenerModule = ({
                         viewData[activeTab].screenerCategoryLevelTwo.length >
                           0 ? (
                           viewData[activeTab].screenerCategoryLevelTwo.map(
-                            (subItem: any) => (
-                              <li key={subItem.categoryFieldMasterID}>
-                                <div className={styles.subHeadName}>
-                                  {subItem.displayName}
-                                </div>
-                                {subItem.screenerCategoryFields &&
-                                  subItem.screenerCategoryFields.length > 0 && (
-                                    <ul
-                                      className={`customScroll ${styles.innerList}`}
-                                    >
-                                      {subItem.screenerCategoryFields.map(
-                                        (childSubItem: any) => (
-                                          <li
-                                            key={
-                                              childSubItem.categoryFieldMasterID
-                                            }
-                                          >
-                                            <div className={styles.forGroup}>
-                                              {/* <input
+                            (subItem: any) =>
+                              subItem.screenerCategoryFields &&
+                              subItem.screenerCategoryFields.length > 0 && (
+                                <li key={subItem.categoryFieldMasterID}>
+                                  <div className={styles.subHeadName}>
+                                    {subItem.displayName}
+                                  </div>
+                                  {subItem.screenerCategoryFields &&
+                                    subItem.screenerCategoryFields.length >
+                                      0 && (
+                                      <ul
+                                        className={`customScroll ${styles.innerList}`}
+                                      >
+                                        {subItem.screenerCategoryFields.map(
+                                          (childSubItem: any) => (
+                                            <li
+                                              key={
+                                                childSubItem.categoryFieldMasterID
+                                              }
+                                            >
+                                              <div className={styles.forGroup}>
+                                                {/* <input
                                                 type="checkbox"
                                                 id={
                                                   childSubItem.categoryMasterID
@@ -527,32 +541,34 @@ const CreateScreenerModule = ({
                                                 )}
                                               /> */}
 
-                                              <span
-                                                className={styles.valTxt}
-                                                id={
-                                                  childSubItem.categoryMasterID
-                                                }
-                                                onClick={() =>
-                                                  viewCheckHandler(childSubItem)
-                                                }
-                                              >
                                                 <span
-                                                  className={
-                                                    styles.checkBoxStyle
+                                                  className={styles.valTxt}
+                                                  id={
+                                                    childSubItem.categoryMasterID
                                                   }
-                                                ></span>
-                                                <span>
-                                                  {childSubItem.displayName}
+                                                  onClick={() =>
+                                                    viewCheckHandler(
+                                                      childSubItem,
+                                                    )
+                                                  }
+                                                >
+                                                  <span
+                                                    className={
+                                                      styles.checkBoxStyle
+                                                    }
+                                                  ></span>
+                                                  <span>
+                                                    {childSubItem.displayName}
+                                                  </span>
                                                 </span>
-                                              </span>
-                                            </div>
-                                          </li>
-                                        ),
-                                      )}
-                                    </ul>
-                                  )}
-                              </li>
-                            ),
+                                              </div>
+                                            </li>
+                                          ),
+                                        )}
+                                      </ul>
+                                    )}
+                                </li>
+                              ),
                           )
                         ) : (
                           <div>No inner data found</div>

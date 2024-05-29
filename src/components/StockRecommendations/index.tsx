@@ -3,20 +3,14 @@ import React, { useEffect, useState } from "react";
 import styles from "./StockRecommendations.module.scss";
 import StockReco from "../StockReco";
 import SlickSlider from "../SlickSlider";
-import service from "@/network/service";
 import ViewAllLink from "../ViewAllLink";
-import Link from "next/link";
 import HeadingHome from "../ViewAllLink/HeadingHome";
-import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV, getStockRecosDetail } from "@/utils";
+import { getStockRecosDetail } from "@/utils";
 import { useStateContext } from "../../store/StateContext";
 import Blocker from "../Blocker";
 import Loader from "../Loader";
 import { trackingEvent } from "@/utils/ga";
-
-interface Slide {
-  content: JSX.Element;
-}
+import GLOBAL_CONFIG from "../../network/global_config.json";
 interface Props {
   stockRecoResult: any;
   recosNav: any;
@@ -99,11 +93,16 @@ const StockRecommendations: React.FC<Props> = ({
     setLoaderState(false);
   }, [stockData]);
 
+  console.log("activeTab -- ", activeTab);
+
   return (
     <div className="sectionWrapper">
       <HeadingHome
         title="Stock Recommendations"
-        url={`/markets/stock-recos/overview`}
+        url={
+          (GLOBAL_CONFIG as any)["STOCK_RECOS"][activeTab.seoPath] ||
+          (GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"]
+        }
       />
       <div className={styles.tabMainBox}>
         <ul className={styles.tabs}>
@@ -140,9 +139,10 @@ const StockRecommendations: React.FC<Props> = ({
                 }))}
                 key={`slider${activeTab.apiType}`}
                 sliderId={`slider${activeTab.apiType}`}
-                slidesToShow={3}
+                slidesToShow={5}
                 slidesToScroll={1}
                 rows={2}
+                topSpaceClass={activeTab?.apiType}
                 responsive={responsive}
               />
             ) : activeTab.seoPath == "recos-on-your-watchlist" && !isLogin ? (
@@ -154,8 +154,11 @@ const StockRecommendations: React.FC<Props> = ({
         </div>
       </div>
       <ViewAllLink
-        text="See All Stock Recommendations"
-        link="/markets/stock-recos/overview"
+        text={`View All ${activeTab.label}`}
+        link={
+          (GLOBAL_CONFIG as any)["STOCK_RECOS"][activeTab.seoPath] ||
+          (GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"]
+        }
       />
     </div>
   );

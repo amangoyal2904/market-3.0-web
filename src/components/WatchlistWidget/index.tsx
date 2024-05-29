@@ -6,16 +6,16 @@ import { useStateContext } from "../../store/StateContext";
 import tableConfig from "../../utils/tableConfig.json";
 import Blocker from "../Blocker";
 import ViewAllLink from "../ViewAllLink";
-import styles from "./WatchlistWidget.module.scss";
-import Link from "next/link";
+import HeadingHome from "../ViewAllLink/HeadingHome";
+import refeshConfig from "@/utils/refreshConfig.json";
 
 const WatchListWidget = () => {
   const [showBlocker, setShowBlocker] = useState(true);
   const [apiSuccess, setAPISuccess] = useState(false);
   const [tableData, setTableData] = useState<any>([]);
   const { state } = useStateContext();
-  const [pageSummary, setPageSummary] = useState(false);
-  const { isLogin, userInfo, isPrime } = state.login;
+  const { isLogin, isPrime } = state.login;
+  const { currentMarketStatus } = state.marketStatus;
   const config = tableConfig["watchListWidget"];
 
   const fetchWatchListData = async (activeViewId: any = "") => {
@@ -32,7 +32,6 @@ const WatchListWidget = () => {
     const res = await fetchTableData(viewId, params);
     if (res.message == "success") {
       setTableData(res.dataList);
-      setPageSummary(res?.pageSummary);
       setAPISuccess(true);
     }
   };
@@ -41,21 +40,23 @@ const WatchListWidget = () => {
     if (isLogin === true) {
       fetchWatchListData();
       setShowBlocker(false);
+      const intervalId = setInterval(() => {
+        if (currentMarketStatus === "LIVE") {
+          fetchWatchListData();
+        }
+      }, refeshConfig.watchlist);
+      return () => clearInterval(intervalId);
     } else if (isLogin === false) {
       setShowBlocker(true);
     }
-  }, [isLogin]);
+  }, [isLogin, isPrime, currentMarketStatus]);
+
   const tableHeaderData =
     (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
 
   return (
     <div className="sectionWrapper">
-      <h2 className="heading">
-        <Link href="/watchlist" title="My Watchlist" target="_blank">
-          My Watchlist
-          <span className={`eticon_caret_right headingIcon`} />
-        </Link>
-      </h2>
+      <HeadingHome title="My Watchlist" url="/watchlist" />
       {showBlocker ? (
         <Blocker type="loginBlocker" />
       ) : (
@@ -65,12 +66,14 @@ const WatchListWidget = () => {
             tableHeaders={tableHeaderData}
             apiSuccess={apiSuccess}
             tableConfig={config}
-            // pageSummary={pageSummary}
             isprimeuser={isPrime}
             l1NavTracking="Markets"
             l2NavTracking="Watchlist Widget"
           />
-          <ViewAllLink text="View All Watchlisted Stock" link="/watchlist" />
+          <ViewAllLink
+            text="View All Stocks In Your Watchlist"
+            link="/watchlist"
+          />
         </>
       )}
     </div>

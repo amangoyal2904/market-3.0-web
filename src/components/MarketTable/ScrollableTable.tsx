@@ -1,13 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./MarketTable.module.scss";
 import { dateFormat } from "@/utils";
-import { goToPlansPage, redirectToPlanPage, trackingEvent } from "@/utils/ga";
+import { redirectToPlanPage } from "@/utils/ga";
 import Image from "next/image";
 
 const ScrollableTable = React.memo((props: any) => {
   const {
     highlightLtp,
-    tableHeadersTooltipText,
     tableHeaderData,
     headerSticky,
     topScrollHeight,
@@ -133,9 +132,11 @@ const ScrollableTable = React.memo((props: any) => {
                 index >= fixedCol && (
                   <th
                     title={
-                      !!tableHeadersTooltipText[thead.keyId]
-                        ? tableHeadersTooltipText[thead.keyId]
-                        : thead.keyText
+                      !!thead.toolTipHover
+                        ? thead.toolTipHover
+                        : !!thead.displayNameHover
+                          ? thead.displayNameHover
+                          : thead.keyText
                     }
                     className={`${
                       isSorting &&
@@ -310,6 +311,8 @@ const ScrollableTable = React.memo((props: any) => {
                                     width={115}
                                     height={35}
                                     loading="lazy"
+                                    alt={`${item.assetName} Intraday Chart`}
+                                    title={`${item.assetName} Intraday Chart`}
                                   />
                                 </div>
                               )
@@ -337,13 +340,12 @@ const ScrollableTable = React.memo((props: any) => {
                                     : ""
                                 } ${styles.ltp}`}
                               >
-                                {!!tdData.value
-                                  ? tdData.value.replaceAll(" ", "")
-                                  : "-"}
+                                {!!tdData.value ? tdData.value : "-"}
                               </span>
                             ) : tdData.valueType == "number" ? (
-                              !!tdData.value ? (
-                                tdData.value.replaceAll(" ", "")
+                              !!tdData.value &&
+                              parseFloat(tdData.filterFormatValue) !== 0 ? (
+                                tdData.value
                               ) : (
                                 "-"
                               )
@@ -352,17 +354,19 @@ const ScrollableTable = React.memo((props: any) => {
                             ) : (
                               "-"
                             )}
-                            {tdData.trend && (
-                              <span
-                                className={`${styles.arrowIcons} ${
-                                  tdData.trend == "up"
-                                    ? "eticon_up_arrow"
-                                    : tdData.trend == "down"
-                                      ? "eticon_down_arrow"
-                                      : ""
-                                }`}
-                              />
-                            )}
+                            {tdData.trend &&
+                              tdData.valueType == "number" &&
+                              parseFloat(tdData.filterFormatValue) !== 0 && (
+                                <span
+                                  className={`${styles.arrowIcons} ${
+                                    tdData.trend == "up"
+                                      ? "eticon_up_arrow"
+                                      : tdData.trend == "down"
+                                        ? "eticon_down_arrow"
+                                        : ""
+                                  }`}
+                                />
+                              )}
                           </>
                         )}
                       </td>

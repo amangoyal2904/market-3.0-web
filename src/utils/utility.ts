@@ -790,6 +790,15 @@ export const getPeerIndices = async (indexid: number, exchangeid?: number) => {
   return originalJson;
 };
 
+export const getMarketsLiveBlog = async () => {
+  const response = await Service.get({
+    url: (APIS_CONFIG as any)?.MARKETS_LIVEBLOG[APP_ENV],
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
 export const getIndicesNews = async (indexid: number, exchangeid: number) => {
   const response = await Service.get({
     url: `${(APIS_CONFIG as any)?.INDICES_NEWS[APP_ENV]}?feedtype=etjson&indexid=${indexid}&exchange=${exchangeid}`,
@@ -868,9 +877,11 @@ export const getBuySellTechnicals = async (payload: any) => {
     params: {},
   });
   const originalJson = await response?.json();
-  let unixDateTime;
-  if (originalJson?.pagesummary?.priceDate) {
-    unixDateTime = originalJson?.pagesummary?.priceDate;
+  let otherData: any = {};
+  if (originalJson?.pagesummary) {
+    otherData.unixDateTime = originalJson?.pagesummary?.priceDate;
+    otherData.gainLossDays = originalJson?.pagesummary?.gainLossDays;
+    otherData.gainLossYears = originalJson?.pagesummary?.gainLossYears;
   }
 
   let convertedData: {
@@ -1003,7 +1014,7 @@ export const getBuySellTechnicals = async (payload: any) => {
     };
     convertedData.push(newDataObj);
   });
-  return { table: convertedData, unixDateTime };
+  return { table: convertedData, otherData };
 };
 
 const getExpertIdBigbull = (arr: any) => {

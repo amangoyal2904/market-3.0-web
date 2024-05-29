@@ -35,7 +35,6 @@ const Subhead = (props: any) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  console.log("activeApi ---- 34", activeApi);
   // ====  Here only Filter tabs code start here
   const showFilterMenu = (value: boolean) => {
     setShowFilter(value);
@@ -99,6 +98,7 @@ const Subhead = (props: any) => {
                   href={item.redirectLink}
                   target="_blank"
                   onClick={() => handleTabTracking(item.label)}
+                  title={item.label}
                 >
                   {item.label}
                 </Link>
@@ -107,6 +107,7 @@ const Subhead = (props: any) => {
                   data-tt={item.seoPath}
                   href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"][item.seoPath]}${urlFilterHandle()}`}
                   onClick={() => handleTabTracking(item.label)}
+                  title={item.label}
                 >
                   {item.label}
                 </Link>

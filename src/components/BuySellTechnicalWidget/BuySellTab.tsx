@@ -88,7 +88,7 @@ const BuySellTab = ({
     const newVisibleTabs: any[] = [];
     const newHiddenTabs: any[] = [];
     for (const tab of filterData) {
-      const tabWidth = tab.label.length * 3.5; // Adjust the width calculation as per your requirement
+      const tabWidth = tab.label.length * 3; // Adjust the width calculation as per your requirement
       if (currentWidth + tabWidth < tabsListWidth) {
         newVisibleTabs.push(tab);
         currentWidth += tabWidth;
@@ -123,7 +123,7 @@ const BuySellTab = ({
 
   return (
     <div className={styles.tabsWrap}>
-      <ul className={`${styles.tabsList}`} ref={tabsListRef}>
+      <ul className={`${styles.tabsList} ${styles.lg}`} ref={tabsListRef}>
         {!visibleTabs.length && !hiddenTabs.length && <ShimmerMenu />}
         {visibleTabs.map((item: any, index: number) => (
           <li
@@ -180,8 +180,10 @@ const BuySellTab = ({
       <div className={styles.rightSide}>
         <div className="prel">
           <span
-            className={`${styles.roundBtn} ${styles.fitlerDay}`}
-            onClick={() => handleDropDown()}
+            className={`${styles.roundBtn} ${styles.fitlerDay} ${dropDownOptions.length > 1 ? "" : styles.noPointer}`}
+            onClick={
+              dropDownOptions.length > 1 ? () => handleDropDown() : undefined
+            }
           >
             {dropDownValue.label}
             {dropDownOptions.length > 1 && (

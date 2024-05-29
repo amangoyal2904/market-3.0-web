@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import WatchlistAddition from "../../WatchlistAddition";
+// import WatchlistAddition from "../../WatchlistAddition";
 import { useStateContext } from "@/store/StateContext";
 import { getStockUrl } from "@/utils/utility";
 import { useState, Suspense } from "react";
@@ -7,14 +7,34 @@ import dynamic from "next/dynamic";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
-import { trackingEvent } from "@/utils/ga";
+import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
+const WatchlistAddition = dynamic(() => import("../../WatchlistAddition"), {
+  ssr: false,
+});
 
 const EntryCard = ({ data }: any) => {
   const { state } = useStateContext();
   const { isPrime } = state.login;
   //const isPrime = true;
+  const [companyName, setCompanyName] = useState("");
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
   const blurNameHandler = () => {
+    const objTracking = {
+      category: "Subscription Flow ET",
+      action: "SYFT | Flow Started",
+      label: "",
+      obj: {
+        item_name: "bigbull_investors",
+        item_id: data?.investorIntro?.name,
+        item_brand: "market_tools",
+        item_category: "bigbull",
+        item_category2: "bigbull_investors",
+        item_category3: "",
+        item_category4: "",
+      },
+    };
+    setCompanyName(data?.investorIntro?.name);
+    redirectToPlanPage(objTracking, "view_item_list", false);
     setShowNonPrimeBlocker(true);
     document.body.style.overflow = "hidden";
   };
@@ -137,7 +157,10 @@ const EntryCard = ({ data }: any) => {
       </div>
       {showNonPrimeBlocker && (
         <Suspense fallback={<div>Loading</div>}>
-          <NonPrimeBlockerModule oncloseModule={blurNameHandlerClose} />
+          <NonPrimeBlockerModule
+            oncloseModule={blurNameHandlerClose}
+            companyName={companyName}
+          />
         </Suspense>
       )}
     </>

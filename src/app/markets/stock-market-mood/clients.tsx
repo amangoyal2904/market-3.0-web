@@ -38,6 +38,34 @@ const StockFilterNifty = dynamic(
   { ssr: false },
 );
 
+const overviewList = (
+  <ul className={styles.paywalledList}>
+    <li>
+      <strong>Track Performance:</strong> Monitor short & long term market
+      performance using SMA & EMA.
+    </li>
+    <li>
+      <strong>Identify Phases:</strong> Effortlessly determine if the market is
+      bullish or bearish.
+    </li>
+  </ul>
+);
+const periodicList = (
+  <ul className={styles.paywalledList}>
+    <li className={styles.high}>
+      <strong>High Zone:</strong> Stocks trading within 20% of their respective
+      High Range
+    </li>
+    <li className={styles.mid}>
+      <strong>Mid Zone:</strong> Stocks in Neutral Range
+    </li>
+    <li>
+      <strong>Low Zone:</strong> Stocks Trading within 20% of their respective
+      Low Range
+    </li>
+  </ul>
+);
+
 const MarketMoodsClient = ({
   selectedFilter = {},
   overview = {},
@@ -98,7 +126,8 @@ const MarketMoodsClient = ({
   const scrollToActiveContent = useCallback(() => {
     const element = document.getElementById(activeItem!);
     if (element) {
-      const offset = element.offsetTop + 120;
+      const pos = !!isPrime ? 100 : 220;
+      const offset = element.offsetTop + pos;
       window.scrollTo({ top: offset, behavior: "smooth" });
     }
   }, [activeItem]);
@@ -202,7 +231,8 @@ const MarketMoodsClient = ({
           const element = document.getElementById(type);
 
           if (element) {
-            const offset = element.offsetTop + 120;
+            const pos = !!isPrime ? 100 : 220;
+            const offset = element.offsetTop + pos;
             window.scrollTo({ top: offset, behavior: "smooth" });
           }
         }, 100);
@@ -251,32 +281,6 @@ const MarketMoodsClient = ({
     "@type": "FAQPage",
     mainEntity: faqMainEntity,
   };
-  const fetchDesc = (key: string) => {
-    switch (key) {
-      case "overview":
-        return (
-          <p className={styles.mood_desc}>
-            Know the market sentiments. Identify whether the market is
-            predominantly bullish or bearish.
-          </p>
-        );
-      case "periodic":
-        return (
-          <p className={styles.mood_desc}>
-            Compare the periodic highs & lows of different indices to identify
-            trends & make informed decisions.
-          </p>
-        );
-      case "advanceDecline":
-        return (
-          <p className={styles.mood_desc}>
-            Track the no. of stocks closing above their previous day&apos;s
-            close & no. of stocks closing below their previous low.
-          </p>
-        );
-    }
-  };
-
   const handleFaqClick = (faq: any, index: number) => {
     // If the clicked item is already active, remove it from activeFaqs
     if (activeFaqs.includes(index)) {
@@ -383,7 +387,6 @@ const MarketMoodsClient = ({
                     <div className={styles.head}>{item.heading}</div>
                   </div>
                 )}
-                {fetchDesc(item.key)}
                 <Image
                   src={item.img}
                   width={792}
@@ -393,7 +396,12 @@ const MarketMoodsClient = ({
                   loading="lazy"
                 />
                 <p className={styles.title}>{item.title}</p>
-                <p className={styles.desc}>{item.desc}</p>
+                {item.key == "overview"
+                  ? overviewList
+                  : item.key == "periodic"
+                    ? periodicList
+                    : ""}
+                {!!item.desc && <p className={styles.desc}>{item.desc}</p>}
                 <div className={styles.plan}>
                   <span
                     className={styles.subscribeBtn}
@@ -401,7 +409,7 @@ const MarketMoodsClient = ({
                       redirectToPlanPage(objTracking);
                     }}
                   >
-                    Subscribe Now
+                    {item.cta}
                   </span>
                   {!isLogin && (
                     <p className={styles.defaultLink}>
@@ -432,10 +440,10 @@ const MarketMoodsClient = ({
                 countPercentage={countPercentage}
                 handleCountPercentage={handleCountPercentage}
               />
-              <p className={styles.mood_desc}>
+              {/* <p className={styles.mood_desc}>
                 Know the market sentiments. Identify whether the market is
                 predominantly bullish or bearish.
-              </p>
+              </p> */}
               {overviewData?.dataList?.length > 0 ? (
                 <>
                   <div className={styles.tableWrapper}>

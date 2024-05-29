@@ -16,7 +16,7 @@ const ScreenerNameViewPopup = ({
       trackingEvent("et_push_event", {
         event_category: "mercury_engagement",
         event_action: "screener_save_click",
-        event_label: window.location.href,
+        event_label: "",
       });
     } else {
       alert("Plase fill your screener name");
@@ -29,19 +29,23 @@ const ScreenerNameViewPopup = ({
       alert("Plase fill your screener name");
     }
   };
+  const modalCloseHandler = () => {
+    document.body.style.overflow = "";
+    closePopUp(false);
+  };
   return (
     <>
       <div className={`customeModule ${styles.wraperSmall}`}>
         <div
           className={`${styles.overlaySmall}`}
-          onClick={() => closePopUp(false)}
+          onClick={modalCloseHandler}
         ></div>
         <div className={`moduleWrap ${styles.perWrap}`}>
           <div className={styles.header}>
-            Name your screener view
+            Name Your Screener
             <span
               className={`${styles.closeIcon}`}
-              onClick={() => closePopUp(false)}
+              onClick={modalCloseHandler}
             ></span>
           </div>
           <div className={styles.body}>
@@ -58,7 +62,7 @@ const ScreenerNameViewPopup = ({
           <div className={styles.footer}>
             <span
               className={`${styles.updateBtn} ${styles.cancelBtn}`}
-              onClick={() => closePopUp(false)}
+              onClick={modalCloseHandler}
             >
               Cancel
             </span>
@@ -66,8 +70,8 @@ const ScreenerNameViewPopup = ({
               {screenerEditMode.userMode === "USER" &&
               (screenerEditMode.screenerStage === "popup" ||
                 screenerEditMode.screenerStage === "")
-                ? "Update view"
-                : "Create view"}
+                ? "Update Screener"
+                : "Create Screener"}
             </span>
           </div>
         </div>

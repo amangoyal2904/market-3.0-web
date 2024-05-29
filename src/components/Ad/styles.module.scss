@@ -3,9 +3,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
   background: #f4f4f4;
-  min-height: 150px;
+  padding-top: 15px;
+  min-height: 115px;
   position: relative;
 }
 .midAdContainer::before {
@@ -14,5 +14,5 @@
   font-weight: 300;
   display: block;
   position: absolute;
-  top: 8px;
+  top: 5px;
 }

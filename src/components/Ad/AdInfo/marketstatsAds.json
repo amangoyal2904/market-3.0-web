@@ -1,17 +1,14 @@
 {
-    "dfp":{  
-            "topad": {
-                "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Stocks/ET_ROS_ATF_MKT_STK_728",
-                "size": "[[728,90]]",
-                "id":"div-gpt-leaderboard"
-            }, 
-            "btfAd": {
-                "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Stocks/ET_ROS_BTF_MKT_STK_728",
-                "size": "[[728,90]]",
-                "id":"div-gpt-btf"
-            }
-         
-       }
-    
-         
-   }
+  "dfp": {
+    "topad": {
+      "slot": "/7176/Economictimes/ET_Markets/ET_Markets_MKTData/ET_Markets_ROS_MKTStats_ATF_728",
+      "size": "[[728,90]]",
+      "id": "div-gpt-leaderboard"
+    },
+    "btfAd": {
+      "slot": "/7176/Economictimes/ET_Markets/ET_Markets_MKTData/ET_Markets_ROS_MKTStats_BTF_728",
+      "size": "[[728,90]]",
+      "id": "div-gpt-btf"
+    }
+  }
+}

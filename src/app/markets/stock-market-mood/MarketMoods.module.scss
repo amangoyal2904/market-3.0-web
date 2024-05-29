@@ -5,7 +5,7 @@
   line-height: 16px;
   font-weight: 400;
   color: #4d4d4d;
-  margin: 5px auto 30px;
+  margin: 5px auto 10px;
 }
 .logo {
   position: relative;
@@ -245,12 +245,45 @@
         line-height: 30px;
         color: $black;
         margin: 5px auto 15px;
+        max-width: 1080px;
       }
       .desc {
         font-size: 18px;
         font-weight: 400;
         line-height: 22px;
         color: $black;
+      }
+      .paywalledList {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-bottom: 30px;
+        li {
+          position: relative;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 14px;
+          strong {
+            font-weight: 600;
+          }
+          &:after {
+            position: absolute;
+            content: "";
+            width: 7px;
+            height: 7px;
+            top: 3px;
+            left: -10px;
+            border-radius: 50%;
+            background: #ec193a;
+          }
+          &.high:after {
+            background: #1ead1f;
+          }
+          &.mid:after {
+            background: #ffd698;
+          }
+        }
       }
       .plan {
         margin: 5px auto 30px;

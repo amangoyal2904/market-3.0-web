@@ -2,16 +2,18 @@ import React, { useEffect, useRef } from "react";
 import styles from "./MarketTable.module.scss";
 import { getStockUrl } from "@/utils/utility";
 import { dateFormat } from "@/utils";
-import WatchlistAddition from "../WatchlistAddition";
-import { goToPlansPage, redirectToPlanPage, trackingEvent } from "@/utils/ga";
+// import WatchlistAddition from "../WatchlistAddition";
+import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
+  ssr: false,
+});
 
 const FixedTable = React.memo((props: any) => {
   const {
     highlightLtp,
-    tableHeadersTooltipText,
     tableHeaderData,
-    scrollLeftPos,
     headerSticky,
     topScrollHeight,
     handleSort,
@@ -76,9 +78,11 @@ const FixedTable = React.memo((props: any) => {
               index < fixedCol && (
                 <th
                   title={
-                    !!tableHeadersTooltipText[thead.keyId]
-                      ? tableHeadersTooltipText[thead.keyId]
-                      : thead.keyText
+                    !!thead.toolTipHover
+                      ? thead.toolTipHover
+                      : !!thead.displayNameHover
+                        ? thead.displayNameHover
+                        : thead.keyText
                   }
                   onClick={() => {
                     isSorting &&
@@ -330,6 +334,8 @@ const FixedTable = React.memo((props: any) => {
                                     width={115}
                                     height={35}
                                     loading="lazy"
+                                    alt={`${item.assetName} Intraday Chart`}
+                                    title={`${item.assetName} Intraday Chart`}
                                   />
                                 </div>
                               )
@@ -357,13 +363,12 @@ const FixedTable = React.memo((props: any) => {
                                     : ""
                                 } ${styles.ltp}`}
                               >
-                                {!!tdData.value
-                                  ? tdData.value.replaceAll(" ", "")
-                                  : "-"}
+                                {!!tdData.value ? tdData.value : "-"}
                               </span>
                             ) : tdData.valueType == "number" ? (
-                              !!tdData.value ? (
-                                tdData.value.replaceAll(" ", "")
+                              !!tdData.value &&
+                              parseFloat(tdData.filterFormatValue) !== 0 ? (
+                                tdData.value
                               ) : (
                                 "-"
                               )
@@ -372,7 +377,7 @@ const FixedTable = React.memo((props: any) => {
                             ) : (
                               "-"
                             )}
-                            {tdData.trend && (
+                            {tdData.trend && tdData.valueType == "number" && (
                               <span
                                 className={`${styles.arrowIcons} ${
                                   tdData.trend == "up"

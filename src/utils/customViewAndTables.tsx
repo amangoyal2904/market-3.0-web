@@ -1,6 +1,7 @@
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import Service from "@/network/service";
+import { getAllShortUrls } from "./marketstats";
 
 const IntradayTabOptions = [
   {
@@ -247,22 +248,28 @@ export const getScreenerTabViewData = async ({ type = "", ssoid = "" }) => {
   };
 };
 
-export const getBreadcrumbObj = (
+export const getBreadcrumbObj = async (
   l3Nav: any,
   l3NavMenuItem: string,
   l3NavSubItem: any,
   isTechnical: boolean,
   title: string,
 ) => {
+  const shortUrlMapping = await getAllShortUrls();
+
   const matchingSubNavs: { label: any; redirectUrl: any }[] = [];
   l3Nav.nav.forEach((navItem: any) => {
     if (navItem.type === l3NavMenuItem) {
       navItem.sub_nav.forEach((subNavItem: any) => {
+        const isExist: any = shortUrlMapping?.find(
+          (item: any) => item.longURL == subNavItem.link,
+        );
+        const updatedUrl = isExist ? isExist.shortUrl : subNavItem.link;
         if (!isTechnical) {
           if (subNavItem.type === l3NavSubItem) {
             matchingSubNavs.push({
               label: subNavItem.label,
-              redirectUrl: subNavItem.link,
+              redirectUrl: updatedUrl,
             });
           }
         } else {
@@ -273,7 +280,7 @@ export const getBreadcrumbObj = (
           ) {
             matchingSubNavs.push({
               label: subNavItem.label,
-              redirectUrl: subNavItem.link,
+              redirectUrl: updatedUrl,
             });
           }
         }

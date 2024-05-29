@@ -5,7 +5,12 @@ import SlickSlider from "../SlickSlider";
 import StockCards from "./StockCards";
 import { useEffect, useState } from "react";
 import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV, dateFormat, dateStringToMilliseconds } from "@/utils/index";
+import {
+  APP_ENV,
+  dateFormat,
+  dateStringToMilliseconds,
+  replaceWidthHeigh,
+} from "@/utils/index";
 import Service from "@/network/service";
 import { useStateContext } from "@/store/StateContext";
 import refreshConfig from "@/utils/refreshConfig.json";
@@ -160,13 +165,11 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
               <span className={`eticon_caret_right ${styles.headingIcon}`} />
             </a>
           </h2>
-          <div className={styles.liveStatus}>
-            <MarketStatus
-              currentMarketStatus={currentMarketStatus}
-              dateTime={dateStringToMilliseconds(selectedIndex?.dateTime)}
-              withSeparator={true}
-            />
-          </div>
+          <MarketStatus
+            currentMarketStatus={currentMarketStatus}
+            dateTime={dateStringToMilliseconds(selectedIndex?.dateTime)}
+            withSeparator={true}
+          />
         </div>
         <div className={styles.dataWrapper}>
           {indicesData?.length && screenWidth && screenWidth <= 1820 ? (
@@ -251,6 +254,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                 border: "none",
                 outline: "none",
               }}
+              title={`Technical Charts`}
             />
           </div>
           {selectedIndex?.indexName ? (
@@ -384,9 +388,9 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                   <img
                     width="55"
                     height="41"
-                    src={list?.img}
-                    loading="lazy"
-                    decoding="async"
+                    src={replaceWidthHeigh(list?.img, "55", "41")}
+                    alt={`Top New Image`}
+                    title={list?.title}
                   />
                   {list?.type == "videoshow" ? (
                     <span className={styles.videoIcon} />

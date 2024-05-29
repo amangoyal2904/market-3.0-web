@@ -1,12 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import StockName from "./StockName";
 import RecoBar from "./RecoBar";
 import RecoBarLabel from "./RecoBarLabel";
 import styles from "./StockReport.module.scss";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
-import { PdfReport } from "../StockReco/PdfReport";
 interface DataListItem {
   keyId: string;
   keyText: string;
@@ -151,14 +150,15 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
                 })}
               </div>
             </div>
-            {data.find((item) => item?.keyId === "sr_targetVsCurrent") ? (
-              // <PdfReport pdfUrl={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${seoName}/stockreports/reportid-${companyID}.cms`} companyName={name} classNameReportBox="styles.reportCta"/>
+            {data.find(
+              (item) => item?.keyId === "sr_targetVsCurrent" && !!primeUser,
+            ) ? (
               <div className={styles.reportCta}>
                 <a
+                  className={styles.anchor}
                   href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${seoName}/stockreports/reportid-${companyID}.cms`}
                   target="_blank"
                   title="View Report"
-                  data-ga-onclick={`SR+ ${tabName}#${catName} - ${name} View Report#href`}
                 >
                   <span className={`eticon_pdf ${styles.pdfIcon}`}>
                     <span className="path1"></span>
@@ -170,14 +170,16 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
                 </a>
               </div>
             ) : (
-              <div className="report_cta">
-                <span className="eticon_pdf">
-                  <span className="path1"></span>
-                  <span className="path2"></span>
-                  <span className="path3"></span>
-                  <span className="path4"></span>
-                </span>
-                View Report
+              <div className={styles.reportCta}>
+                <div className={styles.anchor}>
+                  <span className={`eticon_pdf ${styles.pdfIcon}`}>
+                    <span className="path1"></span>
+                    <span className="path2"></span>
+                    <span className="path3"></span>
+                    <span className="path4"></span>
+                  </span>
+                  View Report
+                </div>
               </div>
             )}
           </div>

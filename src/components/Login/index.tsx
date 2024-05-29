@@ -11,9 +11,11 @@ import {
   setCookieToSpecificTime,
   delete_cookie,
 } from "../../utils";
-import { fetchAllWatchListData } from "../../utils/utility";
+import { fetchAllWatchListData, saveLogs } from "../../utils/utility";
 import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
+import { trackingEvent } from "@/utils/ga";
+import Image from "next/image";
 
 const Login = () => {
   const { state, dispatch } = useStateContext();
@@ -43,8 +45,6 @@ const Login = () => {
         );
       });
     }
-
-    console.log("watchlistArr----", watchlistArr);
     if (watchlistArr.length > 0) {
       dispatch({
         type: "UPDATE_MSID",
@@ -59,8 +59,6 @@ const Login = () => {
     try {
       fetchWatchListStocks();
       const primeRes = await loadPrimeApi();
-      //console.log(permissionRes.)
-
       if (primeRes.status === "SUCCESS") {
         const isPrime =
           primeRes.data &&
@@ -73,10 +71,18 @@ const Login = () => {
         window.objUser.primeInfo = primeRes.data;
         window.objUser.isPrime = isPrime;
         setCookieToSpecificTime("isprimeuser", isPrime, 30, 0, 0, "");
-
         if (primeRes && primeRes.token) {
           setCookieToSpecificTime("OTR", primeRes.token, 30, 0, 0, "");
         }
+        trackingEvent("user_profile_create", { url: window.location.href });
+
+        saveLogs({
+          type: "Mercury",
+          res: "SUCCESS",
+          msg: "verifyLoginSuccessCallback",
+          resData: primeRes,
+          objUser: window.objUser,
+        });
       } else {
         window.objUser.permissions = [];
         window.objUser.accessibleFeatures = [];
@@ -86,6 +92,13 @@ const Login = () => {
         if (primeRes && primeRes.token) {
           delete_cookie("OTR");
         }
+        saveLogs({
+          type: "Mercury",
+          res: "Fail",
+          msg: "verifyLoginSuccessCallback",
+          resData: primeRes,
+          objUser: window.objUser,
+        });
       }
 
       dispatch({
@@ -193,11 +206,13 @@ const Login = () => {
               {isPrime ? (
                 <>
                   <span className={`default-btn ${styles.defaultBtn}`}>
-                    <img
+                    <Image
                       src="/prime_icon.svg"
                       height="15"
                       width="15"
                       className={styles.primeUsericon}
+                      alt="Prime User"
+                      title="Prime User"
                     />
                     <div className={styles.primeInfo}>
                       <p className={styles.primeMember}>ETPrime Member</p>
@@ -218,6 +233,9 @@ const Login = () => {
                       height="34"
                       className={styles.thumbImg}
                       src={userInfo?.thumbImageUrl}
+                      alt={userInfo?.firstName}
+                      title={userInfo?.firstName}
+                      loading="lazy"
                     />
                   ) : (
                     <span className={styles.userFChar}>
@@ -229,59 +247,6 @@ const Login = () => {
                   ></span>
                 </>
               )}
-
-              {/* {userInfo?.thumbImageUrl ? (
-                <img
-                  width="34"
-                  height="34"
-                  className={styles.thumbImg}
-                  src={userInfo?.thumbImageUrl}
-                />
-              ) : (
-                <span className={styles.userFChar}>
-                  {userInfo?.firstName.charAt(0)}
-                </span>
-              )} */}
-              {/* <span className={`default-btn ${styles.defaultBtn}`}>
-                  <img
-                    src="/prime_icon.svg"
-                    height="16"
-                    width="16"
-                    className={styles.primeUsericon}
-                  />
-                  <div className={styles.primeInfo}>
-                    <p className={styles.primeMember}>ETPrime Member</p>
-                    <p className={styles.userName}>{userInfo?.firstName} {userInfo?.lastName}</p>
-                  </div>
-                  <span className={`eticon_caret_down ${styles.signinDDArrow}`}></span>
-                </span> */}
-              {/* {isPrime && (
-                <img
-                  src="/prime_icon.svg"
-                  height="12"
-                  width="12"
-                  className={styles.prime_icon}
-                />
-              )} */}
-              {/* {isPrime && (
-                <span className={`default-btn ${styles.defaultBtn}`}>
-                  <img
-                    src="/prime_icon.svg"
-                    height="20"
-                    width="20"
-                    className={styles.prime_icon}
-                  />
-                  <div className={styles.primeInfo}>
-                    <p className={styles.primeMember}>ETPrime Member</p>
-                    <p className={styles.userName}>{userInfo?.firstName} {userInfo?.lastName}</p>
-                  </div>
-                  <span className={`eticon_caret_down ${styles.signinDDArrow}`}></span>
-                </span>
-              )} */}
-
-              {/* <span
-                className={`eticon_caret_down ${styles.signinDDArrow}`}
-              ></span> */}
             </span>
             <div className={`${styles.menuListWrap}`}>
               <div className={styles.userNameWrap}>
@@ -293,6 +258,9 @@ const Login = () => {
                       <img
                         width="72"
                         src="https://img.etimg.com/photo/105086027.cms"
+                        alt={userInfo?.loginId}
+                        title={userInfo?.loginId}
+                        loading="lazy"
                       />
                     </span>
                   )}
@@ -300,8 +268,8 @@ const Login = () => {
                 <div className={styles.userId}>{userInfo?.loginId}</div>
               </div>
               <ul className={styles.ddListWrap}>
-                {/* <li className={styles.ddList}>
-                  <span className=""></span>
+                <li className={styles.ddList}>
+                  <span className="eticon_user_profile"></span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}userprofile.cms`}
                     rel="noreferrer"
@@ -309,13 +277,14 @@ const Login = () => {
                   >
                     Edit Profile
                   </a>
-                </li> */}
+                </li>
                 <li className={styles.ddList}>
                   <span className="eticon_subscription"></span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV]["MY_SUBS"]}`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="My Subscriptions"
                   >
                     My Subscriptions
                   </a>
@@ -326,15 +295,17 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}prime_preferences.cms`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="My Preferences"
                   >
                     My Preferences
                   </a>
                 </li>
                 <li className={styles.ddList}>
-                  <img
+                  <Image
                     className={styles.rght12}
                     src="/icon_svgs/Redeem_Benefits_01.svg"
                     alt="Redeem_Benefits_Icons"
+                    title="Redeem_Benefits_Icons"
                     width="16"
                     height="23"
                   />
@@ -342,6 +313,7 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}et_benefits.cms`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="Redeem Benefits"
                   >
                     Redeem Benefits
                   </a>
@@ -352,6 +324,7 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}subscription`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="Manage Newsletters"
                   >
                     Manage Newsletters
                   </a>
@@ -364,7 +337,11 @@ const Login = () => {
                     <span className="path4"></span>
                     <span className="path5"></span>
                   </span>
-                  <a href="/watchlist" rel="nofollow noreferrer">
+                  <a
+                    href="/watchlist"
+                    rel="nofollow noreferrer"
+                    title="My Watchlist"
+                  >
                     My Watchlist
                   </a>
                 </li>
@@ -373,6 +350,7 @@ const Login = () => {
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}bookmarkslist`}
                     rel="nofollow noreferrer"
+                    title="Saved Stories"
                   >
                     Saved Stories
                   </a>
@@ -383,10 +361,11 @@ const Login = () => {
                 </li>
                 <li className={styles.ddList}>
                   {/* <span className="eticon_recos"></span> */}
-                  <img
+                  <Image
                     className={styles.rght12}
                     src="/icon_svgs/live-chat01.svg"
-                    alt="Redeem_Benefits_Icons"
+                    alt="Redeem Benefits"
+                    title="Redeem Benefits"
                     width="18"
                     height="16"
                   />
@@ -394,6 +373,7 @@ const Login = () => {
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}contactus.cms`}
                     rel="nofollow noreferrer"
                     target="_blank"
+                    title="Contact Us"
                   >
                     Contact Us
                   </a>
@@ -406,11 +386,7 @@ const Login = () => {
             </div>
           </div>
         ) : (
-          <div
-            className={styles.defaultLink}
-            data-ga-onclick="ET Login#Signin - Sign In - Click#ATF - url"
-            onClick={handleLoginToggle}
-          >
+          <div className={styles.defaultLink} onClick={handleLoginToggle}>
             Sign In
           </div>
         )

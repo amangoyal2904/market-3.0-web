@@ -2,6 +2,8 @@ import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
 import { createPeuuid } from "./utility";
+import service from "../network/service";
+import { getPageName } from "./ga";
 
 declare global {
   interface Window {
@@ -233,15 +235,11 @@ export const initSSOWidget = () => {
     socialLogin: [
       {
         type: "Google",
-        logoUrl: "",
-        label: "",
         clientId:
           "891351984915-kodsh6b9vik3h6ue008fh8jgfstageh6.apps.googleusercontent.com",
       },
       {
         type: "Facebook",
-        label: "",
-        logoUrl: "",
         clientId: "424450167700259",
       },
       {
@@ -539,8 +537,6 @@ export const getStockRecosDetail = async ({
     ssoid: ssoid,
   };
 
-  console.log("getApiType ---", getApiType);
-
   const overViewFilterArr = [
     { type: "mostBuy", indexid: 2369 },
     { type: "newRecos", indexid: 2369 },
@@ -586,8 +582,6 @@ export const getStockRecosDetail = async ({
     }),
   };
 
-  console.log("payload----", payload);
-
   const recosDetailPromise = await Service.post({
     url: STOCK_RECOS_DETAIL_Link,
     headers: headers,
@@ -597,7 +591,6 @@ export const getStockRecosDetail = async ({
   });
 
   const recosDetailResult = await recosDetailPromise?.json();
-  console.log("recosDetailResult----", recosDetailResult);
   return recosDetailResult;
 };
 
@@ -642,4 +635,39 @@ export const getClassAndPercent = (percentChange: any) => {
   } else {
     return "neutral";
   }
+};
+export const footerAPIHit = async (pageUrl: string) => {
+  const pageName = getPageName(pageUrl).replace("Mercury_", "");
+  const footerApi =
+    (APIS_CONFIG as any)["FOOTER_LINKS"][APP_ENV] +
+    "&pagename=" +
+    pageName.toLowerCase();
+  const footerPromise = await service.get({
+    url: footerApi,
+    params: {},
+  });
+  const footerResult: any = await footerPromise?.json();
+  console.log("Footer API HIT ---> ", footerResult);
+  return footerResult;
+};
+
+export const replaceWidthHeigh = (url: any, newWidth: any, newHeight: any) => {
+  // Regular expression to match width and height parameters
+  const regex = /width-(\d+)|height-(\d+)/g;
+
+  // Replace width and height parameters with new values
+  const newUrl = url.replace(regex, (match: any, p1: any, p2: any) => {
+    if (p1 && p2) {
+      // Both width and height are present, replace both
+      return `width-${newWidth},height-${newHeight}`;
+    } else if (p1) {
+      // Only width is present, replace width
+      return `width-${newWidth}`;
+    } else if (p2) {
+      // Only height is present, replace height
+      return `height-${newHeight}`;
+    }
+  });
+
+  return newUrl;
 };

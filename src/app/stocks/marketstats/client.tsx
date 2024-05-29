@@ -6,7 +6,7 @@ import LeftMenuTabs from "@/components/MarketTabs/MenuTabs";
 import MarketFiltersTab from "@/components/MarketTabs/MarketFiltersTab";
 import styles from "./Marketstats.module.scss";
 import { useCallback, useEffect, useState } from "react";
-import { areObjectsNotEqual, dateFormat, getCookie } from "@/utils";
+import { areObjectsNotEqual, getCookie } from "@/utils";
 import {
   fetchSelectedFilter,
   removePersonalizeViewById,
@@ -19,7 +19,6 @@ import refeshConfig from "@/utils/refreshConfig.json";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import TechincalOperands from "@/components/TechincalOperands";
 
-import { getMarketStatsNav, getTechincalOperands } from "@/utils/marketstats";
 import MarketStatus from "@/components/MarketStatus";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
@@ -440,13 +439,7 @@ const MarketStats = ({
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
           <MarketStatsNav
-            leftNavResult={
-              _l3Nav && _l3Nav.nav && _l3Nav.nav.length > 0
-                ? !isTechnical
-                  ? _l3Nav.nav.slice(0, 1)
-                  : _l3Nav.nav.slice(1)
-                : []
-            }
+            leftNavResult={_l3Nav?.nav}
             type={l3NavMenuItem}
             subType={!isTechnical ? l3NavSubItem : null}
             firstOperand={

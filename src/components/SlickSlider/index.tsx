@@ -123,9 +123,44 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
       }
     }
   }, []);
+  useEffect(() => {
+    if (topSpaceClass === "recoOnWatchlist") {
+      const elements: NodeListOf<HTMLElement> =
+        document.querySelectorAll(".recoOnWatchlist");
+      let NoOfChild: number = 0;
+      elements.forEach((element) => {
+        const activeElements = element.querySelectorAll(".slick-active");
+        if (activeElements) {
+          NoOfChild = activeElements.length;
+        }
+        if (NoOfChild < slidesToShow) {
+          const slickTrackElement = element.querySelector(".slick-track");
+          slickTrackElement?.classList.add("noTransform");
+        }
+      });
+
+      // console.log("slidesToShow --->", slidesToShow, NoOfChild, topSpaceClass);
+    }
+  }, [slidesToShow, topSpaceClass]);
+
+  useEffect(() => {
+    const element: HTMLElement | null = document.getElementById(sliderId);
+    if (element) {
+      const slickTrack = element.querySelector(".slick-track");
+      if (slickTrack) {
+        const activeElements = slickTrack.querySelectorAll(".slick-slide");
+        if (activeElements.length === 1) {
+          const stockSliderIconsElement =
+            element.querySelector(".stockSliderIcons");
+          stockSliderIconsElement?.classList.add("disNone");
+        }
+      }
+    }
+  }, [sliderId, slidesToShow]);
+
   return (
     <div
-      className={`stockSlider ${styles.sliderMain} ${topSpaceClass === "indices" ? styles.addMargin : ""}`}
+      className={`stockSlider ${styles.sliderMain} ${topSpaceClass === "indices" ? styles.addMargin : ""} ${topSpaceClass === "recoOnWatchlist" ? "recoOnWatchlist" : ""}`}
       id={`${sliderId}`}
     >
       <div className={styles["slick-slider"]}>

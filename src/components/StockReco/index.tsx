@@ -1,18 +1,15 @@
 import styles from "./StockReco.module.scss"; // Import your CSS styles
-import WatchlistAddition from "../WatchlistAddition";
+// import WatchlistAddition from "../WatchlistAddition";
 import Link from "next/link";
 import { formatNumber, APP_ENV } from "@/utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 import { PdfReport } from "./PdfReport";
+import dynamic from "next/dynamic";
+const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
+  ssr: false,
+});
 
-interface Props {
-  data: any; // Define the type of data correctly
-  activeTab: string;
-  pageName: string;
-  urlFilterHandle: any;
-  filterIndex: any;
-}
 const formatDate = (timestamp: number) => {
   const months = [
     "Jan",
@@ -70,8 +67,9 @@ const StockComponent = ({
           <div className={styles.stocksBox}>
             <h2 title={data.organisation} className={styles.stocksTitle}>
               <Link
-                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
+                href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.seoName}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
                 className="linkHover"
+                title={data.organisation}
                 onClick={() => {
                   trackingEvent("et_push_event", {
                     event_category: "mercury_engagement",
@@ -135,23 +133,26 @@ const StockComponent = ({
                     <span className={styles.callDate}>{formattedDate}</span>
                   </span>
                 )}
-                <WatchlistAddition
-                  companyName={data.companyName}
-                  companyId={data.companyId}
-                  companyType="equity"
-                  customStyle={{
-                    position: "absolute",
-                    top: "13px",
-                    right: "16px",
-                  }}
-                />
+                {activeTab != "recoOnWL" && activeTab != "recoOnWatchlist" && (
+                  <WatchlistAddition
+                    companyName={data.companyName}
+                    companyId={data.companyId}
+                    companyType="equity"
+                    customStyle={{
+                      position: "absolute",
+                      top: "13px",
+                      right: "16px",
+                    }}
+                  />
+                )}
               </div>
             )}
 
             <h2 title={data.companyName} className={styles.stocksTitle}>
               <Link
+                title={data.companyName}
                 target="_blank"
-                href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}${data.companyName?.toLowerCase().replace(/ /g, "-")}/stocks/companyid-${data.companyId}.cms`}
+                href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}${data?.companySeoName}/stocks/companyid-${data.companyId}.cms`}
                 className="linkHover"
                 onClick={() => {
                   trackingEvent("et_push_event", {
@@ -163,18 +164,20 @@ const StockComponent = ({
               >
                 {data.companyName}
               </Link>
-              {!data?.recoType && (
-                <WatchlistAddition
-                  companyName={data.companyName}
-                  companyId={data.companyId}
-                  companyType="equity"
-                  customStyle={{
-                    position: "absolute",
-                    top: "13px",
-                    right: "16px",
-                  }}
-                />
-              )}
+              {!data?.recoType &&
+                activeTab != "recoOnWL" &&
+                activeTab != "recoOnWatchlist" && (
+                  <WatchlistAddition
+                    companyName={data.companyName}
+                    companyId={data.companyId}
+                    companyType="equity"
+                    customStyle={{
+                      position: "absolute",
+                      top: "13px",
+                      right: "16px",
+                    }}
+                  />
+                )}
             </h2>
             <div className={styles.updownTargetBox}>
               <div className={styles.potensialBox}>
@@ -224,9 +227,7 @@ const StockComponent = ({
               )}
             </div>
             {(activeTab == "newRecos" || activeTab == "FHDetail") && (
-              <div
-                className={`${styles.reportCta} ${source == "home" ? styles["homeReport"] : ""}`}
-              >
+              <div className={`${styles.reportCta}`}>
                 <PdfReport
                   pdfUrl={data.pdfUrl}
                   companyName={data?.companyName}
@@ -242,7 +243,8 @@ const StockComponent = ({
                 <span>Brokerage:</span>
                 <span>
                   <Link
-                    href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.organisation?.toLowerCase().replace(/ /g, "-")}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
+                    title={data.organisation}
+                    href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.seoName}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
                     className="linkHover"
                   >
                     {data.organisation}
