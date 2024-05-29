@@ -31,15 +31,14 @@ const LiveStreamCards = ({
   const expertURL = `${ET_WAP_URL}markets/etmarkets-live/expert-bio/expertname-${expertName},expertid-${expertId}.cms${utmSource}`;
   const userObj = (slide.meta && slide.meta.userData) || {};
   const imageMSID = userObj.imageMSID;
-  const expertImg =
-    imageMSID &&
-    `https://img.etimg.com/thumb/msid-${imageMSID},width-58,height-54,imgsize-${imageMSID},resizemode-4/expert-image.jpg`;
+  const expertImg = imageMSID
+    ? `https://img.etimg.com/thumb/msid-${imageMSID},width-58,height-54,imgsize-${imageMSID},resizemode-4/expert-image.jpg`
+    : "https://img.etimg.com/photo/42031747.cms";
   const streamid = slide.eventId || "";
   const streamURL =
     streamid &&
     `${ET_WAP_URL}markets/etmarkets-live/streams${!isLive ? "recorded" : ""}/streamid-${streamid},expertid-${expertId}.cms${utmSource}`;
   const viewsText = isLive ? slide.concurrentViewsText : slide.totalViewsText;
-  console.log("@@@@@-->fff", slide.id, followingData);
   const followExpert = async () => {
     try {
       if (isLogin) {
