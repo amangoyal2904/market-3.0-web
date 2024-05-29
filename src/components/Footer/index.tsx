@@ -389,7 +389,7 @@ const Footer = ({ footerData }: any) => {
                   width={52}
                   height={47}
                   quality={100}
-                  alt="subscribe to our newsletter"
+                  alt="subscribe newsletter Img"
                 />
                 <h3 className={styles.footerSubscrTxt}>
                   subscribe to our newsletter

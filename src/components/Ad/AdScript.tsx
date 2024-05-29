@@ -99,7 +99,27 @@ const callDfpAd = async function () {
 };
 const renderDfpAds = (userType = true) => {
   try {
-    if (!userType) {
+    let pathName = location.pathname;
+    let showAd = true;
+    if(pathName.indexOf("/top-india-investors-portfolio") > -1 || pathName.indexOf("/stockreportsplus") > -1 || pathName.indexOf("/stock-market-mood") > -1 || pathName.indexOf("/watchlist") > -1){
+      Array.from(document.getElementsByClassName("hideAd")).forEach(
+        function(e) {
+          e && e.classList.add("displayHide");
+        }
+      );
+      showAd = false;
+    }else{
+      Array.from(document.getElementsByClassName("hideAd")).forEach(
+        function(e) {
+          e && e.classList.remove("displayHide");
+        }
+      );
+      showAd = true;
+    }
+    // if (userType == true) {
+    //   document.querySelectorAll(".hideAd").forEach((el) => el.remove());
+    // }
+    if (!userType && showAd == true) {
       let googleTag: any;
       let maxTry = 10;
       let counter = 1;

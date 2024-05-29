@@ -5,7 +5,12 @@ import SlickSlider from "../SlickSlider";
 import StockCards from "./StockCards";
 import { useEffect, useState } from "react";
 import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV, dateFormat, dateStringToMilliseconds } from "@/utils/index";
+import {
+  APP_ENV,
+  dateFormat,
+  dateStringToMilliseconds,
+  replaceWidthHeigh,
+} from "@/utils/index";
 import Service from "@/network/service";
 import { useStateContext } from "@/store/StateContext";
 import refreshConfig from "@/utils/refreshConfig.json";
@@ -114,7 +119,11 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       });
       setIndicesData(data?.indicesList);
       setSelectedIndex((prevState: any) =>
-        Object.keys(prevState)?.length ? prevState : data?.indicesList[0],
+        Object.keys(prevState)?.length
+          ? data?.indicesList?.filter(
+              (stock: { indexId: any }) => stock.indexId == prevState.indexId,
+            )?.[0]
+          : data?.indicesList[0],
       );
       setFiiCash(data?.fiiData);
       setDiiCash(data?.diiData);
@@ -245,6 +254,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                 border: "none",
                 outline: "none",
               }}
+              title={`Technical Charts`}
             />
           </div>
           {selectedIndex?.indexName ? (
@@ -378,10 +388,8 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                   <img
                     width="55"
                     height="41"
-                    src={list?.img}
-                    loading="lazy"
-                    decoding="async"
-                    alt={list?.title}
+                    src={replaceWidthHeigh(list?.img, "55", "41")}
+                    alt={`Top New Image`}
                     title={list?.title}
                   />
                   {list?.type == "videoshow" ? (
