@@ -36,6 +36,7 @@ const fetchLiveStreamData = async () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(bodyParams),
+      cache: "no-store",
       next: { revalidate: 3600 },
     });
     const res = await data.json();
@@ -50,7 +51,7 @@ const LiveStreamWidget = async () => {
   const previousLiveEvents = liveStreamData?.filter(
     (event: { eventStatus: number }) => event.eventStatus !== 3,
   );
-  return (
+  return liveStreamData.length ? (
     <div className="sectionWrapper">
       <HeadingHome
         title="Live Stream"
@@ -63,6 +64,8 @@ const LiveStreamWidget = async () => {
         link={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}etmarkets-livestream`}
       />
     </div>
+  ) : (
+    ""
   );
 };
 export default LiveStreamWidget;
