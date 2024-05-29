@@ -194,7 +194,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
           if(geoinfo && !geoinfo.CountryCode) {
             var script= document.createElement('script');
             script.type= 'text/javascript';
-            script.src= 'https://m.economictimes.com/geoapiet/?cb=et';
+            script.src= 'https://economictimes.indiatimes.com/geoapiet?cb=et';
             script.onload = function() {
               const geoLoaded = new Event("geoLoaded");
               document.dispatchEvent(geoLoaded);
