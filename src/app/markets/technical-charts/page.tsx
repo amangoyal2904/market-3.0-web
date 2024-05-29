@@ -159,7 +159,7 @@ const TechnicalCharts = () => {
   return (
     <>
       <Script
-        src="/static/datafeeds/udf/dist/bundle.js"
+        src="/marketsweb/static/datafeeds/udf/dist/bundle.js"
         strategy="lazyOnload"
         onReady={() => {
           setIsScriptReady(true);
