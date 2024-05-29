@@ -123,9 +123,13 @@ export const getAllShortUrls = async () => {
 export const getShortUrlMapping = async (pathname: any) => {
   try {
     const urlList = await getAllShortUrls();
-    const isExist = urlList.some((item: any) => item.shortUrl == pathname);
+    const isExist = urlList.some((item: any) =>
+      pathname.includes(item.shortUrl),
+    );
     if (isExist) {
-      const pageData = urlList.find((item: any) => item.shortUrl == pathname);
+      const pageData = urlList.find((item: any) =>
+        pathname.includes(item.shortUrl),
+      );
       return { shortUrl: true, pageData };
     }
     return { shortUrl: false };
