@@ -543,11 +543,11 @@ table {
     max-height: 62vh;
   }
 }
-@media screen and (min-width: 1000px) and (max-width: 1130px) {
+@media screen and (max-width: 1280px) {
   .slick-dots .custom-slick-dots {
     margin: 5px 5px 0;
   }
-  .slick-dots li {
+  .slick-dots li, .slick-dots .custom-slick-dots li {
     margin: 0 2px;
   }
 }

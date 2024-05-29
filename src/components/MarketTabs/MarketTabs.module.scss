@@ -212,3 +212,12 @@
     }
   }
 }
+
+@media only screen and (max-width: 1280px){
+  .tabsList{
+    column-gap: 12px;
+    li{
+      font-size: 13px;
+    }
+  }
+}
