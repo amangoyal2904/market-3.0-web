@@ -30,7 +30,7 @@ const LiveStreamCards = ({
   const expertId = slide.expertId;
   const expertURL = `${ET_WAP_URL}markets/etmarkets-live/expert-bio/expertname-${expertName},expertid-${expertId}.cms${utmSource}`;
   const userObj = (slide.meta && slide.meta.userData) || {};
-  const imageMSID = userObj.imageMSID;
+  const imageMSID = userObj?.imageMSID;
   const expertImg = imageMSID
     ? `https://img.etimg.com/thumb/msid-${imageMSID},width-58,height-54,imgsize-${imageMSID},resizemode-4/expert-image.jpg`
     : "https://img.etimg.com/photo/42031747.cms";

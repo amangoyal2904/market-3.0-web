@@ -55,7 +55,7 @@ const LiveStreamWidget = async () => {
   const previousLiveEvents = liveStreamData?.filter(
     (event: { eventStatus: number }) => event.eventStatus !== 3,
   );
-  return liveStreamData.length ? (
+  return liveStreamData?.length ? (
     <div className="sectionWrapper">
       <HeadingHome
         title="Live Stream"

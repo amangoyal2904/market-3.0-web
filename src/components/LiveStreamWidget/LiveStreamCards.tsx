@@ -100,7 +100,11 @@ export const LiveStreamCards = ({ data }: any) => {
             <img
               width={40}
               height={40}
-              src={data?.meta?.userData?.expertImagePath}
+              src={
+                data?.meta?.userData?.expertImagePath
+                  ? data?.meta?.userData?.expertImagePath
+                  : "https://img.etimg.com/photo/42031747.cms"
+              }
               title={data.title}
               alt={data.title}
               loading="lazy"
