@@ -8,6 +8,7 @@ ul.brUl {
     display: inline;
     padding-left: 20px;
     position: relative;
+    font-weight: 500;
     span {
       font-size: 20px;
       position: absolute;
@@ -16,7 +17,7 @@ ul.brUl {
     }
   }
   li.home {
-    color: #4d4d4d;
+    // color: #4d4d4d;
     padding-left: 0;
   }
 }

@@ -81,7 +81,7 @@ export const LiveStreamCards = ({ data }: any) => {
           <p>{data.title}</p>
         </a>
         <div className={styles.profileSection}>
-          <a className={styles.userPic} title={data.title}>
+          <a className={styles.userPic} title={data.title} href={expertUrl}>
             <img
               width={40}
               height={40}

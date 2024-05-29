@@ -19,11 +19,12 @@ const Card = ({ data, index }: any) => {
     >
       <img
         src={data?.img}
-        alt={data?.title}
+        alt={`InvestmentData Slide Image`}
         title={data?.title}
         className={styles.cardImage}
         loading="lazy"
         decoding="async"
+        width="100%"
       />
       <h2
         className={styles.cardTitle}

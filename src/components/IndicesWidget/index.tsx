@@ -250,6 +250,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                 border: "none",
                 outline: "none",
               }}
+              title={`Technical Charts`}
             />
           </div>
           {selectedIndex?.indexName ? (
@@ -384,7 +385,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                     width="55"
                     height="41"
                     src={replaceWidthHeigh(list?.img, "55", "41")}
-                    alt={list?.title}
+                    alt={`Top New Image`}
                     title={list?.title}
                   />
                   {list?.type == "videoshow" ? (
