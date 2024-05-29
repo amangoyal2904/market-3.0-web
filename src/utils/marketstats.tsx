@@ -123,12 +123,15 @@ export const getAllShortUrls = async () => {
 export const getShortUrlMapping = async (pathname: any) => {
   try {
     const urlList = await getAllShortUrls();
-    const isExist = urlList.some((item: any) => item.shortUrl == pathname);
-    if (isExist) {
-      const pageData = urlList.find((item: any) => item.shortUrl == pathname);
+    const pageData = urlList.find((item: any) =>
+      pathname.includes(item.shortUrl),
+    );
+
+    if (pageData) {
       return { shortUrl: true, pageData };
+    } else {
+      return { shortUrl: false };
     }
-    return { shortUrl: false };
   } catch (error) {
     console.error("Error fetching filters:", error);
     return { shortUrl: false };
