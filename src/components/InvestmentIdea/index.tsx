@@ -33,16 +33,6 @@ const InvestmentIdea = async () => {
         title="Investment Ideas"
         url={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
       />
-      {/* <h2 className={styles.title}>
-        <a
-          title="Investment Ideas"
-          target="_blank"
-          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
-        >
-          Investment Ideas
-          <span className={`eticon_caret_right ${styles.headingIcon}`} />
-        </a>
-      </h2> */}
       <div className={styles.investmentData}>
         {investmentData?.map((data: any, index: any) =>
           index < 4 ? (

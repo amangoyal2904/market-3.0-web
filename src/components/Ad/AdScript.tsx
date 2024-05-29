@@ -28,11 +28,11 @@ const callDfpAd = async function () {
     let pathName = location.pathname;
     if (pathName.indexOf("/markets/live-coverage") > -1) {
       dfp = await import("./AdInfo/homeAds.json");
-    }else if(pathName.indexOf("/indices") > -1){
+    } else if (pathName.indexOf("/indices") > -1) {
       dfp = await import("./AdInfo/indicesAds.json");
-    }else if(pathName.indexOf("/stock-recos") > -1){
+    } else if (pathName.indexOf("/stock-recos") > -1) {
       dfp = await import("./AdInfo/stockRecosAds.json");
-    }else {
+    } else {
       dfp = await import("./AdInfo/marketstatsAds.json");
     }
     // console.log("Helloooooooooooo", dfp);
@@ -101,18 +101,23 @@ const renderDfpAds = (userType = true) => {
   try {
     let pathName = location.pathname;
     let showAd = true;
-    if(pathName.indexOf("/top-india-investors-portfolio") > -1 || pathName.indexOf("/stockreportsplus") > -1 || pathName.indexOf("/stock-market-mood") > -1 || pathName.indexOf("/watchlist") > -1){
+    if (
+      pathName.indexOf("/top-india-investors-portfolio") > -1 ||
+      pathName.indexOf("/stockreportsplus") > -1 ||
+      pathName.indexOf("/stock-market-mood") > -1 ||
+      pathName.indexOf("/watchlist") > -1
+    ) {
       Array.from(document.getElementsByClassName("hideAd")).forEach(
-        function(e) {
+        function (e) {
           e && e.classList.add("displayHide");
-        }
+        },
       );
       showAd = false;
-    }else{
+    } else {
       Array.from(document.getElementsByClassName("hideAd")).forEach(
-        function(e) {
+        function (e) {
           e && e.classList.remove("displayHide");
-        }
+        },
       );
       showAd = true;
     }

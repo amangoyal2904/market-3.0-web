@@ -124,7 +124,7 @@ export const getShortUrlMapping = async (pathname: any) => {
   try {
     const urlList = await getAllShortUrls();
     const pageData = urlList.find((item: any) =>
-      pathname.includes(item.shortUrl),
+      item?.shortUrl?.includes(pathname),
     );
 
     if (pageData) {

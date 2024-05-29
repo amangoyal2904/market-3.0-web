@@ -65,7 +65,7 @@
     vertical-align: top;
     right: 20px;
     top: 16px;
-    background: url("/img/closeIcon.svg") no-repeat 0 0;
+    background: url("/marketsweb/img/closeIcon.svg") no-repeat 0 0;
     width: 12px;
     height: 12px;
     background-size: cover;
@@ -574,14 +574,14 @@
     max-height: calc(60vh - 175px);
   }
   .newCreate.wraper {
-    .innerListContainer{
-      ul{
+    .innerListContainer {
+      ul {
         max-height: calc(56vh - 180px);
       }
     }
-    zoom:0.8;
-    .filterSec{
-      .rightSec{
+    zoom: 0.8;
+    .filterSec {
+      .rightSec {
         height: auto;
       }
     }

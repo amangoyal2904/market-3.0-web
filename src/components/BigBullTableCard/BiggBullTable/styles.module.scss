@@ -213,7 +213,7 @@
         vertical-align: top;
         right: -12px;
         top: 3px;
-        background: url("/img/uparrow.svg") no-repeat 0 0;
+        background: url("/marketsweb/img/uparrow.svg") no-repeat 0 0;
         height: 11px;
         width: 8px;
         background-size: cover;
@@ -233,7 +233,7 @@
         vertical-align: top;
         right: -12px;
         top: 3px;
-        background: url("/img/downarrow.svg") no-repeat 0 0;
+        background: url("/marketsweb/img/downarrow.svg") no-repeat 0 0;
         height: 11px;
         width: 8px;
         background-size: cover;
@@ -634,10 +634,10 @@
   }
 }
 @media screen and (max-width: 1312px) {
-  .investorBulkBlock{
+  .investorBulkBlock {
     tr {
-      th{
-        &:nth-last-of-type(3){
+      th {
+        &:nth-last-of-type(3) {
           width: 280px;
           min-width: 280px;
         }
@@ -662,10 +662,10 @@
 }
 
 @media screen and (max-width: 1168) {
-  .investorBulkBlock{
+  .investorBulkBlock {
     tr {
-      th{
-        &:nth-last-of-type(3){
+      th {
+        &:nth-last-of-type(3) {
           width: 280px;
           min-width: 280px;
         }

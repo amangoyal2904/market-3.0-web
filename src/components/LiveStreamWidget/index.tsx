@@ -8,12 +8,16 @@ import GLOBAL_CONFIG from "@/network/global_config.json";
 
 const fetchLiveStreamData = async () => {
   try {
+    const now = new Date();
+    const sevenDaysAgo = new Date(
+      now.getTime() - 7 * 24 * 60 * 60 * 1000,
+    )?.getTime();
     const apiUrl = (APIS_CONFIG as any)?.liveStream[APP_ENV] + "/getEventData";
     const conditions = [
       { fieldName: "eventStatus", value: [3, 5], operation: "in" },
       {
         fieldName: "endTime",
-        value: 1695666600000,
+        value: sevenDaysAgo,
         operation: "greaterThanEq",
       },
       { fieldName: "streamFlag", value: [1, 2], operation: "in" },
@@ -51,7 +55,7 @@ const LiveStreamWidget = async () => {
   const previousLiveEvents = liveStreamData?.filter(
     (event: { eventStatus: number }) => event.eventStatus !== 3,
   );
-  return liveStreamData.length ? (
+  return liveStreamData?.length ? (
     <div className="sectionWrapper">
       <HeadingHome
         title="Live Stream"
