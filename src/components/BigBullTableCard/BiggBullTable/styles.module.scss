@@ -634,10 +634,10 @@
   }
 }
 @media screen and (max-width: 1312px) {
-  .investorBulkBlock{
+  .investorBulkBlock {
     tr {
-      th{
-        &:nth-last-of-type(3){
+      th {
+        &:nth-last-of-type(3) {
           width: 280px;
           min-width: 280px;
         }
@@ -662,10 +662,10 @@
 }
 
 @media screen and (max-width: 1168) {
-  .investorBulkBlock{
+  .investorBulkBlock {
     tr {
-      th{
-        &:nth-last-of-type(3){
+      th {
+        &:nth-last-of-type(3) {
           width: 280px;
           min-width: 280px;
         }
