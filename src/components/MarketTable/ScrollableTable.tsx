@@ -167,7 +167,7 @@ const ScrollableTable = React.memo((props: any) => {
                       <div className={styles.theading}>
                         {isPrime && thead.primeFlag ? (
                           <Image
-                            src="/prime_icon.svg"
+                            src="/marketsweb/prime_icon.svg"
                             width={10}
                             height={10}
                             alt="ETPrime"
@@ -340,14 +340,12 @@ const ScrollableTable = React.memo((props: any) => {
                                     : ""
                                 } ${styles.ltp}`}
                               >
-                                {!!tdData.value
-                                  ? tdData.value.replaceAll(" ", "")
-                                  : "-"}
+                                {!!tdData.value ? tdData.value : "-"}
                               </span>
                             ) : tdData.valueType == "number" ? (
                               !!tdData.value &&
                               parseFloat(tdData.filterFormatValue) !== 0 ? (
-                                tdData.value.replaceAll(" ", "")
+                                tdData.value
                               ) : (
                                 "-"
                               )

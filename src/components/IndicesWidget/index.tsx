@@ -119,7 +119,11 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       });
       setIndicesData(data?.indicesList);
       setSelectedIndex((prevState: any) =>
-        Object.keys(prevState)?.length ? prevState : data?.indicesList[0],
+        Object.keys(prevState)?.length
+          ? data?.indicesList?.filter(
+              (stock: { indexId: any }) => stock.indexId == prevState.indexId,
+            )?.[0]
+          : data?.indicesList[0],
       );
       setFiiCash(data?.fiiData);
       setDiiCash(data?.diiData);

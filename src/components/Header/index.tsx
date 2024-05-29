@@ -50,6 +50,7 @@ const Header = () => {
       });
       const obj = {
         item_name: "atf_" + lastSlash,
+        item_id: "atf",
         item_brand: "product_interventions",
         item_category: "atf_offer_cta",
         item_category2: lastSlash,
@@ -160,7 +161,7 @@ const Header = () => {
                   onClick={redirectToPlanPage}
                 >
                   <Image
-                    src="/prime_icon.svg"
+                    src="/marketsweb/prime_icon.svg"
                     height="12"
                     width="12"
                     alt="Subscribe"

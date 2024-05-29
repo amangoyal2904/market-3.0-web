@@ -63,15 +63,30 @@ export const LiveStreamCards = ({ data }: any) => {
           <p className={styles.hourAgo}>
             {`Streamed ${
               getTimeDifference(data?.startTime)?.months != 0
-                ? `${getTimeDifference(data?.startTime)?.months} months ago`
+                ? getTimeDifference(data?.startTime)?.months +
+                  (getTimeDifference(data?.startTime)?.months == 1
+                    ? " month ago"
+                    : " months ago")
                 : getTimeDifference(data?.startTime)?.days != 0
-                  ? `${getTimeDifference(data?.startTime)?.days} days ago`
+                  ? getTimeDifference(data?.startTime)?.days +
+                    (getTimeDifference(data?.startTime)?.days == 1
+                      ? " day ago"
+                      : " days ago")
                   : getTimeDifference(data?.startTime)?.hours != 0
-                    ? `${getTimeDifference(data?.startTime)?.hours} hours ago`
+                    ? getTimeDifference(data?.startTime)?.hours +
+                      (getTimeDifference(data?.startTime)?.hours == 1
+                        ? " hour ago"
+                        : " hours ago")
                     : getTimeDifference(data?.startTime)?.minutes != 0
-                      ? `${getTimeDifference(data?.startTime)?.minutes} minutes ago`
+                      ? getTimeDifference(data?.startTime)?.minutes +
+                        (getTimeDifference(data?.startTime)?.minutes == 1
+                          ? " minute ago"
+                          : " minutes ago")
                       : getTimeDifference(data?.startTime)?.seconds != 0
-                        ? `${getTimeDifference(data?.startTime)?.seconds} seconds ago`
+                        ? getTimeDifference(data?.startTime)?.seconds +
+                          (getTimeDifference(data?.startTime)?.seconds == 1
+                            ? " second ago"
+                            : " seconds ago")
                         : ""
             }`}
           </p>
@@ -85,7 +100,11 @@ export const LiveStreamCards = ({ data }: any) => {
             <img
               width={40}
               height={40}
-              src={data?.meta?.userData?.expertImagePath}
+              src={
+                data?.meta?.userData?.expertImagePath
+                  ? data?.meta?.userData?.expertImagePath
+                  : "https://img.etimg.com/photo/42031747.cms"
+              }
               title={data.title}
               alt={data.title}
               loading="lazy"

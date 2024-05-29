@@ -53,9 +53,10 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
                   paddingTop: `${bars?.[type] < 0 ? ((Math.abs(bars?.[type]) / Math.abs(maxValues[`maxNegative_${type}`])) * 100) / 2 : 0}%`,
                 }}
               ></div>
-              <p
-                className={`numberFonts ${styles.tooltip}`}
-              >{`${Math.floor(Math.abs(bars?.[type]))} Cr.`}</p>
+              <p className={`numberFonts ${styles.tooltip}`}>
+                <span className={styles.rupee}>₹</span>
+                {`${Math.floor(Math.abs(bars?.[type]))} Cr.`}
+              </p>
               <div className={`numberFonts ${styles.bar} ${styles.value}`}>
                 {dateFormat(bars.dateLong, "%d")}
               </div>
@@ -68,9 +69,10 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
               <div className={`numberFonts ${styles.bar} ${styles.value}`}>
                 {dateFormat(bars.dateLong, "%d")}
               </div>
-              <p
-                className={`numberFonts ${styles.tooltip}`}
-              >{`${Math.floor(Math.abs(bars?.[type]))} Cr.`}</p>
+              <p className={`numberFonts ${styles.tooltip}`}>
+                <span className={styles.rupee}>₹</span>
+                {`${Math.floor(Math.abs(bars?.[type]))} Cr.`}
+              </p>
               <div
                 className={`${styles.bar} ${bars?.[type] < 0 ? styles.down : styles.up}`}
                 style={{
@@ -86,7 +88,10 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
       <p className={styles.label}>
         <span
           className={`numberFonts ${type == "fiiEquity" ? (fiiCash?.netInvestment > 0 ? styles.textGreen : styles.textRed) : diiCash?.netInvestment > 0 ? styles.textGreen : styles.textRed}`}
-        >{`${type == "fiiEquity" ? fiiCash?.netInvestment : diiCash?.netInvestment} Cr.`}</span>
+        >
+          <span className={styles.rupee}>₹</span>
+          {`${type == "fiiEquity" ? fiiCash?.netInvestment : diiCash?.netInvestment} Cr.`}
+        </span>
         <span>
           {dateFormat(
             type == "fiiEquity" ? fiiCash?.date : diiCash?.date,

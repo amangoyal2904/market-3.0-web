@@ -9,7 +9,7 @@
   border: solid 1px #e4e4e4;
   margin-left: 20px;
   border-radius: 8px;
-  height: 442px;
+  height: 390px;
   width: 100%;
   max-width: -webkit-fill-available;
 }
@@ -35,7 +35,8 @@
       font-style: normal;
       font-weight: 700;
       line-height: 18px;
-      margin: 12px 0;
+      margin: 10px 0;
+      word-wrap: break-word;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
