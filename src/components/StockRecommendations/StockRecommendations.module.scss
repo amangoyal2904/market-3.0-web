@@ -47,3 +47,14 @@
     }
   }
 }
+
+@media only screen and (max-width: 1280px){
+  .tabMainBox{
+    .tabs{
+      column-gap: 14px;  
+      .tab{
+        font-size: 12px;  
+      }
+    }
+  }
+}
