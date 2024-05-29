@@ -118,7 +118,7 @@ const FixedTable = React.memo((props: any) => {
                     <div className={styles.theading}>
                       {isPrime && thead.primeFlag ? (
                         <Image
-                          src="/prime_icon.svg"
+                          src="/marketsweb/prime_icon.svg"
                           width={10}
                           height={10}
                           alt="ETPrime"
