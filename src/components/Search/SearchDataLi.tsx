@@ -32,6 +32,9 @@ const SearchDataLi: React.FC<Props> = ({ item, entity, count, query }) => {
                   item.tagSeoName,
                   item.entityType,
                   item.subType,
+                  item.fromCurrencyShort ? item.fromCurrencyShort : "",
+                  item.toCurrencyShort ? item.toCurrencyShort : "",
+                  item.fno ? item.fno : "",
                 )}
                 title={item.tagName}
                 target="_blank"

@@ -311,6 +311,9 @@ export const getStockUrl = (
   seoName: string,
   stockType: string,
   subType: string = "company",
+  fromCurrencyShort: string = "",
+  toCurrencyShort: string = "",
+  fno: string = "",
 ) => {
   if (stockType == "index") {
     return "/markets/indices/" + seoName;
@@ -343,12 +346,36 @@ export const getStockUrl = (
       stockUrl =
         (APIS_CONFIG as any)?.DOMAIN[APP_ENV] + "company/" + seoName + "/" + id;
     }
-    if (stockType == "ETF") {
+    if (stockType == "ETF" || stockType == "MutualFund") {
       stockUrl =
         (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
         seoName +
         "/mffactsheet/schemeid-" +
         id +
+        ".cms";
+    }
+    if (stockType == "crypto") {
+      stockUrl =
+        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        "markets/cryptocurrency/" +
+        seoName +
+        "/cryptodetail/symbol-" +
+        id +
+        ".cms";
+    }
+    if (stockType == "forex") {
+      stockUrl =
+        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        "markets/forex?amount=1&fromcur=" +
+        fromCurrencyShort +
+        "&tocur=" +
+        toCurrencyShort;
+    }
+    if (stockType == "commodity") {
+      stockUrl =
+        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        "commoditysummary/symbol-" +
+        fno +
         ".cms";
     }
     return stockUrl;
