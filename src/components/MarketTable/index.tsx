@@ -495,7 +495,7 @@ const MarketTable = React.memo((props: propsType) => {
             ${tableDataList.length == 1 ? styles.singleRowDesign : ""}`}
           >
             <button
-              id="scrollButton"
+              id="scrollButton_l"
               onClick={leftClickScroll}
               className={`${styles.scrollButton} ${!leftScrollEnabled ? styles.disableBtn : ""}`}
             >
@@ -503,7 +503,7 @@ const MarketTable = React.memo((props: propsType) => {
             </button>
             <span />
             <button
-              id="scrollButton"
+              id="scrollButton_r"
               onClick={rightClickScroll}
               className={`${styles.scrollButton} ${!!rightScrollEnabled ? styles.disableBtn : ""}`}
             >
