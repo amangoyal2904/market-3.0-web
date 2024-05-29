@@ -169,16 +169,23 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               }
             }
 
-            if(value) {
-              var comps = value.split(',')
-              (function(item) { return item.trim(); });                                              
-              var map = {'CC': 'CountryCode', 'RC': 'region_code', 'CT': 'city', 'CO': 'Continent', 'GL': 'geolocation'}
-              for(var i=0; i<comps.length; i++) {
+            if (value) {
+              var comps = value.split(',').map(function(item) {
+                return item.trim();
+              });            
+              var map = {'CC': 'CountryCode','RC': 'region_code','CT': 'city','CO': 'Continent','GL': 'geolocation'};
+              var info = {};
+              for (var i = 0; i < comps.length; i++) {
                 var compSplit = comps[i].split(':');
-                info[map[compSplit[0]]] = compSplit[1];
+                if (compSplit.length === 2) {
+                  var key = compSplit[0].trim();
+                  var value = compSplit[1].trim();
+                  if (map[key]) {
+                    info[map[key]] = value;
+                  }
+                }
               }
             }
-
             return info;
           }
 
