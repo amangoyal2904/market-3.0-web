@@ -50,6 +50,7 @@ const Header = () => {
       });
       const obj = {
         item_name: "atf_" + lastSlash,
+        item_id: "atf",
         item_brand: "product_interventions",
         item_category: "atf_offer_cta",
         item_category2: lastSlash,
