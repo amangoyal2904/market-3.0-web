@@ -227,7 +227,7 @@ export const initSSOWidget = () => {
       window.location.protocol +
       "//" +
       window.location.host +
-      "/login_code.html",
+      "/marketsweb/login_code.html",
     nonSocialLogin: {
       loginVia: ["email", "mobile"],
       loginWith: ["Password", "otp"],
