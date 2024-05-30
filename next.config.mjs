@@ -6,10 +6,6 @@ const nextConfig = {
     return [
       { source: "/marketsweb/_next/:path*", destination: "/_next/:path*" },
       {
-        source: "/marketsweb/fonts/:path*",
-        destination: "/fonts/:path*",
-      },
-      {
         source: "/marketsweb/icon_svgs/:path*",
         destination: "/icon_svgs/:path*",
       },
