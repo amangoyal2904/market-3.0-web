@@ -123,7 +123,7 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
 
   return (
     <div className="sectionWrapper">
-      <h2 className="heading">Buy/Sell Signals</h2>
+      <h2 className="heading">Technical Signals</h2>
       <div className="prel">
         <BuySellTab
           activeItem={activeItem}
