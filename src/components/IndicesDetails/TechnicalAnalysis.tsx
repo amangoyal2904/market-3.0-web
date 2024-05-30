@@ -76,7 +76,7 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
   return (
     <>
       <Script
-        src="/marketsweb/static/datafeeds/udf/dist/bundle.js"
+        src="/static/datafeeds/udf/dist/bundle.js"
         strategy="lazyOnload"
         onReady={() => {
           setIsScriptReady(true);

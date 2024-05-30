@@ -26,7 +26,7 @@ const HeadingHome = ({ title, url }: any) => {
         <p className={styles.powered}>
           Powered By
           <Image
-            src="/marketsweb/img/refinitiv.png"
+            src="/img/refinitiv.png"
             width={88}
             height={22}
             alt="Refinitiv"
@@ -50,7 +50,7 @@ const HeadingHome = ({ title, url }: any) => {
         }
       >
         <Image
-          src="/marketsweb/img/liveStream.svg"
+          src="/img/liveStream.svg"
           width={170}
           height={26}
           alt={title}

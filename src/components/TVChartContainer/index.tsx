@@ -37,7 +37,7 @@ export const TVChartContainer = (
       timezone: "Asia/Kolkata",
       disabled_features: props.disabled_features,
       enabled_features: ["show_zoom_and_move_buttons_on_touch"],
-      library_path: "/marketsweb/static/charting_library/",
+      library_path: "/static/charting_library/",
       locale: "en",
       load_last_chart: true,
       charts_storage_url:

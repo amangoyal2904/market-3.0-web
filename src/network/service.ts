@@ -1,6 +1,5 @@
 import { saveLogs } from "@/utils/utility";
-import { getParameterByName, APP_ENV } from "../utils";
-const headerWhiteList = ["X-FORWARDED-FOR", "X-ISBOT", "fullcontent"];
+import { APP_ENV } from "../utils";
 const getApiUrl = (config: any, index: any) => {
   const { api = {}, url, params } = config;
   const { type = "" } = params;
@@ -15,10 +14,8 @@ const getApiUrl = (config: any, index: any) => {
 
 export const get = async (config: any) => {
   try {
-    //console.log("config----", config);
     const url = getApiUrl(config, 0);
-    //console.log("url------", url);
-    const cache = config.cache ? config.cache : "false";
+    const cache = !!config.cache ? config.cache : false;
     if (cache) {
       config["cache"] = "no-store";
     }
@@ -26,15 +23,14 @@ export const get = async (config: any) => {
       config["headers"] = {};
     }
     const response = await fetch(url, { ...config });
-    //console.log(response?.json())
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
       saveLogs({
         type: "Mercury",
         res: "error",
         msg: response.status,
         resData: config,
       });
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     return response;
@@ -53,7 +49,7 @@ export const post = async (config: any) => {
   try {
     const { payload } = config;
     const url = getApiUrl(config, 0);
-    const cache = config.cache ? config.cache : "false";
+    const cache = !!config.cache ? config.cache : false;
     if (cache) {
       config["cache"] = "no-store";
     }
@@ -64,18 +60,17 @@ export const post = async (config: any) => {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
       saveLogs({
         type: "Mercury",
         res: "error",
         msg: response.status,
         resData: config,
       });
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     return response;
   } catch (e) {
-    //console.log("error in post request", e);
     saveLogs({
       type: "Mercury",
       res: "error",
