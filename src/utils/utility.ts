@@ -378,6 +378,14 @@ export const getStockUrl = (
         fno +
         ".cms";
     }
+    if (stockType == "NPS") {
+      stockUrl =
+        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        seoName +
+        "/nps/schemecode-" +
+        id +
+        ".cms";
+    }
     return stockUrl;
   }
 };
