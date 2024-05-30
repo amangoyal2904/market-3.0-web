@@ -76,7 +76,7 @@ const StockRecommendations: React.FC<Props> = ({
   const fetchData = async (type: any) => {
     const recosDetailResult = await getStockRecosDetail({
       getApiType: type,
-      ssoid: "8wo9qjdolpnmxdmx56kb1hshk", //isLogin ? ssoid : "" ,
+      ssoid: isLogin ? ssoid : "",
       pageNo: 1,
     });
 
