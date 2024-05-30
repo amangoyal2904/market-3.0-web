@@ -41,7 +41,6 @@ const fetchLiveStreamData = async () => {
       },
       body: JSON.stringify(bodyParams),
       cache: "no-store",
-      next: { revalidate: 3600 },
     });
     const res = await data.json();
     return res.result ? res.result : [];

@@ -32,8 +32,10 @@ const lato = Lato({
 });
 
 const eticons = localFont({
-  src: "../../public/fonts/eticons.ttf",
+  src: "./assets/fonts/eticons.woff",
   weight: "normal",
+  display: "swap",
+  variable: "--font-eticons",
 });
 
 declare global {
@@ -91,7 +93,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${montserrat.variable} ${lato.variable} ${eticons.className} h-full bg-gray-50`}
+      className={`${montserrat.variable} ${lato.variable} ${eticons.variable} h-full bg-gray-50`}
     >
       <body className="h-full">
         <NextTopLoader template='<div class="bar" role="bar"><div class="peg"></div></div>' />

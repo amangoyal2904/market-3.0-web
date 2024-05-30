@@ -1,22 +1,8 @@
-@font-face {
-  font-family: "eticons";
-  src: url("/marketsweb/fonts/eticons.eot?ulbvy2");
-  src:
-    url("/marketsweb/fonts/eticons.eot?ulbvy2#iefix")
-      format("embedded-opentype"),
-    url("/marketsweb/fonts/eticons.ttf?ulbvy2") format("truetype"),
-    url("/marketsweb/fonts/eticons.woff?ulbvy2") format("woff"),
-    url("/marketsweb/fonts/eticons.svg?ulbvy2#eticons") format("svg");
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-}
-
 [class^="eticon_"],
 [class*=" eticon_"],
 [class^="eticon_"] * {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: "eticons" !important;
+  font-family: var(--font-eticons) !important;
   speak: never;
   font-style: normal;
   font-weight: normal;
