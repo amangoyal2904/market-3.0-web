@@ -31,7 +31,7 @@
     position: absolute;
     right: -1px;
     top: -11px;
-    background: url("/marketsweb/img/modalClose2.svg") no-repeat 0 0;
+    background: url("/img/modalClose2.svg") no-repeat 0 0;
     display: inline-block;
     vertical-align: top;
     width: 36px;
@@ -64,7 +64,7 @@
 .topSec {
   .head {
     position: relative;
-    background: url("/marketsweb/img/logoBlockerBig.svg") no-repeat 0 0;
+    background: url("/img/logoBlockerBig.svg") no-repeat 0 0;
     background-size: 100%;
     width: 216px;
     height: 40px;
@@ -120,7 +120,7 @@
         left: 13px;
         top: 50%;
         margin-top: -9px;
-        background: url("/marketsweb/img/logobigbullStar.svg") no-repeat 0 0;
+        background: url("/img/logobigbullStar.svg") no-repeat 0 0;
         display: inline-block;
         vertical-align: top;
         width: 20px;
@@ -161,27 +161,27 @@
       height: 40px;
     }
     .stockRplus {
-      background: url("/marketsweb/img/srplusicon.png") no-repeat 0 0;
+      background: url("/img/srplusicon.png") no-repeat 0 0;
       background-size: 100%;
     }
     .marketMood {
-      background: url("/marketsweb/img/marketMood.png") no-repeat 0 0;
+      background: url("/img/marketMood.png") no-repeat 0 0;
       background-size: 100%;
     }
     .stockAnalyzer {
-      background: url("/marketsweb/img/stockAnalyzer.png") no-repeat 0 0;
+      background: url("/img/stockAnalyzer.png") no-repeat 0 0;
       background-size: 100%;
     }
     .inverstmentIdeas {
-      background: url("/marketsweb/img/inverstmentIdeas.png") no-repeat 0 0;
+      background: url("/img/inverstmentIdeas.png") no-repeat 0 0;
       background-size: 100%;
     }
     .epaper {
-      background: url("/marketsweb/img/epaper.png") no-repeat 0 0;
+      background: url("/img/epaper.png") no-repeat 0 0;
       background-size: 100%;
     }
     .etprimeExclusives {
-      background: url("/marketsweb/img/etprimeExclusives.png") no-repeat 0 0;
+      background: url("/img/etprimeExclusives.png") no-repeat 0 0;
       background-size: 100%;
     }
   }
@@ -201,7 +201,7 @@
     top: 0;
     width: 60px;
     height: 10px;
-    background: url("/marketsweb/img/etprimelogo.png") no-repeat 0 0;
+    background: url("/img/etprimelogo.png") no-repeat 0 0;
     background-size: 100%;
   }
   &::before {
@@ -211,7 +211,7 @@
     top: -18px;
     width: 14px;
     height: 70px;
-    background: url("/marketsweb/img/etprimelogoline.png") no-repeat top center;
+    background: url("/img/etprimelogoline.png") no-repeat top center;
     background-size: 100%;
   }
 }
