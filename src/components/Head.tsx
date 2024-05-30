@@ -19,7 +19,10 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
       <link rel="dns-prefetch" href="https://ade.clmbtech.com" />
       <link rel="dns-prefetch" href="https://static.clmbtech.com" />
       <link rel="dns-prefetch" href="https://googletagservices.com" />
-      <link rel="dns-prefetch" href="https://commondatastorage.googleapis.com" />
+      <link
+        rel="dns-prefetch"
+        href="https://commondatastorage.googleapis.com"
+      />
       <link rel="dns-prefetch" href="https://c1.adform.net" />
       <link rel="dns-prefetch" href="https://bs.serving-sys.com" />
       <link rel="dns-prefetch" href="https://ase.clmbtech.com" />
@@ -45,9 +48,15 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
       <link rel="dns-prefetch" href="https://api.ibeat-analytics.com" />
       <link rel="dns-prefetch" href="https://tml.clmbtech.com" />
       <link rel="dns-prefetch" href="https://px.ads.linkedin.com" />
-      <link rel="dns-prefetch" href="https://secure-assets.rubiconproject.com" />
+      <link
+        rel="dns-prefetch"
+        href="https://secure-assets.rubiconproject.com"
+      />
       <link rel="dns-prefetch" href="https://snap.licdn.com" />
-      <link rel="dns-prefetch" href="https://apw.economictimes.indiatimes.com" />
+      <link
+        rel="dns-prefetch"
+        href="https://apw.economictimes.indiatimes.com"
+      />
       <link rel="dns-prefetch" href="https://match.adsrvr.org" />
       <link rel="dns-prefetch" href="https://htlb.casalemedia.com" />
       <link rel="dns-prefetch" href="https://timesinternet-d.openx.net" />
@@ -68,7 +77,11 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
     <>
       <Head>
         <title>Not Found</title>
-        <link rel="shortcut icon" href="https://m.economictimes.com/icons/etfavicon.ico" type="image/x-icon" />
+        <link
+          rel="shortcut icon"
+          href="/marketsweb/etfavicon.ico"
+          type="image/x-icon"
+        />
         <meta name="generator" content="React" />
         <meta
           name="viewport"
@@ -87,9 +100,15 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
         <link rel="dns-prefetch" href="https://geoapiet.indiatimes.com/" />
         <link rel="dns-prefetch" href="https://etpwaapi.economictimes.com/" />
         <link rel="dns-prefetch" href="https://static.growthrx.in/" />
-        <link rel="dns-prefetch" href="https://etusers.economictimes.indiatimes.com/" />
+        <link
+          rel="dns-prefetch"
+          href="https://etusers.economictimes.indiatimes.com/"
+        />
         <link rel="dns-prefetch" href="https://economictimes.indiatimes.com/" />
-        <link rel="dns-prefetch" href="https://mobilelivefeeds.indiatimes.com/" />
+        <link
+          rel="dns-prefetch"
+          href="https://mobilelivefeeds.indiatimes.com/"
+        />
         <link rel="dns-prefetch" href="https://google-analytics.com/" />
         <link rel="dns-prefetch" href="https://api.growthrx.in/" />
         <link rel="dns-prefetch" href="https://s3.amazonaws.com/" />
@@ -100,21 +119,36 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
         <link rel="dns-prefetch" href="https://google.co.in" />
         <link rel="dns-prefetch" href="https://facebook.com" />
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
-        <link rel="dns-prefetch" href="https://etup.economictimes.indiatimes.com" />
-        <link rel="dns-prefetch" href="https://etprecos.economictimes.indiatimes.com" />
+        <link
+          rel="dns-prefetch"
+          href="https://etup.economictimes.indiatimes.com"
+        />
+        <link
+          rel="dns-prefetch"
+          href="https://etprecos.economictimes.indiatimes.com"
+        />
         <link rel="dns-prefetch" href="https://etsub3.economictimes.com" />
         <link rel="dns-prefetch" href="https://etusers1.economictimes.com" />
         <link rel="dns-prefetch" href="https://mytimes.indiatimes.com" />
         <link rel="dns-prefetch" href="https://agi-static.indiatimes.com" />
         <link rel="dns-prefetch" href="https://idm.economictimes.com" />
-        <link rel="dns-prefetch" href="https://marketservices.indiatimes.com/" />
+        <link
+          rel="dns-prefetch"
+          href="https://marketservices.indiatimes.com/"
+        />
         {isVideoShowNew && (
           <>
             <link rel="dns-prefetch" href="http://slike.indiatimes.com" />
             <link rel="dns-prefetch" href="http://tvid.in" />
           </>
         )}
-        {!isVideoShowNew && <link rel="preload" as="image" href="https://img.etimg.com/photo/42031747.cms" />}
+        {!isVideoShowNew && (
+          <link
+            rel="preload"
+            as="image"
+            href="https://img.etimg.com/photo/42031747.cms"
+          />
+        )}
         {prefetchDomains}
       </Head>
     </>

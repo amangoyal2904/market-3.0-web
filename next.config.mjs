@@ -5,6 +5,7 @@ const nextConfig = {
   rewrites() {
     return [
       { source: "/marketsweb/_next/:path*", destination: "/_next/:path*" },
+      { source: "/marketsweb/:path*", destination: "/:path*" },
     ];
   },
   images: {

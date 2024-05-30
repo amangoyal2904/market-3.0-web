@@ -189,7 +189,7 @@ export const fnGenerateMetaData = (meta?: any) => {
       },
     },
     icons: {
-      icon: "/etfavicon.ico",
+      icon: "/marketsweb/etfavicon.ico",
     },
   };
 };
