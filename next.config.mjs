@@ -15,7 +15,7 @@ const nextConfig = {
       },
       {
         source: "/marketsweb/static/:path*",
-        destination: "/img/:path*",
+        destination: "/static/:path*",
       },
       {
         source: "/marketsweb/etfavicon.ico",
