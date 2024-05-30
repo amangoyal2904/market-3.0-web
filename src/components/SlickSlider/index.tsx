@@ -123,25 +123,6 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
       }
     }
   }, []);
-  useEffect(() => {
-    if (topSpaceClass === "recoOnWatchlist") {
-      const elements: NodeListOf<HTMLElement> =
-        document.querySelectorAll(".recoOnWatchlist");
-      let NoOfChild: number = 0;
-      elements.forEach((element) => {
-        const activeElements = element.querySelectorAll(".slick-active");
-        if (activeElements) {
-          NoOfChild = activeElements.length;
-        }
-        if (NoOfChild < slidesToShow) {
-          const slickTrackElement = element.querySelector(".slick-track");
-          slickTrackElement?.classList.add("noTransform");
-        }
-      });
-
-      // console.log("slidesToShow --->", slidesToShow, NoOfChild, topSpaceClass);
-    }
-  }, [slidesToShow, topSpaceClass]);
 
   useEffect(() => {
     const element: HTMLElement | null = document.getElementById(sliderId);
@@ -149,11 +130,19 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
       const slickTrack = element.querySelector(".slick-track");
       if (slickTrack) {
         const activeElements = slickTrack.querySelectorAll(".slick-slide");
-        if (activeElements.length === 1) {
+        const activeSlides = slickTrack.querySelectorAll(".slick-active");
+        if (sliderId === "sliderrecoOnWatchlist") {
+          if (activeSlides.length < slidesToShow) {
+            const slickTrackElement = element.querySelector(".slick-track");
+            slickTrackElement?.classList.add("noTransform");
+          }
+        }
+        if (activeElements.length === activeSlides.length) {
           const stockSliderIconsElement =
             element.querySelector(".stockSliderIcons");
           stockSliderIconsElement?.classList.add("disNone");
         }
+        // console.log("sliderDots -->", activeElements.length, activeSlides.length, sliderId)
       }
     }
   }, [sliderId, slidesToShow]);
