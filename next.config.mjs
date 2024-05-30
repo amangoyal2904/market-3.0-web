@@ -29,6 +29,10 @@ const nextConfig = {
         source: "/marketsweb/prime_icon.svg",
         destination: "/prime_icon.svg",
       },
+      {
+        source: "/marketsweb/login_code.html",
+        destination: "/login_code.html",
+      },
     ];
   },
   images: {
