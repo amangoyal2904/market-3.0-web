@@ -30,6 +30,12 @@ const lato = Lato({
   display: "swap",
   variable: "--font-lato",
 });
+
+const eticons = localFont({
+  src: "../../public/fonts/eticons.ttf",
+  weight: "normal",
+});
+
 declare global {
   interface Window {
     objVc: any;
@@ -85,7 +91,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${montserrat.variable} ${lato.variable} h-full bg-gray-50`}
+      className={`${montserrat.variable} ${lato.variable} ${eticons.className} h-full bg-gray-50`}
     >
       <body className="h-full">
         <NextTopLoader template='<div class="bar" role="bar"><div class="peg"></div></div>' />
