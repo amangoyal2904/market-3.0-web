@@ -237,7 +237,10 @@ export const initSSOWidget = () => {
     socialLogin: [
       {
         type: "Google",
-        clientId: "936221589938.apps.googleusercontent.com",
+        clientId:
+          window.location.host == "economictimes.indiatimes.com"
+            ? "936221589938.apps.googleusercontent.com"
+            : "891351984915-kodsh6b9vik3h6ue008fh8jgfstageh6.apps.googleusercontent.com",
       },
       {
         type: "Facebook",
