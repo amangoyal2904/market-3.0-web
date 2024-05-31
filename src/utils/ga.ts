@@ -5,6 +5,7 @@ import { APP_ENV } from "@/utils/index";
 import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import grxMappingObj from "@/utils/grxMappingObj.json";
+import cdpObj from "@/utils/cdpObj.json";
 import { usePathname } from "next/navigation";
 declare global {
   interface Window {
@@ -32,22 +33,6 @@ export const redirectToPlanPage = (
     console.log("redirectToPlanPage Err:", Err);
     goToPlansPage1(type, {}, redirect);
   }
-};
-
-export const goToPlansPage = () => {
-  const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
-  const ticketId = getCookie("encTicket")
-    ? `&ticketid=${getCookie("encTicket")}`
-    : "";
-  const newPlanUrl =
-    planUrl +
-    (planUrl.indexOf("?") == -1 ? "?" : "&") +
-    "ru=" +
-    encodeURI(window.location.href) +
-    "&grxId=" +
-    getCookie("_grx") +
-    ticketId;
-  window.location.href = newPlanUrl;
 };
 
 export const goToPlansPage1 = (type, data, redirect) => {
@@ -96,6 +81,8 @@ export const trackPushData = (
     objUserData.fname = firstName;
     objUserData.fullname = fullName;
   }
+  // const getGrxData = generateGrxFunnel();
+  // console.log("getGrxData------>",getGrxData);
   const dataToPost = {
     ET: {},
     grxMappingObj: newGrxMapObj,
@@ -297,4 +284,190 @@ export const updateGtm = (_gtmEventDimension) => {
   _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
   _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
   return _gtmEventDimension;
+};
+
+export const generateGrxFunnel = () => {
+  const pagePathName = window.location.pathname;
+  const pageElem = window.location.pathname.split("/");
+  let site_section = pagePathName.slice(1);
+  let lastSlash = site_section.lastIndexOf("/");
+  let objGrx = {};
+  objGrx["dimension1"] = getPageName();
+  objGrx["dimension26"] =
+    site_section.indexOf("/") == -1
+      ? site_section.substring(site_section.indexOf("/") + 1)
+      : site_section.substring(0, site_section.indexOf("/"));
+  objGrx["dimension146"] = typeof window.objUser != "undefined" ? "Y" : "N";
+  objGrx["dimension27"] = site_section;
+  objGrx["dimension12"] = "";
+  objGrx["dimension147"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "Free User";
+  objGrx["dimension20"] = "Web";
+  objGrx["dimension25"] = site_section.substring(lastSlash + 1);
+  objGrx["dimension143"] =
+    typeof window.objUser != "undefined" &&
+    window.objUser.accessibleFeatures &&
+    window.objUser.accessibleFeatures.length > 0
+      ? window.objUser.accessibleFeatures
+      : "";
+  objGrx["dimension48"] = "";
+  objGrx["dimension96"] = 0;
+  objGrx["dimension94"] = 0;
+  objGrx["dimension98"] = 0;
+  let trafficSource = "direct";
+  let dref = document.referrer,
+    wlh = window.location.href.toLowerCase();
+  if (/google|bing|yahoo/gi.test(dref)) {
+    trafficSource = "organic";
+  } else if (
+    /facebook|linkedin|instagram|twitter/gi.test(dref) ||
+    wlh.indexOf("utm_medium=social") != -1
+  ) {
+    trafficSource = "social";
+  } else if (wlh.indexOf("utm_medium=email") != -1) {
+    trafficSource = "newsletter";
+  } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
+    trafficSource = "notifications";
+  }
+  objGrx["dimension93"] = trafficSource;
+  objGrx["dimension92"] = site_section;
+  objGrx["dimension109"] = window?.geoinfo.region_code;
+  objGrx["dimension10"] =
+    typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+  objGrx["dimension3"] =
+    typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+  objGrx["dimension37"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "Free User";
+  objGrx["dimension145"] = "ET_Mercury";
+  // objGrx["feature_name"] = getPageName().replace("Mercury_", "");
+  // objGrx["referral_url"] = document.referrer;
+  // objGrx["url"] = window.location.href;
+  // objGrx["user_id"] =
+  //   typeof window.objUser != "undefined" && window.objUser?.ssoid
+  //     ? window.objUser.ssoid
+  //     : "";
+  // objGrx["user_grx_id"] = getCookie("_grx") ? getCookie("_grx") : "";
+  // objGrx["subscription_status"] =
+  //   typeof window.objUser != "undefined" && window?.objUser?.permissions
+  //     ? getUserType(window.objUser.permissions)
+  //     : "Free User";
+  // objGrx["current_subscriber_status"] =
+  //   typeof window.objUser != "undefined" && window?.objUser?.permissions
+  //     ? getUserType(window.objUser.permissions)
+  //     : "Free User";
+  // objGrx["user_subscription_status"] =
+  //   typeof window.objUser != "undefined" && window?.objUser?.permissions
+  //     ? getUserType(window.objUser.permissions)
+  //     : "Free User";
+
+  // objGrx["country"] = window?.geoinfo.CountryCode;
+  // objGrx["email"] = window?.objUser?.info?.primaryEmail
+  //   ? window?.objUser?.info?.primaryEmail
+  //   : "";
+  // objGrx["et_uuid"] = getCookie("peuuid")
+  //   ? getCookie("peuuid")
+  //   : getCookie("pfuuid");
+  // objGrx["first_name"] = window?.objUser?.info?.firstName
+  //   ? window?.objUser?.info?.firstName
+  //   : "";
+  // objGrx["last_name"] = window?.objUser?.info?.lastName
+  //   ? window?.objUser?.info?.lastName
+  //   : "";
+  // objGrx["loggedin"] = typeof window.objUser != "undefined" ? "Yes" : "No";
+  // objGrx["pageTitle"] = document.title;
+  // objGrx["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
+  // objGrx["web_peuuid"] = getCookie("peuuid");
+  // objGrx["web_pfuuid"] = getCookie("pfuuid");
+  return objGrx;
+};
+
+export const generateCDPPageView = () => {
+  const pagePathName = window.location.pathname;
+  const pageElem = window.location.pathname.split("/");
+  let site_section = pagePathName.slice(1);
+  let lastSlash = site_section.lastIndexOf("/");
+  cdpObj["feature_name"] = getPageName().replace("Mercury_", "");
+  cdpObj["level_1"] =
+    site_section.indexOf("/") == -1
+      ? site_section.substring(site_section.indexOf("/") + 1)
+      : site_section.substring(0, site_section.indexOf("/"));
+  cdpObj["level_2"] = site_section;
+  cdpObj["referral_url"] = document.referrer;
+  cdpObj["page_template"] = site_section.substring(lastSlash + 1);
+  cdpObj["url"] = window.location.href;
+  cdpObj["login_status"] =
+    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
+  cdpObj["user_login_status_hit"] =
+    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
+  cdpObj["user_login_status_session"] =
+    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
+  cdpObj["last_click_source"] = site_section;
+  let trafficSource = "direct";
+  let dref = document.referrer,
+    wlh = window.location.href.toLowerCase();
+  if (/google|bing|yahoo/gi.test(dref)) {
+    trafficSource = "organic";
+  } else if (
+    /facebook|linkedin|instagram|twitter/gi.test(dref) ||
+    wlh.indexOf("utm_medium=social") != -1
+  ) {
+    trafficSource = "social";
+  } else if (wlh.indexOf("utm_medium=email") != -1) {
+    trafficSource = "newsletter";
+  } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
+    trafficSource = "notifications";
+  }
+  cdpObj["internal_source"] = trafficSource;
+  cdpObj["user_id"] =
+    typeof window.objUser != "undefined" && window.objUser?.ssoid
+      ? window.objUser.ssoid
+      : "";
+
+  cdpObj["user_grx_id"] = getCookie("_grx") ? getCookie("_grx") : "";
+  cdpObj["subscription_status"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "Free User";
+  cdpObj["current_subscriber_status"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "Free User";
+  cdpObj["user_subscription_status"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "Free User";
+  cdpObj["platform"] = "Web";
+
+  cdpObj["feature_permission"] =
+    typeof window.objUser != "undefined" &&
+    window.objUser.accessibleFeatures &&
+    window.objUser.accessibleFeatures.length > 0
+      ? window.objUser.accessibleFeatures
+      : "";
+  cdpObj["country"] = window?.geoinfo.CountryCode;
+  cdpObj["email"] = window?.objUser?.info?.primaryEmail
+    ? window?.objUser?.info?.primaryEmail
+    : "";
+  cdpObj["et_product"] = getPageName();
+  cdpObj["et_uuid"] = getCookie("peuuid")
+    ? getCookie("peuuid")
+    : getCookie("pfuuid");
+  cdpObj["first_name"] = window?.objUser?.info?.firstName
+    ? window?.objUser?.info?.firstName
+    : "";
+  cdpObj["last_name"] = window?.objUser?.info?.lastName
+    ? window?.objUser?.info?.lastName
+    : "";
+  cdpObj["loggedin"] = typeof window.objUser != "undefined" ? "Yes" : "No";
+  cdpObj["pageTitle"] = document.title;
+
+  cdpObj["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
+  cdpObj["user_region"] = window?.geoinfo.region_code;
+  cdpObj["web_peuuid"] = getCookie("peuuid");
+  cdpObj["web_pfuuid"] = getCookie("pfuuid");
+  return cdpObj;
 };

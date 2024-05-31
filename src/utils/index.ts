@@ -647,7 +647,6 @@ export const footerAPIHit = async (pageUrl: string) => {
     params: {},
   });
   const footerResult: any = await footerPromise?.json();
-  console.log("Footer API HIT ---> ", footerResult);
   return footerResult;
 };
 

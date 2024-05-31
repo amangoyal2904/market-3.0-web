@@ -46,8 +46,6 @@ const callDfpAd = async function () {
     //     });
     if (dfpData && Object.keys(dfpData).length > 0) {
       Object.keys(dfpData).forEach((key: string) => {
-        console.log("----------INDISE FOREACH__________");
-        console.log(dfpData[key]);
         let adSlot = dfpData[key].slot ? dfpData[key].slot : "";
         let adSize = dfpData[key].size ? dfpData[key].size : "";
         let divId = dfpData[key].id ? dfpData[key].id : "";
@@ -90,7 +88,6 @@ const callDfpAd = async function () {
           }
         });
       }
-      console.log("DIV-------------", divIds);
     }
     window.arrDfpAds = [];
   } catch (e) {
@@ -129,8 +126,6 @@ const renderDfpAds = (userType = true) => {
       let maxTry = 10;
       let counter = 1;
       googleTag = window.googletag || {};
-      console.log("userType", userType);
-      console.log(window.googletag);
       let ref_interval = setInterval(() => {
         if (googleTag.apiReady) {
           callDfpAd();

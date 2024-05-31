@@ -5,7 +5,7 @@ import { initSSOWidget } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
 import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
-import { goToPlansPage, trackingEvent } from "@/utils/ga";
+import { trackingEvent } from "@/utils/ga";
 import toast from "react-hot-toast";
 
 const WatchlistAddition = ({

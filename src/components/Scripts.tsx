@@ -138,7 +138,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
           window._log = function(){
               let currDate = new Date().toString().split(" GMT")[0];
               let args = Array.prototype.slice.call(arguments);
-              console.log(currDate + ' >', args.toString());
           }
           var _comscore = _comscore || [];
           _comscore.push({ c1: "2", c2: "6036484" });
