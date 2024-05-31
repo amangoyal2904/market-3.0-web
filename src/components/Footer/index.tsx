@@ -22,7 +22,6 @@ const Footer = ({ footerData }: any) => {
   const isFirstRender = useRef(true);
   useEffect(() => {
     async function footerFunc() {
-      console.log("PathName----------->", pathName);
       const footerData = await footerAPIHit(pathName);
       setFooterRes(footerData);
     }

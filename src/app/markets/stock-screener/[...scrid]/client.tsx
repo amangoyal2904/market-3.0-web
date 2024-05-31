@@ -149,7 +149,6 @@ const StockScreeners = ({
       id: viewId,
     };
     setToasterConfirmData(confirmData);
-    console.log("removePersonaliseViewFun", viewId);
   };
   const toasterRemovePersonaliseViewCloseHandlerFun = async (
     value: boolean,

@@ -35,22 +35,6 @@ export const redirectToPlanPage = (
   }
 };
 
-export const goToPlansPage = () => {
-  const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
-  const ticketId = getCookie("encTicket")
-    ? `&ticketid=${getCookie("encTicket")}`
-    : "";
-  const newPlanUrl =
-    planUrl +
-    (planUrl.indexOf("?") == -1 ? "?" : "&") +
-    "ru=" +
-    encodeURI(window.location.href) +
-    "&grxId=" +
-    getCookie("_grx") +
-    ticketId;
-  window.location.href = newPlanUrl;
-};
-
 export const goToPlansPage1 = (type, data, redirect) => {
   if (window.dataLayer) {
     let _gtmEventDimension = {};
@@ -97,6 +81,8 @@ export const trackPushData = (
     objUserData.fname = firstName;
     objUserData.fullname = fullName;
   }
+  // const getGrxData = generateGrxFunnel();
+  // console.log("getGrxData------>",getGrxData);
   const dataToPost = {
     ET: {},
     grxMappingObj: newGrxMapObj,
@@ -300,7 +286,104 @@ export const updateGtm = (_gtmEventDimension) => {
   return _gtmEventDimension;
 };
 
-export const generateGrxFunnel = () => {};
+export const generateGrxFunnel = () => {
+  const pagePathName = window.location.pathname;
+  const pageElem = window.location.pathname.split("/");
+  let site_section = pagePathName.slice(1);
+  let lastSlash = site_section.lastIndexOf("/");
+  let objGrx = {};
+  objGrx["dimension1"] = getPageName();
+  objGrx["dimension26"] =
+    site_section.indexOf("/") == -1
+      ? site_section.substring(site_section.indexOf("/") + 1)
+      : site_section.substring(0, site_section.indexOf("/"));
+  objGrx["dimension146"] = typeof window.objUser != "undefined" ? "Y" : "N";
+  objGrx["dimension27"] = site_section;
+  objGrx["dimension12"] = "";
+  objGrx["dimension147"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "Free User";
+  objGrx["dimension20"] = "Web";
+  objGrx["dimension25"] = site_section.substring(lastSlash + 1);
+  objGrx["dimension143"] =
+    typeof window.objUser != "undefined" &&
+    window.objUser.accessibleFeatures &&
+    window.objUser.accessibleFeatures.length > 0
+      ? window.objUser.accessibleFeatures
+      : "";
+  objGrx["dimension48"] = "";
+  objGrx["dimension96"] = 0;
+  objGrx["dimension94"] = 0;
+  objGrx["dimension98"] = 0;
+  let trafficSource = "direct";
+  let dref = document.referrer,
+    wlh = window.location.href.toLowerCase();
+  if (/google|bing|yahoo/gi.test(dref)) {
+    trafficSource = "organic";
+  } else if (
+    /facebook|linkedin|instagram|twitter/gi.test(dref) ||
+    wlh.indexOf("utm_medium=social") != -1
+  ) {
+    trafficSource = "social";
+  } else if (wlh.indexOf("utm_medium=email") != -1) {
+    trafficSource = "newsletter";
+  } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
+    trafficSource = "notifications";
+  }
+  objGrx["dimension93"] = trafficSource;
+  objGrx["dimension92"] = site_section;
+  objGrx["dimension109"] = window?.geoinfo.region_code;
+  objGrx["dimension10"] =
+    typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+  objGrx["dimension3"] =
+    typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+  objGrx["dimension37"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "Free User";
+  objGrx["dimension145"] = "ET_Mercury";
+  // objGrx["feature_name"] = getPageName().replace("Mercury_", "");
+  // objGrx["referral_url"] = document.referrer;
+  // objGrx["url"] = window.location.href;
+  // objGrx["user_id"] =
+  //   typeof window.objUser != "undefined" && window.objUser?.ssoid
+  //     ? window.objUser.ssoid
+  //     : "";
+  // objGrx["user_grx_id"] = getCookie("_grx") ? getCookie("_grx") : "";
+  // objGrx["subscription_status"] =
+  //   typeof window.objUser != "undefined" && window?.objUser?.permissions
+  //     ? getUserType(window.objUser.permissions)
+  //     : "Free User";
+  // objGrx["current_subscriber_status"] =
+  //   typeof window.objUser != "undefined" && window?.objUser?.permissions
+  //     ? getUserType(window.objUser.permissions)
+  //     : "Free User";
+  // objGrx["user_subscription_status"] =
+  //   typeof window.objUser != "undefined" && window?.objUser?.permissions
+  //     ? getUserType(window.objUser.permissions)
+  //     : "Free User";
+
+  // objGrx["country"] = window?.geoinfo.CountryCode;
+  // objGrx["email"] = window?.objUser?.info?.primaryEmail
+  //   ? window?.objUser?.info?.primaryEmail
+  //   : "";
+  // objGrx["et_uuid"] = getCookie("peuuid")
+  //   ? getCookie("peuuid")
+  //   : getCookie("pfuuid");
+  // objGrx["first_name"] = window?.objUser?.info?.firstName
+  //   ? window?.objUser?.info?.firstName
+  //   : "";
+  // objGrx["last_name"] = window?.objUser?.info?.lastName
+  //   ? window?.objUser?.info?.lastName
+  //   : "";
+  // objGrx["loggedin"] = typeof window.objUser != "undefined" ? "Yes" : "No";
+  // objGrx["pageTitle"] = document.title;
+  // objGrx["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
+  // objGrx["web_peuuid"] = getCookie("peuuid");
+  // objGrx["web_pfuuid"] = getCookie("pfuuid");
+  return objGrx;
+};
 
 export const generateCDPPageView = () => {
   const pagePathName = window.location.pathname;
