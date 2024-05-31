@@ -264,7 +264,7 @@ const TableHtml = (props: any) => {
             target="_blank"
           >
             <Image
-              src="/icon_pdf.svg"
+              src="/marketsweb/icon_pdf.svg"
               width="20"
               height="20"
               alt={`${obj.companyName} View Report`}

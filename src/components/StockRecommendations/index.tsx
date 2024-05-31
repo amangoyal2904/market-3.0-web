@@ -15,6 +15,7 @@ interface Props {
   stockRecoResult: any;
   recosNav: any;
 }
+
 const StockRecommendations: React.FC<Props> = ({
   stockRecoResult,
   recosNav,
@@ -50,6 +51,8 @@ const StockRecommendations: React.FC<Props> = ({
       },
     },
   ];
+
+  const [windowWidth, setWindowWidth] = useState(0);
   const [activeTab, setActiveTab] = useState(
     tabNames && tabNames?.length ? tabNames[0] : [],
   );
@@ -88,12 +91,49 @@ const StockRecommendations: React.FC<Props> = ({
 
     setStockData(recosDetailResult?.recoData[0]?.data);
   };
+  // ------------- Start to set windows Inner width -------------
+  const updateWindowWidth = () => {
+    setWindowWidth(window.innerWidth);
+  };
+  // ------------- End to set windows Inner width -------------
+  // ------------- Start Function for Getting slideToShow Value when window resize from responsive array -------------
+  const getWindowSlidesToShow = (windowWidth: any, responsive: any) => {
+    let nearestBreakpoint = null;
 
+    // Find the nearest breakpoint greater than windowWidth
+    for (const breakpoint of responsive) {
+      if (
+        breakpoint.breakpoint > windowWidth &&
+        (!nearestBreakpoint ||
+          breakpoint.breakpoint < nearestBreakpoint.breakpoint)
+      ) {
+        nearestBreakpoint = breakpoint;
+      }
+    }
+
+    // Return the slidesToShow value of the nearest breakpoint
+    return nearestBreakpoint
+      ? nearestBreakpoint.settings.slidesToShow
+      : responsive[0].settings.slidesToShow; // Default to the first breakpoint's slidesToShow if no suitable breakpoint found
+  };
+  // ------------- End Function for Getting slideToShow Value when window resize from responsive array -------------
   useEffect(() => {
     setLoaderState(false);
   }, [stockData]);
 
-  console.log("activeTab -- ", activeTab);
+  // ------------- Start Window resizing Immidiate effect -------------
+  useEffect(() => {
+    updateWindowWidth();
+    window.addEventListener("resize", updateWindowWidth);
+    return () => {
+      window.removeEventListener("resize", updateWindowWidth);
+    };
+  }, []);
+  // ------------- End Window resizing Immidiate effect -------------
+
+  // ------------- Start Getting slideToShow Value when window resize from responsive array -------------
+  const slidesToShowexcat = getWindowSlidesToShow(windowWidth, responsive);
+  // ------------- End Getting slideToShow Value when window resize from responsive array -------------
 
   return (
     <div className="sectionWrapper">
@@ -139,7 +179,7 @@ const StockRecommendations: React.FC<Props> = ({
                 }))}
                 key={`slider${activeTab.apiType}`}
                 sliderId={`slider${activeTab.apiType}`}
-                slidesToShow={5}
+                slidesToShow={slidesToShowexcat}
                 slidesToScroll={1}
                 rows={2}
                 topSpaceClass={activeTab?.apiType}

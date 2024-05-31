@@ -30,6 +30,14 @@ const lato = Lato({
   display: "swap",
   variable: "--font-lato",
 });
+
+const eticons = localFont({
+  src: "./assets/fonts/eticons.woff",
+  weight: "normal",
+  display: "swap",
+  variable: "--font-eticons",
+});
+
 declare global {
   interface Window {
     objVc: any;
@@ -45,7 +53,7 @@ export const metadata: Metadata = {
   description:
     "Share Market Today | Share Market Live updates: Get all the Latest Share Market News and Updates on The Economic Times. Share Market Live Charts, News, Analysis, IPO News and more.",
   icons: {
-    icon: "/etfavicon.ico",
+    icon: "/marketsweb/etfavicon.ico",
   },
 };
 
@@ -85,7 +93,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${montserrat.variable} ${lato.variable} h-full bg-gray-50`}
+      className={`${montserrat.variable} ${lato.variable} ${eticons.variable} h-full bg-gray-50`}
     >
       <body className="h-full">
         <NextTopLoader template='<div class="bar" role="bar"><div class="peg"></div></div>' />
