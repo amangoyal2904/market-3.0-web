@@ -22,7 +22,7 @@ const getAllWatchList = async (_authorization, type, usersettingsubType) => {
   const headers = new Headers();
   headers.append("Authorization", _authorization);
   const res = await fetch(
-    `${API_URL}?type=${type}&usersettingsubType=${usersettingsubType}`,
+    `${API_URL}?stype=${type}&usersettingsubType=${usersettingsubType}`,
     {
       cache: "no-store",
       headers: headers,

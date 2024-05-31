@@ -225,9 +225,12 @@ export const initSSOWidget = () => {
     defaultSelected: !0,
     socialLoginRu:
       window.location.protocol +
-      "//" +
-      window.location.host +
-      "/marketsweb/login_code.html",
+        "//" +
+        window.location.host +
+        window.location.host ==
+      "economictimes.indiatimes.com"
+        ? "/login_code.cms"
+        : "/login_code.html",
     nonSocialLogin: {
       loginVia: ["email", "mobile"],
       loginWith: ["Password", "otp"],

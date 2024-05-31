@@ -24,7 +24,7 @@ const Login = () => {
   //console.log(state.login);
 
   const fetchWatchListStocks = async () => {
-    const data = await fetchAllWatchListData("Follow", 11);
+    const data = await fetchAllWatchListData(2, 11);
     let watchlistArr = [];
     if (data?.resData?.length > 0) {
       watchlistArr = data?.resData.map((entry: any) => {
