@@ -5,6 +5,7 @@ import { APP_ENV } from "@/utils/index";
 import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import grxMappingObj from "@/utils/grxMappingObj.json";
+import cdpObj from "@/utils/cdpObj.json";
 import { usePathname } from "next/navigation";
 declare global {
   interface Window {
@@ -297,4 +298,93 @@ export const updateGtm = (_gtmEventDimension) => {
   _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
   _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
   return _gtmEventDimension;
+};
+
+export const generateGrxFunnel = () => {};
+
+export const generateCDPPageView = () => {
+  const pagePathName = window.location.pathname;
+  const pageElem = window.location.pathname.split("/");
+  let site_section = pagePathName.slice(1);
+  let lastSlash = site_section.lastIndexOf("/");
+  cdpObj["feature_name"] = getPageName().replace("Mercury_", "");
+  cdpObj["level_1"] =
+    site_section.indexOf("/") == -1
+      ? site_section.substring(site_section.indexOf("/") + 1)
+      : site_section.substring(0, site_section.indexOf("/"));
+  cdpObj["level_2"] = site_section;
+  cdpObj["referral_url"] = document.referrer;
+  cdpObj["page_template"] = site_section.substring(lastSlash + 1);
+  cdpObj["url"] = window.location.href;
+  cdpObj["login_status"] =
+    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
+  cdpObj["user_login_status_hit"] =
+    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
+  cdpObj["user_login_status_session"] =
+    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
+  cdpObj["last_click_source"] = site_section;
+  let trafficSource = "direct";
+  let dref = document.referrer,
+    wlh = window.location.href.toLowerCase();
+  if (/google|bing|yahoo/gi.test(dref)) {
+    trafficSource = "organic";
+  } else if (
+    /facebook|linkedin|instagram|twitter/gi.test(dref) ||
+    wlh.indexOf("utm_medium=social") != -1
+  ) {
+    trafficSource = "social";
+  } else if (wlh.indexOf("utm_medium=email") != -1) {
+    trafficSource = "newsletter";
+  } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
+    trafficSource = "notifications";
+  }
+  cdpObj["internal_source"] = trafficSource;
+  cdpObj["user_id"] =
+    typeof window.objUser != "undefined" && window.objUser?.ssoid
+      ? window.objUser.ssoid
+      : "";
+
+  cdpObj["user_grx_id"] = getCookie("_grx") ? getCookie("_grx") : "";
+  cdpObj["subscription_status"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "Free User";
+  cdpObj["current_subscriber_status"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "Free User";
+  cdpObj["user_subscription_status"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "Free User";
+  cdpObj["platform"] = "Web";
+
+  cdpObj["feature_permission"] =
+    typeof window.objUser != "undefined" &&
+    window.objUser.accessibleFeatures &&
+    window.objUser.accessibleFeatures.length > 0
+      ? window.objUser.accessibleFeatures
+      : "";
+  cdpObj["country"] = window?.geoinfo.CountryCode;
+  cdpObj["email"] = window?.objUser?.info?.primaryEmail
+    ? window?.objUser?.info?.primaryEmail
+    : "";
+  cdpObj["et_product"] = getPageName();
+  cdpObj["et_uuid"] = getCookie("peuuid")
+    ? getCookie("peuuid")
+    : getCookie("pfuuid");
+  cdpObj["first_name"] = window?.objUser?.info?.firstName
+    ? window?.objUser?.info?.firstName
+    : "";
+  cdpObj["last_name"] = window?.objUser?.info?.lastName
+    ? window?.objUser?.info?.lastName
+    : "";
+  cdpObj["loggedin"] = typeof window.objUser != "undefined" ? "Yes" : "No";
+  cdpObj["pageTitle"] = document.title;
+
+  cdpObj["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
+  cdpObj["user_region"] = window?.geoinfo.region_code;
+  cdpObj["web_peuuid"] = getCookie("peuuid");
+  cdpObj["web_pfuuid"] = getCookie("pfuuid");
+  return cdpObj;
 };
