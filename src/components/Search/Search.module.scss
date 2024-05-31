@@ -205,3 +205,11 @@
     font-weight: bold;
   }
 }
+@media screen and (max-width: 1300px) {
+  #searchBar {
+    width: 27vw;
+    .inputBox {
+      font-size: 12px;
+    }
+  }
+}
