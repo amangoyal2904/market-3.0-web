@@ -70,7 +70,7 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   };
   const fetchWatchListStocks = async () => {
     setLoading(true);
-    const data = await fetchAllWatchListData("Follow", 11);
+    const data = await fetchAllWatchListData(2, 11);
     if (data?.resData?.length > 0) {
       setWatchlistStock(data.resData);
       fetchMostPopularStocks(data.resData);
