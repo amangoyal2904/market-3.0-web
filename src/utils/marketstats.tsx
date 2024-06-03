@@ -5,7 +5,7 @@ import Service from "@/network/service";
 const fetchTitleAndDesc = async (
   navData: any,
   L3NavSubItem: any,
-  L3NavMenuItem: any
+  L3NavMenuItem: any,
 ) => {
   const results: { title: string; desc: string }[] = [];
 
@@ -61,7 +61,7 @@ export const getMarketStatsNav = async ({
   const metaData = await fetchTitleAndDesc(
     l3Nav.nav,
     L3NavSubItem,
-    L3NavMenuItem
+    L3NavMenuItem,
   );
   return {
     l3Nav,
@@ -73,7 +73,7 @@ export const getTechincalOperands = async (
   L3NavMenuItem: any,
   firstOperand: any,
   operationType: any,
-  secondOperand: any
+  secondOperand: any,
 ) => {
   let category = L3NavMenuItem;
   if (category == "moving-averages") {
@@ -97,15 +97,15 @@ export const getTechincalOperands = async (
     },
     selectedFilterLabel: {
       firstOperand: response?.firstOperands.find(
-        (operand: any) => operand.fieldName === firstOperand
+        (operand: any) => operand.fieldName === firstOperand,
       )?.displayName,
       operationType: response?.operationType.find(
-        (operand: any) => operand.fieldName === operationType
+        (operand: any) => operand.fieldName === operationType,
       )?.displayName,
       secondOperand: !isNaN(secondOperand)
         ? secondOperand
         : response?.secondOperands.find(
-            (operand: any) => operand.fieldName === secondOperand
+            (operand: any) => operand.fieldName === secondOperand,
           )?.displayName,
     },
     category: L3NavMenuItem,
@@ -125,7 +125,7 @@ export const getShortUrlMapping = async (pathname: any) => {
     const urlList = await getAllShortUrls();
     const pageData = urlList.find(
       (item: any) =>
-        pathname.includes(item.shortUrl) || pathname == item.pathname
+        pathname.includes(item.shortUrl) || pathname == item.shortUrl,
     );
     if (pageData) {
       return { shortUrl: true, pageData };
