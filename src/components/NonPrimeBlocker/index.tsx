@@ -7,6 +7,7 @@ import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import { useEffect, useState } from "react";
 import { redirectToPlanPage } from "@/utils/ga";
+import SubscribeBtn from "./SubscribeBtn";
 
 const NonPrimeBlockerModule = ({ oncloseModule, companyName }: any) => {
   const { state, dispatch } = useStateContext();
@@ -44,6 +45,11 @@ const NonPrimeBlockerModule = ({ oncloseModule, companyName }: any) => {
       item_category2: "bigbull_investors",
       item_category3: "paywall_blocker_cta",
       item_category4: "Subscribe to ETPrime",
+    },
+    cdp: {
+      event_nature: "click",
+      event_category: "subscription",
+      event_name: "paywall",
     },
   };
   const planPageRedirect = () => {
@@ -86,9 +92,13 @@ const NonPrimeBlockerModule = ({ oncloseModule, companyName }: any) => {
                   {text} <span></span>
                 </div> */}
                 <div className={styles.btnSec}>
-                  <span onClick={planPageRedirect} className={styles.subBtn}>
+                  <SubscribeBtn
+                    text={ctaTxt}
+                    planPageRedirect={planPageRedirect}
+                  />
+                  {/* <span onClick={planPageRedirect} className={styles.subBtn}>
                     {ctaTxt}
-                  </span>
+                  </span> */}
                   <span onClick={planPageRedirect} className={styles.boxTxt}>
                     {text}
                   </span>

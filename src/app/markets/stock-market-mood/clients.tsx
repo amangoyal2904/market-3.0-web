@@ -317,6 +317,11 @@ const MarketMoodsClient = ({
       site_section: "Stock Market Mood",
       site_sub_section: "markets/stock-market-mood",
     },
+    cdp: {
+      event_nature: "click",
+      event_category: "subscription",
+      event_name: "paywall",
+    },
   };
   return (
     <>

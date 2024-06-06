@@ -41,6 +41,11 @@ export default function StockSRLoginBlocker({
       site_section: "l1",
       site_sub_section: "l1/l2/l2",
     },
+    cdp: {
+      event_nature: "click",
+      event_category: "subscription",
+      event_name: "paywall",
+    },
   };
 
   const planPageHandler = () => {

@@ -57,7 +57,12 @@ const Header = () => {
         item_category3: "atf_cta",
         item_category4: "Subscribe Now",
       };
-      goToPlansPage1("select_item", obj, true);
+      const cdp = {
+        event_nature: "click",
+        event_category: "subscription",
+        event_name: "paywall",
+      };
+      goToPlansPage1("select_item", obj, true, cdp);
     } catch (Err) {
       console.log("redirectToPlanPage Err:", Err);
       goToPlansPage1("select_item", {}, true);

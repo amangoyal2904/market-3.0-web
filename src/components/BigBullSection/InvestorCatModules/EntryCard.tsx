@@ -32,6 +32,11 @@ const EntryCard = ({ data }: any) => {
         item_category3: "",
         item_category4: "",
       },
+      cdp: {
+        event_nature: "impression",
+        event_category: "subscription",
+        event_name: "subscriptions_blocker",
+      },
     };
     setCompanyName(data?.investorIntro?.name);
     redirectToPlanPage(objTracking, "view_item_list", false);

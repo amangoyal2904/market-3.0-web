@@ -30,6 +30,8 @@ declare global {
     objUser: {
       ssoid?: any;
       ticketId?: any;
+      loginType?: string;
+      prevPath?: string;
       info?: {
         thumbImageUrl: any;
         primaryEmail: string;
@@ -57,9 +59,17 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
 
   useEffect(() => {
+    console.log("PrevPath------>", prevPath);
     prevPath !== null &&
-      trackingEvent("et_push_pageload", { url: window.location.href });
+      trackingEvent("et_push_pageload", {
+        url: window.location.href,
+        prevPath: prevPath,
+      });
     setPrevPath(router);
+    console.log("??????-----", prevPath, document.referrer);
+    if (typeof window.objUser == "undefined") window.objUser = {};
+    window.objUser && (window.objUser.prevPath = prevPath || document.referrer);
+
     renderDfpAds(isPrime);
     if (window.isSurveyLoad) {
       surveyLoad();
@@ -226,6 +236,23 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
           `,
         }}
       />
+      <Script
+        id="growthrx-analytics"
+        strategy="lazyOnload"
+        dangerouslySetInnerHTML={{
+          __html: `
+                  (function (g, r, o, w, t, h, rx) {
+                  g[t] = g[t] || function () {(g[t].q = g[t].q || []).push(arguments)
+                  }, g[t].l = 1 * new Date();
+                  g[t] = g[t] || {}, h = r.createElement(o), rx = r.getElementsByTagName(o)[0];
+                  h.async = 1;h.src = w;rx.parentNode.insertBefore(h, rx)
+              })(window, document, 'script', 'https://static.growthrx.in/js/v2/web-sdk.js', 'grx');
+                  grx('init', '${(GLOBAL_CONFIG as any)[APP_ENV]?.grxId}');
+                  const grxLoaded = new Event('grxLoaded');
+                  document.dispatchEvent(grxLoaded);               
+            `,
+        }}
+      />
       {!searchParams?.get("opt") && (
         <>
           <Script
@@ -239,25 +266,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               ga('create', '${GLOBAL_CONFIG.gaId}', 'auto');
               const gaLoaded = new Event('gaLoaded');
               document.dispatchEvent(gaLoaded);
-              `,
-            }}
-          />
-          <Script
-            id="growthrx-analytics"
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: `
-               (function (g, r, o, w, t, h, rx) {
-                    g[t] = g[t] || function () {(g[t].q = g[t].q || []).push(arguments)
-                    }, g[t].l = 1 * new Date();
-                    g[t] = g[t] || {}, h = r.createElement(o), rx = r.getElementsByTagName(o)[0];
-                    h.async = 1;h.src = w;rx.parentNode.insertBefore(h, rx)
-                })(window, document, 'script', 'https://static.growthrx.in/js/v2/web-sdk.js', 'grx');
-                grx('init', '${GLOBAL_CONFIG.grxId}');
-                window.customDimension = { ...window["customDimension"], url: window.location.href };
-                //grx('track', 'page_view', {url: window.location.href});
-                const grxLoaded = new Event('grxLoaded');
-                document.dispatchEvent(grxLoaded);                
               `,
             }}
           />

@@ -28,14 +28,14 @@ export const redirectToPlanPage = (
         event_label: objTracking.label,
       });
     }
-    goToPlansPage1(type, objTracking.obj, redirect);
+    goToPlansPage1(type, objTracking.obj, redirect, objTracking.cdp);
   } catch (Err) {
     console.log("redirectToPlanPage Err:", Err);
     goToPlansPage1(type, {}, redirect);
   }
 };
 
-export const goToPlansPage1 = (type, data, redirect) => {
+export const goToPlansPage1 = (type, data, redirect, cdpSend = {}) => {
   if (window.dataLayer) {
     let _gtmEventDimension = {};
     _gtmEventDimension = updateGtm(_gtmEventDimension);
@@ -51,9 +51,8 @@ export const goToPlansPage1 = (type, data, redirect) => {
         : "Free User";
     items.push(data);
     _gtmEventDimension["items"] = items;
-    console.log("gtm Event Dimension------->>> ", _gtmEventDimension);
     window.dataLayer.push(_gtmEventDimension);
-    trackPushData(_gtmEventDimension, data, redirect);
+    trackPushData(_gtmEventDimension, data, redirect, cdpSend);
   }
 };
 
@@ -61,6 +60,7 @@ export const trackPushData = (
   _gtmEventDimension: any,
   planDim: any,
   redirect,
+  cdpSend,
 ) => {
   let url = (APIS_CONFIG as any)?.PUSHDATA[APP_ENV],
     grxMapObj = {},
@@ -73,7 +73,7 @@ export const trackPushData = (
   sendGTMdata["feature_name"] = objGTMdata.feature_name;
   sendGTMdata["site_section"] = objGTMdata.site_section;
   sendGTMdata["site_sub_section"] = objGTMdata.site_sub_section;
-  if (window.objUser && window.objUser.info.isLogged) {
+  if (window?.objUser?.info?.isLogged) {
     const { primaryEmail, mobile, firstName, lastName } = window.objUser.info;
     const fullName = firstName + (lastName ? " " + lastName : "");
     objUserData.email = primaryEmail;
@@ -81,13 +81,19 @@ export const trackPushData = (
     objUserData.fname = firstName;
     objUserData.fullname = fullName;
   }
-  // const getGrxData = generateGrxFunnel();
-  // console.log("getGrxData------>",getGrxData);
+
+  const getGrxData = generateGrxFunnel();
+  let cdpData = generateCDPPageView(window?.objUser?.prevPath);
+  cdpData = { ...cdpData, ...cdpSend };
+  if (typeof grx != "undefined") {
+    grx("init", (GLOBAL_CONFIG as any)[APP_ENV]?.grxId);
+    grx("track", cdpData.event_name, cdpData);
+  }
   const dataToPost = {
-    ET: {},
+    ET: generateGrxFunnel(),
     grxMappingObj: newGrxMapObj,
     objUserData: objUserData,
-    analytics_cdp: {},
+    analytics_cdp: cdpData,
     ga4Items: sendGTMdata,
   };
   const pushData = {
@@ -134,6 +140,10 @@ export const trackingEvent = (type, data) => {
     _gtmEventDimension["event"] = type;
     _gtmEventDimension = Object.assign(_gtmEventDimension, data);
     window.dataLayer.push(_gtmEventDimension);
+  }
+  if (type == "et_push_pageload") {
+    const objCDP = generateCDPPageView(data.prevPath);
+    window.grx && window.grx("track", "page_view", objCDP);
   }
 };
 
@@ -385,27 +395,27 @@ export const generateGrxFunnel = () => {
   return objGrx;
 };
 
-export const generateCDPPageView = () => {
+export const generateCDPPageView = (prevPath) => {
   const pagePathName = window.location.pathname;
-  const pageElem = window.location.pathname.split("/");
+  let pageElem = window.location.pathname.split("/");
+  const arr = pageElem.shift();
   let site_section = pagePathName.slice(1);
+  console.log("Site_section------>", site_section);
   let lastSlash = site_section.lastIndexOf("/");
   cdpObj["feature_name"] = getPageName().replace("Mercury_", "");
-  cdpObj["level_1"] =
-    site_section.indexOf("/") == -1
-      ? site_section.substring(site_section.indexOf("/") + 1)
-      : site_section.substring(0, site_section.indexOf("/"));
-  cdpObj["level_2"] = site_section;
-  cdpObj["referral_url"] = document.referrer;
+  cdpObj["level_1"] = pageElem[0] != undefined ? pageElem[0] : "";
+  cdpObj["level_2"] = pageElem[1] != undefined ? pageElem[1] : "";
+  cdpObj["level_3"] = pageElem[2] != undefined ? pageElem[2] : "";
+  cdpObj["level_4"] = pageElem[3] != undefined ? pageElem[3] : "";
+  cdpObj["level_full"] = site_section;
+  //console.log("prevPath------>",prevPath);
+  const n = prevPath.lastIndexOf("/");
+  const lastClick = prevPath.substring(n + 1);
+  cdpObj["last_click_source"] = lastClick;
+  cdpObj["referral_url"] = document.referrer != "" ? prevPath : "";
   cdpObj["page_template"] = site_section.substring(lastSlash + 1);
   cdpObj["url"] = window.location.href;
-  cdpObj["login_status"] =
-    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
-  cdpObj["user_login_status_hit"] =
-    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
-  cdpObj["user_login_status_session"] =
-    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
-  cdpObj["last_click_source"] = site_section;
+  cdpObj["title"] = document.title;
   let trafficSource = "direct";
   let dref = document.referrer,
     wlh = window.location.href.toLowerCase();
@@ -421,53 +431,55 @@ export const generateCDPPageView = () => {
   } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
     trafficSource = "notifications";
   }
-  cdpObj["internal_source"] = trafficSource;
-  cdpObj["user_id"] =
-    typeof window.objUser != "undefined" && window.objUser?.ssoid
-      ? window.objUser.ssoid
-      : "";
-
-  cdpObj["user_grx_id"] = getCookie("_grx") ? getCookie("_grx") : "";
-  cdpObj["subscription_status"] =
-    typeof window.objUser != "undefined" && window?.objUser?.permissions
-      ? getUserType(window.objUser.permissions)
-      : "Free User";
-  cdpObj["current_subscriber_status"] =
-    typeof window.objUser != "undefined" && window?.objUser?.permissions
-      ? getUserType(window.objUser.permissions)
-      : "Free User";
-  cdpObj["user_subscription_status"] =
-    typeof window.objUser != "undefined" && window?.objUser?.permissions
-      ? getUserType(window.objUser.permissions)
-      : "Free User";
-  cdpObj["platform"] = "Web";
-
-  cdpObj["feature_permission"] =
-    typeof window.objUser != "undefined" &&
-    window.objUser.accessibleFeatures &&
-    window.objUser.accessibleFeatures.length > 0
-      ? window.objUser.accessibleFeatures
-      : "";
-  cdpObj["country"] = window?.geoinfo.CountryCode;
+  cdpObj["source"] = trafficSource;
+  cdpObj["loggedin"] = typeof window.objUser != "undefined" ? "y" : "n";
   cdpObj["email"] = window?.objUser?.info?.primaryEmail
     ? window?.objUser?.info?.primaryEmail
     : "";
-  cdpObj["et_product"] = getPageName();
-  cdpObj["et_uuid"] = getCookie("peuuid")
-    ? getCookie("peuuid")
-    : getCookie("pfuuid");
-  cdpObj["first_name"] = window?.objUser?.info?.firstName
-    ? window?.objUser?.info?.firstName
+  cdpObj["phone"] = window?.objUser?.info?.mobile
+    ? window?.objUser?.info?.mobile
     : "";
-  cdpObj["last_name"] = window?.objUser?.info?.lastName
-    ? window?.objUser?.info?.lastName
+  cdpObj["login_method"] = window?.objUser?.loginType
+    ? window?.objUser?.loginType
     : "";
-  cdpObj["loggedin"] = typeof window.objUser != "undefined" ? "Yes" : "No";
-  cdpObj["pageTitle"] = document.title;
-
-  cdpObj["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
-  cdpObj["user_region"] = window?.geoinfo.region_code;
-  cdpObj["web_peuuid"] = getCookie("peuuid");
-  cdpObj["web_pfuuid"] = getCookie("pfuuid");
+  cdpObj["subscription_status"] =
+    typeof window.objUser != "undefined" && window?.objUser?.permissions
+      ? getUserType(window.objUser.permissions)
+      : "free";
+  cdpObj["business"] = "et";
+  cdpObj["embedded"] = "";
+  cdpObj["paywalled"] = "n";
+  cdpObj["product"] = "other";
+  cdpObj["client_source"] = "cdp";
+  cdpObj["dark_mode"] = "n";
+  cdpObj["monetizable"] = window.objUser && window.objUser.isPrime ? "n" : "y";
+  cdpObj["utm_source"] = getParameterByName("utm_source")
+    ? getParameterByName("utm_source")
+    : "";
+  cdpObj["utm_medium"] = getParameterByName("utm_medium")
+    ? getParameterByName("utm_medium")
+    : "";
+  cdpObj["utm_campaign"] = getParameterByName("utm_campaign")
+    ? getParameterByName("utm_campaign")
+    : "";
+  cdpObj["variant_id"] = getParameterByName("variant_id")
+    ? getParameterByName("variant_id")
+    : "";
+  cdpObj["cohort_id"] = getParameterByName("cohort_id")
+    ? getParameterByName("cohort_id")
+    : "";
   return cdpObj;
+};
+
+export const getParameterByName = (name) => {
+  if (name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+    return results == null
+      ? ""
+      : decodeURIComponent(results[1].replace(/\+/g, " "));
+  } else {
+    return "";
+  }
 };
