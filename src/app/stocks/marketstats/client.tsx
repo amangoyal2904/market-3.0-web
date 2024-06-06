@@ -129,16 +129,6 @@ const MarketStats = ({
     }
   };
 
-  // const updateL3NAV = async (intFilter: any, duration: any) => {
-  //   const { l3Nav } = await getMarketStatsNav({
-  //     l3NavMenuItem,
-  //     l3NavSubItem,
-  //     intFilter,
-  //     duration,
-  //   });
-  //   setL3Nav(l3Nav);
-  // };
-
   const onPaginationChange = async (pageNumber: number) => {
     setProcessingLoader(true);
     setPayload({ ..._payload, pageno: pageNumber });
@@ -377,13 +367,7 @@ const MarketStats = ({
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        updateTableData();
-      }
-    }, refeshConfig.marketstats);
-    return () => clearInterval(intervalId);
-  }, [_payload, isPrime, currentMarketStatus]);
+  }, [_payload, isPrime]);
 
   useEffect(() => {
     setProcessingLoader(true);

@@ -7,6 +7,58 @@ import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
 import Pagination from "./Pagination";
 import useDebounce from "@/hooks/useDebounce";
+import { formatNumber } from "@/utils";
+
+interface Stock {
+  segment: string;
+  instrument: string;
+  tpilcode: string;
+  scripCode: string;
+  symbol: string;
+  groupName: string;
+  series: string;
+  companyName: string;
+  companyId: string;
+  dateTime: string;
+  bestBuyQty: number;
+  bestBuyPrice: string;
+  bestSellQty: number;
+  bestSellPrice: string;
+  lastTradedPrice: number;
+  volume: number;
+  netChange: number;
+  percentChange: number;
+  openPrice: number;
+  highPrice: number;
+  lowPrice: number;
+  closePrice: number;
+  value: string;
+  fiftyTwoWeekHighPrice: number;
+  fiftyTwoWeekLowPrice: number;
+  fiftyTwoWeekHighDateTime: string;
+  fiftyTwoWeekLowDateTime: string;
+  weightedAverage: string;
+  preMarketData: boolean;
+  etf: boolean;
+  time: number;
+  r1Week: number;
+  r1Month: number;
+  r3Month: number;
+  r6Month: number;
+  r1Year: number;
+  r5Year: number;
+  change1Week: number;
+  change1Month: number;
+  change3Month: number;
+  change6Month: number;
+  change1Year: number;
+  change5Year: number;
+}
+
+interface Message {
+  stocks: Stock[];
+  time: string;
+}
 
 interface propsType {
   data: any[];
@@ -54,6 +106,7 @@ const MarketTable = React.memo((props: propsType) => {
     l3NavTracking = "",
   } = props || {};
 
+  const wsRef = useRef<WebSocket | null>(null);
   const objTracking = {
     category: "Subscription Flow ET",
     action: "SYFT | Flow Started",
@@ -80,14 +133,17 @@ const MarketTable = React.memo((props: propsType) => {
   const fixedTableRef = useRef<HTMLDivElement>(null);
   const customScroll = useRef<HTMLDivElement>(null);
   const { debounce } = useDebounce();
+
   const {
     loader = false,
     loaderType,
     horizontalScroll,
     isWidget = false,
   } = tableConfig || {};
+
   const [pageSummaryData, setPageSummaryData] = useState(pageSummary);
   const [tableDataList, setTableDataList] = useState(data);
+  const [updatedTableData, setUpdatedTableData] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
   const [sortData, setSortData] = useState({ field: null, order: "DESC" });
@@ -254,6 +310,7 @@ const MarketTable = React.memo((props: propsType) => {
     },
     [sortData],
   );
+
   const rightClickScroll = () => {
     const tableWrapper: any = scrollableTableRef;
     if (
@@ -263,6 +320,7 @@ const MarketTable = React.memo((props: propsType) => {
       tableWrapper.scrollLeft += 50; // Adjust scroll amount as needed
     }
   };
+
   const leftClickScroll = () => {
     const tableWrapper: any = scrollableTableRef;
     if (tableWrapper.scrollLeft > 0) {
@@ -419,6 +477,96 @@ const MarketTable = React.memo((props: propsType) => {
       setShouldShowLoader(false);
     }
   }, [loaderOff, loader]);
+
+  useEffect(() => {
+    if (!highlightLtp) return;
+
+    const companies = data?.length
+      ? data.map((item: any) => item.assetSymbol)
+      : [];
+
+    if (!companies.length) return;
+
+    const requestBody = {
+      action: "subscribe",
+      symbols: companies,
+      indices: [],
+    };
+
+    const initializeWebSocket = () => {
+      wsRef.current = new WebSocket(
+        "ws://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW",
+      );
+
+      wsRef.current.onopen = () => {
+        console.log("WebSocket connection opened");
+        wsRef.current?.send(JSON.stringify(requestBody));
+      };
+
+      wsRef.current.onmessage = (event) => {
+        const { stocks } = JSON.parse(event.data);
+        const stock = stocks[0];
+
+        setTableDataList((prevTableDataList) => {
+          const updatedTableData = prevTableDataList.map((asset: any) => {
+            if (
+              asset.assetSymbol === stock.scripCode ||
+              asset.assetSymbol === stock.symbol
+            ) {
+              const updatedData = asset.data.map((data: any) => {
+                if (data.keyId === "lastTradedPrice") {
+                  return {
+                    ...data,
+                    value: formatNumber(stock.lastTradedPrice),
+                    filterFormatValue: stock.lastTradedPrice.toString(),
+                  };
+                }
+                if (data.keyId === "percentChange") {
+                  return {
+                    ...data,
+                    value: `${stock.percentChange} %`,
+                    filterFormatValue: stock.percentChange.toString(),
+                  };
+                }
+                if (data.keyId === "netChange") {
+                  return {
+                    ...data,
+                    value: `${stock.netChange}`,
+                    filterFormatValue: stock.netChange.toString(),
+                  };
+                }
+                return data;
+              });
+              return { ...asset, data: updatedData };
+            }
+            return asset;
+          });
+          return updatedTableData;
+        });
+      };
+
+      wsRef.current.onclose = () => {
+        console.log("WebSocket connection closed");
+      };
+
+      wsRef.current.onerror = (error) => {
+        console.error("WebSocket error", error);
+      };
+    };
+
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify(requestBody));
+    } else {
+      initializeWebSocket();
+    }
+
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+        console.log("WebSocket connection closed due to market status change");
+      }
+    };
+  }, [data, highlightLtp]);
 
   return (
     <>

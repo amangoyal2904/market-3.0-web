@@ -277,13 +277,7 @@ const WatchListClient = () => {
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        updateTableData();
-      }
-    }, refeshConfig.watchlist);
-    return () => clearInterval(intervalId);
-  }, [requestPayload, isPrime, currentMarketStatus]);
+  }, [requestPayload, isPrime]);
 
   return (
     <>

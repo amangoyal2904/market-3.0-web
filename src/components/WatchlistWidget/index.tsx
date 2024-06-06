@@ -40,12 +40,6 @@ const WatchListWidget = () => {
     if (isLogin === true) {
       fetchWatchListData();
       setShowBlocker(false);
-      const intervalId = setInterval(() => {
-        if (currentMarketStatus === "LIVE") {
-          fetchWatchListData();
-        }
-      }, refeshConfig.watchlist);
-      return () => clearInterval(intervalId);
     } else if (isLogin === false) {
       setShowBlocker(true);
     }

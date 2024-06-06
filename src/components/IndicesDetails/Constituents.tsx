@@ -257,13 +257,7 @@ const IndicesConstituents = React.memo(
     useEffect(() => {
       setProcessingLoader(true);
       updateTableData();
-      const intervalId = setInterval(() => {
-        if (currentMarketStatus === "LIVE") {
-          updateTableData();
-        }
-      }, refeshConfig.marketstats);
-      return () => clearInterval(intervalId);
-    }, [_payload, isPrime, currentMarketStatus]);
+    }, [_payload, isPrime]);
 
     return (
       <>

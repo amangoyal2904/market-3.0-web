@@ -182,13 +182,7 @@ function MarketDashBoard(props: propsType) {
 
   useEffect(() => {
     updateTableData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        updateTableData();
-      }
-    }, refeshConfig.marketstats);
-    return () => clearInterval(intervalId);
-  }, [payload, isPrime, currentMarketStatus]);
+  }, [payload, isPrime]);
 
   return (
     <>

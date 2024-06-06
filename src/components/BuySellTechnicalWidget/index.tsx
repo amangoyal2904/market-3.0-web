@@ -113,13 +113,7 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        updateTableData();
-      }
-    }, refeshConfig.marketstats);
-    return () => clearInterval(intervalId);
-  }, [payload, currentMarketStatus]);
+  }, [payload]);
 
   return (
     <div className="sectionWrapper">
