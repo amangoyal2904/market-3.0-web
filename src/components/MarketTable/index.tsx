@@ -107,6 +107,8 @@ const MarketTable = React.memo((props: propsType) => {
   } = props || {};
 
   const wsRef = useRef<WebSocket | null>(null);
+  const buffer = useRef<Stock[]>([]);
+  const BUFFER_UPDATE_INTERVAL = 4000;
   const objTracking = {
     category: "Subscription Flow ET",
     action: "SYFT | Flow Started",
@@ -143,7 +145,6 @@ const MarketTable = React.memo((props: propsType) => {
 
   const [pageSummaryData, setPageSummaryData] = useState(pageSummary);
   const [tableDataList, setTableDataList] = useState(data);
-  const [updatedTableData, setUpdatedTableData] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
   const [filters, setFilters] = useState<any>({});
   const [sortData, setSortData] = useState({ field: null, order: "DESC" });
@@ -506,43 +507,8 @@ const MarketTable = React.memo((props: propsType) => {
       wsRef.current.onmessage = (event) => {
         const { stocks } = JSON.parse(event.data);
         const stock = stocks[0];
-
-        setTableDataList((prevTableDataList) => {
-          const updatedTableData = prevTableDataList.map((asset: any) => {
-            if (
-              asset.assetSymbol === stock.scripCode ||
-              asset.assetSymbol === stock.symbol
-            ) {
-              const updatedData = asset.data.map((data: any) => {
-                if (data.keyId === "lastTradedPrice") {
-                  return {
-                    ...data,
-                    value: formatNumber(stock.lastTradedPrice),
-                    filterFormatValue: stock.lastTradedPrice.toString(),
-                  };
-                }
-                if (data.keyId === "percentChange") {
-                  return {
-                    ...data,
-                    value: `${stock.percentChange} %`,
-                    filterFormatValue: stock.percentChange.toString(),
-                  };
-                }
-                if (data.keyId === "netChange") {
-                  return {
-                    ...data,
-                    value: `${stock.netChange}`,
-                    filterFormatValue: stock.netChange.toString(),
-                  };
-                }
-                return data;
-              });
-              return { ...asset, data: updatedData };
-            }
-            return asset;
-          });
-          return updatedTableData;
-        });
+        // Add incoming data to the buffer
+        buffer.current.push(stock);
       };
 
       wsRef.current.onclose = () => {
@@ -560,11 +526,58 @@ const MarketTable = React.memo((props: propsType) => {
       initializeWebSocket();
     }
 
+    const intervalId = setInterval(() => {
+      if (buffer.current.length > 0) {
+        setTableDataList((prevTableDataList) => {
+          const updatedTableData = [...prevTableDataList];
+
+          buffer.current.forEach((stock: Stock) => {
+            updatedTableData.forEach((asset, index) => {
+              if (
+                asset.assetSymbol === stock.scripCode ||
+                asset.assetSymbol === stock.symbol
+              ) {
+                const updatedData = asset.data.map((data: any) => {
+                  if (data.keyId === "lastTradedPrice") {
+                    return {
+                      ...data,
+                      value: formatNumber(stock.lastTradedPrice),
+                      filterFormatValue: stock.lastTradedPrice.toString(),
+                    };
+                  }
+                  if (data.keyId === "percentChange") {
+                    return {
+                      ...data,
+                      value: `${stock.percentChange} %`,
+                      filterFormatValue: stock.percentChange.toString(),
+                    };
+                  }
+                  if (data.keyId === "netChange") {
+                    return {
+                      ...data,
+                      value: `${stock.netChange}`,
+                      filterFormatValue: stock.netChange.toString(),
+                    };
+                  }
+                  return data;
+                });
+                updatedTableData[index] = { ...asset, data: updatedData };
+              }
+            });
+          });
+
+          buffer.current = []; // Clear the buffer
+          return updatedTableData;
+        });
+      }
+    }, BUFFER_UPDATE_INTERVAL);
+
     return () => {
       if (wsRef.current) {
         wsRef.current.close();
         console.log("WebSocket connection closed due to market status change");
       }
+      clearInterval(intervalId); // Clear the interval on cleanup
     };
   }, [data, highlightLtp]);
 
