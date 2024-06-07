@@ -150,7 +150,6 @@ export const trackingEvent = (type, data) => {
 export const getUserType = (permissionsArr) => {
   try {
     var userType = "New";
-    console.log("Permissions Array---->", permissionsArr);
     if (permissionsArr.length > 0) {
       if (permissionsArr.some((str) => str.includes("expired_subscription"))) {
         userType = "expired";

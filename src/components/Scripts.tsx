@@ -59,14 +59,12 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
 
   useEffect(() => {
-    console.log("PrevPath------>", prevPath);
     prevPath !== null &&
       trackingEvent("et_push_pageload", {
         url: window.location.href,
         prevPath: prevPath,
       });
     setPrevPath(router);
-    console.log("??????-----", prevPath, document.referrer);
     if (typeof window.objUser == "undefined") window.objUser = {};
     window.objUser && (window.objUser.prevPath = prevPath || document.referrer);
 
