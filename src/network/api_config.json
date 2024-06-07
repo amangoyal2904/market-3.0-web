@@ -12,8 +12,8 @@
     "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
   },
   "LIVE_MARKET_DATA_NEW": {
-    "development": "https://etmarketsapis.indiatimes.com/ET_Stats/getindex",
-    "production": "https://etmarketsapis.indiatimes.com/ET_Stats/getindex"
+    "development": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365",
+    "production": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365"
   },
   "LIVE_MARKET_DATA_NEXTJS": {
     "development": "http://localhost:3009/api/bselivefeeds",
