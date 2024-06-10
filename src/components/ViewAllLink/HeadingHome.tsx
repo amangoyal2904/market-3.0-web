@@ -3,6 +3,8 @@ import styles from "./ViewAll.module.scss";
 import { trackingEvent } from "@/utils/ga";
 import Image from "next/image";
 import Link from "next/link";
+import RefinitivLogo from "../../../public/img/refinitiv.png";
+import LiveStreamLogo from "../../../public/img/liveStream.svg";
 
 const HeadingHome = ({ title, url }: any) => {
   return title == "Stock Reports Plus" ? (
@@ -26,10 +28,10 @@ const HeadingHome = ({ title, url }: any) => {
         <p className={styles.powered}>
           Powered By
           <Image
-            src="/marketsweb/img/refinitiv.png"
-            width={88}
-            height={22}
+            src={RefinitivLogo}
+            quality={100}
             alt="Refinitiv"
+            title="Refinitiv"
             loading="lazy"
           />
         </p>
@@ -50,11 +52,11 @@ const HeadingHome = ({ title, url }: any) => {
         }
       >
         <Image
-          src="/marketsweb/img/liveStream.svg"
-          width={170}
-          height={26}
+          src={LiveStreamLogo}
           alt={title}
+          title="LiveStream"
           loading="lazy"
+          quality={100}
         />
         <span className={`eticon_caret_right ${styles.headingIcon}`} />
       </Link>
