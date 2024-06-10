@@ -2,12 +2,10 @@
 
 .helpTxt {
   margin: 10px 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: $gray_40;
+  font-size: 13px;
+  color: $gray_50;
   span {
-    display: block;
-    text-align: right;
+    text-align: left;
     margin: 5px 0;
   }
 }

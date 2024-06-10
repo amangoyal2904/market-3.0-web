@@ -154,13 +154,16 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
           l3NavTracking={activeItem}
         />
         <div className={styles.helpTxt}>
+          <span className={styles.note}>
+            <strong>*Note:</strong>
+          </span>
           <span>
-            {`* Note: ${payload.crossoverType == "Bullish" ? "Gain" : "Decline"}%
+            {` ${payload.crossoverType == "Bullish" ? "Gain" : "Decline"}%
             is the average price movement within ${otherDataSet.gainLossDays} of signal in last ${otherDataSet.gainLossYears}`}
           </span>
-          <span>
+          {/* <span>
             {dateFormat(otherDataSet.unixDateTime, "* Formed On %MMM %d, %Y")}
-          </span>
+          </span> */}
         </div>
       </div>
     </div>
