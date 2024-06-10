@@ -26,6 +26,7 @@ const ScrollableTable = React.memo((props: any) => {
     objTracking,
     setLeftScrollEnabled,
     setRightScrollEnabled,
+    onRowHover,
   } = props || {};
   const {
     showFilterInput = true,
@@ -245,7 +246,11 @@ const ScrollableTable = React.memo((props: any) => {
         {tableDataList.length > 0 ? (
           <tbody>
             {tableDataList.map((item: any, index: number) => (
-              <tr key={index}>
+              <tr
+                key={index}
+                onMouseEnter={() => onRowHover(index, true)}
+                onMouseLeave={() => onRowHover(index, false)}
+              >
                 {item.data.map(
                   (tdData: any, tdIndex: number) =>
                     tdIndex >= fixedCol && (

@@ -8,58 +8,6 @@ import Loader from "../Loader";
 import Pagination from "./Pagination";
 import useDebounce from "@/hooks/useDebounce";
 import { formatNumber } from "@/utils";
-
-interface Stock {
-  segment: string;
-  instrument: string;
-  tpilcode: string;
-  scripCode: string;
-  symbol: string;
-  groupName: string;
-  series: string;
-  companyName: string;
-  companyId: string;
-  dateTime: string;
-  bestBuyQty: number;
-  bestBuyPrice: string;
-  bestSellQty: number;
-  bestSellPrice: string;
-  lastTradedPrice: number;
-  volume: number;
-  netChange: number;
-  percentChange: number;
-  openPrice: number;
-  highPrice: number;
-  lowPrice: number;
-  closePrice: number;
-  value: string;
-  fiftyTwoWeekHighPrice: number;
-  fiftyTwoWeekLowPrice: number;
-  fiftyTwoWeekHighDateTime: string;
-  fiftyTwoWeekLowDateTime: string;
-  weightedAverage: string;
-  preMarketData: boolean;
-  etf: boolean;
-  time: number;
-  r1Week: number;
-  r1Month: number;
-  r3Month: number;
-  r6Month: number;
-  r1Year: number;
-  r5Year: number;
-  change1Week: number;
-  change1Month: number;
-  change3Month: number;
-  change6Month: number;
-  change1Year: number;
-  change5Year: number;
-}
-
-interface Message {
-  stocks: Stock[];
-  time: string;
-}
-
 interface propsType {
   data: any[];
   highlightLtp?: boolean;
@@ -107,7 +55,7 @@ const MarketTable = React.memo((props: propsType) => {
   } = props || {};
 
   const wsRef = useRef<WebSocket | null>(null);
-  const buffer = useRef<Stock[]>([]);
+  const buffer = useRef<any[]>([]);
   const BUFFER_UPDATE_INTERVAL = 4000;
   const objTracking = {
     category: "Subscription Flow ET",
@@ -159,6 +107,25 @@ const MarketTable = React.memo((props: propsType) => {
   const [scrollableTableRef, setScrollableTableRef] = useState({});
   const [rightScrollEnabled, setRightScrollEnabled] = useState(false);
   const [leftScrollEnabled, setLeftScrollEnabled] = useState(true);
+
+  const onRowHover = (rowIndex: number, isHovering: boolean) => {
+    const fixedTable = fixedTableRef.current;
+    const scrollableTable = parentRef.current;
+
+    if (fixedTable && scrollableTable) {
+      const fixedTableRow = fixedTable.querySelectorAll("tbody tr")[rowIndex];
+      const scrollableTableRow =
+        scrollableTable.querySelectorAll("tbody tr")[rowIndex];
+
+      if (isHovering) {
+        fixedTableRow.classList.add(styles.highlightedRow);
+        scrollableTableRow.classList.add(styles.highlightedRow);
+      } else {
+        fixedTableRow.classList.remove(styles.highlightedRow);
+        scrollableTableRow.classList.remove(styles.highlightedRow);
+      }
+    }
+  };
 
   const handleFilterChange = useCallback((e: any) => {
     const { name, value } = e.target;
@@ -482,16 +449,24 @@ const MarketTable = React.memo((props: propsType) => {
   useEffect(() => {
     if (!highlightLtp) return;
 
+    const getMappedData = (data: any[], key: string) =>
+      data.map((item: any) => item[key]?.toUpperCase());
+
     const companies = data?.length
-      ? data.map((item: any) => item.assetSymbol)
+      ? getMappedData(
+          data,
+          l2NavTracking === "Indices" && l3NavTracking === "nse"
+            ? "assetName"
+            : "assetSymbol",
+        )
       : [];
 
     if (!companies.length) return;
 
     const requestBody = {
       action: "subscribe",
-      symbols: companies,
-      indices: [],
+      symbols: l2NavTracking === "Indices" ? [] : companies,
+      indices: l2NavTracking === "Indices" ? companies : [],
     };
 
     const initializeWebSocket = () => {
@@ -505,10 +480,9 @@ const MarketTable = React.memo((props: propsType) => {
       };
 
       wsRef.current.onmessage = (event) => {
-        const { stocks } = JSON.parse(event.data);
-        const stock = stocks[0];
-        // Add incoming data to the buffer
-        buffer.current.push(stock);
+        const { stocks, indices, time } = JSON.parse(event.data);
+        !!stocks && buffer.current.push(...stocks);
+        !!indices && buffer.current.push(...indices);
       };
 
       wsRef.current.onclose = () => {
@@ -531,32 +505,37 @@ const MarketTable = React.memo((props: propsType) => {
         setTableDataList((prevTableDataList) => {
           const updatedTableData = [...prevTableDataList];
 
-          buffer.current.forEach((stock: Stock) => {
+          buffer.current.forEach((stock: any) => {
             updatedTableData.forEach((asset, index) => {
               if (
                 asset.assetSymbol === stock.scripCode ||
-                asset.assetSymbol === stock.symbol
+                asset.assetSymbol === stock.symbol ||
+                asset.assetId === stock.indexId
               ) {
                 const updatedData = asset.data.map((data: any) => {
                   if (data.keyId === "lastTradedPrice") {
                     return {
                       ...data,
-                      value: formatNumber(stock.lastTradedPrice),
-                      filterFormatValue: stock.lastTradedPrice.toString(),
+                      value: formatNumber(
+                        stock?.lastTradedPrice || stock?.currentIndexValue,
+                      ),
+                      filterFormatValue:
+                        stock?.lastTradedPrice?.toString() ||
+                        stock?.currentIndexValue?.toString(),
                     };
                   }
                   if (data.keyId === "percentChange") {
                     return {
                       ...data,
-                      value: `${stock.percentChange} %`,
-                      filterFormatValue: stock.percentChange.toString(),
+                      value: `${stock?.percentChange} %`,
+                      filterFormatValue: stock?.percentChange?.toString(),
                     };
                   }
                   if (data.keyId === "netChange") {
                     return {
                       ...data,
-                      value: `${stock.netChange}`,
-                      filterFormatValue: stock.netChange.toString(),
+                      value: `${stock?.netChange}`,
+                      filterFormatValue: stock?.netChange?.toString(),
                     };
                   }
                   return data;
@@ -575,11 +554,10 @@ const MarketTable = React.memo((props: propsType) => {
     return () => {
       if (wsRef.current) {
         wsRef.current.close();
-        console.log("WebSocket connection closed due to market status change");
       }
       clearInterval(intervalId); // Clear the interval on cleanup
     };
-  }, [data, highlightLtp]);
+  }, [data, highlightLtp, l2NavTracking, l3NavTracking]);
 
   return (
     <>
@@ -615,6 +593,7 @@ const MarketTable = React.memo((props: propsType) => {
                 tableConfig={tableConfig}
                 fixedCol={fixedCol}
                 objTracking={objTracking}
+                onRowHover={onRowHover}
               />
             </div>
             <div
@@ -643,6 +622,7 @@ const MarketTable = React.memo((props: propsType) => {
                 objTracking={objTracking}
                 setLeftScrollEnabled={setLeftScrollEnabled}
                 setRightScrollEnabled={setRightScrollEnabled}
+                onRowHover={onRowHover}
               />
             </div>
           </>

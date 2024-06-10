@@ -69,13 +69,7 @@ const IndicesClient = ({
 
   useEffect(() => {
     updateTableData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        updateTableData();
-      }
-    }, refeshConfig.indicesListing);
-    return () => clearInterval(intervalId);
-  }, [sortData, isPrime, currentMarketStatus]);
+  }, [sortData, isPrime]);
 
   return (
     <>

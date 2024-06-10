@@ -89,7 +89,6 @@
     border-right: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
     color: $gray_40;
-    background: $white;
     text-align: left;
     font-size: 14px;
     font-style: normal;
@@ -261,6 +260,9 @@
 
   tr {
     background-color: $white;
+    &.highlightedRow {
+      background-color: $salmon-05;
+    }
   }
   .hideThead {
     visibility: hidden;
