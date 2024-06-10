@@ -31,7 +31,7 @@ const InvestmentIdea = async () => {
     <div className="sectionWrapper">
       <HeadingHome
         title="Investment Ideas"
-        url={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
+        url={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/prime/investment-ideas`}
       />
       <div className={styles.investmentData}>
         {investmentData?.map((data: any, index: any) =>
@@ -44,7 +44,7 @@ const InvestmentIdea = async () => {
       </div>
       <ViewAllLink
         text="Check Latest Investment Ideas"
-        link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}prime/investment-ideas`}
+        link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/prime/investment-ideas`}
       />
     </div>
   ) : (
