@@ -32,6 +32,9 @@ import Blocker from "@/components/Blocker";
 import dynamic from "next/dynamic";
 import useDebounce from "@/hooks/useDebounce";
 import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
+import MarketMood1 from "../../../../public/img/marketmood1.png";
+import MarketMood2 from "../../../../public/img/marketmood2.png";
+import MarketMood3 from "../../../../public/img/marketmood3.png";
 
 const StockFilterNifty = dynamic(
   () => import("@/components/StockFilterNifty"),
@@ -388,12 +391,19 @@ const MarketMoodsClient = ({
                   </div>
                 )}
                 <Image
-                  src={item.img}
+                  src={
+                    item.img == "1"
+                      ? MarketMood1
+                      : item.img == "2"
+                        ? MarketMood2
+                        : MarketMood3
+                  }
                   width={792}
                   height={370}
                   title={item.title}
                   alt={item.title}
-                  loading="lazy"
+                  priority={item.img == "1" ? true : false}
+                  quality={100}
                 />
                 <p className={styles.title}>{item.title}</p>
                 {item.key == "overview"
