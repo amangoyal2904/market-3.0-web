@@ -68,12 +68,12 @@ const SearchData: React.FC<Props> = ({
       );
       setCompanyNonListed(filteredNonListed);
       setIndex(filterData(data, "index"));
-
-      const filterPrimeData = newsData.filter((item: any) =>
-        item.link.includes("/prime/"),
-      );
-      setNewsPrime(filterPrimeData);
-      //console.log("filterPrimeData",filterPrimeData);
+      if (newsData && Array.isArray(newsData)) {
+        const filterPrimeData = newsData.filter((item: any) =>
+          item.link.includes("/prime/"),
+        );
+        setNewsPrime(filterPrimeData);
+      }
       setMf(filterData(data, "MutualFund"));
       setNps(filterData(data, "NPS"));
       setEtf(filterData(data, "ETF"));
@@ -164,63 +164,67 @@ const SearchData: React.FC<Props> = ({
                 />
               )}
               {definitionData &&
-                definitionData.person &&
-                Array.isArray(definitionData.person) &&
-                definitionData.person.length > 0 && (
-                  <SearchNews
-                    item={definitionData.person}
-                    entity={"PEOPLE"}
-                    count={records.newscount}
-                    query={query}
-                  />
-                )}
-              {newsPrime &&
-                Array.isArray(newsPrime) &&
-                newsPrime.length > 0 && (
-                  <SearchNewsPrime
-                    item={newsPrime}
-                    entity={"PRIME NEWS"}
-                    count={records.newscount}
-                    query={query}
-                  />
-                )}
-              {newsData && Array.isArray(newsData) && newsData.length > 0 && (
+              definitionData.person &&
+              Array.isArray(definitionData.person) &&
+              definitionData.person.length > 0 ? (
+                <SearchNews
+                  item={definitionData.person}
+                  entity={"PEOPLE"}
+                  count={records.newscount}
+                  query={query}
+                />
+              ) : (
+                ""
+              )}
+              {newsPrime.length > 0 && (
+                <SearchNewsPrime
+                  item={newsPrime}
+                  entity={"PRIME NEWS"}
+                  count={records.newscount}
+                  query={query}
+                />
+              )}
+              {newsData && Array.isArray(newsData) && newsData.length > 0 ? (
                 <SearchNews
                   item={newsData}
                   entity={"NEWS"}
                   count={records.newscount}
                   query={query}
                 />
+              ) : (
+                ""
               )}
               {reportData &&
-                Array.isArray(reportData) &&
-                reportData.length > 0 && (
-                  <SearchNews
-                    item={reportData}
-                    entity={"REPORTER"}
-                    count={records.newscount}
-                    query={query}
-                  />
-                )}
+              Array.isArray(reportData) &&
+              reportData.length > 0 ? (
+                <SearchNews
+                  item={reportData}
+                  entity={"REPORTER"}
+                  count={records.newscount}
+                  query={query}
+                />
+              ) : (
+                ""
+              )}
               {companyListed.length == 0 &&
-                companyNonListed.length == 0 &&
-                mf.length == 0 &&
-                etf.length == 0 &&
-                crypto.length == 0 &&
-                forex.length == 0 &&
-                commodity.length == 0 &&
-                index.length == 0 &&
-                newsPrime &&
-                Array.isArray(newsPrime) &&
-                newsPrime.length == 0 &&
-                newsData &&
-                Array.isArray(newsData) &&
-                newsData.length == 0 &&
-                reportData &&
-                Array.isArray(reportData) &&
-                reportData.length == 0 && (
-                  <p className={styles.noRecord}>No Record Found!!</p>
-                )}
+              companyNonListed.length == 0 &&
+              mf.length == 0 &&
+              etf.length == 0 &&
+              crypto.length == 0 &&
+              forex.length == 0 &&
+              commodity.length == 0 &&
+              index.length == 0 &&
+              newsPrime.length == 0 &&
+              newsData &&
+              Array.isArray(newsData) &&
+              newsData.length == 0 &&
+              reportData &&
+              Array.isArray(reportData) &&
+              reportData.length == 0 ? (
+                <p className={styles.noRecord}>No Record Found!!</p>
+              ) : (
+                ""
+              )}
             </>
           ) : (
             <>
