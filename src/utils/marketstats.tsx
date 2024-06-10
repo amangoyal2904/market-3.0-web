@@ -123,10 +123,14 @@ export const getAllShortUrls = async () => {
 export const getShortUrlMapping = async (pathname: any) => {
   try {
     const urlList = await getAllShortUrls();
-    const pageData = urlList.find(
-      (item: any) =>
-        pathname.includes(item.shortUrl) || pathname == item.shortUrl,
-    );
+    let pageData = urlList.find((item: any) => pathname === item.shortUrl);
+
+    if (!pageData) {
+      const pathWithoutParam = pathname.split("?")[0];
+      pageData = urlList.find(
+        (item: any) => pathWithoutParam === item.shortUrl,
+      );
+    }
     if (pageData) {
       return { shortUrl: true, pageData };
     } else {

@@ -11,7 +11,11 @@
   vertical-align: middle;
   font-size: 40px;
 }
-.liveStreamhead .headingIcon {
+.liveStreamhead img {
+  width: auto;
+  height: 26px;
+}
+.headingIcon {
   position: relative;
   top: 5px;
 }
@@ -22,6 +26,10 @@
   font-weight: 400;
   align-items: center;
   gap: 5px;
+  img {
+    width: auto;
+    height: 22px;
+  }
 }
 .seeAll {
   color: $blue-60;

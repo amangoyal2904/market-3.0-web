@@ -8,6 +8,7 @@ import { APP_ENV } from "@/utils";
 import { useEffect, useState } from "react";
 import { redirectToPlanPage } from "@/utils/ga";
 import SubscribeBtn from "./SubscribeBtn";
+import nonprimebgImg from "../../../public/img/nonprimebg.png";
 
 const NonPrimeBlockerModule = ({ oncloseModule, companyName }: any) => {
   const { state, dispatch } = useStateContext();
@@ -69,10 +70,12 @@ const NonPrimeBlockerModule = ({ oncloseModule, companyName }: any) => {
           <div className={styles.contentSec}>
             <div className={styles.left}>
               <Image
-                src={`/marketsweb/img/nonprimebg.png`}
-                alt={`Prime logo`}
-                width={400}
-                height={300}
+                src={nonprimebgImg}
+                alt="Prime logo"
+                title="Prime logo"
+                priority={true}
+                quality={100}
+                className={styles.nonprimebgStyle}
               />
             </div>
             <div className={styles.right}>
