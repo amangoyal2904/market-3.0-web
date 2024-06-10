@@ -165,6 +165,7 @@ const SearchData: React.FC<Props> = ({
               )}
               {definitionData &&
                 definitionData.person &&
+                Array.isArray(definitionData.person) &&
                 definitionData.person.length > 0 && (
                   <SearchNews
                     item={definitionData.person}
@@ -173,15 +174,17 @@ const SearchData: React.FC<Props> = ({
                     query={query}
                   />
                 )}
-              {newsPrime && newsPrime.length > 0 && (
-                <SearchNewsPrime
-                  item={newsPrime}
-                  entity={"PRIME NEWS"}
-                  count={records.newscount}
-                  query={query}
-                />
-              )}
-              {newsData && newsData.length > 0 && (
+              {newsPrime &&
+                Array.isArray(newsPrime) &&
+                newsPrime.length > 0 && (
+                  <SearchNewsPrime
+                    item={newsPrime}
+                    entity={"PRIME NEWS"}
+                    count={records.newscount}
+                    query={query}
+                  />
+                )}
+              {newsData && Array.isArray(newsData) && newsData.length > 0 && (
                 <SearchNews
                   item={newsData}
                   entity={"NEWS"}
@@ -189,14 +192,16 @@ const SearchData: React.FC<Props> = ({
                   query={query}
                 />
               )}
-              {reportData && reportData.length > 0 && (
-                <SearchNews
-                  item={reportData}
-                  entity={"REPORTER"}
-                  count={records.newscount}
-                  query={query}
-                />
-              )}
+              {reportData &&
+                Array.isArray(reportData) &&
+                reportData.length > 0 && (
+                  <SearchNews
+                    item={reportData}
+                    entity={"REPORTER"}
+                    count={records.newscount}
+                    query={query}
+                  />
+                )}
               {companyListed.length == 0 &&
                 companyNonListed.length == 0 &&
                 mf.length == 0 &&
@@ -206,10 +211,13 @@ const SearchData: React.FC<Props> = ({
                 commodity.length == 0 &&
                 index.length == 0 &&
                 newsPrime &&
+                Array.isArray(newsPrime) &&
                 newsPrime.length == 0 &&
                 newsData &&
+                Array.isArray(newsData) &&
                 newsData.length == 0 &&
                 reportData &&
+                Array.isArray(reportData) &&
                 reportData.length == 0 && (
                   <p className={styles.noRecord}>No Record Found!!</p>
                 )}
