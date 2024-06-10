@@ -68,6 +68,7 @@ const SearchData: React.FC<Props> = ({
       );
       setCompanyNonListed(filteredNonListed);
       setIndex(filterData(data, "index"));
+
       const filterPrimeData = newsData.filter((item: any) =>
         item.link.includes("/prime/"),
       );
@@ -172,7 +173,7 @@ const SearchData: React.FC<Props> = ({
                     query={query}
                   />
                 )}
-              {newsPrime.length > 0 && (
+              {newsPrime && newsPrime.length > 0 && (
                 <SearchNewsPrime
                   item={newsPrime}
                   entity={"PRIME NEWS"}
@@ -180,7 +181,7 @@ const SearchData: React.FC<Props> = ({
                   query={query}
                 />
               )}
-              {newsData.length > 0 && (
+              {newsData && newsData.length > 0 && (
                 <SearchNews
                   item={newsData}
                   entity={"NEWS"}
@@ -188,7 +189,7 @@ const SearchData: React.FC<Props> = ({
                   query={query}
                 />
               )}
-              {reportData.length > 0 && (
+              {reportData && reportData.length > 0 && (
                 <SearchNews
                   item={reportData}
                   entity={"REPORTER"}
@@ -204,8 +205,11 @@ const SearchData: React.FC<Props> = ({
                 forex.length == 0 &&
                 commodity.length == 0 &&
                 index.length == 0 &&
+                newsPrime &&
                 newsPrime.length == 0 &&
+                newsData &&
                 newsData.length == 0 &&
+                reportData &&
                 reportData.length == 0 && (
                   <p className={styles.noRecord}>No Record Found!!</p>
                 )}
