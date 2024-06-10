@@ -26,15 +26,11 @@ import {
   getPeriodicData,
 } from "@/utils/utility";
 import Loader from "@/components/Loader";
-import Image from "next/image";
 import { useStateContext } from "@/store/StateContext";
 import Blocker from "@/components/Blocker";
 import dynamic from "next/dynamic";
 import useDebounce from "@/hooks/useDebounce";
 import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
-import MarketMood1 from "../../../../public/img/marketmood1.png";
-import MarketMood2 from "../../../../public/img/marketmood2.png";
-import MarketMood3 from "../../../../public/img/marketmood3.png";
 
 const StockFilterNifty = dynamic(
   () => import("@/components/StockFilterNifty"),
@@ -390,20 +386,12 @@ const MarketMoodsClient = ({
                     <div className={styles.head}>{item.heading}</div>
                   </div>
                 )}
-                <Image
-                  src={
-                    item.img == "1"
-                      ? MarketMood1
-                      : item.img == "2"
-                        ? MarketMood2
-                        : MarketMood3
-                  }
+                <img
+                  src={item.img}
                   width={792}
                   height={370}
                   title={item.title}
                   alt={item.title}
-                  priority={item.img == "1" ? true : false}
-                  quality={100}
                 />
                 <p className={styles.title}>{item.title}</p>
                 {item.key == "overview"

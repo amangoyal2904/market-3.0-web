@@ -152,7 +152,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
       <div className="sectionWrapper">
         <HeadingHome
           title="Stock Reports Plus"
-          url={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/benefits/stockreportsplus`}
+          url={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets/benefits/stockreportsplus`}
         />
         <div className={styles.tabMainBox}>
           <StockReportsTab
@@ -218,7 +218,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
         </div>
         <ViewAllLink
           text={`View Stocks with ${activeTab?.name}`}
-          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/stockreportsplus/${screenerDetail?.seoName}/stockreportscategory/screenerid-${activeTab?.screenerId}.cms`}
+          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets/stockreportsplus/${screenerDetail?.seoName}/stockreportscategory/screenerid-${activeTab?.screenerId}.cms`}
         />
       </div>
       {isModalOpen && (
