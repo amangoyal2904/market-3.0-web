@@ -9,6 +9,7 @@ import refeshConfig from "@/utils/refreshConfig.json";
 import styles from "./BuySellTechnicalWidget.module.scss";
 import { dateFormat } from "@/utils";
 import { trackingEvent } from "@/utils/ga";
+import HeadingHome from "../ViewAllLink/HeadingHome";
 
 const macd_opts = [
   { label: "1D", value: "1d", id: 1 },
@@ -123,7 +124,10 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
 
   return (
     <div className="sectionWrapper">
-      <h2 className="heading">Technical Signals</h2>
+      <HeadingHome
+        title="Technical Signals"
+        url="/stocks/marketstats-technicals/golden-cross"
+      />
       <div className="prel">
         <BuySellTab
           activeItem={activeItem}
