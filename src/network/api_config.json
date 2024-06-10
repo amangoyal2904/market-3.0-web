@@ -1,7 +1,7 @@
 {
   "DOMAIN": {
-    "development": "https://etdev8243.indiatimes.com/",
-    "production": "https://economictimes.indiatimes.com/"
+    "development": "https://etdev8243.indiatimes.com",
+    "production": "https://economictimes.indiatimes.com"
   },
   "APIDOMAIN": {
     "development": "https://etpwaapipre.economictimes.com/request",
