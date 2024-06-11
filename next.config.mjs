@@ -6,18 +6,18 @@ const nextConfig = {
     return [{ source: "/marketsweb/:path*", destination: "/:path*" }];
   },
   async headers() {
-    return [
+    const headers = [
       {
         source: "/marketsweb/(.*)",
         headers: [
           {
             key: "Cache-Control",
             value:
-              "public, s-maxage=31536000, must-revalidate, stale-while-revalidate=6,30,72,000", // 365 days
+              "public, s-maxage=31536000, must-revalidate, stale-while-revalidate=604800", // 365 days, 7 days for stale-while-revalidate
           },
           {
             key: "Expires",
-            value: new Date(new Date().getTime() + 31536000000).toUTCString(),
+            value: new Date(Date.now() + 31536000000).toUTCString(), // 365 days from now
           },
         ],
       },
@@ -31,7 +31,7 @@ const nextConfig = {
           },
           {
             key: "Expires",
-            value: new Date(new Date().getTime() + 300000).toUTCString(),
+            value: new Date(Date.now() + 300000).toUTCString(), // 5 min from now
           },
         ],
       },
@@ -45,7 +45,7 @@ const nextConfig = {
           },
           {
             key: "Expires",
-            value: new Date(new Date().getTime() + 1200000).toUTCString(),
+            value: new Date(Date.now() + 1200000).toUTCString(), // 20 min from now
           },
         ],
       },
@@ -59,7 +59,7 @@ const nextConfig = {
           },
           {
             key: "Expires",
-            value: new Date(new Date().getTime() + 1200000).toUTCString(),
+            value: new Date(Date.now() + 1200000).toUTCString(), // 20 min from now
           },
         ],
       },
@@ -73,7 +73,7 @@ const nextConfig = {
           },
           {
             key: "Expires",
-            value: new Date(new Date().getTime() + 1200000).toUTCString(),
+            value: new Date(Date.now() + 1200000).toUTCString(), // 20 min from now
           },
         ],
       },
@@ -87,7 +87,7 @@ const nextConfig = {
           },
           {
             key: "Expires",
-            value: new Date(new Date().getTime() + 900000).toUTCString(),
+            value: new Date(Date.now() + 900000).toUTCString(), // 15 min from now
           },
         ],
       },
@@ -101,7 +101,7 @@ const nextConfig = {
           },
           {
             key: "Expires",
-            value: new Date(new Date().getTime() + 900000).toUTCString(),
+            value: new Date(Date.now() + 900000).toUTCString(), // 15 min from now
           },
         ],
       },
@@ -115,7 +115,7 @@ const nextConfig = {
           },
           {
             key: "Expires",
-            value: new Date(new Date().getTime() + 600000).toUTCString(),
+            value: new Date(Date.now() + 600000).toUTCString(), // 10 min from now
           },
         ],
       },
@@ -129,11 +129,13 @@ const nextConfig = {
           },
           {
             key: "Expires",
-            value: new Date(new Date().getTime() + 600000).toUTCString(),
+            value: new Date(Date.now() + 600000).toUTCString(), // 10 min from now
           },
         ],
       },
     ];
+
+    return headers;
   },
   images: {
     domains: ["img.etimg.com"],
