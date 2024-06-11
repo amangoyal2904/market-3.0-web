@@ -181,14 +181,16 @@ const LiveStreamPlay = (props: any) => {
   const startFetching = () => {
     fetchList()
       .then((response: any) => {
-        const { result = [] } = response;
-        if (result?.length) {
-          const filteredEvents = result?.filter(
-            (event: { eventStatus: number }) => event.eventStatus === 3,
-          );
-          setNewsData(filteredEvents);
-          prepareData(filteredEvents[0]);
-          // prepareImpression(result[0]);
+        if (response) {
+          const { result = [] } = response;
+          if (result?.length) {
+            const filteredEvents = result?.filter(
+              (event: { eventStatus: number }) => event.eventStatus === 3,
+            );
+            setNewsData(filteredEvents);
+            prepareData(filteredEvents[0]);
+            // prepareImpression(result[0]);
+          }
         }
       })
       .catch((e: any) => console.log("error in Athena fetchList", e));
