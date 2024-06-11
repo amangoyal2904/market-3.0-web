@@ -303,7 +303,7 @@ const IndicesConstituents = React.memo(
             </div>
             <Link
               className={styles.linkBlog}
-              href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${liveBlog.seolocation}/liveblog/${liveBlog.msid}.cms`}
+              href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/${liveBlog.seolocation}/liveblog/${liveBlog.msid}.cms`}
               target="_blank"
               title={liveBlog?.title}
               dangerouslySetInnerHTML={{

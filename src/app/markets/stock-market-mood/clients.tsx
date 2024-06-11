@@ -26,7 +26,6 @@ import {
   getPeriodicData,
 } from "@/utils/utility";
 import Loader from "@/components/Loader";
-import Image from "next/image";
 import { useStateContext } from "@/store/StateContext";
 import Blocker from "@/components/Blocker";
 import dynamic from "next/dynamic";
@@ -387,13 +386,12 @@ const MarketMoodsClient = ({
                     <div className={styles.head}>{item.heading}</div>
                   </div>
                 )}
-                <Image
+                <img
                   src={item.img}
                   width={792}
                   height={370}
                   title={item.title}
                   alt={item.title}
-                  loading="lazy"
                 />
                 <p className={styles.title}>{item.title}</p>
                 {item.key == "overview"

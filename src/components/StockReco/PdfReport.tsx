@@ -27,7 +27,7 @@ export const PdfReport = ({ pdfUrl, companyName }: any) => {
         View Report
       </a>
       {/* <a
-            href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${seoName}/stockreports/reportid-${companyID}.cms`}
+            href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/${seoName}/stockreports/reportid-${companyID}.cms`}
             target="_blank"
             title="View Report"
         >

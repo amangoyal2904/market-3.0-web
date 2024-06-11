@@ -11,6 +11,8 @@ const NodataForTable = React.memo(({ title = "" }: any) => {
           alt={`not found icon`}
           width={164}
           height={137}
+          priority={true}
+          quality={100}
         />
         <p className={styles.erroTxtFound}>
           {title !== ""

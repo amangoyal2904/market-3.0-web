@@ -45,7 +45,7 @@ const ScoreBox: React.FC<ScoreBoxProps> = ({
     if (primeUser) {
       return (
         <a
-          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${seoName}/stockreports/reportid-${companyID}.cms`}
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/${seoName}/stockreports/reportid-${companyID}.cms`}
           className={styles.scoreBox}
           target="_blank"
           title="Stock Score"

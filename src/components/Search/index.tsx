@@ -25,6 +25,7 @@ interface Props {
 const Search: React.FC<Props> = ({ location }) => {
   const [data, setData] = useState([]);
   const [val, setVal] = useState("");
+  const [loader, setLoader] = useState(false);
   const [searchEnable, setSearchEnable] = useState(false);
   const [newsData, setNewsData] = useState<any>();
   const [definitionData, setDefinitionData] = useState<any>();
@@ -78,6 +79,7 @@ const Search: React.FC<Props> = ({ location }) => {
           (APIS_CONFIG as any)?.SEARCH.report["production"] +
           "?keyword=" +
           query;
+        setLoader(true);
         requests = [API_URL, NEWS_URL, DEFINITION_URL, REPORT_URL].map((url) =>
           fetch(url, {
             method: "GET",
@@ -110,6 +112,7 @@ const Search: React.FC<Props> = ({ location }) => {
                 if (query) {
                   setVal(query);
                 }
+                setLoader(false);
                 setSearchEnable(true);
               })
               .catch((error) => {
@@ -117,7 +120,8 @@ const Search: React.FC<Props> = ({ location }) => {
                 saveLogs({
                   type: "Mercury",
                   res: "error",
-                  msg: "Search Data API Error" + error,
+                  msg:
+                    "Search Data API Promise Error" + error + "query= " + query,
                 });
               });
           }),
@@ -127,6 +131,11 @@ const Search: React.FC<Props> = ({ location }) => {
         });
     } catch (e) {
       console.error(e);
+      saveLogs({
+        type: "Mercury",
+        res: "error",
+        msg: "Search Data API Catch Error" + e + "query= " + query,
+      });
     }
   };
   const handleSearch = useCallback(
@@ -164,12 +173,17 @@ const Search: React.FC<Props> = ({ location }) => {
         />
         {searchEnable && (
           <>
-            <div
-              className={`${styles.right_icon} ${styles.close_search}`}
-              onClick={handleClose}
-            >
-              X
-            </div>
+            {loader ? (
+              <div className={styles.loader}> </div>
+            ) : (
+              <div
+                className={`${styles.right_icon} ${styles.close_search}`}
+                onClick={handleClose}
+              >
+                X
+              </div>
+            )}
+
             <SearchData
               data={data}
               newsData={newsData}
