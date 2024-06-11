@@ -5,6 +5,15 @@ const nextConfig = {
   rewrites() {
     return [{ source: "/marketsweb/:path*", destination: "/:path*" }];
   },
+  async redirects() {
+    return [
+      {
+        source: "/markets/stock-screener/:scrid*.cms",
+        destination: "/markets/stock-screener/:scrid*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     const headers = [
       {
