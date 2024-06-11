@@ -120,7 +120,8 @@ const Search: React.FC<Props> = ({ location }) => {
                 saveLogs({
                   type: "Mercury",
                   res: "error",
-                  msg: "Search Data API Error" + error,
+                  msg:
+                    "Search Data API Promise Error" + error + "query= " + query,
                 });
               });
           }),
@@ -130,6 +131,11 @@ const Search: React.FC<Props> = ({ location }) => {
         });
     } catch (e) {
       console.error(e);
+      saveLogs({
+        type: "Mercury",
+        res: "error",
+        msg: "Search Data API Catch Error" + e + "query= " + query,
+      });
     }
   };
   const handleSearch = useCallback(
