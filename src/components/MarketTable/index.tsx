@@ -481,8 +481,8 @@ const MarketTable = React.memo((props: propsType) => {
 
       wsRef.current.onmessage = (event) => {
         const { stocks, indices, time } = JSON.parse(event.data);
-        !!stocks && buffer.current.push(...stocks);
-        !!indices && buffer.current.push(...indices);
+        if (stocks) buffer.current.push(...stocks);
+        if (indices) buffer.current.push(...indices);
       };
 
       wsRef.current.onclose = () => {
@@ -494,18 +494,43 @@ const MarketTable = React.memo((props: propsType) => {
       };
     };
 
-    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify(requestBody));
-    } else {
-      initializeWebSocket();
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (wsRef.current) {
+          wsRef.current.close();
+        }
+      } else if (tableRef.current && wsRef.current === null) {
+        initializeWebSocket();
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            initializeWebSocket();
+          } else {
+            if (wsRef.current) {
+              wsRef.current.close();
+            }
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+
+    if (tableRef.current) {
+      observer.observe(tableRef.current);
     }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     const intervalId = setInterval(() => {
       if (buffer.current.length > 0) {
         setTableDataList((prevTableDataList) => {
           const updatedTableData = [...prevTableDataList];
 
-          buffer.current.forEach((stock: any) => {
+          buffer.current.forEach((stock) => {
             updatedTableData.forEach((asset, index) => {
               if (
                 asset.assetSymbol === stock.scripCode ||
@@ -556,6 +581,10 @@ const MarketTable = React.memo((props: propsType) => {
         wsRef.current.close();
       }
       clearInterval(intervalId); // Clear the interval on cleanup
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      if (tableRef.current) {
+        observer.unobserve(tableRef.current);
+      }
     };
   }, [data, highlightLtp, l2NavTracking, l3NavTracking]);
 
