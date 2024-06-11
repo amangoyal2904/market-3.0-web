@@ -401,7 +401,7 @@
   },
   "FOOTER_LINKS": {
     "development": "https://etdev8243.indiatimes.com/feed_mercury_footermenu.cms?feedtype=etjson",
-    "production": "https://etdev8243.indiatimes.com/feed_mercury_footermenu.cms?feedtype=etjson"
+    "production": "https://economictimes.indiatimes.com/feed_mercury_footermenu.cms?feedtype=etjson"
   },
   "BigBullGetSearchData": {
     "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-search",
