@@ -36,7 +36,7 @@ const nextConfig = {
           {
             key: "Cache-Control",
             value:
-              "public, s-maxage=300, must-revalidate, stale-while-revalidate=600", // 5 min
+              "public, max-age=300, must-revalidate, stale-while-revalidate=600", // 5 min
           },
           {
             key: "Expires",
@@ -78,7 +78,7 @@ const nextConfig = {
           {
             key: "Cache-Control",
             value:
-              "public, s-maxage=1200, must-revalidate, stale-while-revalidate=2400", // 20 min
+              "public, max-age=1200, must-revalidate, stale-while-revalidate=2400", // 20 min
           },
           {
             key: "Expires",
