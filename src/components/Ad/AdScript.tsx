@@ -123,7 +123,7 @@ const renderDfpAds = (userType = true) => {
     // }
     if (!userType && showAd == true) {
       let googleTag: any;
-      let maxTry = 10;
+      let maxTry = 20;
       let counter = 1;
       googleTag = window.googletag || {};
       let ref_interval = setInterval(() => {
