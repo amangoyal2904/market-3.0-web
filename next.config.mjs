@@ -8,7 +8,21 @@ const nextConfig = {
   async headers() {
     const headers = [
       {
-        source: "/marketsweb/(.*)",
+        source: "/marketsweb/img/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value:
+              "public, s-maxage=31536000, must-revalidate, stale-while-revalidate=604800", // 365 days, 7 days for stale-while-revalidate
+          },
+          {
+            key: "Expires",
+            value: new Date(Date.now() + 31536000000).toUTCString(), // 365 days from now
+          },
+        ],
+      },
+      {
+        source: "/marketsweb/static/(.*)",
         headers: [
           {
             key: "Cache-Control",
