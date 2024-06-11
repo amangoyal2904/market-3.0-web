@@ -207,7 +207,7 @@ const Login = () => {
                 <>
                   <span className={`default-btn ${styles.defaultBtn}`}>
                     <Image
-                      src="/marketsweb/img/prime_icon.svg"
+                      src="/marketsweb/img/primeIcon.svg"
                       height="15"
                       width="15"
                       className={styles.primeUsericon}
