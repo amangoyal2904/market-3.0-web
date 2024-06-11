@@ -3,76 +3,21 @@ const nextConfig = {
   reactStrictMode: false,
   assetPrefix: "/marketsweb",
   rewrites() {
-    return [
-      { source: "/marketsweb/_next/:path*", destination: "/_next/:path*" },
-      {
-        source: "/marketsweb/icon_svgs/:path*",
-        destination: "/icon_svgs/:path*",
-      },
-      {
-        source: "/marketsweb/img/:path*",
-        destination: "/img/:path*",
-      },
-      {
-        source: "/marketsweb/static/:path*",
-        destination: "/static/:path*",
-      },
-      {
-        source: "/marketsweb/etfavicon.ico",
-        destination: "/etfavicon.ico",
-      },
-      {
-        source: "/marketsweb/icon_pdf.svg",
-        destination: "/icon_pdf.svg",
-      },
-      {
-        source: "/marketsweb/prime_icon.svg",
-        destination: "/prime_icon.svg",
-      },
-    ];
+    return [{ source: "/marketsweb/:path*", destination: "/:path*" }];
   },
   async headers() {
-    return [
+    const headers = [
       {
-        source: "/(.*)",
-        headers: [
-          {
-            key: "Content-Security-Policy",
-            value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none';",
-          },
-          {
-            key: "Strict-Transport-Security",
-            value: "max-age=31536000; includeSubDomains; preload",
-          },
-          {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
-          },
-          {
-            key: "X-Frame-Options",
-            value: "DENY",
-          },
-          {
-            key: "X-XSS-Protection",
-            value: "1; mode=block",
-          },
-          {
-            key: "Referrer-Policy",
-            value: "no-referrer-when-downgrade",
-          },
-          {
-            key: "Permissions-Policy",
-            value: "geolocation=(), microphone=()",
-          },
-        ],
-      },
-      {
-        source: "/marketsweb/(.*)",
+        source: "/marketsweb/static/(.*)",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=31536000, must-revalidate",
+            value:
+              "public, s-maxage=31536000, must-revalidate, stale-while-revalidate=604800", // 365 days, 7 days for stale-while-revalidate
+          },
+          {
+            key: "Expires",
+            value: new Date(Date.now() + 31536000000).toUTCString(), // 365 days from now
           },
         ],
       },
@@ -81,7 +26,12 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=300, must-revalidate", // 5 min
+            value:
+              "public, s-maxage=300, must-revalidate, stale-while-revalidate=600", // 5 min
+          },
+          {
+            key: "Expires",
+            value: new Date(Date.now() + 300000).toUTCString(), // 5 min from now
           },
         ],
       },
@@ -90,7 +40,12 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=1200, must-revalidate", // 20 min
+            value:
+              "public, s-maxage=1200, must-revalidate, stale-while-revalidate=2400", // 20 min
+          },
+          {
+            key: "Expires",
+            value: new Date(Date.now() + 1200000).toUTCString(), // 20 min from now
           },
         ],
       },
@@ -99,7 +54,12 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=1200, must-revalidate", // 20 min
+            value:
+              "public, s-maxage=1200, must-revalidate, stale-while-revalidate=2400", // 20 min
+          },
+          {
+            key: "Expires",
+            value: new Date(Date.now() + 1200000).toUTCString(), // 20 min from now
           },
         ],
       },
@@ -108,7 +68,12 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=1200, must-revalidate", // 20 min
+            value:
+              "public, s-maxage=1200, must-revalidate, stale-while-revalidate=2400", // 20 min
+          },
+          {
+            key: "Expires",
+            value: new Date(Date.now() + 1200000).toUTCString(), // 20 min from now
           },
         ],
       },
@@ -117,7 +82,12 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=900, must-revalidate", // 15 min
+            value:
+              "public, s-maxage=900, must-revalidate, stale-while-revalidate=1800", // 15 min
+          },
+          {
+            key: "Expires",
+            value: new Date(Date.now() + 900000).toUTCString(), // 15 min from now
           },
         ],
       },
@@ -126,7 +96,12 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=900, must-revalidate", // 15 min
+            value:
+              "public, s-maxage=900, must-revalidate, stale-while-revalidate=1800", // 15 min
+          },
+          {
+            key: "Expires",
+            value: new Date(Date.now() + 900000).toUTCString(), // 15 min from now
           },
         ],
       },
@@ -135,7 +110,12 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=600, must-revalidate", // 10 min
+            value:
+              "public, s-maxage=600, must-revalidate, stale-while-revalidate=1200", // 10 min
+          },
+          {
+            key: "Expires",
+            value: new Date(Date.now() + 600000).toUTCString(), // 10 min from now
           },
         ],
       },
@@ -144,11 +124,18 @@ const nextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=600, must-revalidate", // 10 min
+            value:
+              "public, s-maxage=600, must-revalidate, stale-while-revalidate=1200", // 10 min
+          },
+          {
+            key: "Expires",
+            value: new Date(Date.now() + 600000).toUTCString(), // 10 min from now
           },
         ],
       },
     ];
+
+    return headers;
   },
   images: {
     domains: ["img.etimg.com"],

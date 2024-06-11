@@ -207,7 +207,7 @@ const Login = () => {
                 <>
                   <span className={`default-btn ${styles.defaultBtn}`}>
                     <Image
-                      src="/marketsweb/prime_icon.svg"
+                      src="/marketsweb/img/icon_prime.svg"
                       height="15"
                       width="15"
                       className={styles.primeUsericon}
@@ -303,7 +303,7 @@ const Login = () => {
                 <li className={styles.ddList}>
                   <Image
                     className={styles.rght12}
-                    src="/marketsweb/icon_svgs/Redeem_Benefits_01.svg"
+                    src="/marketsweb/img/icon_svgs/Redeem_Benefits_01.svg"
                     alt="Redeem_Benefits_Icons"
                     title="Redeem_Benefits_Icons"
                     width="16"
@@ -363,7 +363,7 @@ const Login = () => {
                   {/* <span className="eticon_recos"></span> */}
                   <Image
                     className={styles.rght12}
-                    src="/marketsweb/icon_svgs/live-chat01.svg"
+                    src="/marketsweb/img/icon_svgs/live-chat01.svg"
                     alt="Redeem Benefits"
                     title="Redeem Benefits"
                     width="18"
