@@ -8,45 +8,16 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "/(.*)",
-        headers: [
-          {
-            key: "Content-Security-Policy",
-            value:
-              "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none';",
-          },
-          {
-            key: "Strict-Transport-Security",
-            value: "max-age=31536000; includeSubDomains; preload",
-          },
-          {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
-          },
-          {
-            key: "X-Frame-Options",
-            value: "DENY",
-          },
-          {
-            key: "X-XSS-Protection",
-            value: "1; mode=block",
-          },
-          {
-            key: "Referrer-Policy",
-            value: "no-referrer-when-downgrade",
-          },
-          {
-            key: "Permissions-Policy",
-            value: "geolocation=(), microphone=()",
-          },
-        ],
-      },
-      {
         source: "/marketsweb/(.*)",
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=31536000, must-revalidate",
+            value:
+              "public, s-maxage=31536000, must-revalidate, stale-while-revalidate=6,30,72,000", // 365 days
+          },
+          {
+            key: "Expires",
+            value: new Date(new Date().getTime() + 31536000000).toUTCString(),
           },
         ],
       },
