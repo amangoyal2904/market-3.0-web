@@ -25,6 +25,18 @@ declare var ssoWidget: any;
 export const APP_ENV =
   (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || "production";
 
+export const customImageLoader = ({
+  src,
+  width,
+  quality,
+}: {
+  src: string;
+  width: number;
+  quality?: number;
+}) => {
+  return `/marketsweb/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality || 75}`;
+};
+
 export const getCookie = (name: string) => {
   try {
     const nameEQ = name + "=";

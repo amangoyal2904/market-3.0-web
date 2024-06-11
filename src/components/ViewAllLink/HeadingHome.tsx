@@ -3,8 +3,8 @@ import styles from "./ViewAll.module.scss";
 import { trackingEvent } from "@/utils/ga";
 import Image from "next/image";
 import Link from "next/link";
-import RefinitivLogo from "../../../public/img/refinitiv.png";
 import LiveStreamLogo from "../../../public/img/liveStream.svg";
+import { customImageLoader } from "@/utils";
 
 const HeadingHome = ({ title, url }: any) => {
   return title == "Stock Reports Plus" ? (
@@ -27,9 +27,10 @@ const HeadingHome = ({ title, url }: any) => {
         </a>
         <p className={styles.powered}>
           Powered By
-          <Image
-            src={RefinitivLogo}
-            quality={100}
+          <img
+            src="/marketsweb/img/refinitiv.png"
+            width={88}
+            height={22}
             alt="Refinitiv"
             title="Refinitiv"
             loading="lazy"

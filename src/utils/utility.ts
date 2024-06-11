@@ -193,7 +193,7 @@ export const fnGenerateMetaData = (meta?: any) => {
       },
     },
     icons: {
-      icon: "/marketsweb/etfavicon.ico",
+      icon: "/marketsweb/img/etfavicon.ico",
     },
   };
 };
@@ -350,6 +350,7 @@ export const getStockUrl = (
     }
     let stockUrl =
       (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+      "/" +
       seoName +
       "/stocks/companyid-" +
       id +
@@ -364,11 +365,16 @@ export const getStockUrl = (
 
     if (subType == "NonList") {
       stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] + "company/" + seoName + "/" + id;
+        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        "/company/" +
+        seoName +
+        "/" +
+        id;
     }
     if (stockType == "ETF" || stockType == "MutualFund") {
       stockUrl =
         (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        "/" +
         seoName +
         "/mffactsheet/schemeid-" +
         id +
@@ -377,7 +383,7 @@ export const getStockUrl = (
     if (stockType == "crypto") {
       stockUrl =
         (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "markets/cryptocurrency/" +
+        "/markets/cryptocurrency/" +
         seoName +
         "/cryptodetail/symbol-" +
         id +
@@ -386,7 +392,7 @@ export const getStockUrl = (
     if (stockType == "forex") {
       stockUrl =
         (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "markets/forex?amount=1&fromcur=" +
+        "/markets/forex?amount=1&fromcur=" +
         fromCurrencyShort +
         "&tocur=" +
         toCurrencyShort;
@@ -394,13 +400,14 @@ export const getStockUrl = (
     if (stockType == "commodity") {
       stockUrl =
         (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "commoditysummary/symbol-" +
+        "/commoditysummary/symbol-" +
         fno +
         ".cms";
     }
     if (stockType == "NPS") {
       stockUrl =
         (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        "/" +
         seoName +
         "/nps/schemecode-" +
         id +

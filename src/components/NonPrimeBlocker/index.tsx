@@ -22,7 +22,7 @@ const NonPrimeBlockerModule = ({ oncloseModule, companyName }: any) => {
   const getDataFromMetalist = async () => {
     const apiUrl = (APIS_CONFIG as any)?.["DOMAIN"][APP_ENV];
     const _feedparameters =
-      "reactfeed_metainfo.cms?msid=104293917&feedtype=json&type=nonprimedata";
+      "/reactfeed_metainfo.cms?msid=104293917&feedtype=json&type=nonprimedata";
     const res = await fetch(`${apiUrl}${_feedparameters}`);
     const resData = await res.json();
     if (resData && resData.data && resData.data.ctaText) {
@@ -69,13 +69,12 @@ const NonPrimeBlockerModule = ({ oncloseModule, companyName }: any) => {
           </div>
           <div className={styles.contentSec}>
             <div className={styles.left}>
-              <Image
-                src={nonprimebgImg}
+              <img
+                src="/marketsweb/img/nonprimebg.png"
                 alt="Prime logo"
                 title="Prime logo"
-                priority={true}
-                quality={100}
-                className={styles.nonprimebgStyle}
+                width={400}
+                height={300}
               />
             </div>
             <div className={styles.right}>

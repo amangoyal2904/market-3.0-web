@@ -68,6 +68,11 @@ const Login = () => {
         window.objUser.permissions = primeRes.data.permissions || [];
         window.objUser.accessibleFeatures =
           primeRes.data.accessibleFeatures || [];
+        window.objUser.userAcquisitionType =
+          primeRes.data.subscriptionDetails &&
+          primeRes.data.subscriptionDetails.length > 0
+            ? primeRes.data.subscriptionDetails[0].userAcquisitionType
+            : "free";
         window.objUser.primeInfo = primeRes.data;
         window.objUser.isPrime = isPrime;
         setCookieToSpecificTime("isprimeuser", isPrime, 30, 0, 0, "");
@@ -86,6 +91,7 @@ const Login = () => {
       } else {
         window.objUser.permissions = [];
         window.objUser.accessibleFeatures = [];
+        window.objUser.userAcquisitionType = "free";
         window.objUser.primeInfo = {};
         window.objUser.isPrime = false;
         delete_cookie("isprimeuser");
@@ -111,6 +117,7 @@ const Login = () => {
           ssoid: window.objUser?.ssoid,
           ticketId: window.objUser?.ticketId,
           accessibleFeatures: window.objUser.accessibleFeatures,
+          userAcquisitionType: window.objUser.userAcquisitionType,
           permissions: window.objUser.permissions,
         },
       });
@@ -130,6 +137,7 @@ const Login = () => {
         ssoid: window.objUser?.ssoid,
         ticketId: window.objUser?.ticketId,
         accessibleFeatures: window.objUser.accessibleFeatures,
+        userAcquisitionType: window.objUser.userAcquisitionType,
         permissions: window.objUser.permissions,
       },
     });
@@ -147,6 +155,7 @@ const Login = () => {
         ssoid: "",
         ticketId: "",
         accessibleFeatures: [],
+        userAcquisitionType: "free",
         permissions: [],
       },
     });
@@ -207,7 +216,7 @@ const Login = () => {
                 <>
                   <span className={`default-btn ${styles.defaultBtn}`}>
                     <Image
-                      src="/marketsweb/prime_icon.svg"
+                      src="/marketsweb/img/primeIcon.svg"
                       height="15"
                       width="15"
                       className={styles.primeUsericon}
@@ -303,7 +312,7 @@ const Login = () => {
                 <li className={styles.ddList}>
                   <Image
                     className={styles.rght12}
-                    src="/marketsweb/icon_svgs/Redeem_Benefits_01.svg"
+                    src="/marketsweb/img/icon_svgs/Redeem_Benefits_01.svg"
                     alt="Redeem_Benefits_Icons"
                     title="Redeem_Benefits_Icons"
                     width="16"
@@ -363,7 +372,7 @@ const Login = () => {
                   {/* <span className="eticon_recos"></span> */}
                   <Image
                     className={styles.rght12}
-                    src="/marketsweb/icon_svgs/live-chat01.svg"
+                    src="/marketsweb/img/icon_svgs/live-chat01.svg"
                     alt="Redeem Benefits"
                     title="Redeem Benefits"
                     width="18"

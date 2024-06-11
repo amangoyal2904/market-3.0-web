@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useStateContext } from "../../store/StateContext";
-import ETLogo from "../../../public/et-markets-logo.svg";
+import ETLogo from "../../../public/img/et-markets-logo.svg";
 import { goToPlansPage1, trackingEvent } from "@/utils/ga";
 import Login from "../Login";
 import Search from "../Search";
@@ -166,7 +166,7 @@ const Header = () => {
                   onClick={redirectToPlanPage}
                 >
                   <Image
-                    src="/marketsweb/prime_icon.svg"
+                    src="/marketsweb/img/primeIcon.svg"
                     height="12"
                     width="12"
                     alt="Subscribe"

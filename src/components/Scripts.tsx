@@ -40,6 +40,7 @@ declare global {
       isPrime?: any;
       permissions?: any;
       accessibleFeatures?: any;
+      userAcquisitionType?: any;
       primeInfo?: any;
     };
     _sva: any;

@@ -85,6 +85,7 @@ export const trackPushData = (
   const getGrxData = generateGrxFunnel();
   let cdpData = generateCDPPageView(window?.objUser?.prevPath);
   cdpData = { ...cdpData, ...cdpSend };
+
   if (typeof grx != "undefined") {
     grx("init", (GLOBAL_CONFIG as any)[APP_ENV]?.grxId);
     grx("track", cdpData.event_name, cdpData);
@@ -143,6 +144,8 @@ export const trackingEvent = (type, data) => {
   }
   if (type == "et_push_pageload") {
     const objCDP = generateCDPPageView(data.prevPath);
+    console.log("OBJCDP-------->", objCDP);
+    debugger;
     window.grx && window.grx("track", "page_view", objCDP);
   }
 };
@@ -352,45 +355,6 @@ export const generateGrxFunnel = () => {
       ? getUserType(window.objUser.permissions)
       : "Free User";
   objGrx["dimension145"] = "ET_Mercury";
-  // objGrx["feature_name"] = getPageName().replace("Mercury_", "");
-  // objGrx["referral_url"] = document.referrer;
-  // objGrx["url"] = window.location.href;
-  // objGrx["user_id"] =
-  //   typeof window.objUser != "undefined" && window.objUser?.ssoid
-  //     ? window.objUser.ssoid
-  //     : "";
-  // objGrx["user_grx_id"] = getCookie("_grx") ? getCookie("_grx") : "";
-  // objGrx["subscription_status"] =
-  //   typeof window.objUser != "undefined" && window?.objUser?.permissions
-  //     ? getUserType(window.objUser.permissions)
-  //     : "Free User";
-  // objGrx["current_subscriber_status"] =
-  //   typeof window.objUser != "undefined" && window?.objUser?.permissions
-  //     ? getUserType(window.objUser.permissions)
-  //     : "Free User";
-  // objGrx["user_subscription_status"] =
-  //   typeof window.objUser != "undefined" && window?.objUser?.permissions
-  //     ? getUserType(window.objUser.permissions)
-  //     : "Free User";
-
-  // objGrx["country"] = window?.geoinfo.CountryCode;
-  // objGrx["email"] = window?.objUser?.info?.primaryEmail
-  //   ? window?.objUser?.info?.primaryEmail
-  //   : "";
-  // objGrx["et_uuid"] = getCookie("peuuid")
-  //   ? getCookie("peuuid")
-  //   : getCookie("pfuuid");
-  // objGrx["first_name"] = window?.objUser?.info?.firstName
-  //   ? window?.objUser?.info?.firstName
-  //   : "";
-  // objGrx["last_name"] = window?.objUser?.info?.lastName
-  //   ? window?.objUser?.info?.lastName
-  //   : "";
-  // objGrx["loggedin"] = typeof window.objUser != "undefined" ? "Yes" : "No";
-  // objGrx["pageTitle"] = document.title;
-  // objGrx["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
-  // objGrx["web_peuuid"] = getCookie("peuuid");
-  // objGrx["web_pfuuid"] = getCookie("pfuuid");
   return objGrx;
 };
 
@@ -399,7 +363,6 @@ export const generateCDPPageView = (prevPath) => {
   let pageElem = window.location.pathname.split("/");
   const arr = pageElem.shift();
   let site_section = pagePathName.slice(1);
-  console.log("Site_section------>", site_section);
   let lastSlash = site_section.lastIndexOf("/");
   cdpObj["feature_name"] = getPageName().replace("Mercury_", "");
   cdpObj["level_1"] = pageElem[0] != undefined ? pageElem[0] : "";
@@ -407,7 +370,6 @@ export const generateCDPPageView = (prevPath) => {
   cdpObj["level_3"] = pageElem[2] != undefined ? pageElem[2] : "";
   cdpObj["level_4"] = pageElem[3] != undefined ? pageElem[3] : "";
   cdpObj["level_full"] = site_section;
-  //console.log("prevPath------>",prevPath);
   const n = prevPath.lastIndexOf("/");
   const lastClick = prevPath.substring(n + 1);
   cdpObj["last_click_source"] = lastClick;
@@ -431,7 +393,7 @@ export const generateCDPPageView = (prevPath) => {
     trafficSource = "notifications";
   }
   cdpObj["source"] = trafficSource;
-  cdpObj["loggedin"] = typeof window.objUser != "undefined" ? "y" : "n";
+  cdpObj["loggedin"] = typeof window.objUser.info != "undefined" ? "y" : "n";
   cdpObj["email"] = window?.objUser?.info?.primaryEmail
     ? window?.objUser?.info?.primaryEmail
     : "";
@@ -444,6 +406,10 @@ export const generateCDPPageView = (prevPath) => {
   cdpObj["subscription_status"] =
     typeof window.objUser != "undefined" && window?.objUser?.permissions
       ? getUserType(window.objUser.permissions)
+      : "free";
+  cdpObj["subscription_type"] =
+    typeof window.objUser != "undefined" && window?.objUser?.userAcquisitionType
+      ? window.objUser.userAcquisitionType
       : "free";
   cdpObj["business"] = "et";
   cdpObj["embedded"] = "";

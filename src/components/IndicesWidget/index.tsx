@@ -93,6 +93,21 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
     `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=NSE Index&exchange=NSE&period=${period}&height=220&transparentBg=1`,
   );
 
+  const removeHostname = (url: string) => {
+    try {
+      const parsedUrl = new URL(url);
+      return (
+        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        parsedUrl.pathname +
+        parsedUrl.search +
+        parsedUrl.hash
+      );
+    } catch (error) {
+      // If the input is not a valid URL, return it as is or handle accordingly
+      return (APIS_CONFIG as any)?.DOMAIN[APP_ENV] + url;
+    }
+  };
+
   const handleIntervalClick = (item: any) => {
     setPeriod(item?.value);
     setChangePeriod(item?.change);
@@ -234,7 +249,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
               <a
                 className={styles.technical}
                 target="_blank"
-                href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`}
+                href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`}
                 title={`Technicals: ${selectedIndex?.indexName}`}
                 onClick={() =>
                   trackingEvent("et_push_event", {
@@ -344,7 +359,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       </div>
       <div className={styles.newsContainer}>
         <a
-          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`}
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets`}
           target="_blank"
           title="Top News"
           className={styles.title}
@@ -363,7 +378,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
             index < 6 ? (
               <li key={`topNews${index}`}>
                 <a
-                  href={list?.url}
+                  href={removeHostname(list?.url)}
                   className={styles.topNewsList}
                   target="_blank"
                   title={list?.title}
@@ -411,7 +426,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
         </ul>
         <ViewAllLink
           text="See All News"
-          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`}
+          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets`}
           alignRight={true}
           padding="16px 0 0 0"
         />

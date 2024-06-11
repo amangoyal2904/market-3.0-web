@@ -13,8 +13,8 @@
   "production": {
     "ssoWidget": "https://jssocdn.indiatimes.com/crosswalk/42/widget/main.bundle.min.js",
     "jssoSDK": "https://jssocdn.indiatimes.com/crosswalk_sdk/sdk/jsso_crosswalk_legacy_0.7.95.min.js",
-    "ET_WEB_URL": "https://etdev8243.indiatimes.com/",
-    "ET_WAP_URL": "https://spmdev8243.economictimes.com/",
+    "ET_WEB_URL": "https://economictimes.indiatimes.com/",
+    "ET_WAP_URL": "https://m.economictimes.com/",
     "MY_SUBS": "https://buy.indiatimes.com/ET/mysubscription?fornav=1",
     "Plan_PAGE": "https://buy.indiatimes.com/ET/plans",
     "X_CLIENT_ID": "b2a8e883ec676f417520f422068a4742",
