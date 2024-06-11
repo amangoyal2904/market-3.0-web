@@ -9,6 +9,7 @@ import {
   APP_ENV,
   dateFormat,
   dateStringToMilliseconds,
+  removeHostname,
   replaceWidthHeigh,
 } from "@/utils/index";
 import Service from "@/network/service";
@@ -92,21 +93,6 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
   const [iframeSrc, setIframeSrc] = useState(
     `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=NSE Index&exchange=NSE&period=${period}&height=220&transparentBg=1`,
   );
-
-  const removeHostname = (url: string) => {
-    try {
-      const parsedUrl = new URL(url);
-      return (
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        parsedUrl.pathname +
-        parsedUrl.search +
-        parsedUrl.hash
-      );
-    } catch (error) {
-      // If the input is not a valid URL, return it as is or handle accordingly
-      return (APIS_CONFIG as any)?.DOMAIN[APP_ENV] + url;
-    }
-  };
 
   const handleIntervalClick = (item: any) => {
     setPeriod(item?.value);
