@@ -31,7 +31,11 @@ export const getCurrentMarketStatus = async () => {
     }
   } catch (e) {
     console.log("error in fetching market status", e);
-    saveLogs({ res: "error", msg: "Error in fetching market status" });
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: "Error in fetching market status",
+    });
   }
 };
 
@@ -204,7 +208,11 @@ export const fetchIndices = async () => {
     return response?.json();
   } catch (e) {
     console.log("error in fetching indices data", e);
-    saveLogs({ res: "error", msg: "Error in fetching indices data" });
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: "Error in fetching indices data",
+    });
   }
 };
 
@@ -233,7 +241,11 @@ export const fetchFilters = async ({
     return response?.json();
   } catch (e) {
     console.log("error in fetching filters data", e);
-    saveLogs({ res: "error", msg: "Error in fetching filters data" });
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: "Error in fetching filters data",
+    });
   }
 };
 
@@ -272,7 +284,11 @@ export const fetchViewTable = async (
     return response?.json();
   } catch (e) {
     console.log("error in fetching viewTable data", e);
-    saveLogs({ res: "error", msg: "Error in fetching viewTable data" });
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: "Error in fetching viewTable data",
+    });
   }
 };
 
@@ -302,7 +318,11 @@ export const fetchTableData = async (viewId: any, params?: any) => {
     return response?.json();
   } catch (e) {
     console.log("error in fetching table data", e);
-    saveLogs({ res: "error", msg: "Error in fetching table data" });
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: "Error in fetching table data",
+    });
   }
 };
 
@@ -477,7 +497,11 @@ export const createPeuuid = async () => {
     }
   } catch (e) {
     console.log("error in creating peuuid ", e);
-    saveLogs({ res: "error", msg: "Error in creating peuuid" });
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: "Error in creating peuuid",
+    });
   }
 };
 

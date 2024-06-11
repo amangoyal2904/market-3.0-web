@@ -114,6 +114,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       });
       const data = response ? await response?.json() : {};
       saveLogs({
+        type: "Mercury",
         res: "success",
         msg: "Successfully fetched indices widget data",
       });
@@ -129,7 +130,11 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       setDiiCash(data?.diiData);
     } catch (e) {
       console.log("error in fetching indices data", e);
-      saveLogs({ res: "error", msg: "Error in fetching indices widget data" });
+      saveLogs({
+        type: "Mercury",
+        res: "error",
+        msg: "Error in fetching indices widget data",
+      });
     }
   };
   const onSelectIndex = (selectedItem: any, index: any) => {
