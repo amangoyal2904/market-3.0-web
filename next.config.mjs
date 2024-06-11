@@ -8,12 +8,21 @@ const nextConfig = {
   async headers() {
     const headers = [
       {
+        source: "/marketsweb/_next/static/chunks/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
         source: "/marketsweb/static/(.*)",
         headers: [
           {
             key: "Cache-Control",
             value:
-              "public, s-maxage=31536000, must-revalidate, stale-while-revalidate=604800", // 365 days, 7 days for stale-while-revalidate
+              "public, max-age=31536000, must-revalidate, stale-while-revalidate=604800", // 365 days, 7 days for stale-while-revalidate
           },
           {
             key: "Expires",
@@ -27,7 +36,7 @@ const nextConfig = {
           {
             key: "Cache-Control",
             value:
-              "public, s-maxage=300, must-revalidate, stale-while-revalidate=600", // 5 min
+              "public, max-age=300, must-revalidate, stale-while-revalidate=600", // 5 min
           },
           {
             key: "Expires",
@@ -41,7 +50,7 @@ const nextConfig = {
           {
             key: "Cache-Control",
             value:
-              "public, s-maxage=1200, must-revalidate, stale-while-revalidate=2400", // 20 min
+              "public, max-age=1200, must-revalidate, stale-while-revalidate=2400", // 20 min
           },
           {
             key: "Expires",
@@ -55,7 +64,7 @@ const nextConfig = {
           {
             key: "Cache-Control",
             value:
-              "public, s-maxage=1200, must-revalidate, stale-while-revalidate=2400", // 20 min
+              "public, max-age=1200, must-revalidate, stale-while-revalidate=2400", // 20 min
           },
           {
             key: "Expires",
@@ -69,7 +78,7 @@ const nextConfig = {
           {
             key: "Cache-Control",
             value:
-              "public, s-maxage=1200, must-revalidate, stale-while-revalidate=2400", // 20 min
+              "public, max-age=1200, must-revalidate, stale-while-revalidate=2400", // 20 min
           },
           {
             key: "Expires",
@@ -83,7 +92,7 @@ const nextConfig = {
           {
             key: "Cache-Control",
             value:
-              "public, s-maxage=900, must-revalidate, stale-while-revalidate=1800", // 15 min
+              "public, max-age=900, must-revalidate, stale-while-revalidate=1800", // 15 min
           },
           {
             key: "Expires",
@@ -97,7 +106,7 @@ const nextConfig = {
           {
             key: "Cache-Control",
             value:
-              "public, s-maxage=900, must-revalidate, stale-while-revalidate=1800", // 15 min
+              "public, max-age=900, must-revalidate, stale-while-revalidate=1800", // 15 min
           },
           {
             key: "Expires",
@@ -111,7 +120,7 @@ const nextConfig = {
           {
             key: "Cache-Control",
             value:
-              "public, s-maxage=600, must-revalidate, stale-while-revalidate=1200", // 10 min
+              "public, max-age=600, must-revalidate, stale-while-revalidate=1200", // 10 min
           },
           {
             key: "Expires",
@@ -125,7 +134,7 @@ const nextConfig = {
           {
             key: "Cache-Control",
             value:
-              "public, s-maxage=600, must-revalidate, stale-while-revalidate=1200", // 10 min
+              "public, max-age=600, must-revalidate, stale-while-revalidate=1200", // 10 min
           },
           {
             key: "Expires",
