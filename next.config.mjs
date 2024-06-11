@@ -8,7 +8,7 @@ const nextConfig = {
   async headers() {
     const headers = [
       {
-        source: "/_next/static/:path*",
+        source: "/marketsweb/_next/static/chunks/:path*",
         headers: [
           {
             key: "Cache-Control",
