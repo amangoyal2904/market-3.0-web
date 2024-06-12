@@ -161,7 +161,7 @@ const Header = () => {
                   onClick={redirectToPlanPage}
                 >
                   <Image
-                    src="/marketsweb/img/primeIcon.svg"
+                    src="/marketsweb/img/icon_prime.svg"
                     height="12"
                     width="12"
                     alt="Subscribe"

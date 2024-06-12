@@ -24,7 +24,7 @@ function getIPAddress() {
 }
 
 let agentEnabled = false;
-if (getIPAddress() == "172.29.13.30") {
+if (getIPAddress() == "172.29.13.119") {
   agentEnabled = true;
 }
 

@@ -389,8 +389,12 @@ const StockScreeners = ({
     setCreateModuleScreener(false);
   };
   const saveScreenerhandler = async () => {
-    setCeateScreenerNamePopup(true);
-    document.body.style.overflow = "hidden";
+    if (isLogin) {
+      setCeateScreenerNamePopup(true);
+      document.body.style.overflow = "hidden";
+    } else {
+      initSSOWidget();
+    }
   };
   const screenerNameUpdateHandler = (value: any) => {
     setMetaData({ ..._metaData, title: value });
@@ -551,12 +555,19 @@ const StockScreeners = ({
       return (
         <h1 className={styles.heading}>
           {_metaData.title}{" "}
-          <span onClick={saveScreenerhandler} className={styles.saveMode}>
-            <i className="eticon_save" /> Update{" "}
-          </span>
-          <span onClick={removeScreenerhandler} className={styles.removeMode}>
-            Remove{" "}
-          </span>
+          {isLogin && (
+            <>
+              <span onClick={saveScreenerhandler} className={styles.saveMode}>
+                <i className="eticon_save" /> Update{" "}
+              </span>
+              <span
+                onClick={removeScreenerhandler}
+                className={styles.removeMode}
+              >
+                Remove{" "}
+              </span>
+            </>
+          )}
         </h1>
       );
     } else if (
