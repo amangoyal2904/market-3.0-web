@@ -51,7 +51,6 @@ export const goToPlansPage1 = (type, data, redirect) => {
         : "Free User";
     items.push(data);
     _gtmEventDimension["items"] = items;
-    console.log("gtm Event Dimension------->>> ", _gtmEventDimension);
     window.dataLayer.push(_gtmEventDimension);
     trackPushData(_gtmEventDimension, data, redirect);
   }
@@ -140,7 +139,6 @@ export const trackingEvent = (type, data) => {
 export const getUserType = (permissionsArr) => {
   try {
     var userType = "New";
-    console.log("Permissions Array---->", permissionsArr);
     if (permissionsArr.length > 0) {
       if (permissionsArr.some((str) => str.includes("expired_subscription"))) {
         userType = "expired";

@@ -60,7 +60,8 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
     prevPath !== null &&
       trackingEvent("et_push_pageload", { url: window.location.href });
     setPrevPath(router);
-    renderDfpAds(isPrime);
+    window.googletag ? renderDfpAds(isPrime) : document.addEventListener("gptLoaded", function(){renderDfpAds(isPrime)});
+    //renderDfpAds(isPrime);
     if (window.isSurveyLoad) {
       surveyLoad();
     } else {
@@ -261,15 +262,13 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               `,
             }}
           />
-          {!isprimeuser && !searchParams?.get("opt") && (
-            <Script
+          {!isPrime && !searchParams?.get("gpt") && (
+              <Script
               src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
-              strategy="lazyOnload"
               onLoad={() => {
                 const gptLoaded = new Event("gptLoaded");
                 document.dispatchEvent(gptLoaded);
               }}
-              async
             />
           )}
           {/* <Script

@@ -25,6 +25,18 @@ declare var ssoWidget: any;
 export const APP_ENV =
   (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || "production";
 
+export const customImageLoader = ({
+  src,
+  width,
+  quality,
+}: {
+  src: string;
+  width: number;
+  quality?: number;
+}) => {
+  return `/marketsweb/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality || 75}`;
+};
+
 export const getCookie = (name: string) => {
   try {
     const nameEQ = name + "=";
@@ -673,4 +685,19 @@ export const replaceWidthHeigh = (url: any, newWidth: any, newHeight: any) => {
   });
 
   return newUrl;
+};
+
+export const removeHostname = (url: string) => {
+  try {
+    const parsedUrl = new URL(url);
+    return (
+      (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+      parsedUrl.pathname +
+      parsedUrl.search +
+      parsedUrl.hash
+    );
+  } catch (error) {
+    // If the input is not a valid URL, return it as is or handle accordingly
+    return (APIS_CONFIG as any)?.DOMAIN[APP_ENV] + url;
+  }
 };

@@ -1,7 +1,7 @@
 {
   "DOMAIN": {
-    "development": "https://etdev8243.indiatimes.com/",
-    "production": "https://economictimes.indiatimes.com/"
+    "development": "https://etdev8243.indiatimes.com",
+    "production": "https://economictimes.indiatimes.com"
   },
   "APIDOMAIN": {
     "development": "https://etpwaapipre.economictimes.com/request",
@@ -71,7 +71,7 @@
   },
   "INDEX_FILTERS": {
     "development": "https://etapipre.indiatimes.com/api/mercury/indexfilters",
-    "production": "https://etapipre.indiatimes.com/api/mercury/indexfilters"
+    "production": "https://etpwaapi.economictimes.com/api/mercury/indexfilters"
   },
   "MARKETSINTRADAY_CUSTOM_TAB": {
     "development": "https://screener.indiatimes.com/screener/overviewids",
@@ -183,7 +183,7 @@
   },
   "LEFT_NAV": {
     "development": "https://etapipre.indiatimes.com/api/mercury/nav?platform=web",
-    "production": "https://etapipre.indiatimes.com/api/mercury/nav?platform=web"
+    "production": "https://etpwaapi.economictimes.com/api/mercury/nav?platform=web"
   },
   "PERSONALISE_VIEW": {
     "updateTabs": {
@@ -297,11 +297,11 @@
   },
   "MARKET_STATS_SHORTURLS_MAPPING": {
     "development": "https://etapipre.indiatimes.com/api/mercury/shorturlmapping/marketstats",
-    "production": "https://etapipre.indiatimes.com/api/mercury/shorturlmapping/marketstats"
+    "production": "https://etpwaapi.economictimes.com/api/mercury/shorturlmapping/marketstats"
   },
   "MARKET_STATS_NAV": {
     "development": "https://etapipre.indiatimes.com/api/mercury/marketstatsnav",
-    "production": "https://etapipre.indiatimes.com/api/mercury/marketstatsnav"
+    "production": "https://etpwaapi.economictimes.com/api/mercury/marketstatsnav"
   },
   "SCREENER_BY_SCREENERID": {
     "development": "https://screener.indiatimes.com/screener/getScreenerByScreenerId",
@@ -313,7 +313,7 @@
   },
   "STOCK_RECOS_NAV": {
     "development": "https://etapipre.indiatimes.com/api/mercury/stockrecosnav",
-    "production": "https://etapipre.indiatimes.com/api/mercury/stockrecosnav"
+    "production": "https://etpwaapi.economictimes.com/api/mercury/stockrecosnav"
   },
   "STOCK_RECOS_DETAIL": {
     "development": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail",
@@ -401,7 +401,7 @@
   },
   "FOOTER_LINKS": {
     "development": "https://etdev8243.indiatimes.com/feed_mercury_footermenu.cms?feedtype=etjson",
-    "production": "https://etdev8243.indiatimes.com/feed_mercury_footermenu.cms?feedtype=etjson"
+    "production": "https://economictimes.indiatimes.com/feed_mercury_footermenu.cms?feedtype=etjson"
   },
   "BigBullGetSearchData": {
     "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-search",

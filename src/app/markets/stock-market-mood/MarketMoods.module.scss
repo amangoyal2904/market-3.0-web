@@ -112,6 +112,10 @@
 .section {
   position: relative;
   margin: 25px auto 50px;
+  img {
+    width: auto;
+    max-height: 370px;
+  }
   &.center {
     text-align: center;
   }

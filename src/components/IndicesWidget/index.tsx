@@ -9,6 +9,7 @@ import {
   APP_ENV,
   dateFormat,
   dateStringToMilliseconds,
+  removeHostname,
   replaceWidthHeigh,
 } from "@/utils/index";
 import Service from "@/network/service";
@@ -229,7 +230,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
               <a
                 className={styles.technical}
                 target="_blank"
-                href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`}
+                href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets/technical-charts?symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&entity=index`}
                 title={`Technicals: ${selectedIndex?.indexName}`}
                 onClick={() =>
                   trackingEvent("et_push_event", {
@@ -339,7 +340,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       </div>
       <div className={styles.newsContainer}>
         <a
-          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`}
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets`}
           target="_blank"
           title="Top News"
           className={styles.title}
@@ -358,7 +359,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
             index < 6 ? (
               <li key={`topNews${index}`}>
                 <a
-                  href={list?.url}
+                  href={removeHostname(list?.url)}
                   className={styles.topNewsList}
                   target="_blank"
                   title={list?.title}
@@ -406,7 +407,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
         </ul>
         <ViewAllLink
           text="See All News"
-          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}markets`}
+          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets`}
           alignRight={true}
           padding="16px 0 0 0"
         />

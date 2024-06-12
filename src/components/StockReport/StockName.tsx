@@ -23,7 +23,7 @@ const StockName: React.FC<StockNameProps> = ({
     if (primeUser) {
       return (
         <a
-          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}${seoName}/stocks/companyid-${companyID}.cms`}
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/${seoName}/stocks/companyid-${companyID}.cms`}
           target="_blank"
           title={name}
         >
