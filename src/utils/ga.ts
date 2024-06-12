@@ -145,8 +145,14 @@ export const trackingEvent = (type, data) => {
   if (type == "et_push_pageload") {
     const objCDP = generateCDPPageView(data.prevPath);
     console.log("OBJCDP-------->", objCDP);
-    debugger;
-    window.grx && window.grx("track", "page_view", objCDP);
+    if (window.grx || window.isGrxLoaded) {
+      window.grx("track", "page_view", objCDP);
+    } else {
+      document.addEventListener("ready", () => {
+        window.isGrxLoaded = true;
+        window.grx("track", "page_view", objCDP);
+      });
+    }
   }
 };
 
@@ -359,81 +365,88 @@ export const generateGrxFunnel = () => {
 };
 
 export const generateCDPPageView = (prevPath) => {
-  const pagePathName = window.location.pathname;
-  let pageElem = window.location.pathname.split("/");
-  const arr = pageElem.shift();
-  let site_section = pagePathName.slice(1);
-  let lastSlash = site_section.lastIndexOf("/");
-  cdpObj["feature_name"] = getPageName().replace("Mercury_", "");
-  cdpObj["level_1"] = pageElem[0] != undefined ? pageElem[0] : "";
-  cdpObj["level_2"] = pageElem[1] != undefined ? pageElem[1] : "";
-  cdpObj["level_3"] = pageElem[2] != undefined ? pageElem[2] : "";
-  cdpObj["level_4"] = pageElem[3] != undefined ? pageElem[3] : "";
-  cdpObj["level_full"] = site_section;
-  const n = prevPath.lastIndexOf("/");
-  const lastClick = prevPath.substring(n + 1);
-  cdpObj["last_click_source"] = lastClick;
-  cdpObj["referral_url"] = document.referrer != "" ? prevPath : "";
-  cdpObj["page_template"] = site_section.substring(lastSlash + 1);
-  cdpObj["url"] = window.location.href;
-  cdpObj["title"] = document.title;
-  let trafficSource = "direct";
-  let dref = document.referrer,
-    wlh = window.location.href.toLowerCase();
-  if (/google|bing|yahoo/gi.test(dref)) {
-    trafficSource = "organic";
-  } else if (
-    /facebook|linkedin|instagram|twitter/gi.test(dref) ||
-    wlh.indexOf("utm_medium=social") != -1
-  ) {
-    trafficSource = "social";
-  } else if (wlh.indexOf("utm_medium=email") != -1) {
-    trafficSource = "newsletter";
-  } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
-    trafficSource = "notifications";
+  try {
+    const pagePathName = window.location.pathname;
+    let pageElem = window.location.pathname.split("/");
+    const arr = pageElem.shift();
+    let site_section = pagePathName.slice(1);
+    let lastSlash = site_section.lastIndexOf("/");
+    cdpObj["feature_name"] = getPageName().replace("Mercury_", "");
+    cdpObj["level_1"] = pageElem[0] != undefined ? pageElem[0] : "";
+    cdpObj["level_2"] = pageElem[1] != undefined ? pageElem[1] : "";
+    cdpObj["level_3"] = pageElem[2] != undefined ? pageElem[2] : "";
+    cdpObj["level_4"] = pageElem[3] != undefined ? pageElem[3] : "";
+    cdpObj["level_full"] = site_section;
+    const n = prevPath ? prevPath.lastIndexOf("/") : 0;
+    const lastClick = n == 0 ? "" : prevPath.substring(n + 1);
+    cdpObj["last_click_source"] = lastClick;
+    cdpObj["referral_url"] = document.referrer != "" ? prevPath : "";
+    cdpObj["page_template"] = site_section.substring(lastSlash + 1);
+    cdpObj["url"] = window.location.href;
+    cdpObj["title"] = document.title;
+    let trafficSource = "direct";
+    let dref = document.referrer,
+      wlh = window.location.href.toLowerCase();
+    if (/google|bing|yahoo/gi.test(dref)) {
+      trafficSource = "organic";
+    } else if (
+      /facebook|linkedin|instagram|twitter/gi.test(dref) ||
+      wlh.indexOf("utm_medium=social") != -1
+    ) {
+      trafficSource = "social";
+    } else if (wlh.indexOf("utm_medium=email") != -1) {
+      trafficSource = "newsletter";
+    } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
+      trafficSource = "notifications";
+    }
+    cdpObj["source"] = trafficSource;
+    cdpObj["loggedin"] = typeof window.objUser.info != "undefined" ? "y" : "n";
+    cdpObj["email"] = window?.objUser?.info?.primaryEmail
+      ? window?.objUser?.info?.primaryEmail
+      : "";
+    cdpObj["phone"] = window?.objUser?.info?.mobile
+      ? window?.objUser?.info?.mobile
+      : "";
+    cdpObj["login_method"] = window?.objUser?.loginType
+      ? window?.objUser?.loginType
+      : "";
+    cdpObj["subscription_status"] =
+      typeof window.objUser != "undefined" && window?.objUser?.permissions
+        ? getUserType(window.objUser.permissions)
+        : "free";
+    cdpObj["subscription_type"] =
+      typeof window.objUser != "undefined" &&
+      window?.objUser?.userAcquisitionType
+        ? window.objUser.userAcquisitionType
+        : "free";
+    cdpObj["business"] = "et";
+    cdpObj["embedded"] = "";
+    cdpObj["paywalled"] = "n";
+    cdpObj["product"] = "other";
+    cdpObj["client_source"] = "cdp";
+    cdpObj["dark_mode"] = "n";
+    cdpObj["monetizable"] =
+      window.objUser && window.objUser.isPrime ? "n" : "y";
+    cdpObj["utm_source"] = getParameterByName("utm_source")
+      ? getParameterByName("utm_source")
+      : "";
+    cdpObj["utm_medium"] = getParameterByName("utm_medium")
+      ? getParameterByName("utm_medium")
+      : "";
+    cdpObj["utm_campaign"] = getParameterByName("utm_campaign")
+      ? getParameterByName("utm_campaign")
+      : "";
+    cdpObj["variant_id"] = getParameterByName("variant_id")
+      ? getParameterByName("variant_id")
+      : "";
+    cdpObj["cohort_id"] = getParameterByName("cohort_id")
+      ? getParameterByName("cohort_id")
+      : "";
+    return cdpObj;
+  } catch (e) {
+    console.log("Error___" + e);
+    return {};
   }
-  cdpObj["source"] = trafficSource;
-  cdpObj["loggedin"] = typeof window.objUser.info != "undefined" ? "y" : "n";
-  cdpObj["email"] = window?.objUser?.info?.primaryEmail
-    ? window?.objUser?.info?.primaryEmail
-    : "";
-  cdpObj["phone"] = window?.objUser?.info?.mobile
-    ? window?.objUser?.info?.mobile
-    : "";
-  cdpObj["login_method"] = window?.objUser?.loginType
-    ? window?.objUser?.loginType
-    : "";
-  cdpObj["subscription_status"] =
-    typeof window.objUser != "undefined" && window?.objUser?.permissions
-      ? getUserType(window.objUser.permissions)
-      : "free";
-  cdpObj["subscription_type"] =
-    typeof window.objUser != "undefined" && window?.objUser?.userAcquisitionType
-      ? window.objUser.userAcquisitionType
-      : "free";
-  cdpObj["business"] = "et";
-  cdpObj["embedded"] = "";
-  cdpObj["paywalled"] = "n";
-  cdpObj["product"] = "other";
-  cdpObj["client_source"] = "cdp";
-  cdpObj["dark_mode"] = "n";
-  cdpObj["monetizable"] = window.objUser && window.objUser.isPrime ? "n" : "y";
-  cdpObj["utm_source"] = getParameterByName("utm_source")
-    ? getParameterByName("utm_source")
-    : "";
-  cdpObj["utm_medium"] = getParameterByName("utm_medium")
-    ? getParameterByName("utm_medium")
-    : "";
-  cdpObj["utm_campaign"] = getParameterByName("utm_campaign")
-    ? getParameterByName("utm_campaign")
-    : "";
-  cdpObj["variant_id"] = getParameterByName("variant_id")
-    ? getParameterByName("variant_id")
-    : "";
-  cdpObj["cohort_id"] = getParameterByName("cohort_id")
-    ? getParameterByName("cohort_id")
-    : "";
-  return cdpObj;
 };
 
 export const getParameterByName = (name) => {

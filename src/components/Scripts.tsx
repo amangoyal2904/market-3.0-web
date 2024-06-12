@@ -61,12 +61,12 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
 
   useEffect(() => {
     console.log("PrevPath start--->", prevPath);
+    setPrevPath(router || document.referrer);
     prevPath !== null &&
       trackingEvent("et_push_pageload", {
         url: window.location.href,
         prevPath: prevPath,
       });
-    setPrevPath(router);
     console.log("PrevPath end--->", prevPath);
     if (typeof window.objUser == "undefined") window.objUser = {};
     window.objUser && (window.objUser.prevPath = prevPath || document.referrer);
