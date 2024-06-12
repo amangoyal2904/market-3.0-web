@@ -229,11 +229,11 @@ export const updateGtm = (_gtmEventDimension) => {
       ? site_section.substring(site_section.indexOf("/") + 1)
       : site_section.substring(0, site_section.indexOf("/"));
   _gtmEventDimension["login_status"] =
-    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
+    typeof window.objUser.info != "undefined" ? "Logged In" : "Not Logged In";
   _gtmEventDimension["user_login_status_hit"] =
-    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
+    typeof window.objUser.info != "undefined" ? "Logged In" : "Not Logged In";
   _gtmEventDimension["user_login_status_session"] =
-    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
+    typeof window.objUser.info != "undefined" ? "Logged In" : "Not Logged In";
   _gtmEventDimension["last_click_source"] = site_section;
   let trafficSource = "direct";
   let dref = document.referrer,
@@ -294,7 +294,7 @@ export const updateGtm = (_gtmEventDimension) => {
     ? window?.objUser?.info?.lastName
     : "";
   _gtmEventDimension["loggedin"] =
-    typeof window.objUser != "undefined" ? "Yes" : "No";
+    typeof window.objUser.info != "undefined" ? "Yes" : "No";
   _gtmEventDimension["pageTitle"] = document.title;
   _gtmEventDimension["referral_url"] = document.referrer;
   _gtmEventDimension["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
@@ -315,7 +315,8 @@ export const generateGrxFunnel = () => {
     site_section.indexOf("/") == -1
       ? site_section.substring(site_section.indexOf("/") + 1)
       : site_section.substring(0, site_section.indexOf("/"));
-  objGrx["dimension146"] = typeof window.objUser != "undefined" ? "Y" : "N";
+  objGrx["dimension146"] =
+    typeof window.objUser.info != "undefined" ? "Y" : "N";
   objGrx["dimension27"] = site_section;
   objGrx["dimension12"] = "";
   objGrx["dimension147"] =
