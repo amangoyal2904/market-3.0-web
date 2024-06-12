@@ -8,6 +8,8 @@ import Loader from "../Loader";
 import Pagination from "./Pagination";
 import useDebounce from "@/hooks/useDebounce";
 import { formatNumber } from "@/utils";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils/index";
 interface propsType {
   data: any[];
   highlightLtp?: boolean;
@@ -488,7 +490,7 @@ const MarketTable = React.memo((props: propsType) => {
       }
 
       wsRef.current = new WebSocket(
-        "ws://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW",
+        (APIS_CONFIG as any)?.WEBSOCKET_ENDPOINT[APP_ENV],
       );
 
       wsRef.current.onopen = () => {
