@@ -471,7 +471,7 @@ const MarketTable = React.memo((props: propsType) => {
 
     const initializeWebSocket = () => {
       wsRef.current = new WebSocket(
-        "ws://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW",
+        "wss://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW",
       );
 
       wsRef.current.onopen = () => {
