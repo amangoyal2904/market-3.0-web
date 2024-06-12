@@ -187,13 +187,15 @@ const LiveStreamPlay = (props: any) => {
             const filteredEvents = result?.filter(
               (event: { eventStatus: number }) => event.eventStatus === 3,
             );
-            setNewsData(filteredEvents);
-            prepareData(filteredEvents[0]);
+            if (filteredEvents?.length) {
+              setNewsData(filteredEvents);
+              prepareData(filteredEvents[0]);
+            }
             // prepareImpression(result[0]);
           }
         }
       })
-      .catch((e: any) => console.log("error in Athena fetchList", e));
+      .catch((e: any) => console.log("No LiveStream is LIVE at this time", e));
   };
   const fetchFollowingExperts = async () => {
     try {
@@ -216,9 +218,9 @@ const LiveStreamPlay = (props: any) => {
   };
   const prepareData = (item: any) => {
     setActiveData(item);
-    setEventId(item.eventId);
-    setEventToken(item.eventToken);
-    setLiveStatus(item.eventStatus == 3 ? true : false);
+    setEventId(item?.eventId);
+    setEventToken(item?.eventToken);
+    setLiveStatus(item?.eventStatus == 3 ? true : false);
     if (item.eventStatus == 3) {
       sessionStorage.setItem("doNotRefreshPage", "1");
       fetchFollowingExperts();
