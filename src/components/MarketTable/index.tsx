@@ -28,6 +28,7 @@ interface propsType {
   l1NavTracking?: any;
   l2NavTracking?: any;
   l3NavTracking?: any;
+  setUpdateDateTime?: any;
 }
 
 const DEBOUNCE_DELAY = 10;
@@ -52,11 +53,12 @@ const MarketTable = React.memo((props: propsType) => {
     l1NavTracking = "",
     l2NavTracking = "",
     l3NavTracking = "",
+    setUpdateDateTime,
   } = props || {};
 
   const wsRef = useRef<WebSocket | null>(null);
   const buffer = useRef<any[]>([]);
-  const BUFFER_UPDATE_INTERVAL = 4000;
+  const BUFFER_UPDATE_INTERVAL = 800;
   const objTracking = {
     category: "Subscription Flow ET",
     action: "SYFT | Flow Started",
@@ -469,9 +471,24 @@ const MarketTable = React.memo((props: propsType) => {
       indices: l2NavTracking === "Indices" ? companies : [],
     };
 
+    const unsubscribeRequestBody = {
+      action: "unsubscribe",
+      symbols: l2NavTracking === "Indices" ? [] : companies,
+      indices: l2NavTracking === "Indices" ? companies : [],
+    };
+
     const initializeWebSocket = () => {
+      if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+        wsRef.current.send(JSON.stringify(requestBody));
+        return;
+      }
+
+      if (wsRef.current && wsRef.current.readyState === WebSocket.CONNECTING) {
+        return;
+      }
+
       wsRef.current = new WebSocket(
-        "wss://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW",
+        "ws://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW",
       );
 
       wsRef.current.onopen = () => {
@@ -483,10 +500,12 @@ const MarketTable = React.memo((props: propsType) => {
         const { stocks, indices, time } = JSON.parse(event.data);
         if (stocks) buffer.current.push(...stocks);
         if (indices) buffer.current.push(...indices);
+        setUpdateDateTime(new Date(time).getTime());
       };
 
       wsRef.current.onclose = () => {
         console.log("WebSocket connection closed");
+        wsRef.current = null;
       };
 
       wsRef.current.onerror = (error) => {
@@ -496,11 +515,15 @@ const MarketTable = React.memo((props: propsType) => {
 
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        if (wsRef.current) {
-          wsRef.current.close();
+        if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+          wsRef.current.send(JSON.stringify(unsubscribeRequestBody));
         }
-      } else if (tableRef.current && wsRef.current === null) {
-        initializeWebSocket();
+      } else {
+        if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+          wsRef.current.send(JSON.stringify(requestBody));
+        } else if (wsRef.current === null) {
+          initializeWebSocket();
+        }
       }
     };
 
@@ -508,10 +531,14 @@ const MarketTable = React.memo((props: propsType) => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            initializeWebSocket();
+            if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+              wsRef.current.send(JSON.stringify(requestBody));
+            } else if (wsRef.current === null) {
+              initializeWebSocket();
+            }
           } else {
-            if (wsRef.current) {
-              wsRef.current.close();
+            if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+              wsRef.current.send(JSON.stringify(unsubscribeRequestBody));
             }
           }
         });
@@ -524,6 +551,11 @@ const MarketTable = React.memo((props: propsType) => {
     }
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Initialize WebSocket if the table is in view and document is visible
+    if (!document.hidden && tableRef.current) {
+      initializeWebSocket();
+    }
 
     const intervalId = setInterval(() => {
       if (buffer.current.length > 0) {

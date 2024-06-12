@@ -351,6 +351,7 @@ const WatchListClient = () => {
               isprimeuser={isPrime}
               l1NavTracking="Markets"
               l2NavTracking="Watchlist"
+              setUpdateDateTime={setUpdateDateTime}
             />
           </>
         )}

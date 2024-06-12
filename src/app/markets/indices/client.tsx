@@ -114,6 +114,7 @@ const IndicesClient = ({
         l1NavTracking="Markets LIVE"
         l2NavTracking="Indices"
         l3NavTracking={exchange}
+        setUpdateDateTime={setUpdateDateTime}
       />
     </>
   );

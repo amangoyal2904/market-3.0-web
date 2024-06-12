@@ -742,6 +742,7 @@ const StockScreeners = ({
                 l1NavTracking="Screeners"
                 l2NavTracking={getCollectionNameByScreenerId(scrid)}
                 l3NavTracking={screenerDetail.name}
+                setUpdateDateTime={setUpdateDateTime}
               />
               <div className="">
                 <QueryComponets

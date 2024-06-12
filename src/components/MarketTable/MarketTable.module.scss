@@ -261,7 +261,7 @@
   tr {
     background-color: $white;
     &.highlightedRow {
-      background-color: rgba(230, 230, 230, 0.1);
+      background-color: $gray_95;
     }
   }
   .hideThead {

@@ -488,6 +488,7 @@ const MarketStats = ({
               !isTechnical ? "Intraday" : _technicalCategory?.category
             }
             l3NavTracking={getNavName()}
+            setUpdateDateTime={setUpdateDateTime}
           />
         </div>
       </div>
