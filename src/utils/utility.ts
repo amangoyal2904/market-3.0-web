@@ -25,7 +25,7 @@ const convertJSONToParams = (jsonObject: any) => {
 export const getCurrentMarketStatus = async () => {
   try {
     const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
-    const res = await Service.get({ url, params: {} });
+    const res = await Service.get({ url, params: {}, cache: "no-store" });
     if (res?.status === 200) {
       return res?.json();
     }
