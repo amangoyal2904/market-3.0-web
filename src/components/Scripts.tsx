@@ -262,7 +262,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               `,
             }}
           />
-          {!isprimeuser && !searchParams?.get("opt") && (
+          {!isPrime && !searchParams?.get("gpt") && (
               <Script
               src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
               onLoad={() => {
