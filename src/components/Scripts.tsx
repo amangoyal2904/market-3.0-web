@@ -8,7 +8,7 @@ import { getUserType, trackingEvent } from "@/utils/ga";
 import APIS_CONFIG from "@/network/api_config.json";
 import { useStateContext } from "@/store/StateContext";
 import renderDfpAds from "@/components/Ad/AdScript";
-
+import { sendMouseFlowEvent } from "../utils/utility";
 interface Props {
   isprimeuser?: number | boolean;
   objVc?: object;
@@ -55,40 +55,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
   //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
-
-  useEffect(() => {
-    prevPath !== null &&
-      trackingEvent("et_push_pageload", { url: window.location.href });
-    setPrevPath(router);
-    window.googletag ? renderDfpAds(isPrime) : document.addEventListener("gptLoaded", function(){renderDfpAds(isPrime)});
-    //renderDfpAds(isPrime);
-    if (window.isSurveyLoad) {
-      surveyLoad();
-    } else {
-      document.addEventListener(
-        "surveyLoad",
-        () => {
-          window.isSurveyLoad = true;
-          surveyLoad();
-        },
-        { once: true },
-      );
-    }
-  }, [router, isPrime]);
-
   let execution = 0;
-
-  useEffect(() => {
-    document.addEventListener("visibilitychange", (event) => {
-      if (document.visibilityState == "visible" && execution == 0) {
-        renderDfpAds(isPrime);
-        execution = 1;
-      } else {
-        execution = 0;
-      }
-    });
-  }, ["", isPrime]);
-
   const surveyLoad = () => {
     if (window._sva && window._sva.setVisitorTraits) {
       const subscribeStatus =
@@ -115,6 +82,41 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
       });
     }
   };
+  useEffect(() => {
+    prevPath !== null &&
+      trackingEvent("et_push_pageload", { url: window.location.href });
+    setPrevPath(router);
+    window.googletag
+      ? renderDfpAds(isPrime)
+      : document.addEventListener("gptLoaded", function () {
+          renderDfpAds(isPrime);
+        });
+    //renderDfpAds(isPrime);
+    if (window.isSurveyLoad) {
+      surveyLoad();
+    } else {
+      document.addEventListener(
+        "surveyLoad",
+        () => {
+          window.isSurveyLoad = true;
+          surveyLoad();
+        },
+        { once: true },
+      );
+    }
+  }, [router, isPrime]);
+
+  useEffect(() => {
+    document.addEventListener("visibilitychange", (event) => {
+      if (document.visibilityState == "visible" && execution == 0) {
+        renderDfpAds(isPrime);
+        execution = 1;
+      } else {
+        execution = 0;
+      }
+    });
+  }, ["", isPrime]);
+
   // useEffect(() => {
   //   if (typeof window !== "undefined" ) {
   //     window.googletag ? renderDfpAds(window.arrDfpAds, isPrime) : document.addEventListener("gptLoaded", function(){renderDfpAds(window.arrDfpAds, isPrime)});
@@ -125,7 +127,10 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   //   }
   //   //eslint-disable-next-line
   // }, [state]);
-
+  useEffect(() => {
+    sendMouseFlowEvent();
+    console.log("____________mouse flow start ");
+  }, []);
   return (
     <>
       <Script id="main-script">
@@ -263,7 +268,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
             }}
           />
           {!isPrime && !searchParams?.get("gpt") && (
-              <Script
+            <Script
               src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
               onLoad={() => {
                 const gptLoaded = new Event("gptLoaded");

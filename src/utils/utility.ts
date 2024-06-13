@@ -10,6 +10,12 @@ import Service from "@/network/service";
 
 const API_SOURCE = 0;
 
+declare global {
+  interface Window {
+    _mfq?: any[];
+  }
+}
+
 const convertJSONToParams = (jsonObject: any) => {
   let paramsArray = [];
   for (let key in jsonObject) {
@@ -1080,7 +1086,7 @@ export const getBigBullPageName = (slugArray: any) => {
   const checkExpertId = slugArray.some((slug: any) =>
     slug.includes("expertid-"),
   );
-  console.log("slugArray", checkExpertId);
+  // console.log("slugArray", checkExpertId);
   if (slugArray.length === 1 && checkExpertId) {
     const expertId = getExpertIdBigbull(slugArray);
     return {
@@ -1327,5 +1333,42 @@ export const saveLogs = (data: any) => {
     } catch (e) {
       console.log("Error in save logs api");
     }
+  }
+};
+
+export const loadScript = (
+  src: any,
+  async = true,
+  type = "text/javascript",
+  position = "body",
+) => {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.type = type;
+    script.async = async;
+    script.src = src;
+
+    script.onload = resolve;
+    script.onerror = reject;
+
+    if (position === "head") {
+      document.head.appendChild(script);
+    } else {
+      document.body.appendChild(script);
+    }
+  });
+};
+export const sendMouseFlowEvent = async () => {
+  try {
+    await loadScript(
+      "//cdn.mouseflow.com/projects/81baae85-f91c-464e-ac38-15a987752b7a.js",
+    );
+
+    if (typeof window !== "undefined") {
+      window._mfq = window._mfq || [];
+      window._mfq.push(["setVariable", "ETMarketsMercury"]);
+    }
+  } catch (error) {
+    console.error("Failed to load Mouseflow script", error);
   }
 };
