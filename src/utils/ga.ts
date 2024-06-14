@@ -133,7 +133,7 @@ export const trackPushData = (
   })
     .then((res) => {
       if (redirect) {
-        //window.location.href = newPlanUrl;
+        window.location.href = newPlanUrl;
       }
     })
     .catch((err) => {
@@ -306,7 +306,7 @@ export const updateGtm = (_gtmEventDimension, prevPath) => {
     _gtmEventDimension["loggedin"] =
       typeof window.objUser.info != "undefined" ? "Yes" : "No";
     _gtmEventDimension["pageTitle"] = document.title;
-    _gtmEventDimension["referral_url"] = document.referrer;
+    _gtmEventDimension["referral_url"] = prevPath;
     _gtmEventDimension["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
     _gtmEventDimension["user_region"] = window?.geoinfo.region_code;
     _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
@@ -401,7 +401,7 @@ export const generateCDPPageView = (prevPath) => {
     const n = prevPath ? prevPath.lastIndexOf("/") : 0;
     const lastClick = n == 0 ? "" : prevPath.substring(n + 1);
     cdpObj["last_click_source"] = lastClick;
-    cdpObj["referral_url"] = document.referrer == "" ? prevPath : "";
+    cdpObj["referral_url"] = prevPath;
     cdpObj["page_template"] = site_section.substring(lastSlash + 1);
     cdpObj["url"] = window.location.href;
     cdpObj["title"] = document.title;
