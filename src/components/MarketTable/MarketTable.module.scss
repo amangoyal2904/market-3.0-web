@@ -31,7 +31,6 @@
       }
     }
   }
-
   .inputWrapper {
     text-align: center;
     padding: 8px 12px;
@@ -260,7 +259,7 @@
 
   tr {
     background-color: $white;
-    &.highlightedRow {
+    &.highlightedRow > td {
       background-color: $gray_95 !important;
     }
   }
