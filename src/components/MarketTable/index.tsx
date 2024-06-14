@@ -502,7 +502,8 @@ const MarketTable = React.memo((props: propsType) => {
         const { stocks, indices, time } = JSON.parse(event.data);
         if (stocks) buffer.current.push(...stocks);
         if (indices) buffer.current.push(...indices);
-        setUpdateDateTime(new Date(time).getTime());
+        if (!isNaN(new Date(time).getTime()))
+          setUpdateDateTime(new Date(time).getTime());
       };
 
       wsRef.current.onclose = () => {
