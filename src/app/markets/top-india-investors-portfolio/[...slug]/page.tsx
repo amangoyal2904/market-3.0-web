@@ -24,7 +24,7 @@ import mostHeldTableHead from "../../../../DataJson/mostHeldTableHead.json";
 import investorOverviewTopTableHead from "../../../../DataJson/investorOverviewTopTableHead.json";
 import investorHoldingsTableHead from "../../../../DataJson/investorHoldingsTableHead.json";
 import bulkBlockTableHead from "../../../../DataJson/bulkBlockTableHead.json";
-
+import Blocker from "@/components/Blocker";
 export async function generateMetadata(
   { searchParams, params }: any,
   parent: ResolvingMetadata,
@@ -559,12 +559,7 @@ const BigBullPage = async ({ params }: any) => {
   }
   return (
     <>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <pre>{JSON.stringify(pageType, null, 2)}</pre>
+      <Blocker type="notFound" />
     </>
   );
 };
