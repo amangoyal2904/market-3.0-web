@@ -23,6 +23,7 @@ const BiggBullRecentTransactionsTable = ({
   sortData,
   handleSort,
   shouldShowLoader,
+  sectionName = "",
 }: any) => {
   //console.log("tableData", tableData);
   const { state } = useStateContext();
@@ -33,9 +34,11 @@ const BiggBullRecentTransactionsTable = ({
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
   const blurNameHandler = (companyName: string) => {
     const objTracking = {
-      category: "Subscription Flow ET",
-      action: "SYFT | Flow Started",
-      label: "",
+      category: "mercury_engagement",
+      action: "card_clicked",
+      label: `${companyName}`,
+      widget_name: `${sectionName}`,
+      tab_name: `${sectionName}`,
       obj: {
         item_name: "bigbull_investors",
         item_id: companyName,
@@ -287,6 +290,7 @@ const BiggBullRecentTransactionsTable = ({
           <NonPrimeBlockerModule
             oncloseModule={blurNameHandlerClose}
             companyName={companyName}
+            sectionName={sectionName}
           />
         </Suspense>
       )}

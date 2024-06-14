@@ -29,22 +29,21 @@ export default function StockSRLoginBlocker({
   const objTracking = {
     category: "Subscription Flow ET",
     action: "SYFT | Flow Started",
-    label: location.pathname,
+    label: `stock_report_plus_${srTabActivemenu}`,
     obj: {
-      item_name: "gainers",
+      item_name: "stock_report_plus",
       item_brand: "market_tools",
-      item_category: "l3 - l4",
-      item_category2: "gainers",
-      item_category3: "field name",
-      item_category4: "upgrade to prime",
-      feature_name: "marketstats",
-      site_section: "l1",
-      site_sub_section: "l1/l2/l2",
+      item_category: "stock_report_plus",
+      item_category2: `stock_report_plus_${srTabActivemenu}`,
+      item_category3: "paywall_blocker_cta",
+      item_category4: "Subscribe Now",
+      item_id: `${srTabActivemenu}`,
     },
     cdp: {
       event_nature: "click",
       event_category: "subscription",
       event_name: "paywall",
+      cta_text: "Subscribe Now",
     },
   };
 

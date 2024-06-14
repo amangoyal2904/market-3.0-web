@@ -14,7 +14,7 @@ import Blocker from "../Blocker";
 import Loader from "../Loader";
 import StockSRLoginBlocker from "../StockSRLoginBlocker";
 import HeadingHome from "../ViewAllLink/HeadingHome";
-import { trackingEvent } from "@/utils/ga";
+import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 
 interface Props {
   srResult: any;
@@ -138,7 +138,29 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
     setProcessingLoader(false);
   };
 
-  const handlePaywallClick = (value: boolean) => {
+  const handlePaywallClick = (value: boolean, catName: any) => {
+    const objTracking = {
+      category: "mercury_engagement",
+      action: "card_clicked",
+      label: `${catName}`,
+      widget_name: "SRPlus_HomePage_Widget",
+      tab_name: `${catName}`,
+      obj: {
+        item_name: "stock_report_plus_stock",
+        item_id: "stock_report_plus_stock",
+        item_brand: "market_tools",
+        item_category: "stock_report_plus",
+        item_category2: `stock_report_plus_stock_${catName}`,
+        item_category3: "paywall_blocker_cta",
+        item_category4: "locked",
+      },
+      cdp: {
+        event_nature: "impression",
+        event_category: "subscription",
+        event_name: "subscriptions_blocker",
+      },
+    };
+    redirectToPlanPage(objTracking, "view_item_list", false);
     setIsModalOpen(value);
     if (value) {
       document.body.style.overflow = "hidden";
@@ -226,6 +248,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
           overlayBlockerData={overlayBlockerData}
           isLoginUser={isLoginUser}
           handleClick={handlePaywallClick}
+          srTabActivemenu={activeTab?.name}
         />
       )}
     </>

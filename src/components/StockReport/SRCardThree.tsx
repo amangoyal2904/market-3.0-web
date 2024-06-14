@@ -60,7 +60,9 @@ const SRCardThree: React.FC<SRCardThreeProps> = ({
     data.find((item) => item?.keyId === "sr_recCnt")?.value?.toString() || "0",
   );
 
-  const cardClickProps = !primeUser ? { onClick: () => handleClick(true) } : {};
+  const cardClickProps = !primeUser
+    ? { onClick: () => handleClick(true, catName) }
+    : {};
 
   return (
     <>

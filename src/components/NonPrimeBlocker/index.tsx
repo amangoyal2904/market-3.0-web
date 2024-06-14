@@ -10,7 +10,11 @@ import { redirectToPlanPage } from "@/utils/ga";
 import SubscribeBtn from "./SubscribeBtn";
 import nonprimebgImg from "../../../public/img/nonprimebg.png";
 
-const NonPrimeBlockerModule = ({ oncloseModule, companyName }: any) => {
+const NonPrimeBlockerModule = ({
+  oncloseModule,
+  companyName,
+  sectionName = "",
+}: any) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, isPrime } = state.login;
   const [ctaTxt, setCtaTxt] = useState("");
@@ -51,6 +55,7 @@ const NonPrimeBlockerModule = ({ oncloseModule, companyName }: any) => {
       event_nature: "click",
       event_category: "subscription",
       event_name: "paywall",
+      cta_text: "Subscribe to ETPrime",
     },
   };
   const planPageRedirect = () => {

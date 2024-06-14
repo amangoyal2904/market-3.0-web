@@ -51,7 +51,7 @@ const Header = () => {
       const obj = {
         item_name: "atf_" + lastSlash,
         item_id: "atf",
-        item_brand: "product_interventions",
+        item_brand: "market_tools",
         item_category: "atf_offer_cta",
         item_category2: lastSlash,
         item_category3: "atf_cta",

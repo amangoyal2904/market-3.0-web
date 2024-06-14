@@ -36,6 +36,7 @@ const TopTabs = ({
     if (showIndexFilter) {
       filterApiCall();
     }
+    console.log("TITLE------->", title);
   }, []);
   return (
     <>

@@ -320,8 +320,10 @@ const MarketMoodsClient = ({
       event_nature: "click",
       event_category: "subscription",
       event_name: "paywall",
+      cta_text: "",
     },
   };
+
   return (
     <>
       <div className={styles.logo}>
@@ -409,6 +411,7 @@ const MarketMoodsClient = ({
                   <span
                     className={styles.subscribeBtn}
                     onClick={() => {
+                      objTracking.cdp["cta_text"] = item.cta;
                       redirectToPlanPage(objTracking);
                     }}
                   >

@@ -21,7 +21,12 @@ const BigBullSection = ({
           {data && data.length > 0
             ? data.map((card: any, index: number) => {
                 return (
-                  <BigBullCard key={`${index}-card`} data={card} type={type} />
+                  <BigBullCard
+                    key={`${index}-card`}
+                    data={card}
+                    type={type}
+                    sectionName={title}
+                  />
                 );
               })
             : "No data"}
