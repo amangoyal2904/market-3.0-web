@@ -120,19 +120,38 @@ const WatchListClient = () => {
   };
   const updateTableData = async () => {
     const bodyParams = requestPayload;
-    const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
-      await getCustomViewTable(bodyParams, true, ssoid, "MARKETS_CUSTOM_TABLE");
 
     try {
-      setUpdateDateTime(unixDateTime);
-      setTableData(tableData);
-      setTableHeaderData(tableHeaderData);
-    } catch (e) {
-      setUpdateDateTime(new Date().getTime());
-      setTableData([]);
-      setTableHeaderData([]);
+      const response = await getCustomViewTable(
+        bodyParams,
+        true,
+        ssoid,
+        "MARKETS_CUSTOM_TABLE",
+      );
+
+      if (response) {
+        const {
+          tableHeaderData,
+          tableData = [],
+          unixDateTime = new Date().getTime(),
+        } = response;
+        if (tableData.length) {
+          setUpdateDateTime(unixDateTime);
+          setTableData(tableData);
+          setTableHeaderData(tableHeaderData);
+        } else {
+          // Handle case where tableData length is 0
+          setUpdateDateTime(new Date().getTime());
+          setTableData([]);
+          setTableHeaderData([]);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching watchlist table data:", error);
+      // Handle error appropriately if needed
+    } finally {
+      setProcessingLoader(false);
     }
-    setProcessingLoader(false);
   };
 
   const fetchWatchListData = async () => {

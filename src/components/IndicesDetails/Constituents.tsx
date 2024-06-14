@@ -228,28 +228,40 @@ const IndicesConstituents = React.memo(
     };
 
     const updateTableData = async () => {
-      const responseData: any = await fetchViewTable(
-        { ..._payload },
-        "MARKETSTATS_INTRADAY",
-        getCookie("isprimeuser") == "true" ? true : false,
-        getCookie("ssoid"),
-      );
-      if (!!responseData) {
-        const _pageSummary = !!responseData.pageSummary
-          ? responseData.pageSummary
-          : {};
-        const _tableData = responseData?.dataList ? responseData.dataList : [];
+      const isPrimeUser = getCookie("isprimeuser") === "true";
+      const ssoid = getCookie("ssoid");
 
-        const _tableHeaderData =
-          _tableData &&
-          _tableData.length &&
-          _tableData[0] &&
-          _tableData[0]?.data
-            ? _tableData[0]?.data
-            : [];
-        setTableData(_tableData);
-        setTableHeaderData(_tableHeaderData);
-        setPageSummary(_pageSummary);
+      try {
+        const responseData: any = await fetchViewTable(
+          _payload,
+          "MARKETSTATS_INTRADAY",
+          isPrimeUser,
+          ssoid,
+        );
+
+        if (responseData) {
+          const { dataList = [], pageSummary = {} } = responseData;
+
+          const newTableData = dataList;
+          const newTableHeaderData =
+            newTableData.length > 0 && newTableData[0]?.data
+              ? newTableData[0].data
+              : [];
+
+          setTableData(newTableData);
+          setTableHeaderData(newTableHeaderData);
+          setPageSummary(pageSummary);
+
+          if (newTableData.length === 0) {
+            setTableData([]);
+            setTableHeaderData([]);
+            setPageSummary({});
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching constituents table data:", error);
+        // Handle error appropriately if needed
+      } finally {
         setProcessingLoader(false);
       }
     };

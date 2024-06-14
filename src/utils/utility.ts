@@ -1358,6 +1358,7 @@ export const loadScript = (
     }
   });
 };
+
 export const sendMouseFlowEvent = async () => {
   try {
     await loadScript(

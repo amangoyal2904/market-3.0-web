@@ -104,8 +104,10 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
 
   const updateTableData = async () => {
     const { table, otherData } = await getBuySellTechnicals(payload);
-    setTableData(table);
-    setOtherDataSet(otherData);
+    if (!!table && table?.length) {
+      setTableData(table);
+      setOtherDataSet(otherData);
+    }
     setProcessingLoader(false);
   };
   const tableHeaderData =
