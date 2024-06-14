@@ -77,25 +77,36 @@ function MarketDashBoard(props: propsType) {
   };
 
   const updateTableData = async () => {
-    const responseData: any = await fetchViewTable(
-      { ...payload },
-      "MARKETSTATS_INTRADAY",
-      getCookie("isprimeuser") == "true" ? true : false,
-      getCookie("ssoid"),
-    );
-    if (!!responseData) {
-      const _pageSummary = !!responseData.pageSummary
-        ? responseData.pageSummary
-        : {};
-      const tableData = responseData?.dataList ? responseData.dataList : [];
+    const isPrimeUser = getCookie("isprimeuser") === "true";
+    const ssoid = getCookie("ssoid");
 
-      const tableHeaderData =
-        tableData && tableData.length && tableData[0] && tableData[0]?.data
-          ? tableData[0]?.data
-          : [];
-      updateShortUrl();
-      setDashBoardTableData(tableData);
-      setDashBoardHeaderData(tableHeaderData);
+    try {
+      const responseData: any = await fetchViewTable(
+        { ...payload },
+        "MARKETSTATS_INTRADAY",
+        isPrimeUser,
+        ssoid,
+      );
+
+      if (responseData) {
+        const {
+          dataList: newTableData = [],
+          pageSummary: newPageSummary = {},
+        } = responseData;
+
+        const newTableHeaderData =
+          newTableData.length > 0 && newTableData[0]?.data
+            ? newTableData[0].data
+            : [];
+
+        updateShortUrl();
+        setDashBoardTableData(newTableData);
+        setDashBoardHeaderData(newTableHeaderData);
+      }
+    } catch (error) {
+      console.error("Error fetching market dashboard data:", error);
+      // Handle error appropriately if needed
+    } finally {
       setProcessingLoader(false);
     }
   };

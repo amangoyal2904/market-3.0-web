@@ -62,8 +62,10 @@ const IndicesClient = ({
       sortData.field,
       sortData.order,
     );
-    setUpdateDateTime(unixDateTime);
-    setTableData(tableData);
+    if (!!tableData && tableData.length) {
+      setUpdateDateTime(unixDateTime);
+      setTableData(tableData);
+    }
     setProcessingLoader(false);
   };
 

@@ -148,7 +148,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
   };
   useEffect(() => {
     const intervalId: any = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
+      if (currentMarketStatus != "CLOSED") {
         getIndicesWidgetData();
       }
     }, refreshConfig?.indicesDetail);

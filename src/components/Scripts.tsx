@@ -5,7 +5,6 @@ import { FC, useEffect, useState } from "react";
 import { APP_ENV, getCookie, verifyLogin } from "../utils";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import { getUserType, trackingEvent } from "@/utils/ga";
-import APIS_CONFIG from "@/network/api_config.json";
 import { useStateContext } from "@/store/StateContext";
 import renderDfpAds from "@/components/Ad/AdScript";
 import { sendMouseFlowEvent } from "../utils/utility";
@@ -117,20 +116,11 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
     });
   }, ["", isPrime]);
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined" ) {
-  //     window.googletag ? renderDfpAds(window.arrDfpAds, isPrime) : document.addEventListener("gptLoaded", function(){renderDfpAds(window.arrDfpAds, isPrime)});
-  //     console.log("Event Listiner-------");
-  //     return () => {
-  //       //document.removeEventListener("gptLoaded", function(){renderDfpAds(window.arrDfpAds, isPrime)});
-  //     };
-  //   }
-  //   //eslint-disable-next-line
-  // }, [state]);
   useEffect(() => {
     sendMouseFlowEvent();
     console.log("____________mouse flow start ");
   }, []);
+
   return (
     <>
       <Script id="main-script">
