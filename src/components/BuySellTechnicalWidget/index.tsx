@@ -9,6 +9,7 @@ import refeshConfig from "@/utils/refreshConfig.json";
 import styles from "./BuySellTechnicalWidget.module.scss";
 import { dateFormat } from "@/utils";
 import { trackingEvent } from "@/utils/ga";
+import HeadingHome from "../ViewAllLink/HeadingHome";
 
 const macd_opts = [
   { label: "1D", value: "1d", id: 1 },
@@ -117,7 +118,10 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
 
   return (
     <div className="sectionWrapper">
-      <h2 className="heading">Technical Signals</h2>
+      <HeadingHome
+        title="Technical Signals"
+        url="/stocks/marketstats-technicals/golden-cross"
+      />
       <div className="prel">
         <BuySellTab
           activeItem={activeItem}
@@ -144,13 +148,16 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
           l3NavTracking={activeItem}
         />
         <div className={styles.helpTxt}>
+          <span className={styles.note}>
+            <strong>*Note:</strong>
+          </span>
           <span>
-            {`* Note: ${payload.crossoverType == "Bullish" ? "Gain" : "Decline"}%
+            {` ${payload.crossoverType == "Bullish" ? "Gain" : "Decline"}%
             is the average price movement within ${otherDataSet.gainLossDays} of signal in last ${otherDataSet.gainLossYears}`}
           </span>
-          <span>
+          {/* <span>
             {dateFormat(otherDataSet.unixDateTime, "* Formed On %MMM %d, %Y")}
-          </span>
+          </span> */}
         </div>
       </div>
     </div>

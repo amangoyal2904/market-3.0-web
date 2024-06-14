@@ -118,16 +118,18 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
         res: "success",
         msg: "Successfully fetched indices widget data",
       });
-      setIndicesData(data?.indicesList);
-      setSelectedIndex((prevState: any) =>
-        Object.keys(prevState)?.length
-          ? data?.indicesList?.filter(
-              (stock: { indexId: any }) => stock.indexId == prevState.indexId,
-            )?.[0]
-          : data?.indicesList[0],
-      );
-      setFiiCash(data?.fiiData);
-      setDiiCash(data?.diiData);
+      if (data && data.indicesList) {
+        setIndicesData(data?.indicesList);
+        setSelectedIndex((prevState: any) =>
+          Object.keys(prevState)?.length
+            ? data?.indicesList?.filter(
+                (stock: { indexId: any }) => stock.indexId == prevState.indexId,
+              )?.[0]
+            : data?.indicesList[0],
+        );
+        setFiiCash(data?.fiiData);
+        setDiiCash(data?.diiData);
+      }
     } catch (e) {
       console.log("error in fetching indices data", e);
       saveLogs({ res: "error", msg: "Error in fetching indices widget data" });
@@ -155,7 +157,6 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
 
     return () => clearInterval(intervalId);
   }, [currentMarketStatus]);
-
   return (
     <div className={styles.widgetContainer}>
       <div className={styles.IndicesContainer}>

@@ -93,7 +93,7 @@ export const LiveStreamCards = ({ data }: any) => {
           <Share title={data.title} streamURL={url} />
         </div>
         <a href={url} className={styles.title} title={data.title}>
-          <p>{data.title}</p>
+          <span className={styles.textp}>{data.title}</span>
         </a>
         <div className={styles.profileSection}>
           <a className={styles.userPic} title={data.title} href={expertUrl}>

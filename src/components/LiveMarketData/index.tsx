@@ -17,7 +17,7 @@ const LiveMarketData = () => {
       const url = (APIS_CONFIG as any)?.LIVE_MARKET_DATA_NEW[APP_ENV];
       const res = await Service.get({ url, params: {} });
       const result = await res?.json();
-      setMarketData(result.searchresult[0]);
+      setMarketData(result.indicesList);
     } catch (err) {
       console.log("Error in Live Market Live ", err);
       saveLogs({
@@ -95,20 +95,18 @@ const LiveMarketData = () => {
                 <div className={styles.indexName}>
                   <a
                     href={
-                      item.indexName == "NIFTY 50"
+                      item.indexName == "Nifty 50"
                         ? "/markets/indices/nifty-50"
                         : "/markets/indices/bse-sensex"
                     }
-                    title={
-                      item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName
-                    }
+                    title={item.indexName == "Nifty 50" ? "NIFTY" : "SENSEX"}
                   >
-                    {item.indexName == "NIFTY 50" ? "NIFTY" : item.indexName}
+                    {item.indexName == "Nifty 50" ? "NIFTY" : "SENSEX"}
                   </a>
                 </div>
                 {/* <div className={styles.indexContainer}> */}
                 <div className={`${styles.indexValue} numberFonts`}>
-                  {formatNumber(item.currentIndexValue)}
+                  {formatNumber(item.lastTradedPrice)}
                 </div>
                 <div
                   className={`numberFonts ${styles.indexChange} ${Number(item.netChange) > 0 ? styles.green : styles.red}`}
