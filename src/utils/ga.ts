@@ -331,7 +331,7 @@ export const generateGrxFunnel = () => {
         ? site_section.substring(site_section.indexOf("/") + 1)
         : site_section.substring(0, site_section.indexOf("/"));
     objGrx["dimension146"] =
-      typeof window.objUser.info != "undefined" ? "Y" : "N";
+      typeof window.objUser != "undefined" && window.objUser.info ? "Y" : "N";
     objGrx["dimension27"] = site_section;
     objGrx["dimension12"] = "";
     objGrx["dimension147"] =
