@@ -22,6 +22,7 @@ import Service from "@/network/service";
 import { useStateContext } from "@/store/StateContext";
 import MarketStatus from "@/components/MarketStatus";
 import { trackingEvent } from "@/utils/ga";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -667,16 +668,18 @@ const StockScreeners = ({
     onSearchParamChange();
   }, [searchParams]);
 
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus === "LIVE") updateTableData();
+    },
+    refeshConfig.stocksScreener,
+    [_payload, currentMarketStatus, updateTableData],
+  );
+
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        updateTableData();
-      }
-    }, refeshConfig.stocksScreener);
-    return () => clearInterval(intervalId);
-  }, [_payload, currentMarketStatus]);
+  }, [_payload]);
 
   useEffect(() => {
     const userSSOID = getCookie("ssoid");

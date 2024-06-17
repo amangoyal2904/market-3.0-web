@@ -16,6 +16,7 @@ import OtherIndicesCard from "./OtherIndicesCard";
 import Link from "next/link";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 
 const IndicesConstituents = React.memo(
   ({
@@ -266,16 +267,18 @@ const IndicesConstituents = React.memo(
       }
     };
 
+    useIntervalApiCall(
+      () => {
+        if (currentMarketStatus === "LIVE") updateTableData();
+      },
+      refeshConfig.marketstats,
+      [_payload, isPrime, currentMarketStatus, updateTableData],
+    );
+
     useEffect(() => {
       setProcessingLoader(true);
       updateTableData();
-      const intervalId = setInterval(() => {
-        if (currentMarketStatus === "LIVE") {
-          updateTableData();
-        }
-      }, refeshConfig.marketstats);
-      return () => clearInterval(intervalId);
-    }, [_payload, isPrime, currentMarketStatus]);
+    }, [_payload, isPrime]);
 
     return (
       <>

@@ -10,6 +10,7 @@ import styles from "./BuySellTechnicalWidget.module.scss";
 import { dateFormat } from "@/utils";
 import { trackingEvent } from "@/utils/ga";
 import HeadingHome from "../ViewAllLink/HeadingHome";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 
 const macd_opts = [
   { label: "1D", value: "1d", id: 1 },
@@ -113,16 +114,18 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
   const tableHeaderData =
     (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
 
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus === "LIVE") updateTableData();
+    },
+    refeshConfig.marketstats,
+    [payload, currentMarketStatus, updateTableData],
+  );
+
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        updateTableData();
-      }
-    }, refeshConfig.marketstats);
-    return () => clearInterval(intervalId);
-  }, [payload, currentMarketStatus]);
+  }, [payload]);
 
   return (
     <div className="sectionWrapper">

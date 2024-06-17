@@ -14,6 +14,7 @@ import {
 import { getCookie } from "@/utils";
 import refeshConfig from "@/utils/refreshConfig.json";
 import MarketFiltersTab from "../MarketTabs/MarketFiltersTab";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 interface propsType {
   tabsData: any[];
   tableData: any[];
@@ -191,15 +192,18 @@ function MarketDashBoard(props: propsType) {
     setShortURL(updatedUrl);
   };
 
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus === "LIVE") updateTableData();
+    },
+    refeshConfig.marketstats,
+    [payload, isPrime, currentMarketStatus, updateTableData],
+  );
+
   useEffect(() => {
+    setProcessingLoader(true);
     updateTableData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        updateTableData();
-      }
-    }, refeshConfig.marketstats);
-    return () => clearInterval(intervalId);
-  }, [payload, isPrime, currentMarketStatus]);
+  }, [payload, isPrime]);
 
   return (
     <>
