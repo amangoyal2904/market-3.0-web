@@ -62,7 +62,7 @@ const Subhead = (props: any) => {
     trackingEvent("et_push_event", {
       event_category: "mercury_engagement",
       event_action: "page_cta_click",
-      event_label: type == "card" ? "grid" : "list",
+      event_label: type == "card" ? "grid_view" : "list_view",
     });
 
     dispatch({
