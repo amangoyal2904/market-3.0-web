@@ -77,19 +77,29 @@ const Header = () => {
     let isMounted = true;
 
     const getMarketStatus = async () => {
-      const result = await getCurrentMarketStatus();
-      if (isMounted && !!result) {
-        setMktStatus({
-          currentMarketStatus: result?.currentMarketStatus,
-          marketStatus: result?.marketStatus,
-        });
-        if (result.marketStatus === "ON") {
-          const timeoutId = setTimeout(
-            getMarketStatus,
-            refeshConfig.marketStatus,
-          );
-          return () => clearTimeout(timeoutId);
+      try {
+        const result = await getCurrentMarketStatus();
+        if (isMounted && !!result) {
+          if (
+            result.currentMarketStatus !== undefined &&
+            result.marketStatus !== undefined
+          ) {
+            setMktStatus({
+              currentMarketStatus: result.currentMarketStatus,
+              marketStatus: result.marketStatus,
+            });
+          }
+          if (result.marketStatus === "ON") {
+            const timeoutId = setTimeout(
+              getMarketStatus,
+              refeshConfig.marketStatus,
+            );
+            return () => clearTimeout(timeoutId);
+          }
         }
+      } catch (error) {
+        console.error("Error fetching market status:", error);
+        // Handle error as needed, e.g., set an error state or retry mechanism
       }
     };
 
