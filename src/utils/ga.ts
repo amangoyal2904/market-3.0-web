@@ -427,9 +427,12 @@ export const generateCDPPageView = (prevPath) => {
     cdpObj["email"] = window?.objUser?.info?.primaryEmail
       ? window?.objUser?.info?.primaryEmail
       : "";
-    cdpObj["phone"] = window?.objUser?.info?.mobile
-      ? window?.objUser?.info?.mobile
-      : "";
+    cdpObj["phone"] =
+      typeof window.objUser != "undefined" &&
+      window?.objUser?.info?.mobileList &&
+      Object.keys(window?.objUser?.info?.mobileList).length > 0
+        ? Object.keys(window?.objUser?.info?.mobileList)[0]
+        : "";
     cdpObj["login_method"] = window?.objUser?.loginType
       ? window?.objUser?.loginType
       : "";
