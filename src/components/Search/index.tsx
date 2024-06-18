@@ -5,6 +5,7 @@ import APIS_CONFIG from "../../network/api_config.json";
 import styles from "./Search.module.scss";
 import SearchData from "./SearchData";
 import { saveLogs } from "@/utils/utility";
+import { trackingEvent } from "@/utils/ga";
 
 const debounce = <T extends any[]>(
   func: (...args: T) => void,

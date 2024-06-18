@@ -79,8 +79,8 @@ const BigBullCard = ({ data, type, sectionName }: any) => {
         item_id: data?.investorIntro?.name,
         item_brand: "market_tools",
         item_category: "bigbull",
-        item_category2: "bigbull_investors",
-        item_category3: "",
+        item_category2: `bigbull_Overview_${sectionName}`,
+        item_category3: `subscriptions_blocker`,
         item_category4: "",
       },
       cdp: {

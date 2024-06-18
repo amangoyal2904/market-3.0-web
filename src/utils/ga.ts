@@ -113,6 +113,7 @@ export const trackPushData = (
   const ticketId = getCookie("encTicket")
     ? `&ticketid=${getCookie("encTicket")}`
     : "";
+  const ACQ_SUB_SOURCE = `${sendGTMdata?.item_category}|${sendGTMdata?.item_category2}|${sendGTMdata?.item_category3}|${sendGTMdata?.item_category4.replace(" ", "_")}`;
   const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
   const newPlanUrl =
     planUrl +
@@ -121,10 +122,13 @@ export const trackPushData = (
     encodeURI(window.location.href) +
     "&grxId=" +
     getCookie("_grx") +
-    ticketId;
+    ticketId +
+    "&meta=market_tools&acqSubSource=" +
+    ACQ_SUB_SOURCE;
   const headers = {
     "Content-Type": "application/json",
   };
+
   Service.post({
     url,
     headers: headers,
@@ -208,8 +212,11 @@ export const getUserType = (permissionsArr) => {
 export const getPageName = (pageURL = "") => {
   const pagePathName = pageURL || (window && window.location.pathname);
   let pageName = "";
+  let pageDetails = { pageName: "", featureName: "" };
   if (pagePathName.includes("/marketstats")) {
     pageName = "Mercury_MarketStats";
+    pageDetails.pageName = "Mercury_MarketStats";
+    pageDetails.featureName = "ETMKTSTATS";
   } else if (pagePathName.includes("/stock-recos")) {
     pageName = "Mercury_Recos";
   } else if (pagePathName.includes("/stock-screener")) {
