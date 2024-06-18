@@ -19,6 +19,7 @@ import IndicesTechnicalAnalysis from "@/components/IndicesDetails/TechnicalAnaly
 import IndicesConstituents from "@/components/IndicesDetails/Constituents";
 import IndicesPerformance from "@/components/IndicesDetails/Performance";
 import { trackingEvent } from "@/utils/ga";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 
 const pageTabData = [
   { label: "Key Metrics", key: "keymetrics" },
@@ -117,14 +118,13 @@ const IndicesDetailsClient = ({
     [scrollToActiveContent, handleScroll],
   );
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        refreshOverviewData();
-      }
-    }, refeshConfig.indicesDetail);
-    return () => clearInterval(intervalId);
-  }, [currentMarketStatus]);
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus === "LIVE") refreshOverviewData();
+    },
+    refeshConfig.indicesDetail,
+    [currentMarketStatus],
+  );
 
   return (
     <>

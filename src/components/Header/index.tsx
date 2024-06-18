@@ -75,28 +75,56 @@ const Header = () => {
 
   useEffect(() => {
     let isMounted = true;
+    let timeoutId: number;
 
     const getMarketStatus = async () => {
-      const result = await getCurrentMarketStatus();
-      if (isMounted && !!result) {
-        setMktStatus({
-          currentMarketStatus: result?.currentMarketStatus,
-          marketStatus: result?.marketStatus,
-        });
-        if (result.marketStatus === "ON") {
-          const timeoutId = setTimeout(
-            getMarketStatus,
-            refeshConfig.marketStatus,
-          );
-          return () => clearTimeout(timeoutId);
+      if (document.visibilityState !== "visible") {
+        return;
+      }
+      try {
+        const result = await getCurrentMarketStatus();
+        if (isMounted && !!result) {
+          if (
+            result.currentMarketStatus !== undefined &&
+            result.marketStatus !== undefined
+          ) {
+            setMktStatus({
+              currentMarketStatus: result.currentMarketStatus,
+              marketStatus: result.marketStatus,
+            });
+          }
+          if (result?.marketStatus === "ON") {
+            timeoutId = window.setTimeout(
+              getMarketStatus,
+              refeshConfig.marketStatus,
+            );
+          }
         }
+      } catch (error) {
+        console.error("Error fetching market status:", error);
+        // Handle error as needed, e.g., set an error state or retry mechanism
       }
     };
 
-    getMarketStatus();
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        getMarketStatus();
+      } else {
+        clearTimeout(timeoutId);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Initial call
+    if (document.visibilityState === "visible") {
+      getMarketStatus();
+    }
 
     return () => {
       isMounted = false;
+      clearTimeout(timeoutId);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 

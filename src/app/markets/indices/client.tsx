@@ -8,6 +8,7 @@ import refeshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "@/components/MarketStatus";
 import { trackingEvent } from "@/utils/ga";
 import { useRouter } from "next/navigation";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 
 const IndicesClient = ({
   tableHeaderData = [],
@@ -62,12 +63,23 @@ const IndicesClient = ({
       sortData.field,
       sortData.order,
     );
-    setUpdateDateTime(unixDateTime);
-    setTableData(tableData);
+    if (!!tableData && tableData.length) {
+      setUpdateDateTime(unixDateTime);
+      setTableData(tableData);
+    }
     setProcessingLoader(false);
   };
 
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus === "LIVE") updateTableData();
+    },
+    refeshConfig.indicesListing,
+    [sortData, isPrime, currentMarketStatus],
+  );
+
   useEffect(() => {
+    setProcessingLoader(true);
     updateTableData();
   }, [sortData, isPrime]);
 

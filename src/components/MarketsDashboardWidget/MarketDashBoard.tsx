@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import MarketTable from "../MarketTable";
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
@@ -14,6 +14,7 @@ import {
 import { getCookie } from "@/utils";
 import refeshConfig from "@/utils/refreshConfig.json";
 import MarketFiltersTab from "../MarketTabs/MarketFiltersTab";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 interface propsType {
   tabsData: any[];
   tableData: any[];
@@ -37,6 +38,7 @@ function MarketDashBoard(props: propsType) {
     shortUrl = "",
     shortUrlMapping = [],
   } = props || {};
+  const dashboardRef = useRef<HTMLDivElement>(null);
   const { state } = useStateContext();
   const { isLogin, ssoid, isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;
@@ -77,25 +79,36 @@ function MarketDashBoard(props: propsType) {
   };
 
   const updateTableData = async () => {
-    const responseData: any = await fetchViewTable(
-      { ...payload },
-      "MARKETSTATS_INTRADAY",
-      getCookie("isprimeuser") == "true" ? true : false,
-      getCookie("ssoid"),
-    );
-    if (!!responseData) {
-      const _pageSummary = !!responseData.pageSummary
-        ? responseData.pageSummary
-        : {};
-      const tableData = responseData?.dataList ? responseData.dataList : [];
+    const isPrimeUser = getCookie("isprimeuser") === "true";
+    const ssoid = getCookie("ssoid");
 
-      const tableHeaderData =
-        tableData && tableData.length && tableData[0] && tableData[0]?.data
-          ? tableData[0]?.data
-          : [];
-      updateShortUrl();
-      setDashBoardTableData(tableData);
-      setDashBoardHeaderData(tableHeaderData);
+    try {
+      const responseData: any = await fetchViewTable(
+        { ...payload },
+        "MARKETSTATS_INTRADAY",
+        isPrimeUser,
+        ssoid,
+      );
+
+      if (responseData) {
+        const {
+          dataList: newTableData = [],
+          pageSummary: newPageSummary = {},
+        } = responseData;
+
+        const newTableHeaderData =
+          newTableData.length > 0 && newTableData[0]?.data
+            ? newTableData[0].data
+            : [];
+
+        updateShortUrl();
+        setDashBoardTableData(newTableData);
+        setDashBoardHeaderData(newTableHeaderData);
+      }
+    } catch (error) {
+      console.error("Error fetching market dashboard data:", error);
+      // Handle error appropriately if needed
+    } finally {
       setProcessingLoader(false);
     }
   };
@@ -180,12 +193,22 @@ function MarketDashBoard(props: propsType) {
     setShortURL(updatedUrl);
   };
 
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus === "LIVE") updateTableData();
+    },
+    refeshConfig.marketstats,
+    [payload, isPrime, currentMarketStatus],
+    dashboardRef,
+  );
+
   useEffect(() => {
+    setProcessingLoader(true);
     updateTableData();
   }, [payload, isPrime]);
 
   return (
-    <>
+    <div ref={dashboardRef}>
       <div className="tabsWrap">
         <LeftMenuTabs
           data={tabsData}
@@ -218,7 +241,7 @@ function MarketDashBoard(props: propsType) {
       ) : (
         ""
       )}
-    </>
+    </div>
   );
 }
 
