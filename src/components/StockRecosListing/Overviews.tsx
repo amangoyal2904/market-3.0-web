@@ -6,6 +6,7 @@ import Link from "next/link";
 import Blocker from "../Blocker";
 import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
+import { trackingEvent } from "@/utils/ga";
 interface Props {
   data: any;
   urlFilterHandle: any;
@@ -72,6 +73,13 @@ const Overview: React.FC<Props> = ({
                 title={obj.name}
                 className="linkHover"
                 href={`${redirectLink(obj.apiType)}${urlFilterHandle(obj.indexid ? obj.indexid : "")}`}
+                onClick={() =>
+                  trackingEvent("et_push_event", {
+                    event_category: "mercury_engagement",
+                    event_action: "page_cta_click",
+                    event_label: `${obj.name}`,
+                  })
+                }
               >
                 {obj.name}
               </Link>
@@ -134,6 +142,13 @@ const Overview: React.FC<Props> = ({
                 <Link
                   title={`View all ${obj.name}`}
                   href={`${redirectLink(obj.apiType)}${urlFilterHandle(obj.indexid ? obj.indexid : "")}`}
+                  onClick={() =>
+                    trackingEvent("et_push_event", {
+                      event_category: "mercury_engagement",
+                      event_action: "page_cta_click",
+                      event_label: `${obj.name}`,
+                    })
+                  }
                 >
                   <span className="linkHover">View all {obj.name} </span>
                   <span className={`eticon_next ${styles.arrowIcon}`}></span>
