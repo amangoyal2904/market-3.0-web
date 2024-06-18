@@ -265,7 +265,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           {selectedIndex?.indexName ? (
             <ViewAllLink
               text={`See ${selectedIndex?.indexName}`}
-              link={`/markets/indices/${selectedIndex.seoName}`}
+              link={`/markets/indices/${selectedIndex?.seoName}`}
               alignRight={true}
               padding="0 0 10px 0"
             />

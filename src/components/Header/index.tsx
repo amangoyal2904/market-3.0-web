@@ -75,8 +75,12 @@ const Header = () => {
 
   useEffect(() => {
     let isMounted = true;
+    let timeoutId: number;
 
     const getMarketStatus = async () => {
+      if (document.visibilityState !== "visible") {
+        return;
+      }
       try {
         const result = await getCurrentMarketStatus();
         if (isMounted && !!result) {
@@ -89,12 +93,11 @@ const Header = () => {
               marketStatus: result.marketStatus,
             });
           }
-          if (result.marketStatus === "ON") {
-            const timeoutId = setTimeout(
+          if (result?.marketStatus === "ON") {
+            timeoutId = window.setTimeout(
               getMarketStatus,
               refeshConfig.marketStatus,
             );
-            return () => clearTimeout(timeoutId);
           }
         }
       } catch (error) {
@@ -103,10 +106,25 @@ const Header = () => {
       }
     };
 
-    getMarketStatus();
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        getMarketStatus();
+      } else {
+        clearTimeout(timeoutId);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Initial call
+    if (document.visibilityState === "visible") {
+      getMarketStatus();
+    }
 
     return () => {
       isMounted = false;
+      clearTimeout(timeoutId);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
