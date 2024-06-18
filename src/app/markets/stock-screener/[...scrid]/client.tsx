@@ -474,7 +474,9 @@ const StockScreeners = ({
 
         const newTableData = dataList;
         const newTableHeaderData =
-          dataList.length > 0 && dataList[0]?.data ? dataList[0].data : [];
+          newTableData.length > 0 && newTableData[0]?.data
+            ? newTableData[0].data
+            : [];
 
         setUpdateDateTime(unixDateTime);
         setTableData(newTableData);

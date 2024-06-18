@@ -123,7 +123,9 @@ const MarketStats = ({
 
         const newTableData = dataList;
         const newTableHeaderData =
-          tableData.length > 0 && tableData[0]?.data ? tableData[0].data : [];
+          newTableData.length > 0 && newTableData[0]?.data
+            ? newTableData[0].data
+            : [];
 
         setUpdateDateTime(unixDateTime);
         setTableData(newTableData);
