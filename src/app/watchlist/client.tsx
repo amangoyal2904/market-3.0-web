@@ -188,6 +188,8 @@ const WatchListClient = () => {
       setUpdateDateTime(new Date().getTime());
       setAPISuccess(true);
       setRequestPayload({});
+    } finally {
+      setProcessingLoader(false);
     }
   };
   const toasterRemovePersonaliseViewCloseHandlerFun = async (

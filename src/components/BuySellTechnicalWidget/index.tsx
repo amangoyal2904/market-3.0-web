@@ -112,6 +112,7 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
     }
     setProcessingLoader(false);
   };
+
   const tableHeaderData =
     (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
 
