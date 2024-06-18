@@ -160,14 +160,18 @@ export const trackingEvent = (type, data) => {
     const objCDP = generateCDPPageView(data.prevPath);
     console.log("OBJCDP-------->", objCDP);
     if (window.grx || window.isGrxLoaded) {
+      console.log("Outside Already Ready---------");
       if (!checkGrxready) {
+        console.log("Already Ready---------");
         checkGrxready = true;
         window.grx("track", "page_view", objCDP);
       }
     } else {
+      console.log("Outside Ready Ready---------");
       document.addEventListener("ready", () => {
-        window.isGrxLoaded = true;
         if (!checkGrxready) {
+          window.isGrxLoaded = true;
+          console.log("Ready Ready---------");
           checkGrxready = true;
           window.grx("track", "page_view", objCDP);
         }
