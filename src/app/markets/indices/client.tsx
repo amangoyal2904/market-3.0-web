@@ -22,6 +22,7 @@ const IndicesClient = ({
   const { isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;
   const [updateDateTime, setUpdateDateTime] = useState(unixDateTime);
+  const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
   const [_tableData, setTableData] = useState(tableData);
   const [processingLoader, setProcessingLoader] = useState(false);
   const [sortData, setSortData] = useState({ field: null, order: "DESC" });
@@ -72,10 +73,11 @@ const IndicesClient = ({
 
   useIntervalApiCall(
     () => {
-      if (currentMarketStatus === "LIVE") updateTableData();
+      if (currentMarketStatus === "LIVE" && !!fallbackWebsocket)
+        updateTableData();
     },
     refeshConfig.indicesListing,
-    [sortData, isPrime, currentMarketStatus],
+    [sortData, isPrime, currentMarketStatus, fallbackWebsocket],
   );
 
   useEffect(() => {
@@ -127,6 +129,7 @@ const IndicesClient = ({
         l2NavTracking="Indices"
         l3NavTracking={exchange}
         setUpdateDateTime={setUpdateDateTime}
+        setFallbackWebsocket={setFallbackWebsocket}
       />
     </>
   );

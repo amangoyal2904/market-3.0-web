@@ -42,6 +42,7 @@ function MarketDashBoard(props: propsType) {
   const { state } = useStateContext();
   const { isLogin, ssoid, isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;
+  const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
   const [dashBoardTableData, setDashBoardTableData] = useState(tableData || []);
   const [dashBoardHeaderData, setDashBoardHeaderData] = useState(
     tableHeaderData || [],
@@ -195,10 +196,11 @@ function MarketDashBoard(props: propsType) {
 
   useIntervalApiCall(
     () => {
-      if (currentMarketStatus === "LIVE") updateTableData();
+      if (currentMarketStatus === "LIVE" && !!fallbackWebsocket)
+        updateTableData();
     },
     refeshConfig.marketstats,
-    [payload, isPrime, currentMarketStatus],
+    [payload, isPrime, currentMarketStatus, fallbackWebsocket],
     dashboardRef,
   );
 
@@ -235,6 +237,7 @@ function MarketDashBoard(props: propsType) {
         processingLoader={processingLoader}
         l1NavTracking="Markets"
         l2NavTracking="Market Dashboard Widget"
+        setFallbackWebsocket={setFallbackWebsocket}
       />
       {dashBoardTableData.length ? (
         <ViewAllLink text="View All Stocks" link={shortURL} />

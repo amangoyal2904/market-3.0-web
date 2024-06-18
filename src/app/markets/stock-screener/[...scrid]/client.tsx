@@ -72,6 +72,7 @@ const StockScreeners = ({
   const [_pageSummary, setPageSummary] = useState(pageSummary);
   const [_activeViewId, setActiveViewId] = useState(activeViewId);
   const [updateDateTime, setUpdateDateTime] = useState(unixDateTime);
+  const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
   const [resetSort, setResetSort] = useState("");
   const [_payload, setPayload] = useState(payload);
   const [_query, setQuery] = useState(screenerDetail.displayQuery);
@@ -670,10 +671,11 @@ const StockScreeners = ({
 
   useIntervalApiCall(
     () => {
-      if (currentMarketStatus === "LIVE") updateTableData();
+      if (currentMarketStatus === "LIVE" && !!fallbackWebsocket)
+        updateTableData();
     },
     refeshConfig.stocksScreener,
-    [_payload, currentMarketStatus],
+    [_payload, currentMarketStatus, fallbackWebsocket],
   );
 
   useEffect(() => {
@@ -761,6 +763,7 @@ const StockScreeners = ({
                 l2NavTracking={getCollectionNameByScreenerId(scrid)}
                 l3NavTracking={screenerDetail.name}
                 setUpdateDateTime={setUpdateDateTime}
+                setFallbackWebsocket={setFallbackWebsocket}
               />
               <div className="">
                 <QueryComponets

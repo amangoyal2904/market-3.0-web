@@ -19,6 +19,7 @@ const WatchListWidget = () => {
   const { isLogin, isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;
   const config = tableConfig["watchListWidget"];
+  const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
 
   const fetchWatchListData = async (activeViewId: any = "") => {
     const res = await fetchTabsData();
@@ -40,11 +41,15 @@ const WatchListWidget = () => {
 
   useIntervalApiCall(
     () => {
-      if (currentMarketStatus === "LIVE" && isLogin === true)
+      if (
+        currentMarketStatus === "LIVE" &&
+        isLogin === true &&
+        !!fallbackWebsocket
+      )
         fetchWatchListData();
     },
     refeshConfig.marketstats,
-    [isLogin, isPrime, currentMarketStatus],
+    [isLogin, isPrime, currentMarketStatus, fallbackWebsocket],
     watchlistRef,
   );
 
@@ -75,6 +80,7 @@ const WatchListWidget = () => {
             isprimeuser={isPrime}
             l1NavTracking="Markets"
             l2NavTracking="Watchlist Widget"
+            setFallbackWebsocket={setFallbackWebsocket}
           />
           <ViewAllLink
             text="View All Stocks In Your Watchlist"

@@ -32,6 +32,7 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
   const { state } = useStateContext();
   const { isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;
+  const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
   const [otherDataSet, setOtherDataSet] = useState(otherData);
   const [processingLoader, setProcessingLoader] = useState(false);
   const [dropDownOptions, setDropDownOptions] = useState(indicator_opts);
@@ -116,10 +117,11 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
 
   useIntervalApiCall(
     () => {
-      if (currentMarketStatus === "LIVE") updateTableData();
+      if (currentMarketStatus === "LIVE" && !!fallbackWebsocket)
+        updateTableData();
     },
     refeshConfig.marketstats,
-    [payload, currentMarketStatus],
+    [payload, currentMarketStatus, fallbackWebsocket],
     buySellRef,
   );
 
@@ -158,6 +160,7 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
           l1NavTracking="Markets"
           l2NavTracking="Buy/Sell"
           l3NavTracking={activeItem}
+          setFallbackWebsocket={setFallbackWebsocket}
         />
         <div className={styles.helpTxt}>
           <span className={styles.note}>

@@ -102,6 +102,7 @@ const IndicesConstituents = React.memo(
     const { state } = useStateContext();
     const { isPrime, ssoid } = state.login;
     const { currentMarketStatus } = state.marketStatus;
+    const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
     const [resetSort, setResetSort] = useState(activeViewId);
     const [_payload, setPayload] = useState(payload);
     const [_tabData, setTabData] = useState(tabData);
@@ -270,10 +271,11 @@ const IndicesConstituents = React.memo(
 
     useIntervalApiCall(
       () => {
-        if (currentMarketStatus === "LIVE") updateTableData();
+        if (currentMarketStatus === "LIVE" && !!fallbackWebsocket)
+          updateTableData();
       },
       refeshConfig.marketstats,
-      [_payload, isPrime, currentMarketStatus],
+      [_payload, isPrime, currentMarketStatus, fallbackWebsocket],
       constituentsRef,
     );
 
@@ -316,6 +318,7 @@ const IndicesConstituents = React.memo(
             l1NavTracking="Markets LIVE"
             l2NavTracking="Indices"
             l3NavTracking={`${indexName} Constituents Widget`}
+            setFallbackWebsocket={setFallbackWebsocket}
           />
         </div>
         {!!liveBlog && liveBlog.msid != "" && (
