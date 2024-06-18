@@ -138,8 +138,8 @@ const Header = () => {
               onClick={() =>
                 trackingEvent("et_push_event", {
                   event_category: "mercury_engagement",
-                  event_action: "page_cta_click",
-                  event_label: "TopHeader_ETMarketsLogo",
+                  event_action: "atf_header_click",
+                  event_label: "ETMarketsLogo",
                 })
               }
             >
@@ -170,8 +170,8 @@ const Header = () => {
                 onClick={() =>
                   trackingEvent("et_push_event", {
                     event_category: "mercury_engagement",
-                    event_action: "page_cta_click",
-                    event_label: "TopHeader_MyWatchList",
+                    event_action: "atf_header_click",
+                    event_label: "MyWatchList",
                   })
                 }
               >
