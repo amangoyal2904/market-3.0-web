@@ -132,7 +132,17 @@ const Header = () => {
       <header id={styles.pageTopbar}>
         <div className={styles.navbarHeader} id="header">
           <div className={`dflex align-item-center ${styles.logoHeader}`}>
-            <Link href="/markets/live-coverage" title="ET Markets">
+            <Link
+              href="/markets/live-coverage"
+              title="ET Markets"
+              onClick={() =>
+                trackingEvent("et_push_event", {
+                  event_category: "mercury_engagement",
+                  event_action: "page_cta_click",
+                  event_label: "TopHeader_ETMarketsLogo",
+                })
+              }
+            >
               <Image
                 src={ETLogo}
                 width={138}
@@ -157,6 +167,13 @@ const Header = () => {
                 className="default-btn"
                 href="/watchlist"
                 title="My Watchlist"
+                onClick={() =>
+                  trackingEvent("et_push_event", {
+                    event_category: "mercury_engagement",
+                    event_action: "page_cta_click",
+                    event_label: "TopHeader_MyWatchList",
+                  })
+                }
               >
                 My Watchlist
               </Link>

@@ -77,7 +77,7 @@ const Overview: React.FC<Props> = ({
                   trackingEvent("et_push_event", {
                     event_category: "mercury_engagement",
                     event_action: "page_cta_click",
-                    event_label: `${obj.name}`,
+                    event_label: `View all ${obj.name}`,
                   })
                 }
               >
@@ -146,7 +146,7 @@ const Overview: React.FC<Props> = ({
                     trackingEvent("et_push_event", {
                       event_category: "mercury_engagement",
                       event_action: "page_cta_click",
-                      event_label: `${obj.name}`,
+                      event_label: `View all ${obj.name}`,
                     })
                   }
                 >
