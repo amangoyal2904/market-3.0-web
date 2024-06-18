@@ -150,16 +150,23 @@ export const trackingEvent = (type, data) => {
     _gtmEventDimension = Object.assign(_gtmEventDimension, data);
     window.dataLayer.push(_gtmEventDimension);
   }
+  let checkGrxready = false;
   if (type == "et_push_pageload") {
     console.log("Prev Path call func------->", data.prevPath);
     const objCDP = generateCDPPageView(data.prevPath);
     console.log("OBJCDP-------->", objCDP);
     if (window.grx || window.isGrxLoaded) {
-      window.grx("track", "page_view", objCDP);
+      if (!checkGrxready) {
+        checkGrxready = true;
+        window.grx("track", "page_view", objCDP);
+      }
     } else {
       document.addEventListener("ready", () => {
         window.isGrxLoaded = true;
-        window.grx("track", "page_view", objCDP);
+        if (!checkGrxready) {
+          checkGrxready = true;
+          window.grx("track", "page_view", objCDP);
+        }
       });
     }
   }
