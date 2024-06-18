@@ -35,25 +35,25 @@ const StockCards: React.FC<Props> = ({
   return (
     <div
       key={`indicesTab${index}`}
-      className={`${styles.cards} ${item.indexName === selectedIndex.indexName ? styles.tabActive : ""}`}
+      className={`${styles.cards} ${item?.indexName === selectedIndex?.indexName ? styles.tabActive : ""}`}
       onClick={() => onSelectIndex(item, index)}
     >
-      <p className={styles.indexName}>{item.indexName}</p>
+      <p className={styles.indexName}>{item?.indexName}</p>
       <p
         ref={ltpRef}
         className={`numberFonts ${styles.indexPrice} ${
           prevStockCard?.lastTradedPrice
-            ? parseFloat(item.lastTradedPrice) >
+            ? parseFloat(item?.lastTradedPrice) >
               parseFloat(prevStockCard?.lastTradedPrice)
               ? "upBg"
-              : parseFloat(item.lastTradedPrice) <
+              : parseFloat(item?.lastTradedPrice) <
                   parseFloat(prevStockCard?.lastTradedPrice)
                 ? "downBg"
                 : ""
             : ""
         }`}
       >
-        {formatNumber(item.lastTradedPrice.toFixed(2))}
+        {formatNumber(item?.lastTradedPrice.toFixed(2))}
       </p>
       <p
         className={`numberFonts ${item[changePeriod] > 0 ? styles.up : item[changePeriod] < 0 ? styles.down : ""} ${styles.indexChange}`}

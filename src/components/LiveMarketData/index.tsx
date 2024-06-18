@@ -7,6 +7,7 @@ import APIS_CONFIG from "@/network/api_config.json";
 import { useStateContext } from "@/store/StateContext";
 import refeshConfig from "@/utils/refreshConfig.json";
 import { saveLogs } from "@/utils/utility";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 
 const LiveMarketData = () => {
   const { state } = useStateContext();
@@ -34,15 +35,13 @@ const LiveMarketData = () => {
     setMarketData(JSON.parse(jsonString));
   };
 
-  useEffect(() => {
-    getLiveMarketData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        getLiveMarketData();
-      }
-    }, refeshConfig.marketstats);
-    return () => clearInterval(intervalId);
-  }, [currentMarketStatus]);
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus != "CLOSED") getLiveMarketData();
+    },
+    refeshConfig.marketstats,
+    [currentMarketStatus],
+  );
 
   return (
     <>

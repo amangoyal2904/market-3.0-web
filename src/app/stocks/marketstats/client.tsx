@@ -20,6 +20,7 @@ import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import TechincalOperands from "@/components/TechincalOperands";
 
 import MarketStatus from "@/components/MarketStatus";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -382,13 +383,15 @@ const MarketStats = ({
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        updateTableData();
-      }
-    }, refeshConfig.marketstats);
-    return () => clearInterval(intervalId);
-  }, [_payload, isPrime, currentMarketStatus]);
+  }, [_payload, isPrime]);
+
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus === "LIVE") updateTableData();
+    },
+    refeshConfig.marketstats,
+    [_payload, isPrime, currentMarketStatus],
+  );
 
   useEffect(() => {
     setProcessingLoader(true);

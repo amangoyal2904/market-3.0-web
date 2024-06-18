@@ -3,7 +3,7 @@ import LeftMenuTabs from "../MarketTabs/MenuTabs";
 import MarketFiltersTab from "../MarketTabs/MarketFiltersTab";
 import MarketTable from "../MarketTable";
 import { useStateContext } from "@/store/StateContext";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import ToasterPopup from "../ToasterPopup";
 import MessagePopupShow from "../MessagePopupShow";
@@ -16,6 +16,7 @@ import OtherIndicesCard from "./OtherIndicesCard";
 import Link from "next/link";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 
 const IndicesConstituents = React.memo(
   ({
@@ -32,6 +33,7 @@ const IndicesConstituents = React.memo(
     indicesNews,
     liveblog,
   }: any) => {
+    const constituentsRef = useRef<HTMLDivElement>(null);
     const liveBlog = liveblog?.lb || {};
     const indexNews = indicesNews?.Item?.[0]?.NewsItem ?? [];
 
@@ -266,21 +268,24 @@ const IndicesConstituents = React.memo(
       }
     };
 
+    useIntervalApiCall(
+      () => {
+        if (currentMarketStatus === "LIVE") updateTableData();
+      },
+      refeshConfig.marketstats,
+      [_payload, isPrime, currentMarketStatus],
+      constituentsRef,
+    );
+
     useEffect(() => {
       setProcessingLoader(true);
       updateTableData();
-      const intervalId = setInterval(() => {
-        if (currentMarketStatus === "LIVE") {
-          updateTableData();
-        }
-      }, refeshConfig.marketstats);
-      return () => clearInterval(intervalId);
-    }, [_payload, isPrime, currentMarketStatus]);
+    }, [_payload, isPrime]);
 
     return (
       <>
         <h2 className={styles.heading}>{`${indexName} Constituents`}</h2>
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} ref={constituentsRef}>
           <div className="tabsWrap">
             <LeftMenuTabs
               data={_tabData}

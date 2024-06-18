@@ -3,7 +3,7 @@ import { chartIntervals, saveLogs } from "@/utils/utility";
 import styles from "./Indices.module.scss";
 import SlickSlider from "../SlickSlider";
 import StockCards from "./StockCards";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import APIS_CONFIG from "@/network/api_config.json";
 import {
   APP_ENV,
@@ -20,8 +20,10 @@ import ViewAllLink from "../ViewAllLink";
 import FIIDIIWIdget from "../FIIDIIWIdget";
 import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 
 const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
+  const indicesWidgetRef = useRef<HTMLDivElement>(null);
   const responsive = [
     {
       breakpoint: 2561,
@@ -146,20 +148,25 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedItem?.symbol}&exchange=${selectedItem?.exchange}&period=${period}&height=220&transparentBg=1`,
     );
   };
-  useEffect(() => {
-    const intervalId: any = setInterval(() => {
-      if (currentMarketStatus != "CLOSED") {
-        getIndicesWidgetData();
-      }
-    }, refreshConfig?.indicesDetail);
-    const resWidth = window.screen.width;
-    setScreenWidth(resWidth);
 
-    return () => clearInterval(intervalId);
-  }, [currentMarketStatus]);
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus != "CLOSED") getIndicesWidgetData();
+      const resWidth = window.screen.width;
+      setScreenWidth(resWidth);
+    },
+    refreshConfig?.indicesDetail,
+    [currentMarketStatus],
+    indicesWidgetRef,
+  );
+
+  if (!indicesData.length) {
+    return null;
+  }
+
   return (
     <div className={styles.widgetContainer}>
-      <div className={styles.IndicesContainer}>
+      <div className={styles.IndicesContainer} ref={indicesWidgetRef}>
         <div className={styles.topWrapper}>
           <h2 className={styles.title}>
             <a href="/markets/indices" title="Indices" target="_blank">
@@ -262,7 +269,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           {selectedIndex?.indexName ? (
             <ViewAllLink
               text={`See ${selectedIndex?.indexName}`}
-              link={`/markets/indices/${selectedIndex.seoName}`}
+              link={`/markets/indices/${selectedIndex?.seoName}`}
               alignRight={true}
               padding="0 0 10px 0"
             />

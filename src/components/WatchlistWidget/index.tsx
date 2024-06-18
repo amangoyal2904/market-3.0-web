@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import MarketTable from "../MarketTable";
 import { fetchTabsData, fetchTableData } from "@/utils/utility";
 import { useStateContext } from "../../store/StateContext";
@@ -8,8 +8,10 @@ import Blocker from "../Blocker";
 import ViewAllLink from "../ViewAllLink";
 import HeadingHome from "../ViewAllLink/HeadingHome";
 import refeshConfig from "@/utils/refreshConfig.json";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 
 const WatchListWidget = () => {
+  const watchlistRef = useRef<HTMLDivElement>(null);
   const [showBlocker, setShowBlocker] = useState(true);
   const [apiSuccess, setAPISuccess] = useState(false);
   const [tableData, setTableData] = useState<any>([]);
@@ -36,26 +38,30 @@ const WatchListWidget = () => {
     }
   };
 
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus === "LIVE" && isLogin === true)
+        fetchWatchListData();
+    },
+    refeshConfig.marketstats,
+    [isLogin, isPrime, currentMarketStatus],
+    watchlistRef,
+  );
+
   useEffect(() => {
     if (isLogin === true) {
       fetchWatchListData();
       setShowBlocker(false);
-      const intervalId = setInterval(() => {
-        if (currentMarketStatus === "LIVE") {
-          fetchWatchListData();
-        }
-      }, refeshConfig.watchlist);
-      return () => clearInterval(intervalId);
     } else if (isLogin === false) {
       setShowBlocker(true);
     }
-  }, [isLogin, isPrime, currentMarketStatus]);
+  }, [isLogin, isPrime]);
 
   const tableHeaderData =
     (tableData && tableData.length && tableData[0] && tableData[0]?.data) || [];
 
   return (
-    <div className="sectionWrapper">
+    <div className="sectionWrapper" ref={watchlistRef}>
       <HeadingHome title="My Watchlist" url="/watchlist" />
       {showBlocker ? (
         <Blocker type="loginBlocker" />
