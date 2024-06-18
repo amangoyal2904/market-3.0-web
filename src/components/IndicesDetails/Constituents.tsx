@@ -3,7 +3,7 @@ import LeftMenuTabs from "../MarketTabs/MenuTabs";
 import MarketFiltersTab from "../MarketTabs/MarketFiltersTab";
 import MarketTable from "../MarketTable";
 import { useStateContext } from "@/store/StateContext";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import ToasterPopup from "../ToasterPopup";
 import MessagePopupShow from "../MessagePopupShow";
@@ -33,6 +33,7 @@ const IndicesConstituents = React.memo(
     indicesNews,
     liveblog,
   }: any) => {
+    const constituentsRef = useRef<HTMLDivElement>(null);
     const liveBlog = liveblog?.lb || {};
     const indexNews = indicesNews?.Item?.[0]?.NewsItem ?? [];
 
@@ -272,7 +273,8 @@ const IndicesConstituents = React.memo(
         if (currentMarketStatus === "LIVE") updateTableData();
       },
       refeshConfig.marketstats,
-      [_payload, isPrime, currentMarketStatus, updateTableData],
+      [_payload, isPrime, currentMarketStatus],
+      constituentsRef,
     );
 
     useEffect(() => {
@@ -283,7 +285,7 @@ const IndicesConstituents = React.memo(
     return (
       <>
         <h2 className={styles.heading}>{`${indexName} Constituents`}</h2>
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} ref={constituentsRef}>
           <div className="tabsWrap">
             <LeftMenuTabs
               data={_tabData}

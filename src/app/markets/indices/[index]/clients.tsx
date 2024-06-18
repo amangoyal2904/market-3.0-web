@@ -123,7 +123,7 @@ const IndicesDetailsClient = ({
       if (currentMarketStatus === "LIVE") refreshOverviewData();
     },
     refeshConfig.indicesDetail,
-    [currentMarketStatus, refreshOverviewData],
+    [currentMarketStatus],
   );
 
   return (

@@ -390,7 +390,7 @@ const MarketStats = ({
       if (currentMarketStatus === "LIVE") updateTableData();
     },
     refeshConfig.marketstats,
-    [_payload, isPrime, currentMarketStatus, updateTableData],
+    [_payload, isPrime, currentMarketStatus],
   );
 
   useEffect(() => {

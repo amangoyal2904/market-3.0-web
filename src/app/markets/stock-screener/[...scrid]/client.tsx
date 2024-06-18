@@ -673,7 +673,7 @@ const StockScreeners = ({
       if (currentMarketStatus === "LIVE") updateTableData();
     },
     refeshConfig.stocksScreener,
-    [_payload, currentMarketStatus, updateTableData],
+    [_payload, currentMarketStatus],
   );
 
   useEffect(() => {

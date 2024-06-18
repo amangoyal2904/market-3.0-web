@@ -75,7 +75,7 @@ const IndicesClient = ({
       if (currentMarketStatus === "LIVE") updateTableData();
     },
     refeshConfig.indicesListing,
-    [sortData, isPrime, currentMarketStatus, updateTableData],
+    [sortData, isPrime, currentMarketStatus],
   );
 
   useEffect(() => {

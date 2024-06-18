@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BuySellTab from "./BuySellTab";
 import { getBuySellTechnicals } from "@/utils/utility";
 import MarketTable from "../MarketTable";
@@ -7,7 +7,6 @@ import { useStateContext } from "@/store/StateContext";
 import tableConfig from "@/utils/tableConfig.json";
 import refeshConfig from "@/utils/refreshConfig.json";
 import styles from "./BuySellTechnicalWidget.module.scss";
-import { dateFormat } from "@/utils";
 import { trackingEvent } from "@/utils/ga";
 import HeadingHome from "../ViewAllLink/HeadingHome";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
@@ -29,6 +28,7 @@ const indicator_opts = [
 ];
 
 const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
+  const buySellRef = useRef<HTMLDivElement>(null);
   const { state } = useStateContext();
   const { isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;
@@ -119,7 +119,8 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
       if (currentMarketStatus === "LIVE") updateTableData();
     },
     refeshConfig.marketstats,
-    [payload, currentMarketStatus, updateTableData],
+    [payload, currentMarketStatus],
+    buySellRef,
   );
 
   useEffect(() => {
@@ -128,7 +129,7 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
   }, [payload]);
 
   return (
-    <div className="sectionWrapper">
+    <div className="sectionWrapper" ref={buySellRef}>
       <HeadingHome
         title="Technical Signals"
         url="/stocks/marketstats-technicals/golden-cross"

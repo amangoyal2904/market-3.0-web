@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import MarketTable from "../MarketTable";
 import tableConfig from "@/utils/tableConfig.json";
 import tabConfig from "@/utils/tabConfig.json";
@@ -38,6 +38,7 @@ function MarketDashBoard(props: propsType) {
     shortUrl = "",
     shortUrlMapping = [],
   } = props || {};
+  const dashboardRef = useRef<HTMLDivElement>(null);
   const { state } = useStateContext();
   const { isLogin, ssoid, isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;
@@ -197,7 +198,8 @@ function MarketDashBoard(props: propsType) {
       if (currentMarketStatus === "LIVE") updateTableData();
     },
     refeshConfig.marketstats,
-    [payload, isPrime, currentMarketStatus, updateTableData],
+    [payload, isPrime, currentMarketStatus],
+    dashboardRef,
   );
 
   useEffect(() => {
@@ -206,7 +208,7 @@ function MarketDashBoard(props: propsType) {
   }, [payload, isPrime]);
 
   return (
-    <>
+    <div ref={dashboardRef}>
       <div className="tabsWrap">
         <LeftMenuTabs
           data={tabsData}
@@ -239,7 +241,7 @@ function MarketDashBoard(props: propsType) {
       ) : (
         ""
       )}
-    </>
+    </div>
   );
 }
 
