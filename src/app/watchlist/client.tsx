@@ -22,6 +22,7 @@ import {
 } from "@/utils/customViewAndTables";
 import { trackingEvent } from "@/utils/ga";
 import MarketStatus from "@/components/MarketStatus";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -293,16 +294,13 @@ const WatchListClient = () => {
     }
   }, [isLogin]);
 
-  useEffect(() => {
-    setProcessingLoader(true);
-    updateTableData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        updateTableData();
-      }
-    }, refeshConfig.watchlist);
-    return () => clearInterval(intervalId);
-  }, [requestPayload, isPrime, currentMarketStatus]);
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus === "LIVE") updateTableData();
+    },
+    refeshConfig.watchlist,
+    [requestPayload, isPrime, currentMarketStatus],
+  );
 
   return (
     <>
