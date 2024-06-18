@@ -160,6 +160,10 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
     indicesWidgetRef,
   );
 
+  if (!indicesData.length) {
+    return null;
+  }
+
   return (
     <div className={styles.widgetContainer}>
       <div className={styles.IndicesContainer} ref={indicesWidgetRef}>
