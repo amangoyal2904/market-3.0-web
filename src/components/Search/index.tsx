@@ -20,10 +20,10 @@ const debounce = <T extends any[]>(
 };
 
 interface Props {
-  location: string;
+  pos: string;
 }
 
-const Search: React.FC<Props> = ({ location }) => {
+const Search: React.FC<Props> = ({ pos }) => {
   const [data, setData] = useState([]);
   const [val, setVal] = useState("");
   const [loader, setLoader] = useState(false);
@@ -129,7 +129,7 @@ const Search: React.FC<Props> = ({ location }) => {
           trackingEvent("et_push_event", {
             event_category: "search_initiated",
             event_action: `${query}`,
-            event_label: `${location}`,
+            event_label: `${pos}`,
           });
         })
         .catch((error) => {
@@ -155,11 +155,11 @@ const Search: React.FC<Props> = ({ location }) => {
 
   return (
     <>
-      {searchEnable && location == "header" && (
+      {searchEnable && pos == "header" && (
         <div className={styles.background_overlay}></div>
       )}
       <div
-        className={`dflex ${styles[location + "_search"]}`}
+        className={`dflex ${styles[pos + "_search"]}`}
         id={styles.searchBar}
         ref={popupRef}
       >
@@ -196,7 +196,7 @@ const Search: React.FC<Props> = ({ location }) => {
               definitionData={definitionData}
               reportData={reportData}
               query={val}
-              location={location}
+              pos={pos}
             />
           </>
         )}

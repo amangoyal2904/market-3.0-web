@@ -159,7 +159,7 @@ const Header = () => {
             className={`dflex align-item-center ${styles.headerRightContainer}`}
           >
             <div className={styles.headerMidContainer}>
-              <Search location="header" />
+              <Search pos="header" />
             </div>
             <div className={`dflex align-item-center`}>
               {shouldRenderComponent && <LiveMarketData />}

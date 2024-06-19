@@ -54,7 +54,7 @@ const Footer = ({ footerData }: any) => {
             </a>
           </div>
           <div className={styles.ftSearch}>
-            <Search location="footer" />
+            <Search pos="footer" />
           </div>
         </div>
         <div className={styles.ftBrowse}>
