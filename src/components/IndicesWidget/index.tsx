@@ -174,7 +174,18 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       <div className={styles.IndicesContainer} ref={indicesWidgetRef}>
         <div className={styles.topWrapper}>
           <h2 className={styles.title}>
-            <a href="/markets/indices" title="Indices" target="_blank">
+            <a
+              href="/markets/indices"
+              title="Indices"
+              target="_blank"
+              onClick={() =>
+                trackingEvent("et_push_event", {
+                  event_category: "mercury_engagement",
+                  event_action: "widget_heading",
+                  event_label: "Indices",
+                })
+              }
+            >
               Indices
               <span className={`eticon_caret_right ${styles.headingIcon}`} />
             </a>
@@ -287,6 +298,13 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
               href="/markets/stock-market-mood"
               title="Advance/Decline"
               className={styles.widget}
+              onClick={() =>
+                trackingEvent("et_push_event", {
+                  event_category: "mercury_engagement",
+                  event_action: "widget_heading",
+                  event_label: "Advance/Decline",
+                })
+              }
             >
               <div className="dflex align-item-center">
                 <p className={styles.title}>Advance/Decline</p>

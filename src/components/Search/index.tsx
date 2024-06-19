@@ -130,6 +130,7 @@ const Search: React.FC<Props> = ({ pos }) => {
             event_category: "search_initiated",
             event_action: `${query}`,
             event_label: `${pos}`,
+            search_term: `${pos}`,
           });
         })
         .catch((error) => {
