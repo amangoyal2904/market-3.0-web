@@ -51,7 +51,7 @@ const BiggBullRecentTransactionsTable = ({
       cdp: {
         event_nature: "impression",
         event_category: "subscription",
-        event_name: "subscriptions_blocker",
+        event_name: "subscription_feature",
       },
     };
     redirectToPlanPage(objTracking, "view_item_list", false);

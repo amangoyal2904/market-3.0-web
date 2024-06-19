@@ -86,7 +86,7 @@ const BigBullCard = ({ data, type, sectionName }: any) => {
       cdp: {
         event_nature: "impression",
         event_category: "subscription",
-        event_name: "subscriptions_blocker",
+        event_name: "subscription_feature",
       },
     };
     setCompanyName(data?.investorIntro?.name);
