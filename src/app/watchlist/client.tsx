@@ -22,6 +22,7 @@ import {
 } from "@/utils/customViewAndTables";
 import { trackingEvent } from "@/utils/ga";
 import MarketStatus from "@/components/MarketStatus";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -120,19 +121,38 @@ const WatchListClient = () => {
   };
   const updateTableData = async () => {
     const bodyParams = requestPayload;
-    const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
-      await getCustomViewTable(bodyParams, true, ssoid, "MARKETS_CUSTOM_TABLE");
 
     try {
-      setUpdateDateTime(unixDateTime);
-      setTableData(tableData);
-      setTableHeaderData(tableHeaderData);
-    } catch (e) {
-      setUpdateDateTime(new Date().getTime());
-      setTableData([]);
-      setTableHeaderData([]);
+      const response = await getCustomViewTable(
+        bodyParams,
+        true,
+        ssoid,
+        "MARKETS_CUSTOM_TABLE",
+      );
+
+      if (response) {
+        const {
+          tableHeaderData,
+          tableData = [],
+          unixDateTime = new Date().getTime(),
+        } = response;
+        if (tableData.length) {
+          setUpdateDateTime(unixDateTime);
+          setTableData(tableData);
+          setTableHeaderData(tableHeaderData);
+        } else {
+          // Handle case where tableData length is 0
+          setUpdateDateTime(new Date().getTime());
+          setTableData([]);
+          setTableHeaderData([]);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching watchlist table data:", error);
+      // Handle error appropriately if needed
+    } finally {
+      setProcessingLoader(false);
     }
-    setProcessingLoader(false);
   };
 
   const fetchWatchListData = async () => {
@@ -167,6 +187,8 @@ const WatchListClient = () => {
       setUpdateDateTime(new Date().getTime());
       setAPISuccess(true);
       setRequestPayload({});
+    } finally {
+      setProcessingLoader(false);
     }
   };
   const toasterRemovePersonaliseViewCloseHandlerFun = async (
@@ -274,16 +296,13 @@ const WatchListClient = () => {
     }
   }, [isLogin]);
 
-  useEffect(() => {
-    setProcessingLoader(true);
-    updateTableData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        updateTableData();
-      }
-    }, refeshConfig.watchlist);
-    return () => clearInterval(intervalId);
-  }, [requestPayload, isPrime, currentMarketStatus]);
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus === "LIVE") updateTableData();
+    },
+    refeshConfig.watchlist,
+    [requestPayload, isPrime, currentMarketStatus],
+  );
 
   return (
     <>

@@ -470,7 +470,7 @@ export const generateCDPPageView = (prevPath) => {
     cdpObj["business"] = "et";
     cdpObj["embedded"] = "";
     cdpObj["paywalled"] = "n";
-    cdpObj["product"] = "other";
+    cdpObj["product"] = "mercury";
     cdpObj["client_source"] = "cdp";
     cdpObj["dark_mode"] = "n";
     cdpObj["monetizable"] =

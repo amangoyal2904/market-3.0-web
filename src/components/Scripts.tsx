@@ -5,10 +5,9 @@ import { FC, useEffect, useState } from "react";
 import { APP_ENV, getCookie, verifyLogin } from "../utils";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import { getUserType, trackingEvent } from "@/utils/ga";
-import APIS_CONFIG from "@/network/api_config.json";
 import { useStateContext } from "@/store/StateContext";
 import renderDfpAds from "@/components/Ad/AdScript";
-
+import { sendMouseFlowEvent } from "../utils/utility";
 interface Props {
   isprimeuser?: number | boolean;
   objVc?: object;
@@ -59,6 +58,33 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
   //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
 
+  let execution = 0;
+  const surveyLoad = () => {
+    if (window._sva && window._sva.setVisitorTraits) {
+      const subscribeStatus =
+        typeof window.objUser != "undefined" && window?.objUser?.permissions
+          ? getUserType(window.objUser.permissions)
+          : "";
+      var jString = localStorage.getItem("jStorage"),
+        objJstorage = (jString && JSON.parse(jString)) || {};
+      var cnt = Object.keys(objJstorage).filter(function (key) {
+        return key.indexOf("et_article_") != -1;
+      }).length;
+      var loyalCount = 15;
+      window._sva.setVisitorTraits({
+        user_subscription_status: subscribeStatus,
+        user_login_status:
+          typeof window.objUser != "undefined" ? "logged-in" : "logged-out",
+        prime_funnel_last_step: "",
+        country_code: (window.geoinfo && window.geoinfo.CountryCode) || "",
+        email_id: window?.objUser?.info?.primaryEmail
+          ? window?.objUser?.info?.primaryEmail
+          : "",
+        grx_id: getCookie("_grx"),
+        Loyal: cnt >= loyalCount ? "Yes" : "No",
+      });
+    }
+  };
   useEffect(() => {
     try {
       console.log("PrevPath start--->", prevPath);
@@ -90,8 +116,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
     }
   }, [router, isPrime]);
 
-  let execution = 0;
-
   useEffect(() => {
     document.addEventListener("visibilitychange", (event) => {
       if (document.visibilityState == "visible" && execution == 0) {
@@ -103,42 +127,10 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
     });
   }, ["", isPrime]);
 
-  const surveyLoad = () => {
-    if (window._sva && window._sva.setVisitorTraits) {
-      const subscribeStatus =
-        typeof window.objUser != "undefined" && window?.objUser?.permissions
-          ? getUserType(window.objUser.permissions)
-          : "";
-      var jString = localStorage.getItem("jStorage"),
-        objJstorage = (jString && JSON.parse(jString)) || {};
-      var cnt = Object.keys(objJstorage).filter(function (key) {
-        return key.indexOf("et_article_") != -1;
-      }).length;
-      var loyalCount = 15;
-      window._sva.setVisitorTraits({
-        user_subscription_status: subscribeStatus,
-        user_login_status:
-          typeof window.objUser != "undefined" ? "logged-in" : "logged-out",
-        prime_funnel_last_step: "",
-        country_code: (window.geoinfo && window.geoinfo.CountryCode) || "",
-        email_id: window?.objUser?.info?.primaryEmail
-          ? window?.objUser?.info?.primaryEmail
-          : "",
-        grx_id: getCookie("_grx"),
-        Loyal: cnt >= loyalCount ? "Yes" : "No",
-      });
-    }
-  };
-  // useEffect(() => {
-  //   if (typeof window !== "undefined" ) {
-  //     window.googletag ? renderDfpAds(window.arrDfpAds, isPrime) : document.addEventListener("gptLoaded", function(){renderDfpAds(window.arrDfpAds, isPrime)});
-  //     console.log("Event Listiner-------");
-  //     return () => {
-  //       //document.removeEventListener("gptLoaded", function(){renderDfpAds(window.arrDfpAds, isPrime)});
-  //     };
-  //   }
-  //   //eslint-disable-next-line
-  // }, [state]);
+  useEffect(() => {
+    sendMouseFlowEvent();
+    console.log("____________mouse flow start ");
+  }, []);
 
   return (
     <>
@@ -277,12 +269,10 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
           {!isprimeuser && !searchParams?.get("opt") && (
             <Script
               src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
-              strategy="lazyOnload"
               onLoad={() => {
                 const gptLoaded = new Event("gptLoaded");
                 document.dispatchEvent(gptLoaded);
               }}
-              async
             />
           )}
           {/* <Script

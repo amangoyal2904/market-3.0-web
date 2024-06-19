@@ -19,20 +19,18 @@ const Share = ({ title, streamURL }: any) => {
       <div className={styles.socialShare}>
         <span className={`eticon_share ${styles.shareIcon}`}></span>
         <div className={styles.sharingIcon}>
-          <a
+          <span
             aria-label="facebook"
             className={`${styles.fb} ${styles.icon}`}
-            href="javascript://"
             rel="nofollow"
             data-dimension="1"
             data-ga-onshare={`Facebook#Share#${streamURL}`}
             onClick={(e) => SocialShare.Share(e, { ...shareParam, type: "fb" })}
             data-share-title={title}
             title="facebook"
-          ></a>
-          <a
+          ></span>
+          <span
             className={`${styles.tw} ${styles.icon}`}
-            href="javascript://"
             rel="nofollow"
             data-dimension="1"
             data-ga-onshare={`Twitter#Tweet#${streamURL}`}
@@ -42,11 +40,10 @@ const Share = ({ title, streamURL }: any) => {
             data-share-title={title}
             aria-label="twitter"
             title="twitter"
-          ></a>
-          <a
+          ></span>
+          <span
             aria-label="linkedin"
             className={`${styles.lin} ${styles.icon}`}
-            href="javascript://"
             rel="nofollow"
             data-dimension="1"
             data-ga-onshare={`LinkedIn#Share#${streamURL}`}
@@ -55,10 +52,9 @@ const Share = ({ title, streamURL }: any) => {
             }
             data-share-title={title}
             title="linkedin"
-          ></a>
-          <a
+          ></span>
+          <span
             className={`${styles.wp} ${styles.icon}`}
-            href="javascript://"
             rel="nofollow"
             data-dimension="1"
             data-ga-onshare={`Whatsapp#Share#${streamURL}`}
@@ -67,7 +63,7 @@ const Share = ({ title, streamURL }: any) => {
             data-share-title={title}
             aria-label="whatsapp"
             title="whatsapp"
-          ></a>
+          ></span>
         </div>
       </div>
     </div>

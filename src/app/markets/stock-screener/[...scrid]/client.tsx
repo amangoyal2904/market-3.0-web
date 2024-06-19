@@ -22,6 +22,7 @@ import Service from "@/network/service";
 import { useStateContext } from "@/store/StateContext";
 import MarketStatus from "@/components/MarketStatus";
 import { trackingEvent } from "@/utils/ga";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -389,8 +390,12 @@ const StockScreeners = ({
     setCreateModuleScreener(false);
   };
   const saveScreenerhandler = async () => {
-    setCeateScreenerNamePopup(true);
-    document.body.style.overflow = "hidden";
+    if (isLogin) {
+      setCeateScreenerNamePopup(true);
+      document.body.style.overflow = "hidden";
+    } else {
+      initSSOWidget();
+    }
   };
   const screenerNameUpdateHandler = (value: any) => {
     setMetaData({ ..._metaData, title: value });
@@ -446,44 +451,55 @@ const StockScreeners = ({
       );
     }
   };
+
   const updateTableData = async () => {
-    const responseData: any = await fetchViewTable(
-      { ..._payload },
-      "screenerGetViewById",
-      getCookie("isprimeuser") == "true" ? true : false,
-      getCookie("ssoid"),
-    );
-    if (!!responseData) {
-      const _pageSummary = !!responseData?.pageSummary
-        ? responseData?.pageSummary
-        : {};
-      const _tableData = responseData?.dataList ? responseData.dataList : [];
+    const isPrimeUser = getCookie("isprimeuser") === "true";
+    const ssoid = getCookie("ssoid");
 
-      const _tableHeaderData =
-        _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
-          ? _tableData[0]?.data
-          : [];
-      const _screenerDetails = !!responseData.screenerDetail
-        ? responseData.screenerDetail
-        : {};
-      const _unixDateTime = responseData.unixDateTime
-        ? responseData.unixDateTime
-        : new Date().getTime();
+    try {
+      const responseData: any = await fetchViewTable(
+        _payload,
+        "screenerGetViewById",
+        isPrimeUser,
+        ssoid,
+      );
 
-      setUpdateDateTime(_unixDateTime);
-      setTableData(_tableData);
-      setTableHeaderData(_tableHeaderData);
-      setPageSummary(_pageSummary);
-      setScreenerDetail(_screenerDetails);
-    } else {
-      setUpdateDateTime(new Date().getTime());
-      setTableData([]);
-      setTableHeaderData([]);
-      setPageSummary({});
-      setScreenerDetail({});
+      if (responseData && Array.isArray(responseData.dataList)) {
+        const {
+          dataList,
+          pageSummary = {},
+          screenerDetail = {},
+          unixDateTime = new Date().getTime(),
+        } = responseData;
+
+        const newTableData = dataList;
+        const newTableHeaderData =
+          newTableData.length > 0 && newTableData[0]?.data
+            ? newTableData[0].data
+            : [];
+
+        setUpdateDateTime(unixDateTime);
+        setTableData(newTableData);
+        setTableHeaderData(newTableHeaderData);
+        setPageSummary(pageSummary);
+        setScreenerDetail(screenerDetail);
+
+        if (tableData.length === 0) {
+          setUpdateDateTime(new Date().getTime());
+          setTableData([]);
+          setTableHeaderData([]);
+          setPageSummary({});
+          setScreenerDetail({});
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching screener data:", error);
+      // Handle error appropriately if needed
+    } finally {
+      setProcessingLoader(false);
     }
-    setProcessingLoader(false);
   };
+
   const editRemoveStockBtnReset = () => {
     // ===
   };
@@ -551,12 +567,19 @@ const StockScreeners = ({
       return (
         <h1 className={styles.heading}>
           {_metaData.title}{" "}
-          <span onClick={saveScreenerhandler} className={styles.saveMode}>
-            <i className="eticon_save" /> Update{" "}
-          </span>
-          <span onClick={removeScreenerhandler} className={styles.removeMode}>
-            Remove{" "}
-          </span>
+          {isLogin && (
+            <>
+              <span onClick={saveScreenerhandler} className={styles.saveMode}>
+                <i className="eticon_save" /> Update{" "}
+              </span>
+              <span
+                onClick={removeScreenerhandler}
+                className={styles.removeMode}
+              >
+                Remove{" "}
+              </span>
+            </>
+          )}
         </h1>
       );
     } else if (
@@ -647,16 +670,18 @@ const StockScreeners = ({
     onSearchParamChange();
   }, [searchParams]);
 
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus === "LIVE") updateTableData();
+    },
+    refeshConfig.stocksScreener,
+    [_payload, currentMarketStatus],
+  );
+
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        updateTableData();
-      }
-    }, refeshConfig.stocksScreener);
-    return () => clearInterval(intervalId);
-  }, [_payload, currentMarketStatus]);
+  }, [_payload]);
 
   useEffect(() => {
     const userSSOID = getCookie("ssoid");

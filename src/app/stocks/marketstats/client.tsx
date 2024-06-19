@@ -20,6 +20,7 @@ import { getCustomViewsTab } from "@/utils/customViewAndTables";
 import TechincalOperands from "@/components/TechincalOperands";
 
 import MarketStatus from "@/components/MarketStatus";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -97,47 +98,54 @@ const MarketStats = ({
     return { value: "", label: "" };
   };
   const [dayFilterData, setDayFilterData] = useState(getSelectedDuration);
-  const updateTableData = async () => {
-    const responseData: any = await fetchViewTable(
-      { ..._payload },
-      isTechnical ? "MARKETSTATS_TECHNICALS" : "MARKETSTATS_INTRADAY",
-      getCookie("isprimeuser") == "true" ? true : false,
-      getCookie("ssoid"),
-    );
-    if (!!responseData) {
-      const _pageSummary = !!responseData.pageSummary
-        ? responseData.pageSummary
-        : {};
-      const _tableData = responseData?.dataList ? responseData.dataList : [];
 
-      const _tableHeaderData =
-        _tableData && _tableData.length && _tableData[0] && _tableData[0]?.data
-          ? _tableData[0]?.data
-          : [];
-      const _unixDateTime = responseData.unixDateTime;
-      setUpdateDateTime(_unixDateTime);
-      setTableData(_tableData);
-      setTableHeaderData(_tableHeaderData);
-      setPageSummary(_pageSummary);
-      setProcessingLoader(false);
-    } else {
-      setUpdateDateTime(new Date().getTime());
-      setTableData([]);
-      setTableHeaderData([]);
-      setPageSummary({});
+  const updateTableData = async () => {
+    const isPrimeUser = getCookie("isprimeuser") === "true";
+    const ssoid = getCookie("ssoid");
+    const fetchType = isTechnical
+      ? "MARKETSTATS_TECHNICALS"
+      : "MARKETSTATS_INTRADAY";
+
+    try {
+      const responseData: any = await fetchViewTable(
+        _payload,
+        fetchType,
+        isPrimeUser,
+        ssoid,
+      );
+
+      if (responseData) {
+        const {
+          dataList = [],
+          pageSummary = {},
+          unixDateTime = new Date().getTime(),
+        } = responseData;
+
+        const newTableData = dataList;
+        const newTableHeaderData =
+          newTableData.length > 0 && newTableData[0]?.data
+            ? newTableData[0].data
+            : [];
+
+        setUpdateDateTime(unixDateTime);
+        setTableData(newTableData);
+        setTableHeaderData(newTableHeaderData);
+        setPageSummary(pageSummary);
+
+        if (tableData.length === 0) {
+          setUpdateDateTime(new Date().getTime());
+          setTableData([]);
+          setTableHeaderData([]);
+          setPageSummary({});
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching table data:", error);
+      // Handle error appropriately if needed
+    } finally {
       setProcessingLoader(false);
     }
   };
-
-  // const updateL3NAV = async (intFilter: any, duration: any) => {
-  //   const { l3Nav } = await getMarketStatsNav({
-  //     l3NavMenuItem,
-  //     l3NavSubItem,
-  //     intFilter,
-  //     duration,
-  //   });
-  //   setL3Nav(l3Nav);
-  // };
 
   const onPaginationChange = async (pageNumber: number) => {
     setProcessingLoader(true);
@@ -377,13 +385,15 @@ const MarketStats = ({
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    const intervalId = setInterval(() => {
-      if (currentMarketStatus === "LIVE") {
-        updateTableData();
-      }
-    }, refeshConfig.marketstats);
-    return () => clearInterval(intervalId);
-  }, [_payload, isPrime, currentMarketStatus]);
+  }, [_payload, isPrime]);
+
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus === "LIVE") updateTableData();
+    },
+    refeshConfig.marketstats,
+    [_payload, isPrime, currentMarketStatus],
+  );
 
   useEffect(() => {
     setProcessingLoader(true);
