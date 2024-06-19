@@ -324,7 +324,8 @@ export const updateGtm = (_gtmEventDimension, prevPath) => {
     _gtmEventDimension["loggedin"] =
       typeof window.objUser.info != "undefined" ? "Yes" : "No";
     _gtmEventDimension["pageTitle"] = document.title;
-    _gtmEventDimension["referral_url"] = prevPath;
+    _gtmEventDimension["referral_url"] =
+      window.location.pathname == prevPath ? "" : prevPath;
     _gtmEventDimension["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
     _gtmEventDimension["user_region"] = window?.geoinfo.region_code;
     _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
@@ -419,7 +420,8 @@ export const generateCDPPageView = (prevPath) => {
     const n = prevPath ? prevPath.lastIndexOf("/") : 0;
     const lastClick = n == 0 ? "" : prevPath.substring(n + 1);
     cdpObj["last_click_source"] = lastClick;
-    cdpObj["referral_url"] = prevPath;
+    cdpObj["referral_url"] =
+      window.location.pathname == prevPath ? "" : prevPath;
     cdpObj["page_template"] = site_section.substring(lastSlash + 1);
     cdpObj["url"] = window.location.href;
     cdpObj["title"] = document.title;
