@@ -457,7 +457,7 @@ const MarketTable = React.memo((props: propsType) => {
     if (!highlightLtp) return;
 
     const getMappedData = (data: any[], key: string) =>
-      data.map((item: any) => item[key]?.toUpperCase());
+      data.map((item) => item[key]?.toUpperCase());
 
     const companies = data?.length
       ? getMappedData(
@@ -489,7 +489,11 @@ const MarketTable = React.memo((props: propsType) => {
         return;
       }
 
-      if (wsRef.current && wsRef.current.readyState === WebSocket.CONNECTING) {
+      if (
+        wsRef.current &&
+        (wsRef.current.readyState === WebSocket.CONNECTING ||
+          wsRef.current.readyState === WebSocket.CLOSING)
+      ) {
         return;
       }
 
@@ -507,7 +511,7 @@ const MarketTable = React.memo((props: propsType) => {
         const { stocks, indices, time } = JSON.parse(event.data);
         if (stocks) buffer.current.push(...stocks);
         if (indices) buffer.current.push(...indices);
-        if (!isNaN(new Date(time).getTime()))
+        if (setUpdateDateTime && !isNaN(new Date(time).getTime()))
           setUpdateDateTime(new Date(time).getTime());
       };
 
