@@ -90,7 +90,7 @@ export const trackPushData = (
     objUserData.fullname = fullName;
   }
 
-  const getGrxData = generateGrxFunnel();
+  const getGrxData = generateGrxFunnel(window?.objUser?.prevPath);
   let cdpData = generateCDPPageView(window?.objUser?.prevPath);
   cdpData = { ...cdpData, ...cdpSend };
 
@@ -337,7 +337,7 @@ export const updateGtm = (_gtmEventDimension, prevPath) => {
   }
 };
 
-export const generateGrxFunnel = () => {
+export const generateGrxFunnel = (prevPath) => {
   try {
     const pagePathName = window.location.pathname;
     const pageElem = window.location.pathname.split("/");
