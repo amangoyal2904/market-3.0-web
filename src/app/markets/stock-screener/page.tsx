@@ -31,8 +31,8 @@ const StockScreener = async () => {
         <div className={styles.topSec}>
           <h1 className="heading">Stock Screeners</h1>
           <p className={styles.desc}>
-            Know the market sentiments. Check the percentage or count of stocks
-            in the selected index with value above the technical indicators.
+            Discover the hidden gems from pre-built screeners or create your own
+            with over 700+ data points.
           </p>
         </div>
 
