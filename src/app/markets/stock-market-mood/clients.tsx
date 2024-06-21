@@ -353,7 +353,7 @@ const MarketMoodsClient = ({
                   trackingEvent("et_push_event", {
                     event_category: "mercury_engagement",
                     event_action: "tab_selected",
-                    event_label: `${item.label}`,
+                    event_label: `MarketMood_${item.label}`,
                   });
                   handleItemClick(item.key);
                 }}
