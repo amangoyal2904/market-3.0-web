@@ -1,5 +1,6 @@
 import { saveLogs } from "@/utils/utility";
 import { APP_ENV } from "../utils";
+
 const getApiUrl = (config: any, index: any) => {
   const { api = {}, url, params } = config;
   const { type = "" } = params;
@@ -24,24 +25,27 @@ export const get = async (config: any) => {
     }
     const response = await fetch(url, { ...config });
     if (!response.ok) {
-      saveLogs({
-        type: "Mercury",
-        res: "error",
-        msg: response.status,
-        resData: config,
-      });
+      if (typeof window !== "undefined") {
+        saveLogs({
+          type: "Mercury",
+          res: "error",
+          msg: response.status,
+          resData: config,
+        });
+      }
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     return response;
   } catch (e) {
-    //console.log("error in get request", e);
-    saveLogs({
-      type: "Mercury",
-      res: "error",
-      msg: e,
-      resData: config,
-    });
+    if (typeof window !== "undefined") {
+      saveLogs({
+        type: "Mercury",
+        res: "error",
+        msg: e instanceof Error ? e.message : "Unknown error",
+        resData: config,
+      });
+    }
   }
 };
 
@@ -60,23 +64,27 @@ export const post = async (config: any) => {
     });
 
     if (!response.ok) {
-      saveLogs({
-        type: "Mercury",
-        res: "error",
-        msg: response.status,
-        resData: config,
-      });
+      if (typeof window !== "undefined") {
+        saveLogs({
+          type: "Mercury",
+          res: "error",
+          msg: response.status,
+          resData: config,
+        });
+      }
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     return response;
   } catch (e) {
-    saveLogs({
-      type: "Mercury",
-      res: "error",
-      msg: e,
-      resData: config,
-    });
+    if (typeof window !== "undefined") {
+      saveLogs({
+        type: "Mercury",
+        res: "error",
+        msg: e instanceof Error ? e.message : "Unknown error",
+        resData: config,
+      });
+    }
   }
 };
 
