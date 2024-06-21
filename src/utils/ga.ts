@@ -99,7 +99,7 @@ export const trackPushData = (
     grx("track", cdpData.event_name, cdpData);
   }
   const dataToPost = {
-    ET: generateGrxFunnel(),
+    ET: generateGrxFunnel(window?.objUser?.prevPath),
     grxMappingObj: newGrxMapObj,
     objUserData: objUserData,
     analytics_cdp: cdpData,
