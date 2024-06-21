@@ -5,17 +5,20 @@ import useDebounce from "@/hooks/useDebounce";
 import { trackingEvent } from "@/utils/ga";
 
 const LeftMenuTabs = React.memo(
-  ({ data, activeViewId, tabsViewIdUpdate, page }: any) => {
+  ({ data, activeViewId, tabsViewIdUpdate, page, widgetName }: any) => {
     const tabsListRef = useRef<HTMLUListElement>(null);
     const [visibleTabs, setVisibleTabs] = useState<any[]>([]);
     const [hiddenTabs, setHiddenTabs] = useState<any[]>([]);
     const [isAnyInnerActive, setIsAnyInnerActive] = useState(false);
-    const tabClick = (viewId: any) => {
+    const tabClick = (viewId: any, tabName: string) => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "tab_selected",
+        event_label: widgetName == "" ? tabName : `${widgetName}_${tabName}`,
+      });
       tabsViewIdUpdate(viewId);
     };
-
     const { debounce } = useDebounce();
-
     const updateTabsVisibility = () => {
       const tabsListWidth = tabsListRef.current?.offsetWidth || 0;
       const filterData = data.filter((item: any) => item.selectedFlag);
@@ -68,12 +71,8 @@ const LeftMenuTabs = React.memo(
           <li
             key={item.id + index}
             onClick={() => {
-              tabClick(item.viewId);
-              trackingEvent("et_push_event", {
-                event_category: "mercury_engagement",
-                event_action: "tab_selected",
-                event_label: `${item.name}`,
-              });
+              tabClick(item.viewId, item.name);
+
               setIsAnyInnerActive(false);
             }}
             className={activeViewId === item.viewId ? styles.active : ""}
@@ -95,12 +94,7 @@ const LeftMenuTabs = React.memo(
                   <li
                     key={item.id + index}
                     onClick={() => {
-                      tabClick(item.viewId);
-                      trackingEvent("et_push_event", {
-                        event_category: "mercury_engagement",
-                        event_action: "tab_selected",
-                        event_label: `More_${item.name}`,
-                      });
+                      tabClick(item.viewId, item.name);
                       setIsAnyInnerActive(true);
                     }}
                     className={

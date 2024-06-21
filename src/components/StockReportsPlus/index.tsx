@@ -103,7 +103,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
     trackingEvent("et_push_event", {
       event_category: "mercury_engagement",
       event_action: "tab_selected",
-      event_label: `${tab.name} Stock reports plus`,
+      event_label: `StockReportPlus_${tab.name}`,
     });
     setProcessingLoader(true);
     setActiveTab(tab);

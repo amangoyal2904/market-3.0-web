@@ -77,7 +77,7 @@ const Subhead = (props: any) => {
     trackingEvent("et_push_event", {
       event_category: "mercury_engagement",
       event_action: "tab_selected",
-      event_label: tabName,
+      event_label: "StockRecos_" + tabName,
     });
   };
 
