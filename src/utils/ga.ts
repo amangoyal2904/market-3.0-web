@@ -396,6 +396,13 @@ export const generateGrxFunnel = () => {
         ? getUserType(window.objUser.permissions)
         : "Free User";
     objGrx["dimension145"] = "ET_Mercury";
+    objGrx["dimension148"] = getPageName().replace("Mercury_", "");
+    objGrx["dimension149"] = "";
+    objGrx["dimension150"] =
+      typeof window.objUser != "undefined" && window.objUser?.ssoid
+        ? window.objUser.ssoid
+        : "";
+    objGrx["dimension151"] = getCookie("_grx") ? getCookie("_grx") : "";
     return objGrx;
   } catch (e) {
     console.log("Error ", e);

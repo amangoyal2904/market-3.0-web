@@ -97,5 +97,9 @@
   "dimension144": "plan_selected",
   "dimension145": "product_name",
   "dimension146": "login_status",
-  "dimension147": "subscription_status"
+  "dimension147": "subscription_status",
+  "dimension148": "feature_name",
+  "dimension149": "entry_point",
+  "dimension150": "user_id",
+  "dimension151": "user_grx_id"
 }
