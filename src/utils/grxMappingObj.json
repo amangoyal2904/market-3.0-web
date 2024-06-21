@@ -101,5 +101,7 @@
   "dimension148": "feature_name",
   "dimension149": "entry_point",
   "dimension150": "user_id",
-  "dimension151": "user_grx_id"
+  "dimension151": "user_grx_id",
+  "dimension152": "pageTitle",
+  "dimension153": "referral_url"
 }

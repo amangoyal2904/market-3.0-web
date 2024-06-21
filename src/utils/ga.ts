@@ -404,6 +404,9 @@ export const generateGrxFunnel = () => {
         ? window.objUser.ssoid
         : "";
     objGrx["dimension151"] = getCookie("_grx") ? getCookie("_grx") : "";
+    objGrx["dimension152"] = document.title;
+    objGrx["dimension153"] =
+      window.location.pathname == prevPath ? "" : prevPath;
     return objGrx;
   } catch (e) {
     console.log("Error ", e);
