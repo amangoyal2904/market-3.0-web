@@ -349,8 +349,7 @@ export const generateGrxFunnel = () => {
       site_section.indexOf("/") == -1
         ? site_section.substring(site_section.indexOf("/") + 1)
         : site_section.substring(0, site_section.indexOf("/"));
-    objGrx["dimension146"] =
-      typeof window.objUser != "undefined" && window.objUser.info ? "Y" : "N";
+
     objGrx["dimension27"] = site_section;
     objGrx["dimension12"] = "";
     objGrx["dimension147"] =
@@ -387,10 +386,12 @@ export const generateGrxFunnel = () => {
     objGrx["dimension93"] = trafficSource;
     objGrx["dimension92"] = site_section;
     objGrx["dimension109"] = window?.geoinfo.region_code;
+    objGrx["dimension146"] =
+      typeof window.objUser.info != "undefined" ? "Logged In" : "Not Logged In";
     objGrx["dimension10"] =
-      typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+      typeof window.objUser.info != "undefined" ? "Logged In" : "Not Logged In";
     objGrx["dimension3"] =
-      typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
+      typeof window.objUser.info != "undefined" ? "Logged In" : "Not Logged In";
     objGrx["dimension37"] =
       typeof window.objUser != "undefined" && window?.objUser?.permissions
         ? getUserType(window.objUser.permissions)
