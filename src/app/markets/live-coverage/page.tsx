@@ -224,7 +224,7 @@ const LiveCoverage = async () => {
         pageName={[{ label: "Markets", redirectUrl: "" }]}
       />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />
-      <PageRefresh refreshTime={420000} />
+      <PageRefresh refreshTime={180000} />
     </>
   );
 };
