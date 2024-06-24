@@ -396,7 +396,7 @@ export const generateGrxFunnel = (prevPath) => {
       typeof window.objUser != "undefined" && window?.objUser?.permissions
         ? getUserType(window.objUser.permissions)
         : "Free User";
-    objGrx["dimension145"] = "ET_Mercury";
+    objGrx["dimension145"] = getPageName();
     objGrx["dimension148"] = getPageName().replace("Mercury_", "");
     objGrx["dimension149"] = "";
     objGrx["dimension150"] =
