@@ -7,7 +7,6 @@ import { getAllIndices } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "@/components/MarketStatus";
 import { trackingEvent } from "@/utils/ga";
-import { useRouter } from "next/navigation";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
 import Link from "next/link";
 
@@ -18,7 +17,6 @@ const IndicesClient = ({
   tableConfig = {},
   unixDateTime = new Date(),
 }: any) => {
-  const router = useRouter();
   const { state } = useStateContext();
   const { isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;

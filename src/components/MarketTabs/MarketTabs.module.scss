@@ -52,10 +52,7 @@
   list-style-type: none;
   display: flex;
   column-gap: 22px;
-  min-width: calc(100% - 600px);
-  &.lg {
-    min-width: calc(100% - 260px);
-  }
+  width: auto;
   li {
     font-size: 14px;
     font-style: normal;
@@ -93,7 +90,7 @@
   justify-content: flex-end;
   column-gap: 10px;
   align-items: center;
-  min-width: 540px;
+  max-width: 540px;
   .btnStock {
     display: flex;
     cursor: pointer;
