@@ -52,7 +52,7 @@
   list-style-type: none;
   display: flex;
   column-gap: 22px;
-  width: auto;
+  flex: 1 1 auto;
   li {
     font-size: 14px;
     font-style: normal;
