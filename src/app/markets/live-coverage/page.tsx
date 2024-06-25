@@ -85,7 +85,11 @@ const LiveCoverage = async () => {
       return topNewsFilteredData;
     } catch (e) {
       console.log("error in fetching top news", e);
-      saveLogs({ res: "error", msg: "Error in fetching top news data" });
+      saveLogs({
+        type: "Mercury",
+        res: "error",
+        msg: "Error in fetching top news data",
+      });
       return [];
     }
   };
