@@ -18,6 +18,7 @@ import DayFitler from "@/components/DayFilter";
 import { fetchFilters } from "@/utils/utility";
 import SectorFilter from "../DayFilter/SectorFilter";
 import { trackingEvent } from "@/utils/ga";
+import Link from "next/link";
 
 const IndustryFilter = dynamic(() => import("@/components/IndustryFilter"), {
   loading: () => (
@@ -50,6 +51,9 @@ const MarketFiltersTab = React.memo(
     getIndustryFilterValue,
     intradayDurationOptions,
     editRemoveStockBtnReset,
+    subType,
+    nseBseToggle = false,
+    shortUrlMapping = [],
   }: any) => {
     const {
       showAddStock,
@@ -235,6 +239,43 @@ const MarketFiltersTab = React.memo(
       setOpenPersonaliseCreateModal(false);
       document.body.style.overflow = "";
     };
+
+    const renderLink = (label: string) => {
+      const indexId = label === "nse" ? 2371 : 2365;
+      const longUrl =
+        subType == "gainers" || subType == "losers"
+          ? "/stocks/marketstats?type=" +
+            subType +
+            "&duration=1D&filter=" +
+            indexId
+          : subType === "volume-shockers"
+            ? "/stocks/marketstats?type=" +
+              subType +
+              "&timespan=3D&filter=" +
+              indexId
+            : "/stocks/marketstats?type=" + subType + "&filter=" + indexId;
+      const isExist: any = shortUrlMapping?.find(
+        (item: any) => item.longURL == longUrl,
+      );
+      const linkHref = isExist ? isExist.shortUrl : longUrl;
+      return (
+        <Link
+          href={linkHref}
+          title={label?.toUpperCase()}
+          className={niftyFilterData?.exchange === label ? styles.active : ""}
+          onClick={() =>
+            trackingEvent("et_push_event", {
+              event_category: "mercury_engagement",
+              event_action: "page_cta_click",
+              event_label: `${label}`,
+            })
+          }
+        >
+          {label}
+        </Link>
+      );
+    };
+
     useEffect(() => {
       if (showIndexFilter) {
         filterApiCall();
@@ -298,6 +339,16 @@ const MarketFiltersTab = React.memo(
           ) : (
             ""
           )}
+
+          {nseBseToggle ? (
+            <div className={styles.menuNseBse}>
+              {renderLink("nse")}
+              {renderLink("bse")}
+            </div>
+          ) : (
+            ""
+          )}
+
           {showIndexFilter ? (
             <span
               className={`${styles.roundBtn} ${styles.filterNseBse}`}

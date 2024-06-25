@@ -6,8 +6,6 @@ const ShimmerMenu = React.memo(() => {
     { label: "Menu 1" },
     { label: "Menu 2" },
     { label: "Menu 3" },
-    { label: "Menu 4" },
-    { label: "Menu 5" },
   ];
   return (
     <ul className={styles.menu}>

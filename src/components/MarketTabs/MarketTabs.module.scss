@@ -52,9 +52,9 @@
   list-style-type: none;
   display: flex;
   column-gap: 22px;
-  width: calc(100% - 480px);
+  min-width: calc(100% - 600px);
   &.lg {
-    width: calc(100% - 240px);
+    min-width: calc(100% - 260px);
   }
   li {
     font-size: 14px;
@@ -93,7 +93,7 @@
   justify-content: flex-end;
   column-gap: 10px;
   align-items: center;
-  width: 450px;
+  min-width: 540px;
   .btnStock {
     display: flex;
     cursor: pointer;
@@ -162,6 +162,37 @@
       cursor: pointer;
     }
   }
+  .menuNseBse {
+    margin: 0;
+    display: flex;
+    list-style-type: none;
+    justify-content: flex-end;
+    a {
+      margin: 0;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      padding: 4px 10px;
+      background-color: $white;
+      text-transform: uppercase;
+      border: solid 2px $black;
+      cursor: pointer;
+    }
+    a:first-child {
+      border-top-left-radius: 40px;
+      border-bottom-left-radius: 40px;
+      border-right: 0;
+    }
+    a:last-child {
+      border-top-right-radius: 40px;
+      border-bottom-right-radius: 40px;
+    }
+    a.active {
+      background-color: $black;
+      color: $white;
+      font-weight: 600;
+    }
+  }
 }
 //
 .moreTabWrap {
@@ -213,10 +244,10 @@
   }
 }
 
-@media only screen and (max-width: 1280px){
-  .tabsList{
+@media only screen and (max-width: 1280px) {
+  .tabsList {
     column-gap: 12px;
-    li{
+    li {
       font-size: 13px;
     }
   }
