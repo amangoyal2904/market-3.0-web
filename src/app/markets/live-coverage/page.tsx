@@ -13,8 +13,10 @@ import { headers } from "next/headers";
 import BuySellTechnicalWidget from "@/components/BuySellTechnicalWidget";
 import InvestmentIdea from "@/components/InvestmentIdea";
 import {
+  fetchInvestMentData,
   fnGenerateMetaData,
   getBuySellTechnicals,
+  getMarketsLiveBlog,
   saveLogs,
 } from "@/utils/utility";
 import AdInfo from "@/components/Ad/AdInfo/homeAds.json";
@@ -82,8 +84,9 @@ const LiveCoverage = async () => {
       );
       return topNewsFilteredData;
     } catch (e) {
-      console.log("error in fetching indices data", e);
+      console.log("error in fetching top news", e);
       saveLogs({ res: "error", msg: "Error in fetching top news data" });
+      return [];
     }
   };
 
@@ -191,6 +194,8 @@ const LiveCoverage = async () => {
   );
 
   const topNewsData = await fetchTopNews();
+  const { liveblog } = await getMarketsLiveBlog();
+  const investmentData = await fetchInvestMentData();
   const indicesData = await getIndicesWidgetData();
   const fiiDiiData = await fetchFiiDIIData();
 
@@ -199,12 +204,13 @@ const LiveCoverage = async () => {
       <IndicesWidget
         data={indicesData}
         topNewsData={topNewsData}
+        liveblog={liveblog}
         fiiDiiCash={fiiDiiData}
       />
       <MarketsDashboardWidget />
       <WatchListWidget />
       <DfpAds adInfo={AdInfo.dfp.mid1} />
-      <InvestmentIdea />
+      <InvestmentIdea investmentData={investmentData} />
       <StockRecommendations
         stockRecoResult={stockRecoResult}
         recosNav={await getRecosNav()}
