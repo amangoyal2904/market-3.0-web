@@ -1320,7 +1320,7 @@ export const encodeHTML = (html: any) => {
 export const saveLogs = (data: any) => {
   if (typeof window !== "undefined") {
     // Check if running in a browser environment
-    if (data) {
+    if (data && window.location.hostname != "localhost") {
       try {
         const isLive = APP_ENV == "development" ? 0 : 1;
         data.TicketId = getCookie("TicketId");

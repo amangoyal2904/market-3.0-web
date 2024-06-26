@@ -23,6 +23,7 @@ import BreadCrumb from "@/components/BreadCrumb";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
 import dynamic from "next/dynamic";
+import TrendingInMarkets from "@/components/TrendingInMarkets";
 const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
   ssr: false,
 });
@@ -225,6 +226,7 @@ const Technicals = async ({ params, searchParams }: any) => {
         actualUrl={actualUrl}
         shortUrlMapping={shortUrlMapping}
       />
+      <TrendingInMarkets />
       <BreadCrumb pagePath={pageUrl} pageName={breadCrumbObj} />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />
       <PageRefresh refreshTime={180000} />

@@ -785,6 +785,37 @@
   cursor: pointer;
 }
 
+.quickLinkWidget {
+  display: flex;
+  margin: 50px auto;
+  gap: 15px;
+  align-items: center;
+  .headline {
+    text-wrap: nowrap;
+    font-size: 13px;
+    margin-right: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .list {
+    flex: 1 1 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    .links {
+      font-size: 13px;
+      background: #fff;
+      color: #666;
+      border: 1px solid #ddd;
+      padding: 5px 14px;
+      border-radius: 21px;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
 @keyframes pulse {
   to {
     opacity: 0;

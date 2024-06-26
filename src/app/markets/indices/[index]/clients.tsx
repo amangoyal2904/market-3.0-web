@@ -20,6 +20,7 @@ import IndicesConstituents from "@/components/IndicesDetails/Constituents";
 import IndicesPerformance from "@/components/IndicesDetails/Performance";
 import { trackingEvent } from "@/utils/ga";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import IndicesQuickLinks from "@/components/IndicesDetails/IndicesQuickLinks";
 
 const pageTabData = [
   { label: "Key Metrics", key: "keymetrics" },
@@ -211,6 +212,7 @@ const IndicesDetailsClient = ({
             )}
           </Fragment>
         ))}
+        <IndicesQuickLinks />
       </div>
     </>
   );
