@@ -13,7 +13,7 @@ import { getAllShortUrls } from "@/utils/marketstats";
 const MarketsDashboardWidget = async () => {
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
-  const intFilter = 2369;
+  const intFilter = 2371;
   const filter = !!intFilter ? [intFilter] : [];
   const pagesize = 10;
   const pageno = 1;
