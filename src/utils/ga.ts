@@ -81,7 +81,7 @@ export const trackPushData = (
   sendGTMdata["feature_name"] = objGTMdata.feature_name;
   sendGTMdata["site_section"] = objGTMdata.site_section;
   sendGTMdata["site_sub_section"] = objGTMdata.site_sub_section;
-  if (window?.objUser?.info?.isLogged) {
+  if (typeof window.objUser.info != "undefined") {
     const { primaryEmail, mobile, firstName, lastName } = window.objUser.info;
     const fullName = firstName + (lastName ? " " + lastName : "");
     objUserData.email = primaryEmail;
