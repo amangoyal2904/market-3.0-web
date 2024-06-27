@@ -91,7 +91,7 @@ export const trackPushData = (
   }
 
   const getGrxData = generateGrxFunnel(window?.objUser?.prevPath);
-  let cdpData = generateCDPPageView(window?.objUser?.prevPath);
+  let cdpData = generateCDPPageView(window?.objUser?.prevPath, redirect);
   cdpData = { ...cdpData, ...cdpSend };
 
   if (typeof grx != "undefined") {
@@ -137,7 +137,7 @@ export const trackPushData = (
   })
     .then((res) => {
       if (redirect) {
-        window.location.href = newPlanUrl;
+        //window.location.href = newPlanUrl;
       }
     })
     .catch((err) => {
@@ -156,22 +156,16 @@ export const trackingEvent = (type, data) => {
   }
   let checkGrxready = false;
   if (type == "et_push_pageload") {
-    console.log("Prev Path call func------->", data.prevPath);
-    const objCDP = generateCDPPageView(data.prevPath);
-    console.log("OBJCDP-------->", objCDP);
+    const objCDP = generateCDPPageView(data.prevPath, false);
     if (window.grx || window.isGrxLoaded) {
-      console.log("Outside Already Ready---------");
       if (!checkGrxready) {
-        console.log("Already Ready---------");
         checkGrxready = true;
         window.grx("track", "page_view", objCDP);
       }
     } else {
-      console.log("Outside Ready Ready---------");
       document.addEventListener("ready", () => {
         if (!checkGrxready) {
           window.isGrxLoaded = true;
-          console.log("Ready Ready---------");
           checkGrxready = true;
           window.grx("track", "page_view", objCDP);
         }
@@ -230,7 +224,7 @@ export const getPageName = (pageURL = "") => {
   } else if (pagePathName.includes("/top-india-investors-portfolio/")) {
     pageName = "Mercury_BigBull";
   } else if (pagePathName.includes("/stockreportsplus")) {
-    pageName = "Mercury_StockReportsPlus";
+    pageName = "Mercury_StockReportPlus";
   } else if (pagePathName.includes("/fiidii")) {
     pageName = "Mercury_FII/DII";
   } else if (pagePathName.includes("/watchlist")) {
@@ -414,7 +408,7 @@ export const generateGrxFunnel = (prevPath) => {
   }
 };
 
-export const generateCDPPageView = (prevPath) => {
+export const generateCDPPageView = (prevPath, redirect) => {
   try {
     const pagePathName = window.location.pathname;
     let pageElem = window.location.pathname.split("/");
@@ -436,8 +430,10 @@ export const generateCDPPageView = (prevPath) => {
     cdpObj["page_template"] = site_section.substring(lastSlash + 1);
     cdpObj["url"] = window.location.href;
     cdpObj["title"] = document.title;
-    const uniqueID = getCookie("_grx") + "_" + +new Date();
-    cdpObj["unique_subscription_id"] = uniqueID;
+    if (redirect) {
+      const uniqueID = getCookie("_grx") + "_" + +new Date();
+      cdpObj["unique_subscription_id"] = uniqueID;
+    }
     let trafficSource = "direct";
     let dref = document.referrer,
       wlh = window.location.href.toLowerCase();

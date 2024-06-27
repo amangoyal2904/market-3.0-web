@@ -61,6 +61,7 @@ const Header = () => {
         event_nature: "click",
         event_category: "subscription",
         event_name: "paywall",
+        cta_text: "Subscribe Now",
       };
       goToPlansPage1("select_item", obj, true, cdp);
     } catch (Err) {
