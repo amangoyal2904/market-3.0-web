@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 class JStorageReact {
   version: string;
   storage: Storage | null;
@@ -9,15 +7,17 @@ class JStorageReact {
     TTL: { [key: string]: number };
   };
   crc32Table: number[];
+  batchChanges: boolean;
 
   constructor() {
-    this.version = "0.3.1";
+    this.version = "1.0.0";
     this.storage = this.isBrowser() ? window.localStorage : null;
     this.jStorage = this.storage
       ? JSON.parse(this.storage.getItem("jStorage") || "{}")
       : {};
     this.jStorageMeta = this.jStorage.__jstorage_meta || { CRC32: {}, TTL: {} };
     this.crc32Table = [];
+    this.batchChanges = false;
     this.init();
   }
 
@@ -37,6 +37,15 @@ class JStorageReact {
     if (this.storage) {
       this.storage.setItem("jStorage", JSON.stringify(this.jStorage));
     }
+  }
+
+  startBatch() {
+    this.batchChanges = true;
+  }
+
+  endBatch() {
+    this.batchChanges = false;
+    this.save();
   }
 
   set(key: string, value: any, options: { TTL?: number } = {}) {
@@ -60,7 +69,10 @@ class JStorageReact {
     this.jStorage[key] = value;
     this.jStorageMeta.CRC32[key] = this.crc32(JSON.stringify(value));
     this.setTTL(key, options.TTL || 0);
-    this.save();
+
+    if (!this.batchChanges) {
+      this.save();
+    }
   }
 
   get(key: string, defaultValue: any = null) {
@@ -78,7 +90,10 @@ class JStorageReact {
     delete this.jStorage[key];
     delete this.jStorageMeta.TTL[key];
     delete this.jStorageMeta.CRC32[key];
-    this.save();
+
+    if (!this.batchChanges) {
+      this.save();
+    }
   }
 
   setTTL(key: string, ttl: number) {
@@ -90,7 +105,10 @@ class JStorageReact {
       this.jStorageMeta.TTL[key] = Date.now() + ttl;
     }
     this.cleanupTTL();
-    this.save();
+
+    if (!this.batchChanges) {
+      this.save();
+    }
   }
 
   getTTL(key: string) {
