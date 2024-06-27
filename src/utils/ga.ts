@@ -137,7 +137,7 @@ export const trackPushData = (
   })
     .then((res) => {
       if (redirect) {
-        //window.location.href = newPlanUrl;
+        window.location.href = newPlanUrl;
       }
     })
     .catch((err) => {
