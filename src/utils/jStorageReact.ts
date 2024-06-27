@@ -1,164 +1,156 @@
-type XMLData = {
-  _is_xml: boolean;
-  xml: string;
-};
+import { useEffect, useState } from "react";
 
-interface MetaData {
-  CRC32: Record<string, string>;
-  TTL?: Record<string, number>;
-  PubSub?: Array<[number, string, any]>;
-}
-
-interface StorageObject {
-  __jstorage_meta: MetaData;
-  [key: string]: any;
-}
-
-const jStorageReact = (() => {
-  let c: StorageObject = { __jstorage_meta: { CRC32: {} } };
-
-  const n = {
-    parse: (data: string) => JSON.parse(data),
-    stringify: (data: any) => JSON.stringify(data),
+class JStorageReact {
+  version: string;
+  storage: Storage;
+  jStorage: { [key: string]: any };
+  jStorageMeta: {
+    CRC32: { [key: string]: number };
+    TTL: { [key: string]: number };
   };
+  crc32Table: number[]; // Declare crc32Table property
 
-  const E = {
-    isXML: (a: any) =>
-      a && (a.ownerDocument || a).documentElement
-        ? "HTML" !== (a.ownerDocument || a).documentElement.nodeName
-        : false,
-    encode: (a: any) => new XMLSerializer().serializeToString(a),
-    decode: (a: string) => new DOMParser().parseFromString(a, "text/xml"),
-  };
+  constructor() {
+    this.version = "0.3.1";
+    this.storage = window.localStorage;
+    this.jStorage = JSON.parse(this.storage.getItem("jStorage") || "{}");
+    this.jStorageMeta = this.jStorage.__jstorage_meta || { CRC32: {}, TTL: {} };
+    this.crc32Table = []; // Initialize crc32Table
+    this.init();
+  }
 
-  const localStorageAvailable = (() => {
-    try {
-      window.localStorage.setItem("_tmptest", "tmpval");
-      window.localStorage.removeItem("_tmptest");
-      return true;
-    } catch (e) {
-      return false;
+  init() {
+    this.jStorage.__jstorage_meta = this.jStorageMeta;
+    this.save();
+    this.cleanupTTL();
+  }
+
+  save() {
+    this.storage.setItem("jStorage", JSON.stringify(this.jStorage));
+  }
+
+  set(key: string, value: any, options: { TTL?: number } = {}) {
+    if (typeof value === "undefined") {
+      this.deleteKey(key);
+      return;
     }
-  })();
 
-  const l = localStorageAvailable ? window.localStorage : ({} as Storage);
-  const m = localStorageAvailable ? "localStorage" : "none";
-
-  const r = (a: string | number) => {
-    if (!a || (typeof a !== "string" && typeof a !== "number"))
-      throw new TypeError("Key name must be string or numeric");
-    if (a === "__jstorage_meta") throw new TypeError("Reserved key name");
-    return true;
-  };
-
-  const w = () => {
-    if (m === "localStorage") {
-      l.setItem("jStorage", n.stringify(c));
+    if (typeof value === "function") {
+      return;
     }
-  };
 
-  const x = () => {
-    if (m === "localStorage") {
-      l.setItem("jStorage", n.stringify(c));
+    if (this.isXML(value)) {
+      value = { _is_xml: true, xml: this.encodeXML(value) };
+    } else if (typeof value === "object") {
+      value = JSON.parse(JSON.stringify(value));
     }
-  };
 
-  const B = () => {};
+    this.jStorage[key] = value;
+    this.jStorageMeta.CRC32[key] = this.crc32(JSON.stringify(value));
+    this.setTTL(key, options.TTL || 0);
+    this.save();
+  }
 
-  if (localStorageAvailable) {
-    try {
-      c = n.parse(l.getItem("jStorage") || "{}");
-    } catch (e) {
-      l.setItem("jStorage", "{}");
+  get(key: string, defaultValue: any = null) {
+    if (this.jStorage[key] && this.jStorage[key]._is_xml) {
+      return this.decodeXML(this.jStorage[key].xml);
+    }
+    return this.jStorage[key] || defaultValue;
+  }
+
+  deleteKey(key: string) {
+    delete this.jStorage[key];
+    delete this.jStorageMeta.TTL[key];
+    delete this.jStorageMeta.CRC32[key];
+    this.save();
+  }
+
+  setTTL(key: string, ttl: number) {
+    if (!ttl) {
+      delete this.jStorageMeta.TTL[key];
+    } else {
+      this.jStorageMeta.TTL[key] = Date.now() + ttl;
+    }
+    this.cleanupTTL();
+    this.save();
+  }
+
+  getTTL(key: string) {
+    return this.jStorageMeta.TTL[key] - Date.now();
+  }
+
+  cleanupTTL() {
+    const now = Date.now();
+    for (const key in this.jStorageMeta.TTL) {
+      if (this.jStorageMeta.TTL[key] <= now) {
+        this.deleteKey(key);
+      }
     }
   }
 
-  const set = (key: string, value: any, options: { TTL?: number } = {}) => {
-    r(key);
-    if (typeof value === "undefined") {
-      return deleteKey(key);
-    }
-    if (E.isXML(value)) {
-      value = { _is_xml: true, xml: E.encode(value) };
-    } else if (typeof value === "function") {
-      return;
-    } else if (value && typeof value === "object") {
-      value = n.parse(n.stringify(value));
-    }
-    c[key] = value;
-    c.__jstorage_meta.CRC32[key] = value;
-    setTTL(key, options.TTL || 0);
-    B();
-    return value;
-  };
+  isXML(value: any) {
+    return value && value.nodeType;
+  }
 
-  const get = (key: string, defaultValue?: any) => {
-    r(key);
-    return c[key]
-      ? c[key]._is_xml
-        ? E.decode(c[key].xml)
-        : c[key]
-      : typeof defaultValue === "undefined"
-        ? null
-        : defaultValue;
-  };
+  encodeXML(xml: any) {
+    if (typeof XMLSerializer !== "undefined") {
+      return new XMLSerializer().serializeToString(xml);
+    }
+    return xml.xml || "";
+  }
 
-  const deleteKey = (key: string) => {
-    r(key);
-    if (key in c) {
-      delete c[key];
-      if (c.__jstorage_meta.TTL) {
-        delete c.__jstorage_meta.TTL[key];
+  decodeXML(xmlStr: string) {
+    const parser = new DOMParser();
+    return parser.parseFromString(xmlStr, "text/xml");
+  }
+
+  crc32(str: string) {
+    let crc = 0,
+      i,
+      j;
+    const table =
+      this.crc32Table || (this.crc32Table = this.generateCRC32Table());
+
+    crc = crc ^ -1;
+    for (i = 0; i < str.length; i++) {
+      j = (crc ^ str.charCodeAt(i)) & 0xff;
+      crc = (crc >>> 8) ^ table[j];
+    }
+
+    return (crc ^ -1) >>> 0;
+  }
+
+  generateCRC32Table() {
+    let c;
+    const table = [];
+    for (let n = 0; n < 256; n++) {
+      c = n;
+      for (let k = 0; k < 8; k++) {
+        if (c & 1) {
+          c = 0xedb88320 ^ (c >>> 1);
+        } else {
+          c = c >>> 1;
+        }
       }
-      delete c.__jstorage_meta.CRC32[key];
-      x();
-      w();
-      return true;
+      table[n] = c;
     }
-    return false;
-  };
+    return table;
+  }
 
-  const setTTL = (key: string, ttl: number) => {
-    r(key);
-    ttl = Number(ttl) || 0;
-    if (key in c) {
-      c.__jstorage_meta.TTL = c.__jstorage_meta.TTL || {};
-      if (ttl > 0) {
-        c.__jstorage_meta.TTL[key] = new Date().getTime() + ttl;
-      } else {
-        delete c.__jstorage_meta.TTL[key];
-      }
-      x();
-      w();
-      return true;
-    }
-    return false;
-  };
+  storageSize() {
+    return new Blob([JSON.stringify(this.jStorage)]).size;
+  }
 
-  const getTTL = (key: string) => {
-    r(key);
-    if (key in c && c.__jstorage_meta.TTL) {
-      const ttl = c.__jstorage_meta.TTL[key] - new Date().getTime();
-      return ttl || 0;
-    }
-    return 0;
-  };
+  storageAvailable() {
+    return !!this.storage;
+  }
 
-  const flush = () => {
-    c = { __jstorage_meta: { CRC32: {} } };
-    x();
-    w();
-    return true;
-  };
+  flush() {
+    this.jStorage = { __jstorage_meta: { CRC32: {}, TTL: {} } };
+    this.save();
+  }
+}
 
-  return {
-    set,
-    get,
-    deleteKey,
-    setTTL,
-    getTTL,
-    flush,
-  };
-})();
+const jStorageReact = new JStorageReact();
 
 export default jStorageReact;
