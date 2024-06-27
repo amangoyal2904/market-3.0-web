@@ -2,34 +2,46 @@ import { useEffect, useState } from "react";
 
 class JStorageReact {
   version: string;
-  storage: Storage;
+  storage: Storage | null;
   jStorage: { [key: string]: any };
   jStorageMeta: {
     CRC32: { [key: string]: number };
     TTL: { [key: string]: number };
   };
-  crc32Table: number[]; // Declare crc32Table property
+  crc32Table: number[];
 
   constructor() {
     this.version = "0.3.1";
-    this.storage = window.localStorage;
-    this.jStorage = JSON.parse(this.storage.getItem("jStorage") || "{}");
+    this.storage = this.isBrowser() ? window.localStorage : null;
+    this.jStorage = this.storage
+      ? JSON.parse(this.storage.getItem("jStorage") || "{}")
+      : {};
     this.jStorageMeta = this.jStorage.__jstorage_meta || { CRC32: {}, TTL: {} };
-    this.crc32Table = []; // Initialize crc32Table
+    this.crc32Table = [];
     this.init();
   }
 
+  isBrowser() {
+    return typeof window !== "undefined";
+  }
+
   init() {
-    this.jStorage.__jstorage_meta = this.jStorageMeta;
-    this.save();
-    this.cleanupTTL();
+    if (this.storage) {
+      this.jStorage.__jstorage_meta = this.jStorageMeta;
+      this.save();
+      this.cleanupTTL();
+    }
   }
 
   save() {
-    this.storage.setItem("jStorage", JSON.stringify(this.jStorage));
+    if (this.storage) {
+      this.storage.setItem("jStorage", JSON.stringify(this.jStorage));
+    }
   }
 
   set(key: string, value: any, options: { TTL?: number } = {}) {
+    if (!this.storage) return;
+
     if (typeof value === "undefined") {
       this.deleteKey(key);
       return;
@@ -52,6 +64,8 @@ class JStorageReact {
   }
 
   get(key: string, defaultValue: any = null) {
+    if (!this.storage) return defaultValue;
+
     if (this.jStorage[key] && this.jStorage[key]._is_xml) {
       return this.decodeXML(this.jStorage[key].xml);
     }
@@ -59,6 +73,8 @@ class JStorageReact {
   }
 
   deleteKey(key: string) {
+    if (!this.storage) return;
+
     delete this.jStorage[key];
     delete this.jStorageMeta.TTL[key];
     delete this.jStorageMeta.CRC32[key];
@@ -66,6 +82,8 @@ class JStorageReact {
   }
 
   setTTL(key: string, ttl: number) {
+    if (!this.storage) return;
+
     if (!ttl) {
       delete this.jStorageMeta.TTL[key];
     } else {
@@ -76,10 +94,14 @@ class JStorageReact {
   }
 
   getTTL(key: string) {
+    if (!this.storage) return 0;
+
     return this.jStorageMeta.TTL[key] - Date.now();
   }
 
   cleanupTTL() {
+    if (!this.storage) return;
+
     const now = Date.now();
     for (const key in this.jStorageMeta.TTL) {
       if (this.jStorageMeta.TTL[key] <= now) {
@@ -138,6 +160,8 @@ class JStorageReact {
   }
 
   storageSize() {
+    if (!this.storage) return 0;
+
     return new Blob([JSON.stringify(this.jStorage)]).size;
   }
 
@@ -146,6 +170,8 @@ class JStorageReact {
   }
 
   flush() {
+    if (!this.storage) return;
+
     this.jStorage = { __jstorage_meta: { CRC32: {}, TTL: {} } };
     this.save();
   }
