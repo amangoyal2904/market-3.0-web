@@ -82,10 +82,14 @@ export const trackPushData = (
   sendGTMdata["site_section"] = objGTMdata.site_section;
   sendGTMdata["site_sub_section"] = objGTMdata.site_sub_section;
   if (typeof window.objUser.info != "undefined") {
-    const { primaryEmail, mobile, firstName, lastName } = window.objUser.info;
+    const { primaryEmail, firstName, lastName } = window.objUser.info;
     const fullName = firstName + (lastName ? " " + lastName : "");
     objUserData.email = primaryEmail;
-    objUserData.mobile = mobile;
+    objUserData.mobile =
+      window?.objUser?.info?.mobileList &&
+      Object.keys(window?.objUser?.info?.mobileList).length > 0
+        ? Object.keys(window?.objUser?.info?.mobileList)[0]
+        : "";
     objUserData.fname = firstName;
     objUserData.fullname = fullName;
   }
