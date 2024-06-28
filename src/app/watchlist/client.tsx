@@ -297,6 +297,11 @@ const WatchListClient = () => {
     }
   }, [isLogin]);
 
+  useEffect(() => {
+    setProcessingLoader(true);
+    updateTableData();
+  }, [requestPayload]);
+
   useIntervalApiCall(
     () => {
       if (currentMarketStatus === "LIVE" && !!fallbackWebsocket)

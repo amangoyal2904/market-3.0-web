@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import {
   fetchFilters,
   fnGenerateMetaData,
@@ -11,6 +11,7 @@ import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
 import MarketMoodsClient from "./clients";
 
+export const revalidate = 1200;
 const pageUrl = "/markets/stock-market-mood";
 
 async function fetchData(indexId: number) {

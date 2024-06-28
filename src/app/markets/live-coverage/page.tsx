@@ -67,7 +67,7 @@ const LiveCoverage = async () => {
   const fetchTopNews = async () => {
     try {
       const response = await service.get({
-        url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=1977021501`,
+        url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=53282427`,
         params: {},
       });
       const data = response ? await response?.json() : {};
@@ -224,7 +224,7 @@ const LiveCoverage = async () => {
         pageName={[{ label: "Markets", redirectUrl: "" }]}
       />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />
-      <PageRefresh refreshTime={420000} />
+      <PageRefresh refreshTime={180000} />
     </>
   );
 };

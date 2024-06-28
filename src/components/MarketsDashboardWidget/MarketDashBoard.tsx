@@ -186,7 +186,7 @@ function MarketDashBoard(props: propsType) {
   };
 
   const updateShortUrl = async () => {
-    const pageUrl = `/stocks/marketstats?type=${await getApiType(activeViewID)}${payload.duration ? "&duration=" + payload.duration : ""}${payload.timespan ? "&timespan=" + payload.timespan : ""}&filter=2369`;
+    const pageUrl = `/stocks/marketstats?type=${await getApiType(activeViewID)}${payload.duration ? "&duration=" + payload.duration : ""}${payload.timespan ? "&timespan=" + payload.timespan : ""}&filter=${!!payload?.filterValue[0] ? payload?.filterValue[0] : 2371}`;
     const isExist: any = shortUrlMapping?.find(
       (item: any) => item.longURL == pageUrl,
     );
