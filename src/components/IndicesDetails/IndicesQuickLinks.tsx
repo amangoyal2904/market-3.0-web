@@ -1,60 +1,44 @@
-import Link from "next/link";
 import styles from "./IndicesDetails.module.scss";
-import { trackingEvent } from "@/utils/ga";
+import IndicesQuickLinksClients from "./IndicesQuickLinksClients";
 
 const quickLinks = [
   {
     title: "Nifty 50",
-    url: "/markets/indices/nifty-50",
+    url: "https://economictimes.indiatimes.com/markets/indices/nifty-50",
   },
   {
     title: "Nifty Bank",
-    url: "/markets/indices/nifty-bank",
+    url: "https://economictimes.indiatimes.com/markets/indices/nifty-bank",
   },
   {
     title: "Nifty IT",
-    url: "/markets/indices/nifty-it",
+    url: "https://economictimes.indiatimes.com/markets/indices/nifty-it",
   },
   {
     title: "Sensex",
-    url: "/markets/indices/bse-sensex",
+    url: "https://economictimes.indiatimes.com/markets/indices/bse-sensex",
   },
   {
     title: "BSE Bankex",
-    url: "/markets/indices/bse-bankex",
+    url: "https://economictimes.indiatimes.com/markets/indices/bse-bankex",
   },
   {
     title: "BSE MidCap",
-    url: "/markets/indices/bse-midcap",
+    url: "https://economictimes.indiatimes.com/markets/indices/bse-midcap",
   },
   {
     title: "View All",
-    url: "/markets/indices",
+    url: "https://economictimes.indiatimes.com/markets/indices",
   },
 ];
 
 const IndicesQuickLinks = () => {
   return (
     <div className={styles.quickLinkWidget}>
-      <h4 className={styles.headline}>Quicklinks:</h4>
+      <h3 className={styles.heading3}>Quick Links</h3>
       <div className={styles.list}>
         {quickLinks.map((item: any, index: number) => (
-          <Link
-            key={`indices_${index}`}
-            className={styles.links}
-            href={item.url}
-            target="_blank"
-            title={item.title}
-            onClick={() =>
-              trackingEvent("et_push_event", {
-                event_category: "mercury_engagement",
-                event_action: "indices_quicklinks",
-                event_label: item.title,
-              })
-            }
-          >
-            {item.title}
-          </Link>
+          <IndicesQuickLinksClients item={item} key={`quicklinks_${index}`} />
         ))}
       </div>
     </div>

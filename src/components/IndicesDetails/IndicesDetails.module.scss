@@ -786,17 +786,9 @@
 }
 
 .quickLinkWidget {
-  display: flex;
+  position: relative;
+  display: block;
   margin: 50px auto;
-  gap: 15px;
-  align-items: center;
-  .headline {
-    text-wrap: nowrap;
-    font-size: 13px;
-    margin-right: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-  }
   .list {
     flex: 1 1 auto;
     display: flex;
