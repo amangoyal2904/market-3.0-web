@@ -28,7 +28,6 @@ const BigBullClientPage = ({ data, payload, pageUrl }: any) => {
   let investorType = _payload.investorType.toLowerCase();
   investorType = investorType.charAt(0).toUpperCase() + investorType.slice(1);
   const tabs = getBigbullTopTabData(tabCatName);
-  console.log("Big BUll>>>>>  ", data, payload, pageUrl);
   return (
     <>
       <div className={`${styles.wraper} ${styles.mbfbrdc}`}>
