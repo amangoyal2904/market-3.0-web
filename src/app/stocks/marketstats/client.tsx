@@ -482,7 +482,7 @@ const MarketStats = ({
               data={_tabData}
               activeViewId={_activeViewId}
               tabsViewIdUpdate={onTabViewUpdate}
-              widgetName={_metaData.title}
+              widgetName={getNavName()}
             />
             <MarketFiltersTab
               data={_tabData}
