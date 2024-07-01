@@ -1,7 +1,6 @@
 import { Montserrat, Lato } from "next/font/google";
 import localFont from "next/font/local";
 import "../styles/globals.scss";
-import { Suspense } from "react";
 import Header from "@/components/Header";
 import Scripts from "@/components/Scripts";
 import LeftNav from "@/components/LeftNav";
@@ -79,7 +78,6 @@ export default async function RootLayout({
   const isprimeuser = cookies().get("isprimeuser") ? true : false;
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
-  const pathname = headersList.get("x-pathname");
   const footerData = await footerAPIHit(pageUrl);
   // =====  Get Left Nav Data =======
   const leftNavApi = (APIS_CONFIG as any)["LEFT_NAV"][APP_ENV];
@@ -102,9 +100,7 @@ export default async function RootLayout({
           <main>
             <Header />
             <div className="container">
-              <Suspense fallback={<p>Loading...</p>}>
-                <LeftNav leftNavResult={leftNavResult} />
-              </Suspense>
+              <LeftNav leftNavResult={leftNavResult} />
               <div className="main_container">{children}</div>
               <div className="bcAdContainer"></div>
             </div>

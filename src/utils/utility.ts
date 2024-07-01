@@ -32,16 +32,30 @@ export const getCurrentMarketStatus = async () => {
   try {
     const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
     const res = await Service.get({ url, params: {}, cache: "no-store" });
+
     if (res?.status === 200) {
-      return res?.json();
+      return await res.json();
+    } else {
+      saveLogs({
+        res: "error",
+        msg: "Unexpected response status",
+        status: res?.status,
+      });
+      return null;
     }
   } catch (e) {
-    console.log("error in fetching market status", e);
+    let errorMessage = "Unknown error";
+    if (e instanceof Error) {
+      errorMessage = e.message;
+    }
+    console.error("Error in fetching market status", errorMessage);
     saveLogs({
       type: "Mercury",
       res: "error",
       msg: "Error in fetching market status",
+      error: errorMessage,
     });
+    return null;
   }
 };
 
@@ -1310,70 +1324,78 @@ export const encodeHTML = (html: any) => {
 };
 
 export const saveLogs = (data: any) => {
-  if (data) {
-    try {
-      const isLive = APP_ENV == "development" ? 0 : 1;
-      data.TicketId = getCookie("TicketId");
-      data.ssoid = getCookie("ssoid");
-      data.gid = getCookie("_grx") || "-";
-      if (window.objUser) {
-        if (
-          !data.emailid &&
-          window.objUser.info &&
-          window.objUser.info.primaryEmail
-        ) {
-          data.emailid = window.objUser.info.primaryEmail;
+  if (typeof window !== "undefined") {
+    // Check if running in a browser environment
+    if (data) {
+      try {
+        const isLive = APP_ENV == "development" ? 0 : 1;
+        data.TicketId = getCookie("TicketId");
+        data.ssoid = getCookie("ssoid");
+        data.gid = getCookie("_grx") || "-";
+        if (window.objUser) {
+          if (
+            !data.emailid &&
+            window.objUser.info &&
+            window.objUser.info.primaryEmail
+          ) {
+            data.emailid = window.objUser.info.primaryEmail;
+          }
+          if (!data.ssoid && window.objUser.ssoid) {
+            data.ssoid = window.objUser.ssoid;
+          }
+          if (!data.TicketId && window.objUser.ticketId) {
+            data.TicketId = window.objUser.ticketId;
+          }
         }
-        if (!data.ssoid && window.objUser.ssoid) {
-          data.ssoid = window.objUser.ssoid;
-        }
-        if (!data.TicketId && window.objUser.ticketId) {
-          data.TicketId = window.objUser.ticketId;
-        }
-      }
-      data.geoinfo = window?.geoinfo;
-      data.ua = (navigator && navigator.userAgent) || "";
-      var logdata =
-        "logdata=" +
-        JSON.stringify({
-          ref: (isLive ? "live" : "dev") + "_react",
-          data: data,
-          url: window.location.href,
+        data.geoinfo = window?.geoinfo;
+        data.ua = (navigator && navigator.userAgent) || "";
+        var logdata =
+          "logdata=" +
+          JSON.stringify({
+            ref: (isLive ? "live" : "dev") + "_react",
+            data: data,
+            url: window.location.href,
+          });
+
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener("readystatechange", function () {
+          if (this.readyState === 4) {
+            console.log(this.responseText);
+          }
         });
+        //console.log("Log Data>>>>",logdata);
 
-      var xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
-
-      xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === 4) {
-          console.log(this.responseText);
-        }
-      });
-      //console.log("Log Data>>>>",logdata);
-
-      xhr.open("POST", "https://etx.indiatimes.com/log?et=desktop");
-      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhr.send(logdata);
-    } catch (e) {
-      console.log("Error in save logs api");
+        xhr.open("POST", "https://etx.indiatimes.com/log?et=desktop");
+        xhr.setRequestHeader(
+          "Content-Type",
+          "application/x-www-form-urlencoded",
+        );
+        xhr.send(logdata);
+      } catch (e) {
+        console.log("Error in save logs api");
+      }
     }
+  } else {
+    console.log("saveLogs: window is not defined, skipping log save.");
   }
 };
 
 export const loadScript = (
-  src: any,
-  async = true,
-  type = "text/javascript",
-  position = "body",
-) => {
+  src: string,
+  async: boolean = true,
+  type: string = "text/javascript",
+  position: "head" | "body" = "body",
+): Promise<void> => {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
     script.type = type;
     script.async = async;
     script.src = src;
 
-    script.onload = resolve;
-    script.onerror = reject;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
 
     if (position === "head") {
       document.head.appendChild(script);
@@ -1383,7 +1405,7 @@ export const loadScript = (
   });
 };
 
-export const sendMouseFlowEvent = async () => {
+export const sendMouseFlowEvent = async (): Promise<void> => {
   try {
     await loadScript(
       "//cdn.mouseflow.com/projects/81baae85-f91c-464e-ac38-15a987752b7a.js",

@@ -39,6 +39,11 @@ export const customImageLoader = ({
 
 export const getCookie = (name: string) => {
   try {
+    if (typeof document === "undefined") {
+      // Document is not available, return null or handle it accordingly
+      return null;
+    }
+
     const nameEQ = name + "=";
     const ca = document.cookie.split(";");
     for (let i = 0; i < ca.length; i++) {
@@ -49,6 +54,7 @@ export const getCookie = (name: string) => {
     return null;
   } catch (e) {
     console.log("getCookie", e);
+    return null;
   }
 };
 
@@ -61,6 +67,11 @@ export const setCookieToSpecificTime = (
   domain = ".indiatimes.com",
 ) => {
   try {
+    if (typeof document === "undefined") {
+      // Document is not available, handle accordingly
+      return;
+    }
+
     let cookiestring = `${name}=${encodeURIComponent(value)};`;
     const options = { domain: domain, path: "/" };
 
@@ -92,6 +103,11 @@ export const setCookieToSpecificTime = (
 
 export const delete_cookie = (name: any) => {
   try {
+    if (typeof document === "undefined") {
+      // Document is not available, handle accordingly
+      return;
+    }
+
     document.cookie =
       name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   } catch (err) {

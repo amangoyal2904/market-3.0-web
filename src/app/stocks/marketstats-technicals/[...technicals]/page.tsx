@@ -27,6 +27,13 @@ const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
   ssr: false,
 });
 
+export const dynamicParams = true;
+export const revalidate = 1200;
+
+export function generateStaticParams() {
+  return [];
+}
+
 export async function generateMetadata(
   { searchParams, params }: any,
   parent: ResolvingMetadata,
