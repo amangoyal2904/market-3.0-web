@@ -128,7 +128,6 @@ export const getMobileOS = () => {
 };
 
 export const pageType = (pathurl: any) => {
-  //console.log(">>>", pathurl);
   if (pathurl.indexOf("watchlist") != -1) {
     return "watchlist";
   } else {

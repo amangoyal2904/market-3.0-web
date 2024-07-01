@@ -33,7 +33,6 @@ const WatchlistAddition = ({
       companyId,
     };
     const type = 11;
-    console.log("stockDetails---", stockDetails);
     getMoreDetailsStockWatchList(action, stockDetails, type);
   };
 
@@ -152,8 +151,6 @@ const WatchlistAddition = ({
           watchlist: newWatchList,
         },
       });
-
-      console.log("newWatchList----", newWatchList, action);
     } else if (addWathlistResAPI?.status === "failure") {
       toast((t) => (
         <span className="errorToast">

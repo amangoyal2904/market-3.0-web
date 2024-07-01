@@ -37,7 +37,6 @@ export const Share = (
         ) +
         "&t=" +
         encodeURIComponent(shareTitle);
-      console.log(fbUrl);
       openDialog({ url: fbUrl, name: socialUrl?.openerName });
     } else if (type == "twt") {
       shareTitle =

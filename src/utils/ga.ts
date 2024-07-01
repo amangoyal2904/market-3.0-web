@@ -425,7 +425,6 @@ export const generateCDPPageView = (prevPath, redirect) => {
     cdpObj["level_3"] = pageElem[2] != undefined ? pageElem[2] : "";
     cdpObj["level_4"] = pageElem[3] != undefined ? pageElem[3] : "";
     cdpObj["level_full"] = site_section;
-    console.log("Prev Path inside func------->", prevPath);
     const n = prevPath ? prevPath.lastIndexOf("/") : 0;
     const lastClick = n == 0 ? "" : prevPath.substring(n + 1);
     cdpObj["last_click_source"] = lastClick;
