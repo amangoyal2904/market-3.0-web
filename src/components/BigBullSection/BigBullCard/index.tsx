@@ -26,10 +26,10 @@ const BigBullCard = ({ data, type, sectionName }: any) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef<Slider>(null);
   const router = usePathname();
-  useEffect(() => {
-    const arr = window.location.pathname.split("/");
-    console.log("Card Router ---->", arr, arr[4]);
-  }, [router]);
+  // useEffect(() => {
+  //   const arr = window.location.pathname.split("/");
+  //   console.log("Card Router ---->", arr, arr[4]);
+  // }, [router]);
 
   const settings: Settings = {
     speed: 500,
