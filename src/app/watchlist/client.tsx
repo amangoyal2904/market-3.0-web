@@ -343,6 +343,7 @@ const WatchListClient = () => {
                   data={tabData}
                   activeViewId={activeViewId}
                   tabsViewIdUpdate={onTabViewUpdate}
+                  widgetName="Watchlist"
                 />
                 <MarketFiltersTab
                   data={tabData}

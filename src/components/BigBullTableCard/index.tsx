@@ -55,6 +55,7 @@ const BigBullTableCard = ({
               sortData={sortData}
               handleSort={handleSort}
               shouldShowLoader={shouldShowLoader}
+              sectionName={title}
             />
           ) : pageType === "recentTransactions" ? (
             <BiggBullRecentTransactionsTable
@@ -63,6 +64,7 @@ const BigBullTableCard = ({
               sortData={sortData}
               handleSort={handleSort}
               shouldShowLoader={shouldShowLoader}
+              sectionName={title}
             />
           ) : pageType === "bestPicks" ? (
             <BiggBullBestPicksTable
@@ -71,6 +73,7 @@ const BigBullTableCard = ({
               sortData={sortData}
               handleSort={handleSort}
               shouldShowLoader={shouldShowLoader}
+              sectionName={title}
             />
           ) : pageType === "mostHeld" ? (
             <BiggBullMostHeldTable
@@ -79,6 +82,7 @@ const BigBullTableCard = ({
               sortData={sortData}
               handleSort={handleSort}
               shouldShowLoader={shouldShowLoader}
+              sectionName={title}
             />
           ) : (
             <BiggBullTable
@@ -87,6 +91,7 @@ const BigBullTableCard = ({
               sortData={sortData}
               handleSort={handleSort}
               shouldShowLoader={shouldShowLoader}
+              sectionName={title}
             />
           )}
         </>

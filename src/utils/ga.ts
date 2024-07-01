@@ -27,15 +27,23 @@ export const redirectToPlanPage = (
         event_action: objTracking.action,
         event_label: objTracking.label,
       });
+    } else {
+      trackingEvent("et_push_event", {
+        event_category: objTracking.category,
+        event_action: objTracking.action,
+        event_label: objTracking.label,
+        widget_name: objTracking.widget_name ? objTracking.widget_name : "",
+        tab_name: objTracking.tab_name ? objTracking.tab_name : "",
+      });
     }
-    goToPlansPage1(type, objTracking.obj, redirect);
+    goToPlansPage1(type, objTracking.obj, redirect, objTracking.cdp);
   } catch (Err) {
     console.log("redirectToPlanPage Err:", Err);
     goToPlansPage1(type, {}, redirect);
   }
 };
 
-export const goToPlansPage1 = (type, data, redirect) => {
+export const goToPlansPage1 = (type, data, redirect, cdpSend = {}) => {
   if (window.dataLayer) {
     let _gtmEventDimension = {};
     _gtmEventDimension = updateGtm(_gtmEventDimension);
@@ -52,7 +60,7 @@ export const goToPlansPage1 = (type, data, redirect) => {
     items.push(data);
     _gtmEventDimension["items"] = items;
     window.dataLayer.push(_gtmEventDimension);
-    trackPushData(_gtmEventDimension, data, redirect);
+    trackPushData(_gtmEventDimension, data, redirect, cdpSend);
   }
 };
 
@@ -60,6 +68,7 @@ export const trackPushData = (
   _gtmEventDimension: any,
   planDim: any,
   redirect,
+  cdpSend,
 ) => {
   let url = (APIS_CONFIG as any)?.PUSHDATA[APP_ENV],
     grxMapObj = {},
@@ -72,21 +81,32 @@ export const trackPushData = (
   sendGTMdata["feature_name"] = objGTMdata.feature_name;
   sendGTMdata["site_section"] = objGTMdata.site_section;
   sendGTMdata["site_sub_section"] = objGTMdata.site_sub_section;
-  if (window.objUser && window.objUser.info.isLogged) {
-    const { primaryEmail, mobile, firstName, lastName } = window.objUser.info;
+  if (typeof window.objUser.info != "undefined") {
+    const { primaryEmail, firstName, lastName } = window.objUser.info;
     const fullName = firstName + (lastName ? " " + lastName : "");
     objUserData.email = primaryEmail;
-    objUserData.mobile = mobile;
+    objUserData.mobile =
+      window?.objUser?.info?.mobileList &&
+      Object.keys(window?.objUser?.info?.mobileList).length > 0
+        ? Object.keys(window?.objUser?.info?.mobileList)[0]
+        : "";
     objUserData.fname = firstName;
     objUserData.fullname = fullName;
   }
-  // const getGrxData = generateGrxFunnel();
-  // console.log("getGrxData------>",getGrxData);
+
+  const getGrxData = generateGrxFunnel(window?.objUser?.prevPath);
+  let cdpData = generateCDPPageView(window?.objUser?.prevPath, redirect);
+  cdpData = { ...cdpData, ...cdpSend };
+
+  if (typeof grx != "undefined") {
+    grx("init", (GLOBAL_CONFIG as any)[APP_ENV]?.grxId);
+    grx("track", cdpData.event_name, cdpData);
+  }
   const dataToPost = {
-    ET: {},
+    ET: generateGrxFunnel(window?.objUser?.prevPath),
     grxMappingObj: newGrxMapObj,
     objUserData: objUserData,
-    analytics_cdp: {},
+    analytics_cdp: cdpData,
     ga4Items: sendGTMdata,
   };
   const pushData = {
@@ -97,6 +117,7 @@ export const trackPushData = (
   const ticketId = getCookie("encTicket")
     ? `&ticketid=${getCookie("encTicket")}`
     : "";
+  const ACQ_SUB_SOURCE = `${sendGTMdata?.item_category}|${sendGTMdata?.item_category2}|${sendGTMdata?.item_category3}|${sendGTMdata?.item_category4.replace(" ", "_")}`;
   const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
   const newPlanUrl =
     planUrl +
@@ -105,10 +126,13 @@ export const trackPushData = (
     encodeURI(window.location.href) +
     "&grxId=" +
     getCookie("_grx") +
-    ticketId;
+    ticketId +
+    "&meta=market_tools&acqSubSource=" +
+    ACQ_SUB_SOURCE;
   const headers = {
     "Content-Type": "application/json",
   };
+
   Service.post({
     url,
     headers: headers,
@@ -129,10 +153,28 @@ export const trackPushData = (
 export const trackingEvent = (type, data) => {
   if (window.dataLayer) {
     let _gtmEventDimension = {};
-    _gtmEventDimension = updateGtm(_gtmEventDimension);
+    _gtmEventDimension = updateGtm(_gtmEventDimension, data.prevPath);
     _gtmEventDimension["event"] = type;
     _gtmEventDimension = Object.assign(_gtmEventDimension, data);
     window.dataLayer.push(_gtmEventDimension);
+  }
+  let checkGrxready = false;
+  if (type == "et_push_pageload") {
+    const objCDP = generateCDPPageView(data.prevPath, false);
+    if (window.grx || window.isGrxLoaded) {
+      if (!checkGrxready) {
+        checkGrxready = true;
+        window.grx("track", "page_view", objCDP);
+      }
+    } else {
+      document.addEventListener("ready", () => {
+        if (!checkGrxready) {
+          window.isGrxLoaded = true;
+          checkGrxready = true;
+          window.grx("track", "page_view", objCDP);
+        }
+      });
+    }
   }
 };
 
@@ -172,8 +214,11 @@ export const getUserType = (permissionsArr) => {
 export const getPageName = (pageURL = "") => {
   const pagePathName = pageURL || (window && window.location.pathname);
   let pageName = "";
+  let pageDetails = { pageName: "", featureName: "" };
   if (pagePathName.includes("/marketstats")) {
     pageName = "Mercury_MarketStats";
+    pageDetails.pageName = "Mercury_MarketStats";
+    pageDetails.featureName = "ETMKTSTATS";
   } else if (pagePathName.includes("/stock-recos")) {
     pageName = "Mercury_Recos";
   } else if (pagePathName.includes("/stock-screener")) {
@@ -183,7 +228,7 @@ export const getPageName = (pageURL = "") => {
   } else if (pagePathName.includes("/top-india-investors-portfolio/")) {
     pageName = "Mercury_BigBull";
   } else if (pagePathName.includes("/stockreportsplus")) {
-    pageName = "Mercury_StockReportsPlus";
+    pageName = "Mercury_StockReportPlus";
   } else if (pagePathName.includes("/fiidii")) {
     pageName = "Mercury_FII/DII";
   } else if (pagePathName.includes("/watchlist")) {
@@ -198,274 +243,287 @@ export const getPageName = (pageURL = "") => {
   return pageName;
 };
 
-export const updateGtm = (_gtmEventDimension) => {
-  const pagePathName = window.location.pathname;
-  const pageElem = window.location.pathname.split("/");
-  let site_section = pagePathName.slice(1);
-  let lastSlash = site_section.lastIndexOf("/");
-  _gtmEventDimension["feature_name"] = getPageName().replace("Mercury_", "");
-  _gtmEventDimension["site_section"] =
-    site_section.indexOf("/") == -1
-      ? site_section.substring(site_section.indexOf("/") + 1)
-      : site_section.substring(0, site_section.indexOf("/"));
-  _gtmEventDimension["login_status"] =
-    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
-  _gtmEventDimension["user_login_status_hit"] =
-    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
-  _gtmEventDimension["user_login_status_session"] =
-    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
-  _gtmEventDimension["last_click_source"] = site_section;
-  let trafficSource = "direct";
-  let dref = document.referrer,
-    wlh = window.location.href.toLowerCase();
-  if (/google|bing|yahoo/gi.test(dref)) {
-    trafficSource = "organic";
-  } else if (
-    /facebook|linkedin|instagram|twitter/gi.test(dref) ||
-    wlh.indexOf("utm_medium=social") != -1
-  ) {
-    trafficSource = "social";
-  } else if (wlh.indexOf("utm_medium=email") != -1) {
-    trafficSource = "newsletter";
-  } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
-    trafficSource = "notifications";
+export const updateGtm = (_gtmEventDimension, prevPath) => {
+  try {
+    const pagePathName = window.location.pathname;
+    const pageElem = window.location.pathname.split("/");
+    let site_section = pagePathName.slice(1);
+    let lastSlash = site_section.lastIndexOf("/");
+    _gtmEventDimension["feature_name"] = getPageName().replace("Mercury_", "");
+    _gtmEventDimension["site_section"] =
+      site_section.indexOf("/") == -1
+        ? site_section.substring(site_section.indexOf("/") + 1)
+        : site_section.substring(0, site_section.indexOf("/"));
+    _gtmEventDimension["login_status"] =
+      typeof window.objUser.info != "undefined" ? "Logged In" : "Not Logged In";
+    _gtmEventDimension["user_login_status_hit"] =
+      typeof window.objUser.info != "undefined" ? "Logged In" : "Not Logged In";
+    _gtmEventDimension["user_login_status_session"] =
+      typeof window.objUser.info != "undefined" ? "Logged In" : "Not Logged In";
+    _gtmEventDimension["last_click_source"] = site_section;
+    let trafficSource = "direct";
+    let dref = document.referrer,
+      wlh = window.location.href.toLowerCase();
+    if (/google|bing|yahoo/gi.test(prevPath)) {
+      trafficSource = "organic";
+    } else if (
+      /facebook|linkedin|instagram|twitter/gi.test(prevPath) ||
+      wlh.indexOf("utm_medium=social") != -1
+    ) {
+      trafficSource = "social";
+    } else if (wlh.indexOf("utm_medium=email") != -1) {
+      trafficSource = "newsletter";
+    } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
+      trafficSource = "notifications";
+    }
+    _gtmEventDimension["internal_source"] = trafficSource;
+    _gtmEventDimension["user_id"] =
+      typeof window.objUser != "undefined" && window.objUser?.ssoid
+        ? window.objUser.ssoid
+        : "";
+    _gtmEventDimension["site_sub_section"] = site_section;
+    _gtmEventDimension["user_grx_id"] = getCookie("_grx")
+      ? getCookie("_grx")
+      : "";
+    _gtmEventDimension["subscription_status"] =
+      typeof window.objUser != "undefined" && window?.objUser?.permissions
+        ? getUserType(window.objUser.permissions)
+        : "Free User";
+    _gtmEventDimension["current_subscriber_status"] =
+      typeof window.objUser != "undefined" && window?.objUser?.permissions
+        ? getUserType(window.objUser.permissions)
+        : "Free User";
+    _gtmEventDimension["user_subscription_status"] =
+      typeof window.objUser != "undefined" && window?.objUser?.permissions
+        ? getUserType(window.objUser.permissions)
+        : "Free User";
+    _gtmEventDimension["platform"] = "Web";
+    _gtmEventDimension["page_template"] = site_section.substring(lastSlash + 1);
+    _gtmEventDimension["feature_permission"] =
+      typeof window.objUser != "undefined" &&
+      window.objUser.accessibleFeatures &&
+      window.objUser.accessibleFeatures.length > 0
+        ? window.objUser.accessibleFeatures
+        : "";
+    _gtmEventDimension["country"] = window?.geoinfo.CountryCode;
+    _gtmEventDimension["email"] = window?.objUser?.info?.primaryEmail
+      ? window?.objUser?.info?.primaryEmail
+      : "";
+    _gtmEventDimension["et_product"] = getPageName();
+    _gtmEventDimension["et_uuid"] = getCookie("peuuid")
+      ? getCookie("peuuid")
+      : getCookie("pfuuid");
+    _gtmEventDimension["first_name"] = window?.objUser?.info?.firstName
+      ? window?.objUser?.info?.firstName
+      : "";
+    _gtmEventDimension["last_name"] = window?.objUser?.info?.lastName
+      ? window?.objUser?.info?.lastName
+      : "";
+    _gtmEventDimension["loggedin"] =
+      typeof window.objUser.info != "undefined" ? "Yes" : "No";
+    _gtmEventDimension["pageTitle"] = document.title;
+    _gtmEventDimension["referral_url"] =
+      window.location.pathname == prevPath ? "" : prevPath;
+    _gtmEventDimension["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
+    _gtmEventDimension["user_region"] = window?.geoinfo.region_code;
+    _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
+    _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
+    return _gtmEventDimension;
+  } catch (e) {
+    console.log("Error", e);
+    return {};
   }
-  _gtmEventDimension["internal_source"] = trafficSource;
-  _gtmEventDimension["user_id"] =
-    typeof window.objUser != "undefined" && window.objUser?.ssoid
-      ? window.objUser.ssoid
-      : "";
-  _gtmEventDimension["site_sub_section"] = site_section;
-  _gtmEventDimension["user_grx_id"] = getCookie("_grx")
-    ? getCookie("_grx")
-    : "";
-  _gtmEventDimension["subscription_status"] =
-    typeof window.objUser != "undefined" && window?.objUser?.permissions
-      ? getUserType(window.objUser.permissions)
-      : "Free User";
-  _gtmEventDimension["current_subscriber_status"] =
-    typeof window.objUser != "undefined" && window?.objUser?.permissions
-      ? getUserType(window.objUser.permissions)
-      : "Free User";
-  _gtmEventDimension["user_subscription_status"] =
-    typeof window.objUser != "undefined" && window?.objUser?.permissions
-      ? getUserType(window.objUser.permissions)
-      : "Free User";
-  _gtmEventDimension["platform"] = "Web";
-  _gtmEventDimension["page_template"] = site_section.substring(lastSlash + 1);
-  _gtmEventDimension["feature_permission"] =
-    typeof window.objUser != "undefined" &&
-    window.objUser.accessibleFeatures &&
-    window.objUser.accessibleFeatures.length > 0
-      ? window.objUser.accessibleFeatures
-      : "";
-  _gtmEventDimension["country"] = window?.geoinfo.CountryCode;
-  _gtmEventDimension["email"] = window?.objUser?.info?.primaryEmail
-    ? window?.objUser?.info?.primaryEmail
-    : "";
-  _gtmEventDimension["et_product"] = getPageName();
-  _gtmEventDimension["et_uuid"] = getCookie("peuuid")
-    ? getCookie("peuuid")
-    : getCookie("pfuuid");
-  _gtmEventDimension["first_name"] = window?.objUser?.info?.firstName
-    ? window?.objUser?.info?.firstName
-    : "";
-  _gtmEventDimension["last_name"] = window?.objUser?.info?.lastName
-    ? window?.objUser?.info?.lastName
-    : "";
-  _gtmEventDimension["loggedin"] =
-    typeof window.objUser != "undefined" ? "Yes" : "No";
-  _gtmEventDimension["pageTitle"] = document.title;
-  _gtmEventDimension["referral_url"] = document.referrer;
-  _gtmEventDimension["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
-  _gtmEventDimension["user_region"] = window?.geoinfo.region_code;
-  _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
-  _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
-  return _gtmEventDimension;
 };
 
-export const generateGrxFunnel = () => {
-  const pagePathName = window.location.pathname;
-  const pageElem = window.location.pathname.split("/");
-  let site_section = pagePathName.slice(1);
-  let lastSlash = site_section.lastIndexOf("/");
-  let objGrx = {};
-  objGrx["dimension1"] = getPageName();
-  objGrx["dimension26"] =
-    site_section.indexOf("/") == -1
-      ? site_section.substring(site_section.indexOf("/") + 1)
-      : site_section.substring(0, site_section.indexOf("/"));
-  objGrx["dimension146"] = typeof window.objUser != "undefined" ? "Y" : "N";
-  objGrx["dimension27"] = site_section;
-  objGrx["dimension12"] = "";
-  objGrx["dimension147"] =
-    typeof window.objUser != "undefined" && window?.objUser?.permissions
-      ? getUserType(window.objUser.permissions)
-      : "Free User";
-  objGrx["dimension20"] = "Web";
-  objGrx["dimension25"] = site_section.substring(lastSlash + 1);
-  objGrx["dimension143"] =
-    typeof window.objUser != "undefined" &&
-    window.objUser.accessibleFeatures &&
-    window.objUser.accessibleFeatures.length > 0
-      ? window.objUser.accessibleFeatures
-      : "";
-  objGrx["dimension48"] = "";
-  objGrx["dimension96"] = 0;
-  objGrx["dimension94"] = 0;
-  objGrx["dimension98"] = 0;
-  let trafficSource = "direct";
-  let dref = document.referrer,
-    wlh = window.location.href.toLowerCase();
-  if (/google|bing|yahoo/gi.test(dref)) {
-    trafficSource = "organic";
-  } else if (
-    /facebook|linkedin|instagram|twitter/gi.test(dref) ||
-    wlh.indexOf("utm_medium=social") != -1
-  ) {
-    trafficSource = "social";
-  } else if (wlh.indexOf("utm_medium=email") != -1) {
-    trafficSource = "newsletter";
-  } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
-    trafficSource = "notifications";
-  }
-  objGrx["dimension93"] = trafficSource;
-  objGrx["dimension92"] = site_section;
-  objGrx["dimension109"] = window?.geoinfo.region_code;
-  objGrx["dimension10"] =
-    typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
-  objGrx["dimension3"] =
-    typeof window.objUser != "undefined" ? "LOGGEDIN" : "NONLOGGEDIN";
-  objGrx["dimension37"] =
-    typeof window.objUser != "undefined" && window?.objUser?.permissions
-      ? getUserType(window.objUser.permissions)
-      : "Free User";
-  objGrx["dimension145"] = "ET_Mercury";
-  // objGrx["feature_name"] = getPageName().replace("Mercury_", "");
-  // objGrx["referral_url"] = document.referrer;
-  // objGrx["url"] = window.location.href;
-  // objGrx["user_id"] =
-  //   typeof window.objUser != "undefined" && window.objUser?.ssoid
-  //     ? window.objUser.ssoid
-  //     : "";
-  // objGrx["user_grx_id"] = getCookie("_grx") ? getCookie("_grx") : "";
-  // objGrx["subscription_status"] =
-  //   typeof window.objUser != "undefined" && window?.objUser?.permissions
-  //     ? getUserType(window.objUser.permissions)
-  //     : "Free User";
-  // objGrx["current_subscriber_status"] =
-  //   typeof window.objUser != "undefined" && window?.objUser?.permissions
-  //     ? getUserType(window.objUser.permissions)
-  //     : "Free User";
-  // objGrx["user_subscription_status"] =
-  //   typeof window.objUser != "undefined" && window?.objUser?.permissions
-  //     ? getUserType(window.objUser.permissions)
-  //     : "Free User";
+export const generateGrxFunnel = (prevPath) => {
+  try {
+    const pagePathName = window.location.pathname;
+    const pageElem = window.location.pathname.split("/");
+    let site_section = pagePathName.slice(1);
+    let lastSlash = site_section.lastIndexOf("/");
+    let objGrx = {};
+    objGrx["dimension1"] = getPageName();
+    objGrx["dimension26"] =
+      site_section.indexOf("/") == -1
+        ? site_section.substring(site_section.indexOf("/") + 1)
+        : site_section.substring(0, site_section.indexOf("/"));
 
-  // objGrx["country"] = window?.geoinfo.CountryCode;
-  // objGrx["email"] = window?.objUser?.info?.primaryEmail
-  //   ? window?.objUser?.info?.primaryEmail
-  //   : "";
-  // objGrx["et_uuid"] = getCookie("peuuid")
-  //   ? getCookie("peuuid")
-  //   : getCookie("pfuuid");
-  // objGrx["first_name"] = window?.objUser?.info?.firstName
-  //   ? window?.objUser?.info?.firstName
-  //   : "";
-  // objGrx["last_name"] = window?.objUser?.info?.lastName
-  //   ? window?.objUser?.info?.lastName
-  //   : "";
-  // objGrx["loggedin"] = typeof window.objUser != "undefined" ? "Yes" : "No";
-  // objGrx["pageTitle"] = document.title;
-  // objGrx["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
-  // objGrx["web_peuuid"] = getCookie("peuuid");
-  // objGrx["web_pfuuid"] = getCookie("pfuuid");
-  return objGrx;
+    objGrx["dimension27"] = site_section;
+    objGrx["dimension12"] = "";
+    objGrx["dimension147"] =
+      typeof window.objUser != "undefined" && window?.objUser?.permissions
+        ? getUserType(window.objUser.permissions)
+        : "Free User";
+    objGrx["dimension20"] = "Web";
+    objGrx["dimension25"] = site_section.substring(lastSlash + 1);
+    objGrx["dimension143"] =
+      typeof window.objUser != "undefined" &&
+      window.objUser.accessibleFeatures &&
+      window.objUser.accessibleFeatures.length > 0
+        ? window.objUser.accessibleFeatures
+        : "";
+    objGrx["dimension48"] = "";
+    objGrx["dimension96"] = 0;
+    objGrx["dimension94"] = 0;
+    objGrx["dimension98"] = 0;
+    let trafficSource = "direct";
+    let dref = document.referrer,
+      wlh = window.location.href.toLowerCase();
+    if (/google|bing|yahoo/gi.test(dref)) {
+      trafficSource = "organic";
+    } else if (
+      /facebook|linkedin|instagram|twitter/gi.test(dref) ||
+      wlh.indexOf("utm_medium=social") != -1
+    ) {
+      trafficSource = "social";
+    } else if (wlh.indexOf("utm_medium=email") != -1) {
+      trafficSource = "newsletter";
+    } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
+      trafficSource = "notifications";
+    }
+    objGrx["dimension93"] = trafficSource;
+    objGrx["dimension92"] = site_section;
+    objGrx["dimension109"] = window?.geoinfo.region_code;
+    objGrx["dimension146"] =
+      typeof window.objUser.info != "undefined" ? "Logged In" : "Not Logged In";
+    objGrx["dimension10"] =
+      typeof window.objUser.info != "undefined" ? "Logged In" : "Not Logged In";
+    objGrx["dimension3"] =
+      typeof window.objUser.info != "undefined" ? "Logged In" : "Not Logged In";
+    objGrx["dimension37"] =
+      typeof window.objUser != "undefined" && window?.objUser?.permissions
+        ? getUserType(window.objUser.permissions)
+        : "Free User";
+    objGrx["dimension145"] = getPageName();
+    objGrx["dimension148"] = getPageName().replace("Mercury_", "");
+    objGrx["dimension149"] = "";
+    objGrx["dimension150"] =
+      typeof window.objUser != "undefined" && window.objUser?.ssoid
+        ? window.objUser.ssoid
+        : "";
+    objGrx["dimension151"] = getCookie("_grx") ? getCookie("_grx") : "";
+    objGrx["dimension152"] = document.title;
+    objGrx["dimension153"] =
+      window.location.pathname == prevPath ? "" : prevPath;
+    return objGrx;
+  } catch (e) {
+    console.log("Error ", e);
+    return {};
+  }
 };
 
-export const generateCDPPageView = () => {
-  const pagePathName = window.location.pathname;
-  const pageElem = window.location.pathname.split("/");
-  let site_section = pagePathName.slice(1);
-  let lastSlash = site_section.lastIndexOf("/");
-  cdpObj["feature_name"] = getPageName().replace("Mercury_", "");
-  cdpObj["level_1"] =
-    site_section.indexOf("/") == -1
-      ? site_section.substring(site_section.indexOf("/") + 1)
-      : site_section.substring(0, site_section.indexOf("/"));
-  cdpObj["level_2"] = site_section;
-  cdpObj["referral_url"] = document.referrer;
-  cdpObj["page_template"] = site_section.substring(lastSlash + 1);
-  cdpObj["url"] = window.location.href;
-  cdpObj["login_status"] =
-    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
-  cdpObj["user_login_status_hit"] =
-    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
-  cdpObj["user_login_status_session"] =
-    typeof window.objUser != "undefined" ? "Logged In" : "Not Logged In";
-  cdpObj["last_click_source"] = site_section;
-  let trafficSource = "direct";
-  let dref = document.referrer,
-    wlh = window.location.href.toLowerCase();
-  if (/google|bing|yahoo/gi.test(dref)) {
-    trafficSource = "organic";
-  } else if (
-    /facebook|linkedin|instagram|twitter/gi.test(dref) ||
-    wlh.indexOf("utm_medium=social") != -1
-  ) {
-    trafficSource = "social";
-  } else if (wlh.indexOf("utm_medium=email") != -1) {
-    trafficSource = "newsletter";
-  } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
-    trafficSource = "notifications";
+export const generateCDPPageView = (prevPath, redirect) => {
+  try {
+    const pagePathName = window.location.pathname;
+    let pageElem = window.location.pathname.split("/");
+    const arr = pageElem.shift();
+    let site_section = pagePathName.slice(1);
+    let lastSlash = site_section.lastIndexOf("/");
+    cdpObj["feature_name"] = getPageName().replace("Mercury_", "");
+    cdpObj["level_1"] = pageElem[0] != undefined ? pageElem[0] : "";
+    cdpObj["level_2"] = pageElem[1] != undefined ? pageElem[1] : "";
+    cdpObj["level_3"] = pageElem[2] != undefined ? pageElem[2] : "";
+    cdpObj["level_4"] = pageElem[3] != undefined ? pageElem[3] : "";
+    cdpObj["level_full"] = site_section;
+    console.log("Prev Path inside func------->", prevPath);
+    const n = prevPath ? prevPath.lastIndexOf("/") : 0;
+    const lastClick = n == 0 ? "" : prevPath.substring(n + 1);
+    cdpObj["last_click_source"] = lastClick;
+    cdpObj["referral_url"] =
+      window.location.pathname == prevPath ? "" : prevPath;
+    cdpObj["page_template"] = site_section.substring(lastSlash + 1);
+    cdpObj["url"] = window.location.href;
+    cdpObj["title"] = document.title;
+    if (redirect) {
+      const uniqueID = getCookie("_grx") + "_" + +new Date();
+      cdpObj["unique_subscription_id"] = uniqueID;
+    }
+    let trafficSource = "direct";
+    let dref = document.referrer,
+      wlh = window.location.href.toLowerCase();
+    if (/google|bing|yahoo/gi.test(prevPath)) {
+      trafficSource = "organic";
+    } else if (
+      /facebook|linkedin|instagram|twitter/gi.test(prevPath) ||
+      wlh.indexOf("utm_medium=social") != -1
+    ) {
+      trafficSource = "social";
+    } else if (wlh.indexOf("utm_medium=email") != -1) {
+      trafficSource = "newsletter";
+    } else if (wlh.indexOf("utm_source=etnotifications") != -1) {
+      trafficSource = "notifications";
+    }
+    cdpObj["source"] = trafficSource;
+    cdpObj["loggedin"] = typeof window.objUser.info != "undefined" ? "y" : "n";
+    cdpObj["email"] = window?.objUser?.info?.primaryEmail
+      ? window?.objUser?.info?.primaryEmail
+      : "";
+    cdpObj["phone"] =
+      typeof window.objUser != "undefined" &&
+      window?.objUser?.info?.mobileList &&
+      Object.keys(window?.objUser?.info?.mobileList).length > 0
+        ? Object.keys(window?.objUser?.info?.mobileList)[0]
+        : "";
+    cdpObj["login_method"] = window?.objUser?.loginType
+      ? window?.objUser?.loginType
+      : "";
+    const subscription_status =
+      typeof window.objUser != "undefined" && window?.objUser?.permissions
+        ? getUserType(window.objUser.permissions)
+        : "free";
+    cdpObj["subscription_status"] =
+      subscription_status == "Paid Active" ? "paid" : subscription_status;
+    cdpObj["subscription_type"] =
+      typeof window.objUser != "undefined" &&
+      window?.objUser?.userAcquisitionType
+        ? window.objUser.userAcquisitionType
+        : "free";
+    cdpObj["business"] = "et";
+    cdpObj["embedded"] = "";
+    cdpObj["paywalled"] = "n";
+    cdpObj["product"] = "mercury";
+    cdpObj["client_source"] = "cdp";
+    cdpObj["dark_mode"] = "n";
+    cdpObj["monetizable"] =
+      typeof window.objUser != "undefined" && window.objUser.isPrime
+        ? "n"
+        : "y";
+    cdpObj["utm_source"] = getParameterByName("utm_source")
+      ? getParameterByName("utm_source")
+      : "";
+    cdpObj["utm_medium"] = getParameterByName("utm_medium")
+      ? getParameterByName("utm_medium")
+      : "";
+    cdpObj["utm_campaign"] = getParameterByName("utm_campaign")
+      ? getParameterByName("utm_campaign")
+      : "";
+    cdpObj["variant_id"] = getParameterByName("variant_id")
+      ? getParameterByName("variant_id")
+      : "";
+    cdpObj["cohort_id"] = getParameterByName("cohort_id")
+      ? getParameterByName("cohort_id")
+      : "";
+    return cdpObj;
+  } catch (e) {
+    console.log("Error___" + e);
+    return {};
   }
-  cdpObj["internal_source"] = trafficSource;
-  cdpObj["user_id"] =
-    typeof window.objUser != "undefined" && window.objUser?.ssoid
-      ? window.objUser.ssoid
-      : "";
-
-  cdpObj["user_grx_id"] = getCookie("_grx") ? getCookie("_grx") : "";
-  cdpObj["subscription_status"] =
-    typeof window.objUser != "undefined" && window?.objUser?.permissions
-      ? getUserType(window.objUser.permissions)
-      : "Free User";
-  cdpObj["current_subscriber_status"] =
-    typeof window.objUser != "undefined" && window?.objUser?.permissions
-      ? getUserType(window.objUser.permissions)
-      : "Free User";
-  cdpObj["user_subscription_status"] =
-    typeof window.objUser != "undefined" && window?.objUser?.permissions
-      ? getUserType(window.objUser.permissions)
-      : "Free User";
-  cdpObj["platform"] = "Web";
-
-  cdpObj["feature_permission"] =
-    typeof window.objUser != "undefined" &&
-    window.objUser.accessibleFeatures &&
-    window.objUser.accessibleFeatures.length > 0
-      ? window.objUser.accessibleFeatures
-      : "";
-  cdpObj["country"] = window?.geoinfo.CountryCode;
-  cdpObj["email"] = window?.objUser?.info?.primaryEmail
-    ? window?.objUser?.info?.primaryEmail
-    : "";
-  cdpObj["et_product"] = getPageName();
-  cdpObj["et_uuid"] = getCookie("peuuid")
-    ? getCookie("peuuid")
-    : getCookie("pfuuid");
-  cdpObj["first_name"] = window?.objUser?.info?.firstName
-    ? window?.objUser?.info?.firstName
-    : "";
-  cdpObj["last_name"] = window?.objUser?.info?.lastName
-    ? window?.objUser?.info?.lastName
-    : "";
-  cdpObj["loggedin"] = typeof window.objUser != "undefined" ? "Yes" : "No";
-  cdpObj["pageTitle"] = document.title;
-
-  cdpObj["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
-  cdpObj["user_region"] = window?.geoinfo.region_code;
-  cdpObj["web_peuuid"] = getCookie("peuuid");
-  cdpObj["web_pfuuid"] = getCookie("pfuuid");
-  return cdpObj;
 };
+
+export const getParameterByName = (name) => {
+  if (name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+    return results == null
+      ? ""
+      : decodeURIComponent(results[1].replace(/\+/g, " "));
+  } else {
+    return "";
+  }
+};
+
+// export const generateTrackingObj = (objTracking:any,btnName:any) => {
+//   objTracking.cdp["cta_text"] = btnName;
+//   return objTracking;
+// }

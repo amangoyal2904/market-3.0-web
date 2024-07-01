@@ -51,13 +51,19 @@ const Header = () => {
       const obj = {
         item_name: "atf_" + lastSlash,
         item_id: "atf",
-        item_brand: "product_interventions",
+        item_brand: "market_tools",
         item_category: "atf_offer_cta",
         item_category2: lastSlash,
         item_category3: "atf_cta",
         item_category4: "Subscribe Now",
       };
-      goToPlansPage1("select_item", obj, true);
+      const cdp = {
+        event_nature: "click",
+        event_category: "subscription",
+        event_name: "paywall",
+        cta_text: "Subscribe Now",
+      };
+      goToPlansPage1("select_item", obj, true, cdp);
     } catch (Err) {
       console.log("redirectToPlanPage Err:", Err);
       goToPlansPage1("select_item", {}, true);
@@ -155,7 +161,17 @@ const Header = () => {
       <header id={styles.pageTopbar}>
         <div className={styles.navbarHeader} id="header">
           <div className={`dflex align-item-center ${styles.logoHeader}`}>
-            <Link href="/markets/live-coverage" title="ET Markets">
+            <Link
+              href="/markets/live-coverage"
+              title="ET Markets"
+              onClick={() =>
+                trackingEvent("et_push_event", {
+                  event_category: "mercury_engagement",
+                  event_action: "atf_header_click",
+                  event_label: "ETMarketsLogo",
+                })
+              }
+            >
               <Image
                 src={ETLogo}
                 width={138}
@@ -172,7 +188,7 @@ const Header = () => {
             className={`dflex align-item-center ${styles.headerRightContainer}`}
           >
             <div className={styles.headerMidContainer}>
-              <Search location="header" />
+              <Search pos="header" />
             </div>
             <div className={`dflex align-item-center`}>
               {shouldRenderComponent && <LiveMarketData />}
@@ -180,6 +196,13 @@ const Header = () => {
                 className="default-btn"
                 href="/watchlist"
                 title="My Watchlist"
+                onClick={() =>
+                  trackingEvent("et_push_event", {
+                    event_category: "mercury_engagement",
+                    event_action: "atf_header_click",
+                    event_label: "MyWatchList",
+                  })
+                }
               >
                 My Watchlist
               </Link>

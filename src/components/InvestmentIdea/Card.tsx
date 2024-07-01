@@ -2,6 +2,7 @@
 import Link from "next/link";
 import styles from "./InvestmentIdea.module.scss";
 import { trackingEvent } from "@/utils/ga";
+import { replaceWidthHeigh } from "@/utils";
 import { removeHostname } from "@/utils";
 
 const Card = ({ data, index }: any) => {
@@ -19,7 +20,7 @@ const Card = ({ data, index }: any) => {
       }
     >
       <img
-        src={data?.img}
+        src={replaceWidthHeigh(data?.img, "400", "300")}
         alt={`InvestmentData Slide Image`}
         title={data?.title}
         className={styles.cardImage}

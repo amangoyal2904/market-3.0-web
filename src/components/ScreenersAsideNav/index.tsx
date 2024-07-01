@@ -45,7 +45,7 @@ const StocksScreenerNav: React.FC<PageProps> = (props) => {
   const gaLinkforL3Menu = (lable: any) => {
     trackingEvent("et_push_event", {
       event_category: "mercury_engagement",
-      event_action: "lhsmenu_click",
+      event_action: "L3_nav_click",
       event_label: lable,
     });
   };

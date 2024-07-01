@@ -29,6 +29,8 @@ declare global {
     objUser: {
       ssoid?: any;
       ticketId?: any;
+      loginType?: string;
+      prevPath?: string;
       info?: {
         thumbImageUrl: any;
         primaryEmail: string;
@@ -37,6 +39,7 @@ declare global {
       isPrime?: any;
       permissions?: any;
       accessibleFeatures?: any;
+      userAcquisitionType?: any;
       primeInfo?: any;
     };
     _sva: any;
@@ -54,6 +57,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
   //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
+
   let execution = 0;
   const surveyLoad = () => {
     if (window._sva && window._sva.setVisitorTraits) {
@@ -82,26 +86,36 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
     }
   };
   useEffect(() => {
-    prevPath !== null &&
-      trackingEvent("et_push_pageload", { url: window.location.href });
-    setPrevPath(router);
-    window.googletag
-      ? renderDfpAds(isPrime)
-      : document.addEventListener("gptLoaded", function () {
-          renderDfpAds(isPrime);
+    try {
+      console.log("PrevPath start--->", prevPath);
+      prevPath !== null &&
+        trackingEvent("et_push_pageload", {
+          url: window.location.href,
+          prevPath: prevPath,
         });
-    //renderDfpAds(isPrime);
-    if (window.isSurveyLoad) {
-      surveyLoad();
-    } else {
-      document.addEventListener(
-        "surveyLoad",
-        () => {
-          window.isSurveyLoad = true;
-          surveyLoad();
-        },
-        { once: true },
-      );
+      setPrevPath(router || document.referrer);
+      console.log("PrevPath end--->", prevPath);
+      if (typeof window.objUser == "undefined") window.objUser = {};
+      window.objUser && (window.objUser.prevPath = prevPath);
+      window.googletag
+        ? renderDfpAds(isPrime)
+        : document.addEventListener("gptLoaded", function () {
+            renderDfpAds(isPrime);
+          });
+      if (window.isSurveyLoad) {
+        surveyLoad();
+      } else {
+        document.addEventListener(
+          "surveyLoad",
+          () => {
+            window.isSurveyLoad = true;
+            surveyLoad();
+          },
+          { once: true },
+        );
+      }
+    } catch (e) {
+      console.log("Error-- ", e);
     }
   }, [router, isPrime]);
 
@@ -222,6 +236,23 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
           `,
         }}
       />
+      <Script
+        id="growthrx-analytics"
+        strategy="lazyOnload"
+        dangerouslySetInnerHTML={{
+          __html: `
+                  (function (g, r, o, w, t, h, rx) {
+                  g[t] = g[t] || function () {(g[t].q = g[t].q || []).push(arguments)
+                  }, g[t].l = 1 * new Date();
+                  g[t] = g[t] || {}, h = r.createElement(o), rx = r.getElementsByTagName(o)[0];
+                  h.async = 1;h.src = w;rx.parentNode.insertBefore(h, rx)
+              })(window, document, 'script', 'https://static.growthrx.in/js/v2/web-sdk.js', 'grx');
+                  grx('init', '${(GLOBAL_CONFIG as any)[APP_ENV]?.grxId}');
+                  const grxLoaded = new Event('grxLoaded');
+                  document.dispatchEvent(grxLoaded);               
+            `,
+        }}
+      />
       {!searchParams?.get("opt") && (
         <>
           <Script
@@ -238,26 +269,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               `,
             }}
           />
-          <Script
-            id="growthrx-analytics"
-            strategy="lazyOnload"
-            dangerouslySetInnerHTML={{
-              __html: `
-               (function (g, r, o, w, t, h, rx) {
-                    g[t] = g[t] || function () {(g[t].q = g[t].q || []).push(arguments)
-                    }, g[t].l = 1 * new Date();
-                    g[t] = g[t] || {}, h = r.createElement(o), rx = r.getElementsByTagName(o)[0];
-                    h.async = 1;h.src = w;rx.parentNode.insertBefore(h, rx)
-                })(window, document, 'script', 'https://static.growthrx.in/js/v2/web-sdk.js', 'grx');
-                grx('init', '${GLOBAL_CONFIG.grxId}');
-                window.customDimension = { ...window["customDimension"], url: window.location.href };
-                //grx('track', 'page_view', {url: window.location.href});
-                const grxLoaded = new Event('grxLoaded');
-                document.dispatchEvent(grxLoaded);                
-              `,
-            }}
-          />
-          {!isPrime && !searchParams?.get("gpt") && (
+          {!isprimeuser && !searchParams?.get("opt") && (
             <Script
               src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
               onLoad={() => {

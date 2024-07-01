@@ -288,6 +288,7 @@ const FixedTable = React.memo((props: any) => {
                             onClick={() => {
                               objTracking.obj.item_category3 = tdData.keyId;
                               objTracking.label = `Upgrade to prime click_${tdData.keyId}`;
+                              objTracking.cdp["cta_text"] = "Upgrade to Prime";
                               redirectToPlanPage(objTracking);
                             }}
                           >

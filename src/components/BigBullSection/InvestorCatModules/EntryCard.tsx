@@ -20,9 +20,11 @@ const EntryCard = ({ data }: any) => {
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
   const blurNameHandler = () => {
     const objTracking = {
-      category: "Subscription Flow ET",
-      action: "SYFT | Flow Started",
-      label: "",
+      category: "mercury_engagement",
+      action: "card_clicked",
+      label: `${data?.investorIntro?.name}`,
+      widget_name: "Big Bull",
+      tab_name: "Big Bull",
       obj: {
         item_name: "bigbull_investors",
         item_id: data?.investorIntro?.name,
@@ -31,6 +33,11 @@ const EntryCard = ({ data }: any) => {
         item_category2: "bigbull_investors",
         item_category3: "",
         item_category4: "",
+      },
+      cdp: {
+        event_nature: "impression",
+        event_category: "subscription",
+        event_name: "subscription_feature",
       },
     };
     setCompanyName(data?.investorIntro?.name);

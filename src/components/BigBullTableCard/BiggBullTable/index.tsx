@@ -22,6 +22,7 @@ const BiggBullTable = ({
   handleSort,
   shouldShowLoader,
   parentHasScroll = false,
+  sectionName = "",
 }: any) => {
   const { state } = useStateContext();
   const { isPrime } = state.login;
@@ -31,9 +32,11 @@ const BiggBullTable = ({
   const [companyName, setCompanyName] = useState("");
   const blurNameHandler = (companyName: string) => {
     const objTracking = {
-      category: "Subscription Flow ET",
-      action: "SYFT | Flow Started",
-      label: "",
+      category: "mercury_engagement",
+      action: "card_clicked",
+      label: `${companyName}`,
+      widget_name: `${sectionName}`,
+      tab_name: `${sectionName}`,
       obj: {
         item_name: "bigbull_investors",
         item_id: companyName,
@@ -42,6 +45,11 @@ const BiggBullTable = ({
         item_category2: "bigbull_investors",
         item_category3: "",
         item_category4: "",
+      },
+      cdp: {
+        event_nature: "impression",
+        event_category: "subscription",
+        event_name: "subscription_feature",
       },
     };
     redirectToPlanPage(objTracking, "view_item_list", false);
@@ -355,6 +363,7 @@ const BiggBullTable = ({
           <NonPrimeBlockerModule
             oncloseModule={blurNameHandlerClose}
             companyName={companyName}
+            sectionName={sectionName}
           />
         </Suspense>
       )}
