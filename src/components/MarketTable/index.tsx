@@ -483,6 +483,10 @@ const MarketTable = React.memo((props: propsType) => {
     };
 
     const initializeWebSocket = () => {
+      if (document.hidden) {
+        // If the document is hidden, don't initialize the WebSocket
+        return;
+      }
       if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
         wsRef.current.send(JSON.stringify(requestBody));
         setWebsocketFailed(false); // Reset fallback state
