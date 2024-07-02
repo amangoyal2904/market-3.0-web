@@ -76,6 +76,15 @@ const useIntervalApiCall = (
       unobserve();
     };
   }, dependencies);
+
+  useEffect(() => {
+    // Clear interval on component unmount
+    return () => {
+      if (intervalId.current) {
+        clearInterval(intervalId.current);
+      }
+    };
+  }, []);
 };
 
 export default useIntervalApiCall;
