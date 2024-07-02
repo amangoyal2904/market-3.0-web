@@ -133,7 +133,7 @@ const BuySellTab = ({
               trackingEvent("et_push_event", {
                 event_category: "mercury_engagement",
                 event_action: "tab_selected",
-                event_label: `Buy/Sell ${item.label}`,
+                event_label: `Buy/Sell_${item.label}`,
               });
               setIsAnyInnerActive(false);
             }}
@@ -163,7 +163,7 @@ const BuySellTab = ({
                       trackingEvent("et_push_event", {
                         event_category: "mercury_engagement",
                         event_action: "tab_selected",
-                        event_label: `Buy/Sell More_${item.label}`,
+                        event_label: `Buy/Sell_${item.label}`,
                       });
                       setIsAnyInnerActive(true);
                     }}

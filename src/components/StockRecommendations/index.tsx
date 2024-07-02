@@ -67,7 +67,7 @@ const StockRecommendations: React.FC<Props> = ({
     trackingEvent("et_push_event", {
       event_category: "mercury_engagement",
       event_action: "tab_selected",
-      event_label: `${tab.label} Stock Recos`,
+      event_label: `StockRecos_${tab.label}`,
     });
     setLoaderState(true);
     setActiveTab(tab);

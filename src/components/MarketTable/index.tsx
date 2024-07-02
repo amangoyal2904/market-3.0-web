@@ -82,6 +82,11 @@ const MarketTable = React.memo((props: propsType) => {
         ? `${l1NavTracking} / ${l2NavTracking} / ${l3NavTracking}`
         : `${l1NavTracking} / ${l2NavTracking}`,
     },
+    cdp: {
+      event_nature: "click",
+      event_category: "subscription",
+      event_name: "paywall",
+    },
   };
 
   const tableRef = useRef<HTMLDivElement>(null);

@@ -270,6 +270,7 @@ const ScrollableTable = React.memo((props: any) => {
                           <span
                             onClick={() => {
                               objTracking.obj.item_category3 = tdData.keyText;
+                              objTracking.cdp["cta_text"] = "Upgrade to Prime";
                               redirectToPlanPage(objTracking);
                             }}
                           >

@@ -128,7 +128,6 @@ export const getMobileOS = () => {
 };
 
 export const pageType = (pathurl: any) => {
-  //console.log(">>>", pathurl);
   if (pathurl.indexOf("watchlist") != -1) {
     return "watchlist";
   } else {
@@ -166,9 +165,10 @@ export const verifyLogin = () => {
       //console.log("SUCCESS");
 
       if (typeof window.objUser == "undefined") window.objUser = {};
-      //generateFpid(true);
+      //generateFpid(true);}
       createPeuuid();
       window.objUser.ticketId = response.data.ticketId;
+      window.objUser.loginType = response.data.loginType;
       setUserData();
     } else {
       console.log("failure");

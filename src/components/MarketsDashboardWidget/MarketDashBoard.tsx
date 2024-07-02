@@ -216,6 +216,7 @@ function MarketDashBoard(props: propsType) {
           data={tabsData}
           activeViewId={activeViewID}
           tabsViewIdUpdate={onTabViewUpdate}
+          widgetName="MarketDashboard"
         />
         <MarketFiltersTab
           data={tabsData}
