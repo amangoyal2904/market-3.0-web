@@ -1,7 +1,5 @@
 import styles from "./styles.module.scss";
-import Image from "next/image";
 import { getStockUrl } from "@/utils/utility";
-import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
 // import WatchlistAddition from "../../WatchlistAddition";

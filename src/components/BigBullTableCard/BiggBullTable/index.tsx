@@ -1,5 +1,4 @@
 import styles from "./styles.module.scss";
-import Image from "next/image";
 import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import Loader from "../../Loader";

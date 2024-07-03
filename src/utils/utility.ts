@@ -368,41 +368,33 @@ export const getStockUrl = (
     if ((stockType == "dvr" || stockType == "pp") && id.includes("1111")) {
       id = id.substring(0, id.length - 4);
     }
-    let stockUrl =
-      (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-      "/" +
-      seoName +
-      "/stocks/companyid-" +
-      id +
-      ".cms";
+
+    const domain = (APIS_CONFIG as any)?.DOMAIN[APP_ENV];
+    if (!domain) {
+      throw new Error("DOMAIN configuration is missing");
+    }
+
+    let stockUrl = domain + "/" + seoName + "/stocks/companyid-" + id + ".cms";
+
     if (
-      stockType != "equity" &&
+      stockType !== "equity" &&
       stockType !== "" &&
       stockType !== "company" &&
       stockType.toLowerCase() !== "etf"
-    )
+    ) {
       stockUrl = stockUrl + "?companytype=" + stockType?.toLowerCase();
+    }
 
     if (subType == "NonList") {
-      stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "/company/" +
-        seoName +
-        "/" +
-        id;
+      stockUrl = domain + "/company/" + seoName + "/" + id;
     }
     if (stockType == "ETF" || stockType == "MutualFund") {
       stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "/" +
-        seoName +
-        "/mffactsheet/schemeid-" +
-        id +
-        ".cms";
+        domain + "/" + seoName + "/mffactsheet/schemeid-" + id + ".cms";
     }
     if (stockType == "crypto") {
       stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        domain +
         "/markets/cryptocurrency/" +
         seoName +
         "/cryptodetail/symbol-" +
@@ -411,27 +403,17 @@ export const getStockUrl = (
     }
     if (stockType == "forex") {
       stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        domain +
         "/markets/forex?amount=1&fromcur=" +
         fromCurrencyShort +
         "&tocur=" +
         toCurrencyShort;
     }
     if (stockType == "commodity") {
-      stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "/commoditysummary/symbol-" +
-        fno +
-        ".cms";
+      stockUrl = domain + "/commoditysummary/symbol-" + fno + ".cms";
     }
     if (stockType == "NPS") {
-      stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "/" +
-        seoName +
-        "/nps/schemecode-" +
-        id +
-        ".cms";
+      stockUrl = domain + "/" + seoName + "/nps/schemecode-" + id + ".cms";
     }
     return stockUrl;
   }
