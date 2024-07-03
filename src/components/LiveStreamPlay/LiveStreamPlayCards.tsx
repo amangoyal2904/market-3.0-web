@@ -53,21 +53,23 @@ const LiveStreamCards = ({
         const authorization: any = getCookie("peuuid")
           ? getCookie("peuuid")
           : "";
-        const apiUrl = (APIS_CONFIG as any)?.["followExpert"][APP_ENV];
-        const response: any = await Service.post({
-          url: apiUrl,
-          headers: {
-            Authorization: authorization,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...data }),
-          params: {},
-          cache: "no-store",
-        });
-        const followStatus = await response?.json();
-        console.log("@@@@@-->folllow", followStatus);
-        if (followStatus && followStatus.status == "success") {
-          fetchFollowingExperts();
+        if (!!authorization) {
+          const apiUrl = (APIS_CONFIG as any)?.["followExpert"][APP_ENV];
+          const response: any = await Service.post({
+            url: apiUrl,
+            headers: {
+              Authorization: authorization,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ...data }),
+            params: {},
+            cache: "no-store",
+          });
+          const followStatus = await response?.json();
+          console.log("@@@@@-->folllow", followStatus);
+          if (followStatus && followStatus.status == "success") {
+            fetchFollowingExperts();
+          }
         }
       } else {
         initSSOWidget();
