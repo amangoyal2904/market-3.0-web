@@ -27,7 +27,15 @@ class JStorageReact {
 
   init() {
     if (this.storage) {
-      this.jStorage.__jstorage_meta = this.jStorageMeta;
+      if (!this.jStorage.__jstorage_meta) {
+        this.jStorage.__jstorage_meta = { CRC32: {}, TTL: {} };
+      }
+      if (!this.jStorage.__jstorage_meta.CRC32) {
+        this.jStorage.__jstorage_meta.CRC32 = {};
+      }
+      if (!this.jStorage.__jstorage_meta.TTL) {
+        this.jStorage.__jstorage_meta.TTL = {};
+      }
       this.save();
       this.cleanupTTL();
     }
