@@ -359,28 +359,30 @@ const BigBullCard = ({ data, type, sectionName }: any) => {
                         >
                           {card?.text}
                         </span>
-                        <h4>
-                          {isPrime ? (
-                            <a
-                              onClick={() =>
-                                gaTrackingCompanyNameClick(card?.uiLabel.text)
-                              }
-                              href={getStockUrl(
-                                card.uiLabel.companyId,
-                                card.uiLabel.companySeoName,
-                                card.uiLabel.companyType,
-                              )}
-                              target="_blank"
-                            >
-                              {card?.uiLabel.text}
-                            </a>
-                          ) : (
-                            <span
-                              className={styles.nameBlur}
-                              onClick={() => blurNameHandler(card?.text)}
-                            ></span>
-                          )}
-                        </h4>
+                        {card?.uiLabel?.companyId && (
+                          <h4>
+                            {isPrime ? (
+                              <a
+                                onClick={() =>
+                                  gaTrackingCompanyNameClick(card?.uiLabel.text)
+                                }
+                                href={getStockUrl(
+                                  card.uiLabel.companyId,
+                                  card.uiLabel.companySeoName,
+                                  card.uiLabel.companyType,
+                                )}
+                                target="_blank"
+                              >
+                                {card?.uiLabel.text}
+                              </a>
+                            ) : (
+                              <span
+                                className={styles.nameBlur}
+                                onClick={() => blurNameHandler(card?.text)}
+                              ></span>
+                            )}
+                          </h4>
+                        )}
                         <h5>
                           <span
                             className={`${styles[__classname]}`}
