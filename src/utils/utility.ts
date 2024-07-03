@@ -347,15 +347,15 @@ export const fetchTableData = async (viewId: any, params?: any) => {
 };
 
 export const getStockUrl = (
-  id: string,
-  seoName: string,
-  stockType: string,
+  id: string = "",
+  seoName: string = "",
+  stockType: string = "",
   subType: string = "company",
   fromCurrencyShort: string = "",
   toCurrencyShort: string = "",
   fno: string = "",
 ) => {
-  if (stockType == "index") {
+  if (stockType === "index") {
     return "/markets/indices/" + seoName;
   } else {
     if (seoName?.indexOf(" ") >= 0) {
@@ -365,11 +365,11 @@ export const getStockUrl = (
         .replaceAll(".", "")
         .toLowerCase();
     }
-    if ((stockType == "dvr" || stockType == "pp") && id.includes("1111")) {
+    if ((stockType === "dvr" || stockType === "pp") && id.includes("1111")) {
       id = id.substring(0, id.length - 4);
     }
 
-    const domain = (APIS_CONFIG as any)?.DOMAIN[APP_ENV];
+    const domain = (APIS_CONFIG as any)?.DOMAIN[APP_ENV] || "";
     if (!domain) {
       throw new Error("DOMAIN configuration is missing");
     }
@@ -380,19 +380,19 @@ export const getStockUrl = (
       stockType !== "equity" &&
       stockType !== "" &&
       stockType !== "company" &&
-      stockType.toLowerCase() !== "etf"
+      stockType?.toLowerCase() !== "etf"
     ) {
       stockUrl = stockUrl + "?companytype=" + stockType?.toLowerCase();
     }
 
-    if (subType == "NonList") {
+    if (subType === "NonList") {
       stockUrl = domain + "/company/" + seoName + "/" + id;
     }
-    if (stockType == "ETF" || stockType == "MutualFund") {
+    if (stockType === "ETF" || stockType === "MutualFund") {
       stockUrl =
         domain + "/" + seoName + "/mffactsheet/schemeid-" + id + ".cms";
     }
-    if (stockType == "crypto") {
+    if (stockType === "crypto") {
       stockUrl =
         domain +
         "/markets/cryptocurrency/" +
@@ -401,7 +401,7 @@ export const getStockUrl = (
         id +
         ".cms";
     }
-    if (stockType == "forex") {
+    if (stockType === "forex") {
       stockUrl =
         domain +
         "/markets/forex?amount=1&fromcur=" +
@@ -409,10 +409,10 @@ export const getStockUrl = (
         "&tocur=" +
         toCurrencyShort;
     }
-    if (stockType == "commodity") {
+    if (stockType === "commodity") {
       stockUrl = domain + "/commoditysummary/symbol-" + fno + ".cms";
     }
-    if (stockType == "NPS") {
+    if (stockType === "NPS") {
       stockUrl = domain + "/" + seoName + "/nps/schemecode-" + id + ".cms";
     }
     return stockUrl;
