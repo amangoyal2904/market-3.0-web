@@ -22,6 +22,7 @@ import {
 import BreadCrumb from "@/components/BreadCrumb";
 import TextBottom from "@/components/TextBottom";
 import dynamic from "next/dynamic";
+import IndicesQuickLinks from "@/components/IndicesDetails/IndicesQuickLinks";
 const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
   ssr: false,
 });
@@ -139,6 +140,7 @@ const Indices = async ({ params }: any) => {
         faq={faqData}
       />
       <TextBottom indicesName={overviewData?.assetName} />
+      <IndicesQuickLinks />
       <BreadCrumb
         pagePath={pageUrl}
         pageName={[{ label: overviewData?.assetName, redirectUrl: "" }]}

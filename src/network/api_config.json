@@ -3,6 +3,10 @@
     "development": "https://etdev8243.indiatimes.com",
     "production": "https://economictimes.indiatimes.com"
   },
+  "TRENDING_IN_MARKETS": {
+    "development": "https://etpwaapi.economictimes.com/api/mercury/trendinginmarkets",
+    "production": "https://etpwaapi.economictimes.com/api/mercury/trendinginmarkets"
+  },
   "APIDOMAIN": {
     "development": "https://etpwaapipre.economictimes.com/request",
     "production": "https://etpwaapi.economictimes.com/request"

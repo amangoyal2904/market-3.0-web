@@ -572,6 +572,12 @@ export const fetchSelectedIndex = async (
 ) => {
   try {
     const data = await fetchIndices();
+
+    // Check if data is defined and is an array
+    if (!Array.isArray(data)) {
+      return { name: "All Stocks", indexId: 0, seoname: "", exchange: "nse" };
+    }
+
     let filteredIndex;
     if (seoNameOrIndexId) {
       filteredIndex = data.find((item: any) => {
@@ -581,6 +587,7 @@ export const fetchSelectedIndex = async (
         );
       });
     }
+
     return (
       filteredIndex || {
         name: "All Stocks",
@@ -594,21 +601,33 @@ export const fetchSelectedIndex = async (
     return { name: "All Stocks", indexId: 0, seoname: "", exchange: "nse" };
   }
 };
+
 export const fetchSelectedFilter = async (
   seoNameOrIndexId?: string | number,
 ) => {
   try {
     const data = await fetchFilters({ marketcap: true });
+    if (
+      !data ||
+      !data.keyIndices ||
+      !data.sectoralIndices ||
+      !data.otherIndices ||
+      !data.marketcap
+    ) {
+      return { name: "All Stocks", indexId: 0, seoname: "", exchange: "nse" };
+    }
+
     const allIndices = [
-      ...data.keyIndices.nse,
-      ...data.keyIndices.bse,
-      ...data.sectoralIndices.nse,
-      ...data.sectoralIndices.bse,
-      ...data.otherIndices.nse,
-      ...data.otherIndices.bse,
-      ...data.marketcap.nse,
-      ...data.marketcap.bse,
+      ...(data.keyIndices.nse || []),
+      ...(data.keyIndices.bse || []),
+      ...(data.sectoralIndices.nse || []),
+      ...(data.sectoralIndices.bse || []),
+      ...(data.otherIndices.nse || []),
+      ...(data.otherIndices.bse || []),
+      ...(data.marketcap.nse || []),
+      ...(data.marketcap.bse || []),
     ];
+
     let foundIndex;
     if (
       !isNaN(seoNameOrIndexId as number) ||
@@ -624,17 +643,17 @@ export const fetchSelectedFilter = async (
     if (foundIndex) {
       let exchange = "";
       if (
-        data.keyIndices.nse.includes(foundIndex) ||
-        data.sectoralIndices.nse.includes(foundIndex) ||
-        data.otherIndices.nse.includes(foundIndex) ||
-        data.marketcap.nse.includes(foundIndex)
+        (data.keyIndices.nse || []).includes(foundIndex) ||
+        (data.sectoralIndices.nse || []).includes(foundIndex) ||
+        (data.otherIndices.nse || []).includes(foundIndex) ||
+        (data.marketcap.nse || []).includes(foundIndex)
       ) {
         exchange = "nse";
       } else if (
-        data.keyIndices.bse.includes(foundIndex) ||
-        data.sectoralIndices.bse.includes(foundIndex) ||
-        data.otherIndices.bse.includes(foundIndex) ||
-        data.marketcap.bse.includes(foundIndex)
+        (data.keyIndices.bse || []).includes(foundIndex) ||
+        (data.sectoralIndices.bse || []).includes(foundIndex) ||
+        (data.otherIndices.bse || []).includes(foundIndex) ||
+        (data.marketcap.bse || []).includes(foundIndex)
       ) {
         exchange = "bse";
       }
@@ -1323,7 +1342,7 @@ export const encodeHTML = (html: any) => {
 export const saveLogs = (data: any) => {
   if (typeof window !== "undefined") {
     // Check if running in a browser environment
-    if (data) {
+    if (data && window.location.hostname != "localhost") {
       try {
         const isLive = APP_ENV == "development" ? 0 : 1;
         data.TicketId = getCookie("TicketId");
