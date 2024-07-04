@@ -347,15 +347,15 @@ export const fetchTableData = async (viewId: any, params?: any) => {
 };
 
 export const getStockUrl = (
-  id: string,
-  seoName: string,
-  stockType: string,
+  id: string = "",
+  seoName: string = "",
+  stockType: string = "",
   subType: string = "company",
   fromCurrencyShort: string = "",
   toCurrencyShort: string = "",
   fno: string = "",
 ) => {
-  if (stockType == "index") {
+  if (stockType === "index") {
     return "/markets/indices/" + seoName;
   } else {
     if (seoName?.indexOf(" ") >= 0) {
@@ -365,73 +365,55 @@ export const getStockUrl = (
         .replaceAll(".", "")
         .toLowerCase();
     }
-    if ((stockType == "dvr" || stockType == "pp") && id.includes("1111")) {
+    if ((stockType === "dvr" || stockType === "pp") && id.includes("1111")) {
       id = id.substring(0, id.length - 4);
     }
-    let stockUrl =
-      (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-      "/" +
-      seoName +
-      "/stocks/companyid-" +
-      id +
-      ".cms";
+
+    const domain = (APIS_CONFIG as any)?.DOMAIN[APP_ENV] || "";
+    if (!domain) {
+      throw new Error("DOMAIN configuration is missing");
+    }
+
+    let stockUrl = domain + "/" + seoName + "/stocks/companyid-" + id + ".cms";
+
     if (
-      stockType != "equity" &&
+      stockType !== "equity" &&
       stockType !== "" &&
       stockType !== "company" &&
-      stockType.toLowerCase() !== "etf"
-    )
+      stockType?.toLowerCase() !== "etf"
+    ) {
       stockUrl = stockUrl + "?companytype=" + stockType?.toLowerCase();
+    }
 
-    if (subType == "NonList") {
-      stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "/company/" +
-        seoName +
-        "/" +
-        id;
+    if (subType === "NonList") {
+      stockUrl = domain + "/company/" + seoName + "/" + id;
     }
-    if (stockType == "ETF" || stockType == "MutualFund") {
+    if (stockType === "ETF" || stockType === "MutualFund") {
       stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "/" +
-        seoName +
-        "/mffactsheet/schemeid-" +
-        id +
-        ".cms";
+        domain + "/" + seoName + "/mffactsheet/schemeid-" + id + ".cms";
     }
-    if (stockType == "crypto") {
+    if (stockType === "crypto") {
       stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        domain +
         "/markets/cryptocurrency/" +
         seoName +
         "/cryptodetail/symbol-" +
         id +
         ".cms";
     }
-    if (stockType == "forex") {
+    if (stockType === "forex") {
       stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        domain +
         "/markets/forex?amount=1&fromcur=" +
         fromCurrencyShort +
         "&tocur=" +
         toCurrencyShort;
     }
-    if (stockType == "commodity") {
-      stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "/commoditysummary/symbol-" +
-        fno +
-        ".cms";
+    if (stockType === "commodity") {
+      stockUrl = domain + "/commoditysummary/symbol-" + fno + ".cms";
     }
-    if (stockType == "NPS") {
-      stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "/" +
-        seoName +
-        "/nps/schemecode-" +
-        id +
-        ".cms";
+    if (stockType === "NPS") {
+      stockUrl = domain + "/" + seoName + "/nps/schemecode-" + id + ".cms";
     }
     return stockUrl;
   }
@@ -955,6 +937,21 @@ export const getMfCashData = async (filterType: string) => {
   });
   const originalJson = await response?.json();
   return originalJson;
+};
+
+export const fetchInvestMentData = async () => {
+  try {
+    const response = await Service.get({
+      url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=81409979`,
+      params: {},
+    });
+    const data = response ? await response.json() : {};
+    const investmentData = data?.searchResult?.[0]?.data || [];
+    return investmentData;
+  } catch (e) {
+    console.log("Error in fetching investment Data", e);
+    return [];
+  }
 };
 
 export const getBuySellTechnicals = async (payload: any) => {

@@ -497,6 +497,9 @@ const MarketStats = ({
               onPersonalizeHandler={onPersonalizeHandlerfun}
               removePersonaliseView={removePersonaliseViewFun}
               intradayDurationOptions={intradayDurationOptions}
+              subType={!isTechnical ? l3NavSubItem : null}
+              nseBseToggle={isTechnical ? false : true}
+              shortUrlMapping={shortUrlMapping}
             />
           </div>
           <MarketTable

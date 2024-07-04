@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import styles from "./MarketTabs.module.scss";
 import ShimmerMenu from "@/components/Shimmer/shimmerMenu";
 import useDebounce from "@/hooks/useDebounce";
@@ -10,23 +10,26 @@ const LeftMenuTabs = React.memo(
     const [visibleTabs, setVisibleTabs] = useState<any[]>([]);
     const [hiddenTabs, setHiddenTabs] = useState<any[]>([]);
     const [isAnyInnerActive, setIsAnyInnerActive] = useState(false);
+
     const tabClick = (viewId: any, tabName: string) => {
       trackingEvent("et_push_event", {
         event_category: "mercury_engagement",
         event_action: "tab_selected",
-        event_label: widgetName == "" ? tabName : `${widgetName}_${tabName}`,
+        event_label: widgetName === "" ? tabName : `${widgetName}_${tabName}`,
       });
       tabsViewIdUpdate(viewId);
     };
     const { debounce } = useDebounce();
-    const updateTabsVisibility = () => {
+
+    const updateTabsVisibility = useCallback(() => {
       const tabsListWidth = tabsListRef.current?.offsetWidth || 0;
       const filterData = data.filter((item: any) => item.selectedFlag);
       let currentWidth = 0;
       const newVisibleTabs: any[] = [];
       const newHiddenTabs: any[] = [];
+
       for (const tab of filterData) {
-        const tabWidth = tab.name.length * 10; // Adjust the width calculation as per your requirement
+        const tabWidth = tab.name.length * 12;
         if (currentWidth + tabWidth < tabsListWidth) {
           newVisibleTabs.push(tab);
           currentWidth += tabWidth;
@@ -34,17 +37,17 @@ const LeftMenuTabs = React.memo(
           newHiddenTabs.push(tab);
         }
       }
+
       setVisibleTabs(newVisibleTabs);
       setHiddenTabs(newHiddenTabs);
-      const found = newHiddenTabs.find(
-        (item: any) => item.viewId == activeViewId,
-      );
+
+      const found = newHiddenTabs.find((item) => item.viewId === activeViewId);
       setIsAnyInnerActive(!!found);
-    };
+    }, [data, activeViewId]);
 
     useEffect(() => {
       updateTabsVisibility();
-    }, [data]);
+    }, [data, updateTabsVisibility]);
 
     useEffect(() => {
       const handleResize = debounce(() => {
@@ -55,24 +58,20 @@ const LeftMenuTabs = React.memo(
       return () => {
         window.removeEventListener("resize", handleResize);
       };
-    }, [debounce, hiddenTabs]);
+    }, [debounce, updateTabsVisibility]);
 
     useEffect(() => {
       updateTabsVisibility();
-    }, [tabsListRef.current?.offsetWidth]);
+    }, []);
 
     return (
-      <ul
-        className={`${styles.tabsList} ${!!page ? styles[page] : ""}`}
-        ref={tabsListRef}
-      >
+      <ul className={styles.tabsList} ref={tabsListRef}>
         {!visibleTabs.length && !hiddenTabs.length && <ShimmerMenu />}
         {visibleTabs.map((item: any, index: number) => (
           <li
             key={item.id + index}
             onClick={() => {
               tabClick(item.viewId, item.name);
-
               setIsAnyInnerActive(false);
             }}
             className={activeViewId === item.viewId ? styles.active : ""}
@@ -81,7 +80,7 @@ const LeftMenuTabs = React.memo(
           </li>
         ))}
         {hiddenTabs.length > 0 && (
-          <li className={`${isAnyInnerActive ? styles.active : ""}`}>
+          <li className={isAnyInnerActive ? styles.active : ""}>
             <div className={styles.moreTabWrap}>
               <div className={styles.moreSec}>
                 More
