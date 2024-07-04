@@ -258,11 +258,19 @@ const MarketFiltersTab = React.memo(
         (item: any) => item.longURL == longUrl,
       );
       const linkHref = isExist ? isExist.shortUrl : longUrl;
+
       return (
         <Link
           href={linkHref}
           title={label?.toUpperCase()}
-          className={niftyFilterData?.exchange === label ? styles.active : ""}
+          className={
+            !isNaN(niftyFilterData.indexId) &&
+            isFinite(niftyFilterData.indexId) &&
+            niftyFilterData.indexId != 0 &&
+            niftyFilterData?.exchange === label
+              ? styles.active
+              : ""
+          }
           onClick={() =>
             trackingEvent("et_push_event", {
               event_category: "mercury_engagement",
