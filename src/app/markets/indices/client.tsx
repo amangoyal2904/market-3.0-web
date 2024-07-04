@@ -7,8 +7,8 @@ import { getAllIndices } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "@/components/MarketStatus";
 import { trackingEvent } from "@/utils/ga";
-import { useRouter } from "next/navigation";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import Link from "next/link";
 
 const IndicesClient = ({
   tableHeaderData = [],
@@ -17,7 +17,6 @@ const IndicesClient = ({
   tableConfig = {},
   unixDateTime = new Date(),
 }: any) => {
-  const router = useRouter();
   const { state } = useStateContext();
   const { isPrime } = state.login;
   const { currentMarketStatus } = state.marketStatus;
@@ -44,19 +43,6 @@ const IndicesClient = ({
     },
     [sortData],
   );
-
-  const nseBseMenuSelect = useCallback((e: any) => {
-    const selectedMenu = e.target.textContent.toLowerCase();
-    trackingEvent("et_push_event", {
-      event_category: "mercury_engagement",
-      event_action: "page_cta_click",
-      event_label: selectedMenu,
-    });
-    const updatedUrl =
-      selectedMenu == "bse" ? "/markets/indices/bse" : "/markets/indices";
-    router.push(updatedUrl, { scroll: false });
-  }, []);
-
   const updateTableData = async () => {
     const { tableData, unixDateTime } = await getAllIndices(
       exchange,
@@ -101,20 +87,36 @@ const IndicesClient = ({
         highs/lows, advance/decline counts, and percentage changes. Click on any
         index for detailed technical charts and more information.
       </p>
-      <ul className={styles.menuNseBse}>
-        <li
+      <div className={styles.menuNseBse}>
+        <Link
           className={exchange === "nse" ? styles.active : ""}
-          onClick={nseBseMenuSelect}
+          href="/markets/indices"
+          onClick={() => {
+            trackingEvent("et_push_event", {
+              event_category: "mercury_engagement",
+              event_action: "page_cta_click",
+              event_label: "nse",
+            });
+          }}
+          title="NSE"
         >
-          nse
-        </li>
-        <li
+          NSE
+        </Link>
+        <Link
           className={exchange === "bse" ? styles.active : ""}
-          onClick={nseBseMenuSelect}
+          href="/markets/indices/bse"
+          onClick={() => {
+            trackingEvent("et_push_event", {
+              event_category: "mercury_engagement",
+              event_action: "page_cta_click",
+              event_label: "bse",
+            });
+          }}
+          title="BSE"
         >
-          bse
-        </li>
-      </ul>
+          BSE
+        </Link>
+      </div>
       <MarketTable
         data={_tableData}
         highlightLtp={!!currentMarketStatus && currentMarketStatus != "CLOSED"}

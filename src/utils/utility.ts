@@ -939,6 +939,21 @@ export const getMfCashData = async (filterType: string) => {
   return originalJson;
 };
 
+export const fetchInvestMentData = async () => {
+  try {
+    const response = await Service.get({
+      url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=81409979`,
+      params: {},
+    });
+    const data = response ? await response.json() : {};
+    const investmentData = data?.searchResult?.[0]?.data || [];
+    return investmentData;
+  } catch (e) {
+    console.log("Error in fetching investment Data", e);
+    return [];
+  }
+};
+
 export const getBuySellTechnicals = async (payload: any) => {
   const response = await Service.get({
     url: `${(APIS_CONFIG as any)?.BuySellTechnical[APP_ENV]}?${convertJSONToParams(payload)}`,
