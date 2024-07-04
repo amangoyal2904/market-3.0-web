@@ -7,7 +7,7 @@ import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
 import Pagination from "./Pagination";
 import useDebounce from "@/hooks/useDebounce";
-import { formatNumber } from "@/utils";
+import { formatNumber, requestIdleOrTimeout } from "@/utils";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
 interface propsType {
@@ -544,8 +544,8 @@ const MarketTable = React.memo((props: propsType) => {
       } else {
         if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
           wsRef.current.send(JSON.stringify(requestBody));
-        } else if (wsRef.current === null) {
-          requestIdleCallback(initializeWebSocket);
+        } else if (!wsRef.current) {
+          requestIdleOrTimeout(initializeWebSocket);
         }
       }
     };
@@ -556,8 +556,8 @@ const MarketTable = React.memo((props: propsType) => {
           if (entry.isIntersecting) {
             if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
               wsRef.current.send(JSON.stringify(requestBody));
-            } else if (wsRef.current === null) {
-              requestIdleCallback(initializeWebSocket);
+            } else if (!wsRef.current) {
+              requestIdleOrTimeout(initializeWebSocket);
             }
           } else {
             if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
@@ -577,7 +577,7 @@ const MarketTable = React.memo((props: propsType) => {
 
     // Initialize WebSocket if the table is in view and document is visible
     if (!document.hidden && tableRef.current) {
-      requestIdleCallback(initializeWebSocket);
+      requestIdleOrTimeout(initializeWebSocket);
     }
 
     const intervalId = setInterval(() => {
@@ -593,32 +593,32 @@ const MarketTable = React.memo((props: propsType) => {
                 asset.assetId === stock.indexId
               ) {
                 const updatedData = asset.data.map((data: any) => {
-                  if (data.keyId === "lastTradedPrice") {
-                    return {
-                      ...data,
-                      value: formatNumber(
-                        stock?.lastTradedPrice || stock?.currentIndexValue,
-                      ),
-                      filterFormatValue:
-                        stock?.lastTradedPrice?.toString() ||
-                        stock?.currentIndexValue?.toString(),
-                    };
+                  switch (data.keyId) {
+                    case "lastTradedPrice":
+                      return {
+                        ...data,
+                        value: formatNumber(
+                          stock?.lastTradedPrice || stock?.currentIndexValue,
+                        ),
+                        filterFormatValue:
+                          stock?.lastTradedPrice?.toString() ||
+                          stock?.currentIndexValue?.toString(),
+                      };
+                    case "percentChange":
+                      return {
+                        ...data,
+                        value: `${stock?.percentChange} %`,
+                        filterFormatValue: stock?.percentChange?.toString(),
+                      };
+                    case "netChange":
+                      return {
+                        ...data,
+                        value: `${stock?.netChange}`,
+                        filterFormatValue: stock?.netChange?.toString(),
+                      };
+                    default:
+                      return data;
                   }
-                  if (data.keyId === "percentChange") {
-                    return {
-                      ...data,
-                      value: `${stock?.percentChange} %`,
-                      filterFormatValue: stock?.percentChange?.toString(),
-                    };
-                  }
-                  if (data.keyId === "netChange") {
-                    return {
-                      ...data,
-                      value: `${stock?.netChange}`,
-                      filterFormatValue: stock?.netChange?.toString(),
-                    };
-                  }
-                  return data;
                 });
                 updatedTableData[index] = { ...asset, data: updatedData };
               }
@@ -634,7 +634,7 @@ const MarketTable = React.memo((props: propsType) => {
     let idleCallbackId: any;
 
     const idleInitializer = () => {
-      idleCallbackId = requestIdleCallback(initializeWebSocket);
+      idleCallbackId = requestIdleOrTimeout(initializeWebSocket);
     };
 
     // Schedule idle initializer
