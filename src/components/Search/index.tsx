@@ -5,6 +5,7 @@ import APIS_CONFIG from "../../network/api_config.json";
 import styles from "./Search.module.scss";
 import SearchData from "./SearchData";
 import { saveLogs } from "@/utils/utility";
+import { trackingEvent } from "@/utils/ga";
 
 const debounce = <T extends any[]>(
   func: (...args: T) => void,
@@ -19,10 +20,10 @@ const debounce = <T extends any[]>(
 };
 
 interface Props {
-  location: string;
+  pos: string;
 }
 
-const Search: React.FC<Props> = ({ location }) => {
+const Search: React.FC<Props> = ({ pos }) => {
   const [data, setData] = useState([]);
   const [val, setVal] = useState("");
   const [loader, setLoader] = useState(false);
@@ -95,7 +96,7 @@ const Search: React.FC<Props> = ({ location }) => {
       }
 
       Promise.all(requests)
-        .then((responses) =>
+        .then((responses) => {
           responses.forEach((response, i) => {
             response
               .json()
@@ -124,8 +125,14 @@ const Search: React.FC<Props> = ({ location }) => {
                     "Search Data API Promise Error" + error + "query= " + query,
                 });
               });
-          }),
-        )
+          });
+          trackingEvent("et_push_event", {
+            event_category: "search_initiated",
+            event_action: `${query}`,
+            event_label: `${pos}`,
+            search_term: `${pos}`,
+          });
+        })
         .catch((error) => {
           console.error(`Data Fetch Error Outer: ${error}`);
         });
@@ -149,11 +156,11 @@ const Search: React.FC<Props> = ({ location }) => {
 
   return (
     <>
-      {searchEnable && location == "header" && (
+      {searchEnable && pos == "header" && (
         <div className={styles.background_overlay}></div>
       )}
       <div
-        className={`dflex ${styles[location + "_search"]}`}
+        className={`dflex ${styles[pos + "_search"]}`}
         id={styles.searchBar}
         ref={popupRef}
       >
@@ -190,7 +197,7 @@ const Search: React.FC<Props> = ({ location }) => {
               definitionData={definitionData}
               reportData={reportData}
               query={val}
-              location={location}
+              pos={pos}
             />
           </>
         )}

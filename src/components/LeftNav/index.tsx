@@ -10,6 +10,7 @@ import GLOBAL_CONFIG from "../../network/global_config.json";
 const LeftNav = (props: any) => {
   const { leftNavResult = {} } = props;
   const { markets = {}, markets_pro = {} } = leftNavResult;
+  const [isLoadExpand, setIsLoadExpand] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
   const [isL2Expanded, setIsL2Expanded] = useState(false);
   const [isAutoCollapsed, setAutoCollapsed] = useState(
@@ -31,35 +32,31 @@ const LeftNav = (props: any) => {
   };
 
   useEffect(() => {
-    console.log("isExpanded-----", isExpanded);
-    if (isExpanded) {
-      trackingEvent("et_push_event", {
-        event_category: "mercury_engagement",
-        event_action: "lhsmenu_click",
-        event_label: "lhsmenu_expand",
-      });
-    } else {
-      trackingEvent("et_push_event", {
-        event_category: "mercury_engagement",
-        event_action: "lhsmenu_click",
-        event_label: "lhsmenu_collapse",
-      });
+    if (isLoadExpand) {
+      if (isExpanded) {
+        trackingEvent("et_push_event", {
+          event_category: "mercury_engagement",
+          event_action: "lhsmenu_click",
+          event_label: "lhsmenu_expand",
+        });
+      } else {
+        trackingEvent("et_push_event", {
+          event_category: "mercury_engagement",
+          event_action: "lhsmenu_click",
+          event_label: "lhsmenu_collapse",
+        });
+      }
     }
-  }, [isExpanded]);
+  }, [isExpanded, isLoadExpand]);
 
   useEffect(() => {
-    console.log("isAutoCollapsed --- ", isAutoCollapsed);
     let timerRef = null;
     if (isAutoCollapsed) {
       timerRef = setTimeout(function () {
-        console.log("isAutoCollapsed --3- ", isAutoCollapsed);
         toggleMenu();
       }, timerVal * 1000);
-
       setTimeoutRef(timerRef);
     }
-
-    //return () => clearTimeout(timerRef);
   }, []);
 
   const toggleL2Menu = (e: any) => {
@@ -137,7 +134,10 @@ const LeftNav = (props: any) => {
         <div className={styles.toggleMenuWrap}>
           <span
             className={`${styles.toggleMenu} ${isExpanded ? "eticon_prev" : "eticon_next"}`}
-            onClick={toggleMenu}
+            onClick={() => {
+              setIsLoadExpand(true);
+              toggleMenu();
+            }}
           ></span>
         </div>
         <div

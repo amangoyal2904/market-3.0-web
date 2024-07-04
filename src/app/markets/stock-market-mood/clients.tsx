@@ -192,10 +192,10 @@ const MarketMoodsClient = ({
   );
 
   const loadMoreData = useCallback(
-    async (type: string) => {
+    async (type: string, load: any) => {
       trackingEvent("et_push_event", {
         event_category: "mercury_engagement",
-        event_action: "load_more_click",
+        event_action: load ? "load_more_click" : "load_less_click",
         event_label: type,
       });
       switch (type) {
@@ -316,7 +316,14 @@ const MarketMoodsClient = ({
       site_section: "Stock Market Mood",
       site_sub_section: "markets/stock-market-mood",
     },
+    cdp: {
+      event_nature: "click",
+      event_category: "subscription",
+      event_name: "paywall",
+      cta_text: "",
+    },
   };
+
   return (
     <>
       <div className={styles.logo}>
@@ -346,7 +353,7 @@ const MarketMoodsClient = ({
                   trackingEvent("et_push_event", {
                     event_category: "mercury_engagement",
                     event_action: "tab_selected",
-                    event_label: `${item.label}`,
+                    event_label: `MarketMood_${item.label}`,
                   });
                   handleItemClick(item.key);
                 }}
@@ -404,6 +411,7 @@ const MarketMoodsClient = ({
                   <span
                     className={styles.subscribeBtn}
                     onClick={() => {
+                      objTracking.cdp["cta_text"] = item.cta;
                       redirectToPlanPage(objTracking);
                     }}
                   >
@@ -462,7 +470,7 @@ const MarketMoodsClient = ({
                     <div
                       id="overview-load-more"
                       className={styles.loadMore}
-                      onClick={() => loadMoreData("overview")}
+                      onClick={() => loadMoreData("overview", showAllOverview)}
                     >
                       {showAllOverview ? "Load Less..." : "Load More..."}
                     </div>
@@ -508,7 +516,7 @@ const MarketMoodsClient = ({
                     <div
                       id="periodic-load-more"
                       className={styles.loadMore}
-                      onClick={() => loadMoreData("periodic")}
+                      onClick={() => loadMoreData("periodic", showAllPeriodic)}
                     >
                       {showAllPeriodic ? "Load Less..." : "Load More..."}
                     </div>
@@ -554,7 +562,9 @@ const MarketMoodsClient = ({
                     <div
                       id="advanceDecline-load-more"
                       className={styles.loadMore}
-                      onClick={() => loadMoreData("advanceDecline")}
+                      onClick={() =>
+                        loadMoreData("advanceDecline", showAllAdvanceDecline)
+                      }
                     >
                       {showAllAdvanceDecline ? "Load Less..." : "Load More..."}
                     </div>

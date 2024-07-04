@@ -7,9 +7,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0 20px 10px 0;
-  column-gap: 30px;
   padding-top: 16px;
-
   .btnGroup {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -42,9 +40,6 @@
       }
     }
   }
-}
-.tabsList.stockScreener {
-  width: calc(100% - 550px);
 }
 .tabsList {
   margin: 0;
@@ -172,7 +167,7 @@
       padding: 4px 10px;
       background-color: $white;
       text-transform: uppercase;
-      border: solid 2px $black;
+      border: solid 1px $black;
       cursor: pointer;
     }
     a:first-child {
@@ -243,7 +238,7 @@
 
 @media only screen and (max-width: 1280px) {
   .tabsList {
-    column-gap: 12px;
+    column-gap: 18px;
     li {
       font-size: 13px;
     }

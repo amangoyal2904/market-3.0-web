@@ -1,7 +1,5 @@
 import styles from "./styles.module.scss";
-import Image from "next/image";
 import { getStockUrl } from "@/utils/utility";
-import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
 // import WatchlistAddition from "../../WatchlistAddition";
@@ -32,9 +30,11 @@ const BiggBullInvestorHoldingTable = ({
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
   const blurNameHandler = (companyName: string) => {
     const objTracking = {
-      category: "Subscription Flow ET",
-      action: "SYFT | Flow Started",
-      label: "",
+      category: "mercury_engagement",
+      action: "card_clicked",
+      label: `${companyName}`,
+      widget_name: "Big Bull",
+      tab_name: "Big Bull",
       obj: {
         item_name: "bigbull_investors",
         item_id: companyName,
@@ -43,6 +43,11 @@ const BiggBullInvestorHoldingTable = ({
         item_category2: "bigbull_investors",
         item_category3: "",
         item_category4: "",
+      },
+      cdp: {
+        event_nature: "impression",
+        event_category: "subscription",
+        event_name: "subscription_feature",
       },
     };
     redirectToPlanPage(objTracking, "view_item_list", false);

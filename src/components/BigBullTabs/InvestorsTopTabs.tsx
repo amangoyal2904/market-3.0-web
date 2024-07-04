@@ -11,7 +11,7 @@ const InvestorsTopTabs = ({ data, rightTabTxt = "" }: any) => {
     trackingEvent("et_push_event", {
       event_category: "mercury_engagement",
       event_action: "tab_clicked",
-      event_label: tabName,
+      event_label: "BigBull_" + tabName,
     });
   };
   return (

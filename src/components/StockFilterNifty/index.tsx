@@ -26,29 +26,35 @@ export default function StockFilterNifty({
   showFilter,
 }: StockSRFilterProps) {
   const activeFilterValue = childMenuTabActive;
+
   const activeIndex = useMemo(() => {
     if (!activeFilterValue && !!data.all) return 4;
     const { keyIndices, sectoralIndices, otherIndices, marketcap } = data;
+
     if (
-      keyIndices.nse.some((obj: any) => obj.indexId === activeFilterValue) ||
-      keyIndices.bse.some((obj: any) => obj.indexId === activeFilterValue)
+      keyIndices?.nse?.some((obj: any) => obj.indexId === activeFilterValue) ||
+      keyIndices?.bse?.some((obj: any) => obj.indexId === activeFilterValue)
     ) {
       return 0;
     } else if (
-      sectoralIndices.nse.some(
+      sectoralIndices?.nse?.some(
         (obj: any) => obj.indexId === activeFilterValue,
       ) ||
-      sectoralIndices.bse.some((obj: any) => obj.indexId === activeFilterValue)
+      sectoralIndices?.bse?.some(
+        (obj: any) => obj.indexId === activeFilterValue,
+      )
     ) {
       return 1;
     } else if (
-      otherIndices.nse.some((obj: any) => obj.indexId === activeFilterValue) ||
-      otherIndices.bse.some((obj: any) => obj.indexId === activeFilterValue)
+      otherIndices?.nse?.some(
+        (obj: any) => obj.indexId === activeFilterValue,
+      ) ||
+      otherIndices?.bse?.some((obj: any) => obj.indexId === activeFilterValue)
     ) {
       return 2;
     } else if (
-      marketcap?.nse.some((obj: any) => obj.indexId === activeFilterValue) ||
-      marketcap?.bse.some((obj: any) => obj.indexId === activeFilterValue)
+      marketcap?.nse?.some((obj: any) => obj.indexId === activeFilterValue) ||
+      marketcap?.bse?.some((obj: any) => obj.indexId === activeFilterValue)
     ) {
       return 3;
     } else if (!!marketcap) {

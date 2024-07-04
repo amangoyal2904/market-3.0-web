@@ -1,5 +1,6 @@
 {
   "business": "et",
+  "browser_name": "",
   "client_source": "cdp",
   "cohort_id": null,
   "content_id": "",
@@ -24,7 +25,6 @@
   "section_id": "0",
   "source": "direct",
   "subscription_status": "free",
-  "subscription_type": "free",
   "title": "Business News Today: Read Latest Business news, India Business News Live, Share Market & Economy News | The Economic Times",
   "url": "https://economictimes.indiatimes.com/",
   "utm_campaign": null,
