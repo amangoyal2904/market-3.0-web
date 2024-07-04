@@ -27,7 +27,7 @@ const BigBullMostHeldClientPage = ({
   tableThSortFilterID,
 }: any) => {
   const router = useRouter();
-  const __title = `Held By Investors <span>(${lastUpdatedQtr})</span>`;
+  const __title = `Held By Investors ${lastUpdatedQtr ? `<span>(${lastUpdatedQtr})</span>` : ""}`;
   const pageType = "mostHeld";
   const [aciveFilter, setActiveFilter] = useState(payload.investorType);
   const [_payload, setPayload]: any = useState(payload);

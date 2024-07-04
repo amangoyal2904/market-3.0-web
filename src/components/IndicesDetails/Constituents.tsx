@@ -291,6 +291,7 @@ const IndicesConstituents = React.memo(
               data={_tabData}
               activeViewId={_activeViewId}
               tabsViewIdUpdate={onTabViewUpdate}
+              widgetName="Indices"
             />
             <MarketFiltersTab
               data={_tabData}

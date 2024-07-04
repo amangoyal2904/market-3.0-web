@@ -67,7 +67,9 @@ const SRCardTwo: React.FC<SRCardTwoProps> = ({
   const hasScore3m =
     data.find((item) => item?.keyId === "sr_avgScore3m") !== undefined;
 
-  const cardClickProps = !primeUser ? { onClick: () => handleClick(true) } : {};
+  const cardClickProps = !primeUser
+    ? { onClick: () => handleClick(true, catName) }
+    : {};
 
   return (
     <>

@@ -19,7 +19,6 @@ const LeftMenuTabs = React.memo(
       });
       tabsViewIdUpdate(viewId);
     };
-
     const { debounce } = useDebounce();
 
     const updateTabsVisibility = useCallback(() => {

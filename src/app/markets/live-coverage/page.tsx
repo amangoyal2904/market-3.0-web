@@ -60,6 +60,7 @@ const LiveCoverage = async () => {
       return data;
     } catch (e) {
       saveLogs({
+        type: "Mercury",
         res: "error",
         msg: "Error in fetching indices widget data data",
       });
@@ -106,7 +107,11 @@ const LiveCoverage = async () => {
       return fiidiiData;
     } catch (e) {
       console.log("error in fetching FiiDIIData data", e);
-      saveLogs({ res: "error", msg: "Error in fetching FiiDIIData data" });
+      saveLogs({
+        type: "Mercury",
+        res: "error",
+        msg: "Error in fetching FiiDIIData data",
+      });
     }
   };
 
@@ -121,7 +126,11 @@ const LiveCoverage = async () => {
       return getRecosNavData;
     } catch (e) {
       console.log("error in fetching recosNav data", e);
-      saveLogs({ res: "error", msg: "Error in fetching recosNav data" });
+      saveLogs({
+        type: "Mercury",
+        res: "error",
+        msg: "Error in fetching recosNav data",
+      });
     }
   };
 
@@ -150,7 +159,11 @@ const LiveCoverage = async () => {
       return getRecosDetailData;
     } catch (e) {
       console.log("error in fetching recos data", e);
-      saveLogs({ res: "error", msg: "Error in fetching recos data" });
+      saveLogs({
+        type: "Mercury",
+        res: "error",
+        msg: "Error in fetching recos data",
+      });
     }
   };
   const getSrPlusData = async (screenerId: any) => {
@@ -179,7 +192,11 @@ const LiveCoverage = async () => {
       return data;
     } catch (e) {
       console.log("error in fetching srPlus data", e);
-      saveLogs({ res: "error", msg: "Error in fetching srPlus data" });
+      saveLogs({
+        type: "Mercury",
+        res: "error",
+        msg: "Error in fetching srPlus data",
+      });
     }
   };
   const stockRecoResult = await getRecosData("newRecos");

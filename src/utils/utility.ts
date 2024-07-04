@@ -50,6 +50,7 @@ export const getCurrentMarketStatus = async () => {
     }
     console.error("Error in fetching market status", errorMessage);
     saveLogs({
+      type: "Mercury",
       res: "error",
       msg: "Error in fetching market status",
       error: errorMessage,
@@ -227,7 +228,11 @@ export const fetchIndices = async () => {
     return response?.json();
   } catch (e) {
     console.log("error in fetching indices data", e);
-    saveLogs({ res: "error", msg: "Error in fetching indices data" });
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: "Error in fetching indices data",
+    });
   }
 };
 
@@ -256,7 +261,11 @@ export const fetchFilters = async ({
     return response?.json();
   } catch (e) {
     console.log("error in fetching filters data", e);
-    saveLogs({ res: "error", msg: "Error in fetching filters data" });
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: "Error in fetching filters data",
+    });
   }
 };
 
@@ -295,7 +304,11 @@ export const fetchViewTable = async (
     return response?.json();
   } catch (e) {
     console.log("error in fetching viewTable data", e);
-    saveLogs({ res: "error", msg: "Error in fetching viewTable data" });
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: "Error in fetching viewTable data",
+    });
   }
 };
 
@@ -325,20 +338,24 @@ export const fetchTableData = async (viewId: any, params?: any) => {
     return response?.json();
   } catch (e) {
     console.log("error in fetching table data", e);
-    saveLogs({ res: "error", msg: "Error in fetching table data" });
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: "Error in fetching table data",
+    });
   }
 };
 
 export const getStockUrl = (
-  id: string,
-  seoName: string,
-  stockType: string,
+  id: string = "",
+  seoName: string = "",
+  stockType: string = "",
   subType: string = "company",
   fromCurrencyShort: string = "",
   toCurrencyShort: string = "",
   fno: string = "",
 ) => {
-  if (stockType == "index") {
+  if (stockType === "index") {
     return "/markets/indices/" + seoName;
   } else {
     if (seoName?.indexOf(" ") >= 0) {
@@ -348,73 +365,55 @@ export const getStockUrl = (
         .replaceAll(".", "")
         .toLowerCase();
     }
-    if ((stockType == "dvr" || stockType == "pp") && id.includes("1111")) {
+    if ((stockType === "dvr" || stockType === "pp") && id.includes("1111")) {
       id = id.substring(0, id.length - 4);
     }
-    let stockUrl =
-      (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-      "/" +
-      seoName +
-      "/stocks/companyid-" +
-      id +
-      ".cms";
+
+    const domain = (APIS_CONFIG as any)?.DOMAIN[APP_ENV] || "";
+    if (!domain) {
+      throw new Error("DOMAIN configuration is missing");
+    }
+
+    let stockUrl = domain + "/" + seoName + "/stocks/companyid-" + id + ".cms";
+
     if (
-      stockType != "equity" &&
+      stockType !== "equity" &&
       stockType !== "" &&
       stockType !== "company" &&
-      stockType.toLowerCase() !== "etf"
-    )
+      stockType?.toLowerCase() !== "etf"
+    ) {
       stockUrl = stockUrl + "?companytype=" + stockType?.toLowerCase();
+    }
 
-    if (subType == "NonList") {
-      stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "/company/" +
-        seoName +
-        "/" +
-        id;
+    if (subType === "NonList") {
+      stockUrl = domain + "/company/" + seoName + "/" + id;
     }
-    if (stockType == "ETF" || stockType == "MutualFund") {
+    if (stockType === "ETF" || stockType === "MutualFund") {
       stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "/" +
-        seoName +
-        "/mffactsheet/schemeid-" +
-        id +
-        ".cms";
+        domain + "/" + seoName + "/mffactsheet/schemeid-" + id + ".cms";
     }
-    if (stockType == "crypto") {
+    if (stockType === "crypto") {
       stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        domain +
         "/markets/cryptocurrency/" +
         seoName +
         "/cryptodetail/symbol-" +
         id +
         ".cms";
     }
-    if (stockType == "forex") {
+    if (stockType === "forex") {
       stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
+        domain +
         "/markets/forex?amount=1&fromcur=" +
         fromCurrencyShort +
         "&tocur=" +
         toCurrencyShort;
     }
-    if (stockType == "commodity") {
-      stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "/commoditysummary/symbol-" +
-        fno +
-        ".cms";
+    if (stockType === "commodity") {
+      stockUrl = domain + "/commoditysummary/symbol-" + fno + ".cms";
     }
-    if (stockType == "NPS") {
-      stockUrl =
-        (APIS_CONFIG as any)?.DOMAIN[APP_ENV] +
-        "/" +
-        seoName +
-        "/nps/schemecode-" +
-        id +
-        ".cms";
+    if (stockType === "NPS") {
+      stockUrl = domain + "/" + seoName + "/nps/schemecode-" + id + ".cms";
     }
     return stockUrl;
   }
@@ -507,7 +506,11 @@ export const createPeuuid = async () => {
     }
   } catch (e) {
     console.log("error in creating peuuid ", e);
-    saveLogs({ res: "error", msg: "Error in creating peuuid" });
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: "Error in creating peuuid",
+    });
   }
 };
 

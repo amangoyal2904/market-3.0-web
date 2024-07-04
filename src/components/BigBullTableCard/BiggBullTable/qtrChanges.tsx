@@ -1,5 +1,4 @@
 import styles from "./styles.module.scss";
-import Image from "next/image";
 import { getStockUrl } from "@/utils/utility";
 import Link from "next/link";
 import Loader from "../../Loader";
@@ -23,6 +22,7 @@ const BiggBullQtrChangesTable = ({
   handleSort,
   shouldShowLoader,
   parentHasScroll = false,
+  sectionName = "",
 }: any) => {
   //console.log("tableData", tableData);
   const { state } = useStateContext();
@@ -33,9 +33,11 @@ const BiggBullQtrChangesTable = ({
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
   const blurNameHandler = (companyName: string) => {
     const objTracking = {
-      category: "Subscription Flow ET",
-      action: "SYFT | Flow Started",
-      label: "",
+      category: "mercury_engagement",
+      action: "card_clicked",
+      label: `${companyName}`,
+      widget_name: `${sectionName}`,
+      tab_name: `${sectionName}`,
       obj: {
         item_name: "bigbull_investors",
         item_id: companyName,
@@ -44,6 +46,11 @@ const BiggBullQtrChangesTable = ({
         item_category2: "bigbull_investors",
         item_category3: "",
         item_category4: "",
+      },
+      cdp: {
+        event_nature: "impression",
+        event_category: "subscription",
+        event_name: "subscription_feature",
       },
     };
     redirectToPlanPage(objTracking, "view_item_list", false);
@@ -269,6 +276,7 @@ const BiggBullQtrChangesTable = ({
           <NonPrimeBlockerModule
             oncloseModule={blurNameHandlerClose}
             companyName={companyName}
+            sectionName={sectionName}
           />
         </Suspense>
       )}

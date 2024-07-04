@@ -10,6 +10,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useStateContext } from "@/store/StateContext";
 import dynamic from "next/dynamic";
 import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
+import { usePathname } from "next/navigation";
 const NonPrimeBlockerModule = dynamic(() => import("../../NonPrimeBlocker"), {
   ssr: false,
 });
@@ -17,15 +18,18 @@ const WatchlistAddition = dynamic(() => import("../../WatchlistAddition"), {
   ssr: false,
 });
 
-const BigBullCard = ({ data, type }: any) => {
+const BigBullCard = ({ data, type, sectionName }: any) => {
   const { state } = useStateContext();
   const { isPrime } = state.login;
   const [showNonPrimeBlocker, setShowNonPrimeBlocker] = useState(false);
-  //const isPrime = true;
-  //console.log("isPrime", isPrime);
   const [companyName, setCompanyName] = useState("");
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const sliderRef = useRef<Slider>(null);
+  const router = usePathname();
+  // useEffect(() => {
+  //   const arr = window.location.pathname.split("/");
+  //   console.log("Card Router ---->", arr, arr[4]);
+  // }, [router]);
 
   const settings: Settings = {
     speed: 500,
@@ -63,19 +67,26 @@ const BigBullCard = ({ data, type }: any) => {
       sliderRef.current.slickPrev();
     }
   };
-  const blurNameHandler = () => {
+  const blurNameHandler = (topBatchName: any = "") => {
     const objTracking = {
-      category: "Subscription Flow ET",
-      action: "SYFT | Flow Started",
-      label: "",
+      category: "mercury_engagement",
+      action: "card_clicked",
+      label: `${data?.investorIntro?.name}-${topBatchName}`,
+      widget_name: `${sectionName}`,
+      tab_name: "Overview",
       obj: {
         item_name: "bigbull_investors",
         item_id: data?.investorIntro?.name,
         item_brand: "market_tools",
         item_category: "bigbull",
-        item_category2: "bigbull_investors",
-        item_category3: "",
+        item_category2: `bigbull_Overview_${sectionName}`,
+        item_category3: `subscriptions_blocker`,
         item_category4: "",
+      },
+      cdp: {
+        event_nature: "impression",
+        event_category: "subscription",
+        event_name: "subscription_feature",
       },
     };
     setCompanyName(data?.investorIntro?.name);
@@ -348,28 +359,30 @@ const BigBullCard = ({ data, type }: any) => {
                         >
                           {card?.text}
                         </span>
-                        <h4>
-                          {isPrime ? (
-                            <a
-                              onClick={() =>
-                                gaTrackingCompanyNameClick(card?.uiLabel.text)
-                              }
-                              href={getStockUrl(
-                                card.uiLabel.companyId,
-                                card.uiLabel.companySeoName,
-                                card.uiLabel.companyType,
-                              )}
-                              target="_blank"
-                            >
-                              {card?.uiLabel.text}
-                            </a>
-                          ) : (
-                            <span
-                              className={styles.nameBlur}
-                              onClick={blurNameHandler}
-                            ></span>
-                          )}
-                        </h4>
+                        {card?.uiLabel?.companyId && (
+                          <h4>
+                            {isPrime ? (
+                              <a
+                                onClick={() =>
+                                  gaTrackingCompanyNameClick(card?.uiLabel.text)
+                                }
+                                href={getStockUrl(
+                                  card.uiLabel.companyId,
+                                  card.uiLabel.companySeoName,
+                                  card.uiLabel.companyType,
+                                )}
+                                target="_blank"
+                              >
+                                {card?.uiLabel.text}
+                              </a>
+                            ) : (
+                              <span
+                                className={styles.nameBlur}
+                                onClick={() => blurNameHandler(card?.text)}
+                              ></span>
+                            )}
+                          </h4>
+                        )}
                         <h5>
                           <span
                             className={`${styles[__classname]}`}
@@ -391,6 +404,7 @@ const BigBullCard = ({ data, type }: any) => {
           <NonPrimeBlockerModule
             oncloseModule={blurNameHandlerClose}
             companyName={companyName}
+            sectionName={sectionName}
           />
         </Suspense>
       )}

@@ -155,16 +155,9 @@ const StockScreeners = ({
     value: boolean,
     data: any,
   ) => {
-    console.log(
-      "toasterRemovePersonaliseViewCloseHandlerFun",
-      value,
-      "___data",
-      data,
-    );
     setToasterPersonaliseViewRemove(false);
     if (value && data && data.id && data.id !== "") {
       const removeViewById = await removePersonalizeViewById(data?.id);
-      console.log("removeViewById", removeViewById);
       onPersonalizeHandlerfun();
     }
   };

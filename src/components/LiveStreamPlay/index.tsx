@@ -200,18 +200,22 @@ const LiveStreamPlay = (props: any) => {
   const fetchFollowingExperts = async () => {
     try {
       const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
-      const requestUrl = (APIS_CONFIG as any)?.["getFollowedExperts"][APP_ENV];
-      const followings = await Service.get({
-        url: requestUrl,
-        headers: {
-          Authorization: authorization,
-          "Content-Type": "application/json",
-        },
-        params: {},
-        cache: "no-store",
-      });
-      const followingsData = await followings?.json();
-      setFollowingData(followingsData);
+      if (!!authorization) {
+        const requestUrl = (APIS_CONFIG as any)?.["getFollowedExperts"][
+          APP_ENV
+        ];
+        const followings = await Service.get({
+          url: requestUrl,
+          headers: {
+            Authorization: authorization,
+            "Content-Type": "application/json",
+          },
+          params: {},
+          cache: "no-store",
+        });
+        const followingsData = await followings?.json();
+        setFollowingData(followingsData);
+      }
     } catch (e) {
       console.log("Error in fetching following experts", e);
     }
