@@ -810,40 +810,53 @@ export const getAllIndices = async (
   sortField: any,
   sortOrder: string,
 ) => {
-  let apiUrl = `${(APIS_CONFIG as any)?.ALLINDICES[APP_ENV]}?exchange=${exchange}`;
-  if (!!sortField) {
-    apiUrl = apiUrl + "&sortedField=" + sortField + "&sortedOrder=" + sortOrder;
-  }
-  const response = await Service.get({
-    url: apiUrl,
-    params: {},
-  });
-  const responseData = await response?.json();
-  let tableData = [];
-  let tableHeaderData = [];
-  let unixDateTime = new Date().getTime();
-  if (responseData?.dataList) {
-    tableData = responseData.dataList;
-    if (tableData.length > 0 && tableData[0].data) {
-      tableHeaderData = tableData[0].data;
+  try {
+    let apiUrl = `${(APIS_CONFIG as any)?.ALLINDICES[APP_ENV]}?exchange=${exchange}`;
+    if (!!sortField) {
+      apiUrl = `${apiUrl}&sortedField=${sortField}&sortedOrder=${sortOrder}`;
     }
-  } else {
-    tableData = responseData || [];
-    if (tableData?.length > 0 && tableData[0]?.data) {
-      tableHeaderData = tableData[0].data;
+
+    const response = await Service.get({
+      url: apiUrl,
+      params: {},
+    });
+
+    if (!response || !response.ok) {
+      throw new Error(`HTTP error! Status: ${response?.status}`);
     }
-  }
 
-  if (responseData?.dateTime) {
-    unixDateTime = responseData.dateTime * 1000;
-  }
+    const responseData = await response.json();
+    let tableData: any[] = [];
+    let tableHeaderData: any[] = [];
+    let unixDateTime = new Date().getTime();
 
-  return {
-    tableHeaderData,
-    tableData,
-    exchange,
-    unixDateTime,
-  };
+    if (responseData?.dataList?.length > 0) {
+      tableData = responseData.dataList;
+      if (tableData[0]?.data) {
+        tableHeaderData = tableData[0].data;
+      }
+    }
+
+    if (responseData?.dateTime) {
+      unixDateTime = responseData.dateTime * 1000;
+    }
+
+    return {
+      tableHeaderData,
+      tableData,
+      exchange,
+      unixDateTime,
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    // Return default values on error
+    return {
+      tableHeaderData: [],
+      tableData: [],
+      exchange,
+      unixDateTime: new Date().getTime(),
+    };
+  }
 };
 
 export const getIndicesOverview = async (indexid: number) => {
