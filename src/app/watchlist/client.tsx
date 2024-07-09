@@ -35,6 +35,7 @@ const WatchListClient = () => {
   const [activeViewId, setActiveViewId] = useState(null);
   const [resetSort, setResetSort] = useState("");
   const [updateDateTime, setUpdateDateTime] = useState({});
+  const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
   const [requestPayload, setRequestPayload] = useState({});
   const [showBlocker, setShowBlocker] = useState(false);
   const [apiSuccess, setAPISuccess] = useState(false);
@@ -303,10 +304,11 @@ const WatchListClient = () => {
 
   useIntervalApiCall(
     () => {
-      if (currentMarketStatus === "LIVE") updateTableData();
+      if (currentMarketStatus === "LIVE" && !!fallbackWebsocket)
+        updateTableData();
     },
     refeshConfig.watchlist,
-    [requestPayload, isPrime, currentMarketStatus],
+    [requestPayload, isPrime, currentMarketStatus, fallbackWebsocket],
   );
 
   return (
@@ -382,6 +384,8 @@ const WatchListClient = () => {
               isprimeuser={isPrime}
               l1NavTracking="Markets"
               l2NavTracking="Watchlist"
+              setUpdateDateTime={setUpdateDateTime}
+              setFallbackWebsocket={setFallbackWebsocket}
             />
           </>
         )}

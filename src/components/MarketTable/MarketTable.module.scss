@@ -31,7 +31,6 @@
       }
     }
   }
-
   .inputWrapper {
     text-align: center;
     padding: 8px 12px;
@@ -89,7 +88,6 @@
     border-right: 1px solid $gray_95;
     border-bottom: 1px solid $gray_80;
     color: $gray_40;
-    background: $white;
     text-align: left;
     font-size: 14px;
     font-style: normal;
@@ -261,6 +259,9 @@
 
   tr {
     background-color: $white;
+    &.highlightedRow > td {
+      background-color: $gray_95 !important;
+    }
   }
   .hideThead {
     visibility: hidden;

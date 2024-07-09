@@ -55,6 +55,7 @@ const MarketStats = ({
   const { currentMarketStatus } = state.marketStatus;
   const [resetSort, setResetSort] = useState("");
   const [updateDateTime, setUpdateDateTime] = useState(unixDateTime);
+  const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
   const [_payload, setPayload] = useState(payload);
   const [_tabData, setTabData] = useState(tabData);
   const [_l3Nav, setL3Nav] = useState(l3Nav);
@@ -389,10 +390,11 @@ const MarketStats = ({
 
   useIntervalApiCall(
     () => {
-      if (currentMarketStatus === "LIVE") updateTableData();
+      if (currentMarketStatus === "LIVE" && !!fallbackWebsocket)
+        updateTableData();
     },
     refeshConfig.marketstats,
-    [_payload, isPrime, currentMarketStatus],
+    [_payload, isPrime, currentMarketStatus, fallbackWebsocket],
   );
 
   useEffect(() => {
@@ -518,6 +520,8 @@ const MarketStats = ({
               !isTechnical ? "Intraday" : _technicalCategory?.category
             }
             l3NavTracking={getNavName()}
+            setUpdateDateTime={setUpdateDateTime}
+            setFallbackWebsocket={setFallbackWebsocket}
           />
         </div>
       </div>

@@ -7,7 +7,9 @@ import Blocker from "../../components/Blocker";
 import Loader from "../Loader";
 import Pagination from "./Pagination";
 import useDebounce from "@/hooks/useDebounce";
-
+import { formatNumber, requestIdleOrTimeout } from "@/utils";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils/index";
 interface propsType {
   data: any[];
   highlightLtp?: boolean;
@@ -28,6 +30,8 @@ interface propsType {
   l1NavTracking?: any;
   l2NavTracking?: any;
   l3NavTracking?: any;
+  setUpdateDateTime?: any;
+  setFallbackWebsocket?: any;
 }
 
 const DEBOUNCE_DELAY = 10;
@@ -52,8 +56,13 @@ const MarketTable = React.memo((props: propsType) => {
     l1NavTracking = "",
     l2NavTracking = "",
     l3NavTracking = "",
+    setUpdateDateTime,
+    setFallbackWebsocket = false,
   } = props || {};
 
+  const wsRef = useRef<WebSocket | null>(null);
+  const buffer = useRef<any[]>([]);
+  const BUFFER_UPDATE_INTERVAL = 1500;
   const objTracking = {
     category: "Subscription Flow ET",
     action: "SYFT | Flow Started",
@@ -85,12 +94,15 @@ const MarketTable = React.memo((props: propsType) => {
   const fixedTableRef = useRef<HTMLDivElement>(null);
   const customScroll = useRef<HTMLDivElement>(null);
   const { debounce } = useDebounce();
+
   const {
     loader = false,
     loaderType,
     horizontalScroll,
     isWidget = false,
   } = tableConfig || {};
+
+  const [websocketFailed, setWebsocketFailed] = useState(false);
   const [pageSummaryData, setPageSummaryData] = useState(pageSummary);
   const [tableDataList, setTableDataList] = useState(data);
   const [tableHeaderData, setTableHeaderData] = useState<any>(tableHeaders);
@@ -107,6 +119,25 @@ const MarketTable = React.memo((props: propsType) => {
   const [scrollableTableRef, setScrollableTableRef] = useState({});
   const [rightScrollEnabled, setRightScrollEnabled] = useState(false);
   const [leftScrollEnabled, setLeftScrollEnabled] = useState(true);
+
+  const onRowHover = (rowIndex: number, isHovering: boolean) => {
+    const fixedTable = fixedTableRef.current;
+    const scrollableTable = parentRef.current;
+
+    if (fixedTable && scrollableTable) {
+      const fixedTableRow = fixedTable.querySelectorAll("tbody tr")[rowIndex];
+      const scrollableTableRow =
+        scrollableTable.querySelectorAll("tbody tr")[rowIndex];
+
+      if (isHovering) {
+        fixedTableRow.classList.add(styles.highlightedRow);
+        scrollableTableRow.classList.add(styles.highlightedRow);
+      } else {
+        fixedTableRow.classList.remove(styles.highlightedRow);
+        scrollableTableRow.classList.remove(styles.highlightedRow);
+      }
+    }
+  };
 
   const handleFilterChange = useCallback((e: any) => {
     const { name, value } = e.target;
@@ -259,6 +290,7 @@ const MarketTable = React.memo((props: propsType) => {
     },
     [sortData],
   );
+
   const rightClickScroll = () => {
     const tableWrapper: any = scrollableTableRef;
     if (
@@ -268,6 +300,7 @@ const MarketTable = React.memo((props: propsType) => {
       tableWrapper.scrollLeft += 50; // Adjust scroll amount as needed
     }
   };
+
   const leftClickScroll = () => {
     const tableWrapper: any = scrollableTableRef;
     if (tableWrapper.scrollLeft > 0) {
@@ -425,6 +458,207 @@ const MarketTable = React.memo((props: propsType) => {
     }
   }, [loaderOff, loader]);
 
+  useEffect(() => {
+    if (!highlightLtp) return;
+
+    const getMappedData = (data: any[], key: string) =>
+      data.map((item) => item[key]?.toUpperCase());
+
+    const companies = data?.length
+      ? getMappedData(
+          data,
+          l2NavTracking === "Indices" && l3NavTracking === "nse"
+            ? "assetName"
+            : "assetSymbol",
+        )
+      : [];
+
+    if (!companies.length) return;
+
+    const requestBody = {
+      action: "subscribe",
+      symbols: l2NavTracking === "Indices" ? [] : companies,
+      indices: l2NavTracking === "Indices" ? companies : [],
+    };
+
+    const unsubscribeRequestBody = {
+      action: "unsubscribe",
+      symbols: l2NavTracking === "Indices" ? [] : companies,
+      indices: l2NavTracking === "Indices" ? companies : [],
+    };
+
+    const initializeWebSocket = () => {
+      if (document.hidden) {
+        // If the document is hidden, don't initialize the WebSocket
+        return;
+      }
+      if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+        wsRef.current.send(JSON.stringify(requestBody));
+        setWebsocketFailed(false); // Reset fallback state
+        return;
+      }
+
+      if (
+        wsRef.current &&
+        (wsRef.current.readyState === WebSocket.CONNECTING ||
+          wsRef.current.readyState === WebSocket.CLOSING)
+      ) {
+        return;
+      }
+
+      wsRef.current = new WebSocket(
+        (APIS_CONFIG as any)?.WEBSOCKET_ENDPOINT[APP_ENV],
+      );
+
+      wsRef.current.onopen = () => {
+        console.log("WebSocket connection opened");
+        wsRef.current?.send(JSON.stringify(requestBody));
+        setWebsocketFailed(false); // Reset fallback state
+      };
+
+      wsRef.current.onmessage = (event) => {
+        const { stocks, indices, time } = JSON.parse(event.data);
+        if (stocks) buffer.current.push(...stocks);
+        if (indices) buffer.current.push(...indices);
+        if (setUpdateDateTime && !isNaN(new Date(time).getTime()))
+          setUpdateDateTime(new Date(time).getTime());
+      };
+
+      wsRef.current.onclose = () => {
+        console.log("WebSocket connection closed");
+        wsRef.current = null;
+        setWebsocketFailed(true); // Set fallback state
+      };
+
+      wsRef.current.onerror = (error) => {
+        console.error("WebSocket error", error);
+        setWebsocketFailed(true); // Set fallback state
+      };
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+          wsRef.current.send(JSON.stringify(unsubscribeRequestBody));
+        }
+      } else {
+        if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+          wsRef.current.send(JSON.stringify(requestBody));
+        } else if (!wsRef.current) {
+          requestIdleOrTimeout(initializeWebSocket);
+        }
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+              wsRef.current.send(JSON.stringify(requestBody));
+            } else if (!wsRef.current) {
+              requestIdleOrTimeout(initializeWebSocket);
+            }
+          } else {
+            if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+              wsRef.current.send(JSON.stringify(unsubscribeRequestBody));
+            }
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
+
+    if (tableRef.current) {
+      observer.observe(tableRef.current);
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    // Initialize WebSocket if the table is in view and document is visible
+    if (!document.hidden && tableRef.current) {
+      requestIdleOrTimeout(initializeWebSocket);
+    }
+
+    const intervalId = setInterval(() => {
+      if (buffer.current.length > 0) {
+        setTableDataList((prevTableDataList) => {
+          const updatedTableData = [...prevTableDataList];
+
+          buffer.current.forEach((stock) => {
+            updatedTableData.forEach((asset, index) => {
+              if (
+                asset.assetSymbol === stock.scripCode ||
+                asset.assetSymbol === stock.symbol ||
+                asset.assetId === stock.indexId
+              ) {
+                const updatedData = asset.data.map((data: any) => {
+                  switch (data.keyId) {
+                    case "lastTradedPrice":
+                      return {
+                        ...data,
+                        value: formatNumber(
+                          stock?.lastTradedPrice || stock?.currentIndexValue,
+                        ),
+                        filterFormatValue:
+                          stock?.lastTradedPrice?.toString() ||
+                          stock?.currentIndexValue?.toString(),
+                      };
+                    case "percentChange":
+                      return {
+                        ...data,
+                        value: `${stock?.percentChange} %`,
+                        filterFormatValue: stock?.percentChange?.toString(),
+                      };
+                    case "netChange":
+                      return {
+                        ...data,
+                        value: `${stock?.netChange}`,
+                        filterFormatValue: stock?.netChange?.toString(),
+                      };
+                    default:
+                      return data;
+                  }
+                });
+                updatedTableData[index] = { ...asset, data: updatedData };
+              }
+            });
+          });
+
+          buffer.current = []; // Clear the buffer
+          return updatedTableData;
+        });
+      }
+    }, BUFFER_UPDATE_INTERVAL);
+
+    let idleCallbackId: any;
+
+    const idleInitializer = () => {
+      idleCallbackId = requestIdleOrTimeout(initializeWebSocket);
+    };
+
+    // Schedule idle initializer
+    idleInitializer();
+
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+      clearInterval(intervalId); // Clear the interval on cleanup
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      if (tableRef.current) {
+        observer.unobserve(tableRef.current);
+      }
+      if (idleCallbackId) {
+        cancelIdleCallback(idleCallbackId);
+      }
+    };
+  }, [data, highlightLtp, l2NavTracking, l3NavTracking]);
+
+  useEffect(() => {
+    setFallbackWebsocket(websocketFailed);
+  }, [websocketFailed]);
+
   return (
     <>
       <div className={styles.tableWrapper} id="table" ref={tableRef}>
@@ -459,6 +693,7 @@ const MarketTable = React.memo((props: propsType) => {
                 tableConfig={tableConfig}
                 fixedCol={fixedCol}
                 objTracking={objTracking}
+                onRowHover={onRowHover}
               />
             </div>
             <div
@@ -487,6 +722,7 @@ const MarketTable = React.memo((props: propsType) => {
                 objTracking={objTracking}
                 setLeftScrollEnabled={setLeftScrollEnabled}
                 setRightScrollEnabled={setRightScrollEnabled}
+                onRowHover={onRowHover}
               />
             </div>
           </>

@@ -31,7 +31,6 @@ const LiveStreamPlay = (props: any) => {
   const ET_WAP_URL = "https://m.economictimes.com/";
   const { state } = useStateContext();
   const { isLogin, userInfo, isPrime } = state.login;
-  let requestIdleCallbackId = 0;
 
   const fetchList = async () => {
     const currentDate = new Date();

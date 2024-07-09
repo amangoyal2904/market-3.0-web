@@ -28,6 +28,7 @@ const FixedTable = React.memo((props: any) => {
     tableConfig = {},
     fixedCol = 3,
     objTracking,
+    onRowHover,
   } = props || {};
   const {
     showFilterInput = true,
@@ -208,7 +209,12 @@ const FixedTable = React.memo((props: any) => {
         <tbody>
           <>
             {tableDataList.map((item: any, index: number) => (
-              <tr key={index} className={styles.fixedTr}>
+              <tr
+                key={index}
+                className={styles.fixedTr}
+                onMouseEnter={() => onRowHover(index, true)}
+                onMouseLeave={() => onRowHover(index, false)}
+              >
                 {item.data.map(
                   (tdData: any, tdIndex: number) =>
                     tdIndex < fixedCol &&

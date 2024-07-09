@@ -717,3 +717,11 @@ export const removeHostname = (url: string) => {
     return (APIS_CONFIG as any)?.DOMAIN[APP_ENV] + url;
   }
 };
+
+export const requestIdleOrTimeout = (callback: () => void) => {
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(callback);
+  } else {
+    setTimeout(callback, 0);
+  }
+};
