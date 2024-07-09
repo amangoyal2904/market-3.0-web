@@ -156,7 +156,7 @@ const nextConfig = {
     return headers;
   },
   images: {
-    domains: ["img.etimg.com"],
+    domains: ["img.etimg.com", "marketcharts.indiatimes.com"],
   },
 };
 
