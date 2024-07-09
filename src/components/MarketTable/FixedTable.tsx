@@ -154,7 +154,7 @@ const FixedTable = React.memo((props: any) => {
                       )}
                   </div>
                 </th>
-              ),
+              )
           )}
         </tr>
         {showFilterInput && (
@@ -200,7 +200,7 @@ const FixedTable = React.memo((props: any) => {
                       <span className="eticon_search"></span>
                     </span>
                   </td>
-                ),
+                )
             )}
           </tr>
         )}
@@ -233,7 +233,7 @@ const FixedTable = React.memo((props: any) => {
                                     removeCheckBoxHandle(
                                       e,
                                       item.assetId,
-                                      item.assetType,
+                                      item.assetType
                                     )
                                   }
                                 />
@@ -260,7 +260,7 @@ const FixedTable = React.memo((props: any) => {
                               !!item.assetSeoName
                                 ? item.assetSeoName
                                 : item.assetName,
-                              item.assetType,
+                              item.assetType
                             )}
                             onClick={() =>
                               trackingEvent("et_push_event", {
@@ -336,7 +336,7 @@ const FixedTable = React.memo((props: any) => {
                             ) : tdData.valueType == "sparklineGraph" ? (
                               !!tdData.value && (
                                 <div className="dflex align-item-center overH">
-                                  <img
+                                  <Image
                                     src={`${tdData.value}&width=115&height=35`}
                                     width={115}
                                     height={35}
@@ -356,14 +356,14 @@ const FixedTable = React.memo((props: any) => {
                                     ? parseFloat(tdData.filterFormatValue) >
                                       parseFloat(
                                         prevTableDataList[index]?.data[tdIndex]
-                                          ?.filterFormatValue,
+                                          ?.filterFormatValue
                                       )
                                       ? "upBg"
                                       : parseFloat(tdData.filterFormatValue) <
                                           parseFloat(
                                             prevTableDataList[index]?.data[
                                               tdIndex
-                                            ]?.filterFormatValue,
+                                            ]?.filterFormatValue
                                           )
                                         ? "downBg"
                                         : ""
@@ -398,7 +398,7 @@ const FixedTable = React.memo((props: any) => {
                           </>
                         )}
                       </td>
-                    )),
+                    ))
                 )}
               </tr>
             ))}
