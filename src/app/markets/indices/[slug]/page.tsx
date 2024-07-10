@@ -23,6 +23,7 @@ import BreadCrumb from "@/components/BreadCrumb";
 import TextBottom from "@/components/TextBottom";
 import dynamic from "next/dynamic";
 import IndicesQuickLinks from "@/components/IndicesDetails/IndicesQuickLinks";
+import { Fragment } from "react";
 const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
   ssr: false,
 });
@@ -120,7 +121,7 @@ const Indices = async ({ params }: any) => {
     await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
 
   return (
-    <>
+    <Fragment key="indices">
       <IndicesDetailsClient
         overview={overviewData}
         technicals={technicalsData}
@@ -146,7 +147,7 @@ const Indices = async ({ params }: any) => {
         pageName={[{ label: overviewData?.assetName, redirectUrl: "" }]}
       />
       <PageRefresh refreshTime={180000} />
-    </>
+    </Fragment>
   );
 };
 

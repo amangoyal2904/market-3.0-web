@@ -24,12 +24,12 @@ export async function generateMetadata(): Promise<Metadata> {
   return fnGenerateMetaData(meta);
 }
 
-const Indices = async () => {
+const NseIndices = async () => {
   const { tableHeaderData, tableData, exchange, unixDateTime } =
     await getAllIndices("nse", "", "DESC");
 
   return (
-    <Fragment key="indices">
+    <Fragment key="nse">
       <IndicesClient
         tableHeaderData={tableHeaderData}
         tableData={tableData}
@@ -47,4 +47,4 @@ const Indices = async () => {
   );
 };
 
-export default Indices;
+export default NseIndices;
