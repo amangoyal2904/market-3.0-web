@@ -41,7 +41,7 @@ async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const headersList = headers();
-  const indexFilterData = await fetchSelectedIndex(params.index);
+  const indexFilterData = await fetchSelectedIndex(params.slug);
   const pageUrl = headersList.get("x-url") || "";
   const overviewData = await getIndicesOverview(indexFilterData.assetId);
   let pageTitle, pageDesc, pageKeywords;
@@ -77,7 +77,7 @@ const Indices = async ({ params }: any) => {
   const pageUrl = headersList.get("x-url") || "";
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
-  const indexFilterData = await fetchSelectedIndex(params.index);
+  const indexFilterData = await fetchSelectedIndex(params.slug);
   if (indexFilterData.assetId == 0 || indexFilterData.assetId == null) {
     notFound();
   }

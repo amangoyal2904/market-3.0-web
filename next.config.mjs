@@ -96,7 +96,21 @@ const nextConfig = {
         ],
       },
       {
-        source: "/markets/indices(.*)",
+        source: "/markets/indices",
+        headers: [
+          {
+            key: "Cache-Control",
+            value:
+              "public, max-age=300, s-maxage= 300, must-revalidate, stale-while-revalidate=600", // 5 min
+          },
+          {
+            key: "Expires",
+            value: new Date(Date.now() + 300000).toUTCString(), // 15 min from now
+          },
+        ],
+      },
+      {
+        source: "/markets/indices/(.*)",
         headers: [
           {
             key: "Cache-Control",
