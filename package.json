@@ -13,7 +13,7 @@
     "winTest": "SET NODE_ENV=test && jest",
     "winDev": "SET PORT=3009 && next dev",
     "winStart": "SET PORT=3009 && next start",
-    "winBuild": "SET PORT=3009 next build",
+    "winBuild": "SET PORT=3009 && next build",
     "prepare": "husky install",
     "check-format": "prettier --check",
     "format": "prettier --write",
