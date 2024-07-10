@@ -6,6 +6,7 @@ import BreadCrumb from "@/components/BreadCrumb";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
 import dynamic from "next/dynamic";
+import { Fragment } from "react";
 const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
   ssr: false,
 });
@@ -23,12 +24,12 @@ export async function generateMetadata(): Promise<Metadata> {
   return fnGenerateMetaData(meta);
 }
 
-const Indices = async () => {
+const BseIndices = async () => {
   const { tableHeaderData, tableData, exchange, unixDateTime } =
     await getAllIndices("bse", "", "DESC");
 
   return (
-    <>
+    <Fragment key="bse">
       <IndicesClient
         tableHeaderData={tableHeaderData}
         tableData={tableData}
@@ -42,8 +43,8 @@ const Indices = async () => {
       />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />
       <PageRefresh refreshTime={180000} />
-    </>
+    </Fragment>
   );
 };
 
-export default Indices;
+export default BseIndices;
