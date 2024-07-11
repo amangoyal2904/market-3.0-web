@@ -17,9 +17,103 @@ export function middleware(request: NextRequest) {
   requestHeaders.set("x-origin", origin);
   requestHeaders.set("x-pathname", pathname);
 
-  return NextResponse.next({
+  const response = NextResponse.next({
     request: {
       headers: requestHeaders,
     },
   });
+
+  // Set cache control headers based on the request path
+  if (pathname.startsWith("/marketsweb/_next/static/chunks")) {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=31536000, s-maxage=31536000, immutable",
+    );
+  } else if (pathname.startsWith("/marketsweb/static/")) {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=31536000, s-maxage=31536000, must-revalidate, stale-while-revalidate=604800",
+    );
+    response.headers.set(
+      "Expires",
+      new Date(Date.now() + 31536000000).toUTCString(),
+    );
+  } else if (pathname === "/markets/live-coverage") {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=300, s-maxage=300, must-revalidate, stale-while-revalidate=600",
+    );
+    response.headers.set(
+      "Expires",
+      new Date(Date.now() + 300000).toUTCString(),
+    );
+  } else if (
+    pathname === "/markets/stock-market-mood" ||
+    pathname === "/watchlist"
+  ) {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=1200, s-maxage=1200, must-revalidate, stale-while-revalidate=2400",
+    );
+    response.headers.set(
+      "Expires",
+      new Date(Date.now() + 1200000).toUTCString(),
+    );
+  } else if (pathname.startsWith("/stocks/marketstats")) {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=1200, s-maxage=1200, must-revalidate, stale-while-revalidate=2400",
+    );
+    response.headers.set(
+      "Expires",
+      new Date(Date.now() + 1200000).toUTCString(),
+    );
+  } else if (pathname === "/markets/indices") {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=300, s-maxage=300, must-revalidate, stale-while-revalidate=600",
+    );
+    response.headers.set(
+      "Expires",
+      new Date(Date.now() + 300000).toUTCString(),
+    );
+  } else if (pathname.startsWith("/markets/indices/")) {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=900, s-maxage=900, must-revalidate, stale-while-revalidate=1800",
+    );
+    response.headers.set(
+      "Expires",
+      new Date(Date.now() + 900000).toUTCString(),
+    );
+  } else if (pathname.startsWith("/markets/stock-recos/")) {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=900, s-maxage=900, must-revalidate, stale-while-revalidate=1800",
+    );
+    response.headers.set(
+      "Expires",
+      new Date(Date.now() + 900000).toUTCString(),
+    );
+  } else if (pathname.startsWith("/markets/stock-screener")) {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=600, s-maxage=600, must-revalidate, stale-while-revalidate=1200",
+    );
+    response.headers.set(
+      "Expires",
+      new Date(Date.now() + 600000).toUTCString(),
+    );
+  } else if (pathname.startsWith("/markets/top-india-investors-portfolio/")) {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=600, s-maxage=600, must-revalidate, stale-while-revalidate=1200",
+    );
+    response.headers.set(
+      "Expires",
+      new Date(Date.now() + 600000).toUTCString(),
+    );
+  }
+
+  return response;
 }
