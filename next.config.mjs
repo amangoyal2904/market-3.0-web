@@ -167,6 +167,7 @@ const nextConfig = {
 
     return headers;
   },
+  compress: false,
   images: {
     domains: ["img.etimg.com", "marketcharts.indiatimes.com"],
   },
