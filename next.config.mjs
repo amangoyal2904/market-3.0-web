@@ -169,7 +169,7 @@ const nextConfig = {
   },
   compress: false,
   images: {
-    domains: ["img.etimg.com", "marketcharts.indiatimes.com"],
+    domains: ["img.etimg.com"],
   },
 };
 
