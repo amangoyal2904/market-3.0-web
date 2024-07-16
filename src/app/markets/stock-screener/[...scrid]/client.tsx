@@ -478,7 +478,7 @@ const StockScreeners = ({
         setPageSummary(pageSummary);
         setScreenerDetail(screenerDetail);
 
-        if (tableData.length === 0) {
+        if (newTableData.length === 0) {
           setUpdateDateTime(new Date().getTime());
           setTableData([]);
           setTableHeaderData([]);
