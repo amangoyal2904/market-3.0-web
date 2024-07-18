@@ -6,6 +6,7 @@ import Scripts from "@/components/Scripts";
 import LeftNav from "@/components/LeftNav";
 import { cookies, headers } from "next/headers";
 import RedeemVoucher from "@/components/RedeemVoucher";
+import AccessFreeTrial from "@/components/AccessFreeTrial";
 import APIS_CONFIG from "../network/api_config.json";
 import { APP_ENV, footerAPIHit } from "@/utils";
 import service from "@/network/service";
@@ -112,6 +113,7 @@ export default async function RootLayout({
               <div id="ssoLogin" className="ssoLoginElm" />
             </div>
             <RedeemVoucher />
+            <AccessFreeTrial />
             <Toaster position="bottom-right" reverseOrder={false} />
           </main>
         </StateProvider>

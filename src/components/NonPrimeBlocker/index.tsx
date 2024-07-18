@@ -1,6 +1,7 @@
 import styles from "./styles.module.scss";
 import Image from "next/image";
 
+import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
 import { initSSOWidget } from "@/utils";
 import { useStateContext } from "@/store/StateContext";
 import APIS_CONFIG from "@/network/api_config.json";
@@ -23,6 +24,8 @@ const NonPrimeBlockerModule = ({
     oncloseModule();
     initSSOWidget();
   };
+  const [validAccessPass, setValidAccessPass] = useState(false);
+
   const getDataFromMetalist = async () => {
     const apiUrl = (APIS_CONFIG as any)?.["DOMAIN"][APP_ENV];
     const _feedparameters =
@@ -59,11 +62,14 @@ const NonPrimeBlockerModule = ({
     },
   };
   const planPageRedirect = () => {
-    redirectToPlanPage(objTracking);
+    validAccessPass ? activateFreeTrial() : redirectToPlanPage(objTracking);
   };
   useEffect(() => {
     getDataFromMetalist();
+    const isValidAccessPass = freeTrialElegibilty();
+    setValidAccessPass(isValidAccessPass);
   }, []);
+
   return (
     <>
       <div className={styles.nonPrimeSec}>
@@ -100,14 +106,14 @@ const NonPrimeBlockerModule = ({
                 </div> */}
                 <div className={styles.btnSec}>
                   <SubscribeBtn
-                    text={ctaTxt}
+                    text={validAccessPass ? "Start free trial" : ctaTxt}
                     planPageRedirect={planPageRedirect}
                   />
                   {/* <span onClick={planPageRedirect} className={styles.subBtn}>
                     {ctaTxt}
                   </span> */}
                   <span onClick={planPageRedirect} className={styles.boxTxt}>
-                    {text}
+                    {validAccessPass ? "Limited Time Offer" : text}
                   </span>
                 </div>
                 <div className={styles.loginSec}>

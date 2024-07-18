@@ -1,6 +1,9 @@
-import Service from "../network/service";
+import jStorageReact from "jstorage-react";
+
+import { activateFreeTrial } from "@/utils/freeTrail";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
+import Service from "../network/service";
 import { createPeuuid } from "./utility";
 import service from "../network/service";
 import { getPageName } from "./ga";
@@ -282,9 +285,10 @@ export const initSSOWidget = () => {
     gaChannelName: "et",
     last_clicked_lob: "ET",
     signInCallback: function () {
+      const freeTrialData = jStorageReact.get("et_freetrial");
       verifyLogin();
       ssoClose();
-      window.location.reload();
+      freeTrialData?.eligible ? activateFreeTrial() : window.location.reload();
     },
     signupForm: {
       defaultFirstName: "Guest",

@@ -43,7 +43,7 @@ export const redirectToPlanPage = (
   }
 };
 
-export const goToPlansPage1 = (type, data, redirect, cdpSend = {}) => {
+export const goToPlansPage1 = (type, data = {}, redirect, cdpSend = {}) => {
   if (window.dataLayer) {
     let _gtmEventDimension = {};
     _gtmEventDimension = updateGtm(_gtmEventDimension);
@@ -117,7 +117,7 @@ export const trackPushData = (
   const ticketId = getCookie("encTicket")
     ? `&ticketid=${getCookie("encTicket")}`
     : "";
-  const ACQ_SUB_SOURCE = `${sendGTMdata?.item_category}|${sendGTMdata?.item_category2}|${sendGTMdata?.item_category3}|${sendGTMdata?.item_category4.replace(" ", "_")}`;
+  const ACQ_SUB_SOURCE = `${sendGTMdata?.item_category}|${sendGTMdata?.item_category2}|${sendGTMdata?.item_category3}|${sendGTMdata?.item_category4?.replace(" ", "_")}`;
   const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
   const newPlanUrl =
     planUrl +

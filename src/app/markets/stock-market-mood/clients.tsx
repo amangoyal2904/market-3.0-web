@@ -8,6 +8,7 @@ import React, {
   useCallback,
 } from "react";
 import MarketMoodHeader from "@/components/MarketMood/SectionHeader";
+import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
 import FixedTableMarketMood from "@/components/MarketMood/FixedTable";
 import ScrollableTableMarketMood from "@/components/MarketMood/ScrollableTable";
 import ScrollableBarsTableMarketMood from "@/components/MarketMood/ScrollableBarsTable";
@@ -91,10 +92,16 @@ const MarketMoodsClient = ({
   const [activeItemFromClick, setActiveItemFromClick] = useState<string>("");
   const [showFilter, setShowFilter] = useState(false);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
+  const [validAccessPass, setValidAccessPass] = useState(false);
   const contentRefs = useRef<HTMLDivElement>(null);
   const activeListItemRef = useRef<HTMLLIElement>(null);
   const allFilterData = useMemo(() => allFilters, [allFilters]);
   const { debounce } = useDebounce();
+
+  useEffect(() => {
+    const isValidAccessPass = freeTrialElegibilty();
+    setValidAccessPass(isValidAccessPass);
+  }, []);
 
   const fetchData = async (indexId: number) => {
     return Promise.all([
@@ -406,16 +413,24 @@ const MarketMoodsClient = ({
                   : item.key == "periodic"
                     ? periodicList
                     : ""}
-                {!!item.desc && <p className={styles.desc}>{item.desc}</p>}
+                {!!item.desc && (
+                  <p className={styles.desc}>
+                    {validAccessPass
+                      ? "Activate your 15-day free trial and unlock complete access to Market Mood & other market tools."
+                      : item.desc}
+                  </p>
+                )}
                 <div className={styles.plan}>
                   <span
                     className={styles.subscribeBtn}
                     onClick={() => {
-                      objTracking.cdp["cta_text"] = item.cta;
+                      validAccessPass
+                        ? activateFreeTrial()
+                        : (objTracking.cdp["cta_text"] = item.cta);
                       redirectToPlanPage(objTracking);
                     }}
                   >
-                    {item.cta}
+                    {validAccessPass ? "Start Free Trial" : item.cta}
                   </span>
                   {!isLogin && (
                     <p className={styles.defaultLink}>
