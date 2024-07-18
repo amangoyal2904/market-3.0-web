@@ -2,7 +2,7 @@
 import { useSearchParams, usePathname } from "next/navigation";
 import Script from "next/script";
 import { FC, useEffect, useState } from "react";
-import { APP_ENV, getCookie, verifyLogin } from "../utils";
+import { APP_ENV, getCookie, verifyLogin, loadAudienceDMPScript } from "../utils";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import { getUserType, trackingEvent } from "@/utils/ga";
 import { useStateContext } from "@/store/StateContext";
@@ -131,6 +131,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   useEffect(() => {
     sendMouseFlowEvent();
     console.log("____________mouse flow start ");
+    loadAudienceDMPScript();
   }, []);
 
   return (

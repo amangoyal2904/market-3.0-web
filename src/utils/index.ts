@@ -12,6 +12,8 @@ declare global {
     geoinfo: any;
     opera?: string;
     MSStream?: string;
+    _auds:any;
+    colaud:any;
   }
   interface objUser {
     info: {
@@ -724,4 +726,94 @@ export const requestIdleOrTimeout = (callback: () => void) => {
   } else {
     setTimeout(callback, 0);
   }
+};
+
+export const loadAssets = (filename:any, fileType:any, attrType:any, position:any, cb:any, objAttr:any) => {
+    try{
+      let fileRef:any;
+      if (fileType == "js") {
+          fileRef = document.createElement('script');
+          fileRef.setAttribute("type", "text/javascript");
+          fileRef.setAttribute("src", filename);
+          if (attrType) {
+              if(attrType.indexOf("async") > -1){
+                  fileRef.async = "async";
+              }else{
+                  fileRef.setAttribute(attrType, attrType);
+              }
+          }
+          if(Object.keys(objAttr).length > 0 && objAttr.constructor === Object){ //object not empty
+              for (var key in objAttr) { 
+                  fileRef.setAttribute(key, objAttr[key]);
+              }
+          }
+        
+          if (typeof cb == "function") {
+              fileRef.addEventListener("load", cb);
+          }
+      } else if (fileType == "css") {
+          fileRef = document.createElement("link");
+          fileRef.setAttribute("rel", "stylesheet");
+          fileRef.setAttribute("type", "text/css");
+          fileRef.setAttribute("href", filename)
+      }
+      if (typeof fileRef != "undefined") {
+          var positionToAppend = position ? position : "head";
+          document.getElementsByTagName(positionToAppend)[0].appendChild(fileRef);
+      }
+  }catch(e){
+      console.log('loadAssets', e);
+  }
+};
+export const loadAudienceDMPScript = () => {
+  try{
+    let isExist : any;
+     isExist = document.querySelector("script[src*='https://ade.clmbtech.com/cde/aef/var=colaud']");
+    if(isExist){
+        isExist.parentNode.removeChild(isExist);
+    }
+      let dsmi = getCookie("_col_ccds");
+      let fpc = getCookie("_col_uuid");
+      let optout = getCookie("optout");
+        if((typeof window.geoinfo !="undefined" && (window.geoinfo.geolocation != 5) || (window.geoinfo.geolocation == "5" && optout=="0"))) {
+             
+              let currentUrl = window.location.href;
+              let dsmiParam = dsmi ? "dsmi="+dsmi+"&" : '';
+              let fpcParam = fpc ? "fpc="+fpc+"&" : '';
+              let optoutParam = optout ? "optout="+optout+"&" : '';
+              let scriptUrl = "https://ade.clmbtech.com/cde/aef/var=colaud?cid=2308:4&" +fpcParam + optoutParam +dsmiParam+"_u="+currentUrl;
+              //var scriptUrl = "https://ade.clmbtech.com/cde/ae/2308/var=_ccaud?"+dsmiParam+"_u="+currentUrl;
+             
+                  loadAssets(scriptUrl, "js", "async", "head",  function() { 
+             
+                   window._auds = new Array();
+                    if (typeof(window.colaud) != 'undefined') {
+                  
+                        window._auds = window.colaud && window.colaud.aud ? window.colaud.aud : "";
+                        if(typeof localStorage && window._auds.length > 0){
+                            window.localStorage.setItem("audienceData", JSON.stringify(window._auds));
+                        }else {
+                          window._auds = typeof localStorage ? JSON.parse(localStorage.getItem("audienceData") as any): ""; // set old data from storage
+                        }
+                    }
+        
+         }, "");
+        }
+        
+           
+     }catch(e){}
+
+};
+export const returnPPID = () => {
+  try{
+    let ppid: any;;
+    if(typeof localStorage !='undefined'){
+        ppid =  getCookie('_col_uuid') ?  getCookie('_col_uuid') : localStorage.getItem("col_ppid") ? localStorage.getItem("col_ppid"):'';
+        !localStorage.getItem("col_ppid") ?  localStorage.setItem("col_ppid", ppid) : '';
+    }
+    return ppid;
+  }catch(e){
+    console.log("returnPPID:"+e);
+  }
+
 };
