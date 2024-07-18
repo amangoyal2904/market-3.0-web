@@ -261,3 +261,27 @@
     }
   }
 }
+.keyword {
+  position: absolute;
+  bottom: 100%;
+  width: 100%;
+  text-align: center;
+  animation: slideUp 2s;
+}
+.hidden {
+  display: none;
+}
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}

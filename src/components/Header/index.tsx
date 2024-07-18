@@ -183,7 +183,14 @@ const Header = () => {
               />
             </Link>
           </div>
-
+          <div className={styles.switchToEt}>
+            <a
+              href="https://economictimes.indiatimes.com/"
+              className={styles.switchTxtSec}
+            >
+              Switch To <span>ET</span>
+            </a>
+          </div>
           <div
             className={`dflex align-item-center ${styles.headerRightContainer}`}
           >

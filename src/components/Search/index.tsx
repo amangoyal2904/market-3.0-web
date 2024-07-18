@@ -7,6 +7,8 @@ import SearchData from "./SearchData";
 import { saveLogs } from "@/utils/utility";
 import { trackingEvent } from "@/utils/ga";
 
+const keywords = ["Stock", "Industry", "Sensex"];
+
 const debounce = <T extends any[]>(
   func: (...args: T) => void,
   wait: number,
@@ -24,6 +26,10 @@ interface Props {
 }
 
 const Search: React.FC<Props> = ({ pos }) => {
+  const [currentKeyword, setCurrentKeyword] = useState(0);
+  const [isTyping, setIsTyping] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+
   const [data, setData] = useState([]);
   const [val, setVal] = useState("");
   const [loader, setLoader] = useState(false);
@@ -153,7 +159,14 @@ const Search: React.FC<Props> = ({ pos }) => {
     ref.current.value = "";
     setSearchEnable(false);
   };
-
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isTyping && inputValue === "") {
+        setCurrentKeyword((prevKeyword) => (prevKeyword + 1) % keywords.length);
+      }
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [isTyping, inputValue]);
   return (
     <>
       {searchEnable && pos == "header" && (
@@ -178,6 +191,11 @@ const Search: React.FC<Props> = ({ pos }) => {
           ref={ref}
           maxLength={100}
         />
+        <div
+          className={`${styles.keyword} ${isTyping || inputValue ? styles.hidden : ""}`}
+        >
+          {keywords[currentKeyword]}
+        </div>
         {searchEnable && (
           <>
             {loader ? (
