@@ -167,6 +167,7 @@ export const updateOrAddParamToPath = (
 };
 
 export const fnGenerateMetaData = (meta?: any) => {
+  const shouldIndex = meta?.index !== undefined ? meta.index : true;
   return {
     title: `${meta?.title} | The Economic Times`,
     description: meta?.desc,
@@ -205,11 +206,11 @@ export const fnGenerateMetaData = (meta?: any) => {
       images: ["https://img.etimg.com/photo/msid-65498029/et-logo.jpg"],
     },
     robots: {
-      index: meta?.index || true,
-      follow: meta?.index || true,
+      index: shouldIndex,
+      follow: shouldIndex,
       googleBot: {
-        index: meta?.index || true,
-        follow: meta?.index || true,
+        index: shouldIndex,
+        follow: shouldIndex,
       },
     },
     icons: {
