@@ -603,18 +603,35 @@ const MarketTable = React.memo((props: propsType) => {
                         filterFormatValue:
                           stock?.lastTradedPrice?.toString() ||
                           stock?.currentIndexValue?.toString(),
+                        trend: "", // Trend logic not applicable for lastTradedPrice according to the requirement
                       };
                     case "percentChange":
+                      let percentChangeValue = stock?.percentChange || 0;
+                      let percentChangeTrend =
+                        percentChangeValue === 0
+                          ? "neutral"
+                          : percentChangeValue > 0
+                            ? "up"
+                            : "down";
                       return {
                         ...data,
                         value: `${stock?.percentChange} %`,
                         filterFormatValue: stock?.percentChange?.toString(),
+                        trend: percentChangeTrend,
                       };
                     case "netChange":
+                      let netChangeValue = stock?.netChange || 0;
+                      let netChangeTrend =
+                        netChangeValue === 0
+                          ? "neutral"
+                          : netChangeValue > 0
+                            ? "up"
+                            : "down";
                       return {
                         ...data,
                         value: `${stock?.netChange}`,
                         filterFormatValue: stock?.netChange?.toString(),
+                        trend: netChangeTrend,
                       };
                     default:
                       return data;
