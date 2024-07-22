@@ -927,6 +927,15 @@ export const getIndicesFaqs = async (indexid: number) => {
   return originalJson;
 };
 
+export const getFiiDiiSummaryData = async (apitype: string) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.FIIDII_SUMMARY[APP_ENV]}?apitype=${apitype}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
 export const getDaywiseActivityData = async () => {
   const response = await Service.get({
     url: (APIS_CONFIG as any)?.FIIDII_OVERVIEW[APP_ENV],

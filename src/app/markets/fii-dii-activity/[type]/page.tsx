@@ -2,6 +2,7 @@ import {
   getCashData,
   getFandOCashData,
   getFiiCashData,
+  getFiiDiiSummaryData,
   getMfCashData,
 } from "@/utils/utility";
 import FiiDiiActivitySubPagesClients from "./clients";
@@ -14,6 +15,13 @@ const typeToFunctionMap: { [key: string]: () => Promise<any> } = {
   "fii-cash": getFiiCashData.bind(null, "daily"),
   "fii-fno": getFandOCashData.bind(null, "daily", "index"),
   "mf-cash": getMfCashData.bind(null, "daily"),
+};
+
+const typeToSummaryParamMap: { [key: string]: string } = {
+  "cash-provisional": "cash",
+  "fii-cash": "fiicash",
+  "fii-fno": "foindex",
+  "mf-cash": "mfcash",
 };
 
 const FiiDiiActivitySubPages = async ({ params }: any) => {
@@ -29,9 +37,17 @@ const FiiDiiActivitySubPages = async ({ params }: any) => {
   const response: any = await responseGetter();
   const { listData } = response.datainfo.data;
 
+  const summaryParam = typeToSummaryParamMap[type];
+  const summaryResponse: any = await getFiiDiiSummaryData(summaryParam);
+  const summaryData = summaryResponse;
+
   return (
     <>
-      <FiiDiiActivitySubPagesClients listData={listData} type={type} />
+      <FiiDiiActivitySubPagesClients
+        summaryData={summaryData}
+        listData={listData}
+        type={type}
+      />
       <BreadCrumb
         pagePath={pageUrl}
         pageName={[{ label: type, redirectUrl: "" }]}
