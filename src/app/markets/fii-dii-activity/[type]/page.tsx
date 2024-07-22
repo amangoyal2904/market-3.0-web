@@ -45,6 +45,7 @@ const FiiDiiActivitySubPages = async ({ params }: any) => {
     <>
       <FiiDiiActivitySubPagesClients
         summaryData={summaryData}
+        summaryType={typeToSummaryParamMap[type]}
         listData={listData}
         type={type}
       />

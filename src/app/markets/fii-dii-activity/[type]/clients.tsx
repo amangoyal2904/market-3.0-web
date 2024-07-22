@@ -14,6 +14,7 @@ import FiiDiiSummary from "@/components/FIIDII/FiiDiiSummary";
 
 interface FiiDiiActivitySubPagesClientsProps {
   summaryData: any;
+  summaryType: string;
   listData: any;
   type: string;
 }
@@ -35,13 +36,13 @@ const typeToSummaryParamMap: { [key: string]: string } = {
 
 const FiiDiiActivitySubPagesClients: React.FC<
   FiiDiiActivitySubPagesClientsProps
-> = ({ listData, summaryData, type }) => {
+> = ({ listData, summaryData, summaryType, type }) => {
   const [tableData, setTableData] = useState<any[]>(listData);
   const [summary, setSummary] = useState(summaryData);
   const [filterType, setFilterType] = useState<string>("daily");
-  const [apiType, setApiType] = useState<string>("index");
+  const [apiType, setApiType] = useState<string>(summaryType);
 
-  const prevApiType = useRef<string>(apiType);
+  const prevApiType = useRef<string>(summaryType);
 
   useEffect(() => {
     fetchData(type);
@@ -86,7 +87,7 @@ const FiiDiiActivitySubPagesClients: React.FC<
     <>
       <FiiDiiHeader />
       <FiiDiiTabs activeTab={type} handleApiType={onApiTypeChange} />
-      <FiiDiiSummary summaryData={summary} />
+      <FiiDiiSummary summaryData={summary} type={summaryType} />
       <FiiDiiOtherTable
         type={type}
         otherData={tableData}

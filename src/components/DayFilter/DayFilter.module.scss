@@ -28,8 +28,10 @@
         cursor: pointer;
         &.active,
         &:hover {
-          background: $gray_95;
           font-weight: 700;
+        }
+        &.active {
+          background: $gray_95;
         }
         & + li {
           border-top: solid 1px $gray_80;

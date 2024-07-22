@@ -1,11 +1,6 @@
 import { formatNumber, getClassAndPercent } from "@/utils";
 import styles from "./FIIDII.module.scss";
 
-interface MaxOtherDataItem {
-  value1_1: number;
-  value1_2: number;
-}
-
 // Function to get the date suffix
 const getDateSuffix = (date: number): string => {
   if (date > 3 && date < 21) return "th";
@@ -21,22 +16,49 @@ const getDateSuffix = (date: number): string => {
   }
 };
 
-const FiiDiiSummary = ({ summaryData }: any) => {
+const renderValueBasedOnFIIType = (type: string) => {
+  switch (type) {
+    case "cash":
+      return "FII Cash Activity";
+    case "fiicash":
+      return "FII Equity";
+    case "mfcash":
+      return "MF-Equity";
+    case "foindex":
+      return "FII-Index Future";
+    case "fostock":
+      return "FII-Stock Future";
+    default:
+      return "FII Activity";
+  }
+};
+
+const renderValueBasedOnDIIType = (type: string) => {
+  switch (type) {
+    case "cash":
+      return "DII Cash Activity";
+    case "fiicash":
+      return "DII Equity";
+    case "mfcash":
+      return "MF-Debt";
+    case "foindex":
+      return "FII-Index Option";
+    case "fostock":
+      return "FII-Stock Option";
+    default:
+      return "DII Activity";
+  }
+};
+
+const FiiDiiSummary = ({ summaryData, type }: any) => {
   const { listData } = summaryData;
 
   // Calculate maxValuesSummary using column data
-  const maxValuesSummary = listData.reduce(
-    (acc: MaxOtherDataItem, data: any) => {
-      const absValue1_1 = Math.abs(data.value1_1);
-      const absValue1_2 = Math.abs(data.value1_2);
-
-      if (absValue1_1 > acc.value1_1) acc.value1_1 = absValue1_1;
-      if (absValue1_2 > acc.value1_2) acc.value1_2 = absValue1_2;
-
-      return acc;
-    },
-    { value1_1: 0, value1_2: 0 },
-  );
+  const maxValuesSummary = (data: any) => {
+    const values = [data.value1_1, data.value1_2];
+    const maxAbsValue = Math.max(...values.map((value) => Math.abs(value)));
+    return maxAbsValue;
+  };
 
   return (
     <div className={styles.cards}>
@@ -74,13 +96,13 @@ const FiiDiiSummary = ({ summaryData }: any) => {
               <table className={styles.rowData}>
                 <tbody>
                   <tr>
-                    <td>FII Cash Activity</td>
+                    <td>{renderValueBasedOnFIIType(type)}</td>
                     <td className={upDownTypeValue11}>
                       <div className={styles.barCell}>
                         <div
                           className={`${styles.bar} upDownBgBar`}
                           style={{
-                            width: `${(Math.abs(tdData.value1_1) * 100) / maxValuesSummary.value1_1 / 2}%`,
+                            width: `${(Math.abs(tdData.value1_1) * 100) / maxValuesSummary(tdData) / 2}%`,
                           }}
                         ></div>
                         <div className={styles.separator}></div>
@@ -91,13 +113,13 @@ const FiiDiiSummary = ({ summaryData }: any) => {
                     </td>
                   </tr>
                   <tr>
-                    <td>DII Cash Activity</td>
+                    <td>{renderValueBasedOnDIIType(type)}</td>
                     <td className={upDownTypeValue12}>
                       <div className={styles.barCell}>
                         <div
                           className={`${styles.bar} upDownBgBar`}
                           style={{
-                            width: `${(Math.abs(tdData.value1_2) * 100) / maxValuesSummary.value1_2 / 2}%`,
+                            width: `${(Math.abs(tdData.value1_2) * 100) / maxValuesSummary(tdData) / 2}%`,
                           }}
                         ></div>
                         <div className={styles.separator}></div>

@@ -211,7 +211,7 @@ const FiiDiiOtherTable = React.memo(
                       {formatNumber(tdData.value1_2)}
                     </td>
 
-                    <td className={`${upDownTypeValue11} ${styles.noPadding}`}>
+                    <td className={`${upDownTypeValue12} ${styles.noPadding}`}>
                       <div className={styles.barCell}>
                         <div
                           className={`${styles.bar} upDownBgBar`}

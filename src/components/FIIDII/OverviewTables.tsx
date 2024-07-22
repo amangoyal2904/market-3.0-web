@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./FIIDII.module.scss";
-import { dateFormat, getClassAndPercent } from "@/utils";
+import { dateFormat, formatNumber, getClassAndPercent } from "@/utils";
 
 interface OtherDataItem {
   fiiCash: number;
@@ -82,7 +82,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
                       {dateFormat(tdData.dateLong, "%d %MMM %y")}
                     </td>
                     <td>
-                      {tdData.nifty.ltp}
+                      {formatNumber(tdData.nifty.ltp)}
                       <span className={`${upDownType} ${styles.change}`}>
                         ({tdData.nifty.percentChange.toFixed(2)}%)
                       </span>
@@ -148,7 +148,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
                 return (
                   <tr key={`scrollable_${index}`}>
                     <td className={`${styles.noRborder} ${upDownTypeFiiCash}`}>
-                      {tdData.fiiCash}
+                      {formatNumber(tdData.fiiCash)}
                     </td>
                     <td className={`${upDownTypeFiiCash}`}>
                       <div className={styles.barCell}>
@@ -166,7 +166,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
                       </div>
                     </td>
                     <td className={`${styles.noRborder} ${upDownTypeDiiCash}`}>
-                      {tdData.diiCash}
+                      {formatNumber(tdData.diiCash)}
                     </td>
                     <td className={`${upDownTypeDiiCash}`}>
                       <div className={styles.barCell}>
@@ -186,7 +186,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
                     <td
                       className={`${styles.noRborder} ${upDownTypeFiiIndexFutures}`}
                     >
-                      {tdData.fiiIndexFutures}
+                      {formatNumber(tdData.fiiIndexFutures)}
                     </td>
                     <td className={`${upDownTypeFiiIndexFutures}`}>
                       <div className={styles.barCell}>
@@ -206,7 +206,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
                     <td
                       className={`${styles.noRborder} ${upDownTypeFiiIndexOptions}`}
                     >
-                      {tdData.fiiIndexOptions}
+                      {formatNumber(tdData.fiiIndexOptions)}
                     </td>
                     <td className={`${upDownTypeFiiIndexOptions}`}>
                       <div className={styles.barCell}>
@@ -226,7 +226,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
                     <td
                       className={`${styles.noRborder} ${upDownTypeFiiStockFutures}`}
                     >
-                      {tdData.fiiStockFutures}
+                      {formatNumber(tdData.fiiStockFutures)}
                     </td>
                     <td className={`${upDownTypeFiiStockFutures}`}>
                       <div className={styles.barCell}>
@@ -246,7 +246,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
                     <td
                       className={`${styles.noRborder} ${upDownTypeFiiStockOptions}`}
                     >
-                      {tdData.fiiStockOptions}
+                      {formatNumber(tdData.fiiStockOptions)}
                     </td>
                     <td className={`${upDownTypeFiiStockOptions}`}>
                       <div className={styles.barCell}>

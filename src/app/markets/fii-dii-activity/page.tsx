@@ -1,4 +1,4 @@
-import { getDaywiseActivityData } from "@/utils/utility";
+import { getDaywiseActivityData, getFiiDiiSummaryData } from "@/utils/utility";
 import FiiDiiActivityclient from "./client";
 import BreadCrumb from "@/components/BreadCrumb";
 import { headers } from "next/headers";
@@ -20,18 +20,22 @@ const FiiDiiActivity = async () => {
     otherData.push(rest);
   });
 
+  const summaryResponse: any = await getFiiDiiSummaryData("cash");
+  const summaryData = summaryResponse;
+
   return (
     <>
       <FiiDiiActivityclient
         dataWithNiftySensex={dataWithNiftySensex}
         otherData={otherData}
+        summaryData={summaryData}
       />
       <BreadCrumb
         pagePath={pageUrl}
         pageName={[{ label: "FII & DII", redirectUrl: "" }]}
       />
-      <br/>
-      <DfpAds adInfo={AdInfo.dfp.btfAd}/>
+      <br />
+      <DfpAds adInfo={AdInfo.dfp.btfAd} />
     </>
   );
 };
