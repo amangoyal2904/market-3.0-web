@@ -42,13 +42,20 @@ const FiiDiiActivitySubPagesClients: React.FC<
   const [filterType, setFilterType] = useState<string>("daily");
   const [apiType, setApiType] = useState<string>(summaryType);
 
+  const prevFilterType = useRef<string>(filterType);
   const prevApiType = useRef<string>(summaryType);
 
   useEffect(() => {
-    fetchData(type);
+    if (
+      prevFilterType.current !== filterType ||
+      prevApiType.current !== apiType
+    ) {
+      fetchData(type);
+    }
     if (prevApiType.current !== apiType) {
       fetchSummaryData();
     }
+    prevFilterType.current = filterType;
     prevApiType.current = apiType;
   }, [filterType, apiType]);
 
