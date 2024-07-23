@@ -1,20 +1,21 @@
-import {
-  getCashData,
-  getFandOCashData,
-  getFiiCashData,
-  getFiiDiiSummaryData,
-  getMfCashData,
-} from "@/utils/utility";
+import { getFiiDiiData, getFiiDiiSummaryData } from "@/utils/utility";
 import FiiDiiActivitySubPagesClients from "./clients";
 import { notFound } from "next/navigation";
 import BreadCrumb from "@/components/BreadCrumb";
 import { headers } from "next/headers";
 
 const typeToFunctionMap: { [key: string]: () => Promise<any> } = {
-  "cash-provisional": getCashData.bind(null, "daily"),
-  "fii-cash": getFiiCashData.bind(null, "daily"),
-  "fii-fno": getFandOCashData.bind(null, "daily", "index"),
-  "mf-cash": getMfCashData.bind(null, "daily"),
+  "cash-provisional": getFiiDiiData.bind(null, "FIIDII_CASHPROVISIONAL", {
+    filterType: "daily",
+  }),
+  "fii-cash": getFiiDiiData.bind(null, "FIIDII_FIICASH", {
+    filterType: "daily",
+  }),
+  "fii-fno": getFiiDiiData.bind(null, "FIIDII_FANDOCASH", {
+    filterType: "daily",
+    apiType: "index",
+  }),
+  "mf-cash": getFiiDiiData.bind(null, "FIIDII_MFCASH", { filterType: "daily" }),
 };
 
 const typeToSummaryParamMap: { [key: string]: string } = {
@@ -27,7 +28,7 @@ const typeToSummaryParamMap: { [key: string]: string } = {
 const FiiDiiActivitySubPages = async ({ params }: any) => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
-  const type = params.type;
+  const type = params.slug;
   const possibleTypes = Object.keys(typeToFunctionMap);
   if (!possibleTypes.includes(type)) {
     notFound();
