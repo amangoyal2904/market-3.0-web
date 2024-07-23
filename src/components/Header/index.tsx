@@ -199,7 +199,7 @@ const Header = () => {
             </div>
             <div className={`dflex align-item-center`}>
               {shouldRenderComponent && <LiveMarketData />}
-              <Link
+              {/* <Link
                 className="default-btn"
                 href="/watchlist"
                 title="My Watchlist"
@@ -212,7 +212,7 @@ const Header = () => {
                 }
               >
                 My Watchlist
-              </Link>
+              </Link> */}
               {!isPrime && (
                 <span
                   className={`default-btn ${styles.subscribeBtn}`}

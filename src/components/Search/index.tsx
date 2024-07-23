@@ -7,8 +7,6 @@ import SearchData from "./SearchData";
 import { saveLogs } from "@/utils/utility";
 import { trackingEvent } from "@/utils/ga";
 
-const keywords = ["Stock", "Industry", "Sensex"];
-
 const debounce = <T extends any[]>(
   func: (...args: T) => void,
   wait: number,
@@ -27,9 +25,26 @@ interface Props {
 
 const Search: React.FC<Props> = ({ pos }) => {
   const [currentKeyword, setCurrentKeyword] = useState(0);
-  const [isTyping, setIsTyping] = useState(false);
+  const [showKeyword, setShowKeyword] = useState(true);
   const [inputValue, setInputValue] = useState("");
-
+  const [animate, setAnimate] = useState(true);
+  const keywords = [
+    "Stock",
+    "Industry",
+    "Sensex",
+    "Stock",
+    "Industry",
+    "Sensex",
+    "Stock",
+    "Industry",
+    "Sensex",
+    "Stock",
+    "Industry",
+    "Sensex",
+    "Stock",
+    "Industry",
+    "Sensex",
+  ];
   const [data, setData] = useState([]);
   const [val, setVal] = useState("");
   const [loader, setLoader] = useState(false);
@@ -65,11 +80,13 @@ const Search: React.FC<Props> = ({ pos }) => {
           });
         });
     }
+    setShowKeyword(false);
   };
   const handleClickOutside = (event: any) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       ref.current.value = "";
       setSearchEnable(false);
+      setShowKeyword(true);
     }
   };
   const fetchNameResults = (query: string) => {
@@ -158,15 +175,18 @@ const Search: React.FC<Props> = ({ pos }) => {
   const handleClose = () => {
     ref.current.value = "";
     setSearchEnable(false);
+    setShowKeyword(true);
   };
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!isTyping && inputValue === "") {
+      if (inputValue === "") {
         setCurrentKeyword((prevKeyword) => (prevKeyword + 1) % keywords.length);
+        setAnimate(false); // Reset animation
+        setTimeout(() => setAnimate(true), 0); // Re-enable animation
       }
-    }, 4000);
+    }, 2000);
     return () => clearInterval(interval);
-  }, [isTyping, inputValue]);
+  }, [inputValue, keywords.length]);
   return (
     <>
       {searchEnable && pos == "header" && (
@@ -182,7 +202,7 @@ const Search: React.FC<Props> = ({ pos }) => {
           autoComplete="off"
           name="ticker_newsearch"
           className={styles.inputBox}
-          placeholder="Search Stocks, News, Mutual Funds, Crypto etc..."
+          placeholder="Search"
           type="text"
           onChange={(e) => handleSearch(e.target.value)}
           onFocus={(e) => {
@@ -191,11 +211,12 @@ const Search: React.FC<Props> = ({ pos }) => {
           ref={ref}
           maxLength={100}
         />
-        <div
-          className={`${styles.keyword} ${isTyping || inputValue ? styles.hidden : ""}`}
-        >
-          {keywords[currentKeyword]}
-        </div>
+        {showKeyword && (
+          <div className={`${styles.keyword} ${animate ? styles.slideUp : ""}`}>
+            {keywords[currentKeyword]}
+          </div>
+        )}
+
         {searchEnable && (
           <>
             {loader ? (
