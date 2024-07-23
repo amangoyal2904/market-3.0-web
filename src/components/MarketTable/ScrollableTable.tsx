@@ -349,8 +349,10 @@ const ScrollableTable = React.memo((props: any) => {
                                 {!!tdData.value ? tdData.value : "-"}
                               </span>
                             ) : tdData.valueType == "number" ? (
-                              !!tdData.value &&
-                              parseFloat(tdData.filterFormatValue) !== 0 ? (
+                              (!!tdData.value &&
+                                parseFloat(tdData.filterFormatValue) != 0) ||
+                              tdData.keyId == "netChange" ||
+                              tdData.keyId == "percentChange" ? (
                                 tdData.value.replaceAll(" ", "")
                               ) : (
                                 "-"
@@ -362,7 +364,9 @@ const ScrollableTable = React.memo((props: any) => {
                             )}
                             {tdData.trend &&
                               tdData.valueType == "number" &&
-                              parseFloat(tdData.filterFormatValue) !== 0 && (
+                              parseFloat(tdData.filterFormatValue) != 0 &&
+                              (tdData.trend == "up" ||
+                                tdData.trend == "down") && (
                                 <span
                                   className={`${styles.arrowIcons} ${
                                     tdData.trend == "up"
