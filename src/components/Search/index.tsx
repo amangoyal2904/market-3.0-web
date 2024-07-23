@@ -201,8 +201,8 @@ const Search: React.FC<Props> = ({ pos }) => {
         <input
           autoComplete="off"
           name="ticker_newsearch"
-          className={styles.inputBox}
-          placeholder="Search"
+          className={`${styles.inputBox} ${pos === "header" ? styles.topHeaderSearch : ""}`}
+          placeholder={`${pos === "header" ? "Search" : "Search Stocks, News, Mutual Funds, Crypto etc..."}`}
           type="text"
           onChange={(e) => handleSearch(e.target.value)}
           onFocus={(e) => {
@@ -211,7 +211,7 @@ const Search: React.FC<Props> = ({ pos }) => {
           ref={ref}
           maxLength={100}
         />
-        {showKeyword && (
+        {showKeyword && pos == "header" && (
           <div className={`${styles.keyword} ${animate ? styles.slideUp : ""}`}>
             {keywords[currentKeyword]}
           </div>
