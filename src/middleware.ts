@@ -113,6 +113,18 @@ export function middleware(request: NextRequest) {
       "Expires",
       new Date(Date.now() + 600000).toUTCString(),
     );
+  } else if (
+    pathname === "/markets/fii-dii-activity" ||
+    pathname.startsWith("/markets/fii-dii-activity/")
+  ) {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=3600, s-maxage=3600, must-revalidate, stale-while-revalidate=7200",
+    );
+    response.headers.set(
+      "Expires",
+      new Date(Date.now() + 3600000).toUTCString(),
+    );
   }
 
   return response;
