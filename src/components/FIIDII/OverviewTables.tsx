@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import styles from "./FIIDII.module.scss";
 import { dateFormat, formatNumber, getClassAndPercent } from "@/utils";
 
@@ -18,24 +18,28 @@ const FiiDiiActivityOverviewTable: React.FC<{
 }> = ({ dataWithNiftySensex, otherData }) => {
   const [parentHasScroll, setParentHasScroll] = useState(false);
 
-  const maxValues: OtherDataItem = {
-    fiiCash: 0,
-    diiCash: 0,
-    fiiIndexFutures: 0,
-    fiiIndexOptions: 0,
-    fiiStockFutures: 0,
-    fiiStockOptions: 0,
-  };
+  const maxValues = useMemo(() => {
+    const maxVals: OtherDataItem = {
+      fiiCash: 0,
+      diiCash: 0,
+      fiiIndexFutures: 0,
+      fiiIndexOptions: 0,
+      fiiStockFutures: 0,
+      fiiStockOptions: 0,
+    };
 
-  otherData.forEach((data) => {
-    Object.keys(data).forEach((key) => {
-      const property = key as keyof OtherDataItem;
-      const absoluteValue = Math.abs(data[property]);
-      if (absoluteValue > maxValues[property]) {
-        maxValues[property] = absoluteValue;
-      }
+    otherData.forEach((data) => {
+      Object.keys(data).forEach((key) => {
+        const property = key as keyof OtherDataItem;
+        const absoluteValue = Math.abs(data[property]);
+        if (absoluteValue > maxVals[property]) {
+          maxVals[property] = absoluteValue;
+        }
+      });
     });
-  });
+
+    return maxVals;
+  }, [otherData]);
 
   useEffect(() => {
     const parent = document.querySelector("#scrollableTable");
@@ -52,6 +56,59 @@ const FiiDiiActivityOverviewTable: React.FC<{
       });
     }
   }, [parentHasScroll]);
+
+  const renderTableRow = (
+    tdData: OtherDataItem,
+    index: number,
+    maxValues: OtherDataItem,
+  ) => {
+    const columns = [
+      { key: "fiiCash", upDownType: getClassAndPercent(tdData.fiiCash) },
+      { key: "diiCash", upDownType: getClassAndPercent(tdData.diiCash) },
+      {
+        key: "fiiIndexFutures",
+        upDownType: getClassAndPercent(tdData.fiiIndexFutures),
+      },
+      {
+        key: "fiiIndexOptions",
+        upDownType: getClassAndPercent(tdData.fiiIndexOptions),
+      },
+      {
+        key: "fiiStockFutures",
+        upDownType: getClassAndPercent(tdData.fiiStockFutures),
+      },
+      {
+        key: "fiiStockOptions",
+        upDownType: getClassAndPercent(tdData.fiiStockOptions),
+      },
+    ];
+
+    return (
+      <tr key={`scrollable_${index}`}>
+        {columns.map(({ key, upDownType }) => (
+          <>
+            <td className={`${styles.noRborder} ${upDownType}`}>
+              {formatNumber(tdData[key as keyof OtherDataItem])}
+            </td>
+            <td className={upDownType}>
+              <div className={styles.barCell}>
+                <div
+                  className={`${styles.bar} upDownBgBar`}
+                  style={{
+                    width: `${5 + (Math.abs(tdData[key as keyof OtherDataItem]) * 100) / maxValues[key as keyof OtherDataItem] / 2}%`,
+                  }}
+                ></div>
+                <div className={styles.separator}></div>
+              </div>
+            </td>
+          </>
+        ))}
+        <td
+          className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+        ></td>
+      </tr>
+    );
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -75,7 +132,6 @@ const FiiDiiActivityOverviewTable: React.FC<{
                 const upDownType = getClassAndPercent(
                   tdData.nifty.percentChange,
                 );
-
                 return (
                   <tr key={`fixed_${index}`}>
                     <td className={styles.left}>
@@ -130,145 +186,9 @@ const FiiDiiActivityOverviewTable: React.FC<{
               </tr>
             </thead>
             <tbody>
-              {otherData.map((tdData: any, index: number) => {
-                const upDownTypeFiiCash = getClassAndPercent(tdData.fiiCash);
-                const upDownTypeDiiCash = getClassAndPercent(tdData.diiCash);
-                const upDownTypeFiiIndexFutures = getClassAndPercent(
-                  tdData.fiiIndexFutures,
-                );
-                const upDownTypeFiiIndexOptions = getClassAndPercent(
-                  tdData.fiiIndexOptions,
-                );
-                const upDownTypeFiiStockFutures = getClassAndPercent(
-                  tdData.fiiStockFutures,
-                );
-                const upDownTypeFiiStockOptions = getClassAndPercent(
-                  tdData.fiiStockOptions,
-                );
-                return (
-                  <tr key={`scrollable_${index}`}>
-                    <td className={`${styles.noRborder} ${upDownTypeFiiCash}`}>
-                      {formatNumber(tdData.fiiCash)}
-                    </td>
-                    <td className={`${upDownTypeFiiCash}`}>
-                      <div className={styles.barCell}>
-                        <div
-                          className={`${styles.bar} upDownBgBar`}
-                          style={{
-                            width:
-                              (Math.abs(tdData.fiiCash) * 100) /
-                                maxValues.fiiCash /
-                                2 +
-                              "%",
-                          }}
-                        ></div>
-                        <div className={styles.separator}></div>
-                      </div>
-                    </td>
-                    <td className={`${styles.noRborder} ${upDownTypeDiiCash}`}>
-                      {formatNumber(tdData.diiCash)}
-                    </td>
-                    <td className={`${upDownTypeDiiCash}`}>
-                      <div className={styles.barCell}>
-                        <div
-                          className={`${styles.bar} upDownBgBar`}
-                          style={{
-                            width:
-                              (Math.abs(tdData.diiCash) * 100) /
-                                maxValues.diiCash /
-                                2 +
-                              "%",
-                          }}
-                        ></div>
-                        <div className={styles.separator}></div>
-                      </div>
-                    </td>
-                    <td
-                      className={`${styles.noRborder} ${upDownTypeFiiIndexFutures}`}
-                    >
-                      {formatNumber(tdData.fiiIndexFutures)}
-                    </td>
-                    <td className={`${upDownTypeFiiIndexFutures}`}>
-                      <div className={styles.barCell}>
-                        <div
-                          className={`${styles.bar} upDownBgBar`}
-                          style={{
-                            width:
-                              (Math.abs(tdData.fiiIndexFutures) * 100) /
-                                maxValues.fiiIndexFutures /
-                                2 +
-                              "%",
-                          }}
-                        ></div>
-                        <div className={styles.separator}></div>
-                      </div>
-                    </td>
-                    <td
-                      className={`${styles.noRborder} ${upDownTypeFiiIndexOptions}`}
-                    >
-                      {formatNumber(tdData.fiiIndexOptions)}
-                    </td>
-                    <td className={`${upDownTypeFiiIndexOptions}`}>
-                      <div className={styles.barCell}>
-                        <div
-                          className={`${styles.bar} upDownBgBar`}
-                          style={{
-                            width:
-                              (Math.abs(tdData.fiiIndexOptions) * 100) /
-                                maxValues.fiiIndexOptions /
-                                2 +
-                              "%",
-                          }}
-                        ></div>
-                        <div className={styles.separator}></div>
-                      </div>
-                    </td>
-                    <td
-                      className={`${styles.noRborder} ${upDownTypeFiiStockFutures}`}
-                    >
-                      {formatNumber(tdData.fiiStockFutures)}
-                    </td>
-                    <td className={`${upDownTypeFiiStockFutures}`}>
-                      <div className={styles.barCell}>
-                        <div
-                          className={`${styles.bar} upDownBgBar`}
-                          style={{
-                            width:
-                              (Math.abs(tdData.fiiStockFutures) * 100) /
-                                maxValues.fiiStockFutures /
-                                2 +
-                              "%",
-                          }}
-                        ></div>
-                        <div className={styles.separator}></div>
-                      </div>
-                    </td>
-                    <td
-                      className={`${styles.noRborder} ${upDownTypeFiiStockOptions}`}
-                    >
-                      {formatNumber(tdData.fiiStockOptions)}
-                    </td>
-                    <td className={`${upDownTypeFiiStockOptions}`}>
-                      <div className={styles.barCell}>
-                        <div
-                          className={`${styles.bar} upDownBgBar`}
-                          style={{
-                            width:
-                              (Math.abs(tdData.fiiStockOptions) * 100) /
-                                maxValues.fiiStockOptions /
-                                2 +
-                              "%",
-                          }}
-                        ></div>
-                        <div className={styles.separator}></div>
-                      </div>
-                    </td>
-                    <td
-                      className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
-                    ></td>
-                  </tr>
-                );
-              })}
+              {otherData.map((tdData, index) =>
+                renderTableRow(tdData, index, maxValues),
+              )}
             </tbody>
           </table>
         </div>
