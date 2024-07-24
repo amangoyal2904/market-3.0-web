@@ -172,7 +172,14 @@ const FiiDiiOtherTable: React.FC<FiiDiiOtherTableProps> = ({
               );
 
               return (
-                <tr key={`scrollable_${index}`}>
+                <tr
+                  key={`scrollable_${index}`}
+                  className={
+                    activeFilter == "daily" && index == 2
+                      ? styles.borderSeparator
+                      : ""
+                  }
+                >
                   <td className={styles.left} title={tdData.datelable}>
                     {tdData.datelable}
                   </td>

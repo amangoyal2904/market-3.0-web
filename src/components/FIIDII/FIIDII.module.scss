@@ -305,6 +305,12 @@
     }
   }
 
+  tr.borderSeparator {
+    td {
+      border-bottom: 2px solid $gray_70;
+    }
+  }
+
   th {
     position: relative;
     text-align: right;
