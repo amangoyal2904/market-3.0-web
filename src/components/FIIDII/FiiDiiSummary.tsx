@@ -16,49 +16,22 @@ const getDateSuffix = (date: number): string => {
   }
 };
 
-const renderValueBasedOnFIIType = (type: string) => {
-  switch (type) {
-    case "cash":
-      return "FII Cash Activity";
-    case "fiicash":
-      return "FII Equity";
-    case "mfcash":
-      return "MF-Equity";
-    case "foindex":
-      return "FII-Index Future";
-    case "fostock":
-      return "FII-Stock Future";
-    default:
-      return "FII Activity";
-  }
+const renderValueBasedOnType = (type: string, isFII: boolean): string => {
+  const valueMap: Record<string, string> = {
+    cash: isFII ? "FII Cash Activity" : "DII Cash Activity",
+    fiicash: isFII ? "FII Equity" : "DII Equity",
+    mfcash: isFII ? "MF-Equity" : "MF-Debt",
+    foindex: isFII ? "FII-Index Future" : "FII-Index Option",
+    fostock: isFII ? "FII-Stock Future" : "FII-Stock Option",
+  };
+  return valueMap[type] || (isFII ? "FII Activity" : "DII Activity");
 };
 
-const renderValueBasedOnDIIType = (type: string) => {
-  switch (type) {
-    case "cash":
-      return "DII Cash Activity";
-    case "fiicash":
-      return "DII Equity";
-    case "mfcash":
-      return "MF-Debt";
-    case "foindex":
-      return "FII-Index Option";
-    case "fostock":
-      return "FII-Stock Option";
-    default:
-      return "DII Activity";
-  }
-};
+const getMaxAbsValue = (data: any) =>
+  Math.max(Math.abs(data.value1_1), Math.abs(data.value1_2));
 
 const FiiDiiSummary = ({ summaryData, type }: any) => {
   const { listData } = summaryData;
-
-  // Calculate maxValuesSummary using column data
-  const maxValuesSummary = (data: any) => {
-    const values = [data.value1_1, data.value1_2];
-    const maxAbsValue = Math.max(...values.map((value) => Math.abs(value)));
-    return maxAbsValue;
-  };
 
   return (
     <div className={styles.cards}>
@@ -71,9 +44,10 @@ const FiiDiiSummary = ({ summaryData, type }: any) => {
 
           // Generate timeline text
           let timelineText = "";
-          if (tdData.datelable.toLowerCase() === "1 week") {
+          const dateLableLower = tdData.datelable.toLowerCase();
+          if (dateLableLower === "1 week") {
             timelineText = "For Last 7 days";
-          } else if (tdData.datelable.toLowerCase() === "last 30 days") {
+          } else if (dateLableLower === "last 30 days") {
             timelineText = "For Last 30 days";
           } else {
             const [day, month] = tdData.datelable.split(" ");
@@ -82,6 +56,12 @@ const FiiDiiSummary = ({ summaryData, type }: any) => {
             const year = tdData.dateStr.split("-")[2]; // Extract the year from dateStr
             timelineText = `As on ${date}${suffix} ${month} ${year}`;
           }
+
+          const maxAbsValue = getMaxAbsValue(tdData);
+          const calculateWidth = (value: number) => {
+            const width = (Math.abs(value) * 100) / maxAbsValue / 2;
+            return width < 23 && width != 0 ? width + 5 : width;
+          };
 
           return (
             <div className={styles.card} key={`summary_${index}`}>
@@ -96,13 +76,13 @@ const FiiDiiSummary = ({ summaryData, type }: any) => {
               <table className={styles.rowData}>
                 <tbody>
                   <tr>
-                    <td>{renderValueBasedOnFIIType(type)}</td>
+                    <td>{renderValueBasedOnType(type, true)}</td>
                     <td className={upDownTypeValue11}>
                       <div className={styles.barCell}>
                         <div
                           className={`${styles.bar} upDownBgBar`}
                           style={{
-                            width: `${(Math.abs(tdData.value1_1) * 100) / maxValuesSummary(tdData) / 2}%`,
+                            width: `${calculateWidth(tdData.value1_1)}%`,
                           }}
                         ></div>
                         <div className={styles.separator}></div>
@@ -113,13 +93,13 @@ const FiiDiiSummary = ({ summaryData, type }: any) => {
                     </td>
                   </tr>
                   <tr>
-                    <td>{renderValueBasedOnDIIType(type)}</td>
+                    <td>{renderValueBasedOnType(type, false)}</td>
                     <td className={upDownTypeValue12}>
                       <div className={styles.barCell}>
                         <div
                           className={`${styles.bar} upDownBgBar`}
                           style={{
-                            width: `${(Math.abs(tdData.value1_2) * 100) / maxValuesSummary(tdData) / 2}%`,
+                            width: `${calculateWidth(tdData.value1_2)}%`,
                           }}
                         ></div>
                         <div className={styles.separator}></div>
