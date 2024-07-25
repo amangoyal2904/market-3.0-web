@@ -112,7 +112,7 @@ const FixedTable = React.memo((props: any) => {
                               thead.primeFlag)
                           ? styles.center
                           : ""
-                  } ${isPrime && thead.primeFlag ? styles.primeCell : thead.valueType == "date" || thead.valueType == "text" || index === 0 ? styles.left : ""}`}
+                  } ${isPrime && thead.primeFlag ? styles.primeCell : thead.valueType == "date" || thead.valueType == "text" || index == 0 ? styles.left : ""}`}
                   key={index}
                 >
                   <div className={styles.thead}>
@@ -373,8 +373,10 @@ const FixedTable = React.memo((props: any) => {
                                 {!!tdData.value ? tdData.value : "-"}
                               </span>
                             ) : tdData.valueType == "number" ? (
-                              !!tdData.value &&
-                              parseFloat(tdData.filterFormatValue) !== 0 ? (
+                              (!!tdData.value &&
+                                parseFloat(tdData.filterFormatValue) != 0) ||
+                              tdData.keyId == "netChange" ||
+                              tdData.keyId == "percentChange" ? (
                                 tdData.value.replaceAll(" ", "")
                               ) : (
                                 "-"
@@ -384,17 +386,20 @@ const FixedTable = React.memo((props: any) => {
                             ) : (
                               "-"
                             )}
-                            {tdData.trend && tdData.valueType == "number" && (
-                              <span
-                                className={`${styles.arrowIcons} ${
-                                  tdData.trend == "up"
-                                    ? "eticon_up_arrow"
-                                    : tdData.trend == "down"
-                                      ? "eticon_down_arrow"
-                                      : ""
-                                }`}
-                              />
-                            )}
+                            {tdData.trend &&
+                              tdData.valueType == "number" &&
+                              (tdData.trend == "up" ||
+                                tdData.trend == "down") && (
+                                <span
+                                  className={`${styles.arrowIcons} ${
+                                    tdData.trend == "up"
+                                      ? "eticon_up_arrow"
+                                      : tdData.trend == "down"
+                                        ? "eticon_down_arrow"
+                                        : ""
+                                  }`}
+                                />
+                              )}
                           </>
                         )}
                       </td>
