@@ -469,6 +469,6 @@
   },
   "ACCESS_PASS": {
     "development": "https://qcsubscription.economictimes.indiatimes.com/subscription/merchant/ET/product/ETPR/geoRegion/IN/code/ACCESSPASS/generateAccessPass",
-    "production": "https://subscriptions.economictimes.indiatimes.com/subscription/merchant/ET/product/ETPR/geoRegion/IN/code/ACCESSPASS/generateAccessPass"
+    "production": "https://qcsubscription.economictimes.indiatimes.com/subscription/merchant/ET/product/ETPR/geoRegion/IN/code/ACCESSPASS/generateAccessPass"
   }
 }

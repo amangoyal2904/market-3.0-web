@@ -331,6 +331,11 @@ const MarketMoodsClient = ({
     },
   };
 
+  const planNavigation = (flag: any) => {
+    objTracking.cdp["cta_text"] = flag;
+    redirectToPlanPage(objTracking);
+  };
+
   return (
     <>
       <div className={styles.logo}>
@@ -426,8 +431,7 @@ const MarketMoodsClient = ({
                     onClick={() => {
                       validAccessPass
                         ? activateFreeTrial()
-                        : (objTracking.cdp["cta_text"] = item.cta);
-                      redirectToPlanPage(objTracking);
+                        : planNavigation(item.cta);
                     }}
                   >
                     {validAccessPass ? "Start Free Trial" : item.cta}
