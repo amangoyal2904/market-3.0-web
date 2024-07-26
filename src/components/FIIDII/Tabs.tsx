@@ -13,13 +13,13 @@ const tabData = [
 
 const overviewOptions = [
   { label: "Cash", key: "FIIDIICash" },
-  { label: "Index", key: "IndexFandO" },
-  { label: "Stock", key: "FIIDIIStockFAndO" },
+  { label: "Index F&O", key: "IndexFandO" },
+  { label: "Stock F&O", key: "FIIDIIStockFAndO" },
 ];
 
 const FIIOptions = [
-  { label: "F&O Index", key: "index" },
-  { label: "F&O Stock", key: "stock" },
+  { label: "Index", key: "index" },
+  { label: "Stocks", key: "stock" },
 ];
 
 const FiiDiiTabs = React.memo(

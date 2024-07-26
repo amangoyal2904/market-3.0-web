@@ -256,7 +256,7 @@
       }
     }
     &.center {
-      padding: 10px 0;
+      padding: 10px 5px;
       min-width: 140px;
       text-align: center;
       -webkit-box-pack: center;
@@ -337,7 +337,7 @@
     }
     &.center {
       min-width: 140px;
-      padding: 10px 0;
+      padding: 10px 5px;
       text-align: center;
       .thead {
         -webkit-box-pack: center;
@@ -491,18 +491,51 @@
 }
 
 @media (max-width: 1270px) {
+  .cards {
+    .head {
+      .timeline {
+        font-size: 12px;
+      }
+      .helpTxt {
+        font-size: 8px;
+      }
+    }
+    .rowData {
+      font-size: 12px;
+      td {
+        .barCell {
+          width: 70px;
+        }
+      }
+    }
+  }
   .marketsCustomTable {
+    font-size: 11px;
     td {
-      padding: 10px;
+      font-size: 11px;
+      padding: 5px;
       .barCell {
-        width: 80px;
+        width: 70px;
         height: 8px;
       }
     }
 
     th {
       text-wrap: wrap;
-      padding: 10px;
+      padding: 5px;
     }
+  }
+  .wrapper {
+    .header {
+      .head {
+        font-size: 21px;
+      }
+    }
+    .heading3 {
+      font-size: 20px;
+    }
+  }
+  .heading {
+    font-size: 28px;
   }
 }

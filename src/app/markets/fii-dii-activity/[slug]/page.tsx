@@ -42,6 +42,15 @@ const FiiDiiActivitySubPages = async ({ params }: any) => {
   const summaryResponse: any = await getFiiDiiSummaryData(summaryParam);
   const summaryData = summaryResponse;
 
+  const tabData = [
+    { label: "Cash Provisional", key: "cash-provisional" },
+    { label: "FII Cash", key: "fii-cash" },
+    { label: "FII F&O", key: "fii-fno" },
+    { label: "MF Cash", key: "mf-cash" },
+  ];
+
+  const matchingLabel = tabData.find((tab) => tab.key === type)?.label || "";
+
   return (
     <>
       <FiiDiiActivitySubPagesClients
@@ -52,7 +61,7 @@ const FiiDiiActivitySubPages = async ({ params }: any) => {
       />
       <BreadCrumb
         pagePath={pageUrl}
-        pageName={[{ label: type, redirectUrl: "" }]}
+        pageName={[{ label: matchingLabel, redirectUrl: "" }]}
       />
     </>
   );

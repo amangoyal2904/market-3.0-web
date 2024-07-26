@@ -163,22 +163,22 @@ const FiiDiiActivityOverviewTable: React.FC<{
             <thead>
               <tr>
                 <th className={styles.center} colSpan={2}>
-                  FII Cash (in Rs. Cr.)
+                  FII Cash (Cr.)
                 </th>
                 <th className={styles.center} colSpan={2}>
-                  DII Cash (in Rs. Cr.)
+                  DII Cash (Cr.)
                 </th>
                 <th className={styles.center} colSpan={2}>
-                  FII Index Future (in Rs. Cr.)
+                  FII Index Future (Cr.)
                 </th>
                 <th className={styles.center} colSpan={2}>
-                  FII Index Option (in Rs. Cr.)
+                  FII Index Option (Cr.)
                 </th>
                 <th className={styles.center} colSpan={2}>
-                  FII Stock Future (in Rs. Cr.)
+                  FII Stock Future (Cr.)
                 </th>
                 <th className={styles.center} colSpan={2}>
-                  FII Stock Option (in Rs. Cr.)
+                  FII Stock Option (Cr.)
                 </th>
                 <th
                   className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}

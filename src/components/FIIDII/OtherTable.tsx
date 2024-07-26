@@ -124,13 +124,17 @@ const FiiDiiOtherTable: React.FC<FiiDiiOtherTableProps> = ({
           <thead>
             <tr>
               <th rowSpan={2} className={styles.left}>
-                Date
+                {activeFilter === "monthly"
+                  ? "Month"
+                  : activeFilter === "yearly"
+                    ? "Year"
+                    : "Date"}
               </th>
               <th colSpan={4} className={styles.center}>
-                Equity (in Rs. Cr.)
+                Equity (Cr.)
               </th>
               <th colSpan={4} className={styles.center}>
-                Debt (in Rs. Cr.)
+                Debt (Cr.)
               </th>
             </tr>
             <tr>
