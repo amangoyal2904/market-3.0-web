@@ -166,7 +166,7 @@ export const updateOrAddParamToPath = (
   const url = new URL(window.location.origin + pathname);
   const searchParams = url.searchParams;
 
-  if (value === 0) {
+  if (value == 0) {
     searchParams.delete(param);
   } else if (searchParams.has(param)) {
     searchParams.set(param, value);

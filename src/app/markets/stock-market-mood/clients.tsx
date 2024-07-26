@@ -358,7 +358,7 @@ const MarketMoodsClient = ({
                   handleItemClick(item.key);
                 }}
                 className={
-                  activeItem === item.key || (activeItem === "" && index === 0)
+                  activeItem === item.key || (activeItem === "" && index == 0)
                     ? styles.active
                     : ""
                 }

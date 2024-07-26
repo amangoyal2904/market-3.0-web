@@ -395,7 +395,7 @@ const MarketTable = React.memo((props: propsType) => {
       setTableHeaderData(tableHeaders);
       setPageSummaryData(pageSummary);
       if (!loaderOff) setLoaderOff(true);
-    } else if (data?.length === 0) {
+    } else if (data?.length == 0) {
       setTableDataList([]);
       setTableHeaderData([]);
       setPageSummaryData({});
@@ -608,7 +608,7 @@ const MarketTable = React.memo((props: propsType) => {
                     case "percentChange":
                       let percentChangeValue = stock?.percentChange || 0;
                       let percentChangeTrend =
-                        percentChangeValue === 0
+                        percentChangeValue == 0
                           ? "neutral"
                           : percentChangeValue > 0
                             ? "up"
@@ -622,7 +622,7 @@ const MarketTable = React.memo((props: propsType) => {
                     case "netChange":
                       let netChangeValue = stock?.netChange || 0;
                       let netChangeTrend =
-                        netChangeValue === 0
+                        netChangeValue == 0
                           ? "neutral"
                           : netChangeValue > 0
                             ? "up"
@@ -772,8 +772,8 @@ const MarketTable = React.memo((props: propsType) => {
           ""
         )}
       </div>
-      {(tableDataList.length === 0 && tableHeaderData.length === 0) ||
-      (tableDataList.length === 0 && tableHeaderData.length !== 0) ? (
+      {(tableDataList.length == 0 && tableHeaderData.length == 0) ||
+      (tableDataList.length == 0 && tableHeaderData.length != 0) ? (
         <div className="prel">
           {processingLoader && (
             <Loader
@@ -787,7 +787,7 @@ const MarketTable = React.memo((props: propsType) => {
               type={
                 (tableConfig.name === "watchListWidget" ||
                   tableConfig.name === "watchList") &&
-                tableHeaderData.length === 0
+                tableHeaderData.length == 0
                   ? "noStocks"
                   : "noDataFound"
               }
