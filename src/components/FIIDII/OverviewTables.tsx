@@ -25,9 +25,15 @@ const FiiDiiActivityOverviewTable: React.FC<{
 }> = ({ dataWithNiftySensex, otherData }) => {
   const { debounce } = useDebounce();
   const [parentHasScroll, setParentHasScroll] = useState(false);
-  const [rightScrollEnabled, setRightScrollEnabled] = useState(false);
-  const [leftScrollEnabled, setLeftScrollEnabled] = useState(true);
+  const [rightScrollEnabled, setRightScrollEnabled] = useState(true);
+  const [leftScrollEnabled, setLeftScrollEnabled] = useState(false);
+  const [showCustomScroll, setShowCustomScroll] = useState(false);
+
   const scrollableRef = useRef<HTMLDivElement | null>(null);
+  const tableWrapperRef = useRef<HTMLDivElement | null>(null);
+
+  const handleMouseEnter = () => setShowCustomScroll(true);
+  const handleMouseLeave = () => setShowCustomScroll(false);
 
   const rightClickScroll = useCallback(() => {
     if (scrollableRef.current) {
@@ -150,7 +156,13 @@ const FiiDiiActivityOverviewTable: React.FC<{
       <div className={styles.header}>
         <div className={styles.head}>FII & DII Buy-Sell Activity</div>
       </div>
-      <div className={styles.tableWrapper} id="table">
+      <div
+        className={styles.tableWrapper}
+        id="table"
+        ref={tableWrapperRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <div
           id="fixedTable"
           className={`${styles.fixedWrapper} ${!!parentHasScroll ? styles.withShadow : ""}`}
@@ -231,25 +243,27 @@ const FiiDiiActivityOverviewTable: React.FC<{
             </tbody>
           </table>
         </div>
-        <div id="customScroll" className={styles.horizontalCustomScroll}>
-          <button
-            id="scrollButton_l"
-            onClick={leftClickScroll}
-            className={`${styles.scrollButton} ${!leftScrollEnabled ? styles.disableBtn : ""}`}
-            disabled={!leftScrollEnabled}
-          >
-            &#8592;
-          </button>
-          <span />
-          <button
-            id="scrollButton_r"
-            onClick={rightClickScroll}
-            className={`${styles.scrollButton} ${!rightScrollEnabled ? styles.disableBtn : ""}`}
-            disabled={!rightScrollEnabled}
-          >
-            &#8594;
-          </button>
-        </div>
+        {showCustomScroll && (
+          <div id="customScroll" className={styles.horizontalCustomScroll}>
+            <button
+              id="scrollButton_l"
+              onClick={leftClickScroll}
+              className={`${styles.scrollButton} ${!leftScrollEnabled ? styles.disableBtn : ""}`}
+              disabled={!leftScrollEnabled}
+            >
+              &#8592;
+            </button>
+            <span />
+            <button
+              id="scrollButton_r"
+              onClick={rightClickScroll}
+              className={`${styles.scrollButton} ${!rightScrollEnabled ? styles.disableBtn : ""}`}
+              disabled={!rightScrollEnabled}
+            >
+              &#8594;
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
