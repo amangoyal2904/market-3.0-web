@@ -317,7 +317,6 @@
     padding: 10px 14px;
     background-color: $gray_95;
     border-right: 1px solid $gray_70;
-    border-bottom: 1px solid $gray_70;
     border-right-style: solid;
     font-weight: 600;
     color: $gray_30;
@@ -327,6 +326,17 @@
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
+    &::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: $gray_70;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      box-shadow: 0 1px 0 $gray_70;
+    }
     &.left {
       text-align: left;
       .thead {
@@ -359,6 +369,9 @@
     }
     &.primeCell {
       background: $salmon-20;
+    }
+    &.noRborder {
+      border-right: 0;
     }
   }
 }

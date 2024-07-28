@@ -174,7 +174,10 @@ const FiiDiiOtherTable: React.FC<FiiDiiOtherTableProps> = ({
               <th colSpan={4} className={styles.center}>
                 Equity (Cr.)
               </th>
-              <th colSpan={4} className={styles.center}>
+              <th
+                colSpan={4}
+                className={`${styles.center} ${styles.noRborder}`}
+              >
                 Debt (Cr.)
               </th>
             </tr>
@@ -186,7 +189,10 @@ const FiiDiiOtherTable: React.FC<FiiDiiOtherTableProps> = ({
               </th>
               <th className={styles.center}>Gross Debt Buy</th>
               <th className={styles.center}>Gross Debt Sell</th>
-              <th className={styles.center} colSpan={2}>
+              <th
+                className={`${styles.center} ${styles.noRborder}`}
+                colSpan={2}
+              >
                 Net Debt Buy/Sell
               </th>
             </tr>
@@ -255,7 +261,9 @@ const FiiDiiOtherTable: React.FC<FiiDiiOtherTableProps> = ({
                   <td className={`${styles.noRborder} ${upDownTypeValue12}`}>
                     {formatNumber(tdData.value1_2)}
                   </td>
-                  <td className={`${upDownTypeValue12} ${styles.noPadding}`}>
+                  <td
+                    className={`${upDownTypeValue12} ${styles.noPadding} ${styles.noRborder}`}
+                  >
                     <div className={styles.barCell}>
                       <div
                         className={`${styles.bar} upDownBgBar`}

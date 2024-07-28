@@ -157,7 +157,9 @@ const FiiDiiActivityOverviewTable: React.FC<{
               <td className={`${styles.noRborder} ${upDownType}`}>
                 {formatNumber(tdData[key as keyof OtherDataItem])}
               </td>
-              <td className={upDownType}>
+              <td
+                className={`${upDownType} ${key == "fiiStockOptions" ? styles.noRborder : ""}`}
+              >
                 <div className={styles.barCell}>
                   <div
                     className={`${styles.bar} upDownBgBar`}
@@ -171,7 +173,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
             </React.Fragment>
           ))}
           <td
-            className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+            className={`${styles.fullWidth} ${styles.noRborder} ${!!parentHasScroll ? styles.hide : ""}`}
           ></td>
         </tr>
       );
@@ -268,11 +270,14 @@ const FiiDiiActivityOverviewTable: React.FC<{
                 <th className={styles.center} colSpan={2}>
                   FII Stock Future (Cr.)
                 </th>
-                <th className={styles.center} colSpan={2}>
+                <th
+                  className={`${styles.center} ${styles.noRborder}`}
+                  colSpan={2}
+                >
                   FII Stock Option (Cr.)
                 </th>
                 <th
-                  className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+                  className={`${styles.fullWidth} ${styles.noRborder} ${!!parentHasScroll ? styles.hide : ""}`}
                 ></th>
               </tr>
             </thead>
