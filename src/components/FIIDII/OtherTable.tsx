@@ -1,9 +1,10 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import styles from "./FIIDII.module.scss";
 import { formatNumber, getClassAndPercent } from "@/utils";
 import Loader from "../Loader";
 import { trackingEvent } from "@/utils/ga";
+import useDebounce from "@/hooks/useDebounce";
 
 interface FilterTypeOption {
   label: string;
@@ -44,10 +45,13 @@ const FiiDiiOtherTable: React.FC<FiiDiiOtherTableProps> = ({
   type,
   handleFilterType,
 }) => {
+  const { debounce } = useDebounce();
+  const tableWrapperRef = useRef<HTMLDivElement | null>(null);
   const summaryData = otherData.slice(0, 3);
   const tableData = otherData.slice(3);
   const [isLoading, setIsLoading] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string>("daily");
+  const [translateY, setTranslateY] = useState(0);
 
   const calculateMaxValues = (data: OtherDataItem[]): MaxValues => {
     return data.reduce<MaxValues>(
@@ -84,6 +88,34 @@ const FiiDiiOtherTable: React.FC<FiiDiiOtherTableProps> = ({
     [handleFilterType],
   );
 
+  const handleWindowScroll = useCallback(
+    debounce(() => {
+      if (!tableWrapperRef.current) return;
+
+      const tableWrapperTop =
+        tableWrapperRef.current.getBoundingClientRect().top + window.scrollY;
+      const scrollY = window.scrollY;
+      const stickyHeight = 100;
+
+      if (scrollY > tableWrapperTop - 70) {
+        setTranslateY(scrollY - tableWrapperTop + stickyHeight);
+      } else {
+        setTranslateY(0);
+      }
+    }, 10),
+    [debounce],
+  );
+
+  useEffect(() => {
+    // Add and remove scroll event listener
+    window.addEventListener("scroll", handleWindowScroll, {
+      passive: true,
+    });
+    return () => {
+      window.removeEventListener("scroll", handleWindowScroll);
+    };
+  }, [handleWindowScroll]);
+
   useEffect(() => {
     setIsLoading(false);
   }, [otherData]);
@@ -118,10 +150,19 @@ const FiiDiiOtherTable: React.FC<FiiDiiOtherTableProps> = ({
           </ul>
         </div>
       </div>
-      <div className={styles.tableWrapper} id="table">
+      <div className={styles.tableWrapper} id="table" ref={tableWrapperRef}>
         {isLoading && <Loader loaderType={"container"} />}
-        <table className={`${styles.marketsCustomTable} ${styles.fixedLayout}`}>
-          <thead>
+        <table
+          className={`${styles.marketsCustomTable} ${styles.fixedLayout}`}
+          cellPadding={0}
+          cellSpacing={0}
+        >
+          <thead
+            style={{
+              transition: "transform 0.1s ease 0s",
+              transform: `translateY(${translateY}px)`,
+            }}
+          >
             <tr>
               <th rowSpan={2} className={styles.left}>
                 {activeFilter === "monthly"

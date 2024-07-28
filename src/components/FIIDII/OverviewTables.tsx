@@ -28,7 +28,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
   const [rightScrollEnabled, setRightScrollEnabled] = useState(true);
   const [leftScrollEnabled, setLeftScrollEnabled] = useState(false);
   const [showCustomScroll, setShowCustomScroll] = useState(false);
-
+  const [translateY, setTranslateY] = useState(0);
   const scrollableRef = useRef<HTMLDivElement | null>(null);
   const tableWrapperRef = useRef<HTMLDivElement | null>(null);
 
@@ -69,6 +69,34 @@ const FiiDiiActivityOverviewTable: React.FC<{
 
     return maxVals;
   }, [otherData]);
+
+  const handleWindowScroll = useCallback(
+    debounce(() => {
+      if (!tableWrapperRef.current) return;
+
+      const tableWrapperTop =
+        tableWrapperRef.current.getBoundingClientRect().top + window.scrollY;
+      const scrollY = window.scrollY;
+      const stickyHeight = 100;
+
+      if (scrollY > tableWrapperTop - 70) {
+        setTranslateY(scrollY - tableWrapperTop + stickyHeight);
+      } else {
+        setTranslateY(0);
+      }
+    }, 10),
+    [debounce],
+  );
+
+  useEffect(() => {
+    // Add and remove scroll event listener
+    window.addEventListener("scroll", handleWindowScroll, {
+      passive: true,
+    });
+    return () => {
+      window.removeEventListener("scroll", handleWindowScroll);
+    };
+  }, [handleWindowScroll]);
 
   useEffect(() => {
     const parent = scrollableRef.current;
@@ -168,7 +196,13 @@ const FiiDiiActivityOverviewTable: React.FC<{
           className={`${styles.fixedWrapper} ${!!parentHasScroll ? styles.withShadow : ""}`}
         >
           <table className={styles.marketsCustomTable}>
-            <thead>
+            <thead
+              style={{
+                transition: "transform 0.1s ease 0s",
+                transform: `translateY(${translateY}px)`,
+              }}
+              className={styles.thead}
+            >
               <tr>
                 <th className={styles.left}>Date</th>
                 <th className={styles.center}>Nifty Closing</th>
@@ -211,7 +245,13 @@ const FiiDiiActivityOverviewTable: React.FC<{
           ref={scrollableRef}
         >
           <table className={styles.marketsCustomTable}>
-            <thead>
+            <thead
+              style={{
+                transition: "transform 0.1s ease 0s",
+                transform: `translateY(${translateY}px)`,
+              }}
+              className={styles.thead}
+            >
               <tr>
                 <th className={styles.center} colSpan={2}>
                   FII Cash (Cr.)
