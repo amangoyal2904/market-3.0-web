@@ -1,5 +1,6 @@
 import jStorageReact from "jstorage-react";
 
+import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
 import { APP_ENV, getCookie } from "@/utils";
 import { saveLogs } from "@/utils/utility";
@@ -29,13 +30,9 @@ export const activateFreeTrial = async () => {
         datatype: "json",
         params: {},
         headers: {
+          "X-CLIENT-ID": (GLOBAL_CONFIG as any)["development"]["X_CLIENT_ID"],
           "Content-Type": "application/json",
-          "X-TOKEN":
-            getCookie("OTR") ||
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIwYmVlYmM5Mi1jNjYyLTQ5N2QtYWM1Yi0wMWJjNmY4ZjM3ZDYiLCJpc3MiOiJldC1vYXV0aC5jb20iLCJ0eXBlIjoibG9nZ2VkaW4iLCJleHAiOjE3MjM4Njk4NjkyOTgsImlhdCI6MTcyMTI3Nzg2OTI5OCwiaGFzaCI6IjU0NTg1NTliYzM4NDY3Yjg5M2NjMzkxNzhkMWZiZGVhIn0.w6RGLCvPoc02u6B1ZOLcdS5LBOy4chOA3_PAHKtYPy0",
-          "X-CLIENT-ID": isLive
-            ? "b2a8e883ec676f417520f422068a4742"
-            : "w2a8e883ec676f417520f422068a4741",
+          "X-TOKEN": getCookie("OTR"),
         },
       });
       const accessPassData = await response?.json();
