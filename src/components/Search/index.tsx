@@ -28,23 +28,7 @@ const Search: React.FC<Props> = ({ pos }) => {
   const [showKeyword, setShowKeyword] = useState(true);
   const [inputValue, setInputValue] = useState("");
   const [animate, setAnimate] = useState(true);
-  const keywords = [
-    "Stock",
-    "Industry",
-    "Sensex",
-    "Stock",
-    "Industry",
-    "Sensex",
-    "Stock",
-    "Industry",
-    "Sensex",
-    "Stock",
-    "Industry",
-    "Sensex",
-    "Stock",
-    "Industry",
-    "Sensex",
-  ];
+  const keywords = ["Stock", "Industry", "Sensex"];
   const [data, setData] = useState([]);
   const [val, setVal] = useState("");
   const [loader, setLoader] = useState(false);
@@ -180,11 +164,16 @@ const Search: React.FC<Props> = ({ pos }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (inputValue === "") {
-        setCurrentKeyword((prevKeyword) => (prevKeyword + 1) % keywords.length);
-        setAnimate(false); // Reset animation
-        setTimeout(() => setAnimate(true), 0); // Re-enable animation
+        setAnimate(false); // Disable animation
+        setTimeout(() => {
+          setCurrentKeyword(
+            (prevKeyword) => (prevKeyword + 1) % keywords.length,
+          );
+          setAnimate(true); // Re-enable animation
+        }, 50); // Slight delay to ensure state updates are processed
       }
     }, 2000);
+
     return () => clearInterval(interval);
   }, [inputValue, keywords.length]);
   return (
