@@ -1,9 +1,11 @@
 "use client";
+import { returnPPID } from "../../utils";
 
 declare global {
   interface Window {
     googletag: any;
     arrDfpAds: {}[];
+    _auds:any;
   }
 }
 
@@ -56,13 +58,27 @@ const callDfpAd = async function () {
         }
         adSize =
           adSize && (typeof adSize == "string" ? JSON.parse(adSize) : adSize);
-        //adSize.push("fluid");
+          try { 
+            window._auds = window._auds || JSON.parse(localStorage.getItem("audienceData") || '{}'); 
+          } catch (e) { window._auds = ''; } 
+           window._auds = window._auds || '';
+            
+            const ppid = returnPPID(); 
+            const aud_flag = ppid ? "true" : "false";
+
         if (adSlot != "" && adSize != "" && divId != "") {
           if (typeof googleTag != "undefined" && googleTag.apiReady) {
             googleTag.cmd.push(function () {
               ad_ref = googleTag
                 .defineSlot(adSlot, adSize, divId)
                 .addService(googleTag.pubads());
+              if(window._auds){
+                googleTag.pubads().setTargeting('sg', window._auds);
+              }
+              if(ppid){
+                googleTag.pubads().setPublisherProvidedId(ppid);
+              }
+              googleTag.pubads().setTargeting('aud_flag', aud_flag);
               googleTag.pubads().enableSingleRequest();
               googleTag.enableServices();
             });
