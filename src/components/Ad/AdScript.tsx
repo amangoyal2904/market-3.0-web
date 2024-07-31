@@ -58,12 +58,13 @@ const callDfpAd = async function () {
         }
         adSize =
           adSize && (typeof adSize == "string" ? JSON.parse(adSize) : adSize);
-        window._auds = window._auds || JSON.parse(localStorage.getItem("audienceData") as any);
-        window._auds = window._auds? window._auds : '';
-        //adSize.push("fluid");
-        let aud_flag = "false";
-        let ppid = returnPPID();
-        ppid ? aud_flag = "true" : aud_flag = "false";
+          try { 
+            window._auds = window._auds || JSON.parse(localStorage.getItem("audienceData") || '{}'); 
+          } catch (e) { window._auds = ''; } 
+           window._auds = window._auds || '';
+            
+            const ppid = returnPPID(); 
+            const aud_flag = ppid ? "true" : "false";
 
         if (adSlot != "" && adSize != "" && divId != "") {
           if (typeof googleTag != "undefined" && googleTag.apiReady) {
