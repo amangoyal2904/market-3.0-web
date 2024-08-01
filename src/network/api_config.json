@@ -65,9 +65,17 @@
     "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web",
     "production": "https://oauth2.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web"
   },
+  "AUTH_NEW_TOKEN": {
+    "development": "https://qa1-oauth.economictimes.indiatimes.com/auth/ET/userToken?frm=market_web",
+    "production": "https://oauth2.economictimes.indiatimes.com/auth/ET/userToken?frm=market_web"
+  },
   "LOGOUT_AUTH_TOKEN": {
     "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout",
     "production": "https://oauth2.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout"
+  },
+  "LOGOUT_AUTH_NEW_TOKEN": {
+    "development": "https://qa1-oauth.economictimes.indiatimes.com/auth/ET/logout",
+    "production": "https://oauth2.economictimes.indiatimes.com/auth/ET/logout"
   },
   "INDICES_LIST": {
     "development": "https://etapi.indiatimes.com/et-screener/indices-data",

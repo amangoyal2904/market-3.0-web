@@ -12,8 +12,8 @@ declare global {
     geoinfo: any;
     opera?: string;
     MSStream?: string;
-    _auds:any;
-    colaud:any;
+    _auds: any;
+    colaud: any;
   }
   interface objUser {
     info: {
@@ -396,6 +396,45 @@ export const loadPrimeApi = async () => {
     console.log("loadPrimeApi: " + e);
   }
 };
+export const loadPrimeApiNew = async () => {
+  try {
+    console.log(
+      "API URL TOKEN--->",
+      (APIS_CONFIG as any)["AUTH_NEW_TOKEN"][APP_ENV],
+    );
+    const url = (APIS_CONFIG as any)["AUTH_NEW_TOKEN"][APP_ENV],
+      oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],
+      deviceId = getCookie("_grx"),
+      ticketId = getCookie("TicketId"),
+      userSsoId = window?.objUser?.ssoid || getCookie("ssoid");
+
+    const body = JSON.stringify({
+      grantType: "refresh_token",
+    });
+    const headers = {
+      accept: "application/json",
+      "Content-Type": "application/json;charset=UTF-8",
+      "X-CLIENT-ID": oauthClientId,
+      "X-DEVICE-ID": deviceId,
+      "x-sso-id": userSsoId,
+      "x-site-app-code": (GLOBAL_CONFIG as any)[APP_ENV]["X_SITE_CODE"],
+      "X-TICKET-ID": ticketId,
+    };
+
+    const response = await Service.post({
+      url,
+      headers,
+      payload: {},
+      body,
+      params: {},
+    });
+
+    return response?.json();
+    // Handle the successful response data
+  } catch (e) {
+    console.log("loadPrimeApiNew: " + e);
+  }
+};
 
 export const formatDate = (str: string) => {
   // Parse the original date string
@@ -728,89 +767,115 @@ export const requestIdleOrTimeout = (callback: () => void) => {
   }
 };
 
-export const loadAssets = (filename: string, fileType: string, attrType: string, position: string, cb: () => void, objAttr: Record<string, string>) => {
-    try {
+export const loadAssets = (
+  filename: string,
+  fileType: string,
+  attrType: string,
+  position: string,
+  cb: () => void,
+  objAttr: Record<string, string>,
+) => {
+  try {
     let fileRef: HTMLScriptElement | HTMLLinkElement | undefined;
-    const positionToAppend = position || "head"; 
+    const positionToAppend = position || "head";
     if (fileType === "js") {
-        fileRef = document.createElement('script');
-        fileRef.type = "text/javascript";
-        fileRef.src = filename;
-        if (attrType) {
-          if (attrType.includes("async")) {
-            fileRef.async = true;
-          } else {
-            fileRef.setAttribute(attrType, attrType);
-          }
+      fileRef = document.createElement("script");
+      fileRef.type = "text/javascript";
+      fileRef.src = filename;
+      if (attrType) {
+        if (attrType.includes("async")) {
+          fileRef.async = true;
+        } else {
+          fileRef.setAttribute(attrType, attrType);
         }
-        if (objAttr && Object.keys(objAttr).length > 0) {
-            Object.entries(objAttr).forEach(([key, value]) => fileRef!.setAttribute(key, value));
-          }
-          if (typeof cb === "function") {
-            fileRef.addEventListener("load", cb);
-          }
-      } else if (fileType === "css") {
-        fileRef = document.createElement("link");
-        fileRef.rel = "stylesheet";
-        fileRef.type = "text/css";
-        fileRef.href = filename;
       }
-      if (fileRef) {
-        document.getElementsByTagName(positionToAppend)[0].appendChild(fileRef);
+      if (objAttr && Object.keys(objAttr).length > 0) {
+        Object.entries(objAttr).forEach(([key, value]) =>
+          fileRef!.setAttribute(key, value),
+        );
       }
-    } catch (e) {
-      console.log('loadAssets', e);
+      if (typeof cb === "function") {
+        fileRef.addEventListener("load", cb);
+      }
+    } else if (fileType === "css") {
+      fileRef = document.createElement("link");
+      fileRef.rel = "stylesheet";
+      fileRef.type = "text/css";
+      fileRef.href = filename;
     }
-  };
+    if (fileRef) {
+      document.getElementsByTagName(positionToAppend)[0].appendChild(fileRef);
+    }
+  } catch (e) {
+    console.log("loadAssets", e);
+  }
+};
 export const loadAudienceDMPScript = () => {
   try {
-  const isExist = document.querySelector("script[src*='https://ade.clmbtech.com/cde/aef/var=colaud']");
-  if (isExist) {
-  isExist.parentNode?.removeChild(isExist);
-  }
-  
-  
-  const dsmi = getCookie("_col_ccds");
-  const fpc = getCookie("_col_uuid");
-  const optout = getCookie("optout");
-  const geolocation = window.geoinfo?.geolocation;
-  if (geolocation !== 5 || (geolocation === 5 && optout === "0")) {
-    const currentUrl = window.location.href;
-    const dsmiParam = dsmi ? `dsmi=${dsmi}&` : '';
-    const fpcParam = fpc ? `fpc=${fpc}&` : '';
-    const optoutParam = optout ? `optout=${optout}&` : '';
-    const scriptUrl = "https://ade.clmbtech.com/cde/aef/var=colaud?cid=2308:4&" +fpcParam + optoutParam +dsmiParam+"_u="+currentUrl;
-    
-         
-    loadAssets(scriptUrl, "js", "async", "head",  function() {           
-      window._auds = new Array();
-       if (typeof(window.colaud) != 'undefined') {
-           window._auds = window.colaud?.aud ? window.colaud.aud : "";
-           if(typeof localStorage && window._auds.length > 0){
-               window.localStorage.setItem("audienceData", JSON.stringify(window._auds));
-           }else {
-             window._auds = typeof localStorage ? JSON.parse(localStorage.getItem("audienceData") as any): ""; // set old data from storage
-           }
-       }
+    const isExist = document.querySelector(
+      "script[src*='https://ade.clmbtech.com/cde/aef/var=colaud']",
+    );
+    if (isExist) {
+      isExist.parentNode?.removeChild(isExist);
+    }
 
-    }, {});
-  }
+    const dsmi = getCookie("_col_ccds");
+    const fpc = getCookie("_col_uuid");
+    const optout = getCookie("optout");
+    const geolocation = window.geoinfo?.geolocation;
+    if (geolocation !== 5 || (geolocation === 5 && optout === "0")) {
+      const currentUrl = window.location.href;
+      const dsmiParam = dsmi ? `dsmi=${dsmi}&` : "";
+      const fpcParam = fpc ? `fpc=${fpc}&` : "";
+      const optoutParam = optout ? `optout=${optout}&` : "";
+      const scriptUrl =
+        "https://ade.clmbtech.com/cde/aef/var=colaud?cid=2308:4&" +
+        fpcParam +
+        optoutParam +
+        dsmiParam +
+        "_u=" +
+        currentUrl;
+
+      loadAssets(
+        scriptUrl,
+        "js",
+        "async",
+        "head",
+        function () {
+          window._auds = new Array();
+          if (typeof window.colaud != "undefined") {
+            window._auds = window.colaud?.aud ? window.colaud.aud : "";
+            if (typeof localStorage && window._auds.length > 0) {
+              window.localStorage.setItem(
+                "audienceData",
+                JSON.stringify(window._auds),
+              );
+            } else {
+              window._auds = typeof localStorage
+                ? JSON.parse(localStorage.getItem("audienceData") as any)
+                : ""; // set old data from storage
+            }
+          }
+        },
+        {},
+      );
+    }
   } catch (e) {
-  console.log('loadAudienceDMPScript', e);
+    console.log("loadAudienceDMPScript", e);
   }
-  };
+};
 export const returnPPID = () => {
   try {
-  let ppid = '';
-  if (typeof localStorage !== 'undefined') {
-    ppid = getCookie('_col_uuid') || localStorage.getItem("col_ppid") || '';
-    if (!localStorage.getItem("col_ppid") && ppid) {
-      localStorage.setItem("col_ppid", ppid);
+    let ppid = "";
+    if (typeof localStorage !== "undefined") {
+      ppid = getCookie("_col_uuid") || localStorage.getItem("col_ppid") || "";
+      if (!localStorage.getItem("col_ppid") && ppid) {
+        localStorage.setItem("col_ppid", ppid);
+      }
     }
-  }
-  return ppid;
+    return ppid;
   } catch (e) {
-  console.log("returnPPID:", e);
-  return '';
+    console.log("returnPPID:", e);
+    return "";
   }
-  };
+};
