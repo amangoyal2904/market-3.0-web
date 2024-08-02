@@ -87,8 +87,6 @@ const responsive = [
 const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
   const { state } = useStateContext();
   const { isLogin, isPrime } = state.login;
-  const isPrimeUser = isPrime || false;
-  const isLoginUser = isLogin || false;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [processingLoader, setProcessingLoader] = useState(false);
   const [activeTab, setActiveTab] = useState<any>(
@@ -196,7 +194,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
                         <SRCardTwo
                           key={index}
                           catName={activeTab?.name}
-                          primeUser={isPrimeUser}
+                          primeUser={isPrime}
                           tabName="MarketLIVECoverage"
                           dataList={slide}
                           handleClick={handlePaywallClick}
@@ -217,7 +215,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
                         <SRCardThree
                           key={index}
                           catName={activeTab?.name}
-                          primeUser={isPrimeUser}
+                          primeUser={isPrime}
                           tabName="MarketLIVECoverage"
                           dataList={slide}
                           handleClick={handlePaywallClick}
@@ -246,7 +244,7 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
       {isModalOpen && (
         <StockSRLoginBlocker
           overlayBlockerData={overlayBlockerData}
-          isLoginUser={isLoginUser}
+          isLoginUser={isLogin}
           handleClick={handlePaywallClick}
           srTabActivemenu={activeTab?.name}
         />
