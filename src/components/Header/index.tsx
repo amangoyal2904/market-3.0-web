@@ -187,6 +187,7 @@ const Header = () => {
             <a
               href="https://economictimes.indiatimes.com/"
               className={styles.switchTxtSec}
+              target="_blank"
             >
               Switch To <span>ET</span>
             </a>
