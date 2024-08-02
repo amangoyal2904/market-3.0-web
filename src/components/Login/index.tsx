@@ -74,10 +74,11 @@ const Login = () => {
       //   window.objUser.permissions = resObj.permissions || [];
       //   window.objUser.accessibleFeatures = resObj.accessibleFeatures || [];
       //   window.objUser.userAcquisitionType =
-      //     resObj.subscriptionDetails &&
-      //     "userAcquisitionType" in resObj.subscriptionDetails
-      //       ? resObj.subscriptionDetails.userAcquisitionType
+      //     resObj.subscriptionDetail &&
+      //     "userAcquisitionType" in resObj.subscriptionDetail
+      //       ? resObj.subscriptionDetail.userAcquisitionType
       //       : "free";
+      //      console.log("subscriptionDetail ----> ", resObj.subscriptionDetail);
       //   console.log("Is Prime ----> ", isPrime);
       //   console.log("Permission Array----> ", resObj.permissions);
       //   console.log(
