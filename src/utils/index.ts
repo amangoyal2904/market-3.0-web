@@ -182,6 +182,13 @@ export const verifyLogin = () => {
     const verifyLoginStatus = new Event(
       response.status == "SUCCESS" ? "verifyLoginSuccess" : "verifyLoginFail",
     );
+    const freeTrialData = jStorageReact.get("et_freetrial");
+    console.log(freeTrialData, "freeTrialData");
+    if (freeTrialData?.hitAccessPass) {
+      setTimeout(() => {
+        activateFreeTrial();
+      }, 500);
+    }
     document.dispatchEvent(verifyLoginStatus);
   });
 };
@@ -286,9 +293,12 @@ export const initSSOWidget = () => {
     last_clicked_lob: "ET",
     signInCallback: function () {
       const freeTrialData = jStorageReact.get("et_freetrial");
+      console.log(freeTrialData, "freeTrialData signInCallback");
       verifyLogin();
       ssoClose();
-      freeTrialData?.eligible ? activateFreeTrial() : window.location.reload();
+      if (!freeTrialData || !freeTrialData?.hitAccessPass) {
+        window.location.reload();
+      }
     },
     signupForm: {
       defaultFirstName: "Guest",

@@ -112,7 +112,14 @@ const NonPrimeBlockerModule = ({
                   {/* <span onClick={planPageRedirect} className={styles.subBtn}>
                     {ctaTxt}
                   </span> */}
-                  <span onClick={planPageRedirect} className={styles.boxTxt}>
+                  <span
+                    onClick={planPageRedirect}
+                    className={
+                      validAccessPass
+                        ? `${styles.boxTxt} ${styles.freeTrial}`
+                        : styles.boxTxt
+                    }
+                  >
                     {validAccessPass ? "Limited Time Offer" : text}
                   </span>
                 </div>
