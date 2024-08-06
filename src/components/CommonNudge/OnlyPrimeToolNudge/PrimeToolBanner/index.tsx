@@ -52,14 +52,14 @@ const PrimeToolBanner = ({
           <span className={styles.info_icon}>
             {bannerType === "b" ? (
               <Image
-                src={`/img/unlockPower.png`}
+                src={`/marketsweb/img/unlockPower.png`}
                 height={50}
                 width={128}
                 alt="prime image logo"
               />
             ) : (
               <Image
-                src={`/img/primeimg2.png`}
+                src={`/marketsweb/img/primeimg2.png`}
                 height={50}
                 width={91}
                 alt="prime image"
