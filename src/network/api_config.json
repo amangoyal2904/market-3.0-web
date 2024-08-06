@@ -130,8 +130,8 @@
     "production": "https://etapi.indiatimes.com/et-screener/other-indices"
   },
   "INDICES_WIDGET": {
-    "development": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365,1913,1906,186,2371",
-    "production": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365,1913,1906,186,2371"
+    "development": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365,2371,1913,186,2907,1906,13602,2510,15431,2342,2340",
+    "production": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365,2371,1913,186,2907,1906,13602,2510,15431,2342,2340"
   },
   "INDICES_FAQ": {
     "development": "https://screener.indiatimes.com/screener/indexFaq",
