@@ -1,0 +1,87 @@
+.toolPageWraper {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 0 100px;
+  background: linear-gradient(90deg, #ffe9c5 56%, #ffbcaf 100%);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.3);
+}
+.toolPageWraper.optionTwo {
+  background: rgba(70, 173, 180, 1);
+  .tac {
+    text-align: left;
+    .subBannerTxt {
+      color: rgba(255, 237, 141, 1);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .info_text {
+      color: #ffffff;
+    }
+  }
+}
+.info_content {
+  display: flex;
+  margin: 0 auto;
+  position: relative;
+  justify-content: center;
+  column-gap: 30px;
+  max-width: 1200px;
+  align-items: center;
+  .info_cross {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #000000;
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+    &::after,
+    &::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 5px;
+      height: 12px;
+      border-left: solid 2px #ffffff;
+      transform: rotate(45deg);
+    }
+    &::before {
+      transform: rotate(-45deg);
+    }
+  }
+}
+.info_icon {
+  img {
+    vertical-align: top;
+  }
+}
+.tac {
+  min-width: 500px;
+  text-align: center;
+  .info_text {
+    font-size: 20px;
+    color: #000000;
+    font-weight: 600;
+  }
+  .info_subtext {
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 400;
+  }
+}
+.info_cta {
+  border-radius: 3px;
+  background: rgba(237, 25, 59, 1);
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 16px;
+  line-height: 35px;
+  cursor: pointer;
+}

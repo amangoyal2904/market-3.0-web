@@ -466,5 +466,13 @@
   "WEBSOCKET_ENDPOINT": {
     "development": "ws://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW",
     "production": "wss://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW"
+  },
+  "ALL_USER_SUBSCRIPTIONS": {
+    "development": "https://subscriptions.economictimes.indiatimes.com/subscription/allUserSubscriptions",
+    "production": "https://subscriptions.economictimes.indiatimes.com/subscription/allUserSubscriptions"
+  },
+  "META_INFO": {
+    "development": "https://etapipre.indiatimes.com/api/mercury/metainfo",
+    "production": "https://etpwaapi.economictimes.com/api/mercury/metainfo"
   }
 }
