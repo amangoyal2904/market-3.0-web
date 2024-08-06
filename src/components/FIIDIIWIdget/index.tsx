@@ -42,6 +42,7 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
     >
       <p className={styles.title}>
         {type == "fiiEquity" ? fiiDiiCash.legend1 : fiiDiiCash.legend2}
+        <span className={`eticon_caret_right ${styles.icon}`} />
         <span className={styles.days}>Past 7 days activity</span>
       </p>
       <div className={styles.barsRow}>
