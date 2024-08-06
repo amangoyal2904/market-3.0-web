@@ -119,11 +119,11 @@ export function middleware(request: NextRequest) {
   ) {
     response.headers.set(
       "Cache-Control",
-      "public, max-age=3600, s-maxage=3600, must-revalidate, stale-while-revalidate=7200",
+      "public, max-age=10800, s-maxage=10800, must-revalidate, stale-while-revalidate=21600",
     );
     response.headers.set(
       "Expires",
-      new Date(Date.now() + 3600000).toUTCString(),
+      new Date(Date.now() + 10800000).toUTCString(),
     );
   }
 
