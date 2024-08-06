@@ -58,11 +58,10 @@ const BottomStrip = ({
             onClick={() => closeHandler()}
           ></span>
           <div className={styles.leftSec}>
-            <Image
+            <img
               src={ETLogo}
               width={124}
               height={21}
-              quality={100}
               alt="ET Markets"
               title="ET Markets"
             />
