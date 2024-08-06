@@ -119,6 +119,7 @@ const Login = () => {
           accessibleFeatures: window.objUser.accessibleFeatures,
           userAcquisitionType: window.objUser.userAcquisitionType,
           permissions: window.objUser.permissions,
+          subscriptionDetails: window.objUser.primeInfo?.subscriptionDetails,
         },
       });
     } catch (e) {
@@ -139,6 +140,7 @@ const Login = () => {
         accessibleFeatures: window.objUser.accessibleFeatures,
         userAcquisitionType: window.objUser.userAcquisitionType,
         permissions: window.objUser.permissions,
+        subscriptionDetails: window.objUser.primeInfo?.subscriptionDetails,
       },
     });
   };
@@ -157,6 +159,7 @@ const Login = () => {
         accessibleFeatures: [],
         userAcquisitionType: "free",
         permissions: [],
+        primeInfo: {},
       },
     });
   };

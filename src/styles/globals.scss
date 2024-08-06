@@ -525,7 +525,27 @@ table {
 .displayHide {
   display: none !important;
 }
-
+.slick-dots.sliderNudgeDots {
+  text-align: right;
+  top: 8px;
+  right: 12px;
+}
+.mainCenterSlider .slick-dots {
+  text-align: right;
+  margin: 16px 10px 0 0;
+}
+.mainCenterSlider .slick-dots li {
+  width: 6px;
+  height: 6px;
+  margin: 0 2px;
+}
+.mainCenterSlider .slick-dots li.slick-active {
+  width: 18px;
+}
+.mainCenterSlider .slick-dots li.slick-active > span {
+  background: rgba(237, 25, 59, 1);
+  width: 18px;
+}
 @media screen and (max-width: 1024px) and (max-height: 600px) {
   .customModule .moduleWrap {
     margin-top: 20px;

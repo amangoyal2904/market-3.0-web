@@ -1411,7 +1411,6 @@ export const saveLogs = (data: any) => {
     console.log("saveLogs: window is not defined, skipping log save.");
   }
 };
-
 export const loadScript = (
   src: string,
   async: boolean = true,

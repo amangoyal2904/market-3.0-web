@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, Suspense } from "react";
 import styles from "./Header.module.scss";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,7 +14,9 @@ import { getCurrentMarketStatus } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
-
+const CommonNudge = dynamic(() => import("@/components/CommonNudge"), {
+  ssr: false,
+});
 const LiveMarketData = dynamic(() => import("../LiveMarketData"), {
   ssr: false,
 });
@@ -159,6 +161,9 @@ const Header = () => {
     <>
       <DfpAds adInfo={AdInfo.dfp.topad} />
       <header id={styles.pageTopbar}>
+        <Suspense fallback="">
+          <CommonNudge modalType="showTopNudgePrime" />
+        </Suspense>
         <div className={styles.navbarHeader} id="header">
           <div className={`dflex align-item-center ${styles.logoHeader}`}>
             <Link
