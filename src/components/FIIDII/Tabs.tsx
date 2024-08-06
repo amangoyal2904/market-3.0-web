@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./FIIDII.module.scss";
 import Link from "next/link";
 import ApiTypeDropdown from "./ApiTypeDropdown";
+import { trackingEvent } from "@/utils/ga";
 
 const tabData = [
   { label: "Overview", key: "overview" },
@@ -29,6 +30,11 @@ const FiiDiiTabs = React.memo(
     const [apiFilterShow, setApiFilterShow] = useState(false);
     const [apiType, setApiType] = useState(filterOptions[0]);
     const onApiChangeHandler = (key: string, label: string) => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: `fiidii_category_filter_applied`,
+        event_label: label,
+      });
       setApiType({ key: key, label: label });
       handleApiType(key);
       setApiFilterShow(false);
@@ -51,6 +57,13 @@ const FiiDiiTabs = React.memo(
                     ? "/markets/fii-dii-activity"
                     : `/markets/fii-dii-activity/${item.key}`
                 }
+                onClick={(e) => {
+                  trackingEvent("et_push_event", {
+                    event_category: "mercury_engagement",
+                    event_action: "tab_selected",
+                    event_label: `FIIDII_${item.label}`,
+                  });
+                }}
               >
                 {item.label}
               </Link>
