@@ -6,7 +6,7 @@ import {
   ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
   ResolutionString,
-} from "../../../public/static/charting_library/charting_library";
+} from "../../../public/static/v27/charting_library";
 import Script from "next/script";
 import GuageChart from "./GuageChart";
 import { useStateContext } from "@/store/StateContext";
@@ -17,8 +17,6 @@ const TVChartContainer = dynamic(() =>
 
 const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
   const { state } = useStateContext();
-  const { ssoid } = state.login;
-  const [userId, setUserId] = useState("");
   const [isScriptReady, setIsScriptReady] = useState(false);
   const { maScore, bullishMA, bearishMA, movingAverage, pivotLevel } = data;
 
@@ -52,31 +50,21 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
     "adaptive_logo",
     "go_to_date",
     "header_saveload",
+    "use_localstorage_for_settings",
     "header_symbol_search",
   ];
 
   const defaultWidgetProps: Partial<ChartingLibraryWidgetOptions> = {
     symbol: symbol,
     interval: "1D" as ResolutionString,
-    user_id: userId,
+    user_id: "default",
     disabled_features: disabledFeatures,
-    overrides: {},
   };
-
-  useEffect(() => {
-    let user = getCookie("ssoid") || ssoid;
-    if (user == null || user == "") {
-      user = getCookie("pfuuid");
-    }
-    const user_id: string | undefined =
-      typeof user === "string" ? user : "default_user";
-    setUserId(user_id);
-  }, [ssoid]);
 
   return (
     <>
       <Script
-        src="/marketsweb/static/datafeeds/udf/dist/bundle.js"
+        src="/marketsweb/static/v27/datafeeds/udf/dist/bundle.js"
         strategy="lazyOnload"
         onReady={() => {
           setIsScriptReady(true);
@@ -172,9 +160,7 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
       <div className={styles.wrapper}>
         <h3 className={styles.heading3}>Technical Chart</h3>
         <div id={styles.tradingView}>
-          {isScriptReady && !!userId && (
-            <TVChartContainer {...defaultWidgetProps} />
-          )}
+          {isScriptReady && <TVChartContainer {...defaultWidgetProps} />}
         </div>
       </div>
     </>
