@@ -107,7 +107,7 @@ const SliderBanner = ({
                     <span>Experience the New & Enhanced</span>
                   </div>
                   <div className={styles.imgSec}>
-                    <Image
+                    <img
                       src={`/marketsweb/img/etmarketlogo.png`}
                       alt="et market logo"
                       width="118"
@@ -134,7 +134,7 @@ const SliderBanner = ({
                         <strong>BigBull Portfolio.</strong>
                       </div>
                       <div className={styles.rightImg}>
-                        <Image
+                        <img
                           src={`/marketsweb/img/sliderImg1.png`}
                           alt="slider img one"
                           width={310}
@@ -149,7 +149,7 @@ const SliderBanner = ({
                         <strong>Stock Reports Plus.</strong>
                       </div>
                       <div className={styles.rightImg}>
-                        <Image
+                        <img
                           src={`/marketsweb/img/sliderImg2.png`}
                           alt="slider img one"
                           width={253}
@@ -164,7 +164,7 @@ const SliderBanner = ({
                         <strong>Market Mood.</strong>
                       </div>
                       <div className={styles.rightImg}>
-                        <Image
+                        <img
                           src={`/marketsweb/img/sliderImg3.png`}
                           alt="slider img one"
                           width={322}
