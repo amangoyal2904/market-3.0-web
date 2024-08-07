@@ -155,7 +155,7 @@ export const updateOrAddParamToPath = (
   const url = new URL(window.location.origin + pathname);
   const searchParams = url.searchParams;
 
-  if (value === 0) {
+  if (value == 0) {
     searchParams.delete(param);
   } else if (searchParams.has(param)) {
     searchParams.set(param, value);
@@ -1411,7 +1411,6 @@ export const saveLogs = (data: any) => {
     console.log("saveLogs: window is not defined, skipping log save.");
   }
 };
-
 export const loadScript = (
   src: string,
   async: boolean = true,

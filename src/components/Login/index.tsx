@@ -1,6 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import jStorageReact from "jstorage-react";
+
+import { activateFreeTrial } from "@/utils/freeTrail";
 import styles from "./Login.module.scss";
 import {
   APP_ENV,
@@ -81,6 +84,14 @@ const Login = () => {
         }
         trackingEvent("user_profile_create", { url: window.location.href });
 
+        const freeTrialData = jStorageReact.get("et_freetrial");
+        console.log(freeTrialData, "freeTrialData");
+        if (freeTrialData?.hitAccessPass) {
+          setTimeout(() => {
+            activateFreeTrial();
+          }, 500);
+        }
+
         saveLogs({
           type: "Mercury",
           res: "SUCCESS",
@@ -119,6 +130,7 @@ const Login = () => {
           accessibleFeatures: window.objUser.accessibleFeatures,
           userAcquisitionType: window.objUser.userAcquisitionType,
           permissions: window.objUser.permissions,
+          subscriptionDetails: window.objUser.primeInfo?.subscriptionDetails,
         },
       });
     } catch (e) {
@@ -139,6 +151,7 @@ const Login = () => {
         accessibleFeatures: window.objUser.accessibleFeatures,
         userAcquisitionType: window.objUser.userAcquisitionType,
         permissions: window.objUser.permissions,
+        subscriptionDetails: window.objUser.primeInfo?.subscriptionDetails,
       },
     });
   };
@@ -157,6 +170,7 @@ const Login = () => {
         accessibleFeatures: [],
         userAcquisitionType: "free",
         permissions: [],
+        primeInfo: {},
       },
     });
   };

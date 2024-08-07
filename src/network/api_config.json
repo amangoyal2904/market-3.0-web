@@ -62,7 +62,7 @@
     }
   },
   "AUTH_TOKEN": {
-    "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web",
+    "development": "https://qa-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web",
     "production": "https://oauth2.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web"
   },
   "LOGOUT_AUTH_TOKEN": {
@@ -130,8 +130,8 @@
     "production": "https://etapi.indiatimes.com/et-screener/other-indices"
   },
   "INDICES_WIDGET": {
-    "development": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365,1913,1906,186,2371",
-    "production": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365,1913,1906,186,2371"
+    "development": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365,2371,1913,186,2907,1906,13602,2510,15431,2342,2340",
+    "production": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365,2371,1913,186,2907,1906,13602,2510,15431,2342,2340"
   },
   "INDICES_FAQ": {
     "development": "https://screener.indiatimes.com/screener/indexFaq",
@@ -470,5 +470,13 @@
   "ACCESS_PASS": {
     "development": "https://qcsubscription.economictimes.indiatimes.com/subscription/merchant/ET/product/ETPR/geoRegion/IN/code/ACCESSPASS/generateAccessPass",
     "production": "https://qcsubscription.economictimes.indiatimes.com/subscription/merchant/ET/product/ETPR/geoRegion/IN/code/ACCESSPASS/generateAccessPass"
+  },
+  "ALL_USER_SUBSCRIPTIONS": {
+    "development": "https://subscriptions.economictimes.indiatimes.com/subscription/allUserSubscriptions",
+    "production": "https://subscriptions.economictimes.indiatimes.com/subscription/allUserSubscriptions"
+  },
+  "META_INFO": {
+    "development": "https://etapipre.indiatimes.com/api/mercury/metainfo",
+    "production": "https://etpwaapi.economictimes.com/api/mercury/metainfo"
   }
 }

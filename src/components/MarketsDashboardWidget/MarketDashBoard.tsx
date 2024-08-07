@@ -126,7 +126,7 @@ function MarketDashBoard(props: propsType) {
     setNiftyFilterData(selectedFilter);
     setPayload({
       ...payload,
-      filterValue: [filter],
+      filterValue: !!filter ? [filter] : [],
       filterType:
         filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
     });
