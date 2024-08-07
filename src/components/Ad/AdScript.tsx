@@ -21,7 +21,9 @@ export const loadAndBeyondScript = function(userType = true){
       }, 10000);
    }
     
-}catch(e){}
+}catch(e){
+  console.log("loadAndBeyondScript::" +e);
+}
 
 }
 const getDFPData = async function () {
