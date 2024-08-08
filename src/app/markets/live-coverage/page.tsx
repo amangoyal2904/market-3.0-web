@@ -69,7 +69,7 @@ const LiveCoverage = async () => {
   const fetchTopNews = async () => {
     try {
       const response = await service.get({
-        url: `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/liveblogfeed_markets.cms?feedtype=etjson&widget=v3&language=ENG&andver=404&platform=mktandroid`,
+        url: `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/feed_livecoverage_topnews.cms?feedtype=etjson&platform=web`,
         params: {},
       });
       if (response && response.ok) {

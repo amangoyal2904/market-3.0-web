@@ -10,7 +10,7 @@ import {
   dateFormat,
   dateStringToMilliseconds,
   removeHostname,
-  replaceWidthHeigh,
+  replaceWidthHeight,
 } from "@/utils/index";
 import Service from "@/network/service";
 import { useStateContext } from "@/store/StateContext";
@@ -387,8 +387,8 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
         </a>
         <ul>
           {!!topNewsData &&
-            topNewsData.length &&
-            topNewsData?.slice(0, 6)?.map((list: any, index: number) =>
+            topNewsData.length > 0 &&
+            topNewsData?.slice(0, 7)?.map((list: any, index: number) =>
               list?.type === "lb" ? (
                 <li key="liveblog">
                   <div className={`prel ${styles.liveBlog}`}>
@@ -450,7 +450,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                       <img
                         width="55"
                         height="41"
-                        src={replaceWidthHeigh(list?.im, "55", "41")}
+                        src={replaceWidthHeight(list?.im, 55, 41)}
                         alt="Top News Image"
                         title={list?.hl}
                       />

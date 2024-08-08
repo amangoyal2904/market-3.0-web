@@ -1,8 +1,12 @@
 @import "@/styles/variables.scss";
 
 .widgetContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   padding: 24px 24px 10px;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
   gap: 24px;
   margin: -20px;
@@ -14,7 +18,6 @@
 
     .title {
       color: #000;
-      //font-size: 24px;
       font-size: 2em;
       font-style: normal;
       font-weight: 700;
@@ -33,8 +36,12 @@
 
   .topWrapper {
     position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     gap: 30px;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
   }
 
@@ -43,7 +50,6 @@
 
     .title {
       color: #000;
-      // font-size: 24px;
       font-size: 1.6em;
       font-style: normal;
       font-weight: 700;
@@ -53,6 +59,7 @@
     li {
       list-style: none;
       overflow: hidden;
+      -o-text-overflow: ellipsis;
       text-overflow: ellipsis;
       font-size: 14px;
       font-style: normal;
@@ -118,13 +125,21 @@
     }
 
     .topNewsList {
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
       padding: 16px 0px;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
       align-items: center;
       gap: 12px;
+      -ms-flex-item-align: stretch;
+      -ms-grid-row-align: stretch;
       align-self: stretch;
       border-bottom: 1px solid #ccc;
       position: relative;
+      -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
       justify-content: space-between;
     }
 
@@ -134,11 +149,12 @@
       font-style: normal;
       font-weight: 600;
       line-height: 18px;
+      -o-text-overflow: ellipsis;
       text-overflow: ellipsis;
       overflow: hidden;
       display: -webkit-box;
       -webkit-box-orient: vertical;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 2;
     }
 
     .readTime {
@@ -181,13 +197,22 @@
 }
 
 .cards {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   padding: 12px 20px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
   align-items: flex-start;
   gap: 4px;
   border-radius: 8px 8px 0px 0px;
   background: #fffbfa;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
   min-width: 150px;
   border-top: 1px solid transparent;
@@ -198,11 +223,6 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    // text-overflow: ellipsis;
-    // overflow: hidden;
-    // display: -webkit-box;
-    // -webkit-box-orient: vertical;
-    // -webkit-line-clamp: 1;
   }
 
   .indexPrice {
@@ -227,15 +247,19 @@
   border-right: 1px solid #ccc;
   border-left: 1px solid #ccc;
   background: #fffbfa;
-  //   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.12);
   border-bottom: none;
   position: relative;
-  //   margin-top: -1px;
 }
 
 .chartOpts {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
   border-bottom: 2px solid #cccccc;
   margin-top: 16px;
@@ -276,19 +300,27 @@
   }
 
   .technical {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
     gap: 2px;
   }
 }
 
 .bottomWidgets {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   gap: 12px;
   margin: 4px auto;
   overflow: auto;
 
   .widget {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
     flex: 1;
     border: 1px solid $gray-70;
     border-radius: 8px;
@@ -367,11 +399,15 @@
 
     .bar {
       position: relative;
+      -webkit-box-flex: 1;
+      -ms-flex: auto;
       flex: auto;
       height: 8px;
       width: 0;
       border-radius: 2px;
       background: $blue-20;
+      -webkit-transition: width 0.5s ease;
+      -o-transition: width 0.5s ease;
       transition: width 0.5s ease;
 
       .currentPosition {
@@ -445,10 +481,14 @@
   }
 }
 .customTabs {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   border-bottom: 1px solid #ccc;
   .cards {
     min-width: 130px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     border-bottom: none;
     padding: 12px 18px;
@@ -464,6 +504,14 @@
   bottom: -2px;
   width: 100%;
   left: 0;
+}
+
+@-webkit-keyframes pulse {
+  to {
+    opacity: 0;
+    -webkit-transform: scale(2.8);
+    transform: scale(2.8);
+  }
 }
 
 @keyframes pulse {
