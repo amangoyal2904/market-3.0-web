@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styles from "./FIIDII.module.scss";
 import Loader from "../Loader";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils/index";
 
 const FIIDIIChart = ({ apiType }: any) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,7 +23,7 @@ const FIIDIIChart = ({ apiType }: any) => {
       </h2>
       {isLoading && <Loader loaderType={"container"} />}
       <iframe
-        src={`https://etdev8243.indiatimes.com/feeds/render_fiidiichart.cms?apitype=${apiType}&platform=web&height=400`}
+        src={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/feeds/render_fiidiichart.cms?apitype=${apiType}&platform=web&height=400`}
         style={{
           width: "100%",
           height: "400px",
