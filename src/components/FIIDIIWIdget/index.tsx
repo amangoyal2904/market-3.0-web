@@ -35,9 +35,8 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
   });
 
   return first7Values?.length ? (
-    <Link
+    <div
       className={styles.container}
-      href="/markets/fii-dii-activity"
       title={type == "fiiEquity" ? fiiDiiCash.legend1 : fiiDiiCash.legend2}
     >
       <p className={styles.title}>
@@ -105,7 +104,7 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
           )}
         </span>
       </p>
-    </Link>
+    </div>
   ) : (
     ""
   );
