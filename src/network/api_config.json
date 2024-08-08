@@ -137,6 +137,10 @@
     "development": "https://screener.indiatimes.com/screener/indexFaq",
     "production": "https://screener.indiatimes.com/screener/indexFaq"
   },
+  "FIIDII_SUMMARY": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/fiiDiiSummary.json",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/fiiDiiSummary.json"
+  },
   "FIIDII_OVERVIEW": {
     "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json"
