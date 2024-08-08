@@ -22,9 +22,7 @@ import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
 
-const IndicesWidget = ({ data, topNewsData, liveblog, fiiDiiCash }: any) => {
-  const liveBlog = liveblog?.lb || {};
-  const newsLength = liveblog?.lb ? 5 : 6;
+const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
   const indicesWidgetRef = useRef<HTMLDivElement>(null);
   const responsive = [
     {
@@ -388,42 +386,17 @@ const IndicesWidget = ({ data, topNewsData, liveblog, fiiDiiCash }: any) => {
           Top News
         </a>
         <ul>
-          {!!liveBlog && liveBlog.msid != "" && (
-            <li key="liveblog">
-              <div className={`prel ${styles.liveBlog}`}>
-                <span className={styles.liveBlinker}></span>
-                <span className={styles.heading}>Live Blog</span>
-              </div>
-              <a
-                href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/${liveBlog.seolocation}/liveblog/${liveBlog.msid}.cms`}
-                className={styles.topNewsList}
-                target="_blank"
-                title={liveBlog?.title}
-                onClick={() =>
-                  trackingEvent("et_push_event", {
-                    event_category: "mercury_engagement",
-                    event_action: "top_news_clicked",
-                    event_label: `1 ${liveBlog?.title}`,
-                  })
-                }
-              >
-                <p>
-                  <span
-                    className={styles.topNewsTitle}
-                    dangerouslySetInnerHTML={{
-                      __html: liveBlog?.title,
-                    }}
-                  />
-                </p>
-              </a>
-            </li>
-          )}
           {!!topNewsData &&
-            topNewsData?.map((list: any, index: number) =>
-              index < newsLength ? (
-                <li key={`topNews${index}`}>
+            topNewsData.length &&
+            topNewsData?.slice(0, 6)?.map((list: any, index: number) =>
+              list?.type === "lb" ? (
+                <li key="liveblog">
+                  <div className={`prel ${styles.liveBlog}`}>
+                    <span className={styles.liveBlinker}></span>
+                    <span className={styles.heading}>Live Updates</span>
+                  </div>
                   <a
-                    href={removeHostname(list?.url)}
+                    href={removeHostname(list?.wu)}
                     className={styles.topNewsList}
                     target="_blank"
                     title={list?.title}
@@ -431,7 +404,7 @@ const IndicesWidget = ({ data, topNewsData, liveblog, fiiDiiCash }: any) => {
                       trackingEvent("et_push_event", {
                         event_category: "mercury_engagement",
                         event_action: "top_news_clicked",
-                        event_label: `${index + 1} ${list?.title}`,
+                        event_label: `1 ${list?.title}`,
                       })
                     }
                   >
@@ -442,33 +415,57 @@ const IndicesWidget = ({ data, topNewsData, liveblog, fiiDiiCash }: any) => {
                           __html: list?.title,
                         }}
                       />
-                      {/* {list?.readtime ? (
-                      <span className={styles.readTime}>
-                        {`${list.readtime} ${list.readtime == 1 ? "Min ago" : "Mins ago"}`}
-                      </span>
-                    ) : (
-                      ""
-                    )} */}
                     </p>
-                    <img
-                      width="55"
-                      height="41"
-                      src={replaceWidthHeigh(list?.img, "55", "41")}
-                      alt={`Top New Image`}
-                      title={list?.title}
-                    />
-                    {list?.type == "videoshow" ? (
+                  </a>
+                </li>
+              ) : (
+                <li key={`topNews${index}`}>
+                  <a
+                    href={removeHostname(list?.wu)}
+                    className={styles.topNewsList}
+                    target="_blank"
+                    title={list?.hl}
+                    onClick={() =>
+                      trackingEvent("et_push_event", {
+                        event_category: "mercury_engagement",
+                        event_action: "top_news_clicked",
+                        event_label: `${index + 1} ${list?.hl}`,
+                      })
+                    }
+                  >
+                    <p>
+                      <span
+                        className={styles.topNewsTitle}
+                        dangerouslySetInnerHTML={{
+                          __html: list?.hl,
+                        }}
+                      />
+                      {/* {list?.minRead ? (
+                        <span className={styles.readTime}>{list.minRead}</span>
+                      ) : (
+                        ""
+                      )} */}
+                    </p>
+                    {!!list?.im && (
+                      <img
+                        width="55"
+                        height="41"
+                        src={replaceWidthHeigh(list?.im, "55", "41")}
+                        alt="Top News Image"
+                        title={list?.hl}
+                      />
+                    )}
+                    {list?.sv === "video" ? (
                       <span className={styles.videoIcon} />
                     ) : (
                       ""
                     )}
                   </a>
                 </li>
-              ) : (
-                ""
               ),
             )}
         </ul>
+
         <ViewAllLink
           text="See All News"
           link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets`}
