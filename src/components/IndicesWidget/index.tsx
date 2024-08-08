@@ -171,7 +171,10 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
 
   return (
     <div className={styles.widgetContainer}>
-      <div className={styles.IndicesContainer} ref={indicesWidgetRef}>
+      <div
+        className={`${styles.IndicesContainer} ${topNewsData.length === 0 ? styles.fullWidth : ""}`}
+        ref={indicesWidgetRef}
+      >
         <div className={styles.topWrapper}>
           <h2 className={styles.title}>
             <a
@@ -369,26 +372,25 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           </div>
         </div>
       </div>
-      <div className={styles.newsContainer}>
-        <a
-          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets`}
-          target="_blank"
-          title="Top News"
-          className={styles.title}
-          onClick={() =>
-            trackingEvent("et_push_event", {
-              event_category: "mercury_engagement",
-              event_action: "top_news_clicked",
-              event_label: `widget_heading`,
-            })
-          }
-        >
-          Top News
-        </a>
-        <ul>
-          {!!topNewsData &&
-            topNewsData.length > 0 &&
-            topNewsData?.slice(0, 7)?.map((list: any, index: number) =>
+      {!!topNewsData && topNewsData.length > 0 && (
+        <div className={styles.newsContainer}>
+          <a
+            href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets`}
+            target="_blank"
+            title="Top News"
+            className={styles.title}
+            onClick={() =>
+              trackingEvent("et_push_event", {
+                event_category: "mercury_engagement",
+                event_action: "top_news_clicked",
+                event_label: `widget_heading`,
+              })
+            }
+          >
+            Top News
+          </a>
+          <ul>
+            {topNewsData?.slice(0, 7)?.map((list: any, index: number) =>
               list?.type === "lb" ? (
                 <li key="liveblog">
                   <div className={`prel ${styles.liveBlog}`}>
@@ -464,15 +466,16 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                 </li>
               ),
             )}
-        </ul>
+          </ul>
 
-        <ViewAllLink
-          text="See All News"
-          link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets`}
-          alignRight={true}
-          padding="16px 0 0 0"
-        />
-      </div>
+          <ViewAllLink
+            text="See All News"
+            link={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets`}
+            alignRight={true}
+            padding="16px 0 0 0"
+          />
+        </div>
+      )}
     </div>
   );
 };

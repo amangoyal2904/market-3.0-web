@@ -15,6 +15,9 @@
 
   .IndicesContainer {
     width: 70%;
+    &.fullWidth {
+      width: 100%;
+    }
 
     .title {
       color: #000;
