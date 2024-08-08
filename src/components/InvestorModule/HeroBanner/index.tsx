@@ -23,10 +23,10 @@ const HeroBanner = ({ data }: any) => {
     data?.datainfo?.investorOverviewInfo?.holdingsOverviewData
       ?.sectorHoldingData?.sectordata || [];
 
-  const [title, setTitle] = useState(_title);
-  const [stocksArrayList, setStocksArrayList] = useState(_stocksArrayList);
-  const [valueSuffix, setValueSuffix] = useState(" cr");
-  const [activeTab, setActiveTab] = useState("stocks");
+  const [title, setTitle] = useState(_title2);
+  const [stocksArrayList, setStocksArrayList] = useState(_stocksArrayList2);
+  const [valueSuffix, setValueSuffix] = useState(" %");
+  const [activeTab, setActiveTab] = useState("sectors");
   const tabHandler = (tabVal: any) => {
     setActiveTab(tabVal);
     if (tabVal === "stocks") {

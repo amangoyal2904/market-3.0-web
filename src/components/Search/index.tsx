@@ -24,6 +24,11 @@ interface Props {
 }
 
 const Search: React.FC<Props> = ({ pos }) => {
+  const [currentKeyword, setCurrentKeyword] = useState(0);
+  const [showKeyword, setShowKeyword] = useState(true);
+  const [inputValue, setInputValue] = useState("");
+  const [animate, setAnimate] = useState(true);
+  const keywords = ["Stock", "Industry", "Sensex"];
   const [data, setData] = useState([]);
   const [val, setVal] = useState("");
   const [loader, setLoader] = useState(false);
@@ -59,11 +64,13 @@ const Search: React.FC<Props> = ({ pos }) => {
           });
         });
     }
+    setShowKeyword(false);
   };
   const handleClickOutside = (event: any) => {
     if (popupRef.current && !popupRef.current.contains(event.target)) {
       ref.current.value = "";
       setSearchEnable(false);
+      setShowKeyword(true);
     }
   };
   const fetchNameResults = (query: string) => {
@@ -152,8 +159,23 @@ const Search: React.FC<Props> = ({ pos }) => {
   const handleClose = () => {
     ref.current.value = "";
     setSearchEnable(false);
+    setShowKeyword(true);
   };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (inputValue === "") {
+        setAnimate(false); // Disable animation
+        setTimeout(() => {
+          setCurrentKeyword(
+            (prevKeyword) => (prevKeyword + 1) % keywords.length,
+          );
+          setAnimate(true); // Re-enable animation
+        }, 50); // Slight delay to ensure state updates are processed
+      }
+    }, 2000);
 
+    return () => clearInterval(interval);
+  }, [inputValue, keywords.length]);
   return (
     <>
       {searchEnable && pos == "header" && (
@@ -168,8 +190,8 @@ const Search: React.FC<Props> = ({ pos }) => {
         <input
           autoComplete="off"
           name="ticker_newsearch"
-          className={styles.inputBox}
-          placeholder="Search Stocks, News, Mutual Funds, Crypto etc..."
+          className={`${styles.inputBox} ${pos === "header" ? styles.topHeaderSearch : ""}`}
+          placeholder={`${pos === "header" ? "Search" : "Search Stocks, News, Mutual Funds, Crypto etc..."}`}
           type="text"
           onChange={(e) => handleSearch(e.target.value)}
           onFocus={(e) => {
@@ -178,6 +200,12 @@ const Search: React.FC<Props> = ({ pos }) => {
           ref={ref}
           maxLength={100}
         />
+        {showKeyword && pos == "header" && (
+          <div className={`${styles.keyword} ${animate ? styles.slideUp : ""}`}>
+            {keywords[currentKeyword]}
+          </div>
+        )}
+
         {searchEnable && (
           <>
             {loader ? (
