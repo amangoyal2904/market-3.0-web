@@ -570,6 +570,7 @@ const CommonNudge = ({ modalType }: any) => {
   }, [metaInfoPrimeNudege]);
 
   useEffect(() => {
+    console.log({ isPrime, permissions });
     if (typeof window.objUser != "undefined") {
       if (
         showModal &&
@@ -584,7 +585,7 @@ const CommonNudge = ({ modalType }: any) => {
         !allNudgeSubscriptionData?.currency &&
         window.objUser.afterCheckUserLoginStatus &&
         isPrime &&
-        permissions?.indexOf("group_subscription") !== -1
+        permissions?.indexOf("group_subscription") === -1
       ) {
         callAPIforNudgeSubscription();
       } else if (
