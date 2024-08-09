@@ -58,7 +58,7 @@ const CommonNudge = ({ modalType }: any) => {
   };
   const callAPIforNudgeSubscription = async () => {
     try {
-      const isGroupUser = checkPermission("group_subscription") ? true : false;
+      const isGroupUser = checkPermission("group_subscription");
       const apiUrl = (APIS_CONFIG as any)?.["ALL_USER_SUBSCRIPTIONS"][APP_ENV];
       const response = await fetch(
         `${apiUrl}?merchantCode=ET&isGroupUser=${isGroupUser}`,
@@ -582,7 +582,9 @@ const CommonNudge = ({ modalType }: any) => {
         showModal &&
         isLogin &&
         !allNudgeSubscriptionData?.currency &&
-        window.objUser.afterCheckUserLoginStatus
+        window.objUser.afterCheckUserLoginStatus &&
+        isPrime &&
+        permissions?.indexOf("group_subscription") !== -1
       ) {
         callAPIforNudgeSubscription();
       } else if (
