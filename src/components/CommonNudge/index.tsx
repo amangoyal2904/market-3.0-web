@@ -570,7 +570,7 @@ const CommonNudge = ({ modalType }: any) => {
   }, [metaInfoPrimeNudege]);
 
   useEffect(() => {
-    console.log({ isPrime, permissions });
+    console.log({ isPrime, permissions, isLogin });
     if (typeof window.objUser != "undefined") {
       if (
         showModal &&
@@ -598,7 +598,7 @@ const CommonNudge = ({ modalType }: any) => {
         sethandlerUserType();
       }
     }
-  }, [showModal, isLogin, allNudgeSubscriptionData?.currency]);
+  }, [showModal, isLogin, isPrime, allNudgeSubscriptionData?.currency]);
 
   return <>{showModal && renderComponents()}</>;
 };
