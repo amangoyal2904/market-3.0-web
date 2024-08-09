@@ -546,24 +546,6 @@ table {
   background: rgba(237, 25, 59, 1);
   width: 18px;
 }
-.eticon_watchlist {
-  position: relative;
-  width: 45px;
-  height: 20px;
-  &::after {
-    content: "";
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    vertical-align: top;
-    background: url("https://img.etimg.com/photo/112214889.cms") no-repeat 0 0;
-    background-size: cover;
-    position: absolute;
-    left: 50%;
-    top: 0;
-    margin-left: -8px;
-  }
-}
 
 @media screen and (max-width: 1024px) and (max-height: 600px) {
   .customModule .moduleWrap {
