@@ -507,7 +507,7 @@ const CommonNudge = ({ modalType }: any) => {
     const timeStampDiff =
       +new Date() - +new Date(subscriptionDetailsInfo.graceEndDate);
     const dayDiff = Math.round(timeStampDiff / (1000 * 3600 * 24));
-    const adFree = 900 > dayDiff;
+    const adFree = dayDiff > 0;
 
     const userDefineRole = isGracePeriodOn
       ? "grace_period"
