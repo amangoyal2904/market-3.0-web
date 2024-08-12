@@ -328,6 +328,7 @@ export const initSSOWidget = () => {
 };
 
 export const logout = async () => {
+  console.log("TIcket ID outside Logut---->", getCookie("TicketId"));
   window?.jsso?.signOutUser(async function (response: any) {
     if (response.status == "SUCCESS") {
       delete_cookie("OTR");
@@ -336,7 +337,7 @@ export const logout = async () => {
       delete_cookie("pfuuid");
       delete_cookie("peuuid");
       delete_cookie("fpid");
-
+      console.log("TIcket ID inside Logut---->", getCookie("TicketId"));
       const url = (APIS_CONFIG as any)["LOGOUT_AUTH_NEW_TOKEN"][APP_ENV],
         oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],
         deviceId = getCookie("_grx"),
