@@ -1,5 +1,5 @@
 "use client";
-import { returnPPID } from "../../utils";
+import { returnPPID, loadAssets } from "../../utils";
 
 declare global {
   interface Window {
@@ -9,6 +9,23 @@ declare global {
   }
 }
 
+export const loadAndBeyondScript = function(userType = true){
+  try{
+      if(!userType){
+      setTimeout(() => {
+        console.log("Delayed for 10 second.");
+      let isExist = document.querySelector("script[src*='https://rtbcdn.andbeyond.media/prod-global-34387.js']");
+      if(!isExist){
+          loadAssets("https://rtbcdn.andbeyond.media/prod-global-34387.js", "js", "async", "head",  function() {}, {});
+      }
+      }, 10000);
+   }
+    
+}catch(e){
+  console.log("loadAndBeyondScript::" +e);
+}
+
+}
 const getDFPData = async function () {
   try {
     let dfp;
@@ -110,7 +127,7 @@ const callDfpAd = async function () {
     console.log("callDfpAd:" + e);
   }
 };
-const renderDfpAds = (userType = true) => {
+export const renderDfpAds = (userType = true) => {
   try {
     let pathName = location.pathname;
     let showAd = true;
@@ -158,4 +175,4 @@ const renderDfpAds = (userType = true) => {
   }
 };
 
-export default renderDfpAds;
+//export default renderDfpAds;
