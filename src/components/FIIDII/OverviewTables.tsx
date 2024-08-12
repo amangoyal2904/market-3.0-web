@@ -29,8 +29,28 @@ const FiiDiiActivityOverviewTable: React.FC<{
   const [leftScrollEnabled, setLeftScrollEnabled] = useState(false);
   const [showCustomScroll, setShowCustomScroll] = useState(false);
   const [translateY, setTranslateY] = useState(0);
+  const fixedTableRef = useRef<HTMLDivElement | null>(null);
   const scrollableRef = useRef<HTMLDivElement | null>(null);
   const tableWrapperRef = useRef<HTMLDivElement | null>(null);
+
+  const onRowHover = (rowIndex: number, isHovering: boolean) => {
+    const fixedTable = fixedTableRef.current;
+    const scrollableTable = scrollableRef.current;
+
+    if (fixedTable && scrollableTable) {
+      const fixedTableRow = fixedTable.querySelectorAll("tbody tr")[rowIndex];
+      const scrollableTableRow =
+        scrollableTable.querySelectorAll("tbody tr")[rowIndex];
+
+      if (isHovering) {
+        fixedTableRow.classList.add(styles.highlightedRow);
+        scrollableTableRow.classList.add(styles.highlightedRow);
+      } else {
+        fixedTableRow.classList.remove(styles.highlightedRow);
+        scrollableTableRow.classList.remove(styles.highlightedRow);
+      }
+    }
+  };
 
   const handleMouseEnter = () => setShowCustomScroll(true);
   const handleMouseLeave = () => setShowCustomScroll(false);
@@ -151,7 +171,11 @@ const FiiDiiActivityOverviewTable: React.FC<{
       ];
 
       return (
-        <tr key={`scrollable_${index}`}>
+        <tr
+          key={`scrollable_${index}`}
+          onMouseEnter={() => onRowHover(index, true)}
+          onMouseLeave={() => onRowHover(index, false)}
+        >
           {columns.map(({ key, upDownType }) => (
             <React.Fragment key={key}>
               <td className={`${styles.noRborder} ${upDownType}`}>
@@ -195,6 +219,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
       >
         <div
           id="fixedTable"
+          ref={fixedTableRef}
           className={`${styles.fixedWrapper} ${!!parentHasScroll ? styles.withShadow : ""}`}
         >
           <table className={styles.marketsCustomTable}>
@@ -207,7 +232,9 @@ const FiiDiiActivityOverviewTable: React.FC<{
             >
               <tr>
                 <th className={styles.left}>Date</th>
-                <th className={styles.center}>Nifty Closing</th>
+                <th className={styles.center} colSpan={2}>
+                  Nifty Closing
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -216,12 +243,18 @@ const FiiDiiActivityOverviewTable: React.FC<{
                   tdData.nifty.percentChange,
                 );
                 return (
-                  <tr key={`fixed_${index}`}>
+                  <tr
+                    key={`fixed_${index}`}
+                    onMouseEnter={() => onRowHover(index, true)}
+                    onMouseLeave={() => onRowHover(index, false)}
+                  >
                     <td className={styles.left}>
                       {dateFormat(tdData.dateLong, "%d %MMM %y")}
                     </td>
-                    <td>
+                    <td className={styles.noRborder}>
                       {formatNumber(tdData.nifty.ltp)}
+                    </td>
+                    <td>
                       <span className={`${upDownType} ${styles.change}`}>
                         ({tdData.nifty.percentChange.toFixed(2)}%)
                       </span>
