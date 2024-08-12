@@ -145,6 +145,10 @@
     "development": "https://screener.indiatimes.com/screener/indexFaq",
     "production": "https://screener.indiatimes.com/screener/indexFaq"
   },
+  "FIIDII_SUMMARY": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/fiiDiiSummary.json",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/fiiDiiSummary.json"
+  },
   "FIIDII_OVERVIEW": {
     "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json"
@@ -424,7 +428,7 @@
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/all-investor-overview"
   },
   "BigBullInvestorOverview": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-overview",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/investor-overview",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-overview"
   },
   "BigBullFreshEntryExit": {
@@ -432,19 +436,19 @@
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/fresh-entry-exit"
   },
   "BigBullHolding": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/holdings",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/holdings",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/holdings"
   },
   "BigBullHoldingChanges": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/holdings-changes",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/holdings-changes",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/holdings-changes"
   },
   "BigBullBulkBlockDeal": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/bulk-block-deals",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/bulk-block-deals",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/bulk-block-deals"
   },
   "BigBullInvestorPortfolioOverview": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-portfolio-overview",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/investor-portfolio-overview",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-portfolio-overview"
   },
   "BuySellTechnical": {
@@ -474,5 +478,13 @@
   "WEBSOCKET_ENDPOINT": {
     "development": "ws://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW",
     "production": "wss://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW"
+  },
+  "ALL_USER_SUBSCRIPTIONS": {
+    "development": "https://subscriptions.economictimes.indiatimes.com/subscription/allUserSubscriptions",
+    "production": "https://subscriptions.economictimes.indiatimes.com/subscription/allUserSubscriptions"
+  },
+  "META_INFO": {
+    "development": "https://etapipre.indiatimes.com/api/mercury/metainfo",
+    "production": "https://etpwaapi.economictimes.com/api/mercury/metainfo"
   }
 }

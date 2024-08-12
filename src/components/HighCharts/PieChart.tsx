@@ -22,6 +22,9 @@ const PieChart: React.FC<PieChartProps> = React.memo(
         },
         tooltip: {
           valueSuffix: valueSuffix,
+          style: {
+            whiteSpace: "nowrap",
+          },
         },
         credits: {
           enabled: false,
@@ -56,7 +59,7 @@ const PieChart: React.FC<PieChartProps> = React.memo(
         series: [
           {
             type: "pie",
-            name: "holding value",
+            name: "Funds allocated",
             data: data,
           },
         ],

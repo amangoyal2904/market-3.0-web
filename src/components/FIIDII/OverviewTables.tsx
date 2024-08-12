@@ -1,7 +1,14 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+  useMemo,
+  useRef,
+  useCallback,
+} from "react";
+import useDebounce from "@/hooks/useDebounce";
 import styles from "./FIIDII.module.scss";
-import { dateFormat, getClassAndPercent } from "@/utils";
+import { dateFormat, formatNumber, getClassAndPercent } from "@/utils";
 
 interface OtherDataItem {
   fiiCash: number;
@@ -16,29 +23,83 @@ const FiiDiiActivityOverviewTable: React.FC<{
   dataWithNiftySensex: any[];
   otherData: OtherDataItem[];
 }> = ({ dataWithNiftySensex, otherData }) => {
+  const { debounce } = useDebounce();
   const [parentHasScroll, setParentHasScroll] = useState(false);
+  const [rightScrollEnabled, setRightScrollEnabled] = useState(true);
+  const [leftScrollEnabled, setLeftScrollEnabled] = useState(false);
+  const [showCustomScroll, setShowCustomScroll] = useState(false);
+  const [translateY, setTranslateY] = useState(0);
+  const scrollableRef = useRef<HTMLDivElement | null>(null);
+  const tableWrapperRef = useRef<HTMLDivElement | null>(null);
 
-  const maxValues: OtherDataItem = {
-    fiiCash: 0,
-    diiCash: 0,
-    fiiIndexFutures: 0,
-    fiiIndexOptions: 0,
-    fiiStockFutures: 0,
-    fiiStockOptions: 0,
-  };
+  const handleMouseEnter = () => setShowCustomScroll(true);
+  const handleMouseLeave = () => setShowCustomScroll(false);
 
-  otherData.forEach((data) => {
-    Object.keys(data).forEach((key) => {
-      const property = key as keyof OtherDataItem;
-      const absoluteValue = Math.abs(data[property]);
-      if (absoluteValue > maxValues[property]) {
-        maxValues[property] = absoluteValue;
-      }
+  const rightClickScroll = useCallback(() => {
+    if (scrollableRef.current) {
+      scrollableRef.current.scrollLeft += 100;
+    }
+  }, []);
+
+  const leftClickScroll = useCallback(() => {
+    if (scrollableRef.current) {
+      scrollableRef.current.scrollLeft -= 100;
+    }
+  }, []);
+
+  const maxValues = useMemo(() => {
+    const maxVals: OtherDataItem = {
+      fiiCash: 0,
+      diiCash: 0,
+      fiiIndexFutures: 0,
+      fiiIndexOptions: 0,
+      fiiStockFutures: 0,
+      fiiStockOptions: 0,
+    };
+
+    otherData.forEach((data) => {
+      Object.keys(data).forEach((key) => {
+        const property = key as keyof OtherDataItem;
+        const absoluteValue = Math.abs(data[property]);
+        if (absoluteValue > maxVals[property]) {
+          maxVals[property] = absoluteValue;
+        }
+      });
     });
-  });
+
+    return maxVals;
+  }, [otherData]);
+
+  const handleWindowScroll = useCallback(
+    debounce(() => {
+      if (!tableWrapperRef.current) return;
+
+      const tableWrapperTop =
+        tableWrapperRef.current.getBoundingClientRect().top + window.scrollY;
+      const scrollY = window.scrollY;
+      const stickyHeight = 100;
+
+      if (scrollY > tableWrapperTop - 70) {
+        setTranslateY(scrollY - tableWrapperTop + stickyHeight);
+      } else {
+        setTranslateY(0);
+      }
+    }, 10),
+    [debounce],
+  );
 
   useEffect(() => {
-    const parent = document.querySelector("#scrollableTable");
+    // Add and remove scroll event listener
+    window.addEventListener("scroll", handleWindowScroll, {
+      passive: true,
+    });
+    return () => {
+      window.removeEventListener("scroll", handleWindowScroll);
+    };
+  }, [handleWindowScroll]);
+
+  useEffect(() => {
+    const parent = scrollableRef.current;
     const theadElement = parent?.querySelector("thead > tr > th");
     const fixedTable = document.querySelector("#fixedTable");
     const hasScroll = parent ? parent.scrollWidth > parent.clientWidth : false;
@@ -51,20 +112,99 @@ const FiiDiiActivityOverviewTable: React.FC<{
         th.style.height = `${height}px`;
       });
     }
-  }, [parentHasScroll]);
+
+    const handleScroll = debounce(() => {
+      if (parent) {
+        const maxScrollLeft = parent.scrollWidth - parent.clientWidth;
+        setLeftScrollEnabled(parent.scrollLeft > 0);
+        setRightScrollEnabled(parent.scrollLeft < maxScrollLeft);
+      }
+    }, 100);
+
+    parent?.addEventListener("scroll", handleScroll);
+    return () => {
+      parent?.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const renderTableRow = useCallback(
+    (tdData: OtherDataItem, index: number, maxValues: OtherDataItem) => {
+      const columns = [
+        { key: "fiiCash", upDownType: getClassAndPercent(tdData.fiiCash) },
+        { key: "diiCash", upDownType: getClassAndPercent(tdData.diiCash) },
+        {
+          key: "fiiIndexFutures",
+          upDownType: getClassAndPercent(tdData.fiiIndexFutures),
+        },
+        {
+          key: "fiiIndexOptions",
+          upDownType: getClassAndPercent(tdData.fiiIndexOptions),
+        },
+        {
+          key: "fiiStockFutures",
+          upDownType: getClassAndPercent(tdData.fiiStockFutures),
+        },
+        {
+          key: "fiiStockOptions",
+          upDownType: getClassAndPercent(tdData.fiiStockOptions),
+        },
+      ];
+
+      return (
+        <tr key={`scrollable_${index}`}>
+          {columns.map(({ key, upDownType }) => (
+            <React.Fragment key={key}>
+              <td className={`${styles.noRborder} ${upDownType}`}>
+                {formatNumber(tdData[key as keyof OtherDataItem])}
+              </td>
+              <td
+                className={`${upDownType} ${key == "fiiStockOptions" ? styles.noRborder : ""}`}
+              >
+                <div className={styles.barCell}>
+                  <div
+                    className={`${styles.bar} upDownBgBar`}
+                    style={{
+                      width: `${5 + (Math.abs(tdData[key as keyof OtherDataItem]) * 100) / maxValues[key as keyof OtherDataItem] / 2}%`,
+                    }}
+                  ></div>
+                  <div className={styles.separator}></div>
+                </div>
+              </td>
+            </React.Fragment>
+          ))}
+          <td
+            className={`${styles.fullWidth} ${styles.noRborder} ${!!parentHasScroll ? styles.hide : ""}`}
+          ></td>
+        </tr>
+      );
+    },
+    [parentHasScroll],
+  );
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
         <div className={styles.head}>FII & DII Buy-Sell Activity</div>
       </div>
-      <div className={styles.tableWrapper} id="table">
+      <div
+        className={styles.tableWrapper}
+        id="table"
+        ref={tableWrapperRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <div
           id="fixedTable"
           className={`${styles.fixedWrapper} ${!!parentHasScroll ? styles.withShadow : ""}`}
         >
           <table className={styles.marketsCustomTable}>
-            <thead>
+            <thead
+              style={{
+                transition: "transform 0.1s ease 0s",
+                transform: `translateY(${translateY}px)`,
+              }}
+              className={styles.thead}
+            >
               <tr>
                 <th className={styles.left}>Date</th>
                 <th className={styles.center}>Nifty Closing</th>
@@ -75,14 +215,13 @@ const FiiDiiActivityOverviewTable: React.FC<{
                 const upDownType = getClassAndPercent(
                   tdData.nifty.percentChange,
                 );
-
                 return (
                   <tr key={`fixed_${index}`}>
                     <td className={styles.left}>
                       {dateFormat(tdData.dateLong, "%d %MMM %y")}
                     </td>
                     <td>
-                      {tdData.nifty.ltp}
+                      {formatNumber(tdData.nifty.ltp)}
                       <span className={`${upDownType} ${styles.change}`}>
                         ({tdData.nifty.percentChange.toFixed(2)}%)
                       </span>
@@ -102,176 +241,74 @@ const FiiDiiActivityOverviewTable: React.FC<{
             </tbody>
           </table>
         </div>
-        <div id="scrollableTable" className={styles.scrollableWrapper}>
+        <div
+          id="scrollableTable"
+          className={styles.scrollableWrapper}
+          ref={scrollableRef}
+        >
           <table className={styles.marketsCustomTable}>
-            <thead>
+            <thead
+              style={{
+                transition: "transform 0.1s ease 0s",
+                transform: `translateY(${translateY}px)`,
+              }}
+              className={styles.thead}
+            >
               <tr>
                 <th className={styles.center} colSpan={2}>
-                  FII Cash (in Rs. Cr.)
+                  FII Cash (Cr.)
                 </th>
                 <th className={styles.center} colSpan={2}>
-                  DII Cash (in Rs. Cr.)
+                  DII Cash (Cr.)
                 </th>
                 <th className={styles.center} colSpan={2}>
-                  FII Index Future (in Rs. Cr.)
+                  FII Index Future (Cr.)
                 </th>
                 <th className={styles.center} colSpan={2}>
-                  FII Index Option (in Rs. Cr.)
+                  FII Index Option (Cr.)
                 </th>
                 <th className={styles.center} colSpan={2}>
-                  FII Stock Future (in Rs. Cr.)
-                </th>
-                <th className={styles.center} colSpan={2}>
-                  FII Stock Option (in Rs. Cr.)
+                  FII Stock Future (Cr.)
                 </th>
                 <th
-                  className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
+                  className={`${styles.center} ${styles.noRborder}`}
+                  colSpan={2}
+                >
+                  FII Stock Option (Cr.)
+                </th>
+                <th
+                  className={`${styles.fullWidth} ${styles.noRborder} ${!!parentHasScroll ? styles.hide : ""}`}
                 ></th>
               </tr>
             </thead>
             <tbody>
-              {otherData.map((tdData: any, index: number) => {
-                const upDownTypeFiiCash = getClassAndPercent(tdData.fiiCash);
-                const upDownTypeDiiCash = getClassAndPercent(tdData.diiCash);
-                const upDownTypeFiiIndexFutures = getClassAndPercent(
-                  tdData.fiiIndexFutures,
-                );
-                const upDownTypeFiiIndexOptions = getClassAndPercent(
-                  tdData.fiiIndexOptions,
-                );
-                const upDownTypeFiiStockFutures = getClassAndPercent(
-                  tdData.fiiStockFutures,
-                );
-                const upDownTypeFiiStockOptions = getClassAndPercent(
-                  tdData.fiiStockOptions,
-                );
-                return (
-                  <tr key={`scrollable_${index}`}>
-                    <td className={`${styles.noRborder} ${upDownTypeFiiCash}`}>
-                      {tdData.fiiCash}
-                    </td>
-                    <td className={`${upDownTypeFiiCash}`}>
-                      <div className={styles.barCell}>
-                        <div
-                          className={`${styles.bar} upDownBgBar`}
-                          style={{
-                            width:
-                              (Math.abs(tdData.fiiCash) * 100) /
-                                maxValues.fiiCash /
-                                2 +
-                              "%",
-                          }}
-                        ></div>
-                        <div className={styles.separator}></div>
-                      </div>
-                    </td>
-                    <td className={`${styles.noRborder} ${upDownTypeDiiCash}`}>
-                      {tdData.diiCash}
-                    </td>
-                    <td className={`${upDownTypeDiiCash}`}>
-                      <div className={styles.barCell}>
-                        <div
-                          className={`${styles.bar} upDownBgBar`}
-                          style={{
-                            width:
-                              (Math.abs(tdData.diiCash) * 100) /
-                                maxValues.diiCash /
-                                2 +
-                              "%",
-                          }}
-                        ></div>
-                        <div className={styles.separator}></div>
-                      </div>
-                    </td>
-                    <td
-                      className={`${styles.noRborder} ${upDownTypeFiiIndexFutures}`}
-                    >
-                      {tdData.fiiIndexFutures}
-                    </td>
-                    <td className={`${upDownTypeFiiIndexFutures}`}>
-                      <div className={styles.barCell}>
-                        <div
-                          className={`${styles.bar} upDownBgBar`}
-                          style={{
-                            width:
-                              (Math.abs(tdData.fiiIndexFutures) * 100) /
-                                maxValues.fiiIndexFutures /
-                                2 +
-                              "%",
-                          }}
-                        ></div>
-                        <div className={styles.separator}></div>
-                      </div>
-                    </td>
-                    <td
-                      className={`${styles.noRborder} ${upDownTypeFiiIndexOptions}`}
-                    >
-                      {tdData.fiiIndexOptions}
-                    </td>
-                    <td className={`${upDownTypeFiiIndexOptions}`}>
-                      <div className={styles.barCell}>
-                        <div
-                          className={`${styles.bar} upDownBgBar`}
-                          style={{
-                            width:
-                              (Math.abs(tdData.fiiIndexOptions) * 100) /
-                                maxValues.fiiIndexOptions /
-                                2 +
-                              "%",
-                          }}
-                        ></div>
-                        <div className={styles.separator}></div>
-                      </div>
-                    </td>
-                    <td
-                      className={`${styles.noRborder} ${upDownTypeFiiStockFutures}`}
-                    >
-                      {tdData.fiiStockFutures}
-                    </td>
-                    <td className={`${upDownTypeFiiStockFutures}`}>
-                      <div className={styles.barCell}>
-                        <div
-                          className={`${styles.bar} upDownBgBar`}
-                          style={{
-                            width:
-                              (Math.abs(tdData.fiiStockFutures) * 100) /
-                                maxValues.fiiStockFutures /
-                                2 +
-                              "%",
-                          }}
-                        ></div>
-                        <div className={styles.separator}></div>
-                      </div>
-                    </td>
-                    <td
-                      className={`${styles.noRborder} ${upDownTypeFiiStockOptions}`}
-                    >
-                      {tdData.fiiStockOptions}
-                    </td>
-                    <td className={`${upDownTypeFiiStockOptions}`}>
-                      <div className={styles.barCell}>
-                        <div
-                          className={`${styles.bar} upDownBgBar`}
-                          style={{
-                            width:
-                              (Math.abs(tdData.fiiStockOptions) * 100) /
-                                maxValues.fiiStockOptions /
-                                2 +
-                              "%",
-                          }}
-                        ></div>
-                        <div className={styles.separator}></div>
-                      </div>
-                    </td>
-                    <td
-                      className={`${styles.fullWidth} ${!!parentHasScroll ? styles.hide : ""}`}
-                    ></td>
-                  </tr>
-                );
-              })}
+              {otherData.map((tdData, index) =>
+                renderTableRow(tdData, index, maxValues),
+              )}
             </tbody>
           </table>
         </div>
+        {showCustomScroll && (
+          <div id="customScroll" className={styles.horizontalCustomScroll}>
+            <button
+              id="scrollButton_l"
+              onClick={leftClickScroll}
+              className={`${styles.scrollButton} ${!leftScrollEnabled ? styles.disableBtn : ""}`}
+              disabled={!leftScrollEnabled}
+            >
+              &#8592;
+            </button>
+            <span />
+            <button
+              id="scrollButton_r"
+              onClick={rightClickScroll}
+              className={`${styles.scrollButton} ${!rightScrollEnabled ? styles.disableBtn : ""}`}
+              disabled={!rightScrollEnabled}
+            >
+              &#8594;
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

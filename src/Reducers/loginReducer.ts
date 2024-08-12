@@ -13,35 +13,39 @@ interface LoginState {
   error: any | null;
 }
 
-type LoginAction = { type: "LOGIN_SUCCESS"; payload: any } | { type: "LOGOUT"; payload: any };
+type LoginAction =
+  | { type: "LOGIN_SUCCESS"; payload: any }
+  | { type: "LOGOUT"; payload: any };
 
 const loginReducer: Reducer<LoginState, LoginAction> = (state, action) => {
   switch (action.type) {
     case "LOGIN_SUCCESS":
-      return { 
-        ...state, 
-        ssoReady: action.payload.ssoReady, 
+      return {
+        ...state,
+        ssoReady: action.payload.ssoReady,
         isLogin: true,
         isPrime: action.payload.isPrime,
-        ssoid: action.payload.ssoid, 
-        ticketId: action.payload.ticketId,  
+        ssoid: action.payload.ssoid,
+        ticketId: action.payload.ticketId,
         userInfo: action.payload.userInfo,
         accessibleFeatures: action.payload.accessibleFeatures,
-        permissions: action.payload.permissions, 
-        error: null 
+        permissions: action.payload.permissions,
+        error: null,
+        subscriptionDetails: action.payload.subscriptionDetails,
       };
     case "LOGOUT":
-      return { 
-        ...state, 
-        ssoReady: action.payload.ssoReady, 
-        isLogin: false, 
+      return {
+        ...state,
+        ssoReady: action.payload.ssoReady,
+        isLogin: false,
         isPrime: false,
-        ssoid: "", 
-        ticketId: "", 
-        userInfo: {}, 
-        accessibleFeatures: [], 
-        permissions: [], 
-        error: null
+        ssoid: "",
+        ticketId: "",
+        userInfo: {},
+        accessibleFeatures: [],
+        permissions: [],
+        error: null,
+        subscriptionDetails: {},
       };
     default:
       return state;

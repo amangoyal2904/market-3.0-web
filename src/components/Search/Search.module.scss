@@ -105,6 +105,13 @@
     border: 1px solid #c1c1c1;
     background: $white;
   }
+  .topHeaderSearch {
+    &::placeholder {
+      color: #000000;
+      font-size: 15px;
+      font-weight: 500;
+    }
+  }
   .noRecord {
     padding: 10px;
   }
@@ -259,5 +266,33 @@
     .inputBox {
       font-size: 12px;
     }
+  }
+}
+.keyword {
+  position: absolute;
+  left: 95px;
+  bottom: 6px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0; /* Ensure it starts hidden */
+  transition: opacity 2s;
+}
+.slideUp {
+  animation: slideUp 2s forwards;
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
   }
 }

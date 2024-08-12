@@ -39,7 +39,7 @@ const RightSecModule = React.memo(
       <>
         <div className={styles.topGraph}>
           <h3 className={styles.head3}>{title}</h3>
-          <ul className={styles.stockNavTab}>
+          {/* <ul className={styles.stockNavTab}>
             <li
               className={`${activeTab === "stocks" ? styles.active : ""}`}
               onClick={() => gaTrackingTabsNameClick("stocks")}
@@ -52,7 +52,7 @@ const RightSecModule = React.memo(
             >
               Sectors
             </li>
-          </ul>
+          </ul> */}
         </div>
         <div className={styles.botomGraphSec}>
           <div className={styles.graphDo}>

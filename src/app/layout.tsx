@@ -1,21 +1,13 @@
 import { Montserrat, Lato } from "next/font/google";
 import localFont from "next/font/local";
 import "../styles/globals.scss";
-import Header from "@/components/Header";
-import Scripts from "@/components/Scripts";
-import LeftNav from "@/components/LeftNav";
 import { cookies, headers } from "next/headers";
-import RedeemVoucher from "@/components/RedeemVoucher";
-import APIS_CONFIG from "../network/api_config.json";
-import { APP_ENV, footerAPIHit } from "@/utils";
-import service from "@/network/service";
 import { StateProvider } from "@/store/StateContext";
 import NextTopLoader from "nextjs-toploader";
 import { Metadata } from "next";
-import Footer from "@/components/Footer";
 import { PreloadResources } from "@/components/preloadResources";
 import { Toaster } from "react-hot-toast";
-import GLOBAL_CONFIG from "@/network/global_config.json";
+import FullLayout from "./fullLayout";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -56,37 +48,15 @@ export const metadata: Metadata = {
   },
 };
 
-const webSchema = {
-  "@context": "https://schema.org",
-  "@type": "NewsMediaOrganization",
-  name: "Economic Times",
-  url: (GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"],
-  logo: {
-    "@type": "ImageObject",
-    url: "https://img.etimg.com/thumb/msid-76939477,width-600,height-60,quality-100/economictimes.jpg",
-    width: 600,
-    height: 60,
-  },
-};
-
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const versionControl = {};
   const isprimeuser = cookies().get("isprimeuser") ? true : false;
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
-  const footerData = await footerAPIHit(pageUrl);
-  // =====  Get Left Nav Data =======
-  const leftNavApi = (APIS_CONFIG as any)["LEFT_NAV"][APP_ENV];
-  const leftNavPromise = await service.get({
-    url: leftNavApi,
-    params: {},
-  });
-
-  const leftNavResult = await leftNavPromise?.json();
+  const noLayout = pageUrl == "/chart";
 
   return (
     <html
@@ -94,33 +64,24 @@ export default async function RootLayout({
       className={`${montserrat.variable} ${lato.variable} ${eticons.variable} h-full bg-gray-50`}
     >
       <body className="h-full">
-        <NextTopLoader template='<div class="bar" role="bar"><div class="peg"></div></div>' />
-        <PreloadResources />
+        {!noLayout ? (
+          <>
+            <NextTopLoader template='<div class="bar" role="bar"><div class="peg"></div></div>' />
+            <PreloadResources />
+          </>
+        ) : (
+          ""
+        )}
         <StateProvider>
-          <main>
-            <Header />
-            <div className="container">
-              <LeftNav leftNavResult={leftNavResult} />
-              <div className="main_container">{children}</div>
-              <div className="bcAdContainer"></div>
-            </div>
-            <div className="pageBottomContainer">
-              <Footer footerData={footerData} />
-            </div>
-            <Scripts objVc={versionControl} isprimeuser={isprimeuser} />
-            <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
-              <div id="ssoLogin" className="ssoLoginElm" />
-            </div>
-            <RedeemVoucher />
-            <Toaster position="bottom-right" reverseOrder={false} />
-          </main>
+          {noLayout ? (
+            <main>{children}</main>
+          ) : (
+            <FullLayout pageUrl={pageUrl} isprimeuser={isprimeuser}>
+              {children}
+            </FullLayout>
+          )}
+          <Toaster position="bottom-right" reverseOrder={false} />
         </StateProvider>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(webSchema),
-          }}
-        />
       </body>
     </html>
   );

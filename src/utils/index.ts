@@ -171,10 +171,12 @@ export const verifyLogin = () => {
       createPeuuid();
       window.objUser.ticketId = response.data.ticketId;
       window.objUser.loginType = response.data.loginType;
+      window.objUser.afterCheckUserLoginStatus = true;
       setUserData();
     } else {
       console.log("failure");
       //generateFpid(false);
+      window.objUser.afterCheckUserLoginStatus = false;
       ssoLoginWidget();
     }
 
@@ -723,25 +725,44 @@ export const footerAPIHit = async (pageUrl: string) => {
   return footerResult;
 };
 
-export const replaceWidthHeigh = (url: any, newWidth: any, newHeight: any) => {
-  // Regular expression to match width and height parameters
-  const regex = /width-(\d+)|height-(\d+)/g;
+export const replaceWidthHeight = (
+  url: string,
+  newWidth: number,
+  newHeight: number,
+): string => {
+  // Regular expressions for both formats
+  const commaSeparatedRegex = /width-(\d+),height-(\d+)/;
+  const widthRegex = /([?&])width=\d+/;
+  const heightRegex = /([?&])height=\d+/;
 
-  // Replace width and height parameters with new values
-  const newUrl = url.replace(regex, (match: any, p1: any, p2: any) => {
-    if (p1 && p2) {
-      // Both width and height are present, replace both
-      return `width-${newWidth},height-${newHeight}`;
-    } else if (p1) {
-      // Only width is present, replace width
-      return `width-${newWidth}`;
-    } else if (p2) {
-      // Only height is present, replace height
-      return `height-${newHeight}`;
+  let updatedUrl = url;
+
+  if (commaSeparatedRegex.test(url)) {
+    // If the URL matches the comma-separated format
+    updatedUrl = url.replace(
+      commaSeparatedRegex,
+      `width-${newWidth},height-${newHeight}`,
+    );
+  } else {
+    // Handle query parameter format or missing parameters
+    if (widthRegex.test(updatedUrl)) {
+      updatedUrl = updatedUrl.replace(widthRegex, `$1width=${newWidth}`);
+    } else if (updatedUrl.includes("?")) {
+      updatedUrl += `&width=${newWidth}`;
+    } else {
+      updatedUrl += `?width=${newWidth}`;
     }
-  });
 
-  return newUrl;
+    if (heightRegex.test(updatedUrl)) {
+      updatedUrl = updatedUrl.replace(heightRegex, `$1height=${newHeight}`);
+    } else if (updatedUrl.includes("?")) {
+      updatedUrl += `&height=${newHeight}`;
+    } else {
+      updatedUrl += `?height=${newHeight}`;
+    }
+  }
+
+  return updatedUrl;
 };
 
 export const removeHostname = (url: string) => {
