@@ -249,7 +249,7 @@ const FiiDiiActivityOverviewTable: React.FC<{
                     onMouseLeave={() => onRowHover(index, false)}
                   >
                     <td className={styles.left}>
-                      {dateFormat(tdData.dateLong, "%d %MMM %y")}
+                      {dateFormat(tdData.dateLong, "%d %MMM")}
                     </td>
                     <td className={styles.noRborder}>
                       {formatNumber(tdData.nifty.ltp)}
