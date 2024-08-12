@@ -118,6 +118,9 @@ export const delete_cookie = (name: any) => {
 
     document.cookie =
       name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    document.cookie =
+      name +
+      "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=.indiatimes.com";
   } catch (err) {
     console.log("delete_cookie Error: ", err);
   }
