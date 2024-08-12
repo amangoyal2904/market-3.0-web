@@ -102,7 +102,13 @@ export const setCookieToSpecificTime = (
     console.log("setCookieToSpecificTime Error:", e);
   }
 };
-
+export const setCookie = (cname: string, cvalue: any, seconds: any) => {
+  let dt = new Date();
+  dt.setTime(dt.getTime() + seconds * 1000);
+  let expires = "; expires=" + dt.toString();
+  document.cookie =
+    cname + "=" + cvalue + expires + "; domain=indiatimes.com; path=/;";
+};
 export const delete_cookie = (name: any) => {
   try {
     if (typeof document === "undefined") {
