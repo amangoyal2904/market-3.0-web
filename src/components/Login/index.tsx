@@ -98,8 +98,7 @@ const Login = () => {
           setCookie("OTR", primeRes.data.token, 3600 * 24 * 30);
           setCookieToSpecificTime("OTR", primeRes.data.token, 30, 0, 0, "");
         }
-        setCookie("etprc", oauthAPiRes.prc, 3600 * 24 * 30);
-        setCookieToSpecificTime("OTR", oauthAPiRes.prc, 30, 0, 0, "");
+        setCookieToSpecificTime("etprc", oauthAPiRes.prc, 30, 0, 0, "");
         trackingEvent("user_profile_create", { url: window.location.href });
 
         saveLogs({

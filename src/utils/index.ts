@@ -331,12 +331,13 @@ export const logout = async () => {
   window?.jsso?.signOutUser(async function (response: any) {
     if (response.status == "SUCCESS") {
       delete_cookie("OTR");
+      delete_cookie("etprc");
       delete_cookie("isprimeuser");
       delete_cookie("pfuuid");
       delete_cookie("peuuid");
       delete_cookie("fpid");
 
-      const url = (APIS_CONFIG as any)["LOGOUT_AUTH_TOKEN"][APP_ENV],
+      const url = (APIS_CONFIG as any)["LOGOUT_AUTH_NEW_TOKEN"][APP_ENV],
         oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],
         deviceId = getCookie("_grx"),
         userSsoId = window?.objUser?.ssoid || getCookie("ssoid"),
