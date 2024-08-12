@@ -366,7 +366,12 @@ export const logout = async () => {
         payload: {},
         params: {},
       });
-      console.log("Logout response--->", response, await response?.json());
+      console.log("Logout response--->", response);
+      console.log(
+        "Logout response await --->",
+        response,
+        await response?.json(),
+      );
       //const logoutSuccess = await response?.json();
       window.location.reload();
     } else {
