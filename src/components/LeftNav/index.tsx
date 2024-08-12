@@ -97,6 +97,10 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
         <span key="1" className="path1"></span>,
         <span key="2" className="path2"></span>,
         <span key="3" className="path3"></span>,
+        <span key="4" className="path4"></span>,
+        <span key="5" className="path5"></span>,
+        <span key="6" className="path6"></span>,
+        <span key="7" className="path7"></span>,
       ],
       eticon_watchlist: [
         <span key="1" className="path1"></span>,
@@ -114,6 +118,19 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
       eticon_epaper_icon: [
         <span key="1" className="path1"></span>,
         <span key="2" className="path2"></span>,
+      ],
+      eticon_recos: [
+        <span key="1" className="path1"></span>,
+        <span key="2" className="path2"></span>,
+        <span key="3" className="path3"></span>,
+        <span key="4" className="path4"></span>,
+        <span key="5" className="path5"></span>,
+        <span key="6" className="path6"></span>,
+        <span key="7" className="path7"></span>,
+        <span key="8" className="path8"></span>,
+        <span key="9" className="path9"></span>,
+        <span key="10" className="path10"></span>,
+        <span key="11" className="path11"></span>,
       ],
     };
     return iconPaths[icon] || null;
