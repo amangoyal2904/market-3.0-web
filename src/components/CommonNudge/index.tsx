@@ -58,7 +58,7 @@ const CommonNudge = ({ modalType }: any) => {
   };
   const callAPIforNudgeSubscription = async () => {
     try {
-      const isGroupUser = checkPermission("group_subscription") ? true : false;
+      const isGroupUser = checkPermission("group_subscription");
       const apiUrl = (APIS_CONFIG as any)?.["ALL_USER_SUBSCRIPTIONS"][APP_ENV];
       const response = await fetch(
         `${apiUrl}?merchantCode=ET&isGroupUser=${isGroupUser}`,
@@ -507,7 +507,7 @@ const CommonNudge = ({ modalType }: any) => {
     const timeStampDiff =
       +new Date() - +new Date(subscriptionDetailsInfo.graceEndDate);
     const dayDiff = Math.round(timeStampDiff / (1000 * 3600 * 24));
-    const adFree = 900 > dayDiff;
+    const adFree = dayDiff > 0;
 
     const userDefineRole = isGracePeriodOn
       ? "grace_period"
@@ -570,6 +570,7 @@ const CommonNudge = ({ modalType }: any) => {
   }, [metaInfoPrimeNudege]);
 
   useEffect(() => {
+    console.log({ isPrime, permissions, isLogin });
     if (typeof window.objUser != "undefined") {
       if (
         showModal &&
@@ -582,7 +583,9 @@ const CommonNudge = ({ modalType }: any) => {
         showModal &&
         isLogin &&
         !allNudgeSubscriptionData?.currency &&
-        window.objUser.afterCheckUserLoginStatus
+        window.objUser.afterCheckUserLoginStatus &&
+        isPrime &&
+        permissions?.indexOf("group_subscription") === -1
       ) {
         callAPIforNudgeSubscription();
       } else if (
@@ -595,7 +598,7 @@ const CommonNudge = ({ modalType }: any) => {
         sethandlerUserType();
       }
     }
-  }, [showModal, isLogin, allNudgeSubscriptionData?.currency]);
+  }, [showModal, isLogin, isPrime, allNudgeSubscriptionData?.currency]);
 
   return <>{showModal && renderComponents()}</>;
 };
