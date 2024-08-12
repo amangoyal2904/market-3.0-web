@@ -349,15 +349,15 @@ export const logout = async () => {
         "X-DEVICE-ID": deviceId,
         "x-sso-id": userSsoId,
         "x-site-app-code": (GLOBAL_CONFIG as any)[APP_ENV]["X_SITE_CODE"],
+        "X-TICKET-ID": ticketId,
       };
 
-      const body = JSON.stringify({ ticketId: ticketId });
+      //const body = JSON.stringify({ ticketId: ticketId });
 
-      const response = await Service.post({
+      const response = await Service.get({
         url,
         headers,
         payload: {},
-        body,
         params: {},
       });
 
