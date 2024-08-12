@@ -94,7 +94,7 @@ export const setCookieToSpecificTime = (
       const expirationDate = new Date(Date.now() + seconds * 1000);
       cookiestring += `expires=${expirationDate.toUTCString()};`;
     }
-    console.log("Domain for Cookie-----", options.domain);
+    console.log("Domain for Cookie-----", options.domain, options.path);
     cookiestring += `domain=${options.domain}; path=${options.path};`;
 
     document.cookie = cookiestring;
