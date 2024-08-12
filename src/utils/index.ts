@@ -404,7 +404,9 @@ export const loadPrimeApiNew = async () => {
       "API URL TOKEN--->",
       (APIS_CONFIG as any)["AUTH_NEW_TOKEN"][APP_ENV],
     );
-    const url = (APIS_CONFIG as any)["AUTH_NEW_TOKEN"][APP_ENV],
+    const url =
+        (APIS_CONFIG as any)["AUTH_NEW_TOKEN"][APP_ENV] +
+        "&grantType=refresh_token",
       oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],
       deviceId = getCookie("_grx"),
       ticketId = getCookie("TicketId"),
@@ -423,11 +425,10 @@ export const loadPrimeApiNew = async () => {
       "X-TICKET-ID": ticketId,
     };
 
-    const response = await Service.post({
+    const response = await Service.get({
       url,
       headers,
       payload: {},
-      body,
       params: {},
     });
 
