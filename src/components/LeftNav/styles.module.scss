@@ -28,7 +28,7 @@
   }
 
   .marketNavWrap {
-    max-height: calc(100vh - 312px);
+    max-height: calc(100vh - 352px);
     overflow: auto;
   }
 
@@ -105,10 +105,9 @@
     .mainTabWrap {
       display: flex;
       align-items: center;
-      padding: 6px 0;
+      padding: 8px 0;
       position: relative;
       margin: 0 4px;
-
       .l1LabelName {
         font-size: 12px;
         line-height: 16px;
@@ -124,8 +123,8 @@
         transition: transform 0.1s ease;
       }
       .navIcon {
-        font-size: 20px;
-        padding: 0 12px 0 13px;
+        font-size: 24px;
+        padding: 0 12px;
       }
     }
 
