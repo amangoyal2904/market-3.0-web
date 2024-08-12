@@ -203,6 +203,12 @@
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: flex-start;
+  tr {
+    background-color: $white;
+    &.highlightedRow > td {
+      background-color: $gray_95 !important;
+    }
+  }
 }
 
 .marketsCustomTable {
@@ -224,6 +230,7 @@
   }
   td {
     padding: 10px 12px;
+    background-color: $white;
     border-right: 1px solid $gray_70;
     border-bottom: 1px solid $gray_70;
     color: $gray_40;
@@ -305,9 +312,16 @@
     }
   }
 
-  tr.borderSeparator {
-    td {
-      border-bottom: 2px solid $gray_70;
+  tr {
+    &:hover {
+      td {
+        background-color: $gray_95 !important;
+      }
+    }
+    &.borderSeparator {
+      td {
+        border-bottom: 2px solid $gray_60;
+      }
     }
   }
 
@@ -569,6 +583,7 @@
   }
   .marketsCustomTable {
     font-size: 11px;
+
     td {
       font-size: 11px;
       padding: 5px;
