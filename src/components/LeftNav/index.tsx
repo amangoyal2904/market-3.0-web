@@ -154,7 +154,7 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
       >
         <div className={styles.toggleMenuWrap}>
           <span
-            className={`${styles.toggleMenu} ${isExpanded ? "eticon_prev" : "eticon_next"}`}
+            className={`${styles.toggleMenu} eticon_hamburger`}
             onClick={() => {
               setIsLoadExpand(true);
               toggleMenu();
