@@ -7,5 +7,7 @@
   "stocksScreener": 7000,
   "indicesDetail": 7000,
   "indicesListing": 7000,
+  "sectorsDetail": 7000,
+  "sectorsListing": 7000,
   "marketStatus": 17000
 }

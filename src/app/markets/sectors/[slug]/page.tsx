@@ -1,28 +1,26 @@
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
-import IndicesDetailsClient from "./clients";
+import SectorsDetailsClient from "./clients";
 import tabConfig from "@/utils/tabConfig.json";
 import tableConfig from "@/utils/tableConfig.json";
 import { cookies, headers } from "next/headers";
 import {
-  fetchSelectedIndex,
+  fetchSectors,
+  fetchSelectedSectors,
   fnGenerateMetaData,
-  getIndicesFaqs,
+  // getIndicesFaqs,
   getIndicesNews,
-  getIndicesOverview,
-  getIndicesTechnicals,
+  getSectorsOverview,
   getMarketsLiveBlog,
-  getOtherIndices,
-  getPeerIndices,
+  getOtherSectors,
+  getPeerSectors,
 } from "@/utils/utility";
 import {
   getCustomViewTable,
   getCustomViewsTab,
 } from "@/utils/customViewAndTables";
 import BreadCrumb from "@/components/BreadCrumb";
-import TextBottom from "@/components/TextBottom";
 import dynamic from "next/dynamic";
-import IndicesQuickLinks from "@/components/IndicesDetails/IndicesQuickLinks";
 import { Fragment } from "react";
 const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
   ssr: false,
@@ -30,10 +28,9 @@ const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
 
 async function fetchData(assetId: number) {
   return Promise.all([
-    getIndicesOverview(assetId),
-    getIndicesTechnicals(assetId),
-    getOtherIndices(assetId),
-    getIndicesFaqs(assetId),
+    getSectorsOverview(assetId),
+    getOtherSectors(assetId),
+    // getIndicesFaqs(assetId),
   ]);
 }
 
@@ -42,9 +39,9 @@ async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const headersList = headers();
-  const indexFilterData = await fetchSelectedIndex(params.slug);
+  const indexFilterData = await fetchSelectedSectors(params.slug);
   const pageUrl = headersList.get("x-url") || "";
-  const overviewData = await getIndicesOverview(indexFilterData.assetId);
+  const overviewData = await getSectorsOverview(indexFilterData.assetId);
   let pageTitle, pageDesc, pageKeywords;
   if (indexFilterData.assetId == 2369) {
     pageTitle = `Nifty 50 Live | NSE Nifty 50 Index Today - S&P CNX Nifty`;
@@ -73,30 +70,20 @@ async function generateMetadata(
   return fnGenerateMetaData(meta);
 }
 
-const Indices = async ({ params }: any) => {
+const IndividualSectors = async ({ params }: any) => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
-  const indexFilterData = await fetchSelectedIndex(params.slug);
+  const indexFilterData = await fetchSelectedSectors(params.slug);
+  const fetchSectorData = await fetchSectors();
+  console.log("@@@ indexFilterData ", indexFilterData.assetId);
   if (indexFilterData.assetId == 0 || indexFilterData.assetId == null) {
     notFound();
   }
-  const [overviewData, technicalsData, othersData, faqData] = await fetchData(
-    indexFilterData.assetId,
-  );
+  const [overviewData, othersData] = await fetchData(indexFilterData.assetId);
 
-  const peersData = await getPeerIndices(
-    overviewData.assetId,
-    overviewData.assetExchangeId,
-  );
-
-  const { liveblog } = await getMarketsLiveBlog();
-
-  const indicesNews = await getIndicesNews(
-    overviewData.assetId,
-    overviewData.assetExchangeId,
-  );
+  const peersData = await getPeerSectors(overviewData.assetId);
 
   const { tabData, activeViewId } = await getCustomViewsTab({
     L3NavSubItem: "watchlist",
@@ -109,9 +96,8 @@ const Indices = async ({ params }: any) => {
   const bodyParams = {
     viewId: activeViewId,
     apiType: "index-constituents",
-    filterValue: [indexFilterData.assetId],
-    filterType: "index",
-    sectorId: null,
+    filterType: null,
+    sectorId: indexFilterData.assetId,
     sort,
     pagesize,
     pageno,
@@ -119,12 +105,10 @@ const Indices = async ({ params }: any) => {
 
   const { tableHeaderData, tableData, pageSummary, payload } =
     await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
-  console.log("@@@ fetchSectorData22 ", bodyParams);
   return (
     <Fragment key="indices">
-      <IndicesDetailsClient
+      <SectorsDetailsClient
         overview={overviewData}
-        technicals={technicalsData}
         peers={peersData}
         others={othersData}
         tabData={tabData}
@@ -132,16 +116,12 @@ const Indices = async ({ params }: any) => {
         tableHeaderData={tableHeaderData}
         tableData={tableData}
         pageSummary={pageSummary}
-        tableConfig={tableConfig["indicesConstituents"]}
-        tabConfig={tabConfig["indicesConstituents"]}
+        tableConfig={tableConfig["sectorsConstituents"]}
+        tabConfig={tabConfig["sectorsConstituents"]}
         payload={payload}
         ssoid={ssoid}
-        indicesNews={indicesNews}
-        liveblog={liveblog}
-        faq={faqData}
+        sectorsListData={fetchSectorData}
       />
-      <TextBottom indicesName={overviewData?.assetName} />
-      <IndicesQuickLinks />
       <BreadCrumb
         pagePath={pageUrl}
         pageName={[{ label: overviewData?.assetName, redirectUrl: "" }]}
@@ -151,4 +131,4 @@ const Indices = async ({ params }: any) => {
   );
 };
 
-export { generateMetadata, Indices as default };
+export { generateMetadata, IndividualSectors as default };

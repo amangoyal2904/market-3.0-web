@@ -474,5 +474,29 @@
   "META_INFO": {
     "development": "https://etapipre.indiatimes.com/api/mercury/metainfo",
     "production": "https://etpwaapi.economictimes.com/api/mercury/metainfo"
+  },
+  "SECTORS_LIST": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/sectors-seo-data",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/sectors-seo-data"
+  },
+  "ALLSECTORS": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-listing-data",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-listing-data"
+  },
+  "SECTORS_OVERVIEW": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-summary",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-summary"
+  },
+  "SECTORS_CONSITUENTS": {
+    "development": "https://etapi.indiatimes.com/et-screener/intraday-stats",
+    "production": "https://etapi.indiatimes.com/et-screener/intraday-stats"
+  },
+  "SECTORS_PEER": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-peers-performance",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-peers-performance"
+  },
+  "SECTORS_OTHER": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/other-sectors",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/other-sectors"
   }
 }
