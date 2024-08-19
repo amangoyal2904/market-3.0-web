@@ -522,6 +522,7 @@ const MarketStats = ({
             l3NavTracking={getNavName()}
             setUpdateDateTime={setUpdateDateTime}
             setFallbackWebsocket={setFallbackWebsocket}
+            socketDataType="stock"
           />
         </div>
       </div>

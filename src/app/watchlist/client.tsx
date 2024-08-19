@@ -386,6 +386,7 @@ const WatchListClient = () => {
               l2NavTracking="Watchlist"
               setUpdateDateTime={setUpdateDateTime}
               setFallbackWebsocket={setFallbackWebsocket}
+              socketDataType="stock"
             />
           </>
         )}

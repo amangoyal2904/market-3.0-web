@@ -162,6 +162,7 @@ const BuySellTechnicalWidget = ({ data, otherData, bodyParams }: any) => {
           l2NavTracking="Buy/Sell"
           l3NavTracking={activeItem}
           setFallbackWebsocket={setFallbackWebsocket}
+          socketDataType="stock"
         />
         <div className={styles.helpTxt}>
           <span className={styles.note}>
