@@ -225,7 +225,7 @@ export const fnGenerateMetaData = (meta?: any) => {
       },
     },
     icons: {
-      icon: "/marketsweb/img/etfavicon.ico",
+      icon: "https://economictimes.indiatimes.com/icons/etfavicon.ico",
     },
   };
 };
