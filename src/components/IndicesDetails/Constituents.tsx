@@ -320,6 +320,7 @@ const IndicesConstituents = React.memo(
             l2NavTracking="Indices"
             l3NavTracking={`${indexName} Constituents Widget`}
             setFallbackWebsocket={setFallbackWebsocket}
+            socketDataType="stock"
           />
         </div>
         {!!liveBlog && liveBlog.msid != "" && (

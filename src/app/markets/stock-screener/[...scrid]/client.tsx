@@ -759,6 +759,7 @@ const StockScreeners = ({
                 l3NavTracking={screenerDetail.name}
                 setUpdateDateTime={setUpdateDateTime}
                 setFallbackWebsocket={setFallbackWebsocket}
+                socketDataType="stock"
               />
               <div className="">
                 <QueryComponets
