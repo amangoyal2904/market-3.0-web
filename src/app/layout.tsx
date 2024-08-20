@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   description:
     "Share Market Today | Share Market Live updates: Get all the Latest Share Market News and Updates on The Economic Times. Share Market Live Charts, News, Analysis, IPO News and more.",
   icons: {
-    icon: "/marketsweb/etfavicon.ico",
+    icon: "https://economictimes.indiatimes.com/icons/etfavicon.ico",
   },
 };
 
