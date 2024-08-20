@@ -1,1 +1,80 @@
 @import "@/styles/variables.scss";
+
+.title {
+  font-size: 32px;
+  line-height: 39.01px;
+  text-transform: capitalize;
+}
+.desc {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: #4d4d4d;
+  margin: 5px auto 10px;
+}
+.ieContainer {
+  margin-top: 30px;
+  .ieBox {
+    margin-bottom: 30px;
+    h2 {
+      font-size: 24px;
+      margin-bottom: 15px;
+      font-weight: 400;
+    }
+    .ieBoxList {
+      display: flex;
+      gap: 30px;
+      .left_ieContent {
+        min-width: 400px;
+        max-width: 300px;
+        .videoShowWrapper {
+          cursor: pointer;
+        }
+        h3 {
+          margin: 8px 0;
+          font-size: 24px;
+        }
+        .videoDetails {
+          display: flex;
+          margin-bottom: 15px;
+          gap: 25px;
+          span {
+            font-size: 12px;
+          }
+        }
+        .socialDetails {
+          display: flex;
+          gap: 20px;
+          span {
+            padding: 5px 15px;
+            border: 1px solid;
+            border-radius: 20px;
+          }
+        }
+      }
+      .right_ieContent {
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        // display: flex;
+        // flex-wrap: wrap;
+        // gap:30px;
+        .right_vidBox {
+          max-width: 200px;
+          h4 {
+            font-size: 16px;
+            margin: 5px 0;
+          }
+          .videoDetails {
+            display: flex;
+            margin-bottom: 15px;
+            gap: 15px;
+            span {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

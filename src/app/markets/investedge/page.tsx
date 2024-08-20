@@ -1,6 +1,10 @@
 import { fnGenerateMetaData } from "@/utils/utility";
 import { Metadata, ResolvingMetadata } from "next";
 import { headers } from "next/headers";
+import styles from "./Investedge.module.scss";
+import { useState } from "react";
+import VideoEmbed from "@/components/VideoEmbed";
+import InvestEdgeClient from "./client";
 
 export async function generateMetadata(
   { searchParams }: any,
@@ -21,7 +25,13 @@ export async function generateMetadata(
 }
 
 const InvestEdge = () => {
-  return <div>page</div>;
+  return (
+    <>
+      <h1 className={styles.title}>Invest edge</h1>
+      <p className={styles.desc}>Curated Videos on stocks</p>
+      <InvestEdgeClient />
+    </>
+  );
 };
 
 export default InvestEdge;

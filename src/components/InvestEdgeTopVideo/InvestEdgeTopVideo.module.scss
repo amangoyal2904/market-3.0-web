@@ -1,0 +1,43 @@
+.right_vidBox {
+  max-width: 200px;
+  h4 {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  .videoDetails {
+    display: flex;
+    margin-bottom: 15px;
+    gap: 15px;
+    span {
+      font-size: 12px;
+    }
+  }
+}
+.left_ieContent {
+  min-width: 400px;
+  max-width: 300px;
+  .videoShowWrapper {
+    cursor: pointer;
+  }
+  h3 {
+    margin: 8px 0;
+    font-size: 24px;
+  }
+  .videoDetails {
+    display: flex;
+    margin-bottom: 15px;
+    gap: 25px;
+    span {
+      font-size: 12px;
+    }
+  }
+  .socialDetails {
+    display: flex;
+    gap: 20px;
+    span {
+      padding: 5px 15px;
+      border: 1px solid;
+      border-radius: 20px;
+    }
+  }
+}
