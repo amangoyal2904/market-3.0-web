@@ -23,7 +23,7 @@ const lato = Lato({
 });
 
 const eticons = localFont({
-  src: "./assets/fonts/eticons.woff",
+  src: "./assets/fonts/eticons-v2.woff",
   weight: "normal",
   display: "swap",
   variable: "--font-eticons",
