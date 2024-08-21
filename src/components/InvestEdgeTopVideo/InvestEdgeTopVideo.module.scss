@@ -1,5 +1,8 @@
 .right_vidBox {
-  max-width: 200px;
+  max-width: 100%;
+  img {
+    width: 100%;
+  }
   h4 {
     font-size: 16px;
     margin: 5px 0;
@@ -14,8 +17,8 @@
   }
 }
 .left_ieContent {
-  min-width: 400px;
-  max-width: 300px;
+  min-width: 34%;
+  max-width: 34%;
   .videoShowWrapper {
     cursor: pointer;
   }

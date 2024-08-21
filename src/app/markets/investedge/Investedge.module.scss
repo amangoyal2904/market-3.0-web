@@ -23,7 +23,7 @@
     }
     .ieBoxList {
       display: flex;
-      gap: 30px;
+      justify-content: space-between;
       .left_ieContent {
         min-width: 400px;
         max-width: 300px;
@@ -54,8 +54,7 @@
       }
       .right_ieContent {
         position: relative;
-        width: 100%;
-        max-width: 800px;
+        width: 64%;
         // display: flex;
         // flex-wrap: wrap;
         // gap:30px;
