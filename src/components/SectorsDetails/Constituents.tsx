@@ -11,8 +11,10 @@ import { fetchViewTable, removePersonalizeViewById } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import SlickSlider from "../SlickSlider";
 import { getCookie } from "@/utils";
-import OtherIndicesCard from "./OtherIndicesCard";
+import OtherSectorsCard from "./OtherSectorsCard";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import Link from "next/link";
+import { trackingEvent } from "@/utils/ga";
 
 const SectorsConstituents = React.memo(
   ({
@@ -315,6 +317,7 @@ const SectorsConstituents = React.memo(
             l2NavTracking="Indices"
             l3NavTracking={`${indexName} Constituents Widget`}
             setFallbackWebsocket={setFallbackWebsocket}
+            socketDataType="stock"
           />
         </div>
 
@@ -324,7 +327,7 @@ const SectorsConstituents = React.memo(
             <div id={styles.otherIndices}>
               <SlickSlider
                 slides={otherSectors?.map((slides: any, index: any) => ({
-                  content: <OtherIndicesCard data={slides} index={index} />,
+                  content: <OtherSectorsCard data={slides} index={index} />,
                 }))}
                 key={`otherSectors}`}
                 sliderId={`slider-otherindices`}
@@ -334,6 +337,23 @@ const SectorsConstituents = React.memo(
                 topSpaceClass="otherIndices"
                 responsive={indicesResponsive}
               />
+            </div>
+            <div className={styles.viewOtherBox}>
+              <Link
+                href="/stocks/sectors"
+                title="View Other Sectors"
+                className={styles.viewAll}
+                onClick={() =>
+                  trackingEvent("et_push_event", {
+                    event_category: "mercury_engagement",
+                    event_action: "page_cta_click",
+                    event_label: "View Other Sectors",
+                  })
+                }
+              >
+                View Other Sectors{" "}
+                <span className={`eticon_next ${styles.rightIcon}`}></span>
+              </Link>
             </div>
           </div>
         )}

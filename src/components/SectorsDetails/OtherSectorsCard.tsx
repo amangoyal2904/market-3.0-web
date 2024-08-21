@@ -3,14 +3,14 @@ import styles from "./SectorsDetails.module.scss";
 import Link from "next/link";
 import React from "react";
 import { trackingEvent } from "@/utils/ga";
-const OtherIndicesCard = React.memo(({ data }: any) => {
+const OtherSectorsCard = React.memo(({ data }: any) => {
   const trend =
     data.percentChange > 0 ? "up" : data.percentChange < 0 ? "down" : "neutral";
   return (
     <div className={styles.otherIndicesCard}>
       <Link
         className={styles.title}
-        href={`/markets/sectors/${data.indexSeoName}`}
+        href={`/stocks/sectors/${data.indexSeoName}`}
         target="_blank"
         title={data.assetName}
         onClick={() => {
@@ -62,5 +62,5 @@ const OtherIndicesCard = React.memo(({ data }: any) => {
     </div>
   );
 });
-OtherIndicesCard.displayName = "OtherIndicesCard";
-export default OtherIndicesCard;
+OtherSectorsCard.displayName = "OtherSectorsCard";
+export default OtherSectorsCard;

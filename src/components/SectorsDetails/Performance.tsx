@@ -35,7 +35,10 @@ const SectorsPerformance = React.memo(
     const [showFilter, setShowFilter] = useState(false);
     const [filterMenuData, setFilterMenuData]: any = useState("");
     let assetIds = peersData.map((item: any) => item.assetId);
-    const closePopup = () => setShowFilter(false);
+    const closePopup = () => {
+      setShowFilter(false);
+      document.body.style.overflow = "";
+    };
     const showFilterMenu = (value: boolean) => {
       setShowFilter(value);
       if (value) document.body.style.overflow = "hidden";

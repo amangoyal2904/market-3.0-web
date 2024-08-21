@@ -119,7 +119,7 @@
         border-bottom: 2px solid transparent;
         cursor: pointer;
 
-        &+li {
+        & + li {
           margin-left: 15px;
         }
 
@@ -784,6 +784,25 @@
       margin-top: 0.15rem;
     }
   }
+
+  .viewOtherBox {
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+
+    .viewAll {
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 19.5px;
+      color: $blue-50;
+
+      .rightIcon {
+        font-size: 24px;
+      }
+    }
+  }
 }
 
 #faq {
@@ -830,7 +849,7 @@
       ul {
         margin: 8px auto;
 
-        >li {
+        > li {
           list-style: disc;
           list-style-position: inside;
           line-height: 1.5;
@@ -859,7 +878,6 @@
 
 @media (max-width: 1270px) {
   .wrapper {
-
     .maTable,
     .gaugeChart {
       display: block;

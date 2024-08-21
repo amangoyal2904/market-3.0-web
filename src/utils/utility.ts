@@ -370,7 +370,7 @@ export const getStockUrl = (
   if (stockType === "index") {
     return "/markets/indices/" + seoName;
   } else if (stockType === "sector") {
-    return "/markets/sectors/" + seoName;
+    return "/stocks/sectors/" + seoName;
   } else {
     if (seoName?.indexOf(" ") >= 0) {
       seoName = seoName

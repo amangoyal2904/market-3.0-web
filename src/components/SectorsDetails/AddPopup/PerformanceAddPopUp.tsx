@@ -45,19 +45,25 @@ const PerformanceAddPopUp = ({
             />
           </div>
         </div>
-        <div className={styles.sectorListBox}>
-          <ul>
-            {filteredItems.map((sector: any) => (
-              <li
-                key={sector.assetId}
-                data-id={sector.assetId}
-                onClick={() => valuechange(sector.assetId, sector.assetName)}
-              >
-                {sector.assetName}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {filteredItems.length > 0 ? (
+          <div className={styles.sectorListBox}>
+            <ul>
+              {filteredItems.map((sector: any) => (
+                <li
+                  key={sector.assetId}
+                  data-id={sector.assetId}
+                  onClick={() => valuechange(sector.assetId, sector.assetName)}
+                >
+                  {sector.assetName}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <p className={styles.noDataFound}>
+            No record found for search criteria
+          </p>
+        )}
       </div>
     </div>
   );

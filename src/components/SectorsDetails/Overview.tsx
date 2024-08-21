@@ -40,7 +40,7 @@ const SectorsDetailsOverview = React.memo(
         <div className="dflex align-item-center">
           <h1 className={styles.headline}>{overviewData?.assetName} Sector</h1>
           <Link
-            href="/markets/sectors"
+            href="/stocks/sectors"
             title="View all Sectors"
             className={styles.viewAll}
             onClick={() =>

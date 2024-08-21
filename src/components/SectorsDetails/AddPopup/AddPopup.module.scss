@@ -79,8 +79,7 @@
     }
 
     .sectorListBox {
-      min-height: 468px;
-      max-height: 468px;
+      height: 50vh;
       overflow: hidden;
       overflow-y: auto;
 
@@ -98,6 +97,14 @@
           }
         }
       }
+    }
+
+    .noDataFound {
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      height: 50vh;
+      padding: 10px 5px;
     }
   }
 }

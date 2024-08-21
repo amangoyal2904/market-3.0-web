@@ -163,7 +163,7 @@ const getLiPath = (router: string, pagePath: string) => {
         item: { "@id": "/markets/indices" },
       },
     };
-  } else if (router == "/markets/sectors") {
+  } else if (router == "/stocks/sectors") {
     return {
       showNextLi: false,
       currentLiNode: (
@@ -180,7 +180,7 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/sectors" title="Sectors">
+          <a href="/stocks/sectors" title="Sectors">
             Sectors
           </a>
         </li>
@@ -190,7 +190,7 @@ const getLiPath = (router: string, pagePath: string) => {
         "@type": "ListItem",
         position: "3",
         name: "Sectors",
-        item: { "@id": "/markets/sectors" },
+        item: { "@id": "/stocks/sectors" },
       },
     };
   } else if (router == "/watchlist") {

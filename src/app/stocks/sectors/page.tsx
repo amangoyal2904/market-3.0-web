@@ -10,7 +10,7 @@ const PageRefresh = dynamic(() => import("@/components/PageRefresh"), {
   ssr: false,
 });
 
-const pageUrl = "/markets/sectors";
+const pageUrl = "/stocks/sectors";
 
 export async function generateMetadata(): Promise<Metadata> {
   const meta = {
