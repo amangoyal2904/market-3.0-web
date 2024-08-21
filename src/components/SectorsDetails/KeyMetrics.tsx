@@ -34,11 +34,11 @@ const KeyMetricsSectors = React.memo(({ data }: any) => {
           </p>
         </div>
         <div className={styles.metric}>
-          <p>PE Ratio</p>
+          <p>P/E Ratio</p>
           <p className="numberFonts">{formatNumber(data.peRatio)}</p>
         </div>
         <div className={styles.metric}>
-          <p>DE Ratio</p>
+          <p>D/E Ratio</p>
           <p className="numberFonts">{formatNumber(data.deRatio)}</p>
         </div>
         <div className={styles.metric}>
