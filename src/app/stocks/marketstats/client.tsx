@@ -100,7 +100,7 @@ const MarketStats = ({
   };
   const [dayFilterData, setDayFilterData] = useState(getSelectedDuration);
 
-  const updateTabData = async (ssoid: any) => {
+  const updateTabData = async () => {
     const { tabData, activeViewId } = await getCustomViewsTab({
       L3NavSubItem: !isTechnical ? l3NavSubItem : null,
       firstOperand: isTechnical
@@ -390,8 +390,8 @@ const MarketStats = ({
   }, [_payload, isPrime]);
 
   useEffect(() => {
-    if (ssoidAtServerEnd != ssoid) {
-      updateTabData(ssoid);
+    if (!!ssoid && ssoidAtServerEnd != ssoid) {
+      updateTabData();
     }
   }, [ssoid]);
 
