@@ -4,7 +4,7 @@ import {
   ChartingLibraryWidgetOptions,
   ResolutionString,
   widget,
-} from "../../../public/static/charting_library";
+} from "../../../public/static/v27/charting_library";
 
 export const TVChartContainer = (
   props: Partial<ChartingLibraryWidgetOptions>,
@@ -15,9 +15,10 @@ export const TVChartContainer = (
   const _overrides =
     props?.theme == "dark"
       ? {
-          "paneProperties.background": "rgba(34, 34, 34, 1)",
-          "paneProperties.vertGridProperties.color": "rgba(69, 69, 69, 1)",
-          "paneProperties.horzGridProperties.color": "rgba(69, 69, 69, 1)",
+          "paneProperties.backgroundType": "solid",
+          "paneProperties.background": "#181818",
+          "paneProperties.vertGridProperties.color": "#232325",
+          "paneProperties.horzGridProperties.color": "#232325",
           "scalesProperties.textColor": "rgba(170, 170, 170, 1)",
         }
       : {};
@@ -27,7 +28,7 @@ export const TVChartContainer = (
       symbol: props.symbol,
       // BEWARE: no trailing slash is expected in feed URL
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(
-        "https://etelection.indiatimes.com/ET_Charts/mrkts",
+        "https://etapi.indiatimes.com/charts/mrkts",
         1000 * 20,
         "Y",
       ),
@@ -37,17 +38,16 @@ export const TVChartContainer = (
       timezone: "Asia/Kolkata",
       disabled_features: props.disabled_features,
       enabled_features: ["show_zoom_and_move_buttons_on_touch"],
-      library_path: "/marketsweb/static/charting_library/",
+      library_path: "/marketsweb/static/v27/charting_library/",
       locale: "en",
-      load_last_chart: true,
-      charts_storage_url:
-        "https://etelection.indiatimes.com/ET_Charts/india-market/stock",
+      load_last_chart: props?.user_id !== "default" ? true : false,
+      charts_storage_url: "https://etapi.indiatimes.com/charts/mrkts/stock",
       charts_storage_api_version: "1.1",
       client_id: "economictimes.indiatimes.com",
       auto_save_delay: 1,
       theme: props.theme,
       user_id: props.user_id,
-      fullscreen: false,
+      fullscreen: !!props?.fullscreen ? props?.fullscreen : false,
       autosize: true,
       time_frames: [
         {

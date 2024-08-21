@@ -7,7 +7,7 @@ import {
   ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
   ResolutionString,
-} from "../../../../public/static/charting_library/charting_library";
+} from "../../../../public/static/v27/charting_library";
 import { getCookie, getParameterByName } from "@/utils";
 
 interface TimeFramePair {
@@ -71,13 +71,12 @@ const getInterval = () => {
   return { timeframe, interval };
 };
 
-const getOnlyChartFeatures = () => {
+const getOnlyChartFeatures = (user_id: string) => {
   const hideMenu = getParameterByName("no_menu")
     ? getParameterByName("no_menu")
     : 0;
-  const dontSave = getParameterByName("dont_save")
-    ? getParameterByName("dont_save")
-    : false;
+
+  const saveFeature = !!user_id && user_id !== "default" ? true : false;
   const onlyChart = [];
 
   if (
@@ -105,7 +104,7 @@ const getOnlyChartFeatures = () => {
     );
   }
 
-  if (dontSave === "true") {
+  if (saveFeature === false) {
     onlyChart.push("header_saveload", "use_localstorage_for_settings");
   }
 
@@ -121,13 +120,13 @@ const TVChartContainer = dynamic(
 const TechnicalCharts = () => {
   const [isScriptReady, setIsScriptReady] = useState(false);
 
+  const userId = getCookie("ssoid");
+  const user_id: string | undefined =
+    typeof userId === "string" && !!userId ? userId : "default";
+
   const symbol = getSymbol();
   const { timeframe, interval } = getInterval();
-  const onlyChart = getOnlyChartFeatures();
-
-  const userId = getCookie("ssoid") || getCookie("pfuuid");
-  const user_id: string | undefined =
-    typeof userId === "string" ? userId : undefined;
+  const onlyChart = getOnlyChartFeatures(user_id);
 
   const disabledFeatures: ChartingLibraryFeatureset[] = onlyChart.length
     ? onlyChart.map((feature) => feature as ChartingLibraryFeatureset)
@@ -159,7 +158,7 @@ const TechnicalCharts = () => {
   return (
     <>
       <Script
-        src="/marketsweb/static/datafeeds/udf/dist/bundle.js"
+        src="/marketsweb/static/v27/datafeeds/udf/dist/bundle.js"
         strategy="lazyOnload"
         onReady={() => {
           setIsScriptReady(true);

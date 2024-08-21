@@ -1,5 +1,6 @@
 import { dateFormat } from "@/utils";
 import styles from "./FIIDIIWidget.module.scss";
+import Link from "next/link";
 
 const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
   const maxValues: any = {
@@ -34,9 +35,13 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
   });
 
   return first7Values?.length ? (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      title={type == "fiiEquity" ? fiiDiiCash.legend1 : fiiDiiCash.legend2}
+    >
       <p className={styles.title}>
         {type == "fiiEquity" ? fiiDiiCash.legend1 : fiiDiiCash.legend2}
+        <span className={`eticon_caret_right ${styles.icon}`} />
         <span className={styles.days}>Past 7 days activity</span>
       </p>
       <div className={styles.barsRow}>

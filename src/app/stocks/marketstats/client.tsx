@@ -46,6 +46,7 @@ const MarketStats = ({
   actualUrl = null,
   shortUrlMapping = [],
   intradayDurationOptions = [],
+  ssoidAtServerEnd = "",
 }: any) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -58,7 +59,6 @@ const MarketStats = ({
   const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
   const [_payload, setPayload] = useState(payload);
   const [_tabData, setTabData] = useState(tabData);
-  const [_l3Nav, setL3Nav] = useState(l3Nav);
   const [_metaData, setMetaData] = useState(metaData);
   const [_tableData, setTableData] = useState(tableData);
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
@@ -99,6 +99,25 @@ const MarketStats = ({
     return { value: "", label: "" };
   };
   const [dayFilterData, setDayFilterData] = useState(getSelectedDuration);
+
+  const updateTabData = async (ssoid: any) => {
+    const { tabData, activeViewId } = await getCustomViewsTab({
+      L3NavSubItem: !isTechnical ? l3NavSubItem : null,
+      firstOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.firstOperand
+        : null,
+      operationType: isTechnical
+        ? technicalCategory?.selectedFilter?.operationType
+        : null,
+      secondOperand: isTechnical
+        ? technicalCategory?.selectedFilter?.secondOperand
+        : null,
+      ssoid: ssoid,
+    });
+    setTabData(tabData);
+    setActiveViewId(activeViewId);
+    setResetSort(activeViewId);
+  };
 
   const updateTableData = async () => {
     const isPrimeUser = getCookie("isprimeuser") === "true";
@@ -142,7 +161,6 @@ const MarketStats = ({
       }
     } catch (error) {
       console.error("Error fetching table data:", error);
-      // Handle error appropriately if needed
     } finally {
       setProcessingLoader(false);
     }
@@ -198,7 +216,6 @@ const MarketStats = ({
           : 0;
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
-    // updateL3NAV(id, _payload.duration);
     const isExist: any = shortUrlMapping?.find(
       (item: any) => item.longURL == newUrl,
     );
@@ -212,7 +229,6 @@ const MarketStats = ({
       const url = actualUrl;
       const newDuration = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
-      // updateL3NAV(_payload.filterValue[0], newDuration);
       const isExist: any = shortUrlMapping?.find(
         (item: any) => item.longURL == newUrl,
       );
@@ -311,21 +327,6 @@ const MarketStats = ({
       (item: any) => item.longURL == url,
     );
     const newUrl = isExist ? isExist.shortUrl : url;
-    // const technicalCategory = await getTechincalOperands(
-    //   l3NavMenuItem,
-    //   firstOperand,
-    //   operationType,
-    //   secondOperand
-    // );
-    // const descTxt = `Discover the stocks in the Indian stock market with ${technicalCategory?.selectedFilterLabel?.firstOperand} ${technicalCategory?.selectedFilterLabel?.operationType} ${technicalCategory?.selectedFilterLabel?.secondOperand} exclusively on The Economic Times`;
-    // setMetaData({ ..._metaData, desc: descTxt });
-    // setPayload({
-    //   ..._payload,
-    //   firstOperand: firstOperand,
-    //   operationType: operationType,
-    //   secondOperand: secondOperand,
-    //   pageno: 1,
-    // });
     router.push(newUrl, { scroll: false });
   };
   const removePersonaliseViewFun = (viewId: any) => {
@@ -387,6 +388,12 @@ const MarketStats = ({
     setProcessingLoader(true);
     updateTableData();
   }, [_payload, isPrime]);
+
+  useEffect(() => {
+    if (ssoidAtServerEnd != ssoid) {
+      updateTabData(ssoid);
+    }
+  }, [ssoid]);
 
   useIntervalApiCall(
     () => {
@@ -451,7 +458,7 @@ const MarketStats = ({
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
           <MarketStatsNav
-            leftNavResult={_l3Nav?.nav}
+            leftNavResult={l3Nav?.nav}
             type={l3NavMenuItem}
             subType={!isTechnical ? l3NavSubItem : null}
             firstOperand={
@@ -522,6 +529,7 @@ const MarketStats = ({
             l3NavTracking={getNavName()}
             setUpdateDateTime={setUpdateDateTime}
             setFallbackWebsocket={setFallbackWebsocket}
+            socketDataType="stock"
           />
         </div>
       </div>

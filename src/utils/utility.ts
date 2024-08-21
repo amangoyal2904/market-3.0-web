@@ -16,6 +16,17 @@ declare global {
   }
 }
 
+type FiiDiiApiType =
+  | "FIIDII_CASHPROVISIONAL"
+  | "FIIDII_FIICASH"
+  | "FIIDII_FANDOCASH"
+  | "FIIDII_MFCASH";
+
+interface FiiDiiApiParams {
+  filterType: string;
+  apiType?: string;
+}
+
 const convertJSONToParams = (jsonObject: any) => {
   let paramsArray = [];
   for (let key in jsonObject) {
@@ -214,7 +225,7 @@ export const fnGenerateMetaData = (meta?: any) => {
       },
     },
     icons: {
-      icon: "/marketsweb/img/etfavicon.ico",
+      icon: "https://economictimes.indiatimes.com/icons/etfavicon.ico",
     },
   };
 };
@@ -929,6 +940,15 @@ export const getIndicesFaqs = async (indexid: number) => {
   return originalJson;
 };
 
+export const getFiiDiiSummaryData = async (apitype: string) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.FIIDII_SUMMARY[APP_ENV]}?apitype=${apitype}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
 export const getDaywiseActivityData = async () => {
   const response = await Service.get({
     url: (APIS_CONFIG as any)?.FIIDII_OVERVIEW[APP_ENV],
@@ -938,38 +958,18 @@ export const getDaywiseActivityData = async () => {
   return originalJson;
 };
 
-export const getCashData = async (filterType: string) => {
-  const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.FIIDII_CASHPROVISIONAL[APP_ENV]}?filterType=${filterType}`,
-    params: {},
-  });
-  const originalJson = await response?.json();
-  return originalJson;
-};
+export const getFiiDiiData = async (
+  apiType: FiiDiiApiType,
+  params: FiiDiiApiParams,
+) => {
+  const { filterType, apiType: extraApiType } = params;
+  let url = `${(APIS_CONFIG as any)?.[apiType][APP_ENV]}?filterType=${filterType}`;
 
-export const getFiiCashData = async (filterType: string) => {
-  const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.FIIDII_FIICASH[APP_ENV]}?filterType=${filterType}`,
-    params: {},
-  });
-  const originalJson = await response?.json();
-  return originalJson;
-};
+  if (extraApiType) {
+    url += `&apiType=${extraApiType}`;
+  }
 
-export const getFandOCashData = async (filterType: string, apiType: string) => {
-  const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.FIIDII_FANDOCASH[APP_ENV]}?filterType=${filterType}&apiType=${apiType}`,
-    params: {},
-  });
-  const originalJson = await response?.json();
-  return originalJson;
-};
-
-export const getMfCashData = async (filterType: string) => {
-  const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.FIIDII_MFCASH[APP_ENV]}?filterType=${filterType}`,
-    params: {},
-  });
+  const response = await Service.get({ url, params: {} });
   const originalJson = await response?.json();
   return originalJson;
 };

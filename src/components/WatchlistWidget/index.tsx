@@ -81,6 +81,7 @@ const WatchListWidget = () => {
             l1NavTracking="Markets"
             l2NavTracking="Watchlist Widget"
             setFallbackWebsocket={setFallbackWebsocket}
+            socketDataType="stock"
           />
           <ViewAllLink
             text="View All Stocks In Your Watchlist"

@@ -57,7 +57,7 @@ const StockScreeners = ({
   scrid,
   screenerDetail,
   payload = {},
-  ssoid = null,
+  ssoidAtServerEnd = "",
   l3UserNav = {},
 }: any) => {
   const pathname = usePathname();
@@ -97,9 +97,8 @@ const StockScreeners = ({
   const [modalBodyText, setModalBodyText] = useState({
     title: "You have Successfully created your personalise view",
   });
-  const [_ssoid, setSooid] = useState(ssoid);
   const { state } = useStateContext();
-  const { isLogin } = state.login;
+  const { isLogin, ssoid } = state.login;
   const { currentMarketStatus } = state.marketStatus;
   const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
@@ -139,11 +138,11 @@ const StockScreeners = ({
     router.push(newUrl, { scroll: false });
   };
 
-  const TabsAndTableDataChangeHandler = async (tabIdActive: any) => {
-    const { tabData, activeViewId } = await useScreenerTab();
-    setTabData(tabData);
-    setActiveViewId(activeViewId);
+  const TabsAndTableDataChangeHandler = () => {
+    const ssoid = getCookie("ssoid");
+    updateTabData(ssoid);
   };
+
   const removePersonaliseViewFun = (viewId: any) => {
     setToasterPersonaliseViewRemove(true);
     const confirmData = {
@@ -446,6 +445,15 @@ const StockScreeners = ({
     }
   };
 
+  const updateTabData = async (ssoid: any) => {
+    const { tabData, activeViewId } = await getScreenerTabViewData({
+      type: "screenerGetViewById",
+      ssoid,
+    });
+    setTabData(tabData);
+    setActiveViewId(activeViewId);
+  };
+
   const updateTableData = async () => {
     const isPrimeUser = getCookie("isprimeuser") === "true";
     const ssoid = getCookie("ssoid");
@@ -679,6 +687,12 @@ const StockScreeners = ({
   }, [_payload]);
 
   useEffect(() => {
+    if (ssoidAtServerEnd != ssoid) {
+      updateTabData(ssoid);
+    }
+  }, [ssoid]);
+
+  useEffect(() => {
     const userSSOID = getCookie("ssoid");
     if (userSSOID) {
       l3UesrNavAPICall();
@@ -759,6 +773,7 @@ const StockScreeners = ({
                 l3NavTracking={screenerDetail.name}
                 setUpdateDateTime={setUpdateDateTime}
                 setFallbackWebsocket={setFallbackWebsocket}
+                socketDataType="stock"
               />
               <div className="">
                 <QueryComponets
