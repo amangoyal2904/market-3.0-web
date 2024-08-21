@@ -10,11 +10,11 @@ const InvestEdgeLeftVideo = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // const currentlyVisible = entry.isIntersecting;
-        // if (currentlyVisible !== isVisible) {
-        //   setIsVisible(currentlyVisible);
-        // }
-        setIsVisible(entry.intersectionRatio === 1);
+        const currentlyVisible = entry.isIntersecting;
+        if (currentlyVisible !== isVisible) {
+          setIsVisible(currentlyVisible);
+        }
+        //setIsVisible(entry.intersectionRatio === 1);
       },
       {
         root: null,
