@@ -119,7 +119,7 @@
         border-bottom: 2px solid transparent;
         cursor: pointer;
 
-        & + li {
+        &+li {
           margin-left: 15px;
         }
 
@@ -145,7 +145,7 @@
   .overviewBottom {
     display: flex;
     justify-content: center;
-    margin-bottom: 65px;
+    margin-bottom: 45px;
 
     .returnMain {
       display: grid;
@@ -178,7 +178,7 @@
           }
 
           &:last-child {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             line-height: 28.8px;
           }
@@ -248,14 +248,14 @@
           font-size: 16px;
           font-weight: 700;
           line-height: 20px;
-          margin: 2px 0;
+          margin: 5px 0;
         }
 
         .label {
           font-size: 14px;
           line-height: 16px;
           font-weight: 400;
-          margin: 2px 0;
+          margin: 5px 0;
 
           &.bold {
             font-weight: 600;
@@ -578,7 +578,7 @@
 
     .ltp {
       font-family: var(--font-lato);
-      font-size: 24px;
+      font-size: 20px;
       line-height: 30px;
       font-weight: 700;
     }
@@ -608,14 +608,14 @@
         font-size: 12px;
         font-weight: 700;
         line-height: 15px;
-        margin: 2px 0;
+        margin: 5px 0;
       }
 
       .label {
         font-size: 12px;
         line-height: 15px;
         font-weight: 400;
-        margin: 2px 0;
+        margin: 5px 0;
       }
 
       .up {
@@ -830,7 +830,7 @@
       ul {
         margin: 8px auto;
 
-        > li {
+        >li {
           list-style: disc;
           list-style-position: inside;
           line-height: 1.5;
@@ -859,6 +859,7 @@
 
 @media (max-width: 1270px) {
   .wrapper {
+
     .maTable,
     .gaugeChart {
       display: block;
