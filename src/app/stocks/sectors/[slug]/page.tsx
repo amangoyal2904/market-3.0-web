@@ -62,10 +62,11 @@ async function generateMetadata(
     desc: pageDesc,
     keywords: pageKeywords,
     pathname: pageUrl,
-    index:
-      indexFilterData.assetId == 0 || indexFilterData.assetId == null
-        ? false
-        : true,
+    index: false,
+    // index:
+    //   indexFilterData.assetId == 0 || indexFilterData.assetId == null
+    //     ? false
+    //     : true,
   };
   return fnGenerateMetaData(meta);
 }

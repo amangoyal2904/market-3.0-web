@@ -19,6 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords:
       "Indian Sectors, All Sectors, All Index, Indian Market Sectors, Indian Stock Sectors, Indian Stock Market Sectors, Stock Market Sectors",
     pathname: pageUrl,
+    index: false,
   };
   return fnGenerateMetaData(meta);
 }
