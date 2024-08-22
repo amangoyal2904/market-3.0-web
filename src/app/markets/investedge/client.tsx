@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./Investedge.module.scss";
-import VideoEmbed from "@/components/VideoEmbed";
 import SlickSlider from "@/components/SlickSlider";
 import InvestEdgeTopVideo from "@/components/InvestEdgeTopVideo";
 import InvestEdgeLeftVideo from "@/components/InvestEdgeTopVideo/InvestEdgeLeftVideo";
@@ -35,6 +34,7 @@ const responsive = [
 const InvestEdgeClient = () => {
   const [loadVideo, setLoadVideo] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
+  const [activeVideoId, setActiveVideoId] = useState(null);
   const loadVideoIframe = () => {
     setLoadVideo(true);
     setShowLoader(true);
@@ -120,7 +120,11 @@ const InvestEdgeClient = () => {
         <div className={styles.ieBox}>
           <h2>Stock Markets</h2>
           <div className={styles.ieBoxList}>
-            <InvestEdgeLeftVideo />
+            <InvestEdgeLeftVideo
+              videoId="video1"
+              activeVideoId={activeVideoId}
+              setActiveVideoId={setActiveVideoId}
+            />
             {/* <div className={styles.left_ieContent}>
                     {!loadVideo ? (
                         <div className={styles.videoShowWrapper} onClick={loadVideoIframe}>

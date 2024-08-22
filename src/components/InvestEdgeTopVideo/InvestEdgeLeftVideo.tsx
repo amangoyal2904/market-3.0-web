@@ -2,24 +2,41 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./InvestEdgeTopVideo.module.scss";
 import VideoEmbed from "../VideoEmbed";
 
-const InvestEdgeLeftVideo = () => {
+const InvestEdgeLeftVideo = ({
+  videoId,
+  activeVideoId,
+  setActiveVideoId,
+}: any) => {
   const [isVisible, setIsVisible] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const liveStreamRef = useRef(null);
+  const lastVisibilityChangeTime = useRef(0);
+
+  const DEBOUNCE_DELAY = 100; // Adjust the delay as needed (milliseconds)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
+        const now = Date.now();
         const currentlyVisible = entry.isIntersecting;
-        if (currentlyVisible !== isVisible) {
+
+        // Debounce the visibility change to prevent rapid state updates
+        if (
+          currentlyVisible !== isVisible &&
+          now - lastVisibilityChangeTime.current > DEBOUNCE_DELAY
+        ) {
           setIsVisible(currentlyVisible);
+          lastVisibilityChangeTime.current = now;
+
+          if (currentlyVisible) {
+            setActiveVideoId(videoId);
+          }
         }
-        //setIsVisible(entry.intersectionRatio === 1);
       },
       {
         root: null,
         rootMargin: "0px",
-        threshold: 1,
+        threshold: 1, // Ensure the video is fully in view
       },
     );
 
@@ -32,13 +49,12 @@ const InvestEdgeLeftVideo = () => {
         observer.unobserve(liveStreamRef.current);
       }
     };
-  }, [isVisible]);
+  }, [isVisible, videoId, setActiveVideoId]);
 
   const loadVideoIframe = () => {
-    // if(!isVisible){
     setIsVisible(true);
     setShowLoader(true);
-    //}
+    setActiveVideoId(videoId); // Set this video as active
   };
 
   const onIframeLoadTask = () => {
@@ -47,7 +63,7 @@ const InvestEdgeLeftVideo = () => {
 
   return (
     <div className={styles.left_ieContent} ref={liveStreamRef}>
-      {!isVisible ? (
+      {!isVisible || activeVideoId !== videoId ? (
         <div className={styles.videoShowWrapper} onClick={loadVideoIframe}>
           <img
             src="https://economictimes.indiatimes.com/photo/112520689.cms"
@@ -58,13 +74,15 @@ const InvestEdgeLeftVideo = () => {
           <span className={styles.playButton}>&#9658;</span>
         </div>
       ) : (
-        <VideoEmbed
-          url={
-            "https://etdev8243.indiatimes.com/videodash.cms?autostart=1&msid=112619727&tpname=investedge&widget=video&skipad=true&primeuser=0&ismktwebpre=true"
-          }
-          showLoader={showLoader}
-          onIframeLoadTask={onIframeLoadTask}
-        />
+        <div className={styles.vid}>
+          <VideoEmbed
+            url={
+              "https://etdev8243.indiatimes.com/videodash.cms?autostart=1&msid=112619727&tpname=investedge&widget=video&skipad=true&primeuser=0&ismktwebpre=true"
+            }
+            showLoader={showLoader}
+            onIframeLoadTask={onIframeLoadTask}
+          />
+        </div>
       )}
       <h3>How Does Stock Split Work</h3>
       <div className={styles.videoDetails}>
