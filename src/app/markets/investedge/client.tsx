@@ -125,29 +125,7 @@ const InvestEdgeClient = () => {
               activeVideoId={activeVideoId}
               setActiveVideoId={setActiveVideoId}
             />
-            {/* <div className={styles.left_ieContent}>
-                    {!loadVideo ? (
-                        <div className={styles.videoShowWrapper} onClick={loadVideoIframe}>
-                            <img src="https://economictimes.indiatimes.com/photo/112520689.cms" alt="Ram Charan" title="" fetchPriority="high" />
-                            <span className={styles.playButton}>&#9658;</span>
-                        </div>
-                    ) : (
-                        <VideoEmbed url={"https://economictimes.indiatimes.com/videodash.cms?autostart=1&amp;msid=112619727&amp;tpname=investedge&amp;widget=video&amp;skipad=false&amp;primeuser=0"} showLoader={showLoader} onIframeLoadTask={onIframeLoadTask} />
-                    )}
-                        <h3>How Does Stock Split Work</h3>
-                        <div className={styles.videoDetails}>
-                            <span className={styles.date}>14th Aug, 2024</span>
-                            <span className={styles.dash}>|</span>
-                            <span className={styles.duration}>Duration: 10:00</span>
-                            <span className={styles.dash}>|</span>
-                            <span className={styles.views}>Views: 100</span>
-                        </div>
-                        <div className={styles.socialDetails}>
-                            <span>Share</span>
-                            <span>Post</span>
-                            <span>Comment</span>
-                        </div>
-                    </div> */}
+
             <div className={styles.right_ieContent}>
               <SlickSlider
                 slides={masterClass?.map((slide: any, index: any) => ({
@@ -166,7 +144,11 @@ const InvestEdgeClient = () => {
         <div className={styles.ieBox}>
           <h2>Mutual Funds</h2>
           <div className={styles.ieBoxList}>
-            <InvestEdgeLeftVideo />
+            <InvestEdgeLeftVideo
+              videoId="video2"
+              activeVideoId={activeVideoId}
+              setActiveVideoId={setActiveVideoId}
+            />
             <div className={styles.right_ieContent}>
               <SlickSlider
                 slides={masterClass?.map((slide: any, index: any) => ({
@@ -185,7 +167,11 @@ const InvestEdgeClient = () => {
         <div className={styles.ieBox}>
           <h2>Investment Styles</h2>
           <div className={styles.ieBoxList}>
-            <InvestEdgeLeftVideo />
+            <InvestEdgeLeftVideo
+              videoId="video3"
+              activeVideoId={activeVideoId}
+              setActiveVideoId={setActiveVideoId}
+            />
             <div className={styles.right_ieContent}>
               <SlickSlider
                 slides={masterClass?.map((slide: any, index: any) => ({
