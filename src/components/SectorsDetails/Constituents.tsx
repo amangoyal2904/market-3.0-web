@@ -28,43 +28,8 @@ const SectorsConstituents = React.memo(
     tableConfig,
     tabConfig,
     payload,
-    indicesNews,
-    liveblog,
   }: any) => {
     const constituentsRef = useRef<HTMLDivElement>(null);
-    const liveBlog = liveblog?.lb || {};
-    const indexNews = indicesNews?.Item?.[0]?.NewsItem ?? [];
-
-    const newsResponsive = [
-      {
-        breakpoint: 2561,
-        settings: {
-          slidesToShow: 7,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 1921,
-        settings: {
-          slidesToShow: 5,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 1601,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 1361,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-    ];
 
     const indicesResponsive = [
       {

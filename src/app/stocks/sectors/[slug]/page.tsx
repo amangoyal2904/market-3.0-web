@@ -8,10 +8,7 @@ import {
   fetchSectors,
   fetchSelectedSectors,
   fnGenerateMetaData,
-  // getIndicesFaqs,
-  getIndicesNews,
   getSectorsOverview,
-  getMarketsLiveBlog,
   getOtherSectors,
   getPeerSectors,
 } from "@/utils/utility";

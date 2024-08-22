@@ -97,14 +97,6 @@ const SectorsDetailsClient = ({
     [scrollToActiveContent, handleScroll],
   );
 
-  // useIntervalApiCall(
-  //   () => {
-  //     if (currentMarketStatus === "LIVE") refreshOverviewData();
-  //   },
-  //   refeshConfig.indicesDetail,
-  //   [currentMarketStatus],
-  // );
-
   return (
     <>
       <SectorsDetailsOverview

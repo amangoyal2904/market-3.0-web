@@ -6,9 +6,7 @@ import styles from "./Sectors.module.scss";
 import { getAllSectors } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "@/components/MarketStatus";
-import { trackingEvent } from "@/utils/ga";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
-import Link from "next/link";
 
 const SectorsClient = ({
   tableHeaderData = [],
@@ -60,7 +58,7 @@ const SectorsClient = ({
       if (currentMarketStatus === "LIVE" && !!fallbackWebsocket)
         updateTableData();
     },
-    refeshConfig.sectorsListing,
+    refeshConfig.indicesListing,
     [sortData, isPrime, currentMarketStatus, fallbackWebsocket],
   );
 
