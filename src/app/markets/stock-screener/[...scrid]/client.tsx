@@ -139,8 +139,7 @@ const StockScreeners = ({
   };
 
   const TabsAndTableDataChangeHandler = () => {
-    const ssoid = getCookie("ssoid");
-    updateTabData(ssoid);
+    updateTabData();
   };
 
   const removePersonaliseViewFun = (viewId: any) => {
@@ -445,7 +444,7 @@ const StockScreeners = ({
     }
   };
 
-  const updateTabData = async (ssoid: any) => {
+  const updateTabData = async () => {
     const { tabData, activeViewId } = await getScreenerTabViewData({
       type: "screenerGetViewById",
       ssoid,
@@ -687,8 +686,8 @@ const StockScreeners = ({
   }, [_payload]);
 
   useEffect(() => {
-    if (ssoidAtServerEnd != ssoid) {
-      updateTabData(ssoid);
+    if (!!ssoid && ssoidAtServerEnd != ssoid) {
+      updateTabData();
     }
   }, [ssoid]);
 
