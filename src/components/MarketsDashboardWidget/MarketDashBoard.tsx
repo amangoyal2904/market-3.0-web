@@ -239,6 +239,7 @@ function MarketDashBoard(props: propsType) {
         l1NavTracking="Markets"
         l2NavTracking="Market Dashboard Widget"
         setFallbackWebsocket={setFallbackWebsocket}
+        socketDataType="stock"
       />
       {dashBoardTableData.length ? (
         <ViewAllLink text="View All Stocks" link={shortURL} />

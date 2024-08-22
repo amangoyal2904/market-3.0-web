@@ -163,6 +163,36 @@ const getLiPath = (router: string, pagePath: string) => {
         item: { "@id": "/markets/indices" },
       },
     };
+  } else if (router == "/stocks/sectors") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Sectors
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router.includes("/sectors/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/stocks/sectors" title="Sectors">
+            Sectors
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: {
+        "@type": "ListItem",
+        position: "3",
+        name: "Sectors",
+        item: { "@id": "/stocks/sectors" },
+      },
+    };
   } else if (router == "/watchlist") {
     return {
       showNextLi: false,

@@ -198,7 +198,15 @@ const Header = () => {
               />
             </Link>
           </div>
-
+          <div className={styles.switchToEt}>
+            <a
+              href="https://economictimes.indiatimes.com/"
+              className={styles.switchTxtSec}
+              target="_blank"
+            >
+              Switch To <span>ET</span>
+            </a>
+          </div>
           <div
             className={`dflex align-item-center ${styles.headerRightContainer}`}
           >
@@ -207,7 +215,7 @@ const Header = () => {
             </div>
             <div className={`dflex align-item-center`}>
               {shouldRenderComponent && <LiveMarketData />}
-              <Link
+              {/* <Link
                 className="default-btn"
                 href="/watchlist"
                 title="My Watchlist"
@@ -220,7 +228,7 @@ const Header = () => {
                 }
               >
                 My Watchlist
-              </Link>
+              </Link> */}
               {!isPrime && (
                 <span
                   className={`default-btn ${styles.subscribeBtn}`}

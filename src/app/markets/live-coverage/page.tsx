@@ -16,7 +16,6 @@ import {
   fetchInvestMentData,
   fnGenerateMetaData,
   getBuySellTechnicals,
-  getMarketsLiveBlog,
   saveLogs,
 } from "@/utils/utility";
 import AdInfo from "@/components/Ad/AdInfo/homeAds.json";
@@ -70,20 +69,16 @@ const LiveCoverage = async () => {
   const fetchTopNews = async () => {
     try {
       const response = await service.get({
-        url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=53282427`,
+        url: `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/feed_livecoverage_topnews.cms?feedtype=etjson&platform=web`,
         params: {},
       });
-      const data = response ? await response?.json() : {};
-      const topNewsData =
-        (data &&
-          data.searchResult &&
-          data.searchResult[0] &&
-          data.searchResult[0].data) ||
-        [];
-      const topNewsFilteredData = topNewsData?.filter(
-        (data: { type: string }) => data.type === "articleshow",
-      );
-      return topNewsFilteredData;
+      if (response && response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        // Handle cases where response is undefined or not successful
+        return [];
+      }
     } catch (e) {
       console.log("error in fetching top news", e);
       saveLogs({
@@ -215,7 +210,6 @@ const LiveCoverage = async () => {
   );
 
   const topNewsData = await fetchTopNews();
-  const { liveblog } = await getMarketsLiveBlog();
   const investmentData = await fetchInvestMentData();
   const indicesData = await getIndicesWidgetData();
   const fiiDiiData = await fetchFiiDIIData();
@@ -225,7 +219,6 @@ const LiveCoverage = async () => {
       <IndicesWidget
         data={indicesData}
         topNewsData={topNewsData}
-        liveblog={liveblog}
         fiiDiiCash={fiiDiiData}
       />
       <MarketsDashboardWidget />

@@ -11,7 +11,7 @@ import {
 import GLOBAL_CONFIG from "../network/global_config.json";
 import { getUserType, trackingEvent } from "@/utils/ga";
 import { useStateContext } from "@/store/StateContext";
-import renderDfpAds from "@/components/Ad/AdScript";
+import { renderDfpAds, loadAndBeyondScript } from "@/components/Ad/AdScript";
 import { sendMouseFlowEvent } from "../utils/utility";
 interface Props {
   isprimeuser?: number | boolean;
@@ -106,6 +106,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
         : document.addEventListener("gptLoaded", function () {
             renderDfpAds(isPrime);
           });
+      loadAndBeyondScript(isPrime);
       if (window.isSurveyLoad) {
         surveyLoad();
       } else {

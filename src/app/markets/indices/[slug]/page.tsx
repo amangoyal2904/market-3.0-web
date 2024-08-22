@@ -119,7 +119,6 @@ const Indices = async ({ params }: any) => {
 
   const { tableHeaderData, tableData, pageSummary, payload } =
     await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
-
   return (
     <Fragment key="indices">
       <IndicesDetailsClient

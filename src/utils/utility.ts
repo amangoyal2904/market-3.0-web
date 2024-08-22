@@ -16,6 +16,17 @@ declare global {
   }
 }
 
+type FiiDiiApiType =
+  | "FIIDII_CASHPROVISIONAL"
+  | "FIIDII_FIICASH"
+  | "FIIDII_FANDOCASH"
+  | "FIIDII_MFCASH";
+
+interface FiiDiiApiParams {
+  filterType: string;
+  apiType?: string;
+}
+
 const convertJSONToParams = (jsonObject: any) => {
   let paramsArray = [];
   for (let key in jsonObject) {
@@ -214,7 +225,7 @@ export const fnGenerateMetaData = (meta?: any) => {
       },
     },
     icons: {
-      icon: "/marketsweb/img/etfavicon.ico",
+      icon: "https://economictimes.indiatimes.com/icons/etfavicon.ico",
     },
   };
 };
@@ -358,6 +369,8 @@ export const getStockUrl = (
 ) => {
   if (stockType === "index") {
     return "/markets/indices/" + seoName;
+  } else if (stockType === "sector") {
+    return "/stocks/sectors/" + seoName;
   } else {
     if (seoName?.indexOf(" ") >= 0) {
       seoName = seoName
@@ -927,6 +940,15 @@ export const getIndicesFaqs = async (indexid: number) => {
   return originalJson;
 };
 
+export const getFiiDiiSummaryData = async (apitype: string) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.FIIDII_SUMMARY[APP_ENV]}?apitype=${apitype}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
 export const getDaywiseActivityData = async () => {
   const response = await Service.get({
     url: (APIS_CONFIG as any)?.FIIDII_OVERVIEW[APP_ENV],
@@ -936,38 +958,18 @@ export const getDaywiseActivityData = async () => {
   return originalJson;
 };
 
-export const getCashData = async (filterType: string) => {
-  const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.FIIDII_CASHPROVISIONAL[APP_ENV]}?filterType=${filterType}`,
-    params: {},
-  });
-  const originalJson = await response?.json();
-  return originalJson;
-};
+export const getFiiDiiData = async (
+  apiType: FiiDiiApiType,
+  params: FiiDiiApiParams,
+) => {
+  const { filterType, apiType: extraApiType } = params;
+  let url = `${(APIS_CONFIG as any)?.[apiType][APP_ENV]}?filterType=${filterType}`;
 
-export const getFiiCashData = async (filterType: string) => {
-  const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.FIIDII_FIICASH[APP_ENV]}?filterType=${filterType}`,
-    params: {},
-  });
-  const originalJson = await response?.json();
-  return originalJson;
-};
+  if (extraApiType) {
+    url += `&apiType=${extraApiType}`;
+  }
 
-export const getFandOCashData = async (filterType: string, apiType: string) => {
-  const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.FIIDII_FANDOCASH[APP_ENV]}?filterType=${filterType}&apiType=${apiType}`,
-    params: {},
-  });
-  const originalJson = await response?.json();
-  return originalJson;
-};
-
-export const getMfCashData = async (filterType: string) => {
-  const response = await Service.get({
-    url: `${(APIS_CONFIG as any)?.FIIDII_MFCASH[APP_ENV]}?filterType=${filterType}`,
-    params: {},
-  });
+  const response = await Service.get({ url, params: {} });
   const originalJson = await response?.json();
   return originalJson;
 };
@@ -1447,4 +1449,127 @@ export const sendMouseFlowEvent = async (): Promise<void> => {
   } catch (error) {
     console.error("Failed to load Mouseflow script", error);
   }
+};
+export const fetchSectors = async () => {
+  try {
+    const apiUrl = (APIS_CONFIG as any)?.["SECTORS_LIST"][APP_ENV];
+    const response = await Service.get({
+      url: apiUrl,
+      params: {},
+    });
+    return response?.json();
+  } catch (e) {
+    console.log("error in fetching indices data", e);
+    saveLogs({
+      type: "Mercury",
+      res: "error",
+      msg: "Error in fetching indices data",
+    });
+  }
+};
+export const fetchSelectedSectors = async (
+  seoNameOrIndexId?: string | number,
+) => {
+  try {
+    const data = await fetchSectors();
+
+    // Check if data is defined and is an array
+    if (!Array.isArray(data)) {
+      return { name: "All Stocks", indexId: 0, seoname: "", exchange: "nse" };
+    }
+
+    let filteredIndex;
+    if (seoNameOrIndexId) {
+      filteredIndex = data.find((item: any) => {
+        return (
+          item.assetSeoName === seoNameOrIndexId ||
+          item.assetId === seoNameOrIndexId
+        );
+      });
+    }
+
+    return (
+      filteredIndex || {
+        name: "All Stocks",
+        indexId: 0,
+        seoname: "",
+        exchange: "nse",
+      }
+    );
+  } catch (error) {
+    console.error("Error fetching filters:", error);
+    return { name: "All Stocks", indexId: 0, seoname: "", exchange: "nse" };
+  }
+};
+export const getAllSectors = async (sortField: any, sortOrder: string) => {
+  try {
+    let apiUrl = `${(APIS_CONFIG as any)?.ALLSECTORS[APP_ENV]}?sortedField=${sortField}&sortedOrder=${sortOrder}`;
+
+    const response = await Service.get({
+      url: apiUrl,
+      params: {},
+    });
+
+    if (!response || !response.ok) {
+      throw new Error(`HTTP error! Status: ${response?.status}`);
+    }
+
+    const responseData = await response.json();
+    let tableData: any[] = [];
+    let tableHeaderData: any[] = [];
+    let unixDateTime = new Date().getTime();
+
+    if (responseData?.dataList?.length > 0) {
+      tableData = responseData.dataList;
+      if (tableData[0]?.data) {
+        tableHeaderData = tableData[0].data;
+      }
+    }
+
+    if (responseData?.dateTime) {
+      unixDateTime = responseData.dateTime * 1000;
+    }
+
+    return {
+      tableHeaderData,
+      tableData,
+      unixDateTime,
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    // Return default values on error
+    return {
+      tableHeaderData: [],
+      tableData: [],
+      unixDateTime: new Date().getTime(),
+    };
+  }
+};
+export const getSectorsOverview = async (indexid: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.SECTORS_OVERVIEW[APP_ENV]}?sectorId=${indexid}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+
+export const getPeerSectors = async (indexid: number) => {
+  let serviceUrl = `${(APIS_CONFIG as any)?.SECTORS_PEER[APP_ENV]}?sectorIds=${indexid}`;
+
+  console.log("@@@@ serviceUrl", serviceUrl);
+  const response = await Service.get({
+    url: serviceUrl,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+export const getOtherSectors = async (indexid: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.SECTORS_OTHER[APP_ENV]}?sectorIds=${indexid}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
 };

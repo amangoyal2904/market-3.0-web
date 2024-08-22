@@ -229,7 +229,7 @@ export const getPageName = (pageURL = "") => {
     pageName = "Mercury_BigBull";
   } else if (pagePathName.includes("/stockreportsplus")) {
     pageName = "Mercury_StockReportPlus";
-  } else if (pagePathName.includes("/fiidii")) {
+  } else if (pagePathName.includes("/fii-dii-activity")) {
     pageName = "Mercury_FII/DII";
   } else if (pagePathName.includes("/watchlist")) {
     pageName = "Mercury_Watchlist";

@@ -203,7 +203,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
         tableConfig={tableConfig["stocksScreener"]}
         tabConfig={tabConfig["stocksScreener"]}
         payload={payload}
-        ssoid={ssoid}
+        ssoidAtServerEnd={ssoid}
         isprimeuser={isprimeuser}
         screenerDetail={screenerDetail}
         scrid={scrid}

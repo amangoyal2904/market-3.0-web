@@ -62,12 +62,12 @@
     }
   },
   "AUTH_TOKEN": {
-    "development": "https://qa-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web",
-    "production": "https://oauth2.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web"
+    "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web",
+    "production": "https://oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token?frm=market_web"
   },
   "LOGOUT_AUTH_TOKEN": {
     "development": "https://qa1-oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout",
-    "production": "https://oauth2.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout"
+    "production": "https://oauth.economictimes.indiatimes.com/oauth/api/merchant/ET/token/logout"
   },
   "INDICES_LIST": {
     "development": "https://etapi.indiatimes.com/et-screener/indices-data",
@@ -136,6 +136,10 @@
   "INDICES_FAQ": {
     "development": "https://screener.indiatimes.com/screener/indexFaq",
     "production": "https://screener.indiatimes.com/screener/indexFaq"
+  },
+  "FIIDII_SUMMARY": {
+    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/fiiDiiSummary.json",
+    "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/fiiDiiSummary.json"
   },
   "FIIDII_OVERVIEW": {
     "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json",
@@ -416,7 +420,7 @@
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/all-investor-overview"
   },
   "BigBullInvestorOverview": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-overview",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/investor-overview",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-overview"
   },
   "BigBullFreshEntryExit": {
@@ -424,19 +428,19 @@
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/fresh-entry-exit"
   },
   "BigBullHolding": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/holdings",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/holdings",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/holdings"
   },
   "BigBullHoldingChanges": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/holdings-changes",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/holdings-changes",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/holdings-changes"
   },
   "BigBullBulkBlockDeal": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/bulk-block-deals",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/bulk-block-deals",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/bulk-block-deals"
   },
   "BigBullInvestorPortfolioOverview": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-portfolio-overview",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/investor-portfolio-overview",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-portfolio-overview"
   },
   "BuySellTechnical": {
@@ -478,5 +482,29 @@
   "META_INFO": {
     "development": "https://etapipre.indiatimes.com/api/mercury/metainfo",
     "production": "https://etpwaapi.economictimes.com/api/mercury/metainfo"
+  },
+  "SECTORS_LIST": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/sectors-seo-data",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/sectors-seo-data"
+  },
+  "ALLSECTORS": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-listing-data",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-listing-data"
+  },
+  "SECTORS_OVERVIEW": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-summary",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-summary"
+  },
+  "SECTORS_CONSITUENTS": {
+    "development": "https://etapi.indiatimes.com/et-screener/intraday-stats",
+    "production": "https://etapi.indiatimes.com/et-screener/intraday-stats"
+  },
+  "SECTORS_PEER": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-peers-performance",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-peers-performance"
+  },
+  "SECTORS_OTHER": {
+    "development": "https://qcbselivefeeds.indiatimes.com/et-screener/other-sectors",
+    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/other-sectors"
   }
 }
