@@ -26,8 +26,9 @@ declare global {
 
 declare var ssoWidget: any;
 
-// export const APP_ENV = (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || "production";
-export const APP_ENV = "development";
+export const APP_ENV =
+  (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || "production";
+// export const APP_ENV = "development";
 
 export const customImageLoader = ({
   src,
