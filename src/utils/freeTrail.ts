@@ -18,7 +18,6 @@ export const freeTrialElegibilty = () => {
 };
 
 export const activateFreeTrial = async () => {
-  const isLive = APP_ENV == "development" ? 0 : 1;
   const storedData = jStorageReact.get("et_freetrial");
 
   try {
@@ -30,7 +29,7 @@ export const activateFreeTrial = async () => {
         datatype: "json",
         params: {},
         headers: {
-          "X-CLIENT-ID": (GLOBAL_CONFIG as any)["development"]["X_CLIENT_ID"],
+          "X-CLIENT-ID": (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],
           "Content-Type": "application/json",
           "X-TOKEN": getCookie("OTR"),
         },
