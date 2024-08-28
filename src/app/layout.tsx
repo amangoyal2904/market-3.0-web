@@ -2,6 +2,7 @@ import { Montserrat, Lato } from "next/font/google";
 import localFont from "next/font/local";
 import "../styles/globals.scss";
 import { cookies, headers } from "next/headers";
+import AccessFreeTrial from "@/components/AccessFreeTrial";
 import { StateProvider } from "@/store/StateContext";
 import NextTopLoader from "nextjs-toploader";
 import { Metadata } from "next";
@@ -80,6 +81,7 @@ export default async function RootLayout({
               {children}
             </FullLayout>
           )}
+          <AccessFreeTrial />
           <Toaster position="bottom-right" reverseOrder={false} />
         </StateProvider>
       </body>

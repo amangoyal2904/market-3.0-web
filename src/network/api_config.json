@@ -471,6 +471,10 @@
     "development": "ws://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW",
     "production": "wss://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW"
   },
+  "ACCESS_PASS": {
+    "development": "https://qcsubscription.economictimes.indiatimes.com/subscription/merchant/ET/product/ETPR/geoRegion/IN/code/ACCESSPASS/generateAccessPass",
+    "production": "https://subscriptions.economictimes.indiatimes.com/subscription/merchant/ET/product/ETPR/geoRegion/IN/code/ACCESSPASS/generateAccessPass"
+  },
   "ALL_USER_SUBSCRIPTIONS": {
     "development": "https://subscriptions.economictimes.indiatimes.com/subscription/allUserSubscriptions",
     "production": "https://subscriptions.economictimes.indiatimes.com/subscription/allUserSubscriptions"
