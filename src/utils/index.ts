@@ -422,10 +422,6 @@ export const loadPrimeApi = async () => {
 };
 export const loadPrimeApiNew = async () => {
   try {
-    console.log(
-      "API URL TOKEN--->",
-      (APIS_CONFIG as any)["AUTH_NEW_TOKEN"][APP_ENV],
-    );
     const url =
         (APIS_CONFIG as any)["AUTH_NEW_TOKEN"][APP_ENV] +
         "&grantType=refresh_token",
