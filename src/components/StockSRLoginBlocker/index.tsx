@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
 import styles from "./StockSRLoginBlocker.module.scss";
@@ -24,16 +24,11 @@ export default function StockSRLoginBlocker({
   srTabActivemenu,
   stockname,
 }: StockSRLoginBlockerProps) {
-  const [validAccessPass, setValidAccessPass] = useState(false);
+  const validAccessPass = freeTrialElegibilty();
   const modalRef = useRef<HTMLDivElement>(null);
   const loginHandler = () => {
     initSSOWidget();
   };
-
-  useEffect(() => {
-    const isValidAccessPass = freeTrialElegibilty();
-    setValidAccessPass(isValidAccessPass);
-  }, []);
 
   const objTracking = {
     category: "Subscription Flow ET",

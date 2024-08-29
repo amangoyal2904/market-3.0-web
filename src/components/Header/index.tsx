@@ -24,6 +24,7 @@ const LiveMarketData = dynamic(() => import("../LiveMarketData"), {
 });
 
 const Header = () => {
+  const validAccessPass = freeTrialElegibilty();
   const { state, dispatch } = useStateContext();
   const { isPrime } = state.login;
   const { debounce } = useDebounce();
@@ -37,7 +38,6 @@ const Header = () => {
     currentMarketStatus: "",
     marketStatus: "",
   });
-  const [validAccessPass, setValidAccessPass] = useState(false);
 
   const handleResize = useCallback(() => {
     setShouldRenderComponent(window.innerWidth >= 1280);
@@ -91,9 +91,6 @@ const Header = () => {
   useEffect(() => {
     let isMounted = true;
     let timeoutId: number;
-
-    const isValidAccessPass = freeTrialElegibilty();
-    setValidAccessPass(isValidAccessPass);
 
     const getMarketStatus = async () => {
       if (document.visibilityState !== "visible") {

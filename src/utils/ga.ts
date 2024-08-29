@@ -1,4 +1,7 @@
 // @ts-nocheck
+import { usePathname } from "next/navigation";
+import jStorageReact from "jstorage-react";
+
 import { getCookie } from "@/utils";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
@@ -6,7 +9,6 @@ import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import grxMappingObj from "@/utils/grxMappingObj.json";
 import cdpObj from "@/utils/cdpObj.json";
-import { usePathname } from "next/navigation";
 declare global {
   interface Window {
     trackingEvent: (type: string, gaData: object) => void;
@@ -328,6 +330,26 @@ export const updateGtm = (_gtmEventDimension, prevPath) => {
     _gtmEventDimension["user_region"] = window?.geoinfo.region_code;
     _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
     _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
+
+    const savedFreeTrialData = jStorageReact.get("et_freetrial") || {};
+    const isAPUser = window?.objUser?.userAcquisitionType === "ACCESS_PASS";
+
+    if (Object.keys(savedFreeTrialData).length) {
+      if (window?.objUser?.info?.primaryEmail && isAPUser) {
+        const now = +new Date();
+        const expiryDate = +new Date(window?.objUser?.userAcquisitionType);
+        _gtmEventDimension["experiment_variant_name"] =
+          "Free Trial_" + (expiryDate < now ? "Expired" : "Activated");
+      } else if (
+        savedFreeTrialData.eligible &&
+        !window?.objUser?.permissions?.includes("subscribed")
+      ) {
+        _gtmEventDimension["experiment_variant_name"] = "Free Trial_Eligible";
+      }
+    } else {
+      delete _gtmEventDimension["experiment_variant_name"];
+    }
+
     return _gtmEventDimension;
   } catch (e) {
     console.log("Error", e);
@@ -405,6 +427,7 @@ export const generateGrxFunnel = (prevPath) => {
     objGrx["dimension152"] = document.title;
     objGrx["dimension153"] =
       window.location.pathname == prevPath ? "" : prevPath;
+
     return objGrx;
   } catch (e) {
     console.log("Error ", e);

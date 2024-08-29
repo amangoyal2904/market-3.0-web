@@ -1,8 +1,12 @@
-import styles from "./styles.module.scss";
-import ETLogo from "../../../../../public/img/et-markets-logo.svg";
-import Image from "next/image";
-import { redirectToPlanPage } from "@/utils/ga";
 import { useEffect } from "react";
+import Image from "next/image";
+
+import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
+import { redirectToPlanPage } from "@/utils/ga";
+
+import ETLogo from "../../../../../public/img/et-markets-logo.svg";
+import styles from "./styles.module.scss";
+
 const RightSideStrip = ({
   nudgeType,
   closeHandler,
@@ -10,6 +14,7 @@ const RightSideStrip = ({
   buttonText,
   buttonSubText,
 }: any) => {
+  const validAccessPass = freeTrialElegibilty();
   const checkUserType = (value: string) => {
     let lableText = "";
     if (value === "type1") {
@@ -19,6 +24,7 @@ const RightSideStrip = ({
     }
     return lableText;
   };
+
   const objTracking = {
     category: "Subscription Flow ET",
     action: "Flow Started | SYFT",
@@ -39,11 +45,17 @@ const RightSideStrip = ({
       cta_text: buttonText,
     },
   };
+
+  const planRedirection = () => {
+    validAccessPass ? activateFreeTrial() : redirectToPlanPage(objTracking);
+  };
+
   useEffect(() => {
     const newObjTracking = { ...objTracking };
     newObjTracking.action = "Blocker impression";
     redirectToPlanPage(newObjTracking, "view_item_list", false);
   }, []);
+
   return (
     <>
       <div className={`${styles.mainWraper} ${styles[nudgeType]}`}>
@@ -68,11 +80,8 @@ const RightSideStrip = ({
               ) : (
                 ""
               )}
-              <span
-                className={styles.btnEtPrime}
-                onClick={() => redirectToPlanPage(objTracking)}
-              >
-                {buttonText}
+              <span className={styles.btnEtPrime} onClick={planRedirection}>
+                {validAccessPass ? "Start Free Trial" : buttonText}
               </span>
             </div>
           </div>

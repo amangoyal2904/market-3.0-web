@@ -1,5 +1,7 @@
 import styles from "./styles.module.scss";
 import Image from "next/image";
+
+import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
 import { redirectToPlanPage } from "@/utils/ga";
 import { useEffect } from "react";
 const PrimeToolBanner = ({
@@ -9,6 +11,7 @@ const PrimeToolBanner = ({
   btnTxt,
   subBannerText,
 }: any) => {
+  const validAccessPass = freeTrialElegibilty();
   const checkUserType = (value: string) => {
     let lableText = "";
     if (value === "a") {
@@ -38,6 +41,11 @@ const PrimeToolBanner = ({
       cta_text: btnTxt,
     },
   };
+
+  const planRedirection = () => {
+    validAccessPass ? activateFreeTrial() : redirectToPlanPage(objTracking);
+  };
+
   useEffect(() => {
     const newObjTracking = { ...objTracking };
     newObjTracking.action = "Blocker impression";
@@ -74,11 +82,8 @@ const PrimeToolBanner = ({
             )}
             <p className={styles.info_text}>{bannerText}</p>
           </div>
-          <span
-            className={styles.info_cta}
-            onClick={() => redirectToPlanPage(objTracking)}
-          >
-            {btnTxt}
+          <span className={styles.info_cta} onClick={planRedirection}>
+            {validAccessPass ? "Start Free Trial" : btnTxt}
           </span>
           <span
             className={styles.info_cross}

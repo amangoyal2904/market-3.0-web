@@ -9,7 +9,6 @@ import { APP_ENV } from "@/utils";
 import { useEffect, useState } from "react";
 import { redirectToPlanPage } from "@/utils/ga";
 import SubscribeBtn from "./SubscribeBtn";
-import nonprimebgImg from "../../../public/img/nonprimebg.png";
 
 const NonPrimeBlockerModule = ({
   oncloseModule,
@@ -20,11 +19,12 @@ const NonPrimeBlockerModule = ({
   const { isLogin, isPrime } = state.login;
   const [ctaTxt, setCtaTxt] = useState("");
   const [text, setText] = useState("");
+  const validAccessPass = freeTrialElegibilty();
+
   const signHandler = () => {
     oncloseModule();
     initSSOWidget();
   };
-  const [validAccessPass, setValidAccessPass] = useState(false);
 
   const getDataFromMetalist = async () => {
     const apiUrl = (APIS_CONFIG as any)?.["DOMAIN"][APP_ENV];
@@ -66,8 +66,6 @@ const NonPrimeBlockerModule = ({
   };
   useEffect(() => {
     getDataFromMetalist();
-    const isValidAccessPass = freeTrialElegibilty();
-    setValidAccessPass(isValidAccessPass);
   }, []);
 
   return (
