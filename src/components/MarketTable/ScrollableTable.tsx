@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+
+import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
+import { redirectToPlanPage } from "@/utils/ga";
 import styles from "./MarketTable.module.scss";
 import { dateFormat } from "@/utils";
-import { redirectToPlanPage } from "@/utils/ga";
-import Image from "next/image";
 
 const ScrollableTable = React.memo((props: any) => {
   const {
@@ -35,6 +37,12 @@ const ScrollableTable = React.memo((props: any) => {
   } = tableConfig || {};
   const prevTableDataListRef = useRef<any>([]);
   const scrollableTableRef = useRef<HTMLDivElement>(null);
+  const [validAccessPass, setValidAccessPass] = useState(false);
+
+  useEffect(() => {
+    const isValidAccessPass = freeTrialElegibilty();
+    setValidAccessPass(isValidAccessPass);
+  }, []);
 
   useEffect(() => {
     prevTableDataListRef.current = tableDataList;
@@ -106,6 +114,16 @@ const ScrollableTable = React.memo((props: any) => {
       sessionStorage.setItem("showedScroll", "1");
     }
   }, [isInViewPort]);
+
+  const plansNavigation = (flag: string) => {
+    if (validAccessPass) {
+      activateFreeTrial();
+    } else {
+      objTracking.obj.item_category3 = flag;
+      objTracking.cdp["cta_text"] = "Upgrade to Prime";
+      redirectToPlanPage(objTracking);
+    }
+  };
 
   const prevTableDataList = prevTableDataListRef.current;
 
@@ -267,14 +285,10 @@ const ScrollableTable = React.memo((props: any) => {
                         title={tdData.valueType == "text" ? tdData.value : null}
                       >
                         {!isPrime && tdData.primeFlag ? (
-                          <span
-                            onClick={() => {
-                              objTracking.obj.item_category3 = tdData.keyText;
-                              objTracking.cdp["cta_text"] = "Upgrade to Prime";
-                              redirectToPlanPage(objTracking);
-                            }}
-                          >
-                            Upgrade to Prime
+                          <span onClick={() => plansNavigation(tdData.keyText)}>
+                            {validAccessPass
+                              ? "Start 15 Days Trial"
+                              : "Upgrade to Prime"}
                           </span>
                         ) : (
                           <>

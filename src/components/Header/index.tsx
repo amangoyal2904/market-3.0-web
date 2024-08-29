@@ -14,6 +14,8 @@ import { getCurrentMarketStatus } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
+import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
+
 const CommonNudge = dynamic(() => import("@/components/CommonNudge"), {
   ssr: false,
 });
@@ -35,6 +37,7 @@ const Header = () => {
     currentMarketStatus: "",
     marketStatus: "",
   });
+  const [validAccessPass, setValidAccessPass] = useState(false);
 
   const handleResize = useCallback(() => {
     setShouldRenderComponent(window.innerWidth >= 1280);
@@ -42,30 +45,34 @@ const Header = () => {
 
   const redirectToPlanPage = () => {
     try {
-      const pagePathName = window.location.pathname;
-      let site_section = pagePathName.split("/");
-      let lastSlash = site_section[site_section.length - 1];
-      trackingEvent("et_push_event", {
-        event_category: "Subscription Flow ET",
-        event_action: "SYFT | Flow Started",
-        event_label: "ATF - " + window.location.href,
-      });
-      const obj = {
-        item_name: "atf_" + lastSlash,
-        item_id: "atf",
-        item_brand: "market_tools",
-        item_category: "atf_offer_cta",
-        item_category2: lastSlash,
-        item_category3: "atf_cta",
-        item_category4: "Subscribe Now",
-      };
-      const cdp = {
-        event_nature: "click",
-        event_category: "subscription",
-        event_name: "paywall",
-        cta_text: "Subscribe Now",
-      };
-      goToPlansPage1("select_item", obj, true, cdp);
+      if (validAccessPass) {
+        activateFreeTrial();
+      } else {
+        const pagePathName = window.location.pathname;
+        let site_section = pagePathName.split("/");
+        let lastSlash = site_section[site_section.length - 1];
+        trackingEvent("et_push_event", {
+          event_category: "Subscription Flow ET",
+          event_action: "SYFT | Flow Started",
+          event_label: "ATF - " + window.location.href,
+        });
+        const obj = {
+          item_name: "atf_" + lastSlash,
+          item_id: "atf",
+          item_brand: "market_tools",
+          item_category: "atf_offer_cta",
+          item_category2: lastSlash,
+          item_category3: "atf_cta",
+          item_category4: "Subscribe Now",
+        };
+        const cdp = {
+          event_nature: "click",
+          event_category: "subscription",
+          event_name: "paywall",
+          cta_text: "Subscribe Now",
+        };
+        goToPlansPage1("select_item", obj, true, cdp);
+      }
     } catch (Err) {
       console.log("redirectToPlanPage Err:", Err);
       goToPlansPage1("select_item", {}, true);
@@ -84,6 +91,9 @@ const Header = () => {
   useEffect(() => {
     let isMounted = true;
     let timeoutId: number;
+
+    const isValidAccessPass = freeTrialElegibilty();
+    setValidAccessPass(isValidAccessPass);
 
     const getMarketStatus = async () => {
       if (document.visibilityState !== "visible") {
@@ -232,7 +242,7 @@ const Header = () => {
                     title="Subscribe"
                     className={styles.prime_icon}
                   />
-                  Subscribe
+                  {validAccessPass ? "Start Free Trial" : "Subscribe"}
                 </span>
               )}
               <Login />

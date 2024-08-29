@@ -14,7 +14,9 @@
   margin-bottom: 20px;
 
   .IndicesContainer {
+    position: relative;
     width: 70%;
+    overflow: hidden;
     &.fullWidth {
       width: 100%;
     }
@@ -193,6 +195,7 @@
 
   .dataWrapper {
     padding-top: 24px;
+    margin: 0 2px;
     .slick-slide {
       width: unset !important;
     }
@@ -226,6 +229,7 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    text-wrap: nowrap;
   }
 
   .indexPrice {
@@ -234,6 +238,7 @@
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    text-wrap: nowrap;
   }
 
   .indexChange {
@@ -241,6 +246,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: 16px;
+    text-wrap: nowrap;
   }
 }
 

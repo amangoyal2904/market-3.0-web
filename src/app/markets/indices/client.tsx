@@ -132,6 +132,7 @@ const IndicesClient = ({
         l3NavTracking={exchange}
         setUpdateDateTime={setUpdateDateTime}
         setFallbackWebsocket={setFallbackWebsocket}
+        socketDataType="index"
       />
     </>
   );

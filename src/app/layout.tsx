@@ -2,6 +2,7 @@ import { Montserrat, Lato } from "next/font/google";
 import localFont from "next/font/local";
 import "../styles/globals.scss";
 import { cookies, headers } from "next/headers";
+import AccessFreeTrial from "@/components/AccessFreeTrial";
 import { StateProvider } from "@/store/StateContext";
 import NextTopLoader from "nextjs-toploader";
 import { Metadata } from "next";
@@ -23,7 +24,7 @@ const lato = Lato({
 });
 
 const eticons = localFont({
-  src: "./assets/fonts/eticons.woff",
+  src: "./assets/fonts/eticons-v2.woff",
   weight: "normal",
   display: "swap",
   variable: "--font-eticons",
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
   description:
     "Share Market Today | Share Market Live updates: Get all the Latest Share Market News and Updates on The Economic Times. Share Market Live Charts, News, Analysis, IPO News and more.",
   icons: {
-    icon: "/marketsweb/etfavicon.ico",
+    icon: "https://economictimes.indiatimes.com/icons/etfavicon.ico",
   },
 };
 
@@ -80,6 +81,7 @@ export default async function RootLayout({
               {children}
             </FullLayout>
           )}
+          <AccessFreeTrial />
           <Toaster position="bottom-right" reverseOrder={false} />
         </StateProvider>
       </body>

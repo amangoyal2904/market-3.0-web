@@ -1,6 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import jStorageReact from "jstorage-react";
+
+import { activateFreeTrial } from "@/utils/freeTrail";
 import styles from "./Login.module.scss";
 import {
   APP_ENV,
@@ -94,11 +97,19 @@ const Login = () => {
         window.objUser.primeInfo = oauthAPiRes;
         window.objUser.isPrime = isPrime;
         setCookieToSpecificTime("isprimeuser", isPrime, 30, 0, 0, "");
-        if (primeRes && primeRes.data && primeRes.data.token) {
-          setCookieToSpecificTime("OTR", primeRes.data.token, 30, 0, 0);
+        if (primeRes?.data?.token) {
+          setCookieToSpecificTime("OTR", primeRes?.data?.token, 30, 0, 0, "");
         }
         setCookieToSpecificTime("etprc", oauthAPiRes.prc, 30, 0, 0);
         trackingEvent("user_profile_create", { url: window.location.href });
+
+        const freeTrialData = jStorageReact.get("et_freetrial");
+        console.log(freeTrialData, "freeTrialData");
+        if (freeTrialData?.hitAccessPass) {
+          setTimeout(() => {
+            activateFreeTrial();
+          }, 500);
+        }
 
         saveLogs({
           type: "Mercury",

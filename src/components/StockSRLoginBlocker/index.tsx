@@ -1,7 +1,10 @@
+import { useEffect, useRef, useState } from "react";
+
+import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
 import styles from "./StockSRLoginBlocker.module.scss";
-import { useEffect, useRef } from "react";
 import { redirectToPlanPage } from "../../utils/ga";
 import { initSSOWidget } from "../../utils";
+
 interface StockSRLoginBlockerProps {
   isLoginUser: any;
   handleClick: any;
@@ -21,10 +24,16 @@ export default function StockSRLoginBlocker({
   srTabActivemenu,
   stockname,
 }: StockSRLoginBlockerProps) {
+  const [validAccessPass, setValidAccessPass] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const loginHandler = () => {
     initSSOWidget();
   };
+
+  useEffect(() => {
+    const isValidAccessPass = freeTrialElegibilty();
+    setValidAccessPass(isValidAccessPass);
+  }, []);
 
   const objTracking = {
     category: "Subscription Flow ET",
@@ -48,7 +57,7 @@ export default function StockSRLoginBlocker({
   };
 
   const planPageHandler = () => {
-    redirectToPlanPage(objTracking);
+    validAccessPass ? activateFreeTrial() : redirectToPlanPage(objTracking);
   };
 
   useEffect(() => {
@@ -77,9 +86,13 @@ export default function StockSRLoginBlocker({
           <div className={styles.prime}>ETPrime</div>
         </div>
         <h2 className={styles.hl}>{overlayBlockerData.textForData}</h2>
-        <h5 className={styles.desc}>{overlayBlockerData.textBenefits}</h5>
+        <h5 className={styles.desc}>
+          {validAccessPass
+            ? "Activate your 15 days free trial and unlock all reports now."
+            : overlayBlockerData.textBenefits}
+        </h5>
         <div className={styles.planCta} onClick={planPageHandler}>
-          {overlayBlockerData.ctaText}
+          {validAccessPass ? "Start Free Trial" : overlayBlockerData.ctaText}
         </div>
         {!isLoginUser && (
           <p className={styles.helpTxt}>

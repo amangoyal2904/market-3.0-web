@@ -297,7 +297,6 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
           )}
           <div className={styles.bottomWidgets}>
             <Link
-              target="_blank"
               href="/markets/stock-market-mood"
               title="Advance/Decline"
               className={styles.widget}
@@ -355,20 +354,28 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                 )}
               </p>
             </Link>
-            <div className={styles.widget}>
+            <Link
+              className={styles.widget}
+              href="/markets/fii-dii-activity"
+              title="FII Cash"
+            >
               <FIIDIIWIdget
                 fiiDiiCash={fiiDiiCash}
                 fiiCash={fiiCash}
                 type="fiiEquity"
               />
-            </div>
-            <div className={styles.widget}>
+            </Link>
+            <Link
+              className={styles.widget}
+              href="/markets/fii-dii-activity"
+              title="DII Cash"
+            >
               <FIIDIIWIdget
                 fiiDiiCash={fiiDiiCash}
                 diiCash={diiCash}
                 type="diiEquity"
               />
-            </div>
+            </Link>
           </div>
         </div>
       </div>

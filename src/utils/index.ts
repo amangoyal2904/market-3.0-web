@@ -1,6 +1,8 @@
-import Service from "../network/service";
+import jStorageReact from "jstorage-react";
+
 import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
+import Service from "../network/service";
 import { createPeuuid } from "./utility";
 import service from "../network/service";
 import { getPageName } from "./ga";
@@ -26,6 +28,7 @@ declare var ssoWidget: any;
 
 export const APP_ENV =
   (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || "production";
+// export const APP_ENV = "development";
 
 export const customImageLoader = ({
   src,
@@ -295,9 +298,13 @@ export const initSSOWidget = () => {
     gaChannelName: "et",
     last_clicked_lob: "ET",
     signInCallback: function () {
+      const freeTrialData = jStorageReact.get("et_freetrial");
+      console.log(freeTrialData, "freeTrialData signInCallback");
       verifyLogin();
       ssoClose();
-      window.location.reload();
+      if (!freeTrialData || !freeTrialData?.hitAccessPass) {
+        window.location.reload();
+      }
     },
     signupForm: {
       defaultFirstName: "Guest",

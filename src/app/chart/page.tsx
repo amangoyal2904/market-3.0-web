@@ -1,8 +1,7 @@
 import { Metadata } from "next";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import ChartClient from "./clients";
 import { fnGenerateMetaData } from "@/utils/utility";
-import { getCookie, getParameterByName } from "@/utils";
 import {
   ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
@@ -25,11 +24,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const Chart = () => {
+  const headersList = headers();
+  const searchParams = new URLSearchParams(
+    headersList.get("x-searchparam") || "",
+  );
+
   const getSymbol = () => {
-    const symbl = getParameterByName("symbol")?.replace("&", "%26");
+    const symbl = searchParams.get("symbol")?.replace("&", "%26");
     const pairnameparent =
-      getParameterByName("pairnameparent") ||
-      getParameterByName("currencypairname");
+      searchParams.get("pairnameparent") ||
+      searchParams.get("currencypairname");
     return pairnameparent
       ? pairnameparent.replace("&", "%26")
       : symbl
@@ -39,13 +43,13 @@ const Chart = () => {
 
   const getOnlyChartFeatures = (user_id: string) => {
     const showOnlyChart =
-      getParameterByName("onlychart") == "true" ? true : false;
+      searchParams.get("onlychart") == "true" ? true : false;
 
     const saveFeature = !!user_id && user_id !== "default" ? true : false;
 
     const onlyChart = [];
 
-    if (getParameterByName("hidesymbol") == "true") {
+    if (searchParams.get("hidesymbol") == "true") {
       onlyChart.push("header_symbol_search");
     }
 
@@ -72,7 +76,8 @@ const Chart = () => {
 
   const symbol = getSymbol();
   const interval = "1";
-  const userId = getCookie("ssoid");
+  const cookieStore = cookies();
+  const userId = cookieStore.get("ssoid")?.value;
   const user_id: string =
     typeof userId === "string" && !!userId ? userId : "default";
 
@@ -97,7 +102,7 @@ const Chart = () => {
     symbol: symbol || "RELIANCE",
     interval: interval as ResolutionString,
     user_id: user_id,
-    theme: getParameterByName("darktheme") == "true" ? "dark" : "light",
+    theme: searchParams.get("darktheme") == "true" ? "dark" : "light",
     enabled_features: [
       "study_templates",
       "pre_post_market_sessions",
