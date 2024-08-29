@@ -26,8 +26,6 @@ const Login = () => {
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
 
-  //console.log(state.login);
-
   const fetchWatchListStocks = async () => {
     const data = await fetchAllWatchListData(2, 11);
     let watchlistArr = [];
@@ -69,7 +67,6 @@ const Login = () => {
         const resObj = primeRes.data.productDetails.filter((item: any) => {
           return item.productCode == "ETPR";
         });
-        console.log("New Auth Response obj --->", resObj[0]);
         const oauthAPiRes = resObj[0];
         const isPrime =
           primeRes.data &&
@@ -84,16 +81,6 @@ const Login = () => {
           "userAcquisitionType" in oauthAPiRes.subscriptionDetail
             ? oauthAPiRes.subscriptionDetail.userAcquisitionType
             : "free";
-        console.log(
-          "subscriptionDetail ----> ",
-          oauthAPiRes.subscriptionDetail,
-        );
-        console.log("Is Prime ----> ", isPrime);
-        console.log("Permission Array----> ", oauthAPiRes.permissions);
-        console.log(
-          "EtPrime.permissionsArr func----> ",
-          oauthAPiRes.accessibleFeatures,
-        );
         window.objUser.primeInfo = oauthAPiRes;
         window.objUser.isPrime = isPrime;
         setCookieToSpecificTime("isprimeuser", isPrime, 30, 0, 0, "");
@@ -104,7 +91,6 @@ const Login = () => {
         trackingEvent("user_profile_create", { url: window.location.href });
 
         const freeTrialData = jStorageReact.get("et_freetrial");
-        console.log(freeTrialData, "freeTrialData");
         if (freeTrialData?.hitAccessPass) {
           setTimeout(() => {
             activateFreeTrial();
@@ -136,55 +122,6 @@ const Login = () => {
           objUser: window.objUser,
         });
       }
-
-      // if (primeRes.status === "SUCCESS") {
-      //   const isPrime =
-      //     primeRes.data &&
-      //     primeRes.data.permissions.some(function (item: any) {
-      //       return !item.includes("etadfree") && item.includes("subscribed");
-      //     });
-      //   window.objUser.permissions = primeRes.data.permissions || [];
-      //   window.objUser.accessibleFeatures =
-      //     primeRes.data.accessibleFeatures || [];
-      //   window.objUser.userAcquisitionType =
-      //     primeRes.data.subscriptionDetails &&
-      //     primeRes.data.subscriptionDetails.length > 0
-      //       ? primeRes.data.subscriptionDetails[0].userAcquisitionType
-      //       : "free";
-      //   window.objUser.primeInfo = primeRes.data;
-      //   window.objUser.isPrime = isPrime;
-      //   setCookieToSpecificTime("isprimeuser", isPrime, 30, 0, 0, "");
-      //   if (primeRes && primeRes.token) {
-      //     setCookieToSpecificTime("OTR", primeRes.token, 30, 0, 0, "");
-      //   }
-      //   trackingEvent("user_profile_create", { url: window.location.href });
-
-      //   saveLogs({
-      //     type: "Mercury",
-      //     res: "SUCCESS",
-      //     msg: "verifyLoginSuccessCallback",
-      //     resData: primeRes,
-      //     objUser: window.objUser,
-      //   });
-      // } else {
-      //   window.objUser.permissions = [];
-      //   window.objUser.accessibleFeatures = [];
-      //   window.objUser.userAcquisitionType = "free";
-      //   window.objUser.primeInfo = {};
-      //   window.objUser.isPrime = false;
-      //   delete_cookie("isprimeuser");
-      //   if (primeRes && primeRes.token) {
-      //     delete_cookie("OTR");
-      //   }
-      //   saveLogs({
-      //     type: "Mercury",
-      //     res: "Fail",
-      //     msg: "verifyLoginSuccessCallback",
-      //     resData: primeRes,
-      //     objUser: window.objUser,
-      //   });
-      // }
-
       dispatch({
         type: "LOGIN_SUCCESS",
         payload: {
@@ -224,7 +161,6 @@ const Login = () => {
   };
 
   const authFailCallback = () => {
-    //console.log("authFailCallback");
     dispatch({
       type: "LOGOUT",
       payload: {
