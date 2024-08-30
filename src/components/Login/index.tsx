@@ -12,7 +12,9 @@ import {
   logout,
   loadPrimeApi,
   setCookieToSpecificTime,
+  setCookie,
   delete_cookie,
+  loadPrimeApiNew,
 } from "../../utils";
 import { fetchAllWatchListData, saveLogs } from "../../utils/utility";
 import { useStateContext } from "../../store/StateContext";
@@ -23,8 +25,6 @@ import Image from "next/image";
 const Login = () => {
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
-
-  //console.log(state.login);
 
   const fetchWatchListStocks = async () => {
     const data = await fetchAllWatchListData(2, 11);
@@ -61,31 +61,36 @@ const Login = () => {
   const verifyLoginSuccessCallback = async () => {
     try {
       fetchWatchListStocks();
-      const primeRes = await loadPrimeApi();
-      if (primeRes.status === "SUCCESS") {
+      //const primeRes = await loadPrimeApi();
+      const primeRes = await loadPrimeApiNew();
+      if (primeRes.code === "200") {
+        const resObj = primeRes.data.productDetails.filter((item: any) => {
+          return item.productCode == "ETPR";
+        });
+        const oauthAPiRes = resObj[0];
         const isPrime =
           primeRes.data &&
-          primeRes.data.permissions.some(function (item: any) {
+          oauthAPiRes.permissions.some(function (item: any) {
             return !item.includes("etadfree") && item.includes("subscribed");
           });
-        window.objUser.permissions = primeRes.data.permissions || [];
+        window.objUser.permissions = oauthAPiRes.permissions || [];
         window.objUser.accessibleFeatures =
-          primeRes.data.accessibleFeatures || [];
+          oauthAPiRes.accessibleFeatures || [];
         window.objUser.userAcquisitionType =
-          primeRes.data.subscriptionDetails &&
-          primeRes.data.subscriptionDetails.length > 0
-            ? primeRes.data.subscriptionDetails[0].userAcquisitionType
+          oauthAPiRes.subscriptionDetail &&
+          "userAcquisitionType" in oauthAPiRes.subscriptionDetail
+            ? oauthAPiRes.subscriptionDetail.userAcquisitionType
             : "free";
-        window.objUser.primeInfo = primeRes.data;
+        window.objUser.primeInfo = oauthAPiRes;
         window.objUser.isPrime = isPrime;
         setCookieToSpecificTime("isprimeuser", isPrime, 30, 0, 0, "");
         if (primeRes?.data?.token) {
           setCookieToSpecificTime("OTR", primeRes?.data?.token, 30, 0, 0, "");
         }
+        setCookieToSpecificTime("etprc", oauthAPiRes.prc, 30, 0, 0);
         trackingEvent("user_profile_create", { url: window.location.href });
 
         const freeTrialData = jStorageReact.get("et_freetrial");
-        console.log(freeTrialData, "freeTrialData");
         if (freeTrialData?.hitAccessPass) {
           setTimeout(() => {
             activateFreeTrial();
@@ -96,7 +101,7 @@ const Login = () => {
           type: "Mercury",
           res: "SUCCESS",
           msg: "verifyLoginSuccessCallback",
-          resData: primeRes,
+          resData: primeRes.data,
           objUser: window.objUser,
         });
       } else {
@@ -106,7 +111,7 @@ const Login = () => {
         window.objUser.primeInfo = {};
         window.objUser.isPrime = false;
         delete_cookie("isprimeuser");
-        if (primeRes && primeRes.token) {
+        if (primeRes && primeRes.data && primeRes.data.token) {
           delete_cookie("OTR");
         }
         saveLogs({
@@ -117,7 +122,6 @@ const Login = () => {
           objUser: window.objUser,
         });
       }
-
       dispatch({
         type: "LOGIN_SUCCESS",
         payload: {
@@ -157,7 +161,6 @@ const Login = () => {
   };
 
   const authFailCallback = () => {
-    //console.log("authFailCallback");
     dispatch({
       type: "LOGOUT",
       payload: {
