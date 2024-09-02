@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchFilters, getPeerSectors } from "@/utils/utility";
 import styles from "./SectorsDetails.module.scss";
 import Link from "next/link";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import PerformanceAddPopUp from "./AddPopup/PerformanceAddPopUp";
 
 const labels = ["", "1D", "1W", "1M", "3M", "6M", "1Y", "3Y", "5Y"];

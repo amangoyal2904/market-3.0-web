@@ -1,39 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./SectorsDetails.module.scss";
 import Link from "next/link";
-import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV, dateFormat } from "@/utils/index";
+import { dateFormat } from "@/utils/index";
 import { trackingEvent } from "@/utils/ga";
 import Returns from "./Returns";
 
 const SectorsDetailsOverview = React.memo(({ overviewData, descText }: any) => {
-  const [lastTradedPrice, setLastTradedPrice] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (overviewData?.lastTradedPrice !== null) {
-      // Check if lastTradedPrice already exists and is different
-      if (
-        lastTradedPrice !== null &&
-        overviewData.lastTradedPrice !== lastTradedPrice
-      ) {
-        const trendClass =
-          overviewData.lastTradedPrice > lastTradedPrice
-            ? "upBg"
-            : overviewData.lastTradedPrice < lastTradedPrice
-              ? "downBg"
-              : "noBg";
-        const element = document.getElementById("lastTradedPrice");
-        if (element) {
-          element.classList.add(trendClass);
-          setTimeout(() => {
-            element.classList.remove("upBg", "downBg");
-          }, 500);
-        }
-      }
-      setLastTradedPrice(overviewData.lastTradedPrice);
-    }
-  }, [overviewData?.lastTradedPrice]);
-
   return (
     <section id="overview" className={styles.overview}>
       <div className="dflex align-item-center">
