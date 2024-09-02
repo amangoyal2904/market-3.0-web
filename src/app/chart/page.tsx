@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { cookies, headers } from "next/headers";
+import { headers } from "next/headers";
 import ChartClient from "./clients";
 import { fnGenerateMetaData } from "@/utils/utility";
 import {
@@ -29,31 +29,97 @@ const Chart = () => {
     headersList.get("x-searchparam") || "",
   );
 
+  interface TimeFramePair {
+    [key: string]: string;
+  }
+
+  interface TimePair {
+    [key: string]: string;
+  }
+
+  const timePair: TimePair = {
+    day: "1D",
+    week: "1W",
+    month: "1M",
+    year: "1Y",
+  };
+
+  const timeFramePair: TimeFramePair = {
+    "1D": "1D",
+    "5D": "5D",
+    "1W": "7D",
+    "1M": "1M",
+    "3M": "3M",
+    "6M": "6M",
+    "1Y": "12M",
+    "3Y": "36M",
+    "5Y": "60M",
+  };
+
+  const hideMenu = searchParams.get("no_menu")
+    ? searchParams.get("no_menu")
+    : 0;
+  const dontSave = searchParams.get("dont_save")
+    ? searchParams.get("dont_save")
+    : false;
+
   const getSymbol = () => {
     const symbl = searchParams.get("symbol")?.replace("&", "%26");
     const pairnameparent =
       searchParams.get("pairnameparent") ||
       searchParams.get("currencypairname");
-    return pairnameparent
+
+    const expirydate = searchParams.get("expirydate");
+    const isValidDate = (date: any) => {
+      return !isNaN(Date.parse(date));
+    };
+
+    let formattedSymbol = pairnameparent
       ? pairnameparent.replace("&", "%26")
       : symbl
         ? symbl
         : "NSE INDEX";
+
+    if (expirydate && isValidDate(expirydate)) {
+      formattedSymbol = `${formattedSymbol}_${expirydate}_MCX`;
+    }
+
+    return formattedSymbol;
   };
 
-  const getOnlyChartFeatures = (user_id: string) => {
-    const showOnlyChart =
-      searchParams.get("onlychart") == "true" ? true : false;
+  const getInterval = () => {
+    const itvl = searchParams.get("periodicity") || "day";
+    const defaultPeriod = searchParams.get("default_period") || null; // Updated to handle null if not present
+    const timeframe =
+      defaultPeriod && timeFramePair[defaultPeriod]
+        ? timeFramePair[defaultPeriod]
+        : "1D"; // Set to "1D" by default if default_period is not available
+    const interval =
+      (timeframe === "1D" || timeframe === "5D" || timeframe === "1W") &&
+      itvl === "day"
+        ? timeframe === "1D"
+          ? 1
+          : 15
+        : typeof itvl !== "undefined" && Number(itvl)
+          ? Number(itvl)
+          : typeof itvl !== "undefined" && timePair[itvl]
+            ? timePair[itvl]
+            : "1D";
 
-    const saveFeature = !!user_id && user_id !== "default" ? true : false;
+    return { timeframe, interval, defaultPeriod };
+  };
 
+  const getOnlyChartFeatures = () => {
     const onlyChart = [];
 
-    if (searchParams.get("hidesymbol") == "true") {
+    if (
+      searchParams.get("symbol_label") === "false" ||
+      searchParams.get("symbol_textbox") === "false"
+    ) {
       onlyChart.push("header_symbol_search");
     }
 
-    if (showOnlyChart === true) {
+    if (hideMenu == "true" || hideMenu == "1") {
       onlyChart.push(
         "left_toolbar",
         "header_widget",
@@ -61,13 +127,17 @@ const Chart = () => {
         "timeframes_toolbar",
         "main_series_scale_menu",
         "context_menus",
+        "header_screenshot",
+        "header_fullscreen_button",
+        "go_to_date",
         "edit_buttons_in_legend",
         "create_volume_indicator_by_default",
         "border_around_the_chart",
+        "adaptive_logo",
       );
     }
 
-    if (saveFeature === false) {
+    if (dontSave == "true") {
       onlyChart.push("header_saveload", "use_localstorage_for_settings");
     }
 
@@ -75,13 +145,8 @@ const Chart = () => {
   };
 
   const symbol = getSymbol();
-  const interval = "1";
-  const cookieStore = cookies();
-  const userId = cookieStore.get("ssoid")?.value;
-  const user_id: string =
-    typeof userId === "string" && !!userId ? userId : "default";
-
-  const onlyChart = getOnlyChartFeatures(user_id);
+  const { timeframe, interval, defaultPeriod } = getInterval();
+  const onlyChart = getOnlyChartFeatures();
   const disabledFeatures: ChartingLibraryFeatureset[] = onlyChart.length
     ? onlyChart.map((feature) => feature as ChartingLibraryFeatureset)
     : [
@@ -89,7 +154,6 @@ const Chart = () => {
         "header_screenshot",
         "header_fullscreen_button",
         "go_to_date",
-        "items_favoriting",
         "show_object_tree",
         "symbol_info",
         "header_fullscreen_button",
@@ -99,28 +163,13 @@ const Chart = () => {
       ];
 
   const defaultWidgetProps: Partial<ChartingLibraryWidgetOptions> = {
-    symbol: symbol || "RELIANCE",
+    symbol: symbol,
     interval: interval as ResolutionString,
-    user_id: user_id,
+    ...(defaultPeriod && { timeframe: timeframe }), // Conditionally add timeframe
     theme: searchParams.get("darktheme") == "true" ? "dark" : "light",
-    enabled_features: [
-      "study_templates",
-      "pre_post_market_sessions",
-      "seconds_resolution",
-      "custom_resolutions",
-      "secondary_series_extend_time_scale",
-      "show_percent_option_for_right_margin",
-      "items_favoriting",
-      "show_spread_operators",
-      "show_average_close_price_line_and_label",
-      "custom_resolutions",
-      "items_favoriting",
-      "datasource_copypaste",
-      "hide_object_tree_and_price_scale_exchange_label",
-    ],
+    enabled_features: ["show_zoom_and_move_buttons_on_touch"],
     disabled_features: disabledFeatures,
     fullscreen: true,
-    overrides: {},
   };
 
   return <ChartClient {...defaultWidgetProps} />;
