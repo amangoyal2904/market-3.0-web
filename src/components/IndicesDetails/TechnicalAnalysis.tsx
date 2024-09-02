@@ -12,7 +12,7 @@ import GuageChart from "./GuageChart";
 import { useStateContext } from "@/store/StateContext";
 
 const TVChartContainer = dynamic(() =>
-  import("@/components/TVChartContainer").then((mod) => mod.TVChartContainer),
+  import("@/components/TVChartContainer").then((mod) => mod.TVChartContainer)
 );
 
 const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
@@ -59,6 +59,7 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
     interval: "1D" as ResolutionString,
     user_id: "default",
     disabled_features: disabledFeatures,
+    enabled_features: ["show_zoom_and_move_buttons_on_touch"],
   };
 
   return (
@@ -150,7 +151,7 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
                     >
                       {i === 0 ? value : formatNumber(value)}
                     </td>
-                  ),
+                  )
                 )}
               </tr>
             ))}
