@@ -7,7 +7,7 @@ import {
   ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
   ResolutionString,
-} from "../../../../public/static/v27/charting_library";
+} from "../../../../public/static/v28/charting_library";
 import { getCookie, getParameterByName } from "@/utils";
 
 interface TimeFramePair {
@@ -158,7 +158,7 @@ const TechnicalCharts = () => {
   return (
     <>
       <Script
-        src="/marketsweb/static/v27/datafeeds/udf/dist/bundle.js"
+        src="/marketsweb/static/v28/datafeeds/udf/dist/bundle.js"
         strategy="lazyOnload"
         onReady={() => {
           setIsScriptReady(true);

@@ -15,7 +15,7 @@ const ChartClient = (defaultWidgetProps: any) => {
   return (
     <>
       <Script
-        src="/marketsweb/static/v27/datafeeds/udf/dist/bundle.js"
+        src="/marketsweb/static/v28/datafeeds/udf/dist/bundle.js"
         strategy="lazyOnload"
         onReady={() => {
           setIsScriptReady(true);

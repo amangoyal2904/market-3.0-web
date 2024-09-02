@@ -6,7 +6,7 @@ import {
   ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
   ResolutionString,
-} from "../../../public/static/v27/charting_library/charting_library";
+} from "../../../public/static/v28/charting_library/charting_library";
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = headers();
