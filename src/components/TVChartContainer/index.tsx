@@ -4,16 +4,33 @@ import {
   ChartingLibraryWidgetOptions,
   ResolutionString,
   widget,
-} from "../../../public/static/v27/charting_library";
+} from "../../../public/static/v28/charting_library";
+import { getParameterByName } from "@/utils";
+import { trackingEvent } from "@/utils/ga";
 
 export const TVChartContainer = (
   props: Partial<ChartingLibraryWidgetOptions>,
 ) => {
   const chartContainerRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
+  const iframeRef = useRef<HTMLIFrameElement | null>(null); // Ref for iframe
 
-  const _overrides =
-    props?.theme == "dark"
+  const chartTypes = {
+    bar: 0,
+    candle: 1,
+    line: 2,
+    area: 3,
+    mountain: 3,
+    heikin_ashi: 8,
+    hollow_candle: 9,
+    baseline_delta: 10,
+    hi_lo: 12,
+  };
+
+  const chartType = getParameterByName("chart_type");
+
+  const overrides =
+    props.theme === "dark"
       ? {
           "paneProperties.backgroundType": "solid",
           "paneProperties.background": "#181818",
@@ -21,63 +38,49 @@ export const TVChartContainer = (
           "paneProperties.horzGridProperties.color": "#232325",
           "scalesProperties.textColor": "rgba(170, 170, 170, 1)",
         }
-      : {};
+      : {
+          "paneProperties.background": "#ffffff",
+          "paneProperties.vertGridProperties.color": "rgba(42, 46, 57, 0.06)",
+          "paneProperties.horzGridProperties.color": "rgba(42, 46, 57, 0.06)",
+          "scalesProperties.textColor": "#131722",
+        };
 
-  useEffect(() => {
+  const initializeChart = () => {
+    const loadLastChart = !props.disabled_features?.includes(
+      "use_localstorage_for_settings",
+    );
+
     const widgetOptions: ChartingLibraryWidgetOptions = {
+      debug: false,
+      fullscreen: !!props.fullscreen,
       symbol: props.symbol,
-      // BEWARE: no trailing slash is expected in feed URL
-      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(
-        "https://etapi.indiatimes.com/charts/mrkts",
-        1000 * 20,
-        "Y",
-      ),
-      timeframe: props.timeframe,
       interval: props.interval as ResolutionString,
       container: chartContainerRef.current,
       timezone: "Asia/Kolkata",
-      disabled_features: props.disabled_features,
-      enabled_features: ["show_zoom_and_move_buttons_on_touch"],
-      library_path: "/marketsweb/static/v27/charting_library/",
-      locale: "en",
-      load_last_chart: props?.user_id !== "default" ? true : false,
-      charts_storage_url: "https://etapi.indiatimes.com/charts/mrkts/stock",
-      charts_storage_api_version: "1.1",
-      client_id: "economictimes.indiatimes.com",
-      auto_save_delay: 1,
-      theme: props.theme,
-      user_id: props.user_id,
-      fullscreen: !!props?.fullscreen ? props?.fullscreen : false,
       autosize: true,
+      datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(
+        "https://etapi.indiatimes.com/charts/mrkts",
+        undefined,
+        {
+          maxResponseLength: 1000,
+          expectedOrder: "latestFirst",
+        },
+      ),
+      library_path: "/marketsweb/static/v28/charting_library/",
+      locale: "en",
+      disabled_features: props.disabled_features,
+      enabled_features: props.enabled_features,
+      client_id: "economictimes.indiatimes.com",
+      user_id: props.user_id,
+      theme: props.theme,
       time_frames: [
-        {
-          text: "1D",
-          resolution: "1" as ResolutionString,
-        },
-        {
-          text: "5D",
-          resolution: "15" as ResolutionString,
-        },
-        {
-          text: "1M",
-          resolution: "1D" as ResolutionString,
-        },
-        {
-          text: "3M",
-          resolution: "1D" as ResolutionString,
-        },
-        {
-          text: "6M",
-          resolution: "1D" as ResolutionString,
-        },
-        {
-          text: "1Y",
-          resolution: "1D" as ResolutionString,
-        },
-        {
-          text: "5Y",
-          resolution: "W" as ResolutionString,
-        },
+        { text: "1D", resolution: "1" as ResolutionString },
+        { text: "5D", resolution: "15" as ResolutionString },
+        { text: "1M", resolution: "1D" as ResolutionString },
+        { text: "3M", resolution: "1D" as ResolutionString },
+        { text: "6M", resolution: "1D" as ResolutionString },
+        { text: "1Y", resolution: "1D" as ResolutionString },
+        { text: "5Y", resolution: "W" as ResolutionString },
         {
           text: "100y",
           resolution: "M" as ResolutionString,
@@ -88,19 +91,261 @@ export const TVChartContainer = (
       favorites: {
         intervals: [
           "1" as ResolutionString,
+          "5" as ResolutionString,
+          "10" as ResolutionString,
           "15" as ResolutionString,
+          "30" as ResolutionString,
           "1D" as ResolutionString,
         ],
-        chartTypes: ["Area", "Candles"],
+        chartTypes: ["Area", "Candles", "Bars"],
+        drawingTools: [],
+        indicators: [],
       },
-      overrides: _overrides,
+      overrides,
+      symbol_search_request_delay: 2000,
     };
+
+    if (loadLastChart) {
+      widgetOptions.charts_storage_url =
+        "https://etapi.indiatimes.com/charts/mrkts";
+      widgetOptions.charts_storage_api_version = "1.1";
+      widgetOptions.load_last_chart = true;
+      widgetOptions.auto_save_delay = 1;
+    }
+
+    if (props.timeframe) {
+      widgetOptions.timeframe = props.timeframe;
+    }
 
     const tvWidget = new widget(widgetOptions);
 
+    const handleAutoSave = () => {
+      tvWidget.saveChartToServer(
+        () => {},
+        () => {
+          console.log("Error during autosave.");
+        },
+        { defaultChartName: "Default" },
+      );
+    };
+
+    const handleTracking = (name: string) => {
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: `WEB Technical Chart - Clicked ${name}`,
+        event_label: name,
+      });
+    };
+
+    const attachEventListeners = () => {
+      // Access the iframe within the widget container
+      iframeRef.current = chartContainerRef.current?.querySelector(
+        "iframe",
+      ) as HTMLIFrameElement | null;
+
+      if (iframeRef.current) {
+        const chart =
+          iframeRef.current.contentDocument ||
+          iframeRef.current.contentWindow?.document;
+
+        if (chart) {
+          // top events
+          chart
+            .querySelector("#header-toolbar-symbol-search")
+            ?.addEventListener("click", () => {
+              const symbol = tvWidget.activeChart().symbol;
+              handleTracking(`Clicks - ${symbol}`);
+            });
+
+          chart
+            .querySelector("#header-toolbar-intervals")
+            ?.addEventListener("click", () => {
+              const r = tvWidget.activeChart().resolution();
+              const resolution = Number(r) ? Number(r) + "m" : r;
+              handleTracking(`${resolution}`);
+            });
+
+          chart
+            .querySelector("#header-toolbar-compare")
+            ?.addEventListener("click", () => {
+              handleTracking("NA");
+            });
+
+          chart
+            .querySelector('[data-name="header-toolbar-properties"]')
+            ?.addEventListener("click", () => {
+              handleTracking("Clicks - Button");
+            });
+
+          chart
+            .querySelector(
+              '[class^=legendMainSourceWrapper] [data-name="legend-show-hide-action"]',
+            )
+            ?.addEventListener("click", () => {
+              const node = chart.querySelector(
+                "[class^=legendMainSourceWrapper] > div",
+              );
+              const status =
+                node && node.classList.contains("disabled") ? "Hide" : "Show";
+              handleTracking(status);
+            });
+
+          chart
+            .querySelector(
+              '[class^=legendMainSourceWrapper] [data-name="legend-more-action"]',
+            )
+            ?.addEventListener("click", () => {
+              handleTracking("");
+            });
+
+          // bottom events
+          chart
+            .querySelector('[data-name="date-ranges-tabs"]')
+            ?.addEventListener("click", (e) => {
+              handleTracking((e.target as HTMLElement).innerText.toUpperCase());
+            });
+
+          chart
+            .querySelector('[data-name="time-zone-menu"]')
+            ?.addEventListener("click", () => {
+              handleTracking("NA");
+            });
+
+          const axisContainers = chart.querySelectorAll(
+            '[data-name="percentage"], [data-name="logarithm"], [data-name="auto"]',
+          );
+
+          axisContainers.forEach((container) =>
+            container.addEventListener("click", () => {
+              handleTracking(`Clicks - ${container.getAttribute("data-name")}`);
+            }),
+          );
+
+          chart.addEventListener("click", (e) => {
+            const innerText = (e.target as HTMLElement).innerText;
+            if (
+              (e.target as HTMLElement).closest(".context-menu table") &&
+              innerText &&
+              (innerText.includes("Symbol info") ||
+                innerText.includes("Visual order") ||
+                innerText.includes("Move to") ||
+                innerText.includes("Pin to scale") ||
+                innerText.includes("Hide") ||
+                innerText.includes("Show") ||
+                innerText.includes("Copy") ||
+                innerText.includes("Remove") ||
+                innerText.includes("Lines") ||
+                innerText.includes("Settings"))
+            ) {
+              handleTracking(innerText);
+            }
+            if (
+              (e.target as HTMLElement).closest(".context-menu table") &&
+              innerText &&
+              (innerText.includes("UTC") || innerText.includes("Exchange"))
+            ) {
+              handleTracking(innerText);
+            }
+          });
+
+          // drawing tool events
+          const drawingToolContainers = chart.querySelectorAll(
+            '[data-name^="linetool-group"], [data-name="measure"], [data-name="zoom"], [data-name="magnet-button"], [data-name="removeAllDrawingTools"], [data-name="showObjectsTree"]',
+          );
+
+          drawingToolContainers.forEach((container: Element) =>
+            container.addEventListener("click", () => {
+              handleTracking(container.getAttribute("data-name") || "");
+            }),
+          );
+
+          const drawingToggleBtn = chart.querySelector(
+            '[data-name="toolbar-drawing-toggle-button"]',
+          );
+
+          if (drawingToggleBtn) {
+            drawingToggleBtn.addEventListener("click", () => {
+              const elData = drawingToggleBtn.getAttribute("data-value");
+              const toggleVal = elData === "visible" ? "Show" : "Hide";
+              handleTracking(`${toggleVal} Drawings Toolbar`);
+            });
+          }
+
+          let cdToolbar = 0;
+
+          chart.addEventListener(
+            "click",
+            (e) => {
+              const eventNode = e.target as HTMLElement;
+
+              if (
+                eventNode.closest("#header-toolbar-chart") ||
+                eventNode.closest(
+                  ".apply-common-tooltip.common-tooltip-fixed",
+                ) ||
+                eventNode.closest("#header-toolbar-intervals") ||
+                eventNode.closest("#header-toolbar-compare") ||
+                eventNode.closest("[class^=legendMainSourceWrapper]")
+              ) {
+                handleTracking("Clicked Toolbar");
+              }
+
+              if (
+                eventNode.closest(
+                  '[class^="apply-common-tooltip common-tooltip-fixed"]',
+                ) ||
+                eventNode.closest("[class^=chart-events-editor-toolbar]")
+              ) {
+                cdToolbar++;
+                if (cdToolbar === 1) {
+                  handleTracking("Clicked Drawings Toolbar");
+                }
+              }
+            },
+            true,
+          );
+        }
+      }
+    };
+
     tvWidget.onChartReady(() => {
-      tvWidget.changeTheme(props.theme == "dark" ? "dark" : "light");
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: `Impression - WEB Technical Chart`,
+        event_label: name,
+      });
+
+      tvWidget.changeTheme(props.theme === "dark" ? "dark" : "light");
+      tvWidget.subscribe("onAutoSaveNeeded", handleAutoSave);
+      tvWidget.subscribe("undo", () => handleTracking("undo"));
+      tvWidget.subscribe("redo", () => handleTracking("redo"));
+      tvWidget.subscribe("indicators_dialog", () =>
+        handleTracking("Indicators"),
+      );
+
+      if (
+        chartType &&
+        chartTypes[chartType as keyof typeof chartTypes] !== undefined
+      ) {
+        tvWidget
+          .activeChart()
+          .setChartType(chartTypes[chartType as keyof typeof chartTypes]);
+
+        tvWidget
+          .activeChart()
+          .onChartTypeChanged()
+          .subscribe(null, () => {
+            handleTracking(chartType);
+          });
+      }
+      attachEventListeners();
     });
+
+    return tvWidget;
+  };
+
+  useEffect(() => {
+    const tvWidget = initializeChart();
 
     return () => {
       tvWidget.remove();
