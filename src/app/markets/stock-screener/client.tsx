@@ -55,7 +55,6 @@ const StockScreenerPage = ({ data }: any) => {
                         <Link
                           title={screen.name}
                           href={`/markets/stock-screener/${screen.seoName ? screen.seoName : "test-seo-page"}/screens/scrid-${screen.screenerId}`}
-                          target="_blank"
                           className={styles.liItemList}
                         >
                           <div className={styles.info}>

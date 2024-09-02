@@ -103,7 +103,6 @@ const IndicesPerformance = React.memo(({ data, indexName, exchange }: any) => {
                   <Link
                     className={styles.ellipsis}
                     href={`/markets/indices/${item.indexSeoName}`}
-                    target="_blank"
                     title={item.indexName}
                   >
                     {item.indexName}

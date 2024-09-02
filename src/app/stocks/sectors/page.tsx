@@ -14,10 +14,11 @@ const pageUrl = "/stocks/sectors";
 
 export async function generateMetadata(): Promise<Metadata> {
   const meta = {
-    title: "Indian Market Sectors, Live Index Watch, Market Indexes",
-    desc: "Indian Market Sectors Live - Checkout Latest & comprehensive value all major stock market Sectors. Live NSE / BSE Sectors Watch to measure the performance against a relevant market index.",
+    title:
+      "Indian Market Sectors, Live Sector Watch, Market Indexes | The Economic Times",
+    desc: "Indian Market Sectors Live - Checkout Latest & comprehensive value all major stock market sectors. Live Stock Market Sectors Watch to measure the performance against a relevant market sector.",
     keywords:
-      "Indian Sectors, All Sectors, All Index, Indian Market Sectors, Indian Stock Sectors, Indian Stock Market Sectors, Stock Market Sectors",
+      "Indian Sectors, All Sectors, All Sector, Indian Market Sectors, Indian Stock Sectors, Indian Stock Market Sectors, Stock Market Sectors, Different Sectors in Stock Market, All Sectors of Stock Market, Sector wise Performance Indian Stock Market",
     pathname: pageUrl,
     index: false,
   };

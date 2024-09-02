@@ -53,25 +53,18 @@ const SectorsClient = ({
     setProcessingLoader(false);
   };
 
-  useIntervalApiCall(
-    () => {
-      if (currentMarketStatus === "LIVE" && !!fallbackWebsocket)
-        updateTableData();
-    },
-    refeshConfig.indicesListing,
-    [sortData, isPrime, currentMarketStatus, fallbackWebsocket],
-  );
-
   useEffect(() => {
-    setProcessingLoader(true);
-    updateTableData();
-  }, [sortData, isPrime]);
+    if (sortData.field != null) {
+      setProcessingLoader(true);
+      updateTableData();
+    }
+  }, [sortData]);
   return (
     <>
       <div className="dflex align-item-center">
         <h1
           className={`${styles.heading} ${styles.withRBorder}`}
-        >{`Sectors`}</h1>
+        >{`All Sectors - Indian Stock Market Sectors`}</h1>
         <MarketStatus
           currentMarketStatus={currentMarketStatus}
           dateTime={updateDateTime}

@@ -86,7 +86,7 @@ const SectorsPerformance = React.memo(
       <>
         <h2
           className={styles.heading}
-        >{`Peer Performance of ${indexName} v/s Market`}</h2>
+        >{`Peer Performance of ${indexName} Sector v/s Market`}</h2>
         <table className={styles.marketsCustomTable}>
           <thead>
             <tr>
@@ -104,8 +104,7 @@ const SectorsPerformance = React.memo(
                   <div className="dflex align-item-ceter space-between">
                     <Link
                       className={styles.ellipsis}
-                      href={`/markets/indices/${item.assetSeoName}`}
-                      target="_blank"
+                      href={`/stocks/sectors/${item.assetSeoName}`}
                       title={item.assetName}
                     >
                       {item.assetName}

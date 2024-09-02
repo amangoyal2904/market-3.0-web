@@ -8,6 +8,7 @@ import {
   fetchSectors,
   fetchSelectedSectors,
   fnGenerateMetaData,
+  getSectorFaqs,
   getSectorsOverview,
   getOtherSectors,
   getPeerSectors,
@@ -27,7 +28,7 @@ async function fetchData(assetId: number) {
   return Promise.all([
     getSectorsOverview(assetId),
     getOtherSectors(assetId),
-    // getIndicesFaqs(assetId),
+    getSectorFaqs(assetId),
   ]);
 }
 
@@ -40,19 +41,10 @@ async function generateMetadata(
   const pageUrl = headersList.get("x-url") || "";
   const overviewData = await getSectorsOverview(indexFilterData.assetId);
   let pageTitle, pageDesc, pageKeywords;
-  if (indexFilterData.assetId == 2369) {
-    pageTitle = `Nifty 50 Live | NSE Nifty 50 Index Today - S&P CNX Nifty`;
-    pageDesc = `Nifty 50 Today | Nifty 50 Live Updates- Nifty 50 Index, S&P CNX Nifty. Find today's trend for Nifty 50 Companies, News, Target Price, Stock Price, Stock Analysis`;
-    pageKeywords = `Nifty 50,Nifty,Nifty Today,Nifty Live,Nifty 50 Today,Nifty 50 Live,Nifty 50 Index`;
-  } else if (indexFilterData.assetId == 2365) {
-    pageTitle = `Sensex Live updates: Sensex ${overviewData.netChange < 0 ? "down" : "up"} by ${overviewData.netChange} - Why sensex is ${overviewData.netChange < 0 ? "falling" : "rising"} today?`;
-    pageDesc = `Sensex live news on The Economic Times. Find Why Sensex is ${overviewData.netChange < 0 ? "falling" : "rising"} today? Reasons for Sensex ${overviewData.netChange < 0 ? "fall" : "rise"} today. Latest Sensex Analysis, News and more - ETMarkets`;
-    pageKeywords = `Sensex,Sensex Live,Sensex Today,BSE Sensex,Sensex Index,BSE Sensex Today,BSE Sensex Live,Sensex Live Updates`;
-  } else {
-    pageTitle = `${indexFilterData.assetName} Live | NSE ${indexFilterData.assetName} Index Today - S&P CNX ${indexFilterData.assetName}`;
-    pageDesc = `${indexFilterData.assetName} Today | ${indexFilterData.assetName} Live Updates- ${indexFilterData.assetName} Index, S&P CNX NSE. Find today's trend for ${indexFilterData.assetName} Companies, News, Target Price, Stock Price, Stock Analysis`;
-    pageKeywords = `${indexFilterData.assetName}, ${indexFilterData.assetName} Today, ${indexFilterData.assetName} Live, ${indexFilterData.assetName} Index`;
-  }
+
+  pageTitle = `${overviewData.assetName} Sector Stocks & Shares - ${overviewData.assetName} Stocks Listings in India`;
+  pageDesc = `${overviewData.assetName} Sector Stocks: Check the list of all ${overviewData.assetName} sector stocks in India with trading volume, price, market cap etc. Make detailed analysis to invest in ${overviewData.assetName} sector stocks at The Economic Times`;
+  pageKeywords = `${overviewData.assetName} stocks, ${overviewData.assetName}, ${overviewData.assetName} shares, ${overviewData.assetName} stocks & shares, ${overviewData.assetName} stocks in India`;
 
   const meta = {
     title: pageTitle,
@@ -60,10 +52,6 @@ async function generateMetadata(
     keywords: pageKeywords,
     pathname: pageUrl,
     index: false,
-    // index:
-    //   indexFilterData.assetId == 0 || indexFilterData.assetId == null
-    //     ? false
-    //     : true,
   };
   return fnGenerateMetaData(meta);
 }
@@ -79,7 +67,9 @@ const IndividualSectors = async ({ params }: any) => {
   if (indexFilterData.assetId == 0 || indexFilterData.assetId == null) {
     notFound();
   }
-  const [overviewData, othersData] = await fetchData(indexFilterData.assetId);
+  const [overviewData, othersData, faqData] = await fetchData(
+    indexFilterData.assetId,
+  );
 
   const peersData = await getPeerSectors(overviewData.assetId);
 
@@ -104,7 +94,7 @@ const IndividualSectors = async ({ params }: any) => {
   const { tableHeaderData, tableData, pageSummary, payload } =
     await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
   return (
-    <Fragment key="indices">
+    <Fragment key="Sectors">
       <SectorsDetailsClient
         overview={overviewData}
         peers={peersData}
@@ -119,6 +109,7 @@ const IndividualSectors = async ({ params }: any) => {
         payload={payload}
         ssoid={ssoid}
         sectorsListData={fetchSectorData}
+        faq={faqData}
       />
       <BreadCrumb
         pagePath={pageUrl}
