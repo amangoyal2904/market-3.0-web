@@ -4,9 +4,7 @@ import { useStateContext } from "@/store/StateContext";
 import React, { useCallback, useEffect, useState } from "react";
 import styles from "./Sectors.module.scss";
 import { getAllSectors } from "@/utils/utility";
-import refeshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "@/components/MarketStatus";
-import useIntervalApiCall from "@/utils/useIntervalApiCall";
 
 const SectorsClient = ({
   tableHeaderData = [],
