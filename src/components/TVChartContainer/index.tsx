@@ -7,14 +7,28 @@ import {
 } from "../../../public/static/v28/charting_library";
 import { getParameterByName } from "@/utils";
 import { trackingEvent } from "@/utils/ga";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils";
+import Service from "@/network/service";
+
+interface TimePair {
+  [key: string]: string;
+}
+
+const timePair: TimePair = {
+  "1D": "day", // Add this line to map "1D" to "day"
+  "1W": "week",
+  "1M": "month",
+  "1Y": "year",
+};
 
 export const TVChartContainer = (
-  props: Partial<ChartingLibraryWidgetOptions>,
+  props: Partial<ChartingLibraryWidgetOptions> & { patternId?: string },
 ) => {
+  const { patternId } = props;
   const chartContainerRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
   const iframeRef = useRef<HTMLIFrameElement | null>(null); // Ref for iframe
-
   const chartTypes = {
     bar: 0,
     candle: 1,
@@ -28,6 +42,7 @@ export const TVChartContainer = (
   };
 
   const chartType = getParameterByName("chart_type");
+  const gaHit = getParameterByName("ga_hit");
 
   const overrides =
     props.theme === "dark"
@@ -129,12 +144,67 @@ export const TVChartContainer = (
       );
     };
 
-    const handleTracking = (name: string) => {
+    const updateUrl = () => {
+      const symbolInfo = tvWidget.activeChart().symbolExt();
+      const activeResolution = tvWidget.activeChart().resolution();
+      const periodicity = timePair[activeResolution] || activeResolution;
+
+      const symbolData = {
+        fullName: symbolInfo?.description,
+        exchange: symbolInfo?.exchange,
+        entity: symbolInfo?.type,
+        symbol: symbolInfo?.ticker,
+        periodicity: periodicity,
+      };
+
+      // Post the symbolData to the parent window
+      if (window.parent) {
+        window.parent.postMessage({ symbolData }, "*");
+      }
+    };
+
+    const savePatternImage = async (patternId: string) => {
+      const screenshotCanvas = await tvWidget.takeClientScreenshot();
+      screenshotCanvas.toBlob(async (blob: any) => {
+        const formData = new FormData();
+        formData.append("preparedImage", blob);
+        formData.append("patternId", patternId);
+        formData.append("mode", tvWidget.getTheme());
+        try {
+          const response = await fetch(
+            "https://qcbselivefeeds.indiatimes.com/ETChartPattern/chartSnapshot",
+            {
+              method: "POST",
+              body: formData,
+            },
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            console.info("Image uploaded successfully:", data);
+          }
+        } catch (error) {
+          console.warn("Error uploading image:", error);
+        }
+      }, "image/png");
+    };
+
+    const handleTracking = (name: any) => {
       trackingEvent("et_push_event", {
         event_category: "mercury_engagement",
         event_action: `WEB Technical Chart - Clicked ${name}`,
         event_label: name,
       });
+    };
+
+    const getPatternData = async (patternId: string) => {
+      let apiUrl = `${(APIS_CONFIG as any)?.["CHARTPATTERNBYID"][APP_ENV]}?id=${patternId}`;
+      const response = await Service.get({
+        url: apiUrl,
+        params: {},
+        cache: "no-store",
+      });
+      return response?.json();
     };
 
     const attachEventListeners = () => {
@@ -308,29 +378,31 @@ export const TVChartContainer = (
       }
     };
 
-    tvWidget.onChartReady(() => {
-      trackingEvent("et_push_event", {
-        event_category: "mercury_engagement",
-        event_action: `Impression - WEB Technical Chart`,
-        event_label: name,
-      });
+    tvWidget.onChartReady(async () => {
+      if (gaHit != "false") {
+        trackingEvent("et_push_event", {
+          event_category: "mercury_engagement",
+          event_action: `Impression - WEB Technical Chart`,
+          event_label: name,
+        });
+      }
 
       tvWidget.changeTheme(props.theme === "dark" ? "dark" : "light");
-      tvWidget.subscribe("onAutoSaveNeeded", handleAutoSave);
-      tvWidget.subscribe("undo", () => handleTracking("undo"));
-      tvWidget.subscribe("redo", () => handleTracking("redo"));
-      tvWidget.subscribe("indicators_dialog", () =>
-        handleTracking("Indicators"),
-      );
+      if (loadLastChart) {
+        tvWidget.subscribe("onAutoSaveNeeded", handleAutoSave);
+      }
 
-      if (
-        chartType &&
-        chartTypes[chartType as keyof typeof chartTypes] !== undefined
-      ) {
-        tvWidget
-          .activeChart()
-          .setChartType(chartTypes[chartType as keyof typeof chartTypes]);
+      tvWidget
+        .activeChart()
+        .onIntervalChanged()
+        .subscribe(null, () => updateUrl());
 
+      tvWidget
+        .activeChart()
+        .onSymbolChanged()
+        .subscribe(null, () => updateUrl());
+
+      if (gaHit != "false") {
         tvWidget
           .activeChart()
           .onChartTypeChanged()
@@ -338,7 +410,57 @@ export const TVChartContainer = (
             handleTracking(chartType);
           });
       }
-      attachEventListeners();
+
+      if (gaHit != "false") {
+        tvWidget.subscribe("undo", () => handleTracking("undo"));
+        tvWidget.subscribe("redo", () => handleTracking("redo"));
+        tvWidget.subscribe("indicators_dialog", () =>
+          handleTracking("Indicators"),
+        );
+      }
+      if (
+        chartType &&
+        chartTypes[chartType as keyof typeof chartTypes] !== undefined
+      ) {
+        tvWidget
+          .activeChart()
+          .setChartType(chartTypes[chartType as keyof typeof chartTypes]);
+      }
+      if (gaHit != "false") {
+        attachEventListeners();
+      }
+
+      if (patternId) {
+        const patternDataResponse = await getPatternData(patternId);
+        if (patternDataResponse) {
+          const { patternList } = patternDataResponse;
+          const patternData = patternList.data.map((item: any) => ({
+            time: item.time / 1000,
+            price: item.price,
+          }));
+          const patternShape = patternList.shape;
+          const patternFromDate = Math.floor(
+            new Date(patternList.chartStartDate).getTime() / 1000,
+          );
+          const patternToDate = Math.floor(
+            new Date(patternList.chartEndDate).getTime() / 1000,
+          );
+
+          // Call setVisibleRange and createMultipointShape with the fetched data
+          tvWidget.activeChart().setVisibleRange({
+            from: patternFromDate,
+            to: patternToDate,
+          });
+
+          tvWidget.activeChart().createMultipointShape(patternData, {
+            shape: patternShape,
+          });
+
+          setTimeout(() => {
+            savePatternImage(patternId);
+          }, 1000);
+        }
+      }
     });
 
     return tvWidget;

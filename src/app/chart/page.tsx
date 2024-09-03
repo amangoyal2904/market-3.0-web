@@ -56,9 +56,12 @@ const Chart = () => {
     "5Y": "60M",
   };
 
+  const patternId = searchParams.get("patternid");
+
   const hideMenu = searchParams.get("no_menu")
     ? searchParams.get("no_menu")
     : 0;
+
   const dontSave = searchParams.get("dont_save")
     ? searchParams.get("dont_save")
     : false;
@@ -141,6 +144,25 @@ const Chart = () => {
       onlyChart.push("header_saveload", "use_localstorage_for_settings");
     }
 
+    if (patternId != "" && patternId != null) {
+      onlyChart.push(
+        "header_saveload",
+        "use_localstorage_for_settings",
+        "left_toolbar",
+        "header_widget",
+        "timeframes_toolbar",
+        "main_series_scale_menu",
+        "context_menus",
+        "header_screenshot",
+        "header_fullscreen_button",
+        "go_to_date",
+        "edit_buttons_in_legend",
+        "create_volume_indicator_by_default",
+        "border_around_the_chart",
+        "adaptive_logo",
+      );
+    }
+
     return onlyChart;
   };
 
@@ -172,7 +194,7 @@ const Chart = () => {
     fullscreen: true,
   };
 
-  return <ChartClient {...defaultWidgetProps} />;
+  return <ChartClient {...defaultWidgetProps} patternId={patternId} />;
 };
 
 export default Chart;
