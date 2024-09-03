@@ -59,7 +59,7 @@ export default async function RootLayout({
   const versionControl = {};
   const isprimeuser = cookies().get("isprimeuser") ? true : false;
   const headersList = headers();
-  const pageUrl = headersList.get("x-url") || "";
+  const pageUrl = headersList.get("x-pathname") || "";
   const noLayout = pageUrl == "/chart";
 
   return (
