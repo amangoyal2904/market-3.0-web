@@ -1,0 +1,108 @@
+@import "../../styles/variables.scss";
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1000;
+}
+.apDialog {
+  height: 418px;
+  width: 675px;
+  z-index: 10001;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+  background: #fff;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.apDialog.success {
+  background: #ffe9e2;
+  flex-direction: row;
+  height: 356px;
+  width: 640px;
+}
+.contentPart {
+  padding: 35px 0 35px 30px;
+  height: 100%;
+  box-sizing: border-box;
+}
+.contentPart .planInfo {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 32px;
+  margin-top: 35px;
+}
+.highlight {
+  color: #b0162f;
+}
+.expiryDate {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 400;
+}
+.btmButtons {
+  margin-top: 30px;
+  height: 80px;
+  text-align: center;
+  width: 313px;
+}
+.apDialog.success .btmButtons {
+  margin-top: 25px;
+}
+.apDialog .closeIcon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+.exploreBtn,
+.sub_btn {
+  width: 313px;
+  background: #ed193b;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  height: 46px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 46px;
+  font-family: var(--font-montserrat);
+}
+.exploreBtn:hover {
+  text-decoration: none;
+}
+.continueBtn {
+  font-size: 14px;
+  color: #ed193b;
+  text-decoration: underline;
+  font-weight: 600;
+  width: 340px;
+  display: inline-block;
+  text-align: center;
+  margin-top: 20px;
+}
+.ap_heading {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 16px;
+}
+.ap_desc {
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 500;
+  text-align: center;
+  max-width: 422px;
+}

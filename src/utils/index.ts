@@ -1,6 +1,8 @@
-import Service from "../network/service";
+import jStorageReact from "jstorage-react";
+
 import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
+import Service from "../network/service";
 import { createPeuuid } from "./utility";
 import service from "../network/service";
 import { getPageName } from "./ga";
@@ -26,6 +28,7 @@ declare var ssoWidget: any;
 
 export const APP_ENV =
   (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || "production";
+// export const APP_ENV = "development";
 
 export const customImageLoader = ({
   src,
@@ -94,7 +97,7 @@ export const setCookieToSpecificTime = (
       const expirationDate = new Date(Date.now() + seconds * 1000);
       cookiestring += `expires=${expirationDate.toUTCString()};`;
     }
-
+    console.log("Domain for Cookie-----", options.domain, options.path);
     cookiestring += `domain=${options.domain}; path=${options.path};`;
 
     document.cookie = cookiestring;
@@ -102,7 +105,13 @@ export const setCookieToSpecificTime = (
     console.log("setCookieToSpecificTime Error:", e);
   }
 };
-
+export const setCookie = (cname: string, cvalue: any, seconds: any) => {
+  let dt = new Date();
+  dt.setTime(dt.getTime() + seconds * 1000);
+  let expires = "; expires=" + dt.toString();
+  document.cookie =
+    cname + "=" + cvalue + expires + "; domain=indiatimes.com; path=/;";
+};
 export const delete_cookie = (name: any) => {
   try {
     if (typeof document === "undefined") {
@@ -112,6 +121,9 @@ export const delete_cookie = (name: any) => {
 
     document.cookie =
       name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    document.cookie =
+      name +
+      "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;domain=.indiatimes.com";
   } catch (err) {
     console.log("delete_cookie Error: ", err);
   }
@@ -286,9 +298,13 @@ export const initSSOWidget = () => {
     gaChannelName: "et",
     last_clicked_lob: "ET",
     signInCallback: function () {
+      const freeTrialData = jStorageReact.get("et_freetrial");
+      console.log(freeTrialData, "freeTrialData signInCallback");
       verifyLogin();
       ssoClose();
-      window.location.reload();
+      if (!freeTrialData || !freeTrialData?.hitAccessPass) {
+        window.location.reload();
+      }
     },
     signupForm: {
       defaultFirstName: "Guest",
@@ -322,19 +338,26 @@ export const initSSOWidget = () => {
 };
 
 export const logout = async () => {
+  const ticketId = getCookie("TicketId");
+  console.log("TIcket ID outside Logut---->", getCookie("TicketId"), ticketId);
   window?.jsso?.signOutUser(async function (response: any) {
     if (response.status == "SUCCESS") {
       delete_cookie("OTR");
+      delete_cookie("etprc");
       delete_cookie("isprimeuser");
       delete_cookie("pfuuid");
       delete_cookie("peuuid");
       delete_cookie("fpid");
-
-      const url = (APIS_CONFIG as any)["LOGOUT_AUTH_TOKEN"][APP_ENV],
+      console.log(
+        "TIcket ID inside Logut---->",
+        getCookie("TicketId"),
+        ticketId,
+      );
+      const url = (APIS_CONFIG as any)["LOGOUT_AUTH_NEW_TOKEN"][APP_ENV],
         oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],
         deviceId = getCookie("_grx"),
-        userSsoId = window?.objUser?.ssoid || getCookie("ssoid"),
-        ticketId = getCookie("TicketId");
+        userSsoId = window?.objUser?.ssoid || getCookie("ssoid");
+      //ticketId = getCookie("TicketId");
 
       const headers = {
         "Content-Type": "application/json;charset=UTF-8",
@@ -342,19 +365,18 @@ export const logout = async () => {
         "X-DEVICE-ID": deviceId,
         "x-sso-id": userSsoId,
         "x-site-app-code": (GLOBAL_CONFIG as any)[APP_ENV]["X_SITE_CODE"],
+        "X-TICKET-ID": ticketId,
       };
 
-      const body = JSON.stringify({ ticketId: ticketId });
+      //const body = JSON.stringify({ ticketId: ticketId });
 
-      const response = await Service.post({
+      const response = await Service.get({
         url,
         headers,
         payload: {},
-        body,
         params: {},
       });
-
-      const logoutSuccess = await response?.json();
+      //const logoutSuccess = await response?.json();
       window.location.reload();
     } else {
       console.log("failure");
@@ -396,6 +418,42 @@ export const loadPrimeApi = async () => {
     // Handle the successful response data
   } catch (e) {
     console.log("loadPrimeApi: " + e);
+  }
+};
+export const loadPrimeApiNew = async () => {
+  try {
+    const url =
+        (APIS_CONFIG as any)["AUTH_NEW_TOKEN"][APP_ENV] +
+        "&grantType=refresh_token",
+      oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],
+      deviceId = getCookie("_grx"),
+      ticketId = getCookie("TicketId"),
+      userSsoId = window?.objUser?.ssoid || getCookie("ssoid");
+
+    const body = JSON.stringify({
+      grantType: "refresh_token",
+    });
+    const headers = {
+      accept: "application/json",
+      "Content-Type": "application/json;charset=UTF-8",
+      "X-CLIENT-ID": oauthClientId,
+      "X-DEVICE-ID": deviceId,
+      "x-sso-id": userSsoId,
+      "x-site-app-code": (GLOBAL_CONFIG as any)[APP_ENV]["X_SITE_CODE"],
+      "X-TICKET-ID": ticketId,
+    };
+
+    const response = await Service.get({
+      url,
+      headers,
+      payload: {},
+      params: {},
+    });
+
+    return response?.json();
+    // Handle the successful response data
+  } catch (e) {
+    console.log("loadPrimeApiNew: " + e);
   }
 };
 

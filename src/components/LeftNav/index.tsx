@@ -1,119 +1,140 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import styles from "./styles.module.scss";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 
-const LeftNav = (props: any) => {
-  const { leftNavResult = {} } = props;
+const LeftNav = ({ leftNavResult = {} }: any) => {
   const { markets = {}, markets_pro = {} } = leftNavResult;
   const [isLoadExpand, setIsLoadExpand] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
   const [isL2Expanded, setIsL2Expanded] = useState(false);
   const [isAutoCollapsed, setAutoCollapsed] = useState(
-    (GLOBAL_CONFIG as any)["NAV_CONFIG"]["Auto_Collapsed"],
+    GLOBAL_CONFIG.NAV_CONFIG.Auto_Collapsed,
   );
   const pathname = usePathname();
-  const timerVal = Number(
-    (GLOBAL_CONFIG as any)["NAV_CONFIG"]["Collapsed_Time"],
-  );
-  const [timeoutRef, setTimeoutRef] = useState<any>(null);
+  const timerVal = Number(GLOBAL_CONFIG.NAV_CONFIG.Collapsed_Time);
 
-  const toggleMenu = () => {
+  const toggleMenu = useCallback(() => {
     if (isAutoCollapsed) {
-      clearTimeout(timeoutRef);
       setAutoCollapsed(false);
     }
-    setIsExpanded(!isExpanded);
-    setIsL2Expanded(!isL2Expanded);
-  };
+    setIsExpanded((prev) => !prev);
+    setIsL2Expanded((prev) => !prev);
+  }, [isAutoCollapsed]);
 
   useEffect(() => {
     if (isLoadExpand) {
-      if (isExpanded) {
-        trackingEvent("et_push_event", {
-          event_category: "mercury_engagement",
-          event_action: "lhsmenu_click",
-          event_label: "lhsmenu_expand",
-        });
-      } else {
-        trackingEvent("et_push_event", {
-          event_category: "mercury_engagement",
-          event_action: "lhsmenu_click",
-          event_label: "lhsmenu_collapse",
-        });
-      }
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: "lhsmenu_click",
+        event_label: isExpanded ? "lhsmenu_expand" : "lhsmenu_collapse",
+      });
     }
   }, [isExpanded, isLoadExpand]);
 
   useEffect(() => {
-    let timerRef = null;
     if (isAutoCollapsed) {
-      timerRef = setTimeout(function () {
-        toggleMenu();
-      }, timerVal * 1000);
-      setTimeoutRef(timerRef);
+      const timerRef = setTimeout(toggleMenu, timerVal * 1000);
+      return () => clearTimeout(timerRef);
     }
+  }, [isAutoCollapsed, timerVal, toggleMenu]);
+
+  const toggleL2Menu = useCallback((e: any) => {
+    const elm = e.currentTarget.closest(`.${styles.navListWrap}`);
+    elm?.classList.toggle(styles.l2Collapsed);
+    elm?.classList.toggle(styles.l2Expanded);
   }, []);
 
-  const toggleL2Menu = (e: any) => {
-    try {
-      const navWrapEle = document.querySelector(`.${styles["navWrap"]}`);
-      const parentElem = e.target.parentNode;
-      const elm = parentElem.classList.contains(styles["mainTabWrap"])
-        ? parentElem.parentNode
-        : parentElem;
-
-      if (navWrapEle?.classList.contains(styles["expanded"])) {
-        if (elm.classList.contains(styles["l2Collapsed"])) {
-          elm.classList.remove(styles["l2Collapsed"]);
-          elm.classList.add(styles["l2Expanded"]);
-        } else {
-          elm.classList.remove(styles["l2Expanded"]);
-          elm.classList.add(styles["l2Collapsed"]);
-        }
-      }
-    } catch (e) {
-      console.log("Error toggleL2Menu: ", e);
-    }
-  };
-
-  const handleMainHover = () => {
+  const handleMainHover = useCallback(() => {
     const element = document.querySelector(`.${styles.navWrap}`);
-    let hoverTimeout: any;
+    let hoverTimeout: NodeJS.Timeout;
 
-    element?.addEventListener("mouseenter", function () {
-      hoverTimeout = setTimeout(function () {
-        element.classList.add(styles.hovered);
-      }, 200); // 500 milliseconds delay
-    });
+    const handleMouseEnter = () => {
+      hoverTimeout = setTimeout(() => {
+        element?.classList.add(styles.hovered);
+      }, 200);
+    };
 
-    element?.addEventListener("mouseleave", function () {
+    const handleMouseLeave = () => {
       clearTimeout(hoverTimeout);
       element?.classList.remove(styles.hovered);
-    });
-  };
+    };
+
+    element?.addEventListener("mouseenter", handleMouseEnter);
+    element?.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      element?.removeEventListener("mouseenter", handleMouseEnter);
+      element?.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
 
   useEffect(() => {
     handleMainHover();
-  }, []);
+  }, [handleMainHover]);
 
-  const hasUrlSelect = (str1: string) => {
-    //console.log("hasUrlSelect -- ", str1, pathname, pathname.includes(str1))
-    return pathname.includes(str1);
-  };
+  const hasUrlSelect = useCallback(
+    (str: string) => pathname.includes(str),
+    [pathname],
+  );
 
-  const navClickTrackingHandle = (navList: any) => {
+  const navClickTrackingHandle = useCallback((navList: any) => {
     trackingEvent("et_push_event", {
       event_category: "mercury_engagement",
       event_action: "lhsmenu_click",
       event_label: navList.l2 || navList.l1,
       selected_category: navList.l1,
     });
-  };
+  }, []);
+
+  const renderIconPaths = useCallback((icon: string) => {
+    const iconPaths: { [key: string]: JSX.Element[] } = {
+      eticon_news: [
+        <span key="1" className="path1"></span>,
+        <span key="2" className="path2"></span>,
+        <span key="3" className="path3"></span>,
+        <span key="4" className="path4"></span>,
+        <span key="5" className="path5"></span>,
+        <span key="6" className="path6"></span>,
+        <span key="7" className="path7"></span>,
+      ],
+      eticon_watchlist: [
+        <span key="1" className="path1"></span>,
+        <span key="2" className="path2"></span>,
+      ],
+      eticon_marketmood: [
+        <span key="1" className="path1"></span>,
+        <span key="2" className="path2"></span>,
+        <span key="3" className="path3"></span>,
+        <span key="4" className="path4"></span>,
+        <span key="5" className="path5"></span>,
+        <span key="6" className="path6"></span>,
+        <span key="7" className="path7"></span>,
+      ],
+      eticon_epaper_icon: [
+        <span key="1" className="path1"></span>,
+        <span key="2" className="path2"></span>,
+      ],
+      eticon_recos: [
+        <span key="1" className="path1"></span>,
+        <span key="2" className="path2"></span>,
+        <span key="3" className="path3"></span>,
+        <span key="4" className="path4"></span>,
+        <span key="5" className="path5"></span>,
+        <span key="6" className="path6"></span>,
+        <span key="7" className="path7"></span>,
+        <span key="8" className="path8"></span>,
+        <span key="9" className="path9"></span>,
+        <span key="10" className="path10"></span>,
+        <span key="11" className="path11"></span>,
+      ],
+    };
+    return iconPaths[icon] || null;
+  }, []);
 
   const navSchemaItemListElements: any[] = [];
   const navSchema = {
@@ -133,7 +154,7 @@ const LeftNav = (props: any) => {
       >
         <div className={styles.toggleMenuWrap}>
           <span
-            className={`${styles.toggleMenu} ${isExpanded ? "eticon_prev" : "eticon_next"}`}
+            className={`${styles.toggleMenu} eticon_hamburger`}
             onClick={() => {
               setIsLoadExpand(true);
               toggleMenu();
@@ -158,7 +179,6 @@ const LeftNav = (props: any) => {
                 <li
                   className={`${styles.navListWrap} ${!isExpanded ? styles.l2Collapsed : ""}`}
                   key={`market_nav_${index}`}
-                  // itemProp="name"
                   role="presentation"
                 >
                   {value.link ? (
@@ -169,14 +189,12 @@ const LeftNav = (props: any) => {
                       onClick={() =>
                         navClickTrackingHandle({ l1: value.label, l2: "" })
                       }
-                      // itemProp="url"
                       className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
                       role="menuitem"
                     >
-                      {/* <meta itemProp="name" content={value.label} /> */}
-                      <span
-                        className={`${value.icon} ${styles.navIcon}`}
-                      ></span>
+                      <span className={`${value.icon} ${styles.navIcon}`}>
+                        {renderIconPaths(value.icon)}
+                      </span>
                       <span
                         className={`${!isExpanded ? styles.hide : ""} ${styles.l1LabelName}`}
                       >
@@ -192,13 +210,11 @@ const LeftNav = (props: any) => {
                     <>
                       <div
                         className={styles.mainTabWrap}
-                        onClick={(e) => {
-                          value.sec && toggleL2Menu(e);
-                        }}
+                        onClick={(e) => value.sec && toggleL2Menu(e)}
                       >
-                        <span
-                          className={`${value.icon} ${styles.navIcon}`}
-                        ></span>
+                        <span className={`${value.icon} ${styles.navIcon}`}>
+                          {renderIconPaths(value.icon)}
+                        </span>
                         <span
                           className={`${!isExpanded ? styles.hide : ""} ${styles.l1LabelName}`}
                         >
@@ -210,24 +226,18 @@ const LeftNav = (props: any) => {
                           ></span>
                         )}
                       </div>
-                      <ul
-                        className={styles.l2ListWrap}
-                        key={`market_nav___${index}`}
-                        role="group"
-                      >
-                        {value?.sec.map((sec: any, index: number) => {
-                          return (
+                      {value.sec && (
+                        <ul className={styles.l2ListWrap} role="group">
+                          {value.sec.map((sec: any, secIndex: number) => (
                             <li
                               className={`${styles.l2List} ${hasUrlSelect(sec.matchPattern) ? styles.active : ""}`}
-                              key={`l2_label_${index}`}
-                              // itemProp="name"
+                              key={`l2_label_${secIndex}`}
                               role="presentation"
                             >
                               <Link
                                 title={sec.label}
                                 href={sec.link}
                                 target={sec?.newTab ? "_blank" : "_self"}
-                                itemProp="url"
                                 onClick={() =>
                                   navClickTrackingHandle({
                                     l1: value.label,
@@ -236,13 +246,12 @@ const LeftNav = (props: any) => {
                                 }
                                 role="menuitem"
                               >
-                                <meta itemProp="name" content={sec.label} />
                                 {sec.label}
                               </Link>
                             </li>
-                          );
-                        })}
-                      </ul>
+                          ))}
+                        </ul>
+                      )}
                     </>
                   )}
                 </li>
@@ -266,42 +275,35 @@ const LeftNav = (props: any) => {
                   <span className="path3"></span>
                 </span>
               </span>
-              {/* {isExpanded ?  : } */}
             </h3>
             <ul role="group">
-              {markets_pro?.nav?.map((value: any, index: any) => {
-                return (
-                  <li
-                    className={styles.navListWrap}
-                    key={`market_pro_nav_${index}`}
-                    // itemProp="name"
-
-                    role="presentation"
+              {markets_pro?.nav?.map((value: any, index: any) => (
+                <li
+                  className={styles.navListWrap}
+                  key={`market_pro_nav_${index}`}
+                  role="presentation"
+                >
+                  <Link
+                    href={value.link}
+                    title={value.label}
+                    target={value?.newTab ? "_blank" : "_self"}
+                    onClick={() =>
+                      navClickTrackingHandle({ l1: value.label, l2: "" })
+                    }
+                    className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
+                    role="menuitem"
                   >
-                    <Link
-                      href={value.link}
-                      title={value.label}
-                      target={value?.newTab ? "_blank" : "_self"}
-                      onClick={() =>
-                        navClickTrackingHandle({ l1: value.label, l2: "" })
-                      }
-                      itemProp="url"
-                      className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
-                      role="menuitem"
+                    <span className={`${value.icon} ${styles.navIcon}`}>
+                      {renderIconPaths(value.icon)}
+                    </span>
+                    <span
+                      className={`${!isExpanded ? styles.hide : ""} ${styles.l1LabelName}`}
                     >
-                      <meta itemProp="name" content={value.label} />
-                      <span
-                        className={`${value.icon} ${styles.navIcon}`}
-                      ></span>
-                      <span
-                        className={`${!isExpanded ? styles.hide : ""} ${styles.l1LabelName}`}
-                      >
-                        {value.label}
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
+                      {value.label}
+                    </span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

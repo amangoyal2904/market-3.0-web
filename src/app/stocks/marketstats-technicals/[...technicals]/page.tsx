@@ -221,7 +221,7 @@ const Technicals = async ({ params, searchParams }: any) => {
         tableConfig={tableConfig["marketStatsTechnical"]}
         tabConfig={tabConfig["marketStatsTechnical"]}
         payload={payload}
-        ssoid={ssoid}
+        ssoidAtServerEnd={ssoid}
         l3NavMenuItem={L3NavMenuItem}
         actualUrl={actualUrl}
         shortUrlMapping={shortUrlMapping}

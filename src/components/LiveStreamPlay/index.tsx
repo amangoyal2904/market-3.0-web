@@ -15,22 +15,17 @@ declare global {
 }
 const LiveStreamPlay = (props: any) => {
   const [newsData, setNewsData] = useState([]);
-  const [activeData, setActiveData] = useState(null);
   const [currentSIndex, setCurrentSIndex] = useState(0);
-  const [token, setToken] = useState("");
   const [liveStatus, setLiveStatus] = useState(false);
   const [eventId, setEventId] = useState("");
   const [eventToken, setEventToken] = useState("");
   const [iframeURL, setIframeURL] = useState("");
   const [followingData, setFollowingData] = useState<any>([]);
   const [expertFollowers, setExpertFollowers] = useState("");
-  const [impressionLabel, setImpressionLabel] = useState("");
-  const utmSource = "?utm_source=MainHome&utm_medium=Self-Referrals";
   const iframeRef = useRef();
   const IFRAME_BASE = "https://cpl.sli.ke";
-  const ET_WAP_URL = "https://m.economictimes.com/";
   const { state } = useStateContext();
-  const { isLogin, userInfo, isPrime } = state.login;
+  const { isLogin } = state.login;
 
   const fetchList = async () => {
     const currentDate = new Date();
@@ -129,7 +124,6 @@ const LiveStreamPlay = (props: any) => {
         .then((response: any) => {
           const tokenValue = (response && response && response.token) || "";
           if (!tokenValue) throw response;
-          setToken(tokenValue);
           const url = `${(APIS_CONFIG as any)?.["SLIKE_CLEO_URL"][APP_ENV]}/#id=${eventId}&jwt=${tokenValue}&apikey=et-n9GgmFF518E5Bknb&qna=false&comments=false&screenshot=false&controls=true&headless=false&autoplay=2&ffsmobile=false&bgpause=false&log=0${!liveStatus ? "&dvr=true" : "&dvr=false"}`;
           setIframeURL(url);
         })
@@ -160,23 +154,6 @@ const LiveStreamPlay = (props: any) => {
       iframe.contentWindow.postMessage(payload, IFRAME_BASE);
     }
   };
-  // const prepareImpression = (item = {}) => {
-  //     const {title, eventId, expertId, eventStatus} = item;
-  //     window.customDimension['dimension23'] = expertId;
-  //     window.customDimension['dimension112'] = eventId;
-  //     window.customDimension['dimension117'] = eventStatus == 3 ? "live" : "recorded";
-  //     const label = `Label=VID-${eventId}-${title}/Expert=${expertId}`;
-  //     setImpressionLabel(label);
-  // }
-  // const sendSlideImpression = (item = {}, nextIndex: number) =>{
-  //     const direction = currentSIndex > nextIndex ? "Prev" : "Next";
-  //     const {title, eventId, expertId, eventStatus} = item;
-  //     window.customDimension['dimension23'] = expertId;
-  //     window.customDimension['dimension112'] = eventId;
-  //     window.customDimension['dimension117'] = eventStatus == 3 ? "live" : "recorded";
-  //     const label = `Label=${direction}-Slide-${currentSIndex+1}-${nextIndex+1}`;
-  //     grxEvent('event', {'event_category': 'ETLive-Impression', 'event_action': 'et-main-hp-widget', 'event_label': label});
-  // }
   const startFetching = () => {
     fetchList()
       .then((response: any) => {
@@ -190,7 +167,6 @@ const LiveStreamPlay = (props: any) => {
               setNewsData(filteredEvents);
               prepareData(filteredEvents[0]);
             }
-            // prepareImpression(result[0]);
           }
         }
       })
@@ -220,7 +196,6 @@ const LiveStreamPlay = (props: any) => {
     }
   };
   const prepareData = (item: any) => {
-    setActiveData(item);
     setEventId(item?.eventId);
     setEventToken(item?.eventToken);
     setLiveStatus(item?.eventStatus == 3 ? true : false);
@@ -261,27 +236,7 @@ const LiveStreamPlay = (props: any) => {
     setCurrentSIndex(index);
     const item = newsData[index];
     item && prepareData(item);
-    // sendSlideImpression(item, index);
   };
-  //   function handleClick(target: string) {
-  //     let label = `Label=click-livestream-icon`;
-  //     if (activeData) {
-  //       const { title, eventId, expertId, eventStatus } = activeData;
-  //       const watchStatus = eventStatus == 3 ? "WatchLive" : "WatchNow";
-  //       if (target === "expert") {
-  //         label = `Label=ExpertNameClick-Link=${currentSIndex + 1}/Title=VID-${eventId}-${title}/Expert ID=${expertId}`;
-  //       } else if (target === "storyTitle") {
-  //         label = `Label=VideoClick-Link=${currentSIndex + 1}/Title=VID-${eventId}-${title}/Expert ID=${expertId}`;
-  //       } else if (target === "watchButton") {
-  //         label = `Label=${watchStatus}-Link=${currentSIndex + 1}/Title=VID-${eventId}-${title}/Expert ID=${expertId}`;
-  //       }
-  //       window.customDimension["dimension23"] = expertId;
-  //       window.customDimension["dimension112"] = eventId;
-  //       window.customDimension["dimension117"] =
-  //         eventStatus == 3 ? "live" : "recorded";
-  //     }
-  //     //grxEvent('event', {'event_category': 'ETLive-Core', 'event_action': 'et-main-hp-widget', 'event_label': label});
-  //   }
   return newsData && liveStatus ? (
     <div className={styles.sliderContainer}>
       {newsData?.length ? (

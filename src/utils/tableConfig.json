@@ -105,8 +105,35 @@
     "showWatchlistIcon": false,
     "horizontalScroll": true
   },
+  "sectorsListing": {
+    "name": "sectorsListing",
+    "tabs": false,
+    "loader": true,
+    "showFilterInput": false,
+    "isSorting": true,
+    "serverSideSort": true,
+    "isHeaderSticky": true,
+    "pagination": false,
+    "loaderType": "global",
+    "showWatchlistIcon": false,
+    "horizontalScroll": true
+  },
   "indicesConstituents": {
     "name": "indicesConstituents",
+    "tabs": true,
+    "loader": false,
+    "showFilterInput": false,
+    "isSorting": true,
+    "serverSideSort": true,
+    "isHeaderSticky": false,
+    "pagination": true,
+    "loaderType": "inner",
+    "showWatchlistIcon": true,
+    "horizontalScroll": true,
+    "isWidget": true
+  },
+  "sectorsConstituents": {
+    "name": "sectorsConstituents",
     "tabs": true,
     "loader": false,
     "showFilterInput": false,

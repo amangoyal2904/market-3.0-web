@@ -5,27 +5,34 @@ declare global {
   interface Window {
     googletag: any;
     arrDfpAds: {}[];
-    _auds:any;
+    _auds: any;
   }
 }
 
-export const loadAndBeyondScript = function(userType = true){
-  try{
-      if(!userType){
+export const loadAndBeyondScript = function (userType = true) {
+  try {
+    if (!userType) {
       setTimeout(() => {
         console.log("Delayed for 10 second.");
-      let isExist = document.querySelector("script[src*='https://rtbcdn.andbeyond.media/prod-global-34387.js']");
-      if(!isExist){
-          loadAssets("https://rtbcdn.andbeyond.media/prod-global-34387.js", "js", "async", "head",  function() {}, {});
-      }
+        let isExist = document.querySelector(
+          "script[src*='https://rtbcdn.andbeyond.media/prod-global-34387.js']",
+        );
+        if (!isExist) {
+          loadAssets(
+            "https://rtbcdn.andbeyond.media/prod-global-34387.js",
+            "js",
+            "async",
+            "head",
+            function () {},
+            {},
+          );
+        }
       }, 10000);
-   }
-    
-}catch(e){
-  console.log("loadAndBeyondScript::" +e);
-}
-
-}
+    }
+  } catch (e) {
+    console.log("loadAndBeyondScript::" + e);
+  }
+};
 const getDFPData = async function () {
   try {
     let dfp;
@@ -75,13 +82,17 @@ const callDfpAd = async function () {
         }
         adSize =
           adSize && (typeof adSize == "string" ? JSON.parse(adSize) : adSize);
-          try { 
-            window._auds = window._auds || JSON.parse(localStorage.getItem("audienceData") || '{}'); 
-          } catch (e) { window._auds = ''; } 
-           window._auds = window._auds || '';
-            
-            const ppid = returnPPID(); 
-            const aud_flag = ppid ? "true" : "false";
+        try {
+          window._auds =
+            window._auds ||
+            JSON.parse(localStorage.getItem("audienceData") || "{}");
+        } catch (e) {
+          window._auds = "";
+        }
+        window._auds = window._auds || "";
+
+        const ppid = returnPPID();
+        const aud_flag = ppid ? "true" : "false";
 
         if (adSlot != "" && adSize != "" && divId != "") {
           if (typeof googleTag != "undefined" && googleTag.apiReady) {
@@ -89,13 +100,13 @@ const callDfpAd = async function () {
               ad_ref = googleTag
                 .defineSlot(adSlot, adSize, divId)
                 .addService(googleTag.pubads());
-              if(window._auds){
-                googleTag.pubads().setTargeting('sg', window._auds);
+              if (window._auds) {
+                googleTag.pubads().setTargeting("sg", window._auds);
               }
-              if(ppid){
+              if (ppid) {
                 googleTag.pubads().setPublisherProvidedId(ppid);
               }
-              googleTag.pubads().setTargeting('aud_flag', aud_flag);
+              googleTag.pubads().setTargeting("aud_flag", aud_flag);
               googleTag.pubads().enableSingleRequest();
               googleTag.enableServices();
             });

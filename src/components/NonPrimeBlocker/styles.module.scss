@@ -114,7 +114,10 @@
       text-transform: capitalize;
       border: solid 1px rgb(235, 34, 39);
       margin-left: 10px;
-      &::after {
+      &.freeTrial {
+        padding: 10px 20px;
+      }
+      &:not(.freeTrial):after {
         content: "";
         position: absolute;
         left: 13px;

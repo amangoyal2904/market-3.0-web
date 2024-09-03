@@ -32,6 +32,7 @@ interface propsType {
   l3NavTracking?: any;
   setUpdateDateTime?: any;
   setFallbackWebsocket?: any;
+  socketDataType?: any;
 }
 
 const DEBOUNCE_DELAY = 10;
@@ -58,6 +59,7 @@ const MarketTable = React.memo((props: propsType) => {
     l3NavTracking = "",
     setUpdateDateTime,
     setFallbackWebsocket = false,
+    socketDataType = "",
   } = props || {};
 
   const wsRef = useRef<WebSocket | null>(null);
@@ -477,14 +479,14 @@ const MarketTable = React.memo((props: propsType) => {
 
     const requestBody = {
       action: "subscribe",
-      symbols: l2NavTracking === "Indices" ? [] : companies,
-      indices: l2NavTracking === "Indices" ? companies : [],
+      symbols: socketDataType === "stock" ? companies : [],
+      indices: socketDataType === "index" ? companies : [],
     };
 
     const unsubscribeRequestBody = {
       action: "unsubscribe",
-      symbols: l2NavTracking === "Indices" ? [] : companies,
-      indices: l2NavTracking === "Indices" ? companies : [],
+      symbols: socketDataType === "stock" ? companies : [],
+      indices: socketDataType === "index" ? companies : [],
     };
 
     const initializeWebSocket = () => {

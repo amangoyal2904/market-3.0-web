@@ -10,10 +10,11 @@ import { goToPlansPage1, trackingEvent } from "@/utils/ga";
 import Login from "../Login";
 import Search from "../Search";
 import useDebounce from "@/hooks/useDebounce";
-import { getCurrentMarketStatus } from "@/utils/utility";
-import refeshConfig from "@/utils/refreshConfig.json";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
+import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
+import { useMarketStatus } from "@/hooks/useMarketStatus";
+
 const CommonNudge = dynamic(() => import("@/components/CommonNudge"), {
   ssr: false,
 });
@@ -22,19 +23,13 @@ const LiveMarketData = dynamic(() => import("../LiveMarketData"), {
 });
 
 const Header = () => {
-  const { state, dispatch } = useStateContext();
+  const { state } = useStateContext();
   const { isPrime } = state.login;
   const { debounce } = useDebounce();
+  useMarketStatus();
   const [shouldRenderComponent, setShouldRenderComponent] = useState(false);
 
-  const [mktStatus, setMktStatus] = useState({
-    currentMarketStatus: "",
-    marketStatus: "",
-  });
-  const [lastMarketStatus, setLastMarketStatus] = useState({
-    currentMarketStatus: "",
-    marketStatus: "",
-  });
+  const [validAccessPass, setValidAccessPass] = useState(false);
 
   const handleResize = useCallback(() => {
     setShouldRenderComponent(window.innerWidth >= 1280);
@@ -42,30 +37,34 @@ const Header = () => {
 
   const redirectToPlanPage = () => {
     try {
-      const pagePathName = window.location.pathname;
-      let site_section = pagePathName.split("/");
-      let lastSlash = site_section[site_section.length - 1];
-      trackingEvent("et_push_event", {
-        event_category: "Subscription Flow ET",
-        event_action: "SYFT | Flow Started",
-        event_label: "ATF - " + window.location.href,
-      });
-      const obj = {
-        item_name: "atf_" + lastSlash,
-        item_id: "atf",
-        item_brand: "market_tools",
-        item_category: "atf_offer_cta",
-        item_category2: lastSlash,
-        item_category3: "atf_cta",
-        item_category4: "Subscribe Now",
-      };
-      const cdp = {
-        event_nature: "click",
-        event_category: "subscription",
-        event_name: "paywall",
-        cta_text: "Subscribe Now",
-      };
-      goToPlansPage1("select_item", obj, true, cdp);
+      if (validAccessPass) {
+        activateFreeTrial();
+      } else {
+        const pagePathName = window.location.pathname;
+        let site_section = pagePathName.split("/");
+        let lastSlash = site_section[site_section.length - 1];
+        trackingEvent("et_push_event", {
+          event_category: "Subscription Flow ET",
+          event_action: "SYFT | Flow Started",
+          event_label: "ATF - " + window.location.href,
+        });
+        const obj = {
+          item_name: "atf_" + lastSlash,
+          item_id: "atf",
+          item_brand: "market_tools",
+          item_category: "atf_offer_cta",
+          item_category2: lastSlash,
+          item_category3: "atf_cta",
+          item_category4: "Subscribe Now",
+        };
+        const cdp = {
+          event_nature: "click",
+          event_category: "subscription",
+          event_name: "paywall",
+          cta_text: "Subscribe Now",
+        };
+        goToPlansPage1("select_item", obj, true, cdp);
+      }
     } catch (Err) {
       console.log("redirectToPlanPage Err:", Err);
       goToPlansPage1("select_item", {}, true);
@@ -82,80 +81,9 @@ const Header = () => {
   }, [handleResize]);
 
   useEffect(() => {
-    let isMounted = true;
-    let timeoutId: number;
-
-    const getMarketStatus = async () => {
-      if (document.visibilityState !== "visible") {
-        return;
-      }
-      try {
-        const result = await getCurrentMarketStatus();
-        if (isMounted && !!result) {
-          if (
-            result.currentMarketStatus !== undefined &&
-            result.marketStatus !== undefined
-          ) {
-            setMktStatus({
-              currentMarketStatus: result.currentMarketStatus,
-              marketStatus: result.marketStatus,
-            });
-          }
-          if (result?.marketStatus === "ON") {
-            timeoutId = window.setTimeout(
-              getMarketStatus,
-              refeshConfig.marketStatus,
-            );
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching market status:", error);
-        // Handle error as needed, e.g., set an error state or retry mechanism
-      }
-    };
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
-        getMarketStatus();
-      } else {
-        clearTimeout(timeoutId);
-      }
-    };
-
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    // Initial call
-    if (document.visibilityState === "visible") {
-      getMarketStatus();
-    }
-
-    return () => {
-      isMounted = false;
-      clearTimeout(timeoutId);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
+    const isValidAccessPass = freeTrialElegibilty();
+    setValidAccessPass(isValidAccessPass);
   }, []);
-
-  useEffect(() => {
-    if (
-      mktStatus.currentMarketStatus !== "" &&
-      mktStatus.marketStatus !== "" &&
-      (mktStatus.currentMarketStatus !== lastMarketStatus.currentMarketStatus ||
-        mktStatus.marketStatus !== lastMarketStatus.marketStatus)
-    ) {
-      dispatch({
-        type: "MARKET_STATUS",
-        payload: {
-          currentMarketStatus: mktStatus.currentMarketStatus.toUpperCase(),
-          marketStatus: mktStatus.marketStatus.toUpperCase(),
-        },
-      });
-      setLastMarketStatus({
-        currentMarketStatus: mktStatus.currentMarketStatus,
-        marketStatus: mktStatus.marketStatus,
-      });
-    }
-  }, [mktStatus, lastMarketStatus, dispatch]);
 
   return (
     <>
@@ -205,20 +133,6 @@ const Header = () => {
             </div>
             <div className={`dflex align-item-center`}>
               {shouldRenderComponent && <LiveMarketData />}
-              {/* <Link
-                className="default-btn"
-                href="/watchlist"
-                title="My Watchlist"
-                onClick={() =>
-                  trackingEvent("et_push_event", {
-                    event_category: "mercury_engagement",
-                    event_action: "atf_header_click",
-                    event_label: "MyWatchList",
-                  })
-                }
-              >
-                My Watchlist
-              </Link> */}
               {!isPrime && (
                 <span
                   className={`default-btn ${styles.subscribeBtn}`}
@@ -232,7 +146,7 @@ const Header = () => {
                     title="Subscribe"
                     className={styles.prime_icon}
                   />
-                  Subscribe
+                  {validAccessPass ? "Start Free Trial" : "Subscribe"}
                 </span>
               )}
               <Login />
