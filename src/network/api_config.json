@@ -518,5 +518,9 @@
   "SECTORS_FAQ": {
     "development": "https://screener.indiatimes.com/screener/sectorFaq",
     "production": "https://screener.indiatimes.com/screener/sectorFaq"
+  },
+  "CHARTPATTERNBYID": {
+    "development": "https://qcbselivefeeds.indiatimes.com/ETChartPattern/companyChartPatternById",
+    "production": "https://qcbselivefeeds.indiatimes.com/ETChartPattern/companyChartPatternById"
   }
 }

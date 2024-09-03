@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import Script from "next/script";
 import { getCookie } from "@/utils";
 import { useStateContext } from "@/store/StateContext";
-import styles from "./Chart.module.scss";
+import styles from "./TechnicalCharts.module.scss";
 
 const TVChartContainer = dynamic(
   () =>
@@ -12,8 +12,7 @@ const TVChartContainer = dynamic(
   { ssr: false },
 );
 
-const ChartClient = (defaultWidgetProps: any) => {
-  const { patternId } = defaultWidgetProps;
+const TechnicalChartsClient = (defaultWidgetProps: any) => {
   const { state } = useStateContext();
   const { ssoReady, isLogin, ssoid } = state.login;
   const [isScriptReady, setIsScriptReady] = useState(false);
@@ -58,15 +57,17 @@ const ChartClient = (defaultWidgetProps: any) => {
           setIsScriptReady(true);
         }}
       />
-      {userid && isScriptReady ? (
-        <TVChartContainer {...widgetProps} patternId={patternId} />
-      ) : (
-        <div className={styles.loadingIndicator}>
-          <div className={styles.spinner}></div>
-        </div>
-      )}
+      <div className={styles.chartWrapper}>
+        {userid && isScriptReady ? (
+          <TVChartContainer {...widgetProps} />
+        ) : (
+          <div className={styles.loadingIndicator}>
+            <div className={styles.spinner}></div>
+          </div>
+        )}
+      </div>
     </>
   );
 };
 
-export default ChartClient;
+export default TechnicalChartsClient;
