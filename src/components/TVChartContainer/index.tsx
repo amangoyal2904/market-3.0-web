@@ -5,7 +5,6 @@ import {
   ResolutionString,
   widget,
 } from "../../../public/static/v28/charting_library";
-import { getParameterByName } from "@/utils";
 import { trackingEvent } from "@/utils/ga";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
@@ -23,9 +22,21 @@ const timePair: TimePair = {
 };
 
 export const TVChartContainer = (
-  props: Partial<ChartingLibraryWidgetOptions> & { patternId?: string },
+  props: Partial<ChartingLibraryWidgetOptions> & {
+    patternId?: string;
+    chartType?: string;
+    gaHit?: string;
+    savePatternImages?: string;
+    updatePageUrl?: string;
+  },
 ) => {
-  const { patternId } = props;
+  const {
+    patternId,
+    chartType,
+    gaHit = true,
+    savePatternImages = "false",
+    updatePageUrl = "false",
+  } = props;
   const chartContainerRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
   const iframeRef = useRef<HTMLIFrameElement | null>(null); // Ref for iframe
@@ -40,10 +51,6 @@ export const TVChartContainer = (
     baseline_delta: 10,
     hi_lo: 12,
   };
-
-  const chartType = getParameterByName("chart_type");
-  const gaHit = getParameterByName("ga_hit");
-
   const overrides =
     props.theme === "dark"
       ? {
@@ -172,7 +179,7 @@ export const TVChartContainer = (
         formData.append("mode", tvWidget.getTheme());
         try {
           const response = await fetch(
-            "https://qcbselivefeeds.indiatimes.com/ETChartPattern/chartSnapshot",
+            "https://etelectionk8s.indiatimes.com/chartpatterns/chartSnapshot",
             {
               method: "POST",
               body: formData,
@@ -379,45 +386,48 @@ export const TVChartContainer = (
     };
 
     tvWidget.onChartReady(async () => {
+      tvWidget.changeTheme(props.theme === "dark" ? "dark" : "light");
+
+      // Last saved chart will get loaded only if save is not disabled in disabled_features
+      if (loadLastChart) {
+        tvWidget.subscribe("onAutoSaveNeeded", handleAutoSave);
+      }
+
+      // Page url will be updated on change of Interval and Symbol change
+      if (updatePageUrl == "true") {
+        tvWidget
+          .activeChart()
+          .onIntervalChanged()
+          .subscribe(null, () => updateUrl());
+
+        tvWidget
+          .activeChart()
+          .onSymbolChanged()
+          .subscribe(null, () => updateUrl());
+      }
+
+      // GA will be fired by default, to stop pass ga_hit=false in param
       if (gaHit != "false") {
         trackingEvent("et_push_event", {
           event_category: "mercury_engagement",
           event_action: `Impression - WEB Technical Chart`,
           event_label: name,
         });
-      }
-
-      tvWidget.changeTheme(props.theme === "dark" ? "dark" : "light");
-      if (loadLastChart) {
-        tvWidget.subscribe("onAutoSaveNeeded", handleAutoSave);
-      }
-
-      tvWidget
-        .activeChart()
-        .onIntervalChanged()
-        .subscribe(null, () => updateUrl());
-
-      tvWidget
-        .activeChart()
-        .onSymbolChanged()
-        .subscribe(null, () => updateUrl());
-
-      if (gaHit != "false") {
         tvWidget
           .activeChart()
           .onChartTypeChanged()
           .subscribe(null, () => {
             handleTracking(chartType);
           });
-      }
-
-      if (gaHit != "false") {
         tvWidget.subscribe("undo", () => handleTracking("undo"));
         tvWidget.subscribe("redo", () => handleTracking("redo"));
         tvWidget.subscribe("indicators_dialog", () =>
           handleTracking("Indicators"),
         );
+        attachEventListeners();
       }
+
+      // Chart Type will get change if valid chart_type param passed
       if (
         chartType &&
         chartTypes[chartType as keyof typeof chartTypes] !== undefined
@@ -426,10 +436,8 @@ export const TVChartContainer = (
           .activeChart()
           .setChartType(chartTypes[chartType as keyof typeof chartTypes]);
       }
-      if (gaHit != "false") {
-        attachEventListeners();
-      }
 
+      // Pattern will get formed if pattern id is available
       if (patternId) {
         const patternDataResponse = await getPatternData(patternId);
         if (patternDataResponse) {
@@ -456,9 +464,11 @@ export const TVChartContainer = (
             shape: patternShape,
           });
 
-          setTimeout(() => {
-            savePatternImage(patternId);
-          }, 1000);
+          if (savePatternImages == "true") {
+            setTimeout(() => {
+              savePatternImage(patternId);
+            }, 1000);
+          }
         }
       }
     });

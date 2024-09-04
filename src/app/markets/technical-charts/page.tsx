@@ -56,9 +56,14 @@ const TechnicalCharts = () => {
     "5Y": "60M",
   };
 
+  const patternId = searchParams.get("patternid");
+  const gaHit = searchParams.get("ga_hit");
+  const chartType = searchParams.get("chart_type");
+
   const hideMenu = searchParams.get("no_menu")
     ? searchParams.get("no_menu")
     : 0;
+
   const dontSave = searchParams.get("dont_save")
     ? searchParams.get("dont_save")
     : false;
@@ -90,16 +95,27 @@ const TechnicalCharts = () => {
   const getInterval = () => {
     const itvl = searchParams.get("periodicity") || "day";
     const defaultPeriod = searchParams.get("default_period") || null; // Updated to handle null if not present
+
     const timeframe =
       defaultPeriod && timeFramePair[defaultPeriod]
         ? timeFramePair[defaultPeriod]
         : "1D"; // Set to "1D" by default if default_period is not available
+
+    // Mapping for defaultPeriod values to intervals
+    const defaultPeriodIntervalMap: { [key: string]: string | number } = {
+      "1D": 1,
+      "5D": 15,
+      "1M": "1D",
+      "3M": "1D",
+      "6M": "1D",
+      "1Y": "1D",
+      "3Y": "W",
+      "5Y": "W",
+    };
+
     const interval =
-      (timeframe === "1D" || timeframe === "5D" || timeframe === "1W") &&
-      itvl === "day"
-        ? timeframe === "1D"
-          ? 1
-          : 15
+      defaultPeriod && defaultPeriodIntervalMap[defaultPeriod]
+        ? defaultPeriodIntervalMap[defaultPeriod]
         : typeof itvl !== "undefined" && Number(itvl)
           ? Number(itvl)
           : typeof itvl !== "undefined" && timePair[itvl]
@@ -127,8 +143,6 @@ const TechnicalCharts = () => {
         "timeframes_toolbar",
         "main_series_scale_menu",
         "context_menus",
-        "header_screenshot",
-        "header_fullscreen_button",
         "go_to_date",
         "edit_buttons_in_legend",
         "create_volume_indicator_by_default",
@@ -141,6 +155,23 @@ const TechnicalCharts = () => {
       onlyChart.push("header_saveload", "use_localstorage_for_settings");
     }
 
+    if (patternId != "" && patternId != null) {
+      onlyChart.push(
+        "header_saveload",
+        "use_localstorage_for_settings",
+        "left_toolbar",
+        "header_widget",
+        "timeframes_toolbar",
+        "main_series_scale_menu",
+        "context_menus",
+        "go_to_date",
+        "edit_buttons_in_legend",
+        "create_volume_indicator_by_default",
+        "border_around_the_chart",
+        "adaptive_logo",
+      );
+    }
+
     return onlyChart;
   };
 
@@ -151,12 +182,9 @@ const TechnicalCharts = () => {
     ? onlyChart.map((feature) => feature as ChartingLibraryFeatureset)
     : [
         "adaptive_logo",
-        "header_screenshot",
-        "header_fullscreen_button",
         "go_to_date",
         "show_object_tree",
         "symbol_info",
-        "header_fullscreen_button",
         "show_right_widgets_panel_by_default",
         "popup_hints",
         "chart_property_page_trading",
@@ -171,7 +199,15 @@ const TechnicalCharts = () => {
     disabled_features: disabledFeatures,
     fullscreen: false,
   };
-  return <TechnicalChartsClient {...defaultWidgetProps} />;
+
+  return (
+    <TechnicalChartsClient
+      {...defaultWidgetProps}
+      patternId={patternId}
+      gaHit={gaHit}
+      chartType={chartType}
+    />
+  );
 };
 
 export default TechnicalCharts;
