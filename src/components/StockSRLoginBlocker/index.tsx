@@ -63,7 +63,7 @@ export default function StockSRLoginBlocker({
   useEffect(() => {
     const handleClickOutside = (event: any) => {
       if (modalRef?.current && !modalRef?.current.contains(event.target)) {
-        handleClick(false);
+        handleClick(false, "", false);
       }
     };
 
