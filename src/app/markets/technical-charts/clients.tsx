@@ -13,6 +13,7 @@ const TVChartContainer = dynamic(
 );
 
 const TechnicalChartsClient = (defaultWidgetProps: any) => {
+  const { patternId, gaHit, chartType } = defaultWidgetProps;
   const { state } = useStateContext();
   const { ssoReady, isLogin, ssoid } = state.login;
   const [isScriptReady, setIsScriptReady] = useState(false);
@@ -49,7 +50,7 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
   }, []);
 
   return (
-    <>
+    <div className={styles.chartWrapper}>
       <Script
         src="/marketsweb/static/v28/datafeeds/udf/dist/bundle.js"
         strategy="lazyOnload"
@@ -57,16 +58,20 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
           setIsScriptReady(true);
         }}
       />
-      <div className={styles.chartWrapper}>
-        {userid && isScriptReady ? (
-          <TVChartContainer {...widgetProps} />
-        ) : (
-          <div className={styles.loadingIndicator}>
-            <div className={styles.spinner}></div>
-          </div>
-        )}
-      </div>
-    </>
+      {userid && isScriptReady ? (
+        <TVChartContainer
+          {...widgetProps}
+          patternId={patternId}
+          gaHit={gaHit}
+          chartType={chartType}
+          updatePageUrl="true"
+        />
+      ) : (
+        <div className={styles.loadingIndicator}>
+          <div className={styles.spinner}></div>
+        </div>
+      )}
+    </div>
   );
 };
 
