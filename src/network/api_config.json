@@ -520,7 +520,7 @@
     "production": "https://screener.indiatimes.com/screener/sectorFaq"
   },
   "CHARTPATTERNBYID": {
-    "development": "https://qcbselivefeeds.indiatimes.com/ETChartPattern/companyChartPatternById",
-    "production": "https://qcbselivefeeds.indiatimes.com/ETChartPattern/companyChartPatternById"
+    "development": "https://etelectionk8s.indiatimes.com/chartpatterns/companyChartPatternById",
+    "production": "https://etelectionk8s.indiatimes.com/chartpatterns/companyChartPatternById"
   }
 }

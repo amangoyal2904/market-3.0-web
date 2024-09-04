@@ -5,7 +5,6 @@ import {
   ResolutionString,
   widget,
 } from "../../../public/static/v28/charting_library";
-import { getParameterByName } from "@/utils";
 import { trackingEvent } from "@/utils/ga";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
@@ -23,9 +22,21 @@ const timePair: TimePair = {
 };
 
 export const TVChartContainer = (
-  props: Partial<ChartingLibraryWidgetOptions> & { patternId?: string },
+  props: Partial<ChartingLibraryWidgetOptions> & {
+    patternId?: string;
+    chartType?: string;
+    gaHit?: string;
+    savePatternImages?: string;
+    updatePageUrl?: string;
+  },
 ) => {
-  const { patternId } = props;
+  const {
+    patternId,
+    chartType,
+    gaHit = true,
+    savePatternImages = "false",
+    updatePageUrl = "false",
+  } = props;
   const chartContainerRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
   const iframeRef = useRef<HTMLIFrameElement | null>(null); // Ref for iframe
@@ -40,10 +51,6 @@ export const TVChartContainer = (
     baseline_delta: 10,
     hi_lo: 12,
   };
-
-  const chartType = getParameterByName("chart_type");
-  const gaHit = getParameterByName("ga_hit");
-
   const overrides =
     props.theme === "dark"
       ? {
@@ -172,7 +179,7 @@ export const TVChartContainer = (
         formData.append("mode", tvWidget.getTheme());
         try {
           const response = await fetch(
-            "https://qcbselivefeeds.indiatimes.com/ETChartPattern/chartSnapshot",
+            "https://etelectionk8s.indiatimes.com/chartpatterns/chartSnapshot",
             {
               method: "POST",
               body: formData,
@@ -392,15 +399,17 @@ export const TVChartContainer = (
         tvWidget.subscribe("onAutoSaveNeeded", handleAutoSave);
       }
 
-      tvWidget
-        .activeChart()
-        .onIntervalChanged()
-        .subscribe(null, () => updateUrl());
+      if (updatePageUrl == "true") {
+        tvWidget
+          .activeChart()
+          .onIntervalChanged()
+          .subscribe(null, () => updateUrl());
 
-      tvWidget
-        .activeChart()
-        .onSymbolChanged()
-        .subscribe(null, () => updateUrl());
+        tvWidget
+          .activeChart()
+          .onSymbolChanged()
+          .subscribe(null, () => updateUrl());
+      }
 
       if (gaHit != "false") {
         tvWidget
@@ -456,9 +465,11 @@ export const TVChartContainer = (
             shape: patternShape,
           });
 
-          setTimeout(() => {
-            savePatternImage(patternId);
-          }, 1000);
+          if (savePatternImages == "true") {
+            setTimeout(() => {
+              savePatternImage(patternId);
+            }, 1000);
+          }
         }
       }
     });
