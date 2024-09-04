@@ -173,6 +173,9 @@ const Chart = () => {
         "border_around_the_chart",
         "adaptive_logo",
       );
+      if (savePatternImages == "true") {
+        onlyChart.push("legend_widget");
+      }
     }
 
     return onlyChart;

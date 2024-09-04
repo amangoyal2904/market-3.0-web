@@ -39,6 +39,7 @@ export const TVChartContainer = (
   } = props;
   const chartContainerRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
+  const param_periodicity = props.interval as ResolutionString;
   const iframeRef = useRef<HTMLIFrameElement | null>(null); // Ref for iframe
   const chartTypes = {
     bar: 0,
@@ -386,6 +387,7 @@ export const TVChartContainer = (
     };
 
     tvWidget.onChartReady(async () => {
+      tvWidget.activeChart().setResolution(param_periodicity);
       tvWidget.changeTheme(props.theme === "dark" ? "dark" : "light");
 
       // Last saved chart will get loaded only if save is not disabled in disabled_features
