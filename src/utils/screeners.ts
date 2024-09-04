@@ -42,3 +42,26 @@ export const commonPostAPIHandler = async (
     throw error; // Rethrow the error to handle it outside of this function
   }
 };
+
+export const commonGetAPIHandler = async (urlPathName: string, query = "") => {
+  try {
+    const apiUrl = `${(APIS_CONFIG as any)?.[urlPathName][APP_ENV]}${query && query !== "" ? query : ""}`;
+    const response: any = await Service.get({
+      url: apiUrl,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+      params: {},
+    });
+
+    if (!response?.ok) {
+      throw new Error(`Failed to fetch: ${response.statusText}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error in commonGetAPIHandler:", error);
+    throw error; // Rethrow the error to handle it outside of this function
+  }
+};

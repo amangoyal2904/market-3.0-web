@@ -9,7 +9,7 @@ import dynamic from "next/dynamic";
 const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
   ssr: false,
 });
-
+import Table7DGraph from "../StocksEarnings/Table7DGraph";
 const FixedTable = React.memo((props: any) => {
   const {
     highlightLtp,
@@ -132,6 +132,7 @@ const FixedTable = React.memo((props: any) => {
                       thead.valueType != "date" &&
                       thead.valueType != "lineGraph" &&
                       thead.valueType != "sparklineGraph" &&
+                      thead.valueType != "lineGraph7dVolume" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
                         <span className={`${styles.sortIcons}`}>
                           <span
@@ -386,6 +387,8 @@ const FixedTable = React.memo((props: any) => {
                               ) : (
                                 "-"
                               )
+                            ) : tdData.keyId == "volume7D" ? (
+                              <Table7DGraph data={tdData?.value || ""} />
                             ) : !!tdData.value ? (
                               tdData.value
                             ) : (

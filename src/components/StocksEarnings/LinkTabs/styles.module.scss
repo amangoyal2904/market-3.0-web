@@ -1,0 +1,33 @@
+@import "@/styles/variables.scss";
+
+.linkTabWrap {
+  margin: 14px 0;
+  border-bottom: solid 1px $gray-80;
+  ul {
+    list-style-type: none;
+    display: flex;
+    li {
+      display: flex;
+      a {
+        display: block;
+        padding: 12px;
+        font-size: 14px;
+        font-weight: 400;
+      }
+      &.active {
+        a {
+          font-weight: 700;
+        }
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          border-bottom: solid 2px $black;
+        }
+      }
+    }
+  }
+}
