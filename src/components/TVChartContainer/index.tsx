@@ -386,19 +386,14 @@ export const TVChartContainer = (
     };
 
     tvWidget.onChartReady(async () => {
-      if (gaHit != "false") {
-        trackingEvent("et_push_event", {
-          event_category: "mercury_engagement",
-          event_action: `Impression - WEB Technical Chart`,
-          event_label: name,
-        });
-      }
-
       tvWidget.changeTheme(props.theme === "dark" ? "dark" : "light");
+
+      // Last saved chart will get loaded only if save is not disabled in disabled_features
       if (loadLastChart) {
         tvWidget.subscribe("onAutoSaveNeeded", handleAutoSave);
       }
 
+      // Page url will be updated on change of Interval and Symbol change
       if (updatePageUrl == "true") {
         tvWidget
           .activeChart()
@@ -411,22 +406,28 @@ export const TVChartContainer = (
           .subscribe(null, () => updateUrl());
       }
 
+      // GA will be fired by default, to stop pass ga_hit=false in param
       if (gaHit != "false") {
+        trackingEvent("et_push_event", {
+          event_category: "mercury_engagement",
+          event_action: `Impression - WEB Technical Chart`,
+          event_label: name,
+        });
         tvWidget
           .activeChart()
           .onChartTypeChanged()
           .subscribe(null, () => {
             handleTracking(chartType);
           });
-      }
-
-      if (gaHit != "false") {
         tvWidget.subscribe("undo", () => handleTracking("undo"));
         tvWidget.subscribe("redo", () => handleTracking("redo"));
         tvWidget.subscribe("indicators_dialog", () =>
           handleTracking("Indicators"),
         );
+        attachEventListeners();
       }
+
+      // Chart Type will get change if valid chart_type param passed
       if (
         chartType &&
         chartTypes[chartType as keyof typeof chartTypes] !== undefined
@@ -435,10 +436,8 @@ export const TVChartContainer = (
           .activeChart()
           .setChartType(chartTypes[chartType as keyof typeof chartTypes]);
       }
-      if (gaHit != "false") {
-        attachEventListeners();
-      }
 
+      // Pattern will get formed if pattern id is available
       if (patternId) {
         const patternDataResponse = await getPatternData(patternId);
         if (patternDataResponse) {
