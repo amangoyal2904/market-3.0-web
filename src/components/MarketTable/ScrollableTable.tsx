@@ -35,14 +35,9 @@ const ScrollableTable = React.memo((props: any) => {
     isSorting = true,
     isHeaderSticky = true,
   } = tableConfig || {};
+  const validAccessPass = freeTrialElegibilty();
   const prevTableDataListRef = useRef<any>([]);
   const scrollableTableRef = useRef<HTMLDivElement>(null);
-  const [validAccessPass, setValidAccessPass] = useState(false);
-
-  useEffect(() => {
-    const isValidAccessPass = freeTrialElegibilty();
-    setValidAccessPass(isValidAccessPass);
-  }, []);
 
   useEffect(() => {
     prevTableDataListRef.current = tableDataList;

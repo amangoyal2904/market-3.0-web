@@ -12,7 +12,7 @@ import GuageChart from "./GuageChart";
 import { useStateContext } from "@/store/StateContext";
 
 const TVChartContainer = dynamic(() =>
-  import("@/components/TVChartContainer").then((mod) => mod.TVChartContainer)
+  import("@/components/TVChartContainer").then((mod) => mod.TVChartContainer),
 );
 
 const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
@@ -151,7 +151,7 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
                     >
                       {i === 0 ? value : formatNumber(value)}
                     </td>
-                  )
+                  ),
                 )}
               </tr>
             ))}

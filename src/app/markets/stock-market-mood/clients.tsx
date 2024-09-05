@@ -73,6 +73,7 @@ const MarketMoodsClient = ({
   periodic = {},
   allFilters = {},
 }: any) => {
+  const validAccessPass = freeTrialElegibilty();
   const { state } = useStateContext();
   const { isLogin, isPrime } = state.login;
   const [activeFaqs, setActiveFaqs] = useState<number[]>([0]);
@@ -92,16 +93,10 @@ const MarketMoodsClient = ({
   const [activeItemFromClick, setActiveItemFromClick] = useState<string>("");
   const [showFilter, setShowFilter] = useState(false);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
-  const [validAccessPass, setValidAccessPass] = useState(false);
   const contentRefs = useRef<HTMLDivElement>(null);
   const activeListItemRef = useRef<HTMLLIElement>(null);
   const allFilterData = useMemo(() => allFilters, [allFilters]);
   const { debounce } = useDebounce();
-
-  useEffect(() => {
-    const isValidAccessPass = freeTrialElegibilty();
-    setValidAccessPass(isValidAccessPass);
-  }, []);
 
   const fetchData = async (indexId: number) => {
     return Promise.all([

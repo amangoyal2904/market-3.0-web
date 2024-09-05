@@ -15,6 +15,7 @@ import jStorageReact from "@/utils/jStorageReact";
 
 const CommonNudge = ({ modalType }: any) => {
   const pathName = usePathname();
+  const eu_benchmark = 13;
   const { state, dispatch } = useStateContext();
   const { isLogin, isPrime, permissions, subscriptionDetails } = state.login;
   const { modalState } = state;
@@ -300,7 +301,6 @@ const CommonNudge = ({ modalType }: any) => {
       modalState?.activeModal === ""
     ) {
       const subscriptionDetailsInfo: any = allNudgeSubscriptionData;
-      const eu_benchmark = 15;
       const timestampNow = +new Date();
       const expiryDaysLeft = Math.floor(
         (+new Date(subscriptionDetailsInfo?.expiryDate) - timestampNow) /
@@ -402,7 +402,6 @@ const CommonNudge = ({ modalType }: any) => {
       modalState?.activeModal === ""
     ) {
       const subscriptionDetailsInfo: any = allNudgeSubscriptionData;
-      const eu_benchmark = 15;
       const timestampNow = +new Date();
       const expiryDaysLeft = Math.floor(
         (+new Date(subscriptionDetailsInfo?.expiryDate) - timestampNow) /
@@ -450,7 +449,6 @@ const CommonNudge = ({ modalType }: any) => {
       metaInfoPrimeNudege?.["MovieReviewRatingStory"]?.value !== undefined
     ) {
       const subscriptionDetailsInfo: any = allNudgeSubscriptionData;
-      const eu_benchmark = 15;
       const timestampNow = +new Date();
       const expiryDaysLeft = Math.floor(
         (+new Date(subscriptionDetailsInfo?.expiryDate) - timestampNow) /
@@ -483,7 +481,6 @@ const CommonNudge = ({ modalType }: any) => {
     const subscriptionDetailsInfo: any = allNudgeSubscriptionData;
     const subStatus = subscriptionDetailsInfo;
     const timestampNow = +new Date();
-    const eu_benchmark = 15;
     const expiryDaysLeft = Math.floor(
       (+new Date(subscriptionDetailsInfo?.expiryDate) - timestampNow) /
         (1000 * 60 * 60 * 24),

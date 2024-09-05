@@ -23,13 +23,12 @@ const LiveMarketData = dynamic(() => import("../LiveMarketData"), {
 });
 
 const Header = () => {
-  const { state } = useStateContext();
+  const validAccessPass = freeTrialElegibilty();
+  const { state, dispatch } = useStateContext();
   const { isPrime } = state.login;
   const { debounce } = useDebounce();
   useMarketStatus();
   const [shouldRenderComponent, setShouldRenderComponent] = useState(false);
-
-  const [validAccessPass, setValidAccessPass] = useState(false);
 
   const handleResize = useCallback(() => {
     setShouldRenderComponent(window.innerWidth >= 1280);
@@ -79,11 +78,6 @@ const Header = () => {
       window.removeEventListener("resize", debouncedResize);
     };
   }, [handleResize]);
-
-  useEffect(() => {
-    const isValidAccessPass = freeTrialElegibilty();
-    setValidAccessPass(isValidAccessPass);
-  }, []);
 
   return (
     <>
