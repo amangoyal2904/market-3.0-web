@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import {
   ChartingLibraryWidgetOptions,
   ResolutionString,
+  VisiblePriceRange,
   widget,
 } from "../../../public/static/v28/charting_library";
 import { trackingEvent } from "@/utils/ga";
@@ -39,6 +40,7 @@ export const TVChartContainer = (
   } = props;
   const chartContainerRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
+  const param_periodicity = props.interval as ResolutionString;
   const iframeRef = useRef<HTMLIFrameElement | null>(null); // Ref for iframe
   const chartTypes = {
     bar: 0,
@@ -386,6 +388,7 @@ export const TVChartContainer = (
     };
 
     tvWidget.onChartReady(async () => {
+      tvWidget.activeChart().setResolution(param_periodicity);
       tvWidget.changeTheme(props.theme === "dark" ? "dark" : "light");
 
       // Last saved chart will get loaded only if save is not disabled in disabled_features
@@ -463,6 +466,23 @@ export const TVChartContainer = (
           tvWidget.activeChart().createMultipointShape(patternData, {
             shape: patternShape,
           });
+
+          const priceScale = tvWidget
+            .activeChart()
+            .getPanes()[0]
+            .getRightPriceScales()[0];
+
+          const range: VisiblePriceRange | null =
+            priceScale.getVisiblePriceRange();
+
+          if (range != null) {
+            const newFrom = range.from * 0.8; // Decrease by 20% (Increase range)
+            const newTo = range.to * 1.2; // Increase by 20% (Decrease range)
+            priceScale.setVisiblePriceRange({
+              from: newFrom,
+              to: newTo,
+            });
+          }
 
           if (savePatternImages == "true") {
             setTimeout(() => {
