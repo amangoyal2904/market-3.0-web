@@ -8,8 +8,8 @@ import {
 } from "@/utils";
 import { fetchAllWatchListData, saveLogs } from "@/utils/utility";
 import { activateFreeTrial } from "@/utils/freeTrail";
-import jStorageReact from "jstorage-react";
 import { trackingEvent } from "@/utils/ga";
+import jStorageReact from "@/utils/jStorageReact";
 
 const useLogin = (frmapp: string = "", platform: string = "") => {
   const { dispatch } = useStateContext();

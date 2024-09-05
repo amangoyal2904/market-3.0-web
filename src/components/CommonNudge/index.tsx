@@ -1,7 +1,6 @@
 "use client";
 
 import useOnAppLoad from "./useOnAppLoad";
-import jStorageReact from "../../utils/jStorageReact";
 import TopBannerPrimeUser from "./ShowTopNudgePrime/Banner";
 import BottomStrip from "./BottomNudge/BottomStrip";
 import RightSideStrip from "./BottomNudge/RightSideStrip";
@@ -12,6 +11,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
+import jStorageReact from "@/utils/jStorageReact";
 
 const CommonNudge = ({ modalType }: any) => {
   const pathName = usePathname();

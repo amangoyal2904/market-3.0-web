@@ -1,22 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
-import jStorageReact from "jstorage-react";
-
-import { activateFreeTrial } from "@/utils/freeTrail";
 import styles from "./Login.module.scss";
-import {
-  APP_ENV,
-  verifyLogin,
-  initSSOWidget,
-  logout,
-  loadPrimeApi,
-  setCookieToSpecificTime,
-  setCookie,
-  delete_cookie,
-  loadPrimeApiNew,
-} from "../../utils";
-import { fetchAllWatchListData, saveLogs } from "../../utils/utility";
+import { APP_ENV, initSSOWidget, logout } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";

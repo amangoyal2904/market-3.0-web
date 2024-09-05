@@ -1,11 +1,10 @@
-import jStorageReact from "jstorage-react";
-
 import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
 import Service from "../network/service";
 import { createPeuuid } from "./utility";
 import service from "../network/service";
 import { getPageName } from "./ga";
+import jStorageReact from "./jStorageReact";
 
 declare global {
   interface Window {

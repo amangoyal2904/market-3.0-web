@@ -1,11 +1,10 @@
-import jStorageReact from "jstorage-react";
-
 import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
 import { APP_ENV, getCookie } from "@/utils";
 import { saveLogs } from "@/utils/utility";
 import Service from "../network/service";
 import { initSSOWidget } from "@/utils";
+import jStorageReact from "./jStorageReact";
 
 export const freeTrialElegibilty = () => {
   const storedData = jStorageReact.get("et_freetrial");
