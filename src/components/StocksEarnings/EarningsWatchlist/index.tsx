@@ -41,7 +41,7 @@ const EarningsWatchlist = () => {
     tabActive ? setCardLoading(true) : setProcessingLoader(true);
     const wathListBodyPayLoad = {
       filterType: "watchlist",
-      pageSize: tabActive ? 8 : 20,
+      pageSize: tabActive ? 20 : 150,
       pageNo: 1,
       deviceType: "web",
       sort: [{ field: "R1MonthReturn", order: "DESC" }],

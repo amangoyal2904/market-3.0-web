@@ -9,11 +9,37 @@ const DeclaredCards = ({
   loading,
   typeMode = "",
   showViewAll = "yes",
+  activeResultValue = "",
 }: any) => {
   const _title = `No Results have been declared for this quarter. Kindly check the upcoming result list.`;
 
   const cardData = data?.declaredCompanies || [];
-  //console.log("___dacardDatata",cardData)
+  const viewAllTxt =
+    activeResultValue === "latest-results"
+      ? "View all Declared Results"
+      : activeResultValue === "sales-gainers"
+        ? "View all sales gainers Results"
+        : activeResultValue === "sales-losers"
+          ? "View all sales losers Results"
+          : activeResultValue === "profit-gainers"
+            ? "View all profit gainers Results"
+            : activeResultValue === "profit-losers"
+              ? "View all profit losers Results"
+              : "View all Declared Results";
+
+  const viewAllTxtLink =
+    activeResultValue === "latest-results"
+      ? "/markets/stocks/declared-results"
+      : activeResultValue === "sales-gainers"
+        ? "/markets/stocks/declared-results/sales-gainers"
+        : activeResultValue === "sales-losers"
+          ? "/markets/stocks/declared-results/sales-losers"
+          : activeResultValue === "profit-gainers"
+            ? "/markets/stocks/declared-results/profit-gainers"
+            : activeResultValue === "profit-losers"
+              ? "/markets/stocks/declared-results/profit-losers"
+              : "/markets/stocks/declared-results";
+  //console.log("___dacardDatata",cardData, activeResultValue)
   return (
     <>
       <div className={styles.declaredWrap}>
@@ -37,13 +63,13 @@ const DeclaredCards = ({
             <ViewAllCta
               text="View all Results"
               urlInternal="yes"
-              url="/markets/stocks/upcoming-results"
+              url="/markets/stocks/declared-results"
             />
           ) : cardData && cardData.length > 0 ? (
             <ViewAllCta
-              text="View all Declared Results"
+              text={`${viewAllTxt}`}
               urlInternal="yes"
-              url="/markets/stocks/declared-results"
+              url={`${viewAllTxtLink}`}
             />
           ) : (
             ""

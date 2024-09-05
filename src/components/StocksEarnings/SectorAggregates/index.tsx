@@ -130,7 +130,7 @@ const SectorAggregates = ({ data }: any) => {
           <ViewAllCta
             text={`${tabActive ? "View all Under Performing Sectors" : "View all Top Performing Sectors"}`}
             urlInternal="yes"
-            url="/markets/stocks/sector-aggregates"
+            url={`${tabActive ? "/markets/stocks/sector-aggregates/under-performing" : "/markets/stocks/sector-aggregates"}`}
           />
         </div>
       </div>

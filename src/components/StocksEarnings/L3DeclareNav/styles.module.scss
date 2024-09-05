@@ -1,16 +1,5 @@
 @import "@/styles/variables.scss";
 
-.cardSec {
-  display: flex;
-  .left {
-    width: 200px;
-  }
-  .right {
-    width: calc(100% - 200px);
-    position: relative;
-    min-height: 400px;
-  }
-}
 .leftNavList {
   list-style-type: none;
   display: flex;
@@ -37,10 +26,4 @@
       }
     }
   }
-}
-.cardSecWrap {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 20px;
-  row-gap: 20px;
 }

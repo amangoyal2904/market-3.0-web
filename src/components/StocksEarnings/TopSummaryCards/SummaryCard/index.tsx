@@ -38,7 +38,7 @@ const SummaryCard = ({ data, type }: any) => {
           : type === "topPerformingSectors"
             ? "/markets/stocks/sector-aggregates"
             : type === "underPerformingSectors"
-              ? "/markets/stocks/sector-aggregates"
+              ? "/markets/stocks/sector-aggregates/under-performing"
               : type === "declaredData"
                 ? "/markets/stocks/declared-results"
                 : "";

@@ -4,18 +4,25 @@ import SectorCard from "../SectorCard";
 import { commonPostAPIHandler } from "../../../utils/screeners";
 import PaginationEarning from "../../BigBullTableCard/PaginationEarning";
 import Loader from "@/components/Loader";
+import Link from "next/link";
 
 const leftSideTabData = [
-  { title: "Top Performing", id: 0 },
-  { title: "Under Performing", id: 1 },
+  { title: "Top Performing", id: 0, link: "/markets/stocks/sector-aggregates" },
+  {
+    title: "Under Performing",
+    id: 1,
+    link: "/markets/stocks/sector-aggregates/under-performing",
+  },
 ];
 
-const SectorPageCard = ({ data }: any) => {
+const SectorPageCard = ({ data, tpName = "" }: any) => {
   const _tabData = data?.sectorData;
   const _allPayload = data?.payload;
   const [_loading, setLoading] = useState(false);
   // State initialization
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(
+    tpName === "under-performing" ? 1 : 0,
+  );
   const [tabContentData, setTabContentData] = useState<any[]>(
     _tabData?.topSector?.sectorAggregateData || [],
   );
@@ -35,16 +42,16 @@ const SectorPageCard = ({ data }: any) => {
   });
 
   // Handle tab change
-  const tabChangeHandler = (value: number) => {
-    setActiveTab(value);
-    if (value === 0) {
-      const newPayload = { ..._payloadTopSector, pageNo: 1 };
-      setPayloadTopSector(newPayload);
-    } else {
-      const newPayload = { ..._payloadUnderSector, pageNo: 1 };
-      setPayloadUnderSector(newPayload);
-    }
-  };
+  // const tabChangeHandler = (value: number) => {
+  //   setActiveTab(value);
+  //   if (value === 0) {
+  //     const newPayload = { ..._payloadTopSector, pageNo: 1 };
+  //     setPayloadTopSector(newPayload);
+  //   } else {
+  //     const newPayload = { ..._payloadUnderSector, pageNo: 1 };
+  //     setPayloadUnderSector(newPayload);
+  //   }
+  // };
 
   // pagination hander
   const handlePageChange = (value: any) => {
@@ -98,9 +105,8 @@ const SectorPageCard = ({ data }: any) => {
             <li
               className={index === activeTab ? styles.active : ""}
               key={item.id}
-              onClick={() => tabChangeHandler(index)}
             >
-              {item.title}
+              <Link href={`${item.link}`}>{item.title}</Link>
             </li>
           ))}
         </ul>

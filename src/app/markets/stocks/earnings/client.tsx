@@ -122,11 +122,11 @@ const StocksEarningsClintPage = ({ data, selectedFilter }: any) => {
   };
   console.log("_data", data);
   useEffect(() => {
-    console.log("_____upcomingResultTablePayload", _upcomingResultTablePayload);
+    //console.log("_____upcomingResultTablePayload", _upcomingResultTablePayload);
     callUpcomingTableData();
   }, [_upcomingResultTablePayload]);
   useEffect(() => {
-    console.log("_____declareResultTablePayload", _declareResultTablePayload);
+    //console.log("_____declareResultTablePayload", _declareResultTablePayload);
     callDeclaredTableData();
   }, [_declareResultTablePayload]);
   return (
@@ -165,7 +165,11 @@ const StocksEarningsClintPage = ({ data, selectedFilter }: any) => {
         pageSummary={_declareCompanies?.pageSummary}
         showResultTopTxt={_topTabTimeHide}
       />
-      <DeclaredCards data={_declareCompanies} loading={_cardLoading} />
+      <DeclaredCards
+        data={_declareCompanies}
+        loading={_cardLoading}
+        activeResultValue={activeResultValue}
+      />
       <SectorAggregates data={data?.sectorData} />
       <EarningsWatchlist />
       <StockScreeners data={earningScreenersData} />

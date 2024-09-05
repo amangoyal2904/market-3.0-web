@@ -4,7 +4,7 @@ import HeroBanner from "@/components/StocksEarnings/HeroBanner";
 import LinkTabs from "@/components/StocksEarnings/LinkTabs";
 import DeclaredPage from "@/components/StocksEarnings/DeclaredPage";
 
-const DeclaredResultsClintPage = ({ data, selectedFilter }: any) => {
+const DeclaredResultsSalesGainersClient = ({ data, selectedFilter }: any) => {
   const _title = "Declared  Results";
   const _desc = `A quarterly report is a summary or collection of unaudited financial statements, such as balance sheets, income statements, and cash flow statements, issued by companies every quarter (three months). The quarterly reports and financial statements indicate the business's quarterly development. To protect the interests of investors, SEBI (Securities and Exchange Board of India) requires every listed firm to produce quarterly reports.`;
   const queryParameter =
@@ -29,10 +29,11 @@ const DeclaredResultsClintPage = ({ data, selectedFilter }: any) => {
         queryParameter={queryParameter}
         queryResult={queryResult}
         selectedFilter={selectedFilter}
-        paginationTxt="Declard Results"
+        topTabTimeHide="yes"
+        paginationTxt="Sales Gainers Results"
       />
     </>
   );
 };
 
-export default DeclaredResultsClintPage;
+export default DeclaredResultsSalesGainersClient;

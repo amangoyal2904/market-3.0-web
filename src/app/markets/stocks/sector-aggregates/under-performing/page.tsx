@@ -1,4 +1,4 @@
-import SectorAggregatesClintPage from "./client";
+import SectorAggregatesUnderPerformingClient from "./client";
 import BreadCrumb from "@/components/BreadCrumb";
 import { headers } from "next/headers";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
@@ -7,7 +7,7 @@ import DfpAds from "@/components/Ad/DfpAds";
 import {
   commonGetAPIHandler,
   commonPostAPIHandler,
-} from "../../../../utils/screeners";
+} from "../../../../../utils/screeners";
 import { fnGenerateMetaData } from "@/utils/utility";
 import { Metadata } from "next";
 import APIS_CONFIG from "@/network/api_config.json";
@@ -25,35 +25,31 @@ export async function generateMetadata(): Promise<Metadata> {
   return fnGenerateMetaData(meta);
 }
 
-const SectorAggregatesPage = async () => {
+const SectorAggregatesUnderPerforming = async () => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
 
-  const selectedFilter = await fetchSelectedFilter(0);
-  const bodyPayloadSector = {
-    apiType: "top-performing",
+  const bodyPayloadSectorUnder = {
+    apiType: "under-performing",
     pageSize: 10,
     pageNo: 1,
     sort: [{ field: "sectorPATQoqAvg", order: "DESC" }],
   };
-  const _topSector = await commonPostAPIHandler(
+  const _underSector = await commonPostAPIHandler(
     `SECTOR_AGGREGATE`,
-    bodyPayloadSector,
+    bodyPayloadSectorUnder,
   );
   const upcoingData = {
     sectorData: {
-      topSector: _topSector || {},
+      underSector: _underSector || {},
     },
     payload: {
-      topSector: bodyPayloadSector,
+      underSector: bodyPayloadSectorUnder,
     },
   };
   return (
     <>
-      <SectorAggregatesClintPage
-        data={upcoingData}
-        selectedFilter={selectedFilter}
-      />
+      <SectorAggregatesUnderPerformingClient data={upcoingData} />
       <BreadCrumb
         pagePath={pageUrl}
         pageName={[{ label: "Earnings", redirectUrl: "" }]}
@@ -63,4 +59,4 @@ const SectorAggregatesPage = async () => {
     </>
   );
 };
-export default SectorAggregatesPage;
+export default SectorAggregatesUnderPerforming;

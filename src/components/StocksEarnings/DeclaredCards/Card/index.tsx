@@ -5,6 +5,7 @@ const WatchlistAddition = dynamic(() => import("../../../WatchlistAddition"), {
   ssr: false,
 });
 import { goToPlansPage1, trackingEvent } from "@/utils/ga";
+import { getStockUrl } from "@/utils/utility";
 
 const Card = ({ cardData }: any) => {
   const { state } = useStateContext();
@@ -16,6 +17,13 @@ const Card = ({ cardData }: any) => {
     day: "numeric",
     year: "numeric",
   });
+  const gaTrackingCompanyNameClick = (comname: any) => {
+    trackingEvent("et_push_event", {
+      event_category: "mercury_earnings",
+      event_action: "company_clicked",
+      event_label: comname,
+    });
+  };
   const redirectToPlanPage = () => {
     try {
       const pagePathName = window.location.pathname;
@@ -53,7 +61,19 @@ const Card = ({ cardData }: any) => {
         <span className={styles.dateSec}>{formattedDate}</span>
         <div className={styles.topSec}>
           <div className={styles.cname}>
-            <span className={styles.cnameSpan}>{cardData.assetName}</span>
+            <span className={styles.cnameSpan}>
+              <a
+                onClick={() => gaTrackingCompanyNameClick(cardData?.assetName)}
+                href={getStockUrl(
+                  cardData?.assetId,
+                  cardData?.assetSeoName,
+                  cardData?.assetType,
+                )}
+                target="_blank"
+              >
+                {cardData.assetName}
+              </a>
+            </span>
             {cardData && cardData?.assetId && (
               <WatchlistAddition
                 companyName={cardData?.assetName}

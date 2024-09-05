@@ -157,6 +157,7 @@ const UpcomingResults = ({
     }
   };
   const showFilterMenu = (value: boolean) => {
+    console.log("______valuye", value);
     setShowFilter(value);
   };
   const filterApiCall = async () => {
