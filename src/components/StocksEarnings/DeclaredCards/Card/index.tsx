@@ -9,8 +9,9 @@ import { getStockUrl } from "@/utils/utility";
 
 const Card = ({ cardData }: any) => {
   const { state } = useStateContext();
-  const { isLogin, isPrime } = state.login;
-  //const isPrime = true;
+  //const { isLogin, isPrime } = state.login;
+  const isPrime = true;
+  //console.log("__cardData", {cardData})
   const date = new Date(cardData?.declaredDate);
   const formattedDate = date.toLocaleDateString("en-US", {
     month: "short",
@@ -55,6 +56,18 @@ const Card = ({ cardData }: any) => {
       goToPlansPage1("select_item", {}, true);
     }
   };
+  const redirectToPdfPage = () => {
+    const checkHostEnv = process.env.NODE_ENV;
+    const hostname = window.location.hostname;
+    const hostUrl =
+      checkHostEnv === "development" || hostname.includes("etmarketswebpre")
+        ? "https://etdev8243.indiatimes.com/"
+        : "/";
+    const pdfUrl = `${hostUrl}${cardData?.assetSeoName}/stockreports/reportid-${cardData?.assetId}.cms`;
+    cardData.stockScore !== null ? window.open(pdfUrl, "_blank") : "";
+
+    //console.log("pdfUrl", pdfUrl)
+  };
   return (
     <>
       <div className={styles.cardWrap}>
@@ -70,6 +83,7 @@ const Card = ({ cardData }: any) => {
                   cardData?.assetType,
                 )}
                 target="_blank"
+                title={cardData.assetName}
               >
                 {cardData.assetName}
               </a>
@@ -158,20 +172,32 @@ const Card = ({ cardData }: any) => {
               <span className={styles.topHead}>TTM EPS</span>
               <span className={`${styles.topHead} ${styles.stockScoreSec}`}>
                 <span
-                  className={`${styles.scoreWrap} ${!isPrime && styles.curpointer}`}
-                  onClick={!isPrime ? redirectToPlanPage : undefined}
+                  className={`${styles.scoreWrap} ${!isPrime || (cardData.stockScore !== null && styles.curpointer)}`}
+                  onClick={!isPrime ? redirectToPlanPage : redirectToPdfPage}
                 >
-                  <span className={styles.topWrap}>
-                    {isPrime ? (
-                      <span className={styles.cardValue}>
-                        {cardData.stockScore}
-                      </span>
-                    ) : (
-                      <i className={styles.lockIcon}></i>
-                    )}
-                    <small className={styles.small}>10</small>
-                  </span>
-                  <span className={styles.btmWrap}>Stock Score</span>
+                  {cardData?.stockScore &&
+                  cardData.stockScore !== null &&
+                  cardData.stockScore !== "" &&
+                  cardData.stockScore !== "NR" &&
+                  cardData.stockScore !== "nr" ? (
+                    <span className={styles.topWrap}>
+                      {isPrime ? (
+                        <span className={styles.cardValue}>
+                          {cardData.stockScore}
+                        </span>
+                      ) : (
+                        <i className={styles.lockIcon}></i>
+                      )}
+                      <small className={styles.small}>10</small>
+                    </span>
+                  ) : cardData.stockScore === "NR" ||
+                    cardData.stockScore === "nr" ? (
+                    <span className={styles.nrStyle}>NR</span>
+                  ) : (
+                    <span className={styles.naStyle}>NA</span>
+                  )}
+
+                  <span className={styles.btmWrap}>Earnings Score</span>
                 </span>
               </span>
             </div>
