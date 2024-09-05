@@ -1,14 +1,13 @@
 // @ts-nocheck
-import { usePathname } from "next/navigation";
-import jStorageReact from "jstorage-react";
-
 import { getCookie } from "@/utils";
+import jStorageReact from "@/utils/jStorageReact";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
 import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import grxMappingObj from "@/utils/grxMappingObj.json";
 import cdpObj from "@/utils/cdpObj.json";
+import { setPaywallCounts } from "@/utils/utility";
 declare global {
   interface Window {
     trackingEvent: (type: string, gaData: object) => void;
@@ -37,6 +36,7 @@ export const redirectToPlanPage = (
         widget_name: objTracking.widget_name ? objTracking.widget_name : "",
         tab_name: objTracking.tab_name ? objTracking.tab_name : "",
       });
+      setPaywallCounts();
     }
     goToPlansPage1(type, objTracking.obj, redirect, objTracking.cdp);
   } catch (Err) {

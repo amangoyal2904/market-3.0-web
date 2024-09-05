@@ -18,17 +18,16 @@ const LiveStreamCards = ({
   followingData,
   fetchFollowingExperts,
 }: any) => {
-  const { state, dispatch } = useStateContext();
+  const { state } = useStateContext();
   const [isVisible, setIsVisible] = useState(false);
   const liveStreamRef = useRef(null);
   const { isLogin } = state.login;
   const utmSource = "?utm_source=MarketHome&utm_medium=Self-Referrals";
-  const ET_WAP_URL = "https://m.economictimes.com/";
   const isLive = slide.eventStatus == 3;
   const expertName =
     (slide.expertName && slide.expertName.replace(/ /g, "")) || "";
   const expertId = slide.expertId;
-  const expertURL = `${ET_WAP_URL}markets/etmarkets-live/expert-bio/expertname-${expertName},expertid-${expertId}.cms${utmSource}`;
+  const expertURL = `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets/etmarkets-live/expert-bio/expertname-${expertName},expertid-${expertId}.cms${utmSource}`;
   const userObj = (slide.meta && slide.meta.userData) || {};
   const imageMSID = userObj?.imageMSID;
   const expertImg = imageMSID
@@ -37,7 +36,7 @@ const LiveStreamCards = ({
   const streamid = slide.eventId || "";
   const streamURL =
     streamid &&
-    `${ET_WAP_URL}markets/etmarkets-live/streams${!isLive ? "recorded" : ""}/streamid-${streamid},expertid-${expertId}.cms${utmSource}`;
+    `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets/etmarkets-live/streams${!isLive ? "recorded" : ""}/streamid-${streamid},expertid-${expertId}.cms${utmSource}`;
   const viewsText = isLive ? slide.concurrentViewsText : slide.totalViewsText;
   const followExpert = async () => {
     try {

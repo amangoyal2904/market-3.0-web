@@ -269,7 +269,12 @@ const FixedTable = React.memo((props: any) => {
                                 event_label: `${!!tdData.value ? tdData.value : item.assetName}`,
                               })
                             }
-                            target="_blank"
+                            target={
+                              item.assetType === "index" ||
+                              item.assetType === "sector"
+                                ? "_self"
+                                : "_blank"
+                            }
                             title={`${!!tdData.value ? tdData.value : item.assetName}${item.assetType !== "index" ? " Share Price" : ""}`}
                           >
                             {!!tdData.value ? tdData.value : item.assetName}

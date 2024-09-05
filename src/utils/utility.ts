@@ -7,6 +7,7 @@ import {
 } from "@/utils/index";
 import { getCookie } from "@/utils/index";
 import Service from "@/network/service";
+import jStorageReact from "./jStorageReact";
 
 const API_SOURCE = 0;
 
@@ -1572,4 +1573,57 @@ export const getOtherSectors = async (indexid: number) => {
   });
   const originalJson = await response?.json();
   return originalJson;
+};
+export const getSectorFaqs = async (indexid: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.SECTORS_FAQ[APP_ENV]}?sectorid=${indexid}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
+export const getjStorageVal = (keyName: string) => {
+  let value = "";
+  try {
+    value = jStorageReact.get(keyName);
+  } catch (e) {}
+  return value;
+};
+export const appendZero = (num: any) =>
+  num >= 0 && num < 10 ? "0" + num : num;
+export const setPaywallCounts = () => {
+  const dt = dateFormat(new Date(), "%Y%M%d");
+  var prime_key = "et_paywall_" + dt;
+  var prime_count = jStorageReact.get(prime_key) || 0;
+  jStorageReact.set(prime_key, prime_count + 1, {
+    TTL: 30 * 24 * 60 * 60 * 1000,
+  });
+};
+export const fetchPaywallcounts = function () {
+  const dtObject = new Date(),
+    dt =
+      dtObject.getFullYear() +
+      "" +
+      appendZero(dtObject.getMonth() + 1) +
+      "" +
+      appendZero(dtObject.getDate());
+  let paywallViewCountMonth: any = 0;
+  try {
+    let jstorageKeys = jStorageReact.index();
+    jstorageKeys
+      .filter(function (key) {
+        return key.indexOf("et_paywall_") !== -1;
+      })
+      .forEach(function (key) {
+        paywallViewCountMonth += getjStorageVal(key) || 0;
+      });
+  } catch (e) {
+    console.log("error in fetching paywallcount", e);
+  }
+  const paywallViewCountTodayKey = "et_paywall_" + dt;
+  const paywallViewCountToday = getjStorageVal(paywallViewCountTodayKey) || 0;
+  return {
+    paywallViewCountToday,
+    paywallViewCountMonth,
+  };
 };

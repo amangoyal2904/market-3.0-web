@@ -1,5 +1,4 @@
 import Header from "@/components/Header";
-import Scripts from "@/components/Scripts";
 import LeftNav from "@/components/LeftNav";
 import RedeemVoucher from "@/components/RedeemVoucher";
 import APIS_CONFIG from "../network/api_config.json";
@@ -24,13 +23,10 @@ const webSchema = {
 export default async function FullLayout({
   children,
   pageUrl,
-  isprimeuser,
 }: {
   children: React.ReactNode;
   pageUrl: string;
-  isprimeuser: boolean;
 }) {
-  const versionControl = {};
   const footerData = await footerAPIHit(pageUrl);
   // =====  Get Left Nav Data =======
   const leftNavApi = (APIS_CONFIG as any)["LEFT_NAV"][APP_ENV];
@@ -53,7 +49,7 @@ export default async function FullLayout({
         <div className="pageBottomContainer">
           <Footer footerData={footerData} />
         </div>
-        <Scripts objVc={versionControl} isprimeuser={isprimeuser} />
+
         <div className={`ssoLoginWrap hide`} id="ssoLoginWrap">
           <div id="ssoLogin" className="ssoLoginElm" />
         </div>

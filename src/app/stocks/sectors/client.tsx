@@ -4,9 +4,7 @@ import { useStateContext } from "@/store/StateContext";
 import React, { useCallback, useEffect, useState } from "react";
 import styles from "./Sectors.module.scss";
 import { getAllSectors } from "@/utils/utility";
-import refeshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "@/components/MarketStatus";
-import useIntervalApiCall from "@/utils/useIntervalApiCall";
 
 const SectorsClient = ({
   tableHeaderData = [],
@@ -53,25 +51,18 @@ const SectorsClient = ({
     setProcessingLoader(false);
   };
 
-  useIntervalApiCall(
-    () => {
-      if (currentMarketStatus === "LIVE" && !!fallbackWebsocket)
-        updateTableData();
-    },
-    refeshConfig.indicesListing,
-    [sortData, isPrime, currentMarketStatus, fallbackWebsocket],
-  );
-
   useEffect(() => {
-    setProcessingLoader(true);
-    updateTableData();
-  }, [sortData, isPrime]);
+    if (sortData.field != null) {
+      setProcessingLoader(true);
+      updateTableData();
+    }
+  }, [sortData]);
   return (
     <>
       <div className="dflex align-item-center">
         <h1
           className={`${styles.heading} ${styles.withRBorder}`}
-        >{`Sectors`}</h1>
+        >{`All Sectors - Indian Stock Market Sectors`}</h1>
         <MarketStatus
           currentMarketStatus={currentMarketStatus}
           dateTime={updateDateTime}

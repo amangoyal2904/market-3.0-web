@@ -11,7 +11,6 @@ const OtherIndicesCard = React.memo(({ data }: any) => {
       <Link
         className={styles.title}
         href={`/markets/indices/${data.indexSeoName}`}
-        target="_blank"
         title={data.indexName}
         onClick={() => {
           trackingEvent("et_push_event", {

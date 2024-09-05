@@ -9,6 +9,8 @@ import { Metadata } from "next";
 import { PreloadResources } from "@/components/preloadResources";
 import { Toaster } from "react-hot-toast";
 import FullLayout from "./fullLayout";
+import NoLayout from "@/components/NoLayout";
+import Scripts from "@/components/Scripts";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -54,9 +56,10 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const versionControl = {};
   const isprimeuser = cookies().get("isprimeuser") ? true : false;
   const headersList = headers();
-  const pageUrl = headersList.get("x-url") || "";
+  const pageUrl = headersList.get("x-pathname") || "";
   const noLayout = pageUrl == "/chart";
 
   return (
@@ -75,13 +78,15 @@ export default async function RootLayout({
         )}
         <StateProvider>
           {noLayout ? (
-            <main>{children}</main>
+            <>
+              <NoLayout />
+              <main>{children}</main>
+            </>
           ) : (
-            <FullLayout pageUrl={pageUrl} isprimeuser={isprimeuser}>
-              {children}
-            </FullLayout>
+            <FullLayout pageUrl={pageUrl}>{children}</FullLayout>
           )}
           <AccessFreeTrial />
+          <Scripts objVc={versionControl} isprimeuser={isprimeuser} />
           <Toaster position="bottom-right" reverseOrder={false} />
         </StateProvider>
       </body>

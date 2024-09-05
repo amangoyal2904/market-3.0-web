@@ -9,10 +9,11 @@ import React, {
 import SectorsDetailsOverview from "@/components/SectorsDetails/Overview";
 import useDebounce from "@/hooks/useDebounce";
 import styles from "./SectorsDetails.module.scss";
-import KeyMetricsSectors from "@/components/SectorsDetails/KeyMetrics";
+import SectorsKeyMetrics from "@/components/SectorsDetails/KeyMetrics";
 import SectorsConstituents from "@/components/SectorsDetails/Constituents";
 import { trackingEvent } from "@/utils/ga";
 import SectorsPerformance from "@/components/SectorsDetails/Performance";
+import SectorsFaqs from "@/components/SectorsDetails/Faqs";
 
 const pageTabData = [
   { label: "Key Metrics", key: "keymetrics" },
@@ -45,7 +46,7 @@ const SectorsDetailsClient = ({
   const { debounce } = useDebounce();
   const assetId = overview.assetId;
   const assetName = overview.assetName;
-  const { indexDescription, indexFaq = [] } = faq;
+  const { sectorDescription, sectorFaq = [] } = faq;
 
   const handleScroll = debounce(() => {
     if (!scrollByItemClick) {
@@ -96,26 +97,23 @@ const SectorsDetailsClient = ({
     },
     [scrollToActiveContent, handleScroll],
   );
-
+  console.log("@@@FaqsClient", sectorDescription);
   return (
     <>
       <SectorsDetailsOverview
         overviewData={overviewData}
-        descText={indexDescription}
+        descText={sectorDescription}
       />
       <div className={styles.tabsWrap}>
         <ul className={styles.tabsList}>
           {pageTabData.map((item: any) => (
             <Fragment key={item.key}>
-              {!!(
-                item.key !== "faqs" ||
-                (item.key === "faqs" && !!indexFaq.length)
-              ) && (
+              {
                 <li
                   onClick={() => {
                     trackingEvent("et_push_event", {
                       event_category: "mercury_engagement",
-                      event_action: "indices_section click",
+                      event_action: "sector_section click",
                       event_label: item.label,
                     });
                     handleItemClick(item.key);
@@ -124,7 +122,7 @@ const SectorsDetailsClient = ({
                 >
                   {item.label}
                 </li>
-              )}
+              }
             </Fragment>
           ))}
         </ul>
@@ -132,17 +130,14 @@ const SectorsDetailsClient = ({
       <div className={styles.wrapper}>
         {pageTabData.map((item: any) => (
           <Fragment key={item.key}>
-            {!!(
-              item.key !== "faqs" ||
-              (item.key === "faqs" && !!indexFaq.length)
-            ) && (
+            {
               <div
                 id={item.key}
                 className={`${styles.section} sections`}
                 ref={contentRefs}
               >
                 {item.key === "keymetrics" && (
-                  <KeyMetricsSectors data={overviewData} />
+                  <SectorsKeyMetrics data={overviewData} />
                 )}
                 {item.key === "performance" && (
                   <SectorsPerformance
@@ -166,8 +161,9 @@ const SectorsDetailsClient = ({
                     payload={payload}
                   />
                 )}
+                {item.key === "faqs" && <SectorsFaqs faqs={sectorFaq} />}
               </div>
-            )}
+            }
           </Fragment>
         ))}
       </div>
