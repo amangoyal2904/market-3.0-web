@@ -1574,6 +1574,14 @@ export const getOtherSectors = async (indexid: number) => {
   const originalJson = await response?.json();
   return originalJson;
 };
+export const getSectorFaqs = async (indexid: number) => {
+  const response = await Service.get({
+    url: `${(APIS_CONFIG as any)?.SECTORS_FAQ[APP_ENV]}?sectorid=${indexid}`,
+    params: {},
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
 export const getjStorageVal = (keyName: string) => {
   let value = "";
   try {

@@ -255,7 +255,7 @@ const SectorsConstituents = React.memo(
               data={_tabData}
               activeViewId={_activeViewId}
               tabsViewIdUpdate={onTabViewUpdate}
-              widgetName="Indices"
+              widgetName="Sectors"
             />
             <MarketFiltersTab
               data={_tabData}
@@ -279,7 +279,7 @@ const SectorsConstituents = React.memo(
             processingLoader={processingLoader}
             isprimeuser={isPrime}
             l1NavTracking="Markets LIVE"
-            l2NavTracking="Indices"
+            l2NavTracking="Sectors"
             l3NavTracking={`${indexName} Constituents Widget`}
             setFallbackWebsocket={setFallbackWebsocket}
             socketDataType="stock"
@@ -289,7 +289,7 @@ const SectorsConstituents = React.memo(
         {!!otherSectors.length && (
           <div className={styles.wrapper}>
             <h2 className={styles.heading}>Other Sectors</h2>
-            <div id={styles.otherIndices}>
+            <div id={styles.otherSectors}>
               <SlickSlider
                 slides={otherSectors?.map((slides: any, index: any) => ({
                   content: <OtherSectorsCard data={slides} index={index} />,

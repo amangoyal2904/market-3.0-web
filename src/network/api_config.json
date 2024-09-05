@@ -514,5 +514,13 @@
   "SECTORS_OTHER": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/other-sectors",
     "production": "https://qcbselivefeeds.indiatimes.com/et-screener/other-sectors"
+  },
+  "SECTORS_FAQ": {
+    "development": "https://screener.indiatimes.com/screener/sectorFaq",
+    "production": "https://screener.indiatimes.com/screener/sectorFaq"
+  },
+  "CHARTPATTERNBYID": {
+    "development": "https://etelectionk8s.indiatimes.com/chartpatterns/companyChartPatternById",
+    "production": "https://etelectionk8s.indiatimes.com/chartpatterns/companyChartPatternById"
   }
 }

@@ -15,7 +15,7 @@ const pageUrl = "/markets/indices";
 
 export async function generateMetadata(): Promise<Metadata> {
   const meta = {
-    title: "Indian Market Indices, Live Index Watch, Market Indexes",
+    title: "Indian Market Indices, Live Index Watch, Market Indices",
     desc: "Indian Market Indices Live - Checkout Latest & comprehensive value all major stock market indices. Live NSE / BSE Indices Watch to measure the performance against a relevant market index.",
     keywords:
       "Indian Indices, All Indices, All Index, Indian Market Indices, Indian Stock Indices, Indian Stock Market Indices, Stock Market Indices",

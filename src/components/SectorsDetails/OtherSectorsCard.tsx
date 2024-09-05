@@ -7,11 +7,10 @@ const OtherSectorsCard = React.memo(({ data }: any) => {
   const trend =
     data.percentChange > 0 ? "up" : data.percentChange < 0 ? "down" : "neutral";
   return (
-    <div className={styles.otherIndicesCard}>
+    <div className={styles.otherSectorsCardMain}>
       <Link
         className={styles.title}
-        href={`/stocks/sectors/${data.indexSeoName}`}
-        target="_blank"
+        href={`/stocks/sectors/${data.assetSeoName}`}
         title={data.assetName}
         onClick={() => {
           trackingEvent("et_push_event", {

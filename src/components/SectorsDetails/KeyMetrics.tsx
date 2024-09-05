@@ -2,7 +2,7 @@ import { formatNumber } from "@/utils";
 import styles from "./SectorsDetails.module.scss";
 import React from "react";
 
-const KeyMetricsSectors = React.memo(({ data }: any) => {
+const SectorsKeyMetrics = React.memo(({ data }: any) => {
   return (
     <>
       <h2 className={styles.heading}>Key Metrics</h2>
@@ -57,5 +57,5 @@ const KeyMetricsSectors = React.memo(({ data }: any) => {
     </>
   );
 });
-KeyMetricsSectors.displayName = "KeyMetricsSectors";
-export default KeyMetricsSectors;
+SectorsKeyMetrics.displayName = "SectorsKeyMetrics";
+export default SectorsKeyMetrics;
