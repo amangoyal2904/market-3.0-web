@@ -1,6 +1,6 @@
 import Service from "../network/service";
 import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV } from "@/utils";
+import { APP_ENV, getCookie } from "@/utils";
 
 export const createNewScreener = async (bodyParams: any) => {
   const apiUrl = (APIS_CONFIG as any)?.["SaveScreenerAPI"][APP_ENV];
@@ -21,11 +21,13 @@ export const commonPostAPIHandler = async (
   bodyParams: any,
 ) => {
   try {
+    const userSsoId = getCookie("ssoid");
     const apiUrl = (APIS_CONFIG as any)?.[urlPathName][APP_ENV];
     const response: any = await Service.post({
       url: apiUrl,
       headers: {
         "Content-Type": "application/json",
+        ssoid: userSsoId,
       },
       cache: "no-store",
       body: JSON.stringify({ ...bodyParams }),

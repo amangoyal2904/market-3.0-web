@@ -49,7 +49,7 @@ const EarningsWatchlist = () => {
     };
     const apiType = tabActive ? `DECLARED_COMPANIES` : `UPCOMING_COMPANIES`;
 
-    const ssoid = getCookie("ssoid") || undefined;
+    //const ssoid = getCookie("ssoid") || undefined;
     const responseData = await commonPostAPIHandler(
       apiType,
       wathListBodyPayLoad,

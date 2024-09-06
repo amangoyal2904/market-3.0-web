@@ -508,7 +508,18 @@ export const makeBold = (inputText: string, completeText: string) => {
 export const appendZero = (num: any) =>
   num >= 0 && num < 10 ? "0" + num : num;
 export const dateFormat = (dt: any, format = "%Y-%M-%d") => {
-  let objD: any = dt instanceof Date ? dt : new Date(dt);
+  let objD: Date;
+  if (typeof dt === "string" && !isNaN(Number(dt))) {
+    objD = new Date(Number(dt));
+  } else if (typeof dt === "string") {
+    objD = new Date(dt);
+  } else if (dt instanceof Date) {
+    objD = dt;
+  } else {
+    objD = new Date(dt);
+  }
+
+  //let objD: any = dt instanceof Date ? dt : new Date(dt);
   let shortMonthName = [
     "Jan",
     "Feb",
@@ -549,7 +560,7 @@ export const dateFormat = (dt: any, format = "%Y-%M-%d") => {
     "Sunday",
   ];
   let newDate = "";
-  if (objD != "Invalid Date") {
+  if (!isNaN(objD.getTime())) {
     let hour = objD.getHours();
     let dList = {
       "%ss": objD.getMilliseconds(),
