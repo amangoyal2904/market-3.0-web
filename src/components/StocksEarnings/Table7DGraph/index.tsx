@@ -6,7 +6,7 @@ const Table7DGraph = ({ data }: any) => {
       ? Math.max(...data.map((item: any) => item.volume))
       : 0;
   //console.log({data, maxVolume})
-  if (data === "") {
+  if (!data || data === "" || data.length < 3) {
     return "-";
   }
   return (

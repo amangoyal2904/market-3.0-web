@@ -102,7 +102,7 @@ const OtherSectors = ({ title, viewTxt, viewUrl, data }: any) => {
                   <div className={styles.mcap}>
                     {ChangeNumberFormate(list?.marketCap)}
                   </div>
-                  <div className={styles.rday}>
+                  {/* <div className={styles.rday}>
                     <span
                       className={`${list?.r1Day > 0 && list?.r1Day !== 0 ? styles.up : list?.r1Day !== 0 ? styles.down : ""}`}
                     >
@@ -115,7 +115,7 @@ const OtherSectors = ({ title, viewTxt, viewUrl, data }: any) => {
                       )}
                       {list?.r1Day === 0 ? "-" : list?.r1Day}
                     </span>
-                  </div>
+                  </div> */}
                   <div className={styles.adDecSec}>
                     <div className={styles.topTxt}>
                       <span>{list?.advances} Advances</span>
