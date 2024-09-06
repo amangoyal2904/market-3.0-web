@@ -1,5 +1,5 @@
 import styles from "./style.module.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { commonPostAPIHandler } from "@/utils/screeners";
 import { getCookie } from "@/utils";
 import MarketTable from "../../MarketTable";
@@ -13,6 +13,14 @@ const EarningsWatchlist = () => {
   const [tabActive, setTabActive] = useState(0);
   const [tableData, setTableData]: any = useState([]);
   const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
+  const [_payload, setPayload] = useState({
+    filterType: "watchlist",
+    pageSize: 150,
+    pageNo: 1,
+    deviceType: "web",
+    sort: [{ field: "R1MonthReturn", order: "DESC" }],
+    watchlist: 1,
+  });
   const [activeItem, setActiveItem] = useState(
     "stocks-earnings-watchlist-page",
   );
@@ -63,9 +71,48 @@ const EarningsWatchlist = () => {
       ? setDeclareCompanies(_declareWatchlistData)
       : setTableData(_watchlistdata);
   };
+  const onServerSideSort = useCallback(
+    async (field: any) => {
+      setProcessingLoader(true);
+      setPayload((prevPayload: any) => {
+        const sortConfig = prevPayload.sort;
+        const isFieldSorted = sortConfig.find(
+          (config: any) => config.field === field,
+        );
+        let newSortConfig;
+
+        if (isFieldSorted) {
+          newSortConfig = sortConfig.map((config: any) =>
+            config.field === field
+              ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
+              : config,
+          );
+        } else {
+          newSortConfig = [...sortConfig, { field, order: "DESC" }];
+        }
+
+        return { ...prevPayload, sort: newSortConfig };
+      });
+    },
+    [_payload],
+  );
+  const callUpcomingWatchListData = async () => {
+    setProcessingLoader(true);
+    const responseData = await commonPostAPIHandler(
+      `UPCOMING_COMPANIES`,
+      _payload,
+    );
+    //console.log("____________", responseData);
+    const _watchlistdata: any = responseData?.dataList || [];
+    setTableData(_watchlistdata);
+    setProcessingLoader(false);
+  };
   useEffect(() => {
     watchlistAPICall();
   }, [tabActive]);
+  useEffect(() => {
+    callUpcomingWatchListData();
+  }, [_payload]);
   return (
     <>
       <div className={styles.watchlistWrap}>
@@ -110,6 +157,7 @@ const EarningsWatchlist = () => {
                   l2NavTracking="Stocks/earnings"
                   l3NavTracking={activeItem}
                   setFallbackWebsocket={setFallbackWebsocket}
+                  handleSortServerSide={onServerSideSort}
                 />
                 <ViewAllCta
                   text="View all Results"
