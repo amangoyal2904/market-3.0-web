@@ -1557,8 +1557,6 @@ export const getSectorsOverview = async (indexid: number) => {
 
 export const getPeerSectors = async (indexid: number) => {
   let serviceUrl = `${(APIS_CONFIG as any)?.SECTORS_PEER[APP_ENV]}?sectorIds=${indexid}`;
-
-  console.log("@@@@ serviceUrl", serviceUrl);
   const response = await Service.get({
     url: serviceUrl,
     params: {},

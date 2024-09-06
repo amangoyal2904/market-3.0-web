@@ -51,7 +51,6 @@ async function generateMetadata(
     desc: pageDesc,
     keywords: pageKeywords,
     pathname: pageUrl,
-    index: false,
   };
   return fnGenerateMetaData(meta);
 }
@@ -63,7 +62,6 @@ const IndividualSectors = async ({ params }: any) => {
   const ssoid = cookieStore.get("ssoid")?.value;
   const indexFilterData = await fetchSelectedSectors(params.slug);
   const fetchSectorData = await fetchSectors();
-  console.log("@@@ indexFilterData ", indexFilterData.assetId);
   if (indexFilterData.assetId == 0 || indexFilterData.assetId == null) {
     notFound();
   }

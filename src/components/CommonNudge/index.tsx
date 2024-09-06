@@ -33,7 +33,6 @@ const CommonNudge = ({ modalType }: any) => {
   const [showModal, setShowModal] = useState(false);
   const [showCenterSlider, setShowCenterSlider] = useState(false);
 
-  //console.log("modalState___", modalState, isPrime, pathName);
   const checkPermission = (type: any) => {
     let permissionFlag = 0,
       __permissions = permissions || [];
@@ -75,7 +74,7 @@ const CommonNudge = ({ modalType }: any) => {
         setAllNudgeSubscriptionData(resData[0]);
       }
     } catch (error) {
-      console.log("error - allUserSubscriptions API");
+      console.warn("error - allUserSubscriptions API");
     }
   };
   const checkUrl = () =>
@@ -90,7 +89,6 @@ const CommonNudge = ({ modalType }: any) => {
   };
   const { nudge: yellowTopNudgeCheck, showRule: showYellowTopNudgeRule } =
     getNudgeCheck("topNudgeObj");
-  //console.log("yellowTopNudgeCheck", yellowTopNudgeCheck);
 
   const {
     nudge: topPrimeToolsNudgeCheck,
@@ -124,7 +122,6 @@ const CommonNudge = ({ modalType }: any) => {
     setMetaInfoPrimeNudege(response?.metainfo);
   };
   const allNudgeRuleCheck = () => {
-    //console.log("___check all nudeg Rule and call api", userType);
     if (
       showYellowTopNudgeRule &&
       modalState?.activeModal === "" &&
@@ -165,7 +162,6 @@ const CommonNudge = ({ modalType }: any) => {
         },
       });
     }
-    //console.log(`${key} close button run`);
   };
   const closeHandlerTopNudege = (ttl: any) =>
     setReactivationDate("topNudgeObj", ttl);
@@ -175,7 +171,6 @@ const CommonNudge = ({ modalType }: any) => {
   const modalCloseHandlerSliderbanner = (ttl: any) =>
     setReactivationDate("centerNudge", ttl);
   const renderComponents = () => {
-    //console.log("check Value____________ finel step render code ");
     if (
       showYellowTopNudgeRule &&
       modalState?.activeModal === "" &&
@@ -522,10 +517,8 @@ const CommonNudge = ({ modalType }: any) => {
 
     //setUserType("adFree");
     setUserType(userDefineRole);
-    //console.log("__userDefineRole__", userDefineRole);
   };
   const onAppLoad = () => {
-    //console.log("________Application is fully loaded and state is updated");
     setTimeout(() => {
       setShowModal(true);
     });
@@ -561,13 +554,10 @@ const CommonNudge = ({ modalType }: any) => {
     const showNudgeBanner =
       showBannerType === "1" ? "a" : showBannerType === "2" ? "b" : "";
     setPrimePagesBannerType(showNudgeBanner);
-    //setPrimePagesBannerType("b")
     renderComponents();
-    //console.log("prime tools nudeg call here ", metaInfoPrimeNudege);
   }, [metaInfoPrimeNudege]);
 
   useEffect(() => {
-    console.log({ isPrime, permissions, isLogin });
     if (typeof window.objUser != "undefined") {
       if (
         showModal &&

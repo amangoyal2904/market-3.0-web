@@ -185,8 +185,6 @@ export const verifyLogin = () => {
       window.objUser.afterCheckUserLoginStatus = true;
       setUserData();
     } else {
-      console.log("failure");
-      //generateFpid(false);
       window.objUser.afterCheckUserLoginStatus = false;
       ssoLoginWidget();
     }
@@ -205,7 +203,7 @@ export const setUserData = () => {
       window.objUser.info = response.data;
       window.objUser.ssoid = response.data.ssoid;
     } else {
-      console.log("failure");
+      console.warn("getUserDetails failed");
     }
 
     const getUserDetailsStatus = new Event(
@@ -338,7 +336,6 @@ export const initSSOWidget = () => {
 
 export const logout = async () => {
   const ticketId = getCookie("TicketId");
-  console.log("TIcket ID outside Logut---->", getCookie("TicketId"), ticketId);
   window?.jsso?.signOutUser(async function (response: any) {
     if (response.status == "SUCCESS") {
       delete_cookie("OTR");
@@ -347,11 +344,6 @@ export const logout = async () => {
       delete_cookie("pfuuid");
       delete_cookie("peuuid");
       delete_cookie("fpid");
-      console.log(
-        "TIcket ID inside Logut---->",
-        getCookie("TicketId"),
-        ticketId,
-      );
       const url = (APIS_CONFIG as any)["LOGOUT_AUTH_NEW_TOKEN"][APP_ENV],
         oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],
         deviceId = getCookie("_grx"),
@@ -378,7 +370,7 @@ export const logout = async () => {
       //const logoutSuccess = await response?.json();
       window.location.reload();
     } else {
-      console.log("failure");
+      console.warn("signOutUser failed");
     }
   });
 };

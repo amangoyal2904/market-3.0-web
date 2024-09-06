@@ -128,7 +128,6 @@ const SectorsConstituents = React.memo(
         id: viewId,
       };
       setToasterConfirmData(confirmData);
-      console.log("removePersonaliseViewFun", viewId);
     };
 
     const onServerSideSort = useCallback(
@@ -179,16 +178,9 @@ const SectorsConstituents = React.memo(
       value: boolean,
       data: any,
     ) => {
-      console.log(
-        "toasterRemovePersonaliseViewCloseHandlerFun",
-        value,
-        "___data",
-        data,
-      );
       setToasterPersonaliseViewRemove(false);
       if (value && data && data.id && data.id !== "") {
         const removeViewById = await removePersonalizeViewById(data?.id);
-        console.log("removeViewById", removeViewById);
         onPersonalizeHandlerfun();
       }
     };
@@ -225,7 +217,6 @@ const SectorsConstituents = React.memo(
           }
         }
       } catch (error) {
-        console.error("Error fetching constituents table data:", error);
         // Handle error appropriately if needed
       } finally {
         setProcessingLoader(false);

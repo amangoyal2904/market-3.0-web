@@ -9,7 +9,7 @@ const SectorsDetailsOverview = React.memo(({ overviewData, descText }: any) => {
   return (
     <section id="overview" className={styles.overview}>
       <div className="dflex align-item-center">
-        <h1 className={styles.headline}>{overviewData?.assetName} Sector</h1>
+        <h1 className={styles.headline}>{overviewData?.assetName} Stocks</h1>
         <Link
           href="/stocks/sectors"
           title="View all Sectors"
