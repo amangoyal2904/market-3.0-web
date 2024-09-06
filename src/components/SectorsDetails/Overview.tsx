@@ -31,15 +31,10 @@ const SectorsDetailsOverview = React.memo(({ overviewData, descText }: any) => {
       <div className={styles.overviewBottom}>
         <Returns data={overviewData} />
         <div className={styles.advDeclBox}>
-          <Link
-            href="/markets/stock-market-mood"
-            title={`${overviewData?.assetName} Advance/Decline`}
-            className={styles.widget}
-          >
+          <div className={styles.widget}>
             <div className="dflex align-item-center space-between">
               <div className="dflex align-item-center">
                 <p className={styles.title}>Advance/Decline</p>
-                <span className={`eticon_caret_right ${styles.icon}`} />
               </div>
               <div className={styles.dateBox}>
                 {dateFormat(overviewData.latestDate * 1000, "%MMM %d, %Y")}
@@ -77,7 +72,7 @@ const SectorsDetailsOverview = React.memo(({ overviewData, descText }: any) => {
                     ${overviewData?.declinesPercentage && "%"}`}</span>
               </div>
             </div>
-          </Link>
+          </div>
         </div>
       </div>
     </section>

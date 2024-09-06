@@ -297,17 +297,17 @@ const SectorsConstituents = React.memo(
             <div className={styles.viewOtherBox}>
               <Link
                 href="/stocks/sectors"
-                title="View Other Sectors"
+                title="View All Sectors"
                 className={styles.viewAll}
                 onClick={() =>
                   trackingEvent("et_push_event", {
                     event_category: "mercury_engagement",
                     event_action: "page_cta_click",
-                    event_label: "View Other Sectors",
+                    event_label: "View All Sectors",
                   })
                 }
               >
-                View Other Sectors{" "}
+                View All Sectors{" "}
                 <span className={`eticon_next ${styles.rightIcon}`}></span>
               </Link>
             </div>
