@@ -348,3 +348,11 @@
     background: $yellow-20;
   }
 }
+
+@media screen and (max-width: 1168px) {
+  .topTabsSec {
+    .dateList {
+      width: 380px;
+    }
+  }
+}

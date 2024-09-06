@@ -143,3 +143,26 @@
     }
   }
 }
+
+@media screen and (max-width: 1168px) {
+  .cardWrap {
+    padding: 8px 10px;
+  }
+  .resData {
+    span {
+      font-size: 15px;
+    }
+  }
+  .grphTxtWrap {
+    .graph {
+      width: 40px;
+      margin-right: 6px;
+    }
+    .num {
+      width: 28px;
+    }
+    .txt {
+      width: 35px;
+    }
+  }
+}

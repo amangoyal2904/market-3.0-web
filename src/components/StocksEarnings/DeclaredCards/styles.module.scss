@@ -9,3 +9,10 @@
   position: relative;
   min-height: 178px;
 }
+
+@media screen and (max-width: 1168px) {
+  .declaredWrap {
+    column-gap: 20px;
+    row-gap: 30px;
+  }
+}

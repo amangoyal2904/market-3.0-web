@@ -6,8 +6,8 @@ const Table7DGraph = ({ data }: any) => {
       ? Math.max(...data.map((item: any) => item.volume))
       : 0;
   //console.log({data, maxVolume})
-  if (!data || data === "" || data.length < 3) {
-    return "-";
+  if (!data || data === "" || data.length < 4) {
+    return "Not enough data";
   }
   return (
     <>
