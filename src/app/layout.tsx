@@ -11,6 +11,7 @@ import { Toaster } from "react-hot-toast";
 import FullLayout from "./fullLayout";
 import NoLayout from "@/components/NoLayout";
 import Scripts from "@/components/Scripts";
+import { URLSearchParams } from "url"; // Import for handling search params
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -62,6 +63,14 @@ export default async function RootLayout({
   const pageUrl = headersList.get("x-pathname") || "";
   const noLayout = pageUrl == "/chart";
 
+  // Parse search parameters
+  const searchParams = new URLSearchParams(
+    headersList.get("x-searchparam") || "",
+  );
+
+  const savePatternImage = searchParams.get("save_pattern_image") == "true";
+  const patternId = searchParams.get("patternid");
+
   return (
     <html
       lang="en"
@@ -79,15 +88,21 @@ export default async function RootLayout({
         <StateProvider>
           {noLayout ? (
             <>
-              <NoLayout />
+              {!patternId && <NoLayout />}
               <main>{children}</main>
             </>
           ) : (
-            <FullLayout pageUrl={pageUrl}>{children}</FullLayout>
+            <>
+              <FullLayout pageUrl={pageUrl}>{children}</FullLayout>
+              <AccessFreeTrial />
+            </>
           )}
-          <AccessFreeTrial />
-          <Scripts objVc={versionControl} isprimeuser={isprimeuser} />
-          <Toaster position="bottom-right" reverseOrder={false} />
+          {!savePatternImage && (
+            <>
+              <Scripts objVc={versionControl} isprimeuser={isprimeuser} />
+              <Toaster position="bottom-right" reverseOrder={false} />
+            </>
+          )}
         </StateProvider>
       </body>
     </html>

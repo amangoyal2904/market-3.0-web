@@ -7,6 +7,7 @@ import {
   ChartingLibraryWidgetOptions,
   ResolutionString,
 } from "../../../public/static/v28/charting_library/charting_library";
+import ChartClientSave from "./saveChart";
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = headers();
@@ -209,7 +210,16 @@ const Chart = () => {
     fullscreen: true,
   };
 
-  return (
+  return savePatternImages == "true" ||
+    (patternId != "" && patternId != null) ? (
+    <ChartClientSave
+      {...defaultWidgetProps}
+      patternId={patternId}
+      gaHit={gaHit}
+      chartType={chartType}
+      savePatternImages={savePatternImages}
+    />
+  ) : (
     <ChartClient
       {...defaultWidgetProps}
       patternId={patternId}
