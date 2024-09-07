@@ -35,54 +35,37 @@
     }
   }
 }
-.right_vidBox {
-  max-width: 100%;
-  img {
-    width: 100%;
-  }
-  h4 {
-    font-size: 16px;
-    margin: 5px 0;
-  }
-  .videoDetails {
-    display: flex;
-    margin-bottom: 15px;
-    gap: 15px;
-    span {
-      font-size: 12px;
-    }
-  }
-}
-.left_ieContent {
-  min-width: 34%;
-  max-width: 34%;
-  max-height: 550px;
-  .videoShowWrapper {
-    cursor: pointer;
-    img {
-      height: 400px;
-      max-height: 400px;
-    }
-  }
-  h3 {
-    margin: 8px 0;
+.ieVidContainer {
+  h2 {
     font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 30px 0 20px;
   }
-  .videoDetails {
+  .ieVidList {
     display: flex;
-    margin-bottom: 15px;
-    gap: 25px;
-    span {
-      font-size: 12px;
-    }
-  }
-  .socialDetails {
-    display: flex;
-    gap: 20px;
-    span {
-      padding: 5px 15px;
-      border: 1px solid;
-      border-radius: 20px;
+    flex-wrap: wrap;
+    margin: 25px 0;
+    .right_vidBox {
+      margin: 0 2% 2% 0;
+      width: 23%;
+      img {
+        width: 100%;
+        max-width: 100%;
+      }
+      h4 {
+        font-size: 16px;
+        margin: 5px 0;
+      }
+      .videoDetails {
+        display: flex;
+        margin-bottom: 15px;
+        gap: 15px;
+        span {
+          font-size: 12px;
+        }
+      }
     }
   }
 }

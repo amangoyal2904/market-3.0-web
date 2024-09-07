@@ -518,5 +518,13 @@
   "SECTORS_FAQ": {
     "development": "https://screener.indiatimes.com/screener/sectorFaq",
     "production": "https://screener.indiatimes.com/screener/sectorFaq"
+  },
+  "INVESTMENTIDEA_NAV": {
+    "development": "https://etapipre.indiatimes.com/api/mercury/investmentidea",
+    "production": "https://etpwaapi.economictimes.com/api/mercury/investmentidea"
+  },
+  "INVESTMENTEDGE": {
+    "development": "https://etpwaapipre.economictimes.com/request?type=plist&top=30&msid=",
+    "production": "https://etpwaapipre.economictimes.com/request?type=plist&top=30&msid="
   }
 }

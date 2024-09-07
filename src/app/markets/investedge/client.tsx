@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Investedge.module.scss";
 import SlickSlider from "@/components/SlickSlider";
 import InvestEdgeTopVideo from "@/components/InvestEdgeTopVideo";
@@ -31,7 +31,7 @@ const responsive = [
     },
   },
 ];
-const InvestEdgeClient = () => {
+const InvestEdgeClient = ({ resultData }: any) => {
   const [loadVideo, setLoadVideo] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [activeVideoId, setActiveVideoId] = useState(null);
@@ -114,6 +114,10 @@ const InvestEdgeClient = () => {
       speakerDesignation: "Best-selling author, TED and Keynote Speaker",
     },
   ];
+  useEffect(() => {
+    console.log("Result@@@@---->", resultData);
+  }, []);
+
   return (
     <>
       <div className={styles.ieContainer}>
@@ -141,6 +145,7 @@ const InvestEdgeClient = () => {
             </div>
           </div>
         </div>
+
         <div className={styles.ieBox}>
           <h2>Mutual Funds</h2>
           <div className={styles.ieBoxList}>

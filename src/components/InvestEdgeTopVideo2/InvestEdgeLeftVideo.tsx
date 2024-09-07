@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./InvestEdgeTopVideo.module.scss";
 import VideoEmbed from "../VideoEmbed";
 
-const InvestEdgeLeftVideo = ({
+const InvestEdgeLeftVideo1 = ({
   videoId,
   activeVideoId,
   setActiveVideoId,
@@ -110,4 +110,4 @@ const InvestEdgeLeftVideo = ({
   );
 };
 
-export default InvestEdgeLeftVideo;
+export default InvestEdgeLeftVideo1;
