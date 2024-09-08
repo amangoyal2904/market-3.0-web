@@ -434,40 +434,6 @@ export const TVChartContainer = (
         tvWidget.subscribe("onAutoSaveNeeded", handleAutoSave);
       }
 
-      // Page url will be updated on change of Interval and Symbol change
-      if (updatePageUrl == "true") {
-        tvWidget
-          .activeChart()
-          .onIntervalChanged()
-          .subscribe(null, () => updateUrl());
-
-        tvWidget
-          .activeChart()
-          .onSymbolChanged()
-          .subscribe(null, () => updateUrl());
-      }
-
-      // GA will be fired by default, to stop pass ga_hit=false in param
-      if (gaHit != "false") {
-        trackingEvent("et_push_event", {
-          event_category: "mercury_engagement",
-          event_action: `Impression - WEB Technical Chart`,
-          event_label: name,
-        });
-        tvWidget
-          .activeChart()
-          .onChartTypeChanged()
-          .subscribe(null, () => {
-            handleTracking(chartType);
-          });
-        tvWidget.subscribe("undo", () => handleTracking("undo"));
-        tvWidget.subscribe("redo", () => handleTracking("redo"));
-        tvWidget.subscribe("indicators_dialog", () =>
-          handleTracking("Indicators"),
-        );
-        attachEventListeners();
-      }
-
       // Chart Type will get change if valid chart_type param passed
       if (
         chartType &&
@@ -522,12 +488,6 @@ export const TVChartContainer = (
             { percentRightMargin: 7 },
           );
 
-          // Create shape
-          activeChart.createMultipointShape(processedPatternData, {
-            shape: patternShape,
-            lock: true,
-          });
-
           // Adjust price range if visible range exists
           if (range) {
             priceScale.setVisiblePriceRange({
@@ -536,11 +496,51 @@ export const TVChartContainer = (
             });
           }
 
+          // Create shape
+          activeChart.createMultipointShape(processedPatternData, {
+            shape: patternShape,
+            lock: true,
+          });
+
           // Save pattern image if required
           if (savePatternImages === "true") {
-            setTimeout(() => savePatternImage(patternId), 500);
+            setTimeout(() => savePatternImage(patternId), 1000);
           }
         }
+      }
+
+      // GA will be fired by default, to stop pass ga_hit=false in param
+      if (gaHit != "false") {
+        trackingEvent("et_push_event", {
+          event_category: "mercury_engagement",
+          event_action: `Impression - WEB Technical Chart`,
+          event_label: name,
+        });
+        tvWidget
+          .activeChart()
+          .onChartTypeChanged()
+          .subscribe(null, () => {
+            handleTracking(chartType);
+          });
+        tvWidget.subscribe("undo", () => handleTracking("undo"));
+        tvWidget.subscribe("redo", () => handleTracking("redo"));
+        tvWidget.subscribe("indicators_dialog", () =>
+          handleTracking("Indicators"),
+        );
+        attachEventListeners();
+      }
+
+      // Page url will be updated on change of Interval and Symbol change
+      if (updatePageUrl == "true") {
+        tvWidget
+          .activeChart()
+          .onIntervalChanged()
+          .subscribe(null, () => updateUrl());
+
+        tvWidget
+          .activeChart()
+          .onSymbolChanged()
+          .subscribe(null, () => updateUrl());
       }
     });
 

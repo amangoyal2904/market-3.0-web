@@ -31,10 +31,10 @@ const ChartClientSave = (defaultWidgetProps: any) => {
         <TVChartContainer
           {...widgetProps}
           patternId={patternId}
-          gaHit={gaHit}
+          gaHit="false"
           chartType={chartType}
           savePatternImages={savePatternImages}
-          updatePageUrl="true"
+          updatePageUrl="false"
         />
       ) : (
         <div className={styles.loadingIndicator}>
