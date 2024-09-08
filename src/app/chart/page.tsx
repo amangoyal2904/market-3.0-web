@@ -215,7 +215,7 @@ const Chart = () => {
     <ChartClientSave
       {...defaultWidgetProps}
       patternId={patternId}
-      gaHit={gaHit}
+      gaHit="false"
       chartType={chartType}
       savePatternImages={savePatternImages}
     />
