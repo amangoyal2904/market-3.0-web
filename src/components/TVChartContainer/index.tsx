@@ -173,12 +173,57 @@ export const TVChartContainer = (
     };
 
     const savePatternImage = async (patternId: string) => {
-      const screenshotCanvas = await tvWidget.takeClientScreenshot();
-      screenshotCanvas.toBlob(async (blob: any) => {
+      const screenshotCanvas = await tvWidget.takeClientScreenshot({});
+      const ctx = screenshotCanvas.getContext("2d");
+
+      const originalWidth = screenshotCanvas.width;
+      const originalHeight = screenshotCanvas.height;
+
+      // Calculate the cropped dimensions (5% from left/right, 10% from top/bottom)
+      const cropWidth = originalWidth * 0.9; // 90% of the original width (5% from each side)
+      const cropHeight = originalHeight * 0.8; // 80% of the original height (10% from top and bottom)
+      const cropX = originalWidth * 0.04; // Starting x-coordinate (4% from the left)
+      const cropY = originalHeight * 0.1; // Starting y-coordinate (10% from the top)
+
+      // Create an off-screen canvas to hold the cropped image
+      const croppedCanvas = document.createElement("canvas");
+      croppedCanvas.width = cropWidth;
+      croppedCanvas.height = cropHeight;
+
+      const croppedCtx = croppedCanvas.getContext("2d");
+      // Draw the cropped portion of the screenshot onto the new canvas
+      croppedCtx?.drawImage(
+        screenshotCanvas,
+        cropX,
+        cropY,
+        cropWidth,
+        cropHeight,
+        0,
+        0,
+        cropWidth,
+        cropHeight,
+      );
+
+      // Uncomment below below code to download the cropped image on local machine
+      // const linkElement = document.createElement("a");
+      // linkElement.download = "screenshot";
+      // linkElement.href = croppedCanvas.toDataURL(); // Alternatively, use `toBlob` which is a better API
+      // linkElement.dataset.downloadurl = [
+      //   "image/png",
+      //   linkElement.download,
+      //   linkElement.href,
+      // ].join(":");
+      // document.body.appendChild(linkElement);
+      // linkElement.click();
+      // document.body.removeChild(linkElement);
+
+      // Convert to blob and upload
+      croppedCanvas.toBlob(async (blob: any) => {
         const formData = new FormData();
         formData.append("preparedImage", blob);
         formData.append("patternId", patternId);
         formData.append("mode", tvWidget.getTheme());
+
         try {
           const response = await fetch(
             "https://etelectionk8s.indiatimes.com/chartpatterns/chartSnapshot",
@@ -388,7 +433,8 @@ export const TVChartContainer = (
     };
 
     tvWidget.onChartReady(async () => {
-      tvWidget.activeChart().setResolution(param_periodicity);
+      const activeChart = tvWidget.activeChart();
+      activeChart.setResolution(param_periodicity);
       tvWidget.changeTheme(props.theme === "dark" ? "dark" : "light");
 
       // Last saved chart will get loaded only if save is not disabled in disabled_features
@@ -443,51 +489,64 @@ export const TVChartContainer = (
       // Pattern will get formed if pattern id is available
       if (patternId) {
         const patternDataResponse = await getPatternData(patternId);
+
         if (patternDataResponse) {
           const { patternList } = patternDataResponse;
-          const patternData = patternList.data.map((item: any) => ({
+          const {
+            data: patternData,
+            shape: patternShape,
+            chartStartDate,
+            chartEndDate,
+          } = patternList;
+
+          // Convert pattern data
+          const processedPatternData = patternData.map((item: any) => ({
             time: item.time / 1000,
             price: item.price,
           }));
-          const patternShape = patternList.shape;
+
+          // Date conversion
           const patternFromDate = Math.floor(
-            new Date(patternList.chartStartDate).getTime() / 1000,
+            new Date(chartStartDate).getTime() / 1000,
           );
           const patternToDate = Math.floor(
-            new Date(patternList.chartEndDate).getTime() / 1000,
+            new Date(chartEndDate).getTime() / 1000,
           );
 
-          // Call setVisibleRange and createMultipointShape with the fetched data
-          tvWidget.activeChart().setVisibleRange({
-            from: patternFromDate,
-            to: patternToDate,
-          });
+          // Price range calculations
+          const prices = processedPatternData.map((item: any) => item.price);
+          const minPrice = Math.min(...prices) * 0.75;
+          const maxPrice = Math.max(...prices) * 1.25;
 
-          tvWidget.activeChart().createMultipointShape(patternData, {
-            shape: patternShape,
-          });
+          // Get active chart and price scale
 
-          const priceScale = tvWidget
-            .activeChart()
-            .getPanes()[0]
-            .getRightPriceScales()[0];
-
+          const priceScale = activeChart.getPanes()[0].getRightPriceScales()[0];
           const range: VisiblePriceRange | null =
             priceScale.getVisiblePriceRange();
 
-          if (range != null) {
-            const newFrom = range.from * 0.8; // Decrease by 20% (Increase range)
-            const newTo = range.to * 1.2; // Increase by 20% (Decrease range)
+          // Set visible range for the chart
+          activeChart.setVisibleRange(
+            { from: patternFromDate, to: patternToDate },
+            { percentRightMargin: 7 },
+          );
+
+          // Create shape
+          activeChart.createMultipointShape(processedPatternData, {
+            shape: patternShape,
+            lock: true,
+          });
+
+          // Adjust price range if visible range exists
+          if (range) {
             priceScale.setVisiblePriceRange({
-              from: newFrom,
-              to: newTo,
+              from: Math.min(range.from, minPrice),
+              to: Math.max(range.to, maxPrice),
             });
           }
 
-          if (savePatternImages == "true") {
-            setTimeout(() => {
-              savePatternImage(patternId);
-            }, 1000);
+          // Save pattern image if required
+          if (savePatternImages === "true") {
+            setTimeout(() => savePatternImage(patternId), 500);
           }
         }
       }
