@@ -22,6 +22,17 @@ const timePair: TimePair = {
   "1Y": "year",
 };
 
+const getOverrides = (theme: string) => ({
+  "paneProperties.backgroundType": theme === "dark" ? "solid" : undefined,
+  "paneProperties.background": theme === "dark" ? "#181818" : "#ffffff",
+  "paneProperties.vertGridProperties.color":
+    theme === "dark" ? "#232325" : "rgba(42, 46, 57, 0.06)",
+  "paneProperties.horzGridProperties.color":
+    theme === "dark" ? "#232325" : "rgba(42, 46, 57, 0.06)",
+  "scalesProperties.textColor":
+    theme === "dark" ? "rgba(170, 170, 170, 1)" : "#131722",
+});
+
 export const TVChartContainer = (
   props: Partial<ChartingLibraryWidgetOptions> & {
     patternId?: string;
@@ -53,21 +64,6 @@ export const TVChartContainer = (
     baseline_delta: 10,
     hi_lo: 12,
   };
-  const overrides =
-    props.theme === "dark"
-      ? {
-          "paneProperties.backgroundType": "solid",
-          "paneProperties.background": "#181818",
-          "paneProperties.vertGridProperties.color": "#232325",
-          "paneProperties.horzGridProperties.color": "#232325",
-          "scalesProperties.textColor": "rgba(170, 170, 170, 1)",
-        }
-      : {
-          "paneProperties.background": "#ffffff",
-          "paneProperties.vertGridProperties.color": "rgba(42, 46, 57, 0.06)",
-          "paneProperties.horzGridProperties.color": "rgba(42, 46, 57, 0.06)",
-          "scalesProperties.textColor": "#131722",
-        };
 
   const initializeChart = () => {
     const loadLastChart = !props.disabled_features?.includes(
@@ -113,28 +109,22 @@ export const TVChartContainer = (
         },
       ],
       favorites: {
-        intervals: [
-          "1" as ResolutionString,
-          "5" as ResolutionString,
-          "10" as ResolutionString,
-          "15" as ResolutionString,
-          "30" as ResolutionString,
-          "1D" as ResolutionString,
-        ],
+        intervals: ["1", "5", "10", "15", "30", "1D"] as ResolutionString[],
         chartTypes: ["Area", "Candles", "Bars"],
         drawingTools: [],
         indicators: [],
       },
-      overrides,
+      overrides: getOverrides(props.theme || "light"),
       symbol_search_request_delay: 2000,
     };
 
     if (loadLastChart) {
-      widgetOptions.charts_storage_url =
-        "https://etapi.indiatimes.com/charts/mrkts";
-      widgetOptions.charts_storage_api_version = "1.1";
-      widgetOptions.load_last_chart = true;
-      widgetOptions.auto_save_delay = 1;
+      Object.assign(widgetOptions, {
+        charts_storage_url: "https://etapi.indiatimes.com/charts/mrkts",
+        charts_storage_api_version: "1.1",
+        load_last_chart: true,
+        auto_save_delay: 1,
+      });
     }
 
     if (props.timeframe) {
@@ -154,8 +144,9 @@ export const TVChartContainer = (
     };
 
     const updateUrl = () => {
-      const symbolInfo = tvWidget.activeChart().symbolExt();
-      const activeResolution = tvWidget.activeChart().resolution();
+      const activeChart = tvWidget.activeChart();
+      const symbolInfo = activeChart.symbolExt();
+      const activeResolution = activeChart.resolution();
       const periodicity = timePair[activeResolution] || activeResolution;
 
       const symbolData = {
@@ -273,18 +264,19 @@ export const TVChartContainer = (
           iframeRef.current.contentWindow?.document;
 
         if (chart) {
+          const activeChart = tvWidget.activeChart();
           // top events
           chart
             .querySelector("#header-toolbar-symbol-search")
             ?.addEventListener("click", () => {
-              const symbol = tvWidget.activeChart().symbol;
+              const symbol = activeChart.symbol;
               handleTracking(`Clicks - ${symbol}`);
             });
 
           chart
             .querySelector("#header-toolbar-intervals")
             ?.addEventListener("click", () => {
-              const r = tvWidget.activeChart().resolution();
+              const r = activeChart.resolution();
               const resolution = Number(r) ? Number(r) + "m" : r;
               handleTracking(`${resolution}`);
             });
