@@ -11,6 +11,9 @@ const tabsLinkData = [
 
 const LinkTabs = () => {
   const pathName = usePathname();
+  const isActive = (tabUrl: string) => {
+    return pathName === tabUrl || pathName.startsWith(`${tabUrl}/`);
+  };
   return (
     <>
       <div className={styles.linkTabWrap}>
@@ -19,7 +22,7 @@ const LinkTabs = () => {
             return (
               <li
                 key={`${index}-${item.title}`}
-                className={`${item.url === pathName ? styles.active : ""}`}
+                className={`${isActive(item.url) ? styles.active : ""}`}
               >
                 <Link href={`${item.url}`}>{item.title}</Link>
               </li>

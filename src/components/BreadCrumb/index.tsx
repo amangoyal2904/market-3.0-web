@@ -303,6 +303,68 @@ const getLiPath = (router: string, pagePath: string) => {
       showCurrLi: true,
       listItemSchema: "",
     };
+  } else if (router === "/markets/stocks/earnings") {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/stocks/earnings" title="Stock Earnings">
+            Stock Earnings
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router === "/markets/stocks/upcoming-results") {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a
+            href="/markets/stocks/upcoming-results"
+            title="Stock Upcoming Results"
+          >
+            Stock Upcoming Results
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router === "/markets/stocks/declared-results") {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a
+            href="/markets/stocks/declared-results"
+            title="Stock Declared Results"
+          >
+            Stock Declared Results
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router === "/markets/stocks/sector-aggregates") {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/stocks/sector-aggregates" title="Sector Aggregates">
+            Sector Aggregates
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
   } else {
     return {};
   }

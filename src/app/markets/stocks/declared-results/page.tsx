@@ -81,7 +81,7 @@ const DeclaredResultsPage = async (props: any) => {
       />
       <BreadCrumb
         pagePath={pageUrl}
-        pageName={[{ label: "Earnings", redirectUrl: "" }]}
+        pageName={[{ label: "Declared", redirectUrl: "" }]}
       />
       <br />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />
