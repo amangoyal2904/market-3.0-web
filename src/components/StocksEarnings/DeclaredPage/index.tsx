@@ -23,6 +23,10 @@ const DeclaredPage = ({
   const [_declareCompanies, setDeclareCompanies] = useState(
     data?.declaredCompanies,
   );
+  const [declaredCalendar, setDeclaredCalendar] = useState(
+    data.declaredCalendar,
+  );
+
   const [tabDateTime, setTabDateTime] = useState(
     data.payload.declareResultTablePayload.date || "",
   );
@@ -76,15 +80,50 @@ const DeclaredPage = ({
     }
     setCardLoading(false);
   };
+  const callAPIDeclaredCalendar = async (filterType: any, filterValue: any) => {
+    //console.log({filterType,filterValue})
+    try {
+      let queryParams = `?apiType=declared`;
+      if (
+        filterType &&
+        filterValue !== undefined &&
+        filterValue !== null &&
+        filterValue !== 0
+      ) {
+        const filterTypeParam = `filterType=${filterType}`;
+        const filterValueParam = `filterValue=${filterValue}`;
+        queryParams += `&${filterTypeParam}&${filterValueParam}`;
+      }
+      //console.log('Final queryParams:', queryParams);
+      const getData = await commonGetAPIHandler(
+        `SCREENER_CALENDAR`,
+        queryParams,
+      );
+      if (getData) {
+        setDeclaredCalendar(getData);
+      }
+      //console.log("getData declared",getData)
+    } catch (error) {
+      console.log("error api declare calander", error);
+    }
+  };
   const niftyFIlterHandler = (type: string, niftySelectedFilterData: any) => {
     //console.log("call nifty fitler handler", {type, niftySelectedFilterData});
     if (type === "declared") {
+      const filterValue = niftySelectedFilterData?.indexId;
+      const filterType =
+        filterValue == undefined || !isNaN(Number(filterValue))
+          ? "index"
+          : "marketcap";
+
       const newPayload: any = { ..._declareResultTablePayload, pageNo: 1 };
       newPayload.filterValue =
         niftySelectedFilterData?.indexId !== 0
           ? [niftySelectedFilterData?.indexId]
           : [];
+      newPayload.filterType = filterType;
       setDeclareResultTablePayload(newPayload);
+      callAPIDeclaredCalendar(filterType, filterValue);
     }
   };
   const handlePageChange = (value: "any") => {
@@ -111,7 +150,7 @@ const DeclaredPage = ({
           <UpcomingResults
             title=""
             type="declared"
-            tabData={data?.declaredCalendar}
+            tabData={declaredCalendar}
             selectedFilter={selectedFilter}
             searchFilter="yes"
             niftyFilter={

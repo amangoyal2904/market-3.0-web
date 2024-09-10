@@ -62,7 +62,7 @@ const StockScreeners = ({ data }: any) => {
       },
     },
   ];
-  console.log("______", data);
+  //console.log("______", data);
   return (
     <>
       <div className={styels.mainScrWrap}>

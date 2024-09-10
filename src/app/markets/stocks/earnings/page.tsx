@@ -59,6 +59,22 @@ const StocksEarningsPage = async () => {
   };
 
   const earningsSummary = await commonGetAPIHandler(`EARNINGS_SUMMARY`);
+
+  const topSummaryDate = earningsSummary?.prevQuarterEndDate;
+  const originalDate = new Date(topSummaryDate);
+  const futureDate = new Date(
+    originalDate.getTime() + 55 * 24 * 60 * 60 * 1000,
+  ); // for add 55 days
+  const todayDate = new Date();
+  const isFutureDateGreater = futureDate < todayDate;
+  const dateCollection = {
+    topSummaryDate,
+    originalDate,
+    futureDate,
+    todayDate,
+    isFutureDateGreater,
+  };
+
   const _declaredCalendar = await commonGetAPIHandler(
     `SCREENER_CALENDAR`,
     `?apiType=declared`,
@@ -78,10 +94,10 @@ const StocksEarningsPage = async () => {
     sort: [{ field: "R1MonthReturn", order: "DESC" }],
   };
   const bodyPayloadDeclaredCompanies = {
-    date: _declaredCalendar?.[0]?.date || "",
+    date: isFutureDateGreater ? "" : _declaredCalendar?.[0]?.date || "",
     filterType: "index",
     filterValue: [],
-    apiType: "latest-results",
+    apiType: isFutureDateGreater ? "sales-gainers" : "latest-results",
     pageSize: 6,
     pageNo: 1,
   };
@@ -144,6 +160,8 @@ const StocksEarningsPage = async () => {
       <StocksEarningsClintPage
         data={earningData}
         selectedFilter={selectedFilter}
+        dateCollection={dateCollection}
+        activeResultValue={`${isFutureDateGreater ? "sales-gainers" : "latest-results"}`}
       />
       <BreadCrumb
         pagePath={pageUrl}

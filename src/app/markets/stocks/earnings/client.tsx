@@ -16,11 +16,25 @@ import {
   commonPostAPIHandler,
 } from "../../../../utils/screeners";
 
-const StocksEarningsClintPage = ({ data, selectedFilter }: any) => {
+const StocksEarningsClintPage = ({
+  data,
+  selectedFilter,
+  dateCollection,
+  activeResultValue,
+}: any) => {
+  //console.log(dateCollection)
+  const [upcomingCalendar, setUpcomingCalendar] = useState(
+    data.upcomingCalendar,
+  );
+  const [declaredCalendar, setDeclaredCalendar] = useState(
+    data.declaredCalendar,
+  );
+
   const earningScreenersData =
     data?.earningScreeners?.datainfo?.screenerCollectionMasterInfo
       ?.listScreenerCollectionMasterDataInfo || [];
-  const [activeResultValue, setActiveResultValue] = useState("latest-results");
+  const [_activeResultValue, setActiveResultValue] =
+    useState(activeResultValue);
   const [processingLoader, setProcessingLoader] = useState(false);
   const [_upcomingResultTablePayload, setUpcomingResultTablePayload] = useState(
     data?.payload?.upcomingResultTablePayload,
@@ -38,7 +52,9 @@ const StocksEarningsClintPage = ({ data, selectedFilter }: any) => {
   const [_declareTabTimeStore, setDeclareTabTimeStore] = useState(
     data?.payload?.upcomingResultTablePayload?.date || "",
   );
-  const [_topTabTimeHide, setTopTabTimeHide] = useState("no");
+  const [_topTabTimeHide, setTopTabTimeHide] = useState(
+    activeResultValue === "latest-results" ? "no" : "yes",
+  );
   const _title = "Quarterly Results";
   const _desc = `A quarterly report is a summary or collection of unaudited financial statements, such as balance sheets, income statements, and cash flow statements, issued by companies every quarter (three months). The quarterly reports and financial statements indicate the business's quarterly development. To protect the interests of investors, SEBI (Securities and Exchange Board of India) requires every listed firm to produce quarterly reports.`;
   const _topSummaryCardData: any = data.topSummaryCardData;
@@ -102,25 +118,91 @@ const StocksEarningsClintPage = ({ data, selectedFilter }: any) => {
     }
   };
   const niftyFIlterHandler = (type: string, niftySelectedFilterData: any) => {
-    console.log("call nifty fitler handler", { type, niftySelectedFilterData });
+    //console.log("call nifty fitler handler", { type, niftySelectedFilterData });
     if (type === "upcoming") {
+      const filterValue = niftySelectedFilterData?.indexId;
+      const filterType =
+        filterValue == undefined || !isNaN(Number(filterValue))
+          ? "index"
+          : "marketcap";
       const newPayload: any = { ..._upcomingResultTablePayload };
       newPayload.filterValue =
         niftySelectedFilterData?.indexId !== 0
           ? [niftySelectedFilterData?.indexId]
           : [];
+      newPayload.filterType = filterType;
 
       setUpcomingResultTablePayload(newPayload);
+      callAPIUpcomingCalendar(filterType, filterValue);
     } else if (type === "declared") {
+      const filterValue = niftySelectedFilterData?.indexId;
+      const filterType =
+        filterValue == undefined || !isNaN(Number(filterValue))
+          ? "index"
+          : "marketcap";
       const newPayload: any = { ..._declareResultTablePayload };
       newPayload.filterValue =
         niftySelectedFilterData?.indexId !== 0
           ? [niftySelectedFilterData?.indexId]
           : [];
+      newPayload.filterType = filterType;
       setDeclareResultTablePayload(newPayload);
+      callAPIDeclaredCalendar(filterType, filterValue);
     }
   };
-  console.log("_data", data);
+  const callAPIDeclaredCalendar = async (filterType: any, filterValue: any) => {
+    //console.log({filterType,filterValue})
+    try {
+      let queryParams = `?apiType=declared`;
+      if (
+        filterType &&
+        filterValue !== undefined &&
+        filterValue !== null &&
+        filterValue !== 0
+      ) {
+        const filterTypeParam = `filterType=${filterType}`;
+        const filterValueParam = `filterValue=${filterValue}`;
+        queryParams += `&${filterTypeParam}&${filterValueParam}`;
+      }
+      //console.log('Final queryParams:', queryParams);
+      const getData = await commonGetAPIHandler(
+        `SCREENER_CALENDAR`,
+        queryParams,
+      );
+      if (getData) {
+        setDeclaredCalendar(getData);
+      }
+      //console.log("getData declared",getData)
+    } catch (error) {
+      console.log("error api declare calander", error);
+    }
+  };
+  const callAPIUpcomingCalendar = async (filterType: any, filterValue: any) => {
+    try {
+      let queryParams = `?apiType=upcoming`;
+      if (
+        filterType &&
+        filterValue !== undefined &&
+        filterValue !== null &&
+        filterValue !== 0
+      ) {
+        const filterTypeParam = `filterType=${filterType}`;
+        const filterValueParam = `filterValue=${filterValue}`;
+        queryParams += `&${filterTypeParam}&${filterValueParam}`;
+      }
+      const getData = await commonGetAPIHandler(
+        `SCREENER_CALENDAR`,
+        queryParams,
+      );
+      if (getData) {
+        setUpcomingCalendar(getData);
+      }
+      //console.log("getData upcoming",getData)
+    } catch (error) {
+      console.log("error api upcoming calander", error);
+    }
+  };
+  //console.log("_data", data);
   useEffect(() => {
     //console.log("_____upcomingResultTablePayload", _upcomingResultTablePayload);
     callUpcomingTableData();
@@ -137,7 +219,7 @@ const StocksEarningsClintPage = ({ data, selectedFilter }: any) => {
       <UpcomingResults
         title="Upcoming Results Calendar"
         type="upcoming"
-        tabData={data.upcomingCalendar}
+        tabData={upcomingCalendar}
         selectedFilter={selectedFilter}
         searchFilter="yes"
         niftyFilter="yes"
@@ -152,12 +234,12 @@ const StocksEarningsClintPage = ({ data, selectedFilter }: any) => {
       <UpcomingResults
         title="Declared Results"
         type="declared"
-        tabData={data.declaredCalendar}
+        tabData={declaredCalendar}
         selectedFilter={selectedFilter}
         searchFilter="yes"
         niftyFilter="yes"
         latestFilter="yes"
-        activeResultValue={activeResultValue}
+        activeResultValue={_activeResultValue}
         setActiveResultHandler={setActiveResultHandler}
         upcomingResultTableHandler={upcomingResultTableHandler}
         niftyFIlterHandler={niftyFIlterHandler}
@@ -168,7 +250,7 @@ const StocksEarningsClintPage = ({ data, selectedFilter }: any) => {
       <DeclaredCards
         data={_declareCompanies}
         loading={_cardLoading}
-        activeResultValue={activeResultValue}
+        activeResultValue={_activeResultValue}
       />
       <SectorAggregates data={data?.sectorData} />
       <EarningsWatchlist />
