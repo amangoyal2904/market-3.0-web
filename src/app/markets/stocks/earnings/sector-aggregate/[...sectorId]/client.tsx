@@ -46,7 +46,7 @@ const SectorPageClient = ({
       <OtherSectors
         title="Other Sectors"
         viewTxt="View Other Sectors"
-        viewUrl="/markets/stocks/sector-aggregates"
+        viewUrl="/markets/stocks/earnings/sector-aggregate/top-performing"
         data={data?.otherSectorData}
       />
       <FAQSector data={data?.faq?.sectorFaq} />

@@ -5,7 +5,7 @@ import leftL3Nav from "../../../DataJson/earningL3Nav.json";
 
 const L3DeclareNav = () => {
   const pathname = usePathname();
-  console.log("___", pathname);
+  //console.log("___", pathname);
   return (
     <>
       <ul className={styels.leftNavList}>

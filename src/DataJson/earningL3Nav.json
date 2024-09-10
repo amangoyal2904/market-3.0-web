@@ -3,30 +3,30 @@
     "title": "Latest Results",
     "value": "latest-results",
     "id": 0,
-    "link": "/markets/stocks/declared-results"
+    "link": "/markets/stocks/earnings/declared-results/latest"
   },
   {
     "title": "Sales Gainers",
     "value": "sales-gainers",
     "id": 1,
-    "link": "/markets/stocks/declared-results/sales-gainers"
+    "link": "/markets/stocks/earnings/declared-results/sales-gainers"
   },
   {
     "title": "Sales Losers",
     "value": "sales-losers",
     "id": 2,
-    "link": "/markets/stocks/declared-results/sales-losers"
+    "link": "/markets/stocks/earnings/declared-results/sales-losers"
   },
   {
     "title": "Profit Gainers",
     "value": "profit-gainers",
     "id": 3,
-    "link": "/markets/stocks/declared-results/profit-gainers"
+    "link": "/markets/stocks/earnings/declared-results/profit-gainers"
   },
   {
     "title": "Profit Losers",
     "value": "profit-losers",
     "id": 4,
-    "link": "/markets/stocks/declared-results/profit-losers"
+    "link": "/markets/stocks/earnings/declared-results/profit-losers"
   }
 ]

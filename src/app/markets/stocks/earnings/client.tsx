@@ -56,7 +56,7 @@ const StocksEarningsClintPage = ({
     activeResultValue === "latest-results" ? "no" : "yes",
   );
   const _title = "Quarterly Results";
-  const _desc = `A quarterly report is a summary or collection of unaudited financial statements, such as balance sheets, income statements, and cash flow statements, issued by companies every quarter (three months). The quarterly reports and financial statements indicate the business's quarterly development. To protect the interests of investors, SEBI (Securities and Exchange Board of India) requires every listed firm to produce quarterly reports.`;
+  const _desc = `Quarterly results are financial statements released every three months, highlighting a company's performance, including revenue, profit, and expenses. Find detailed earnings reports, upcoming results, and top-performing sectors to stay informed on market trends.`;
   const _topSummaryCardData: any = data.topSummaryCardData;
   const setActiveResultHandler = (value: string) => {
     setActiveResultValue(value);

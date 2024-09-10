@@ -7,7 +7,7 @@ import DfpAds from "@/components/Ad/DfpAds";
 import {
   commonGetAPIHandler,
   commonPostAPIHandler,
-} from "../../../../utils/screeners";
+} from "../../../../../../utils/screeners";
 import { fnGenerateMetaData } from "@/utils/utility";
 import { Metadata } from "next";
 import APIS_CONFIG from "@/network/api_config.json";

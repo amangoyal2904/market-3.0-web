@@ -305,13 +305,11 @@ const getLiPath = (router: string, pagePath: string) => {
     };
   } else if (router === "/markets/stocks/earnings") {
     return {
-      showNextLi: true,
+      showNextLi: false,
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/stocks/earnings" title="Stock Earnings">
-            Stock Earnings
-          </a>
+          Earnings
         </li>
       ),
       showCurrLi: true,

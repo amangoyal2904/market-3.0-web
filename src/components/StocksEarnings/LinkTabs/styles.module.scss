@@ -3,6 +3,7 @@
 .linkTabWrap {
   margin: 14px 0;
   border-bottom: solid 1px $gray-80;
+  position: relative;
   ul {
     list-style-type: none;
     display: flex;
@@ -28,6 +29,82 @@
           border-bottom: solid 2px $black;
         }
       }
+    }
+  }
+  .sortingList {
+    display: block;
+    list-style-type: none;
+    position: absolute;
+    left: 7px;
+    top: 27px;
+    background: #fff;
+    width: 170px;
+    height: auto;
+    max-height: 280px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 5;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    li {
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 400;
+      cursor: pointer;
+      &:hover {
+        font-weight: 700;
+      }
+      &:first-child {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+      }
+      &:last-child {
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
+      &.active {
+        background: #f4f4f4;
+        font-weight: 700;
+        &:after {
+          display: none;
+        }
+      }
+    }
+    li + li {
+      border-top: 1px solid #ccc;
+    }
+  }
+}
+.sortingWrap {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+}
+.txtSec {
+  position: relative;
+  border-radius: 100px;
+  border: 1px solid #000;
+  padding: 3px 30px 3px 10px;
+  .lable {
+    font-size: 12px;
+    line-height: 18px;
+    font-style: normal;
+    font-weight: 600;
+    position: relative;
+    cursor: pointer;
+    &::after {
+      content: "";
+      position: absolute;
+      right: -15px;
+      top: 5px;
+      display: inline-block;
+      vertical-align: top;
+      border-bottom: 1.5px solid #000;
+      border-right: 1.5px solid #000;
+      width: 6px;
+      height: 6px;
+      transform: rotate(45deg);
     }
   }
 }

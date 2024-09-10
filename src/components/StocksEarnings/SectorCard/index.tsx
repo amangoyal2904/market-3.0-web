@@ -24,7 +24,7 @@ const SectorCard = ({ item, index, className = "" }: any) => {
       >
         <div className={styles.secName}>
           <Link
-            href={`/markets/stocks/sector-aggregates/${item?.sectorSeoName}/id-${item?.sectorId}`}
+            href={`/markets/stocks/earnings/sector-aggregate/${item?.sectorSeoName}/id-${item?.sectorId}`}
             title={item?.sectorName}
           >
             {item?.sectorName}

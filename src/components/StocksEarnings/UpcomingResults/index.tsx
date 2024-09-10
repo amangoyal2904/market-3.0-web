@@ -351,11 +351,11 @@ const UpcomingResults = ({
                           {queryResultData.map((item: any, index: number) => {
                             const linkGenrate =
                               item?.resultStatus === "UPCOMING"
-                                ? `/markets/stocks/upcoming-results?companyid=${item?.tagId}`
+                                ? `/markets/stocks/earnings/upcoming-results?companyid=${item?.tagId}`
                                 : item?.resultStatus === "DECLARED"
-                                  ? `/markets/stocks/declared-results?companyid=${item?.tagId}`
+                                  ? `/markets/stocks/earnings/declared-results/latest?companyid=${item?.tagId}`
                                   : item?.resultStatus === "PENDING"
-                                    ? `/markets/stocks/upcoming-results?companyid=${item?.tagId}`
+                                    ? `/markets/stocks/earnings/upcoming-results?companyid=${item?.tagId}`
                                     : "";
                             return (
                               <li key={`${index}-${item?.tagId}`}>

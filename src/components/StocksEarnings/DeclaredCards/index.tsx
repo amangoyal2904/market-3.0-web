@@ -29,16 +29,16 @@ const DeclaredCards = ({
 
   const viewAllTxtLink =
     activeResultValue === "latest-results"
-      ? "/markets/stocks/declared-results"
+      ? "/markets/stocks/earnings/declared-results/latest"
       : activeResultValue === "sales-gainers"
-        ? "/markets/stocks/declared-results/sales-gainers"
+        ? "/markets/stocks/earnings/declared-results/sales-gainers"
         : activeResultValue === "sales-losers"
-          ? "/markets/stocks/declared-results/sales-losers"
+          ? "/markets/stocks/earnings/declared-results/sales-losers"
           : activeResultValue === "profit-gainers"
-            ? "/markets/stocks/declared-results/profit-gainers"
+            ? "/markets/stocks/earnings/declared-results/profit-gainers"
             : activeResultValue === "profit-losers"
-              ? "/markets/stocks/declared-results/profit-losers"
-              : "/markets/stocks/declared-results";
+              ? "/markets/stocks/earnings/declared-results/profit-losers"
+              : "/markets/stocks/earnings/declared-results/latest";
   //console.log("___dacardDatata",cardData, activeResultValue)
   return (
     <>
@@ -63,7 +63,7 @@ const DeclaredCards = ({
             <ViewAllCta
               text="View all Results"
               urlInternal="yes"
-              url="/markets/stocks/declared-results"
+              url="/markets/stocks/earnings/declared-results/latest"
             />
           ) : cardData && cardData.length > 0 ? (
             <ViewAllCta

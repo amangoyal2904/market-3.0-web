@@ -10,7 +10,7 @@ import { getCustomViewTable } from "@/utils/customViewAndTables";
 import {
   commonGetAPIHandler,
   commonPostAPIHandler,
-} from "../../../../utils/screeners";
+} from "../../../../../utils/screeners";
 import APIS_CONFIG from "@/network/api_config.json";
 import service from "@/network/service";
 import { APP_ENV } from "@/utils";

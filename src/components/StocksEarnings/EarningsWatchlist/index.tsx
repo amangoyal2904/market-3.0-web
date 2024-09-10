@@ -162,7 +162,7 @@ const EarningsWatchlist = () => {
                 <ViewAllCta
                   text="View all Results"
                   urlInternal="yes"
-                  url="/markets/stocks/upcoming-results"
+                  url="/markets/stocks/earnings/upcoming-results"
                 />
               </>
             )}

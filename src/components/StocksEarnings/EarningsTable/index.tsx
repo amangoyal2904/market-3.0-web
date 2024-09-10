@@ -42,7 +42,7 @@ const EarningsTable = ({ data, processingLoader, type = "" }: any) => {
         <ViewAllCta
           text="View all Upcoming Calendar"
           urlInternal="yes"
-          url="/markets/stocks/upcoming-results"
+          url="/markets/stocks/earnings/upcoming-results"
         />
       ) : (
         ""

@@ -10,7 +10,7 @@ import LatestResultNewsSec from "@/components/StocksEarnings/LatestResultNewsSec
 import {
   commonGetAPIHandler,
   commonPostAPIHandler,
-} from "../../../../utils/screeners";
+} from "../../../../../utils/screeners";
 
 const UpcomingResultsClintPage = ({
   data,
@@ -29,7 +29,7 @@ const UpcomingResultsClintPage = ({
       : "";
   //console.log("_data_tableData", queryParameter);
   const _title = "Upcoming  Results";
-  const _desc = `A quarterly report is a summary or collection of unaudited financial statements, such as balance sheets, income statements, and cash flow statements, issued by companies every quarter (three months). The quarterly reports and financial statements indicate the business's quarterly development. To protect the interests of investors, SEBI (Securities and Exchange Board of India) requires every listed firm to produce quarterly reports.`;
+  const _desc = `Explore upcoming earnings results of all companies with a day-by-day view. Easily search for individual stocks and apply filters to focus on the specific data you need, ensuring you never miss a crucial earnings update`;
   const [_upcomingCompanies, setUpcomingCompanies] = useState(
     data?.props?.searchParams?.companyid !== "" &&
       data?._upcomingCompaniesQuery?.dataList

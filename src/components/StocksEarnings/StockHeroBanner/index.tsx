@@ -51,7 +51,7 @@ const StockHeroBanner = ({ summaryData }: any) => {
             <div className={styles.mainHead}>{title}</div>
             <Link
               className={styles.link}
-              href="/markets/stocks/sector-aggregates"
+              href="/markets/stocks/earnings/sector-aggregate/top-performing"
             >
               View all Sectors
             </Link>

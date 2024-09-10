@@ -32,15 +32,15 @@ const SummaryCard = ({ data, type }: any) => {
   const linkHandler = () => {
     let routerURL =
       type === "yoyData"
-        ? "/markets/stocks/declared-results"
+        ? "/markets/stocks/earnings/declared-results/latest"
         : type === "qoqData"
-          ? "/markets/stocks/declared-results"
+          ? "/markets/stocks/earnings/declared-results/latest"
           : type === "topPerformingSectors"
-            ? "/markets/stocks/sector-aggregates"
+            ? "/markets/stocks/earnings/sector-aggregate/top-performing"
             : type === "underPerformingSectors"
-              ? "/markets/stocks/sector-aggregates/under-performing"
+              ? "/markets/stocks/earnings/sector-aggregate/under-performing"
               : type === "declaredData"
-                ? "/markets/stocks/declared-results"
+                ? "/markets/stocks/earnings/declared-results/latest"
                 : "";
 
     router.push(routerURL);

@@ -7,15 +7,19 @@ import Loader from "@/components/Loader";
 import Link from "next/link";
 
 const leftSideTabData = [
-  { title: "Top Performing", id: 0, link: "/markets/stocks/sector-aggregates" },
+  {
+    title: "Top Performing",
+    id: 0,
+    link: "/markets/stocks/earnings/sector-aggregate/top-performing",
+  },
   {
     title: "Under Performing",
     id: 1,
-    link: "/markets/stocks/sector-aggregates/under-performing",
+    link: "/markets/stocks/earnings/sector-aggregate/under-performing",
   },
 ];
 
-const SectorPageCard = ({ data, tpName = "" }: any) => {
+const SectorPageCard = ({ data, tpName = "", sortingValue = "" }: any) => {
   const _tabData = data?.sectorData;
   const _allPayload = data?.payload;
   const [_loading, setLoading] = useState(false);
@@ -97,6 +101,30 @@ const SectorPageCard = ({ data, tpName = "" }: any) => {
   useEffect(() => {
     loadMoreData();
   }, [_payloadTopSector, _payloadUnderSector]);
+  useEffect(() => {
+    //console.log(_payloadTopSector, sortingValue)
+    if (
+      sortingValue !== "" &&
+      _payloadTopSector?.sort &&
+      _payloadTopSector?.sort[0]?.field !== sortingValue &&
+      tpName === "top-performing"
+    ) {
+      const newPayLoad = { ..._payloadTopSector, pageNo: 1 };
+      newPayLoad.sort = [{ field: sortingValue, order: "DESC" }];
+      setPayloadTopSector(newPayLoad);
+    }
+
+    if (
+      sortingValue !== "" &&
+      _payloadUnderSector?.sort &&
+      _payloadUnderSector?.sort[0]?.field !== sortingValue &&
+      tpName === "under-performing"
+    ) {
+      const newPayLoad = { ..._payloadUnderSector, pageNo: 1 };
+      newPayLoad.sort = [{ field: sortingValue, order: "DESC" }];
+      setPayloadUnderSector(newPayLoad);
+    }
+  }, [sortingValue]);
   return (
     <div className={styles.cardSec}>
       <div className={styles.left}>

@@ -1,4 +1,4 @@
-import DeclaredResultsSalesLosersClient from "./client";
+import DeclaredResultsProfitGainersClient from "./client";
 import BreadCrumb from "@/components/BreadCrumb";
 import { headers } from "next/headers";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
@@ -9,7 +9,7 @@ import { Metadata } from "next";
 import {
   commonGetAPIHandler,
   commonPostAPIHandler,
-} from "../../../../../utils/screeners";
+} from "../../../../../../utils/screeners";
 import APIS_CONFIG from "@/network/api_config.json";
 import service from "@/network/service";
 import { APP_ENV } from "@/utils";
@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return fnGenerateMetaData(meta);
 }
 
-const DeclaredResultsSalesLosers = async (props: any) => {
+const DeclaredResultsProfitGainers = async (props: any) => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
   const selectedFilter = await fetchSelectedFilter(0);
@@ -34,7 +34,7 @@ const DeclaredResultsSalesLosers = async (props: any) => {
     date: "",
     filterType: "index",
     filterValue: [],
-    apiType: "sales-losers",
+    apiType: "profit-gainers",
     pageSize: 10,
     pageNo: 1,
   };
@@ -52,7 +52,7 @@ const DeclaredResultsSalesLosers = async (props: any) => {
   };
   return (
     <>
-      <DeclaredResultsSalesLosersClient
+      <DeclaredResultsProfitGainersClient
         data={upcoingData}
         selectedFilter={selectedFilter}
       />
@@ -65,4 +65,4 @@ const DeclaredResultsSalesLosers = async (props: any) => {
     </>
   );
 };
-export default DeclaredResultsSalesLosers;
+export default DeclaredResultsProfitGainers;
