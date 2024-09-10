@@ -36,6 +36,9 @@ const UpcomingResultsClintPage = ({
       ? data?._upcomingCompaniesQuery
       : data?.upcomingCompanies,
   );
+  const [upcomingCalendar, setUpcomingCalendar] = useState(
+    data.upcomingCalendar,
+  );
   const [_upcomingResultTablePayload, setUpcomingResultTablePayload] = useState(
     data?.props?.searchParams?.companyid !== "" &&
       data?._upcomingCompaniesQuery?.dataList
@@ -69,12 +72,43 @@ const UpcomingResultsClintPage = ({
       // here fall condition do
     }
   };
+  const callAPIUpcomingCalendar = async (filterType: any, filterValue: any) => {
+    try {
+      let queryParams = `?apiType=upcoming`;
+      if (
+        filterType &&
+        filterValue !== undefined &&
+        filterValue !== null &&
+        filterValue !== 0
+      ) {
+        const filterTypeParam = `filterType=${filterType}`;
+        const filterValueParam = `filterValue=${filterValue}`;
+        queryParams += `&${filterTypeParam}&${filterValueParam}`;
+      }
+      const getData = await commonGetAPIHandler(
+        `SCREENER_CALENDAR`,
+        queryParams,
+      );
+      if (getData) {
+        setUpcomingCalendar(getData);
+      }
+      //console.log("getData upcoming",getData)
+    } catch (error) {
+      console.log("error api upcoming calander", error);
+    }
+  };
   const niftyFIlterHandler = (type: string, niftySelectedFilterData: any) => {
     setNiftyFiftyFilterDataUpdate(niftySelectedFilterData);
+    const filterValue = niftySelectedFilterData?.indexId;
+    const filterType =
+      filterValue == undefined || !isNaN(Number(filterValue))
+        ? "index"
+        : "marketcap";
+    callAPIUpcomingCalendar(filterType, filterValue);
   };
 
   useEffect(() => {
-    console.log("_____upcomingResultTablePayload", _upcomingResultTablePayload);
+    //console.log("_____upcomingResultTablePayload", _upcomingResultTablePayload);
     //callUpcomingTableData();
   }, [_upcomingResultTablePayload]);
   useEffect(() => {
@@ -101,7 +135,7 @@ const UpcomingResultsClintPage = ({
       <UpcomingResults
         title=""
         type="upcoming"
-        tabData={data.upcomingCalendar}
+        tabData={upcomingCalendar}
         selectedFilter={selectedFilter}
         searchFilter="yes"
         niftyFilter={queryParameter !== "" ? "no" : "yes"}

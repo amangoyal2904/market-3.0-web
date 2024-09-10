@@ -9,8 +9,8 @@ import { getStockUrl } from "@/utils/utility";
 
 const Card = ({ cardData }: any) => {
   const { state } = useStateContext();
-  //const { isLogin, isPrime } = state.login;
-  const isPrime = true;
+  const { isLogin, isPrime } = state.login;
+  //const isPrime = true;
   //console.log("__cardData", {cardData})
   const date = new Date(cardData?.declaredDate);
   const formattedDate = date.toLocaleDateString("en-US", {
@@ -116,12 +116,12 @@ const Card = ({ cardData }: any) => {
               <span className={styles.topHead}>
                 {cardData?.previousQuarterName}
               </span>
-              <span className={styles.topHead}>Growth</span>
+              <span className={styles.topHead}>Growth %</span>
             </div>
           </li>
           <li>
             <div className={styles.mainSec}>
-              <span className={styles.topTxt}>Sales</span>
+              <span className={styles.topTxt}>{`Sales (Cr.)`}</span>
               <span className={styles.topTxt}>
                 {cardData?.salesData?.activeQuarter || "-"}
               </span>
@@ -144,7 +144,7 @@ const Card = ({ cardData }: any) => {
           </li>
           <li>
             <div className={styles.mainSec}>
-              <span className={styles.topTxt}>Net Profit</span>
+              <span className={styles.topTxt}>{`Net Profit (Cr.)`}</span>
               <span className={styles.topTxt}>
                 {cardData?.netProfitData?.activeQuarter || "-"}
               </span>
@@ -168,12 +168,16 @@ const Card = ({ cardData }: any) => {
           <li className={styles.btmSec}>
             <div className={styles.mainSec}>
               <span className={styles.topHead}>{`M.Cap (Rs. Cr.)`}</span>
-              <span className={styles.topHead}>TTM EPS</span>
+              <span className={styles.topHead}>TTM EPS {`(₹)`}</span>
               <span className={styles.topHead}>TTM EPS</span>
               <span className={`${styles.topHead} ${styles.stockScoreSec}`}>
                 <span
                   className={`${styles.scoreWrap} ${!isPrime || (cardData.stockScore !== null && styles.curpointer)}`}
-                  onClick={!isPrime ? redirectToPlanPage : redirectToPdfPage}
+                  onClick={
+                    !isPrime && cardData.stockScore !== null
+                      ? redirectToPlanPage
+                      : redirectToPdfPage
+                  }
                 >
                   {cardData?.stockScore &&
                   cardData.stockScore !== null &&
@@ -197,7 +201,9 @@ const Card = ({ cardData }: any) => {
                     <span className={styles.naStyle}>NA</span>
                   )}
 
-                  <span className={styles.btmWrap}>Earnings Score</span>
+                  <span className={styles.btmWrap}>
+                    Earnings <br /> Score
+                  </span>
                 </span>
               </span>
             </div>

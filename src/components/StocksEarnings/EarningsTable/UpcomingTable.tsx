@@ -118,12 +118,22 @@ const UpcomingTable = ({
   //   setTableData(data?.dataList || []);
   // }, [data]);
   useEffect(() => {
+    const filterValue = niftyFiftyDataUpdatePayload?.indexId;
+    const filterType =
+      filterValue == undefined || !isNaN(Number(filterValue))
+        ? "index"
+        : "marketcap";
+
     const newPayload: any = { ..._payload };
-    if (newPayload.filterType === "index") {
+    if (
+      newPayload.filterType === "index" ||
+      newPayload.filterType === "marketcap"
+    ) {
       newPayload.filterValue =
         niftyFiftyDataUpdatePayload?.indexId !== 0
           ? [niftyFiftyDataUpdatePayload?.indexId]
           : [];
+      newPayload.filterType = filterType;
       setPayload(newPayload);
     }
   }, [niftyFiftyDataUpdatePayload]);
