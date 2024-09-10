@@ -14,6 +14,37 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.eticon_accordion_down:before {
+  content: "\e96d";
+}
+.eticon_accordion_up:before {
+  content: "\e96e";
+}
+.eticon_ai_badge:before {
+  content: "\e96f";
+}
+.eticon_home:before {
+  content: "\e970";
+}
+.eticon_lock_filled:before {
+  content: "\e971";
+  color: #f4f4f4;
+}
+.eticon_pattern_down_red:before {
+  content: "\e972";
+  color: #ed193b;
+}
+.eticon_pattern_up_green:before {
+  content: "\e973";
+  color: #198a19;
+}
+.eticon_switch_to_et:before {
+  content: "\e974";
+}
+.eticon_technical_signals:before {
+  content: "\e975";
+}
 .eticon_marketmood .path1:before {
   content: "\e900";
   color: rgb(49, 43, 43);

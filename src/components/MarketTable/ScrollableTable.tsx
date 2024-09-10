@@ -5,6 +5,7 @@ import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
 import { redirectToPlanPage } from "@/utils/ga";
 import styles from "./MarketTable.module.scss";
 import { dateFormat } from "@/utils";
+import { renderIconPaths } from "@/utils/iconUtils";
 
 const ScrollableTable = React.memo((props: any) => {
   const {
@@ -180,13 +181,11 @@ const ScrollableTable = React.memo((props: any) => {
                     <div className={styles.thead}>
                       <div className={styles.theading}>
                         {isPrime && thead.primeFlag ? (
-                          <Image
-                            src="/marketsweb/img/icon_prime.svg"
-                            width={10}
-                            height={10}
-                            alt="ETPrime"
-                            className={styles.primeIcon}
-                          />
+                          <span className={styles.primeIcon}>
+                            <span className="eticon_prime_logo">
+                              {renderIconPaths("eticon_prime_logo")}
+                            </span>
+                          </span>
                         ) : null}
                         {thead.keyText}
                       </div>
