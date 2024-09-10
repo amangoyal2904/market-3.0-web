@@ -15,6 +15,7 @@ import DfpAds from "@/components/Ad/DfpAds";
 import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
 import { useMarketStatus } from "@/hooks/useMarketStatus";
 import { getParameterByName } from "@/utils";
+import { renderIconPaths } from "@/utils/iconUtils";
 
 const CommonNudge = dynamic(() => import("@/components/CommonNudge"), {
   ssr: false,
@@ -128,6 +129,7 @@ const Header = () => {
               className={styles.switchTxtSec}
               target="_blank"
             >
+              <i className="eticon_switch_to_et"></i>
               Switch To <span>ET</span>
             </a>
           </div>
@@ -144,14 +146,11 @@ const Header = () => {
                   className={`default-btn ${styles.subscribeBtn}`}
                   onClick={redirectToPlanPage}
                 >
-                  <Image
-                    src="/marketsweb/img/icon_prime.svg"
-                    height="12"
-                    width="12"
-                    alt="Subscribe"
-                    title="Subscribe"
-                    className={styles.prime_icon}
-                  />
+                  <span className={styles.prime_icon}>
+                    <span className="eticon_prime_logo">
+                      {renderIconPaths("eticon_prime_logo")}
+                    </span>
+                  </span>
                   {validAccessPass ? "Start Free Trial" : "Subscribe"}
                 </span>
               )}
