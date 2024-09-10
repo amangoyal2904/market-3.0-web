@@ -14,6 +14,7 @@ import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
 import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
 import { useMarketStatus } from "@/hooks/useMarketStatus";
+import { getParameterByName } from "@/utils";
 
 const CommonNudge = dynamic(() => import("@/components/CommonNudge"), {
   ssr: false,
@@ -74,6 +75,17 @@ const Header = () => {
     handleResize(); // Initial check
     const debouncedResize = debounce(handleResize, 300); // Debounce resize event
     window.addEventListener("resize", debouncedResize);
+
+    /* Storing Acq Details in storage if valid for campaign */
+    const acqSource = getParameterByName("acqSource");
+    const acqSubSource = getParameterByName("acqSubSource");
+    if (acqSource || acqSubSource) {
+      window.localStorage.setItem(
+        "acqDetails",
+        JSON.stringify({ acqSource: acqSource, acqSubSource: acqSubSource }),
+      );
+    }
+
     return () => {
       window.removeEventListener("resize", debouncedResize);
     };

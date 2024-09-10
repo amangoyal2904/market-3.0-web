@@ -119,7 +119,18 @@ export const trackPushData = (
   const ticketId = getCookie("encTicket")
     ? `&ticketid=${getCookie("encTicket")}`
     : "";
-  const ACQ_SUB_SOURCE = `${sendGTMdata?.item_category}|${sendGTMdata?.item_category2}|${sendGTMdata?.item_category3}|${sendGTMdata?.item_category4?.replace(" ", "_")}`;
+  let ACQ_SUB_SOURCE = `${sendGTMdata?.item_category}|${sendGTMdata?.item_category2}|${sendGTMdata?.item_category3}|${sendGTMdata?.item_category4?.replace(" ", "_")}`;
+  let ACQ_SOURCE = "market_tools";
+  const acqDetails = localStorage.getItem("acqDetails");
+  if (acqDetails) {
+    const data = JSON.parse(acqDetails);
+    ACQ_SOURCE = data?.acqSource
+      ? data?.acqSource + "|" + ACQ_SOURCE
+      : ACQ_SOURCE;
+    ACQ_SUB_SOURCE = data?.acqSubSource
+      ? data?.acqSubSource + "|" + ACQ_SUB_SOURCE
+      : ACQ_SUB_SOURCE;
+  }
   const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
   const newPlanUrl =
     planUrl +
@@ -129,7 +140,9 @@ export const trackPushData = (
     "&grxId=" +
     getCookie("_grx") +
     ticketId +
-    "&meta=market_tools&acqSubSource=" +
+    "&acqSource=" +
+    ACQ_SOURCE +
+    "&acqSubSource=" +
     ACQ_SUB_SOURCE;
   const headers = {
     "Content-Type": "application/json",
