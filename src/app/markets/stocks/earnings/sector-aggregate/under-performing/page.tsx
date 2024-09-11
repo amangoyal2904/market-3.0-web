@@ -52,7 +52,14 @@ const SectorAggregatesUnderPerforming = async () => {
       <SectorAggregatesUnderPerformingClient data={upcoingData} />
       <BreadCrumb
         pagePath={pageUrl}
-        pageName={[{ label: "Earnings", redirectUrl: "" }]}
+        pageName={[
+          {
+            label: "Sector Aggregate  ",
+            redirectUrl:
+              "/markets/stocks/earnings/sector-aggregate/top-performing",
+          },
+          { label: "Under-Performing", redirectUrl: "" },
+        ]}
       />
       <br />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />

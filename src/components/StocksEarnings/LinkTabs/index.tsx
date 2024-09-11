@@ -33,7 +33,25 @@ const LinkTabs = ({
 }: any) => {
   const pathName = usePathname();
   const isActive = (tabUrl: string) => {
-    return pathName === tabUrl || pathName.startsWith(`${tabUrl}/`);
+    if (pathName === tabUrl) {
+      return true;
+    }
+    // Check if the pathname contains the specific string for sector-aggregate
+    if (
+      tabUrl === "/markets/stocks/earnings/sector-aggregate/top-performing" &&
+      pathName.includes("/markets/stocks/earnings/sector-aggregate/")
+    ) {
+      return true;
+    }
+
+    if (
+      tabUrl === "/markets/stocks/earnings/declared-results/latest" &&
+      pathName.includes("/markets/stocks/earnings/declared-results/")
+    ) {
+      return true;
+    }
+
+    return false;
   };
   const [showSortingMenu, setShowSortingMenu] = useState(false);
   const sortingHandler = () => {

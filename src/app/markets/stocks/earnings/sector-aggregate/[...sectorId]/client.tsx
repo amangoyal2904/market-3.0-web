@@ -20,7 +20,7 @@ const SectorPageClient = ({
   tableData,
 }: any) => {
   const _title = data?.sectorSummary?.sectorAggregateData[0]?.sectorName;
-  console.log("_data_", { tableData });
+  //console.log("_data_", _title);
   return (
     <>
       <StockHeroBanner summaryData={data?.sectorSummary} />

@@ -315,48 +315,42 @@ const getLiPath = (router: string, pagePath: string) => {
       showCurrLi: true,
       listItemSchema: "",
     };
-  } else if (router === "/markets/stocks/upcoming-results") {
+  } else if (router === "/markets/stocks/earnings/upcoming-results") {
     return {
       showNextLi: true,
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a
-            href="/markets/stocks/upcoming-results"
-            title="Stock Upcoming Results"
-          >
-            Stock Upcoming Results
+          <a href="/markets/stocks/earnings" title="Earnings">
+            Earnings
           </a>
         </li>
       ),
       showCurrLi: true,
       listItemSchema: "",
     };
-  } else if (router === "/markets/stocks/declared-results") {
+  } else if (router.includes("/markets/stocks/earnings/declared-results/")) {
     return {
       showNextLi: true,
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a
-            href="/markets/stocks/declared-results"
-            title="Stock Declared Results"
-          >
-            Stock Declared Results
+          <a href="/markets/stocks/earnings" title="Earnings">
+            Earnings
           </a>
         </li>
       ),
       showCurrLi: true,
       listItemSchema: "",
     };
-  } else if (router === "/markets/stocks/sector-aggregates") {
+  } else if (router.includes("/markets/stocks/earnings/sector-aggregate/")) {
     return {
       showNextLi: true,
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/stocks/sector-aggregates" title="Sector Aggregates">
-            Sector Aggregates
+          <a href="/markets/stocks/earnings" title="Earnings">
+            Earnings
           </a>
         </li>
       ),

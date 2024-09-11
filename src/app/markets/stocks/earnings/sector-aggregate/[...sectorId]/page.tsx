@@ -127,6 +127,8 @@ const SectorPage = async (props: any) => {
       sectorConstituent: bodyPayloadConstituent,
     },
   };
+  const sectorTitle =
+    upcoingData?.sectorSummary?.sectorAggregateData[0]?.sectorName || "";
   return (
     <>
       <SectorPageClient
@@ -141,7 +143,14 @@ const SectorPage = async (props: any) => {
       />
       <BreadCrumb
         pagePath={pageUrl}
-        pageName={[{ label: "Stocks Inner page", redirectUrl: "" }]}
+        pageName={[
+          {
+            label: "Sector Aggregate  ",
+            redirectUrl:
+              "/markets/stocks/earnings/sector-aggregate/top-performing",
+          },
+          { label: sectorTitle, redirectUrl: "" },
+        ]}
       />
       <br />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />

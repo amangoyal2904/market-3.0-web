@@ -56,7 +56,14 @@ const SectorAggregatesPage = async () => {
       />
       <BreadCrumb
         pagePath={pageUrl}
-        pageName={[{ label: "Sectors", redirectUrl: "" }]}
+        pageName={[
+          {
+            label: "Sector Aggregate  ",
+            redirectUrl:
+              "/markets/stocks/earnings/sector-aggregate/top-performing",
+          },
+          { label: "Top-Performing", redirectUrl: "" },
+        ]}
       />
       <br />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />

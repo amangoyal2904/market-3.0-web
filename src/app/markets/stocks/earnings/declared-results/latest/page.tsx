@@ -81,7 +81,13 @@ const DeclaredResultsPage = async (props: any) => {
       />
       <BreadCrumb
         pagePath={pageUrl}
-        pageName={[{ label: "Declared", redirectUrl: "" }]}
+        pageName={[
+          {
+            label: "Declared Results ",
+            redirectUrl: "/markets/stocks/earnings/declared-results/latest",
+          },
+          { label: "Latest", redirectUrl: "" },
+        ]}
       />
       <br />
       <DfpAds adInfo={AdInfo.dfp.btfAd} />
