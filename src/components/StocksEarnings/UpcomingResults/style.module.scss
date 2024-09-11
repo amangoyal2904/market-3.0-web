@@ -350,9 +350,11 @@
   }
 }
 
-@media screen and (max-width: 1400) {
-  .dateList {
-    width: 500px;
+@media screen and (max-width: 1500px) {
+  .topTabsSec {
+    .dateList {
+      width: 400px;
+    }
   }
 }
 

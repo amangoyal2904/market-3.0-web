@@ -134,3 +134,20 @@
 .grphTxtWrap + .grphTxtWrap {
   margin-top: 5px;
 }
+
+
+@media screen and (max-width: 1314px) {
+  .grphTxtWrap {
+    .graph {
+      width: 40px;
+    }
+    .num{
+      font-size: 12px;
+      width: 30px;
+    }
+  }
+  .middleSec{
+    padding: 5px 10px;
+    min-width: auto;
+  }
+}
