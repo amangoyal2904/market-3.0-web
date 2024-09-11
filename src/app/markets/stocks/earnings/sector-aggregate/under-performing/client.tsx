@@ -8,8 +8,8 @@ import SectorPageCard from "@/components/StocksEarnings/SectorPageCard";
 const SectorAggregatesUnderPerformingClient = ({ data }: any) => {
   const _title = "Sector Aggregates";
   const _desc = ``;
-  const [sortingValue, setSortingValue] = useState("sectorPATQoqAvg");
-  const [sortingLabel, setSortingLabel] = useState("Revenue QoQ");
+  const [sortingValue, setSortingValue] = useState("sectorPATYoyAvg");
+  const [sortingLabel, setSortingLabel] = useState("Net Profit YoY");
   const sortHandlerFun = (sortData: any) => {
     setSortingValue(sortData?.value);
     setSortingLabel(sortData?.title);

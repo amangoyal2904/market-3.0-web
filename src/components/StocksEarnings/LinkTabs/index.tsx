@@ -19,10 +19,10 @@ const tabsLinkData = [
   },
 ];
 const sortDataTab = [
-  { value: "sectorPATQoqAvg", title: "Revenue QoQ" },
-  { value: "sectorPATYoyAvg", title: "Revenue YoY" },
-  { value: "sectorNetSalesQoqAvg", title: "Net Profit QoQ" },
-  { value: "sectorNetSalesYoyAvg", title: "Net Profit YoY" },
+  { value: "sectorNetSalesQoqAvg", title: "Revenue QoQ" },
+  { value: "sectorNetSalesYoyAvg", title: "Revenue YoY" },
+  { value: "sectorPATQoqAvg", title: "Net Profit QoQ" },
+  { value: "sectorPATYoyAvg", title: "Net Profit YoY" },
 ];
 
 const LinkTabs = ({

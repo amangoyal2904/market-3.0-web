@@ -34,7 +34,7 @@ const SectorAggregatesPage = async () => {
     apiType: "top-performing",
     pageSize: 10,
     pageNo: 1,
-    sort: [{ field: "sectorNetSalesYoyAvg", order: "DESC" }],
+    sort: [{ field: "sectorPATYoyAvg", order: "DESC" }],
   };
   const _topSector = await commonPostAPIHandler(
     `SECTOR_AGGREGATE`,
