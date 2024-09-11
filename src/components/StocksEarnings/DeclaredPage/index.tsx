@@ -17,6 +17,7 @@ const DeclaredPage = ({
   queryResult,
   topTabTimeHide = "no",
   paginationTxt = "",
+  queryTitle = "",
 }: any) => {
   const [activeResultValue, setActiveResultValue] = useState("latest-results");
   const [_cardLoading, setCardLoading] = useState(false);
@@ -170,6 +171,7 @@ const DeclaredPage = ({
             bigSearchShow={
               queryParameter !== "" && queryResult !== "" ? "yes" : "no"
             }
+            queryTitle={queryTitle}
           />
           <DeclaredCards
             data={

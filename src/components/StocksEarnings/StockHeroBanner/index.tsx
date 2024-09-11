@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 import Link from "next/link";
 import PieChartSector from "../../HighCharts/PieChartSector";
 
-const StockHeroBanner = ({ summaryData }: any) => {
+const StockHeroBanner = ({ summaryData, desc }: any) => {
   const allData = summaryData?.sectorAggregateData[0] || {};
   const allDataGraph = allData.declarationData || {};
   const title = allData?.sectorName || "";
@@ -57,9 +57,7 @@ const StockHeroBanner = ({ summaryData }: any) => {
             </Link>
           </div>
           <div className={styles.middle}>
-            <p className={styles.ptxt}>
-              {`The sector has companies dealing with research, development and distribution of technology hardware and equipment. This sector is a significant contributor to global economies, providing employment to millions and fostering technological advancements. The industry is currently experiencing a transformative shift with the rise of electric vehicles (EVs), autonomous driving technology, and smart connectivity solutions.`}
-            </p>
+            <p className={styles.ptxt}>{`${desc}`}</p>
           </div>
           <div className={styles.bottom}>
             <ul>

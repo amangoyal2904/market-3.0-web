@@ -172,7 +172,7 @@ const Card = ({ cardData }: any) => {
               <span className={styles.topHead}>TTM EPS</span>
               <span className={`${styles.topHead} ${styles.stockScoreSec}`}>
                 <span
-                  className={`${styles.scoreWrap} ${!isPrime || (cardData.stockScore !== null && styles.curpointer)}`}
+                  className={`${styles.scoreWrap} ${!isPrime && cardData.stockScore !== null ? styles.curpointer : ""}`}
                   onClick={
                     !isPrime && cardData.stockScore !== null
                       ? redirectToPlanPage

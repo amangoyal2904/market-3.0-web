@@ -17,8 +17,9 @@ const DeclaredResultsClintPage = ({ data, selectedFilter }: any) => {
     data?._declaredCompaniesQuery?.declaredCompanies.length > 0
       ? data?._declaredCompaniesQuery
       : "";
-
-  console.log("_data_", data);
+  const queryTitle =
+    queryResult !== "" ? queryResult?.declaredCompanies[0]?.assetName : "";
+  console.log("_data_", queryTitle);
 
   return (
     <>
@@ -30,6 +31,7 @@ const DeclaredResultsClintPage = ({ data, selectedFilter }: any) => {
         queryResult={queryResult}
         selectedFilter={selectedFilter}
         paginationTxt="Declard Results"
+        queryTitle={queryTitle}
       />
     </>
   );

@@ -75,7 +75,7 @@
 .dateList {
   display: block;
   list-style-type: none;
-  width: 500px;
+  width: 700px;
   overflow-x: auto;
   white-space: nowrap;
   scrollbar-width: none;
@@ -347,6 +347,12 @@
   }
   .upcl {
     background: $yellow-20;
+  }
+}
+
+@media screen and (max-width: 1400) {
+  .dateList {
+    width: 500px;
   }
 }
 

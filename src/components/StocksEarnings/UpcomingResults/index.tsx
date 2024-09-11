@@ -39,6 +39,7 @@ const UpcomingResults = ({
   topTabTimeHide = "no",
   showResultTopTxt = "no",
   pageSummary = {},
+  queryTitle,
 }: any) => {
   const dateListRef = useRef<HTMLUListElement>(null);
   const [activeTab, setActiveTab] = useState(0);
@@ -57,7 +58,7 @@ const UpcomingResults = ({
   const [showLatestFilterMenu, setShowLatestFilterMenu] = useState(false);
   const latestFilterRef = useRef<HTMLDivElement>(null); // Explicitly define the type
   const [queryResultData, setQueryResultData]: any[] = useState([]);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(queryTitle);
   const searchRef = useRef<HTMLDivElement>(null);
   const [_payload, setPayload]: any = useState("");
   const router = useRouter();

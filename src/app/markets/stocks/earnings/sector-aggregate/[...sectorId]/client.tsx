@@ -19,11 +19,12 @@ const SectorPageClient = ({
   unixDateTime,
   tableData,
 }: any) => {
-  const _title = data?.sectorSummary?.sectorAggregateData[0]?.sectorName;
-  //console.log("_data_", _title);
+  const _title = data?.sectorSummary?.sectorAggregateData[0]?.sectorName || "";
+  const _desc = data?.faq?.sectorDescription || "";
+  //console.log("_data_");
   return (
     <>
-      <StockHeroBanner summaryData={data?.sectorSummary} />
+      <StockHeroBanner summaryData={data?.sectorSummary} desc={_desc} />
       <StockEarningsTables
         tableData={tableData}
         activeViewId={activeViewId}
