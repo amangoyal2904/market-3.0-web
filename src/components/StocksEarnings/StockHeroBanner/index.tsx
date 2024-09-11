@@ -82,10 +82,10 @@ const StockHeroBanner = ({ summaryData, desc }: any) => {
                 </div>
                 <div className={styles.subNumber}>
                   <span
-                    className={`${allData?.sectorPATQoqAvg > 0 ? styles.up : styles.down}`}
+                    className={`${allData?.sectorNetSalesYoyAvg > 0 ? styles.up : styles.down}`}
                   >
-                    {allData?.sectorPATQoqAvg}%
-                    {allData?.sectorPATQoqAvg > 0 ? (
+                    {allData?.sectorNetSalesYoyAvg}%
+                    {allData?.sectorNetSalesYoyAvg > 0 ? (
                       <i className="eticon_up_arrow" />
                     ) : (
                       <i className="eticon_down_arrow" />
@@ -97,10 +97,10 @@ const StockHeroBanner = ({ summaryData, desc }: any) => {
                 <div className={styles.headRow}>New Profit</div>
                 <div className={styles.subNumber}>
                   <span
-                    className={`${allData?.sectorNetSalesYoyAvg > 0 ? styles.up : styles.down}`}
+                    className={`${allData?.sectorPATQoqAvg > 0 ? styles.up : styles.down}`}
                   >
-                    {allData?.sectorNetSalesYoyAvg}%
-                    {allData?.sectorNetSalesYoyAvg > 0 ? (
+                    {allData?.sectorPATQoqAvg}%
+                    {allData?.sectorPATQoqAvg > 0 ? (
                       <i className="eticon_up_arrow" />
                     ) : (
                       <i className="eticon_down_arrow" />

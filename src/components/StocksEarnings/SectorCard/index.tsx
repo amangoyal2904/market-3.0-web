@@ -38,29 +38,6 @@ const SectorCard = ({ item, index, className = "" }: any) => {
         <div className={styles.middleTxt}>
           <span>Revenue</span>
           <span
-            className={`${item?.sectorPATQoqAvg > 0 ? styles.up : styles.down}`}
-          >
-            {item?.sectorPATQoqAvg > 0 ? (
-              <i className="eticon_up_arrow" />
-            ) : (
-              <i className="eticon_down_arrow" />
-            )}
-            {item?.sectorPATQoqAvg}
-          </span>
-          <span
-            className={`${item?.sectorPATYoyAvg > 0 ? styles.up : styles.down}`}
-          >
-            {item?.sectorPATYoyAvg > 0 ? (
-              <i className="eticon_up_arrow" />
-            ) : (
-              <i className="eticon_down_arrow" />
-            )}
-            {item?.sectorPATYoyAvg}
-          </span>
-        </div>
-        <div className={styles.middleTxt}>
-          <span>Net Profit</span>
-          <span
             className={`${item?.sectorNetSalesQoqAvg > 0 ? styles.up : styles.down}`}
           >
             {item?.sectorNetSalesQoqAvg > 0 ? (
@@ -79,6 +56,29 @@ const SectorCard = ({ item, index, className = "" }: any) => {
               <i className="eticon_down_arrow" />
             )}
             {item?.sectorNetSalesYoyAvg}
+          </span>
+        </div>
+        <div className={styles.middleTxt}>
+          <span>Net Profit</span>
+          <span
+            className={`${item?.sectorPATQoqAvg > 0 ? styles.up : styles.down}`}
+          >
+            {item?.sectorPATQoqAvg > 0 ? (
+              <i className="eticon_up_arrow" />
+            ) : (
+              <i className="eticon_down_arrow" />
+            )}
+            {item?.sectorPATQoqAvg}
+          </span>
+          <span
+            className={`${item?.sectorPATYoyAvg > 0 ? styles.up : styles.down}`}
+          >
+            {item?.sectorPATYoyAvg > 0 ? (
+              <i className="eticon_up_arrow" />
+            ) : (
+              <i className="eticon_down_arrow" />
+            )}
+            {item?.sectorPATYoyAvg}
           </span>
         </div>
         <div className={styles.botmSec}>
