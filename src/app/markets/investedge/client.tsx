@@ -185,7 +185,9 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
               <div
                 id={sectionId}
                 className={styles.ieBox}
-                ref={(el) => (sectionRefs.current[sectionId] = el)} // Store ref
+                ref={(el) => {
+                  sectionRefs.current[sectionId] = el; // Assign the ref, but don't return anything
+                }}
                 key={index}
               >
                 <h2>{item?.label}</h2>
@@ -239,7 +241,6 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
                 <Link
                   data-tt={item.seoPath}
                   href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"].list}${item.seoPath}`}
-                  //onClick={() => handleTabTracking(item.label)}
                   title={item.label}
                   className={styles.viewall}
                 >
