@@ -337,6 +337,22 @@ export const initSSOWidget = () => {
   ssoWidget("init", centralSSOObj);
 };
 
+export const getViews = async (slikeId: string) => {
+  try {
+    const url = (APIS_CONFIG as any)["SLIKE_VIDEO_VIEWS"][APP_ENV] + slikeId;
+    const response = await Service.get({
+      url,
+      payload: {},
+      params: {},
+    });
+
+    return response?.json();
+    // Handle the successful response data
+  } catch (e) {
+    console.log("loadPrimeApiNew: " + e);
+  }
+};
+
 export const logout = async () => {
   const ticketId = getCookie("TicketId");
   console.log("TIcket ID outside Logut---->", getCookie("TicketId"), ticketId);
@@ -584,6 +600,78 @@ export const dateStringToMilliseconds = (
   const milliseconds = date.getTime();
   return milliseconds;
 };
+export const millisToMinutesAndSeconds = (millis: any) => {
+  const minutes = Math.floor(millis / 60000);
+  const seconds = Math.floor((millis % 60000) / 1000);
+
+  // Pad with leading zero if seconds are less than 10
+  const paddedSeconds = seconds < 10 ? "0" + seconds : seconds;
+
+  return `${minutes}:${paddedSeconds}`;
+};
+export const formatTimestamp = (timestamp: any) => {
+  const date = new Date(timestamp);
+
+  // Extract individual date and time components
+  const day = date.getDate().toString().padStart(2, "0");
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+
+  // Get hours and minutes
+  let hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+
+  // Format to 12-hour format
+  const ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // Convert hour '0' to '12' for 12-hour clock
+
+  // Combine date and time into the required format
+  const formattedDate = `${day} ${month} ${year}, ${hours}:${minutes} ${ampm} IST`;
+
+  return formattedDate;
+};
+
+export const formatDateIE = (timestamp: any) => {
+  const date = new Date(timestamp);
+
+  // Extract day, month, and year
+  const day = date.getDate().toString().padStart(2, "0");
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+
+  // Return the formatted date
+  return `${day} ${month} ${year}`;
+};
+
 export const setCookies = (
   name: string,
   value: string,

@@ -50,11 +50,16 @@
 .ieContainer {
   margin-top: 30px;
   .ieBox {
-    margin-bottom: 30px;
+    margin-bottom: 50px;
     h2 {
       font-size: 24px;
       margin-bottom: 15px;
       font-weight: 400;
+    }
+    .viewall {
+      color: #2b74e3;
+      margin-top: 30px;
+      display: block;
     }
     .ieBoxList {
       display: flex;
@@ -87,26 +92,13 @@
           }
         }
       }
+
       .right_ieContent {
         position: relative;
         width: 64%;
-        // display: flex;
-        // flex-wrap: wrap;
-        // gap:30px;
-        .right_vidBox {
-          max-width: 200px;
-          h4 {
-            font-size: 16px;
-            margin: 5px 0;
-          }
-          .videoDetails {
-            display: flex;
-            margin-bottom: 15px;
-            gap: 15px;
-            span {
-              font-size: 12px;
-            }
-          }
+        &.noSlider {
+          display: flex;
+          flex-wrap: wrap;
         }
       }
     }

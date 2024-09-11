@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import styles from "./InvestEdgeTopVideo.module.scss";
+import styles from "./InvestEdgeVideoList.module.scss";
 import Link from "next/link";
 import GLOBAL_CONFIG from "../../network/global_config.json";
-import { formatDateIE, getViews, millisToMinutesAndSeconds } from "@/utils";
+import { formatDateIE, getViews } from "@/utils";
+import { useEffect, useState } from "react";
 interface View {
   sid: string;
   views: number;
@@ -10,7 +10,7 @@ interface View {
   likes: number;
   dislikes: number;
 }
-const InvestEdgeTopVideo = ({ slide, index, seoPath, sliderFlag }: any) => {
+const InvestEdgeBox = ({ slide, index, slug }: any) => {
   const [view, setView] = useState<View[]>([]);
   useEffect(() => {
     viewsWrapper(slide?.slikeId);
@@ -23,31 +23,23 @@ const InvestEdgeTopVideo = ({ slide, index, seoPath, sliderFlag }: any) => {
       setView(viewsJson.data);
     }
   };
-
   return (
     <div
-      className={`${styles.right_vidBox} ${!sliderFlag ? styles["noSlider"] : styles["yesSlider"]}`}
+      className={styles.right_vidBox}
       key={index}
-      id={`section-${index}`}
+      id={`section-${slide.msid}`}
     >
       <Link
-        data-tt={seoPath}
-        href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"].video}${seoPath}/${slide.msid}`}
-        //onClick={() => handleTabTracking(item.label)}
-        title={slide.title}
-        className={styles.redirectLink}
+        data-tt={slide.seoPath}
+        href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"].video}${slug?.[0]}/${slide.msid}`}
+        // onClick={() => handleTabTracking(slide.label)}
+        title={slide.label}
       >
         <img src={slide.img} alt={slide.title} title={slide.title} />
-        {slide?.videoDuration && (
-          <span className={styles.duration}>
-            {millisToMinutesAndSeconds(slide.videoDuration)}
-          </span>
-        )}
-        <span className={styles.playButton}>&#9658;</span>
       </Link>
       <h4>{slide.title}</h4>
       <div className={styles.videoDetails}>
-        {slide.insertdate && (
+        {slide?.insertdate && (
           <>
             <span className={styles.date}>
               {formatDateIE(slide.insertdate)}
@@ -62,5 +54,4 @@ const InvestEdgeTopVideo = ({ slide, index, seoPath, sliderFlag }: any) => {
     </div>
   );
 };
-
-export default InvestEdgeTopVideo;
+export default InvestEdgeBox;

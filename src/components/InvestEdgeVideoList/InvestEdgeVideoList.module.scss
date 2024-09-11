@@ -50,6 +50,16 @@
     .right_vidBox {
       margin: 0 2% 2% 0;
       width: 23%;
+      .redirectLink {
+        position: relative;
+        display: block;
+        .playButton {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
       img {
         width: 100%;
         max-width: 100%;

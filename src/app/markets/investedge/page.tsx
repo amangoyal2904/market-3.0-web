@@ -10,7 +10,6 @@ import Tabbing from "@/components/InvestEdgeTopVideo/Tabbing";
 
 import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
-import InvestEdgeClient1 from "./client1";
 
 export async function generateMetadata(
   { searchParams }: any,
@@ -57,11 +56,11 @@ const InvestEdge = async () => {
 
       const getSectionResult = await getSectionPromise?.json();
       const getSectionData = getSectionResult.searchResult[0]?.data || [];
-
       // Return an object with label and data
       return {
         label: item.label, // Label node from item
-        data: getSectionData, // Output node from getSectionData
+        data: getSectionData,
+        seoPath: item.seoPath, // Output node from getSectionData
       };
     });
 
@@ -71,7 +70,6 @@ const InvestEdge = async () => {
   };
 
   const getResult = await generateFullData(); // Await the result of generateFullData
-  console.log("getResult----->", getResult);
 
   return (
     <>
@@ -80,13 +78,7 @@ const InvestEdge = async () => {
         Curated videos on stocks, mutual funds, investment strategies & more to
         help you manage your wealth seamlessly.
       </p>
-
-      {/* <Tabbing invementIdeaNavResult ={invementIdeaNavResult}/> */}
-      {/* <InvestEdgeClient navResult={invementIdeaNavResult}/> */}
-      {/* {invementIdeaNavResult?.tabs.map((item: any, index: any) => (
-            <InvestEdgeClient key={index} navResult={item}/>
-        ))} */}
-      <InvestEdgeClient1
+      <InvestEdgeClient
         resultData={getResult}
         invementIdeaNavResult={invementIdeaNavResult}
       />

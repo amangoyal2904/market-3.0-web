@@ -1,7 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./InvestEdgeTopVideo.module.scss";
 import VideoEmbed from "../VideoEmbed";
+import { formatTimestamp, getViews, millisToMinutesAndSeconds } from "@/utils";
 
+// Define the interface for the view object
+interface View {
+  sid: string;
+  views: number;
+  views3sec: number;
+  likes: number;
+  dislikes: number;
+}
 const InvestEdgeLeftVideo = ({
   videoId,
   activeVideoId,
@@ -10,13 +19,13 @@ const InvestEdgeLeftVideo = ({
 }: any) => {
   const [isVisible, setIsVisible] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
+  const [view, setView] = useState<View[]>([]);
   const liveStreamRef = useRef(null);
   const lastVisibilityChangeTime = useRef(0);
 
   const DEBOUNCE_DELAY = 100; // Adjust the delay as needed (milliseconds)
 
   useEffect(() => {
-    console.log("DATA+++++---->>", videoDetails);
     const observer = new IntersectionObserver(
       ([entry]) => {
         const now = Date.now();
@@ -53,6 +62,18 @@ const InvestEdgeLeftVideo = ({
     };
   }, [isVisible, videoId, setActiveVideoId]);
 
+  useEffect(() => {
+    viewsWrapper(videoDetails?.slikeId);
+  }, [videoDetails?.slikeId]);
+
+  const viewsWrapper = async (slikeId: string) => {
+    console.log("SlikeId---", slikeId);
+    const viewsJson = await getViews(slikeId);
+    if (viewsJson && viewsJson?.data?.length > 0) {
+      setView(viewsJson.data);
+    }
+  };
+
   const loadVideoIframe = () => {
     setIsVisible(true);
     setShowLoader(true);
@@ -75,7 +96,6 @@ const InvestEdgeLeftVideo = ({
               fetchPriority="high"
             />
           )}
-
           <span className={styles.playButton}>&#9658;</span>
         </div>
       ) : (
@@ -95,15 +115,27 @@ const InvestEdgeLeftVideo = ({
       <h3>{videoDetails?.title}</h3>
 
       <div className={styles.videoDetails}>
-        <span className={styles.date}>14th Aug, 2024</span>
+        {videoDetails?.insertdate && (
+          <span className={styles.date}>
+            {formatTimestamp(videoDetails.insertdate)}
+          </span>
+        )}
+        {videoDetails?.videoDuration && (
+          <>
+            <span className={styles.dash}>|</span>
+            <span className={styles.duration}>
+              Duration: {millisToMinutesAndSeconds(videoDetails.videoDuration)}
+            </span>
+          </>
+        )}
         <span className={styles.dash}>|</span>
-        <span className={styles.duration}>Duration: 10:00</span>
-        <span className={styles.dash}>|</span>
-        <span className={styles.views}>Views: 100</span>
+        <span className={styles.views}>
+          Views: {view.length > 0 ? view[0].views : "Loading..."}
+        </span>
       </div>
       <div className={styles.socialDetails}>
         <span>Share</span>
-        <span>Post</span>
+        <span>Like</span>
         <span>Comment</span>
       </div>
     </div>

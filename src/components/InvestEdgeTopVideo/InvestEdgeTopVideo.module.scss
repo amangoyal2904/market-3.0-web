@@ -37,6 +37,21 @@
 }
 .right_vidBox {
   max-width: 100%;
+  .redirectLink {
+    position: relative;
+    display: block;
+    .playButton {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .duration {
+      position: absolute;
+      left: 15px;
+      bottom: 15px;
+    }
+  }
   img {
     width: 100%;
   }
@@ -53,15 +68,25 @@
     }
   }
 }
+.right_vidBox.noSlider {
+  width: 31%;
+  margin-right: 2%;
+}
 .left_ieContent {
   min-width: 34%;
   max-width: 34%;
   max-height: 550px;
   .videoShowWrapper {
     cursor: pointer;
+    position: relative;
     img {
       height: 400px;
       max-height: 400px;
+    }
+    .playButton {
+      position: absolute;
+      top: 180px;
+      left: 49%;
     }
   }
   h3 {
