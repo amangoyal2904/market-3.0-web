@@ -120,7 +120,7 @@ export const trackPushData = (
     ? `&ticketid=${getCookie("encTicket")}`
     : "";
   let ACQ_SUB_SOURCE = `${sendGTMdata?.item_category}|${sendGTMdata?.item_category2}|${sendGTMdata?.item_category3}|${sendGTMdata?.item_category4?.replace(" ", "_")}`;
-  let ACQ_SOURCE = "market_tools";
+  let ACQ_SOURCE = sendGTMdata?.item_brand || "";
   const acqDetails = localStorage.getItem("acqDetails");
   if (acqDetails) {
     const data = JSON.parse(acqDetails);
