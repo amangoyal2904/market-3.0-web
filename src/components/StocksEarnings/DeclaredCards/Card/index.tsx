@@ -198,7 +198,7 @@ const Card = ({ cardData }: any) => {
                     cardData.stockScore === "nr" ? (
                     <span className={styles.nrStyle}>NR</span>
                   ) : (
-                    <span className={styles.naStyle}>NA</span>
+                    <span className={styles.naStyle}>N/A</span>
                   )}
 
                   <span className={styles.btmWrap}>

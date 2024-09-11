@@ -108,7 +108,8 @@ const PaginationEarning = ({
       className={`dflex align-item-center space-between ${styles.m20}`}
     >
       <p>
-        Showing {rangeStart}-{rangeEnd} of {totalRecords} {paginationLastNode}
+        Showing {rangeStart}-{rangeEnd} of <strong>{totalRecords}</strong>{" "}
+        {paginationLastNode}
       </p>
       <ul>
         <li

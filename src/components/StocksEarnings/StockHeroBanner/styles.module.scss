@@ -7,7 +7,7 @@
   padding: 24px 24px 18px 24px;
 }
 .left {
-  width: 60%;
+  width: calc(100% - 522px);
   border-right: solid 1px $salmon-50;
 }
 .top {
@@ -39,7 +39,7 @@
   color: $gray-30;
 }
 .bottom {
-  margin-top: 12px;
+  margin-top: 24px;
   ul {
     list-style-type: none;
     display: inline-block;
@@ -70,7 +70,7 @@
       }
     }
     .headRow {
-      font-weight: 16px;
+      font-size: 16px;
       font-weight: 600;
       color: #777;
     }
@@ -88,7 +88,7 @@
   }
 }
 .right {
-  width: 40%;
+  width: 500px;
   padding-left: 24px;
 }
 .rightTop {

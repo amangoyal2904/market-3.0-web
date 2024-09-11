@@ -14,6 +14,11 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    a {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
   .topNTxt {
     display: flex;
@@ -24,9 +29,15 @@
     font-weight: 600;
     justify-content: space-between;
     span {
-      width: 33%;
+      width: 30%;
       padding: 2px 0;
-      text-align: center;
+      text-align: right;
+      &:last-child {
+        padding-right: 10px;
+      }
+    }
+    span + span {
+      width: 35%;
     }
   }
   .middleTxt {
@@ -34,11 +45,16 @@
     justify-content: space-between;
     margin: 5px 10px;
     span {
-      width: 33%;
+      width: 30%;
+      &:last-child {
+        padding-right: 10px;
+        padding-left: 0px;
+      }
     }
     span + span {
-      text-align: left;
+      text-align: right;
       padding-left: 6px;
+      width: 35%;
     }
     .up {
       color: $green-70;
@@ -50,6 +66,9 @@
     }
   }
 }
+.sectionCard.sectorCard {
+  min-width: 300px;
+}
 .botmSec {
   border-top: solid 1px $gray-90;
 }
@@ -60,12 +79,12 @@
   .left {
     display: flex;
     flex-direction: column;
-    justify-content: center;
   }
 }
 .decTxt {
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 600;
+  white-space: nowrap;
 }
 .resData {
   margin-top: 2px;
@@ -81,7 +100,7 @@
 .grphTxtWrap {
   display: flex;
   .graph {
-    width: 100px;
+    width: 60px;
     justify-content: flex-end;
     display: flex;
     margin-right: 8px;
@@ -100,14 +119,14 @@
     }
   }
   .num {
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 600;
-    width: 30px;
+    width: 36px;
   }
   .txt {
-    font-size: 8px;
-    width: 42px;
-    text-align: right;
+    font-size: 12px;
+    width: 60px;
+    text-align: left;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.5);
   }

@@ -29,10 +29,14 @@
       font-size: 14px;
       font-weight: 400;
       line-height: 18px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
       width: 220px;
+      margin-top: 5px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* Limit to 2 lines */
+      -webkit-box-orient: vertical;
       overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
     }
   }
   .scrCount {

@@ -17,8 +17,8 @@ const StockHeroBanner = ({ summaryData }: any) => {
     (allDataGraph?.pendingCompanies / maxCompanies) * 100;
   const positivePercentage =
     (allDataGraph?.positiveCompanies / maxCompanies) * 100;
-  const totalCompany = allDataGraph?.totalCompanies;
-  const declareCompany = allDataGraph?.declaredCompanies;
+  const totalCompany = allDataGraph?.declaredCompanies;
+  const declareCompany = allDataGraph?.totalCompanies;
   const pieChartData = [
     {
       name: "Negative",

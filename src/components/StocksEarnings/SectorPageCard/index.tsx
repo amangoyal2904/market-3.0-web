@@ -144,7 +144,7 @@ const SectorPageCard = ({ data, tpName = "", sortingValue = "" }: any) => {
           <>
             <div className={styles.cardSecWrap}>
               {tabContentData.map((item, index) => (
-                <SectorCard key={index} item={item} />
+                <SectorCard key={index} item={item} className="sectionCard" />
               ))}
             </div>
             {activeTab === 0 && _pageTopSector.totalpages > 1 ? (
