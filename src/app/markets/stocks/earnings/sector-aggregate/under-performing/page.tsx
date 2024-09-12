@@ -33,7 +33,7 @@ const SectorAggregatesUnderPerforming = async () => {
     apiType: "under-performing",
     pageSize: 10,
     pageNo: 1,
-    sort: [{ field: "sectorPATYoyAvg", order: "DESC" }],
+    sort: [{ field: "sectorPATYoyAvg", order: "ASC" }],
   };
   const _underSector = await commonPostAPIHandler(
     `SECTOR_AGGREGATE`,
