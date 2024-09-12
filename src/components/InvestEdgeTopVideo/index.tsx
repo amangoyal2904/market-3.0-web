@@ -43,7 +43,7 @@ const InvestEdgeTopVideo = ({ slide, index, seoPath, sliderFlag }: any) => {
             {millisToMinutesAndSeconds(slide.videoDuration)}
           </span>
         )}
-        <span className={styles.playButton}>&#9658;</span>
+        {/* <span className={styles.playButton}>&#9658;</span> */}
       </Link>
       <h4>{slide.title}</h4>
       <div className={styles.videoDetails}>

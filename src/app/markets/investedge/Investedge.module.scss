@@ -58,8 +58,14 @@
     }
     .viewall {
       color: #2b74e3;
-      margin-top: 30px;
+      margin-top: 20px;
       display: block;
+      .nextIcon {
+        font-size: 20px;
+        position: relative;
+        top: 4px;
+        left: -3px;
+      }
     }
     .ieBoxList {
       display: flex;

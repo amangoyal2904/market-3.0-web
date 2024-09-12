@@ -40,16 +40,43 @@
   .redirectLink {
     position: relative;
     display: block;
-    .playButton {
+    .playbutton {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
+    .playBtn {
+      width: 50px;
+      height: 50px;
+      background-color: transparent;
+      border: 3px solid white; /* White border */
+      border-radius: 50%; /* Circle background */
+      position: relative;
+      cursor: pointer;
+    }
+
+    .playBtn::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      border-left: 12px solid white; /* White triangle (Play icon) */
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+    }
     .duration {
       position: absolute;
-      left: 15px;
-      bottom: 15px;
+      left: 10px;
+      bottom: 10px;
+      background: #ed1c25;
+      font-size: 11px;
+      font-weight: bold;
+      color: #fff;
+      padding: 2px 5px;
     }
   }
   img {
@@ -71,6 +98,7 @@
 .right_vidBox.noSlider {
   width: 31%;
   margin-right: 2%;
+  margin-bottom: 20px;
 }
 .left_ieContent {
   min-width: 34%;
@@ -104,10 +132,13 @@
   .socialDetails {
     display: flex;
     gap: 20px;
-    span {
+    .socialSpan {
       padding: 5px 15px;
       border: 1px solid;
       border-radius: 20px;
+      .socialIcon {
+        margin-right: 5px;
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 import styles from "./InvestEdgeVideoList.module.scss";
 import Link from "next/link";
 import GLOBAL_CONFIG from "../../network/global_config.json";
-import { formatDateIE, getViews } from "@/utils";
+import { formatDateIE, getViews, millisToMinutesAndSeconds } from "@/utils";
 import { useEffect, useState } from "react";
 interface View {
   sid: string;
@@ -34,8 +34,14 @@ const InvestEdgeBox = ({ slide, index, slug }: any) => {
         href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"].video}${slug?.[0]}/${slide.msid}`}
         // onClick={() => handleTabTracking(slide.label)}
         title={slide.label}
+        className={styles.redirectLink}
       >
         <img src={slide.img} alt={slide.title} title={slide.title} />
+        {slide?.videoDuration && (
+          <span className={styles.duration}>
+            {millisToMinutesAndSeconds(slide.videoDuration)}
+          </span>
+        )}
       </Link>
       <h4>{slide.title}</h4>
       <div className={styles.videoDetails}>

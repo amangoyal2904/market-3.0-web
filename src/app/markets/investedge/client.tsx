@@ -245,6 +245,7 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
                   className={styles.viewall}
                 >
                   View All {item.label} videos{" "}
+                  <span className={`eticon_next ${styles.nextIcon}`}></span>
                 </Link>
               </div>
             )

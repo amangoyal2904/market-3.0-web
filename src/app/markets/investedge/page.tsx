@@ -38,7 +38,6 @@ const InvestEdge = async () => {
     params: {},
   });
   const invementIdeaNavResult = await invementIdeaNavPromise?.json();
-  console.log("invementIdeaNavResult----->", invementIdeaNavResult);
   // Generate full data from multiple requests
   // Generate full data with label and section data
   const generateFullData = async () => {

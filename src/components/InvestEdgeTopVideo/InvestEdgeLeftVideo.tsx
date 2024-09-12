@@ -96,7 +96,8 @@ const InvestEdgeLeftVideo = ({
               fetchPriority="high"
             />
           )}
-          <span className={styles.playButton}>&#9658;</span>
+
+          <div className={styles.playBtn}></div>
         </div>
       ) : (
         <div className={styles.vid}>
@@ -134,9 +135,12 @@ const InvestEdgeLeftVideo = ({
         </span>
       </div>
       <div className={styles.socialDetails}>
-        <span>Share</span>
-        <span>Like</span>
-        <span>Comment</span>
+        <span className={styles.socialSpan}>
+          <span className={`eticon_share ${styles.socialIcon}`}></span>Share
+        </span>
+        <span className={styles.socialSpan}>
+          <span className={`eticon_thumbs_up ${styles.socialIcon}`}></span>Like
+        </span>
       </div>
     </div>
   );
