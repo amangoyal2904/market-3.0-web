@@ -4,13 +4,42 @@ import Link from "next/link";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 import VideoEmbed from "../VideoEmbed";
-import { useState } from "react";
-import { formatDateIE } from "@/utils";
+import { useEffect, useState } from "react";
+import { formatDateIE, getViews, millisToMinutesAndSeconds } from "@/utils";
 import InvestEdgeBox from "./InvestEdgeBox";
-
+interface View {
+  sid: string;
+  views: number;
+  views3sec: number;
+  likes: number;
+  dislikes: number;
+}
+interface VideoDetails {
+  title: string;
+  videoDuration: string;
+}
 const InvestEdgeVideoBox = (props: any) => {
   const { title, invementIdeaNavResult, sectionData, slug } = props;
   const [showLoader, setShowLoader] = useState(true);
+  const [view, setView] = useState<View[]>([]);
+  const [videoData, setVideoData] = useState<VideoDetails>();
+  useEffect(() => {
+    sectionData.length > 0 &&
+      sectionData.map((slide: any, index: any) => {
+        if (slide.msid == slug[1]) {
+          viewsWrapper(slide.slikeId);
+          setVideoData(slide);
+        }
+      });
+  }, []);
+
+  const viewsWrapper = async (slikeId: string) => {
+    console.log("SlikeId---", slikeId);
+    const viewsJson = await getViews(slikeId);
+    if (viewsJson && viewsJson?.data?.length > 0) {
+      setView(viewsJson.data);
+    }
+  };
   const onIframeLoadTask = () => {
     setShowLoader(false);
   };
@@ -30,36 +59,41 @@ const InvestEdgeVideoBox = (props: any) => {
       ) : (
         ""
       )}
+      <div className={styles.vidDetailsContainer}>
+        <h4 className={styles.title}>{videoData?.title}</h4>
+        <div className={styles.videoDetails}>
+          {videoData?.videoDuration && (
+            <>
+              <span className={styles.duration}>
+                Duration: {"  "}
+                <span>
+                  {millisToMinutesAndSeconds(videoData.videoDuration)}
+                </span>
+              </span>
+            </>
+          )}
+          <span className={styles.views}>
+            Views: {"  "}
+            <span>{view.length > 0 ? view[0].views : "Loading..."}</span>
+          </span>
+        </div>
+        <div className={styles.socialDetails}>
+          <span className={styles.socialSpan}>
+            <span className={`eticon_share ${styles.socialIcon}`}></span>Share
+          </span>
+          <span className={styles.socialSpan}>
+            <span className={`eticon_thumbs_up ${styles.socialIcon}`}></span>
+            Like
+          </span>
+        </div>
+      </div>
       <div className={styles.ieVidList}>
         {sectionData.length > 0 &&
           sectionData.map(
-            (slide: any, index: any) => (
-              <InvestEdgeBox slide={slide} key={index} slug={slug} />
-            ),
-            // <div
-            //   className={styles.right_vidBox}
-            //   key={index}
-            //   id={`section-${slide.msid}`}
-            // >
-            //   <Link
-            //     data-tt={slide.seoPath}
-            //     href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"].video}${slug?.[0]}/${slide.msid}`}
-            //     // onClick={() => handleTabTracking(slide.label)}
-            //     title={slide.label}
-            //   >
-            //     <img src={slide.img} alt={slide.title} title={slide.title} />
-            //   </Link>
-            //   <h4>{slide.title}</h4>
-            //   <div className={styles.videoDetails}>
-            //     {slide?.insertdate && (
-            //       <>
-            //         <span className={styles.date}>{formatDateIE(slide.insertdate)}</span>
-            //         <span className={styles.dash}>|</span>
-            //       </>
-            //     )}
-            //     <span className={styles.views}>Views: 100</span>
-            //   </div>
-            // </div>
+            (slide: any, index: any) =>
+              slide.msid != slug[1] && (
+                <InvestEdgeBox slide={slide} key={index} slug={slug} />
+              ),
           )}
       </div>
     </div>

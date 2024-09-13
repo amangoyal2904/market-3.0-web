@@ -36,6 +36,37 @@
   }
 }
 .ieVidContainer {
+  .vidDetailsContainer {
+    margin-bottom: 40px;
+    .title {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+    .videoDetails {
+      display: flex;
+      color: #656565;
+      margin-bottom: 15px;
+      gap: 15px;
+      span {
+        font-size: 11px;
+        span {
+          font-weight: bold;
+        }
+      }
+    }
+    .socialDetails {
+      display: flex;
+      gap: 20px;
+      .socialSpan {
+        padding: 5px 15px;
+        border: 1px solid;
+        border-radius: 20px;
+        .socialIcon {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
   h2 {
     font-size: 24px;
     font-style: normal;
