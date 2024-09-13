@@ -1,9 +1,30 @@
+import { fnGenerateMetaData } from "@/utils/utility";
+import { Metadata, ResolvingMetadata } from "next";
+import { headers } from "next/headers";
 import InvestEdgeVideoList from "@/components/InvestEdgeVideoList";
 import styles from "../../Investedge.module.scss";
 import service from "@/network/service";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import { IeTab } from "@/components/InvestEdgeVideoList/IeTab";
+
+export async function generateMetadata(
+  { searchParams }: any,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
+  const meta = {
+    title:
+      "Share Market, Nifty, Sensex, NSE/BSE Live Updates, Stock Market Today",
+    desc: "Curated videos on stocks, mutual funds, investment strategies & more to help you manage your wealth seamlessly.",
+    keywords:
+      "Share Market, Stock Market, share market live updates, NIFTY, Sensex Today live, NSE/BSE, big bull, stock reports, stock screeners, indices, market mood, forex, commodity, top investors",
+    pathname: pageUrl,
+    index: true,
+  };
+  return fnGenerateMetaData(meta);
+}
 
 const List = async ({
   params,
