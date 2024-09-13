@@ -92,7 +92,7 @@ const OtherSectors = ({ title, viewTxt, viewUrl, data }: any) => {
             slides={data?.map((list: any, index: any) => ({
               content: (
                 <Link
-                  href={`/markets/stocks/sector-aggregates/${list?.assetSeoName}/id-${list?.assetId}`}
+                  href={`/markets/stocks/earnings/sector-aggregate/${list?.assetSeoName}/id-${list?.assetId}`}
                   key={`topNews${index}`}
                   className={styles.newsCard}
                 >
