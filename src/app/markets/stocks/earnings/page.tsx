@@ -105,13 +105,13 @@ const StocksEarningsPage = async () => {
     apiType: "top-performing",
     pageSize: 10,
     pageNo: 1,
-    sort: [{ field: "sectorPATQoqAvg", order: "DESC" }],
+    sort: [{ field: "sectorPATYoyAvg", order: "DESC" }],
   };
   const bodyPayloadSectorUnder = {
     apiType: "under-performing",
     pageSize: 10,
     pageNo: 1,
-    sort: [{ field: "sectorPATQoqAvg", order: "DESC" }],
+    sort: [{ field: "sectorPATYoyAvg", order: "ASC" }],
   };
   const _upcomingCompanies = await commonPostAPIHandler(
     `UPCOMING_COMPANIES`,
