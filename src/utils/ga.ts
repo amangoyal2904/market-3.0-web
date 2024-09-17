@@ -1,6 +1,5 @@
 // @ts-nocheck
 import { getCookie } from "@/utils";
-import jStorageReact from "@/utils/jStorageReact";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
 import Service from "../network/service";
@@ -8,6 +7,7 @@ import GLOBAL_CONFIG from "../network/global_config.json";
 import grxMappingObj from "@/utils/grxMappingObj.json";
 import cdpObj from "@/utils/cdpObj.json";
 import { setPaywallCounts } from "@/utils/utility";
+import jStorageReact from "jstorage-react";
 declare global {
   interface Window {
     trackingEvent: (type: string, gaData: object) => void;

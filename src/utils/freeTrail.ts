@@ -4,7 +4,7 @@ import { APP_ENV, getCookie } from "@/utils";
 import { saveLogs } from "@/utils/utility";
 import Service from "../network/service";
 import { initSSOWidget } from "@/utils";
-import jStorageReact from "./jStorageReact";
+import jStorageReact from "jstorage-react";
 
 export const freeTrialElegibilty = () => {
   const storedData = jStorageReact.get("et_freetrial");

@@ -7,7 +7,7 @@ import {
 } from "@/utils/index";
 import { getCookie } from "@/utils/index";
 import Service from "@/network/service";
-import jStorageReact from "./jStorageReact";
+import jStorageReact from "jstorage-react";
 
 const API_SOURCE = 0;
 
