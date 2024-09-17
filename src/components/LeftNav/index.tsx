@@ -251,7 +251,6 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                               >
                                 <meta itemProp="name" content={sec.label} />
                                 {sec.label}
-                                {sec.label}
                               </Link>
                             </li>
                           ))}
