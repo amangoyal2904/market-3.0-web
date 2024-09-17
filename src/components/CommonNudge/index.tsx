@@ -567,7 +567,6 @@ const CommonNudge = ({ modalType }: any) => {
   }, [metaInfoPrimeNudege]);
 
   useEffect(() => {
-    console.log({ isPrime, permissions, isLogin });
     if (typeof window.objUser != "undefined") {
       if (
         showModal &&

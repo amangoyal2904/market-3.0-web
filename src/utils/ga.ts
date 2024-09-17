@@ -343,7 +343,6 @@ export const updateGtm = (_gtmEventDimension, prevPath) => {
     _gtmEventDimension["user_region"] = window?.geoinfo.region_code;
     _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
     _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
-
     const savedFreeTrialData = jStorageReact.get("et_freetrial") || {};
     const isAPUser = window?.objUser?.userAcquisitionType === "ACCESS_PASS";
 
