@@ -88,6 +88,7 @@ const SectorsClient = ({
         l2NavTracking="Sectors"
         setUpdateDateTime={setUpdateDateTime}
         setFallbackWebsocket={setFallbackWebsocket}
+        noSharePriceTitle="no"
       />
     </>
   );

@@ -29,6 +29,7 @@ const FixedTable = React.memo((props: any) => {
     fixedCol = 3,
     objTracking,
     onRowHover,
+    noSharePriceTitle,
   } = props || {};
   const {
     showFilterInput = true,
@@ -275,7 +276,7 @@ const FixedTable = React.memo((props: any) => {
                                 ? "_self"
                                 : "_blank"
                             }
-                            title={`${!!tdData.value ? tdData.value : item.assetName}${item.assetType !== "index" ? " Share Price" : ""}`}
+                            title={`${!!tdData.value ? tdData.value : item.assetName}${item.assetType !== "index" && noSharePriceTitle === "yes" ? " Share Price" : ""}`}
                           >
                             {!!tdData.value ? tdData.value : item.assetName}
                           </a>

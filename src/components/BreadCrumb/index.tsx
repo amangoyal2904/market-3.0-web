@@ -165,23 +165,12 @@ const getLiPath = (router: string, pagePath: string) => {
     };
   } else if (router == "/stocks/sectors") {
     return {
-      showNextLi: false,
-      currentLiNode: (
-        <li>
-          <span className="eticon_caret_right"></span>Sectors
-        </li>
-      ),
-      showCurrLi: true,
-      listItemSchema: "",
-    };
-  } else if (router.includes("/sectors/")) {
-    return {
       showNextLi: true,
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocks/sectors" title="Sectors">
-            Sectors
+          <a href="/markets/stocks" title="Stocks">
+            Stocks
           </a>
         </li>
       ),
@@ -189,8 +178,27 @@ const getLiPath = (router: string, pagePath: string) => {
       listItemSchema: {
         "@type": "ListItem",
         position: "3",
-        name: "Sectors",
-        item: { "@id": "/stocks/sectors" },
+        name: "Stocks",
+        item: { "@id": "/markets/stocks" },
+      },
+    };
+  } else if (router.includes("/sectors/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/stocks" title="Stocks">
+            Stocks
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: {
+        "@type": "ListItem",
+        position: "3",
+        name: "Stocks",
+        item: { "@id": "/markets/stocks" },
       },
     };
   } else if (router == "/watchlist") {

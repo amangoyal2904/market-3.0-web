@@ -111,7 +111,10 @@ const IndividualSectors = async ({ params }: any) => {
       />
       <BreadCrumb
         pagePath={pageUrl}
-        pageName={[{ label: overviewData?.assetName, redirectUrl: "" }]}
+        pageName={[
+          { label: "Sectors", redirectUrl: "/stocks/sectors" },
+          { label: overviewData?.assetName, redirectUrl: "" },
+        ]}
       />
       <PageRefresh refreshTime={180000} />
     </Fragment>
