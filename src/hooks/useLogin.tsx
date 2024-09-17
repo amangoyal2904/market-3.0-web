@@ -9,7 +9,7 @@ import {
 import { fetchAllWatchListData, saveLogs } from "@/utils/utility";
 import { activateFreeTrial } from "@/utils/freeTrail";
 import { trackingEvent } from "@/utils/ga";
-import jStorageReact from "@/utils/jStorageReact";
+import jStorageReact from "jstorage-react";
 
 const useLogin = () => {
   const { dispatch } = useStateContext();
@@ -76,7 +76,6 @@ const useLogin = () => {
         }
         setCookieToSpecificTime("etprc", oauthAPiRes.prc, 30, 0, 0);
         trackingEvent("user_profile_create", { url: window.location.href });
-
         const freeTrialData = jStorageReact.get("et_freetrial");
         if (freeTrialData?.hitAccessPass) {
           setTimeout(() => {

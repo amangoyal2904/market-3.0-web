@@ -4,7 +4,7 @@ import Service from "../network/service";
 import { createPeuuid } from "./utility";
 import service from "../network/service";
 import { getPageName } from "./ga";
-import jStorageReact from "./jStorageReact";
+import jStorageReact from "jstorage-react";
 
 declare global {
   interface Window {

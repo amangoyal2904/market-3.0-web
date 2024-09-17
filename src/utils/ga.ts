@@ -1,6 +1,5 @@
 // @ts-nocheck
 import { getCookie } from "@/utils";
-import jStorageReact from "@/utils/jStorageReact";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
 import Service from "../network/service";
@@ -8,6 +7,7 @@ import GLOBAL_CONFIG from "../network/global_config.json";
 import grxMappingObj from "@/utils/grxMappingObj.json";
 import cdpObj from "@/utils/cdpObj.json";
 import { setPaywallCounts } from "@/utils/utility";
+import jStorageReact from "jstorage-react";
 declare global {
   interface Window {
     trackingEvent: (type: string, gaData: object) => void;
@@ -343,7 +343,6 @@ export const updateGtm = (_gtmEventDimension, prevPath) => {
     _gtmEventDimension["user_region"] = window?.geoinfo.region_code;
     _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
     _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
-
     const savedFreeTrialData = jStorageReact.get("et_freetrial") || {};
     const isAPUser = window?.objUser?.userAcquisitionType === "ACCESS_PASS";
 

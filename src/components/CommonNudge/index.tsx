@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
-import jStorageReact from "@/utils/jStorageReact";
+import jStorageReact from "jstorage-react";
 
 const CommonNudge = ({ modalType }: any) => {
   const pathName = usePathname();
@@ -567,7 +567,6 @@ const CommonNudge = ({ modalType }: any) => {
   }, [metaInfoPrimeNudege]);
 
   useEffect(() => {
-    console.log({ isPrime, permissions, isLogin });
     if (typeof window.objUser != "undefined") {
       if (
         showModal &&
