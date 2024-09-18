@@ -1,0 +1,219 @@
+@import "@/styles/variables.scss";
+.card {
+  position: relative;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  padding: 14px 12px 0;
+  border-radius: 12px;
+  border: 2px solid $gray_90;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensure content is spread out evenly */
+
+  .patternInfo {
+    position: relative;
+    display: inline-flex;
+    gap: 10px;
+    border-radius: 3px;
+    padding: 3px 5px;
+    margin-bottom: 5px;
+
+    span + span {
+      position: relative;
+      padding-left: 10px;
+      i {
+        margin-left: 4px;
+      }
+      &:after {
+        content: "";
+        width: 1px;
+        height: 12px;
+        top: 2px;
+        background: $black;
+        position: absolute;
+        left: 0;
+        display: inline-block;
+      }
+    }
+
+    .patternName {
+      font-weight: 600;
+    }
+
+    &.bull {
+      background: $green-05;
+    }
+
+    &.bear {
+      background: $red-05;
+    }
+  }
+
+  .stockName {
+    display: block;
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 20px;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Two equal-width columns */
+    align-items: center; /* Vertically center the grid items */
+    gap: 16px; /* Adjust the space between columns */
+    margin: 8px auto;
+    list-style-type: none;
+
+    span {
+      color: $gray-40;
+    }
+
+    p {
+      font-family: var(--font-lato);
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 16px;
+    }
+  }
+
+  .patternImage {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 16/9;
+  }
+
+  .desc {
+    display: flex;
+    gap: 5px;
+    margin: 14px 0 8px;
+
+    i {
+      font-size: 30px;
+    }
+  }
+
+  .link {
+    display: flex;
+    align-items: center;
+    color: $blue-50;
+    font-weight: 600;
+
+    i {
+      font-size: 22px;
+    }
+  }
+
+  .bottomBar {
+    display: flex;
+    justify-content: space-between;
+    background: $gray_20;
+    color: $white;
+    margin: 8px -12px 0;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+
+    .idea {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      font-weight: 600;
+      border-bottom-right-radius: 12px;
+      padding: 0 8px;
+      min-width: 72px;
+    }
+  }
+
+  .centerContainer {
+    text-align: center;
+  }
+
+  .unlockCta {
+    display: inline-flex;
+    background: $red-60;
+    color: $white;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 3px;
+    padding: 6px;
+    margin: 4px 0 12px;
+  }
+
+  .blurEffect {
+    position: relative;
+    display: inline-flex;
+    min-width: 75px;
+    text-align: center;
+    z-index: 1;
+    color: #000;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 5px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.06);
+      backdrop-filter: blur(4px);
+      filter: blur(4px);
+      z-index: -1;
+    }
+
+    span {
+      position: relative;
+      z-index: 2;
+
+      &.icons {
+        font-size: 16px;
+      }
+
+      &.text {
+        font-weight: 500;
+        line-height: 16px;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.technicalModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: $white;
+  z-index: 9;
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 10px;
+    border-bottom: 1px solid #f3f3f3;
+    .icon {
+      font-size: 18px;
+      &.lg {
+        font-size: 24px;
+      }
+    }
+    .logo {
+      width: 156px;
+      height: 22px;
+    }
+  }
+  .container {
+    position: relative;
+    height: 100%;
+  }
+}

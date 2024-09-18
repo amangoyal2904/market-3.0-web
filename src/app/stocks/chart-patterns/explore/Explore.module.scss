@@ -1,0 +1,67 @@
+@import "@/styles/variables.scss";
+.patternsList {
+  position: relative;
+  padding: 8px 10px;
+  .pattern {
+    margin: 10px auto;
+    & + .pattern {
+      margin-top: 25px;
+    }
+    .title {
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 20px;
+    }
+  }
+  .cards {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+    .card {
+      border: 1px solid $gray_80;
+      border-radius: 12px;
+      padding: 12px;
+      .detailsContainer {
+        display: flex;
+        gap: 10px;
+        .title {
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 18px;
+        }
+        .desc {
+          margin-top: 8px;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 16px;
+        }
+      }
+    }
+  }
+  .ctaContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 12px;
+    margin-top: 12px;
+    .cta {
+      flex: 1;
+      background: $black;
+      border: 1px solid $black;
+      border-radius: 3px;
+      color: $white;
+      font-size: 10px;
+      line-height: 12px;
+      font-weight: 700;
+      text-align: center;
+      padding: 7px 5px;
+      &.outline {
+        background: $white;
+        color: $black;
+      }
+    }
+  }
+}

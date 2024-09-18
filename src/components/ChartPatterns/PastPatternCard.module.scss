@@ -1,0 +1,215 @@
+@import "@/styles/variables.scss";
+
+.card {
+  position: relative;
+  border: 1px solid $gray_70;
+  border-radius: 12px;
+  .head {
+    position: relative;
+    display: block;
+    background: $salmon-50;
+    padding: 10px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    .title {
+      font-size: 16px;
+      line-height: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      .list {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 5px;
+        border-radius: 6px;
+        background: linear-gradient(180deg, #ffefeb 0%, #fffbfa 100%);
+        box-shadow: 0px 0px 6.69px 0px #ffffff1f inset;
+        .graphic {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 70px;
+          margin-bottom: 10px;
+          .return {
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 16px;
+          }
+          .period {
+            margin-top: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 22px;
+            color: $green-70;
+          }
+          .days {
+            font-size: 10px;
+            font-weight: 400;
+            line-height: 12px;
+          }
+          &.pieChart {
+            width: 70px;
+            height: 70px;
+          }
+          &.donutBg {
+            background: url(/marketsmweb/img/donut_chart.png) no-repeat top
+              center;
+            background-size: contain;
+          }
+          &.calendarBg {
+            background: url(/marketsmweb/img/calendar.svg) no-repeat top center;
+            background-size: contain;
+          }
+        }
+        .desc {
+          p {
+            font-size: 12px;
+            line-height: 16px;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+    .helpTxt {
+      margin-top: 5px;
+      font-size: 10px;
+      line-height: 18px;
+      font-weight: 400;
+      text-align: center;
+    }
+  }
+  .bottom {
+    position: relative;
+    padding: 15px 10px;
+    .header {
+      margin-bottom: 5px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid $gray_90;
+      .title {
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 700;
+      }
+      .link {
+        display: flex;
+        align-items: center;
+        color: $blue-50;
+        font-weight: 600;
+        i {
+          font-size: 22px;
+        }
+      }
+    }
+    .tableContainer {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+
+      thead {
+        th {
+          font-size: 12px;
+          line-height: 16px;
+          font-weight: 400;
+          color: $gray_40;
+        }
+      }
+
+      th,
+      td {
+        min-width: 60px;
+        padding: 8px 4px;
+        text-align: left;
+        &:first-child {
+          min-width: 45%;
+          max-width: 60%;
+        }
+      }
+
+      td {
+        font-size: 12px;
+        vertical-align: middle;
+        &.ft10 {
+          font-size: 10px;
+        }
+        .bull {
+          display: inline-block;
+          background: $green-05;
+          padding: 3px 2px 3px 5px;
+          border-radius: 3px;
+        }
+        .stName {
+          display: -webkit-box;
+          -webkit-line-clamp: 2; /* Limit to 2 lines */
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: normal;
+          font-weight: 600;
+        }
+        .arrowIcons {
+          font-size: 16px;
+          margin-left: 1px;
+          vertical-align: text-bottom;
+        }
+      }
+    }
+    .cta {
+      display: flex;
+      margin-top: 12px;
+      background: $black;
+      color: $white;
+      padding: 9px 10px;
+      border-radius: 3px;
+      text-align: center;
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 600;
+      justify-content: center;
+      align-items: center;
+      i {
+        font-size: 30px;
+        margin-left: 4px;
+      }
+    }
+  }
+  & + .card {
+    margin-top: 12px;
+  }
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #333;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
