@@ -15,6 +15,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.eticon_chart_pattern:before {
+  content: "\e976";
+}
 .eticon_accordion_down:before {
   content: "\e96d";
 }

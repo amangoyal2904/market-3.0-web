@@ -11,6 +11,12 @@ const Eticons = () => {
       <div className={styles.pageContainter}>
         <div className={styles.glyphLeft}>
           <div className={styles.container}>
+            <span className="eticon_chart_pattern"></span>
+            <span className={styles.mls}> eticon_chart_pattern</span>
+          </div>
+        </div>
+        <div className={styles.glyphLeft}>
+          <div className={styles.container}>
             <span className="eticon_accordion_down"></span>
             <span className={styles.mls}> eticon_accordion_down</span>
           </div>
