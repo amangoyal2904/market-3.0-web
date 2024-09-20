@@ -914,30 +914,30 @@ export const returnPPID = () => {
 export const convertToAbsoluteUrl = (url: string): string => {
   const stgBaseUrl = "https://etmarketswebpre.indiatimes.com/";
   const liveBaseUrl = "https://economictimes.indiatimes.com/";
+  return url;
+  // if (!url) return url;
+  // const envHost: string =
+  //   (global as any)?.__incrementalCache?.requestHeaders?.host ||
+  //   (global as any)?.location?.host;
+  // console.log("____envHost", envHost);
 
-  if (!url) return url;
-  const envHost: string =
-    (global as any)?.__incrementalCache?.requestHeaders?.host ||
-    (global as any)?.location?.host;
-  console.log("____envHost", envHost);
+  // // Check if the URL is already absolute
+  // if (url.startsWith("http://") || url.startsWith("https://")) {
+  //   return url;
+  // }
 
-  // Check if the URL is already absolute
-  if (url.startsWith("http://") || url.startsWith("https://")) {
-    return url;
-  }
+  // // Remove leading slash if present
+  // const cleanUrl = url.startsWith("/") ? url.slice(1) : url;
 
-  // Remove leading slash if present
-  const cleanUrl = url.startsWith("/") ? url.slice(1) : url;
+  // // If localhost:3009, return relative path
+  // if (envHost === "localhost:3009") {
+  //   return `/${cleanUrl}`;
+  // }
 
-  // If localhost:3009, return relative path
-  if (envHost === "localhost:3009") {
-    return `/${cleanUrl}`;
-  }
+  // // Determine the base URL based on the environment
+  // const baseUrl = envHost?.includes("etmarketswebpre.indiatimes.com")
+  //   ? stgBaseUrl
+  //   : liveBaseUrl;
 
-  // Determine the base URL based on the environment
-  const baseUrl = envHost?.includes("etmarketswebpre.indiatimes.com")
-    ? stgBaseUrl
-    : liveBaseUrl;
-
-  return `${baseUrl}${cleanUrl}`;
+  // return `${baseUrl}${cleanUrl}`;
 };
