@@ -295,10 +295,6 @@ export const initSSOWidget = () => {
             : "891351984915-kodsh6b9vik3h6ue008fh8jgfstageh6.apps.googleusercontent.com",
       },
       {
-        type: "Facebook",
-        clientId: "424450167700259",
-      },
-      {
         type: "Apple",
         clientId: "com.economictimes.login",
       },
