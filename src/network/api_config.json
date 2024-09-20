@@ -19,10 +19,6 @@
     "development": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365",
     "production": "https://etapi.indiatimes.com/et-screener/index-byid?indexids=2369,2365"
   },
-  "LIVE_MARKET_DATA_NEXTJS": {
-    "development": "http://localhost:3009/api/bselivefeeds",
-    "production": "https://json.bselivefeeds.indiatimes.com/homepagedatanew.json"
-  },
   "SEARCH": {
     "main": {
       "development": [
@@ -189,10 +185,6 @@
     "development": "https://json.bselivefeeds.indiatimes.com/ET_WebCast",
     "production": "https://etwebcast.indiatimes.com/ET_WebCast"
   },
-  "MARKETSTATS_INTRADAY_NEXTJS": {
-    "development": "http://localhost:3009/api/intradaystats",
-    "production": "https://screener.indiatimes.com/et-screener/intraday-stats"
-  },
   "redeemVoucher": {
     "development": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher",
     "production": "https://qcsubscription.economictimes.indiatimes.com/api/subscription/redeemVoucher"
@@ -270,10 +262,6 @@
       ],
       "production": ["https://etup.economictimes.indiatimes.com/et/getpref"]
     },
-    "getAllWatchlistNextJsAPI": {
-      "development": ["http://localhost:3009/api/follow"],
-      "production": ["https://etup.economictimes.indiatimes.com/et/getpref"]
-    },
     "addWatchList": {
       "development": [
         "https://etusersqc2.economictimes.indiatimes.com/et/savesettings/json"
@@ -282,22 +270,10 @@
         "https://etup.economictimes.indiatimes.com/et/savesettings/json"
       ]
     },
-    "addWatchListNextJsAPI": {
-      "development": ["http://localhost:3009/api/follow"],
-      "production": [
-        "https://etup.economictimes.indiatimes.com/et/savesettings/json"
-      ]
-    },
     "multipleWatchList": {
       "development": [
         "https://etusersqc2.economictimes.indiatimes.com/et/v3/savesettings/json"
       ],
-      "production": [
-        "https://etup.economictimes.indiatimes.com/et/v3/savesettings/json"
-      ]
-    },
-    "multipleWatchListNextJsAPI": {
-      "development": ["http://localhost:3009/api/followmultiple"],
       "production": [
         "https://etup.economictimes.indiatimes.com/et/v3/savesettings/json"
       ]
@@ -351,12 +327,6 @@
     "screenerListTab": {
       "development": "https://screener.indiatimes.com/screener/getwatchlistview",
       "production": "https://screener.indiatimes.com/screener/getwatchlistview"
-    },
-    "getAllScreenerNextJsAPI": {
-      "development": ["http://localhost:3009/api/screener"],
-      "production": [
-        "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataByCollectionType"
-      ]
     },
     "getScreenerByScreenerId": {
       "development": [

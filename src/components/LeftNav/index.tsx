@@ -7,6 +7,7 @@ import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { convertToAbsoluteUrl } from "@/utils";
+import { renderIconPaths } from "@/utils/iconUtils";
 
 const LeftNav = ({ leftNavResult = {} }: any) => {
   const { markets = {}, markets_pro = {} } = leftNavResult;
@@ -90,51 +91,6 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
       event_label: navList.l2 || navList.l1,
       selected_category: navList.l1,
     });
-  }, []);
-
-  const renderIconPaths = useCallback((icon: string) => {
-    const iconPaths: { [key: string]: JSX.Element[] } = {
-      eticon_news: [
-        <span key="1" className="path1"></span>,
-        <span key="2" className="path2"></span>,
-        <span key="3" className="path3"></span>,
-        <span key="4" className="path4"></span>,
-        <span key="5" className="path5"></span>,
-        <span key="6" className="path6"></span>,
-        <span key="7" className="path7"></span>,
-      ],
-      eticon_watchlist: [
-        <span key="1" className="path1"></span>,
-        <span key="2" className="path2"></span>,
-      ],
-      eticon_marketmood: [
-        <span key="1" className="path1"></span>,
-        <span key="2" className="path2"></span>,
-        <span key="3" className="path3"></span>,
-        <span key="4" className="path4"></span>,
-        <span key="5" className="path5"></span>,
-        <span key="6" className="path6"></span>,
-        <span key="7" className="path7"></span>,
-      ],
-      eticon_epaper_icon: [
-        <span key="1" className="path1"></span>,
-        <span key="2" className="path2"></span>,
-      ],
-      eticon_recos: [
-        <span key="1" className="path1"></span>,
-        <span key="2" className="path2"></span>,
-        <span key="3" className="path3"></span>,
-        <span key="4" className="path4"></span>,
-        <span key="5" className="path5"></span>,
-        <span key="6" className="path6"></span>,
-        <span key="7" className="path7"></span>,
-        <span key="8" className="path8"></span>,
-        <span key="9" className="path9"></span>,
-        <span key="10" className="path10"></span>,
-        <span key="11" className="path11"></span>,
-      ],
-    };
-    return iconPaths[icon] || null;
   }, []);
 
   const navSchemaItemListElements: any[] = [];
@@ -267,17 +223,13 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
             <h3 className={styles.proHeading} role="presentation">
               <span className={styles.expandTitle}>
                 <span className="eticon_prime_logo">
-                  <span className="path1"></span>
-                  <span className="path2"></span>
-                  <span className="path3"></span>
+                  {renderIconPaths("eticon_prime_logo")}
                 </span>
                 <span className={styles.etprimeLogoText}>ETPrime</span>
               </span>
               <span className={styles.collapsedTitle}>
                 <span className="eticon_prime_logo">
-                  <span className="path1"></span>
-                  <span className="path2"></span>
-                  <span className="path3"></span>
+                  {renderIconPaths("eticon_prime_logo")}
                 </span>
               </span>
             </h3>

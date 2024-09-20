@@ -4,10 +4,17 @@ import { APP_ENV, getCookie } from "@/utils";
 import { saveLogs } from "@/utils/utility";
 import Service from "../network/service";
 import { initSSOWidget } from "@/utils";
-import jStorageReact from "./jStorageReact";
+import jStorageReact from "jstorage-react";
 
 export const freeTrialElegibilty = () => {
-  const storedData = jStorageReact.get("et_freetrial");
+  let storedData: any | null = null;
+
+  if (typeof window !== "undefined") {
+    storedData = jStorageReact.get("et_freetrial");
+  } else {
+    storedData = null;
+  }
+
   let userElegibilty = false;
 
   if (storedData && storedData?.eligible) {
@@ -17,6 +24,7 @@ export const freeTrialElegibilty = () => {
 };
 
 export const activateFreeTrial = async () => {
+  console.log("4");
   const storedData = jStorageReact.get("et_freetrial");
 
   try {

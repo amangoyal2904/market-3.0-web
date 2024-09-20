@@ -74,8 +74,6 @@ const BigBullAllInvertorsClientPage = ({
     } catch (error) {
       setTableLoadingShow(false);
     }
-
-    //console.log({_data})
   };
   const sortHandler = (key: any, orderBy: string) => {
     let sortOrder = "DESC";

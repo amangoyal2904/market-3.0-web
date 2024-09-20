@@ -7,6 +7,7 @@ import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 import Image from "next/image";
 import useLogin from "@/hooks/useLogin";
+import { renderIconPaths } from "@/utils/iconUtils";
 
 const Login = () => {
   useLogin();
@@ -42,14 +43,11 @@ const Login = () => {
               {isPrime ? (
                 <>
                   <span className={`default-btn ${styles.defaultBtn}`}>
-                    <Image
-                      src="/marketsweb/img/icon_prime.svg"
-                      height="15"
-                      width="15"
-                      className={styles.primeUsericon}
-                      alt="Prime User"
-                      title="Prime User"
-                    />
+                    <span className={styles.primeUsericon}>
+                      <span className="eticon_prime_logo">
+                        {renderIconPaths("eticon_prime_logo")}
+                      </span>
+                    </span>
                     <div className={styles.primeInfo}>
                       <p className={styles.primeMember}>ETPrime Member</p>
                       <p className={styles.userName}>

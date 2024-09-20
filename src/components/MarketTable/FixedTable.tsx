@@ -6,6 +6,7 @@ import { dateFormat } from "@/utils";
 import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { renderIconPaths } from "@/utils/iconUtils";
 const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
   ssr: false,
 });
@@ -119,13 +120,11 @@ const FixedTable = React.memo((props: any) => {
                   <div className={styles.thead}>
                     <div className={styles.theading}>
                       {isPrime && thead.primeFlag ? (
-                        <Image
-                          src="/marketsweb/img/icon_prime.svg"
-                          width={10}
-                          height={10}
-                          alt="ETPrime"
-                          className={styles.primeIcon}
-                        />
+                        <span className={styles.primeIcon}>
+                          <span className="eticon_prime_logo">
+                            {renderIconPaths("eticon_prime_logo")}
+                          </span>
+                        </span>
                       ) : null}
                       {thead.keyText}
                     </div>

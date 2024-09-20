@@ -1,6 +1,5 @@
 // @ts-nocheck
 import { getCookie } from "@/utils";
-import jStorageReact from "@/utils/jStorageReact";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
 import Service from "../network/service";
@@ -8,6 +7,7 @@ import GLOBAL_CONFIG from "../network/global_config.json";
 import grxMappingObj from "@/utils/grxMappingObj.json";
 import cdpObj from "@/utils/cdpObj.json";
 import { setPaywallCounts } from "@/utils/utility";
+import jStorageReact from "jstorage-react";
 declare global {
   interface Window {
     trackingEvent: (type: string, gaData: object) => void;
@@ -119,7 +119,18 @@ export const trackPushData = (
   const ticketId = getCookie("encTicket")
     ? `&ticketid=${getCookie("encTicket")}`
     : "";
-  const ACQ_SUB_SOURCE = `${sendGTMdata?.item_category}|${sendGTMdata?.item_category2}|${sendGTMdata?.item_category3}|${sendGTMdata?.item_category4?.replace(" ", "_")}`;
+  let ACQ_SUB_SOURCE = `${sendGTMdata?.item_category}|${sendGTMdata?.item_category2}|${sendGTMdata?.item_category3}|${sendGTMdata?.item_category4?.replace(" ", "_")}`;
+  let ACQ_SOURCE = sendGTMdata?.item_brand || "";
+  const acqDetails = localStorage.getItem("acqDetails");
+  if (acqDetails) {
+    const data = JSON.parse(acqDetails);
+    ACQ_SOURCE = data?.acqSource
+      ? data?.acqSource + "|" + ACQ_SOURCE
+      : ACQ_SOURCE;
+    ACQ_SUB_SOURCE = data?.acqSubSource
+      ? data?.acqSubSource + "|" + ACQ_SUB_SOURCE
+      : ACQ_SUB_SOURCE;
+  }
   const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
   const newPlanUrl =
     planUrl +
@@ -129,7 +140,9 @@ export const trackPushData = (
     "&grxId=" +
     getCookie("_grx") +
     ticketId +
-    "&meta=market_tools&acqSubSource=" +
+    "&acqSource=" +
+    ACQ_SOURCE +
+    "&acqSubSource=" +
     ACQ_SUB_SOURCE;
   const headers = {
     "Content-Type": "application/json",
@@ -330,7 +343,6 @@ export const updateGtm = (_gtmEventDimension, prevPath) => {
     _gtmEventDimension["user_region"] = window?.geoinfo.region_code;
     _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
     _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
-
     const savedFreeTrialData = jStorageReact.get("et_freetrial") || {};
     const isAPUser = window?.objUser?.userAcquisitionType === "ACCESS_PASS";
 

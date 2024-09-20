@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
-import jStorageReact from "@/utils/jStorageReact";
+import jStorageReact from "jstorage-react";
 
 const CommonNudge = ({ modalType }: any) => {
   const pathName = usePathname();

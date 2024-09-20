@@ -4,7 +4,7 @@ import Service from "../network/service";
 import { createPeuuid } from "./utility";
 import service from "../network/service";
 import { getPageName } from "./ga";
-import jStorageReact from "./jStorageReact";
+import jStorageReact from "jstorage-react";
 
 declare global {
   interface Window {
@@ -25,9 +25,18 @@ declare global {
 
 declare var ssoWidget: any;
 
-export const APP_ENV =
-  (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || "production";
-// export const APP_ENV = "development";
+const isBrowser = typeof window !== "undefined";
+const isServer = !isBrowser;
+
+const defaultEnv = isServer
+  ? process.env.NEXT_PUBLIC_APP_ENV ||
+    (process.env.NODE_ENV && process.env.NODE_ENV.trim()) ||
+    "production"
+  : window.location.host === "economictimes.indiatimes.com"
+    ? "production"
+    : "development";
+
+export const APP_ENV = defaultEnv;
 
 export const customImageLoader = ({
   src,

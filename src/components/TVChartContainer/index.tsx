@@ -22,6 +22,17 @@ const timePair: TimePair = {
   "1Y": "year",
 };
 
+const getOverrides = (theme: string) => ({
+  "paneProperties.backgroundType": theme === "dark" ? "solid" : undefined,
+  "paneProperties.background": theme === "dark" ? "#181818" : "#ffffff",
+  "paneProperties.vertGridProperties.color":
+    theme === "dark" ? "#232325" : "rgba(42, 46, 57, 0.06)",
+  "paneProperties.horzGridProperties.color":
+    theme === "dark" ? "#232325" : "rgba(42, 46, 57, 0.06)",
+  "scalesProperties.textColor":
+    theme === "dark" ? "rgba(170, 170, 170, 1)" : "#131722",
+});
+
 export const TVChartContainer = (
   props: Partial<ChartingLibraryWidgetOptions> & {
     patternId?: string;
@@ -53,21 +64,6 @@ export const TVChartContainer = (
     baseline_delta: 10,
     hi_lo: 12,
   };
-  const overrides =
-    props.theme === "dark"
-      ? {
-          "paneProperties.backgroundType": "solid",
-          "paneProperties.background": "#181818",
-          "paneProperties.vertGridProperties.color": "#232325",
-          "paneProperties.horzGridProperties.color": "#232325",
-          "scalesProperties.textColor": "rgba(170, 170, 170, 1)",
-        }
-      : {
-          "paneProperties.background": "#ffffff",
-          "paneProperties.vertGridProperties.color": "rgba(42, 46, 57, 0.06)",
-          "paneProperties.horzGridProperties.color": "rgba(42, 46, 57, 0.06)",
-          "scalesProperties.textColor": "#131722",
-        };
 
   const initializeChart = () => {
     const loadLastChart = !props.disabled_features?.includes(
@@ -113,28 +109,22 @@ export const TVChartContainer = (
         },
       ],
       favorites: {
-        intervals: [
-          "1" as ResolutionString,
-          "5" as ResolutionString,
-          "10" as ResolutionString,
-          "15" as ResolutionString,
-          "30" as ResolutionString,
-          "1D" as ResolutionString,
-        ],
+        intervals: ["1", "5", "10", "15", "30", "1D"] as ResolutionString[],
         chartTypes: ["Area", "Candles", "Bars"],
         drawingTools: [],
         indicators: [],
       },
-      overrides,
+      overrides: getOverrides(props.theme || "light"),
       symbol_search_request_delay: 2000,
     };
 
     if (loadLastChart) {
-      widgetOptions.charts_storage_url =
-        "https://etapi.indiatimes.com/charts/mrkts";
-      widgetOptions.charts_storage_api_version = "1.1";
-      widgetOptions.load_last_chart = true;
-      widgetOptions.auto_save_delay = 1;
+      Object.assign(widgetOptions, {
+        charts_storage_url: "https://etapi.indiatimes.com/charts/mrkts",
+        charts_storage_api_version: "1.1",
+        load_last_chart: true,
+        auto_save_delay: 1,
+      });
     }
 
     if (props.timeframe) {
@@ -154,8 +144,9 @@ export const TVChartContainer = (
     };
 
     const updateUrl = () => {
-      const symbolInfo = tvWidget.activeChart().symbolExt();
-      const activeResolution = tvWidget.activeChart().resolution();
+      const activeChart = tvWidget.activeChart();
+      const symbolInfo = activeChart.symbolExt();
+      const activeResolution = activeChart.resolution();
       const periodicity = timePair[activeResolution] || activeResolution;
 
       const symbolData = {
@@ -173,12 +164,57 @@ export const TVChartContainer = (
     };
 
     const savePatternImage = async (patternId: string) => {
-      const screenshotCanvas = await tvWidget.takeClientScreenshot();
-      screenshotCanvas.toBlob(async (blob: any) => {
+      const screenshotCanvas = await tvWidget.takeClientScreenshot({});
+      const ctx = screenshotCanvas.getContext("2d");
+
+      const originalWidth = screenshotCanvas.width;
+      const originalHeight = screenshotCanvas.height;
+
+      // Calculate the cropped dimensions (5% from left/right, 10% from top/bottom)
+      const cropWidth = originalWidth * 0.9; // 90% of the original width (5% from each side)
+      const cropHeight = originalHeight * 0.8; // 80% of the original height (10% from top and bottom)
+      const cropX = originalWidth * 0.04; // Starting x-coordinate (4% from the left)
+      const cropY = originalHeight * 0.1; // Starting y-coordinate (10% from the top)
+
+      // Create an off-screen canvas to hold the cropped image
+      const croppedCanvas = document.createElement("canvas");
+      croppedCanvas.width = cropWidth;
+      croppedCanvas.height = cropHeight;
+
+      const croppedCtx = croppedCanvas.getContext("2d");
+      // Draw the cropped portion of the screenshot onto the new canvas
+      croppedCtx?.drawImage(
+        screenshotCanvas,
+        cropX,
+        cropY,
+        cropWidth,
+        cropHeight,
+        0,
+        0,
+        cropWidth,
+        cropHeight,
+      );
+
+      // Uncomment below below code to download the cropped image on local machine
+      // const linkElement = document.createElement("a");
+      // linkElement.download = "screenshot";
+      // linkElement.href = croppedCanvas.toDataURL(); // Alternatively, use `toBlob` which is a better API
+      // linkElement.dataset.downloadurl = [
+      //   "image/png",
+      //   linkElement.download,
+      //   linkElement.href,
+      // ].join(":");
+      // document.body.appendChild(linkElement);
+      // linkElement.click();
+      // document.body.removeChild(linkElement);
+
+      // Convert to blob and upload
+      croppedCanvas.toBlob(async (blob: any) => {
         const formData = new FormData();
         formData.append("preparedImage", blob);
         formData.append("patternId", patternId);
         formData.append("mode", tvWidget.getTheme());
+
         try {
           const response = await fetch(
             "https://etelectionk8s.indiatimes.com/chartpatterns/chartSnapshot",
@@ -228,18 +264,19 @@ export const TVChartContainer = (
           iframeRef.current.contentWindow?.document;
 
         if (chart) {
+          const activeChart = tvWidget.activeChart();
           // top events
           chart
             .querySelector("#header-toolbar-symbol-search")
             ?.addEventListener("click", () => {
-              const symbol = tvWidget.activeChart().symbol;
+              const symbol = activeChart.symbol;
               handleTracking(`Clicks - ${symbol}`);
             });
 
           chart
             .querySelector("#header-toolbar-intervals")
             ?.addEventListener("click", () => {
-              const r = tvWidget.activeChart().resolution();
+              const r = activeChart.resolution();
               const resolution = Number(r) ? Number(r) + "m" : r;
               handleTracking(`${resolution}`);
             });
@@ -388,7 +425,8 @@ export const TVChartContainer = (
     };
 
     tvWidget.onChartReady(async () => {
-      tvWidget.activeChart().setResolution(param_periodicity);
+      const activeChart = tvWidget.activeChart();
+      activeChart.setResolution(param_periodicity);
       tvWidget.changeTheme(props.theme === "dark" ? "dark" : "light");
 
       // Last saved chart will get loaded only if save is not disabled in disabled_features
@@ -396,17 +434,79 @@ export const TVChartContainer = (
         tvWidget.subscribe("onAutoSaveNeeded", handleAutoSave);
       }
 
-      // Page url will be updated on change of Interval and Symbol change
-      if (updatePageUrl == "true") {
+      // Chart Type will get change if valid chart_type param passed
+      if (
+        chartType &&
+        chartTypes[chartType as keyof typeof chartTypes] !== undefined
+      ) {
         tvWidget
           .activeChart()
-          .onIntervalChanged()
-          .subscribe(null, () => updateUrl());
+          .setChartType(chartTypes[chartType as keyof typeof chartTypes]);
+      }
 
-        tvWidget
-          .activeChart()
-          .onSymbolChanged()
-          .subscribe(null, () => updateUrl());
+      // Pattern will get formed if pattern id is available
+      if (patternId) {
+        const patternDataResponse = await getPatternData(patternId);
+
+        if (patternDataResponse) {
+          const { patternList } = patternDataResponse;
+          const {
+            data: patternData,
+            shape: patternShape,
+            chartStartDate,
+            chartEndDate,
+          } = patternList;
+
+          // Convert pattern data
+          const processedPatternData = patternData.map((item: any) => ({
+            time: item.time / 1000,
+            price: item.price,
+          }));
+
+          // Date conversion
+          const patternFromDate = Math.floor(
+            new Date(chartStartDate).getTime() / 1000,
+          );
+          const patternToDate = Math.floor(
+            new Date(chartEndDate).getTime() / 1000,
+          );
+
+          // Price range calculations
+          const prices = processedPatternData.map((item: any) => item.price);
+          const minPrice = Math.min(...prices) * 0.75;
+          const maxPrice = Math.max(...prices) * 1.25;
+
+          // Get active chart and price scale
+
+          const priceScale = activeChart.getPanes()[0].getRightPriceScales()[0];
+          const range: VisiblePriceRange | null =
+            priceScale.getVisiblePriceRange();
+
+          // Set visible range for the chart
+          activeChart.setVisibleRange(
+            { from: patternFromDate, to: patternToDate },
+            { percentRightMargin: 7 },
+          );
+
+          // Adjust price range if visible range exists
+          if (range) {
+            priceScale.setVisiblePriceRange({
+              from: Math.min(range.from, minPrice),
+              to: Math.max(range.to, maxPrice),
+            });
+          }
+
+          // Create shape
+          activeChart.createMultipointShape(processedPatternData, {
+            shape: patternShape,
+            lock: true,
+          });
+
+          // Save pattern image if required
+          if (savePatternImages === "true") {
+            setTimeout(() => savePatternImage(patternId), 1000);
+          }
+        }
       }
 
       // GA will be fired by default, to stop pass ga_hit=false in param
@@ -430,66 +530,17 @@ export const TVChartContainer = (
         attachEventListeners();
       }
 
-      // Chart Type will get change if valid chart_type param passed
-      if (
-        chartType &&
-        chartTypes[chartType as keyof typeof chartTypes] !== undefined
-      ) {
+      // Page url will be updated on change of Interval and Symbol change
+      if (updatePageUrl == "true") {
         tvWidget
           .activeChart()
-          .setChartType(chartTypes[chartType as keyof typeof chartTypes]);
-      }
+          .onIntervalChanged()
+          .subscribe(null, () => updateUrl());
 
-      // Pattern will get formed if pattern id is available
-      if (patternId) {
-        const patternDataResponse = await getPatternData(patternId);
-        if (patternDataResponse) {
-          const { patternList } = patternDataResponse;
-          const patternData = patternList.data.map((item: any) => ({
-            time: item.time / 1000,
-            price: item.price,
-          }));
-          const patternShape = patternList.shape;
-          const patternFromDate = Math.floor(
-            new Date(patternList.chartStartDate).getTime() / 1000,
-          );
-          const patternToDate = Math.floor(
-            new Date(patternList.chartEndDate).getTime() / 1000,
-          );
-
-          // Call setVisibleRange and createMultipointShape with the fetched data
-          tvWidget.activeChart().setVisibleRange({
-            from: patternFromDate,
-            to: patternToDate,
-          });
-
-          tvWidget.activeChart().createMultipointShape(patternData, {
-            shape: patternShape,
-          });
-
-          const priceScale = tvWidget
-            .activeChart()
-            .getPanes()[0]
-            .getRightPriceScales()[0];
-
-          const range: VisiblePriceRange | null =
-            priceScale.getVisiblePriceRange();
-
-          if (range != null) {
-            const newFrom = range.from * 0.8; // Decrease by 20% (Increase range)
-            const newTo = range.to * 1.2; // Increase by 20% (Decrease range)
-            priceScale.setVisiblePriceRange({
-              from: newFrom,
-              to: newTo,
-            });
-          }
-
-          if (savePatternImages == "true") {
-            setTimeout(() => {
-              savePatternImage(patternId);
-            }, 1000);
-          }
-        }
+        tvWidget
+          .activeChart()
+          .onSymbolChanged()
+          .subscribe(null, () => updateUrl());
       }
     });
 
