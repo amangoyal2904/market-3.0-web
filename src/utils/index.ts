@@ -916,6 +916,10 @@ export const convertToAbsoluteUrl = (url: string): string => {
   const liveBaseUrl = "https://economictimes.indiatimes.com/";
 
   if (!url) return url;
+  const envHost: string =
+    (global as any)?.__incrementalCache?.requestHeaders?.host ||
+    (global as any)?.location?.host;
+  console.log("____envHost", envHost);
 
   // Check if the URL is already absolute
   if (url.startsWith("http://") || url.startsWith("https://")) {
@@ -925,9 +929,15 @@ export const convertToAbsoluteUrl = (url: string): string => {
   // Remove leading slash if present
   const cleanUrl = url.startsWith("/") ? url.slice(1) : url;
 
+  // If localhost:3009, return relative path
+  if (envHost === "localhost:3009") {
+    return `/${cleanUrl}`;
+  }
+
   // Determine the base URL based on the environment
-  const baseUrl =
-    process.env.NODE_ENV === "development" ? stgBaseUrl : liveBaseUrl;
+  const baseUrl = envHost?.includes("etmarketswebpre.indiatimes.com")
+    ? stgBaseUrl
+    : liveBaseUrl;
 
   return `${baseUrl}${cleanUrl}`;
 };
