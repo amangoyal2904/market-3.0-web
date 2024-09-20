@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./BreadCrumb.module.scss";
 import { APP_ENV } from "@/utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
+import { convertToAbsoluteUrl } from "@/utils";
 
 interface Props {
   pageName: any;
@@ -27,7 +28,9 @@ const getLiPath = (router: string, pagePath: string) => {
         <li>
           <span className="eticon_caret_right"></span>
           <a
-            href={(GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"]}
+            href={convertToAbsoluteUrl(
+              (GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"],
+            )}
             title="Stock Recommendations"
           >
             Stock Recommendations
@@ -39,7 +42,11 @@ const getLiPath = (router: string, pagePath: string) => {
         "@type": "ListItem",
         position: "3",
         name: "Stock Recommendations",
-        item: { "@id": (GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"] },
+        item: {
+          "@id": convertToAbsoluteUrl(
+            (GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"],
+          ),
+        },
       },
     };
   } else if (router == "/markets/stock-screener") {
@@ -59,7 +66,10 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/stock-screener" title="Stock Screeners">
+          <a
+            href={convertToAbsoluteUrl("/markets/stock-screener")}
+            title="Stock Screeners"
+          >
             Stock Screeners
           </a>
         </li>
@@ -69,7 +79,7 @@ const getLiPath = (router: string, pagePath: string) => {
         "@type": "ListItem",
         position: "3",
         name: "Stock Screeners",
-        item: { "@id": "/markets/stock-screener" },
+        item: { "@id": convertToAbsoluteUrl("/markets/stock-screener") },
       },
     };
   }
@@ -101,7 +111,10 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocks/marketstats/top-gainers" title="Stocks">
+          <a
+            href={convertToAbsoluteUrl("/stocks/marketstats/top-gainers")}
+            title="Stocks"
+          >
             Stocks
           </a>
         </li>
@@ -111,7 +124,9 @@ const getLiPath = (router: string, pagePath: string) => {
         "@type": "ListItem",
         position: "3",
         name: "Stocks",
-        item: { "@id": "/stocks/marketstats/top-gainers" },
+        item: {
+          "@id": convertToAbsoluteUrl("/stocks/marketstats/top-gainers"),
+        },
       },
     };
   } else if (router.includes("/stocks/marketstats-technicals/")) {
@@ -120,7 +135,12 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocks/marketstats-technicals/golden-cross" title="Stocks">
+          <a
+            href={convertToAbsoluteUrl(
+              "/stocks/marketstats-technicals/golden-cross",
+            )}
+            title="Stocks"
+          >
             Stocks
           </a>
         </li>
@@ -130,7 +150,11 @@ const getLiPath = (router: string, pagePath: string) => {
         "@type": "ListItem",
         position: "3",
         name: "Technicals",
-        item: { "@id": "/stocks/marketstats-technicals/golden-cross" },
+        item: {
+          "@id": convertToAbsoluteUrl(
+            "/stocks/marketstats-technicals/golden-cross",
+          ),
+        },
       },
     };
   } else if (router == "/markets/indices") {
@@ -150,7 +174,7 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/indices" title="Indices">
+          <a href={convertToAbsoluteUrl("/markets/indices")} title="Indices">
             Indices
           </a>
         </li>
@@ -160,7 +184,7 @@ const getLiPath = (router: string, pagePath: string) => {
         "@type": "ListItem",
         position: "3",
         name: "Indices",
-        item: { "@id": "/markets/indices" },
+        item: { "@id": convertToAbsoluteUrl("/markets/indices") },
       },
     };
   } else if (router == "/stocks/sectors") {
@@ -169,7 +193,7 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/stocks" title="Stocks">
+          <a href={convertToAbsoluteUrl("/markets/stocks")} title="Stocks">
             Stocks
           </a>
         </li>
@@ -179,7 +203,7 @@ const getLiPath = (router: string, pagePath: string) => {
         "@type": "ListItem",
         position: "3",
         name: "Stocks",
-        item: { "@id": "/markets/stocks" },
+        item: { "@id": convertToAbsoluteUrl("/markets/stocks") },
       },
     };
   } else if (router.includes("/sectors/")) {
@@ -188,7 +212,7 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/stocks" title="Stocks">
+          <a href={convertToAbsoluteUrl("/markets/stocks")} title="Stocks">
             Stocks
           </a>
         </li>
@@ -198,7 +222,7 @@ const getLiPath = (router: string, pagePath: string) => {
         "@type": "ListItem",
         position: "3",
         name: "Stocks",
-        item: { "@id": "/markets/stocks" },
+        item: { "@id": convertToAbsoluteUrl("/markets/stocks") },
       },
     };
   } else if (router == "/watchlist") {
@@ -240,7 +264,10 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/fii-dii-activity" title="FII DII Activity">
+          <a
+            href={convertToAbsoluteUrl("/markets/fii-dii-activity")}
+            title="FII DII Activity"
+          >
             FII DII Activity
           </a>
         </li>
@@ -266,7 +293,7 @@ const getLiPath = (router: string, pagePath: string) => {
         <li>
           <span className="eticon_caret_right"></span>
           <a
-            href="/markets/benefits/stockreportsplus"
+            href={convertToAbsoluteUrl("/markets/benefits/stockreportsplus")}
             title="Stock Reports Plus"
           >
             Stock Reports Plus
@@ -301,7 +328,9 @@ const getLiPath = (router: string, pagePath: string) => {
         <li>
           <span className="eticon_caret_right"></span>
           <a
-            href="/markets/top-india-investors-portfolio/individual"
+            href={convertToAbsoluteUrl(
+              "/markets/top-india-investors-portfolio/individual",
+            )}
             title="Investors Portfolio"
           >
             Investors Portfolio
@@ -326,13 +355,15 @@ const jsonLd = (getLiTab: any, pageName: any) => {
       "@type": "ListItem",
       position: "1",
       name: "Home",
-      item: { "@id": "https://economictimes.indiatimes.com" },
+      item: {
+        "@id": convertToAbsoluteUrl("https://economictimes.indiatimes.com"),
+      },
     },
     {
       "@type": "ListItem",
       position: "2",
       name: "Markets",
-      item: { "@id": "/markets/live-coverage" },
+      item: { "@id": convertToAbsoluteUrl("/markets/live-coverage") },
     },
     ...(getLiTab ? [getLiTab.listItemSchema] : []),
   ];
@@ -347,7 +378,7 @@ const jsonLd = (getLiTab: any, pageName: any) => {
         "@type": "ListItem",
         position: position.toString(),
         name: label,
-        item: { "@id": redirectUrl },
+        item: { "@id": convertToAbsoluteUrl(redirectUrl) },
       };
       return listItem;
     };
@@ -386,7 +417,12 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
       />
       <ul className={styles.brUl}>
         <li className={styles.home}>
-          <a href={(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]} title="Home">
+          <a
+            href={convertToAbsoluteUrl(
+              (GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"],
+            )}
+            title="Home"
+          >
             Home
           </a>
         </li>
@@ -398,7 +434,10 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           ) : (
             <>
               <span className="eticon_caret_right"></span>
-              <a href="/markets/live-coverage" title="Markets Live">
+              <a
+                href={convertToAbsoluteUrl("/markets/live-coverage")}
+                title="Markets Live"
+              >
                 Markets Live
               </a>
             </>
@@ -412,7 +451,10 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
               <li key={item.label + index}>
                 <span className="eticon_caret_right"></span>
                 {item.redirectUrl ? (
-                  <a href={item.redirectUrl} title={item.label}>
+                  <a
+                    href={convertToAbsoluteUrl(item.redirectUrl)}
+                    title={item.label}
+                  >
                     {item.label}
                   </a>
                 ) : (

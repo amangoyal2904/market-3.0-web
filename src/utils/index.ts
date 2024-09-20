@@ -910,3 +910,24 @@ export const returnPPID = () => {
     return "";
   }
 };
+
+export const convertToAbsoluteUrl = (url: string): string => {
+  const stgBaseUrl = "https://etmarketswebpre.indiatimes.com/";
+  const liveBaseUrl = "https://economictimes.indiatimes.com/";
+
+  if (!url) return url;
+
+  // Check if the URL is already absolute
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+
+  // Remove leading slash if present
+  const cleanUrl = url.startsWith("/") ? url.slice(1) : url;
+
+  // Determine the base URL based on the environment
+  const baseUrl =
+    process.env.NODE_ENV === "development" ? stgBaseUrl : liveBaseUrl;
+
+  return `${baseUrl}${cleanUrl}`;
+};
