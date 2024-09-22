@@ -21,7 +21,7 @@ const getCommonData = async (params: any) => {
     filterValue: [],
     filterType: "index",
     pageNo: 1,
-    pageSize: 10,
+    pageSize: 12,
   };
 
   const data = await getNewChartPattern(payload, ssoid, ticketid);

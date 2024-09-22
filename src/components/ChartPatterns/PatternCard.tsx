@@ -225,7 +225,7 @@ export const PatternCard = ({
           <div className={styles.bottomBar}>
             <StockDescription patternData={patternData} />
             <div className={styles.idea} style={{ background: colourCode }}>
-              {patternData?.ideaType}
+              <span className={styles.ideaType}>{patternData?.ideaType}</span>
               {ideaFlag !== "ideaActive" && (
                 <span className={styles.minAgo}>
                   {patternData?.lastUpdatedText}
