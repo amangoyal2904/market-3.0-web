@@ -13,6 +13,11 @@ const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
   ssr: false,
 });
 
+type Stock = {
+  companyId: string;
+  companyType: string;
+};
+
 const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   const { state, dispatch } = useStateContext();
   const { watchlist } = state.watchlistStatus;
@@ -24,7 +29,7 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   const [loading, setLoading] = useState(false);
   const [searchNode, setSearchNode] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-  const [watchlistStock, setWatchlistStock] = useState([]);
+  const [watchlistStock, setWatchlistStock] = useState<Stock[]>([]);
   const viewWraperRef = useRef<HTMLDivElement>(null);
   const [showTextDefault, setShowTextDefault] = useState(false);
   const addStockModuleHandler = () => {
@@ -70,11 +75,8 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   };
   const fetchWatchListStocks = async () => {
     setLoading(true);
-    const data = await fetchAllWatchListData(2, 11);
-    if (data?.resData?.length > 0) {
-      setWatchlistStock(data.resData);
-      fetchMostPopularStocks(data.resData);
-    } else if (data?.length > 0) {
+    const data = await fetchAllWatchListData();
+    if (data?.length > 0) {
       setWatchlistStock(data);
       fetchMostPopularStocks(data);
     } else {

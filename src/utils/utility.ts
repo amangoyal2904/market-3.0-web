@@ -17,6 +17,11 @@ declare global {
   }
 }
 
+type Stock = {
+  companyId: string;
+  companyType: string;
+};
+
 type FiiDiiApiType =
   | "FIIDII_CASHPROVISIONAL"
   | "FIIDII_FIICASH"
@@ -434,31 +439,56 @@ export const getStockUrl = (
   }
 };
 
-export const fetchAllWatchListData = async (
-  type: any,
-  usersettingsubType: any,
-) => {
-  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
-  const isLocalhost = window.location.origin.includes("localhost");
-  if (authorization === "") {
-    console.log("peuuid is not getting please check cookie__", authorization);
-  }
-  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.getAllWatchlist[APP_ENV]}?stype=${type}&usersettingsubType=${usersettingsubType}`;
-  const headers = new Headers({ Authorization: authorization });
+export const fetchAllWatchListData = async (): Promise<Stock[]> => {
+  const Ssoid: any = getCookie("ssoid") ? getCookie("ssoid") : "";
+  const TicketId: any = getCookie("TicketId") ? getCookie("TicketId") : "";
+  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.fetchStocks[APP_ENV]}`;
+  const headers = new Headers({ ticketid: TicketId, ssoid: Ssoid });
   const options: any = {
     cache: "no-store",
     headers: headers,
   };
+
   try {
     const response = await fetch(apiUrl, options);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const responseData = await response.json();
-    return responseData;
+
+    // Check if the response is successful and has a stocks array
+    if (responseData?.statusCode === 200 && Array.isArray(responseData)) {
+      // Extract and process the stocks array
+      const allStocks = responseData.reduce((acc: any[], item: any) => {
+        if (Array.isArray(item.stocks)) {
+          return acc.concat(
+            item.stocks.map((stock: any) => ({
+              companyId: stock.id,
+              companyType: stock.companyType,
+            })),
+          );
+        }
+        return acc;
+      }, []);
+
+      // Remove duplicates based on both companyId and companyType
+      const uniqueStocks = Array.from(
+        new Map(
+          allStocks.map((stock) => [
+            `${stock.companyId}-${stock.companyType}`,
+            stock,
+          ]),
+        ).values(),
+      );
+
+      return uniqueStocks;
+    }
+
+    // Return an empty array if the response doesn't meet the conditions
+    return [];
   } catch (error) {
     console.error("Error fetching watchlist data:", error);
-    throw error;
+    return [];
   }
 };
 

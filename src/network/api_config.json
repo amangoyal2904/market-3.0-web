@@ -256,26 +256,20 @@
     ]
   },
   "WATCHLISTAPI": {
-    "getAllWatchlist": {
+    "fetchStocks": {
       "development": [
-        "https://etusersqc2.economictimes.indiatimes.com/et/getpref"
-      ],
-      "production": ["https://etup.economictimes.indiatimes.com/et/getpref"]
-    },
-    "addWatchList": {
-      "development": [
-        "https://etusersqc2.economictimes.indiatimes.com/et/savesettings/json"
+        "http://etusersqc2.economictimes.indiatimes.com/watchlist/v0/details"
       ],
       "production": [
-        "https://etup.economictimes.indiatimes.com/et/savesettings/json"
+        "https://etup.economictimes.indiatimes.com/watchlist/v0/details"
       ]
     },
-    "multipleWatchList": {
+    "updateStocks": {
       "development": [
-        "https://etusersqc2.economictimes.indiatimes.com/et/v3/savesettings/json"
+        "http://etusersqc2.economictimes.indiatimes.com/watchlist/v0/update-stocks"
       ],
       "production": [
-        "https://etup.economictimes.indiatimes.com/et/v3/savesettings/json"
+        "https://etup.economictimes.indiatimes.com/watchlist/v0/update-stocks"
       ]
     }
   },
