@@ -58,7 +58,7 @@ const TopNav = ({ pageUrl }: TopNavProps) => {
               trackingEvent("et_push_event", {
                 event_category: "mercury_engagement",
                 event_action: "tab_selected",
-                event_label: `ChartPattern_${item.label}`,
+                event_label: `ChartPatterns_${item.label}`,
               });
             }}
             title={item.label}

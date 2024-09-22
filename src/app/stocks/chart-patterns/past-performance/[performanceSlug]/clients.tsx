@@ -5,20 +5,33 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "../../ChartPattern.module.scss";
 import PastPatternCard from "@/components/ChartPatterns/PastPatternCard";
 import { getPastChartPatternPerformance } from "../../utilities";
-import jStorageReact from "jstorage-react";
-import ChartPatternPaywall from "@/components/ChartPatterns/ChartPatternPaywall";
 import useThrottle from "@/hooks/useThrottle";
+import jStorageReact from "jstorage-react";
+import dynamic from "next/dynamic";
+import TopHead from "@/components/ChartPatterns/TopHead";
+import Loader from "@/components/Loader";
+import { getCookie } from "@/utils";
+import Blocker from "@/components/Blocker";
+
+const ChartPatternPaywall = dynamic(
+  () => import("@/components/ChartPatterns/ChartPatternPaywall"),
+  {
+    ssr: false,
+  },
+);
 
 const PastChartPatternsClientSlug = ({
   response,
   responsePayload,
   pageUrl,
 }: any) => {
+  const initialRender = useRef(true);
   const { state } = useStateContext();
   let { isPrime, isLogin, ssoReady, ssoid, ticketId } = state.login;
   const [newPatternsList, setNewPatternList] = useState(response);
   const [pageSummaryView, setPageSummaryView] = useState(response?.pageSummary);
   const [payload, setPayload] = useState(responsePayload);
+  const [processingLoader, setProcessingLoader] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
@@ -26,6 +39,35 @@ const PastChartPatternsClientSlug = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const [hasMorePages, setHasMorePages] = useState(true);
+
+  const { timeFrame, patternType, filterValue } = payload;
+
+  const onPayloadChange = (newPayload: string) => {
+    setPayload(newPayload);
+  };
+
+  const refreshChartPatternList = async () => {
+    setProcessingLoader(true);
+
+    if (!ssoid) {
+      ssoid = getCookie("ssoid");
+    }
+    if (!ticketId) {
+      ticketId = getCookie("TicketId");
+    }
+
+    const data = await getPastChartPatternPerformance(payload, ssoid, ticketId);
+    setNewPatternList(data);
+    setProcessingLoader(false);
+  };
+
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+    } else {
+      refreshChartPatternList();
+    }
+  }, [timeFrame, patternType, filterValue]);
 
   const loadMorePatternData = async () => {
     if (isLoading || !hasMorePages) return;
@@ -90,6 +132,13 @@ const PastChartPatternsClientSlug = ({
     <>
       <TopNav pageUrl={pageUrl} />
       <div className="prel">
+        {!!processingLoader && <Loader loaderType="container" />}
+        <TopHead
+          pageType="past"
+          payload={payload}
+          handlePayloadChange={onPayloadChange}
+        />
+
         <div className={`${styles.container} ${styles.mt14}`}>
           {newPatternsList ? (
             <>
@@ -111,7 +160,7 @@ const PastChartPatternsClientSlug = ({
               )}
             </>
           ) : (
-            <p>No patterns available</p>
+            <Blocker type={"noDataMinimal"} />
           )}
         </div>
       </div>
@@ -121,6 +170,7 @@ const PastChartPatternsClientSlug = ({
         pageUrl={pageUrl}
         showPayWall={showPaywall}
         onPaywallStateChange={() => setShowPaywall(false)}
+        pageName={`${response?.patternName} Past Performance`}
       />
     </>
   );

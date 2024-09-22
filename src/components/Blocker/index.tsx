@@ -10,6 +10,7 @@ import { APP_ENV } from "@/utils/index";
 interface propsType {
   type: any;
   updateTableHandler?: any;
+  customMessage?: string; // Add the customMessage prop
 }
 
 const handleLoginToggle = (): void => {
@@ -54,10 +55,24 @@ const blockerList: any = {
     action: "",
     icon: 107522570,
   },
+  noRecentDeals: {
+    id: 6,
+    message: "No recent deals have been made by the investor",
+    cta: "",
+    action: "",
+    icon: 107522565,
+  },
+  apiFailed: {
+    id: 7,
+    message: "Something Went Wrong!!",
+    cta: "",
+    action: "",
+    icon: 107522570,
+  },
 };
 const Blocker = (props: propsType) => {
   const [addStockShow, setAddStockShow] = useState(false);
-  const { type, updateTableHandler } = props;
+  const { type, updateTableHandler, customMessage } = props;
   const { message, cta, action, icon, id } = blockerList[type] || {};
 
   const moduelClose = () => {
@@ -86,7 +101,11 @@ const Blocker = (props: propsType) => {
             loading="lazy"
           />
         )}
-        {message && <p dangerouslySetInnerHTML={{ __html: message }} />}
+        {customMessage ? (
+          <p dangerouslySetInnerHTML={{ __html: customMessage }} />
+        ) : (
+          message && <p dangerouslySetInnerHTML={{ __html: message }} />
+        )}
         {type == "notFound" && (
           <a
             className="linkUnderline"

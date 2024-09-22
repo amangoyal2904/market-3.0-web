@@ -8,10 +8,17 @@ import styles from "../../ChartPattern.module.scss";
 import { getNewChartPattern } from "../../utilities";
 import { getCookie } from "@/utils";
 import Loader from "@/components/Loader";
-import jStorageReact from "jstorage-react";
-import ChartPatternPaywall from "@/components/ChartPatterns/ChartPatternPaywall";
-import Blocker from "@/components/Blocker";
 import useThrottle from "@/hooks/useThrottle";
+import jStorageReact from "jstorage-react";
+import Blocker from "@/components/Blocker";
+import dynamic from "next/dynamic";
+
+const ChartPatternPaywall = dynamic(
+  () => import("@/components/ChartPatterns/ChartPatternPaywall"),
+  {
+    ssr: false,
+  },
+);
 
 const PastPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
   // Add a ref to track initial render
@@ -144,13 +151,15 @@ const PastPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
               <PatternCard
                 key={index}
                 patternData={patternData}
-                isPrime={isPrime}
                 latestCard={false}
                 onCardClick={handleCardClick}
               />
             ))
           ) : (
-            <Blocker type={"noDataFound"} />
+            <Blocker
+              type={"noDataFound"}
+              customMessage="No past chart patterns identified for the selected filters. Please select a different filter to view past performance."
+            />
           )}
         </div>
         <div
@@ -166,6 +175,11 @@ const PastPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
         pageUrl={pageUrl}
         showPayWall={showPaywall}
         onPaywallStateChange={() => setShowPaywall(false)}
+        pageName={
+          response?.latestPatternRequestDto?.patternType != "bullish"
+            ? `${response?.latestPatternRequestDto?.patternName} Past Patterns`
+            : `Past Patterns`
+        }
       />
     </>
   );

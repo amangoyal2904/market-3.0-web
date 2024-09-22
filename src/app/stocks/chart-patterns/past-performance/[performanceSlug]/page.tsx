@@ -5,22 +5,10 @@ import React from "react";
 import { getPastChartPatternPerformance } from "../../utilities";
 import PastPerformanceClientSlug from "./clients";
 import BreadCrumb from "@/components/BreadCrumb";
+import Blocker from "@/components/Blocker";
+import ChartPatternHeader from "@/components/ChartPatterns/ChartPatternHeader";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const headersList = headers();
-  const pageUrl = headersList.get("x-url") || "";
-  const meta = {
-    title: "Past Performance",
-    desc: "MarketMood: Know the market sentiments. Check the percentage or count of stocks in the selected index with value above the technical indicators",
-    keywords:
-      "MarketMood, Market Sentiments, stocks in different indices, Stock Analysis, premium feature, ETMarkets",
-    pathname: pageUrl,
-    index: false,
-  };
-  return fnGenerateMetaData(meta);
-}
-
-const PastPerformanceSlug = async ({ params }: any) => {
+const getCommonData = async (params: any) => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
   const cookieStore = cookies();
@@ -40,26 +28,62 @@ const PastPerformanceSlug = async ({ params }: any) => {
   };
 
   const data = await getPastChartPatternPerformance(payload, ssoid, ticketid);
+  return { data, payload, pageUrl };
+};
+export async function generateMetadata({ params }: any): Promise<Metadata> {
+  try {
+    const { data, pageUrl } = await getCommonData(params);
+    const meta = {
+      title: `${data?.patternName} Past Performance`,
+      desc: "AI Chart Pattern automatically detects chart patterns in real-time and notifies you as soon as one forms. By eliminating the need for manual analysis, it helps traders act swiftly on accurate pattern recognition. Whether it’s a continuation or reversal pattern, the tool ensures you're always informed to make timely, data-driven trading decisions.",
+      keywords:
+        "ai chart patterns, bullish chart patterns, bearish chart patterns",
+      pathname: pageUrl,
+      index: false,
+    };
+    return fnGenerateMetaData(meta);
+  } catch (error) {
+    return fnGenerateMetaData({
+      title: "Error",
+      desc: "An error occurred",
+      keywords: "",
+      pathname: "",
+    });
+  }
+}
 
-  return (
-    <>
-      <PastPerformanceClientSlug
-        response={data}
-        responsePayload={payload}
-        pageUrl={pageUrl}
-      />
-      <BreadCrumb
-        pagePath={pageUrl}
-        pageName={[
-          {
-            label: "Past Performance",
-            redirectUrl: "/stocks/chart-patterns/past-performance",
-          },
-          { label: data?.patternName, redirectUrl: "" },
-        ]}
-      />
-    </>
-  );
+const PastPerformanceSlug = async ({ params }: any) => {
+  try {
+    const { data, payload, pageUrl } = await getCommonData(params);
+
+    // Check if the API response has status 404
+    if (!data || data?.status === 404) {
+      return <Blocker type={"apiFailed"} />;
+    }
+
+    return (
+      <>
+        <ChartPatternHeader />
+        <PastPerformanceClientSlug
+          response={data}
+          responsePayload={payload}
+          pageUrl={pageUrl}
+        />
+        <BreadCrumb
+          pagePath={pageUrl}
+          pageName={[
+            {
+              label: "Past Performance",
+              redirectUrl: "/stocks/chart-patterns/past-performance",
+            },
+            { label: data?.patternName, redirectUrl: "" },
+          ]}
+        />
+      </>
+    );
+  } catch (error) {
+    return <Blocker type={"apiFailed"} />;
+  }
 };
 
 export default PastPerformanceSlug;

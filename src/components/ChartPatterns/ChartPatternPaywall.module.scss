@@ -46,6 +46,42 @@
     line-height: 20px;
     font-weight: 700;
     margin: 18px auto;
+    span {
+      display: block;
+      font-size: 14px;
+    }
+  }
+  .logo {
+    position: relative;
+    padding-left: 34px;
+    text-align: left;
+    .icon {
+      position: absolute;
+      left: 0;
+      width: 30px;
+      height: 30px;
+      font-size: 29px;
+    }
+    .prime {
+      font-size: 10px;
+      line-height: 1;
+      color: $red-50;
+      font-weight: 600;
+    }
+    .heading {
+      font-size: 18px;
+      line-height: 1;
+      font-weight: 900;
+      color: $green-60;
+      i {
+        padding-right: 2px;
+        color: $black;
+      }
+      span {
+        padding-left: 2px;
+        color: $blue-70;
+      }
+    }
   }
   img {
     height: auto;
@@ -76,7 +112,7 @@
       font-weight: 700;
       width: 80%;
       border-radius: 100px;
-      padding: 8px 40px;
+      padding: 10px;
       margin: 8px auto 0;
     }
     .bottomTxt {

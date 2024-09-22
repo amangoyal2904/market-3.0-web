@@ -8,11 +8,16 @@ import styles from "../ChartPattern.module.scss";
 import { getNewChartPattern } from "../utilities";
 import { getCookie } from "@/utils";
 import Loader from "@/components/Loader";
-import ChartPatternPaywall from "@/components/ChartPatterns/ChartPatternPaywall";
+import useThrottle from "@/hooks/useThrottle";
 import jStorageReact from "jstorage-react";
 import Blocker from "@/components/Blocker";
-import useThrottle from "@/hooks/useThrottle";
-
+import dynamic from "next/dynamic";
+const ChartPatternPaywall = dynamic(
+  () => import("@/components/ChartPatterns/ChartPatternPaywall"),
+  {
+    ssr: false,
+  },
+);
 const ChartPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
   // Add a ref to track initial render
   const initialRender = useRef(true);
@@ -145,12 +150,14 @@ const ChartPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
               <PatternCard
                 key={index}
                 patternData={patternData}
-                isPrime={isPrime}
                 onCardClick={handleCardClick} // Pass down onCardClick handler
               />
             ))
           ) : (
-            <Blocker type={"noDataFound"} />
+            <Blocker
+              type={"noDataFound"}
+              customMessage="No new chart patterns found for the selected filters. Try choosing a different filter to explore the latest trading opportunities"
+            />
           )}
         </div>
         <div
@@ -166,6 +173,11 @@ const ChartPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
         pageUrl={pageUrl}
         showPayWall={showPaywall}
         onPaywallStateChange={() => setShowPaywall(false)}
+        pageName={
+          response?.latestPatternRequestDto?.patternType != "bullish"
+            ? `${response?.latestPatternRequestDto?.patternName} New Patterns`
+            : `New Patterns`
+        }
       />
     </>
   );

@@ -16,6 +16,10 @@ const buildRequestOptions = (
   if (ssoid) headers.ssoid = ssoid;
   if (ticketid) headers.ticketid = ticketid;
 
+  // Add deviceType and appType to the headers
+  headers.deviceType = "web";
+  headers.appType = "etmarkets";
+
   const options: any = {
     headers,
     ...(method === "POST" && { body: JSON.stringify(payload) }),

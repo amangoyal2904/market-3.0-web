@@ -9,8 +9,15 @@ import TopHead from "@/components/ChartPatterns/TopHead";
 import styles from "../ChartPattern.module.scss";
 import PastPatternCard from "@/components/ChartPatterns/PastPatternCard";
 import jStorageReact from "jstorage-react";
-import ChartPatternPaywall from "@/components/ChartPatterns/ChartPatternPaywall";
 import Blocker from "@/components/Blocker";
+import dynamic from "next/dynamic";
+
+const ChartPatternPaywall = dynamic(
+  () => import("@/components/ChartPatterns/ChartPatternPaywall"),
+  {
+    ssr: false,
+  },
+);
 
 const PastChartPatternsClient = ({
   response,
@@ -86,7 +93,7 @@ const PastChartPatternsClient = ({
                 ),
             )
           ) : (
-            <Blocker type={"noDataFound"} />
+            <Blocker type={"noDataMinimal"} />
           )}
         </div>
       </div>
@@ -96,6 +103,7 @@ const PastChartPatternsClient = ({
         pageUrl={pageUrl}
         showPayWall={showPaywall}
         onPaywallStateChange={() => setShowPaywall(false)}
+        pageName="Past Performance"
       />
     </>
   );

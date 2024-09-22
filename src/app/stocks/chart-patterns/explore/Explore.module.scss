@@ -15,11 +15,13 @@
   }
   .cards {
     position: relative;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: 12px;
     margin-top: 8px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 24px;
+    @media (min-width: 1920px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
     .card {
       border: 1px solid $gray_80;
       border-radius: 12px;
@@ -37,6 +39,21 @@
           font-size: 12px;
           font-weight: 400;
           line-height: 16px;
+          &.bull {
+            b {
+              color: $green-50;
+            }
+          }
+          &.bear {
+            b {
+              color: $red-50;
+            }
+          }
+          &.neutral {
+            b {
+              color: $gray_60;
+            }
+          }
         }
       }
     }

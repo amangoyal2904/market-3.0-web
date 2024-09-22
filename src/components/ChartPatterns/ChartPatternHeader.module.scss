@@ -1,0 +1,49 @@
+@import "@/styles/variables.scss";
+
+.wrapper {
+  position: relative;
+  margin: 15px auto;
+  padding: 0 10px;
+  .desc {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    color: $gray-30;
+    margin: 5px auto;
+    p {
+      display: inline;
+    }
+  }
+  .logo {
+    position: relative;
+    padding-left: 30px;
+    .prime {
+      font-size: 12px;
+      line-height: 1;
+      color: $red-50;
+      font-weight: 600;
+    }
+    .heading {
+      font-size: 26px;
+      line-height: 1;
+      font-weight: 900;
+      color: $green-60;
+      i {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        color: $black;
+      }
+      span {
+        padding-left: 2px;
+        color: $blue-70;
+      }
+    }
+  }
+}
+
+.disclaimerTxt {
+  padding: 10px;
+  font-size: 14px;
+  line-height: 18px;
+}

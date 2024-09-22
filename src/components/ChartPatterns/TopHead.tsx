@@ -1,9 +1,14 @@
 import { Suspense, useState } from "react";
 import styles from "./TopHead.module.scss";
 import Loader from "../Loader";
-import BottomStickyFilter from "../BottomStickyFilter";
 import { getPatternFilterData } from "@/app/stocks/chart-patterns/utilities";
 import { fetchFilters } from "@/utils/utility";
+import dynamic from "next/dynamic";
+import { trackingEvent } from "@/utils/ga";
+
+const BottomStickyFilter = dynamic(() => import("../BottomStickyFilter"), {
+  ssr: false,
+});
 
 type TopHeadProps = {
   payload: any;
@@ -110,6 +115,12 @@ const TopHead: React.FC<TopHeadProps> = ({
       timeFrame: key,
     };
 
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "duration_filter_applied",
+      event_label: value,
+    });
+
     setSelectedDurationFilter({ id: key, value: value });
     handlePayloadChange(updatedPayload);
     handleBottomStickyFilterClose();
@@ -122,6 +133,12 @@ const TopHead: React.FC<TopHeadProps> = ({
       pageSize: 10,
       patternType: key,
     };
+
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "pattern_filter_applied",
+      event_label: value,
+    });
 
     setSelectedPatternFilter({ id: key, value: value });
     handlePayloadChange(updatedPayload);
@@ -147,6 +164,13 @@ const TopHead: React.FC<TopHeadProps> = ({
     };
 
     setSelectedIndexFilter(selectedFilter);
+
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: "indices_filter_applied",
+      event_label: selectedFilter?.name,
+    });
+
     handlePayloadChange({
       ...payload,
       pageNo: 1,
@@ -173,7 +197,7 @@ const TopHead: React.FC<TopHeadProps> = ({
       <div className={`dflex align-item-center space-between ${styles.head}`}>
         {(pageType == "latestPattern" || pageType == "pastPatterns") && (
           <div className={styles.totalRecords}>
-            {`${pageSummary?.totalRecords} Trading Ideas`}
+            {`${pageSummary?.totalRecords} Ideas`}
           </div>
         )}
         {pageType == "past" && (
@@ -226,9 +250,6 @@ const TopHead: React.FC<TopHeadProps> = ({
             filterLabelKey="value"
           />
         </Suspense>
-      )}
-      {indexFilterShow && (
-        <Suspense fallback={<Loader loaderType="global" />}></Suspense>
       )}
     </>
   );

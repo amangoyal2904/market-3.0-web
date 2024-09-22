@@ -3,10 +3,10 @@ import styles from "./StockDescription.module.scss";
 
 const StockDescription = ({ patternData }: { patternData: any }) => {
   const getIconClass = (isUp: boolean) =>
-    isUp ? "eticon_up_arrow" : "eticon_down_arrow";
+    isUp ? "eticon_down_arrow" : "eticon_up_arrow";
   const getColorClass = (value: number) =>
-    value > 0 ? styles.green : styles.red;
-  const getMovementText = (value: number) => (value > 0 ? "up" : "down");
+    value < 0 ? styles.red : styles.green;
+  const getMovementText = (value: number) => (value < 0 ? "down" : "up");
 
   return (
     <Fragment>
@@ -42,10 +42,10 @@ const StockDescription = ({ patternData }: { patternData: any }) => {
 
       {patternData?.ideaFlag === "ideaClosed4" && (
         <div className={styles.stockDesc}>
-          Stock prices closed at
+          Stock price closed at
           <span className={getColorClass(patternData?.closedPatternReturns)}>
             <i
-              className={getIconClass(patternData?.closedPatternReturns > 0)}
+              className={getIconClass(patternData?.closedPatternReturns < 0)}
             ></i>
             {patternData?.closedPatternReturns}%
           </span>
@@ -55,10 +55,10 @@ const StockDescription = ({ patternData }: { patternData: any }) => {
 
       {patternData?.ideaFlag === "ideaActive" && (
         <div className={styles.stockDesc}>
-          {`Stock prices are ${getMovementText(patternData?.stockReturn)}`}
+          {`Stock price is ${getMovementText(patternData?.stockReturn)}`}
           <span className={getColorClass(patternData?.stockReturn)}>
-            <i className={getIconClass(patternData?.stockReturn > 0)}></i>
-            {patternData?.stockReturn}%
+            <i className={getIconClass(patternData?.stockReturn < 0)}></i>
+            {Math.abs(patternData?.stockReturn).toFixed(2)}%
           </span>
           since breakout.
         </div>

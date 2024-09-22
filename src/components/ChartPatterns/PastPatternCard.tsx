@@ -2,6 +2,7 @@ import { getStockUrl } from "@/utils/utility";
 import styles from "./PastPatternCard.module.scss";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { trackingEvent } from "@/utils/ga";
 
 // Lazy-load PieChart
 const PieChart = dynamic(() => import("../PieChart"), {
@@ -113,6 +114,13 @@ const PastPatternCard = ({
             className={styles.link}
             title={`${headingText} New Ideas`}
             href={`/stocks/chart-patterns/${patternType}`}
+            onClick={() => {
+              trackingEvent("et_push_event", {
+                event_category: "mercury_engagement",
+                event_action: "page_cta_click",
+                event_label: `New Ideas - ${headingText}`,
+              });
+            }}
           >
             New Ideas <i className="eticon_caret_right"></i>
           </Link>
@@ -151,21 +159,17 @@ const PastPatternCard = ({
                   )}
                   <td
                     className={
-                      row.stockReturn > 0
-                        ? "numberFonts up"
-                        : row.stockReturn < 0
-                          ? "numberFonts down"
-                          : "numberFonts neutral"
+                      row.stockReturn < 0
+                        ? "numberFonts down"
+                        : "numberFonts up"
                     }
                   >
                     {`${row.stockReturn}%`}
                     <span
                       className={`${styles.arrowIcons} ${
-                        row.stockReturn > 0
-                          ? "eticon_up_arrow"
-                          : row.stockReturn < 0
-                            ? "eticon_down_arrow"
-                            : ""
+                        row.stockReturn < 0
+                          ? "eticon_down_arrow"
+                          : "eticon_up_arrow"
                       }`}
                     />
                   </td>
@@ -181,6 +185,13 @@ const PastPatternCard = ({
           <Link
             className={styles.cta}
             title={`View All ${headingText}`}
+            onClick={() => {
+              trackingEvent("et_push_event", {
+                event_category: "mercury_engagement",
+                event_action: "page_cta_click",
+                event_label: `View All Past Ideas - ${headingText}`,
+              });
+            }}
             href={
               patternType !== "bullish"
                 ? `/stocks/chart-patterns/past-patterns/${patternType}${timeFrame && timeFrame !== "1m" ? `?timeframe=${timeFrame}` : ""}`

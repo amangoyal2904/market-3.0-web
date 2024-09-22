@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { getStockUrl } from "@/utils/utility";
 import styles from "./PatternCard.module.scss";
 import { dateFormat, formatNumber } from "@/utils";
@@ -6,10 +6,10 @@ import { renderIconPaths } from "@/utils/iconUtils";
 import StockDescription from "./StockDescription";
 import ChartClient from "@/app/chart/clients";
 import Link from "next/link";
+import { trackingEvent } from "@/utils/ga";
 
 interface PatternCardProps {
   patternData: any;
-  isPrime: boolean;
   latestCard?: boolean;
   onCardClick: () => void;
 }
@@ -20,14 +20,13 @@ const PaywallBlur = ({ children }: { children?: React.ReactNode }) => (
       <span className={`eticon_lock ${styles.icons}`}>
         {renderIconPaths("eticon_lock")}
       </span>
-      {children && children}
+      {children}
     </div>
   </div>
 );
 
 export const PatternCard = ({
   patternData,
-  isPrime = false,
   latestCard = true,
   onCardClick,
 }: PatternCardProps) => {
@@ -58,14 +57,35 @@ export const PatternCard = ({
     fullscreen: false,
   };
 
-  const handleImageError = () => {
-    setImageSrc("https://img.etimg.com/photo/42031747.cms");
-  };
+  const {
+    lastUpdatedDate,
+    imageUrl,
+    isLocked,
+    trendType,
+    patternName,
+    companyId,
+    companySeoName,
+    companyName,
+    formedDate,
+    formedTime,
+    breakoutPrice,
+    ideaFlag,
+    currentPrice,
+    closedPatternReturns,
+    pastPerformanceText,
+    patternSeoName,
+    colourCode,
+  } = patternData;
 
+  useEffect(() => {
+    if (imageUrl) {
+      setImageSrc(imageUrl);
+    }
+  }, [imageUrl]);
+  lastUpdatedDate;
   const handleImageClick = () => {
-    if (isPrime) {
+    if (!isLocked) {
       setShowTechnicalChart(true);
-      // Push a new state into the browser's history when the chart is shown
       window.history.pushState({ showTechnicalChart: true }, "");
     }
   };
@@ -75,13 +95,6 @@ export const PatternCard = ({
   };
 
   useEffect(() => {
-    if (patternData?.imageUrl) {
-      setImageSrc(patternData.imageUrl);
-    }
-  }, [patternData?.imageUrl]);
-
-  // Listen for the browser back button
-  useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
       if (showTechnicalChart) {
         removeTechnicalWidget();
@@ -90,33 +103,22 @@ export const PatternCard = ({
     };
 
     window.addEventListener("popstate", handlePopState);
-
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("popstate", handlePopState);
     };
   }, [showTechnicalChart]);
 
   return (
-    <div
-      className={styles.card}
-      onClick={() => {
-        if (!isPrime) {
-          onCardClick();
-        }
-      }}
-    >
+    <div className={styles.card} onClick={isLocked ? onCardClick : undefined}>
       <div
-        className={`${styles.patternInfo} ${
-          patternData?.trendType === "bear" ? styles.bear : styles.bull
-        }`}
+        className={`${styles.patternInfo} ${trendType === "bear" ? styles.bear : styles.bull}`}
       >
-        <span className={styles.patternName}>{patternData?.patternName}</span>
+        <span className={styles.patternName}>{patternName}</span>
         <span>
           {patternData?.patternTrend}
           <i
             className={
-              patternData?.trendType === "bear"
+              trendType === "bear"
                 ? "eticon_pattern_down_red"
                 : "eticon_pattern_up_green"
             }
@@ -124,92 +126,111 @@ export const PatternCard = ({
         </span>
       </div>
 
-      {isPrime ? (
+      {!isLocked ? (
         <a
           className={styles.stockName}
-          href={getStockUrl(
-            patternData?.companyId,
-            patternData?.companySeoName,
-            "equity",
-          )}
+          href={getStockUrl(companyId, companySeoName, "equity")}
           target="_blank"
-          title={patternData?.companyName}
+          title={companyName}
         >
-          {patternData?.companyName}
+          {companyName}
         </a>
       ) : (
-        <div className="prel">
-          <PaywallBlur>
-            <span className={styles.text}>Unlock Company Name</span>
-          </PaywallBlur>
-        </div>
+        <PaywallBlur>
+          <span className={styles.text}>Unlock Company Name</span>
+        </PaywallBlur>
       )}
 
       <ul className={styles.metrics}>
         <li className={styles.metric}>
           <span>Formed on</span>
-          <p>{dateFormat(patternData?.formedDate, "%d %MMM %Y")}</p>
+          <p>
+            {dateFormat(formedDate, "%d %MMM")}
+            <span className={styles.time}>{formedTime}</span>
+          </p>
         </li>
         <li className={styles.metric}>
           <span>Breakout Price</span>
-          {isPrime ? (
-            <p>{formatNumber(patternData?.breakoutPrice)}</p>
-          ) : (
-            <div className="prel">
-              <PaywallBlur />
-            </div>
-          )}
+          {!isLocked ? <p>{formatNumber(breakoutPrice)}</p> : <PaywallBlur />}
         </li>
         <li className={styles.metric}>
-          <span>Current Price</span>
-          {isPrime ? (
-            <p>{formatNumber(patternData?.currentPrice)}</p>
+          <span>
+            {ideaFlag === "ideaActive" ? "Current Price" : "Return %"}
+          </span>
+          {!isLocked ? (
+            <p
+              className={
+                ideaFlag !== "ideaActive"
+                  ? closedPatternReturns < 0
+                    ? "down"
+                    : "up"
+                  : ""
+              }
+            >
+              {ideaFlag === "ideaActive" ? (
+                formatNumber(currentPrice)
+              ) : (
+                <>
+                  {`${Math.abs(closedPatternReturns)?.toFixed(2)}%`}
+                  <i
+                    className={
+                      closedPatternReturns < 0
+                        ? "eticon_down_arrow"
+                        : "eticon_up_arrow"
+                    }
+                  ></i>
+                </>
+              )}
+            </p>
           ) : (
-            <div className="prel">
-              <PaywallBlur />
-            </div>
+            <PaywallBlur />
           )}
         </li>
       </ul>
 
       <img
         src={imageSrc}
-        alt={`${patternData?.patternName} Technical Chart`}
+        alt={`${patternName} Technical Chart`}
         className={styles.patternImage}
         loading="lazy"
         onClick={handleImageClick}
-        onError={handleImageError}
+        onError={() => setImageSrc("https://img.etimg.com/photo/42031747.cms")}
       />
 
       {latestCard && (
         <div className={styles.desc}>
           <i className="eticon_ai_badge"></i>
-          <p
-            dangerouslySetInnerHTML={{
-              __html: patternData?.pastPerformanceText,
-            }}
-          ></p>
+          <p dangerouslySetInnerHTML={{ __html: pastPerformanceText }}></p>
         </div>
       )}
 
-      {isPrime ? (
+      {!isLocked ? (
         <>
           {latestCard && (
             <Link
               className={styles.link}
-              href={`/stocks/chart-patterns/past-performance/${patternData?.patternSeoName}`}
-              title={`View ${patternData?.patternName} Past Performance`}
+              href={`/stocks/chart-patterns/past-performance/${patternSeoName}`}
+              title={`View ${patternName} Past Performance`}
+              onClick={() =>
+                trackingEvent("et_push_event", {
+                  event_category: "mercury_engagement",
+                  event_action: "page_cta_click",
+                  event_label: `View Past Performance - ${patternName}`,
+                })
+              }
             >
               View Past Performance <i className="eticon_next"></i>
             </Link>
           )}
           <div className={styles.bottomBar}>
             <StockDescription patternData={patternData} />
-            <div
-              className={styles.idea}
-              style={{ background: patternData?.colourCode }}
-            >
+            <div className={styles.idea} style={{ background: colourCode }}>
               {patternData?.ideaType}
+              {ideaFlag !== "ideaActive" && (
+                <span className={styles.minAgo}>
+                  {patternData?.lastUpdatedText}
+                </span>
+              )}
             </div>
           </div>
         </>
