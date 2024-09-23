@@ -1,33 +1,57 @@
 @import "@/styles/variables.scss";
 
 #l3Nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border-bottom: 1px solid #cdcdcd;
+  position: relative;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin: 0 -20px;
+  padding: 10px 20px;
+  -webkit-column-gap: 30px;
+  -moz-column-gap: 30px;
+  column-gap: 30px;
   position: sticky;
+  background: #fff;
   top: 48px;
-  margin: 0;
-  padding: 12px 10px 0;
-  border-bottom: 1px solid $gray-80;
-  background: $white;
-  z-index: 2;
+  z-index: 4;
   .l3ListWrapper {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    width: 100%;
-    white-space: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    gap: 15px;
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    -webkit-column-gap: 20px;
+    -moz-column-gap: 20px;
+    column-gap: 20px;
+    width: calc(100% - 480px);
+
     .l3List {
-      font-size: 12px;
+      position: relative;
+      font-size: 14px;
+      font-style: normal;
       font-weight: 400;
-      line-height: 15px;
-      list-style: none;
-      padding-bottom: 5px;
+      line-height: 24px;
+      cursor: pointer;
+      white-space: nowrap;
       &.active {
-        font-weight: 600;
-        border-bottom: 2px solid $black;
+        font-weight: 700;
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: -12px;
+          border-bottom: solid 2px #000000;
+        }
       }
     }
   }

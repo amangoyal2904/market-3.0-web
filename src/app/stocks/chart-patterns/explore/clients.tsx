@@ -42,25 +42,22 @@ const ExploreChartPatternsClient = ({ response, pageUrl }: any) => {
                     (subPattern: any, subIndex: number) => (
                       <Fragment key={subIndex}>
                         <div className={styles.card}>
-                          <div className={styles.detailsContainer}>
-                            <img
-                              src={subPattern?.imageUrl}
-                              width={106}
-                              height={80}
-                              alt={subPattern?.name}
-                            />
-                            <div className={styles.rightContainer}>
-                              <h3 className={styles.title}>
-                                {subPattern?.patternName}
-                              </h3>
-                              <p
-                                className={`${styles.desc} ${subPattern.trend == "up" ? styles.bull : subPattern.trend == "down" ? styles.bear : styles.neutral}`}
-                                dangerouslySetInnerHTML={{
-                                  __html: subPattern?.patternText,
-                                }}
-                              ></p>
-                            </div>
-                          </div>
+                          <h3 className={styles.title}>
+                            {subPattern?.patternName}
+                          </h3>
+                          <img
+                            className={styles.patternImage}
+                            src={subPattern?.imageUrl}
+                            width={106}
+                            height={80}
+                            alt={subPattern?.name}
+                          />
+                          <p
+                            className={`${styles.desc} ${subPattern.trend == "up" ? styles.bull : subPattern.trend == "down" ? styles.bear : styles.neutral}`}
+                            dangerouslySetInnerHTML={{
+                              __html: subPattern?.patternText,
+                            }}
+                          ></p>
                           <div className={styles.ctaContainer}>
                             <Link
                               className={`${styles.cta} ${styles.outline}`}

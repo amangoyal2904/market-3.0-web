@@ -117,7 +117,6 @@ const ChartPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
       <TopNav pageUrl={pageUrl} />
       <div className="prel">
         {!!processingLoader && <Loader loaderType="container" />}
-
         {newPatternsData && newPatternsData.length > 0 ? (
           <>
             <div className={`${styles.containerGrid} ${styles.mt14}`}>

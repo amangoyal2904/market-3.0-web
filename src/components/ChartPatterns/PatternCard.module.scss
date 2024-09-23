@@ -16,6 +16,8 @@
     border-radius: 3px;
     padding: 3px 5px;
     margin-bottom: 5px;
+    font-size: 14px;
+    line-height: 18px;
     span + span {
       position: relative;
       padding-left: 10px;
@@ -45,9 +47,9 @@
   }
   .stockName {
     display: block;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 900;
-    line-height: 20px;
+    line-height: 22px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -88,6 +90,8 @@
     display: flex;
     gap: 5px;
     margin: 14px 0 8px;
+    font-size: 14px;
+    line-height: 18px;
     i {
       font-size: 30px;
     }
@@ -97,6 +101,8 @@
     align-items: center;
     color: $blue-50;
     font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
     i {
       font-size: 22px;
     }

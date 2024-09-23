@@ -67,6 +67,12 @@ const TopNav = ({ pageUrl }: TopNavProps) => {
           </Link>
         ))}
       </div>
+      {/* <span
+        className={`${styles.roundBtn} ${styles.filterNseBse}`}
+        onClick={() => showFilterMenu(true)}
+      >
+        <i className="eticon_filter"></i> {niftyFilterData?.name}
+      </span> */}
     </div>
   );
 };
