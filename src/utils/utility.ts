@@ -5,7 +5,6 @@ import {
   formatNumber,
   setCookieToSpecificTime,
 } from "@/utils/index";
-import { convertToAbsoluteUrl } from "@/utils";
 import { getCookie } from "@/utils/index";
 import Service from "@/network/service";
 import jStorageReact from "jstorage-react";
@@ -372,7 +371,7 @@ export const getStockUrl = (
   if (stockType === "index") {
     return "/markets/indices/" + seoName;
   } else if (stockType === "sector") {
-    return convertToAbsoluteUrl("/stocks/sectors/" + seoName);
+    return "/stocks/sectors/" + seoName;
   } else {
     if (seoName?.indexOf(" ") >= 0) {
       seoName = seoName

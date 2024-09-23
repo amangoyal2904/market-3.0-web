@@ -3,7 +3,6 @@ import styles from "./SectorsDetails.module.scss";
 import Link from "next/link";
 import React from "react";
 import { trackingEvent } from "@/utils/ga";
-import { convertToAbsoluteUrl } from "@/utils";
 
 const OtherSectorsCard = React.memo(({ data }: any) => {
   const trend =
@@ -12,7 +11,7 @@ const OtherSectorsCard = React.memo(({ data }: any) => {
     <div className={styles.otherSectorsCardMain}>
       <Link
         className={styles.title}
-        href={convertToAbsoluteUrl(`/stocks/sectors/${data.assetSeoName}`)}
+        href={`/stocks/sectors/${data.assetSeoName}`}
         title={data.assetName}
         onClick={() => {
           trackingEvent("et_push_event", {

@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 import GLOBAL_CONFIG from "../../network/global_config.json";
-import { convertToAbsoluteUrl } from "@/utils";
 import { renderIconPaths } from "@/utils/iconUtils";
 
 const LeftNav = ({ leftNavResult = {} }: any) => {
@@ -143,7 +142,7 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                   {value.link ? (
                     <Link
                       title={value.label}
-                      href={convertToAbsoluteUrl(value.link)}
+                      href={value.link}
                       target={value?.newTab ? "_blank" : "_self"}
                       onClick={() =>
                         navClickTrackingHandle({ l1: value.label, l2: "" })
@@ -195,7 +194,7 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                             >
                               <Link
                                 title={sec.label}
-                                href={convertToAbsoluteUrl(sec.link)}
+                                href={sec.link}
                                 target={sec?.newTab ? "_blank" : "_self"}
                                 onClick={() =>
                                   navClickTrackingHandle({
@@ -241,7 +240,7 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                   role="presentation"
                 >
                   <Link
-                    href={convertToAbsoluteUrl(value.link)}
+                    href={value.link}
                     title={value.label}
                     target={value?.newTab ? "_blank" : "_self"}
                     onClick={() =>

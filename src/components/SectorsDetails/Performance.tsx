@@ -4,7 +4,6 @@ import styles from "./SectorsDetails.module.scss";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import PerformanceAddPopUp from "./AddPopup/PerformanceAddPopUp";
-import { convertToAbsoluteUrl } from "@/utils";
 
 const labels = ["", "1D", "1W", "1M", "3M", "6M", "1Y", "3Y", "5Y"];
 
@@ -105,9 +104,7 @@ const SectorsPerformance = React.memo(
                   <div className="dflex align-item-ceter space-between">
                     <Link
                       className={styles.ellipsis}
-                      href={convertToAbsoluteUrl(
-                        `/stocks/sectors/${item.assetSeoName}`,
-                      )}
+                      href={`/stocks/sectors/${item.assetSeoName}`}
                       title={item.assetName}
                     >
                       {item.assetName}

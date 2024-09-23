@@ -4,7 +4,6 @@ import SectorsDetailsClient from "./clients";
 import tabConfig from "@/utils/tabConfig.json";
 import tableConfig from "@/utils/tableConfig.json";
 import { cookies, headers } from "next/headers";
-import { convertToAbsoluteUrl } from "@/utils";
 
 import {
   fetchSectors,
@@ -116,7 +115,7 @@ const IndividualSectors = async ({ params }: any) => {
         pageName={[
           {
             label: "Sectors",
-            redirectUrl: convertToAbsoluteUrl("/stocks/sectors"),
+            redirectUrl: "/stocks/sectors",
           },
           { label: overviewData?.assetName, redirectUrl: "" },
         ]}

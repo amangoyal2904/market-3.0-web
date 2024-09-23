@@ -4,7 +4,6 @@ import Link from "next/link";
 import { dateFormat } from "@/utils/index";
 import { trackingEvent } from "@/utils/ga";
 import Returns from "./Returns";
-import { convertToAbsoluteUrl } from "@/utils";
 
 const SectorsDetailsOverview = React.memo(({ overviewData, descText }: any) => {
   return (
@@ -12,7 +11,7 @@ const SectorsDetailsOverview = React.memo(({ overviewData, descText }: any) => {
       <div className="dflex align-item-center">
         <h1 className={styles.headline}>{`${overviewData?.assetName}`}</h1>
         <Link
-          href={convertToAbsoluteUrl("/stocks/sectors")}
+          href={"/stocks/sectors"}
           title="View all Sectors"
           className={styles.viewAll}
           onClick={() =>

@@ -15,7 +15,6 @@ import OtherSectorsCard from "./OtherSectorsCard";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
 import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
-import { convertToAbsoluteUrl } from "@/utils";
 
 const SectorsConstituents = React.memo(
   ({
@@ -297,7 +296,7 @@ const SectorsConstituents = React.memo(
             </div>
             <div className={styles.viewOtherBox}>
               <Link
-                href={convertToAbsoluteUrl("/stocks/sectors")}
+                href={"/stocks/sectors"}
                 title="View All Sectors"
                 className={styles.viewAll}
                 onClick={() =>
