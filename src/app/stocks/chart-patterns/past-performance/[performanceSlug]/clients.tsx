@@ -101,26 +101,6 @@ const PastChartPatternsClientSlug = ({
     setIsLoading(false);
   };
 
-  // Throttled Scroll Handler
-  const throttledScrollHandler = useThrottle(() => {
-    if (!loadMoreRef.current || isLoading || !hasMorePages) return;
-
-    const loadMoreElement = loadMoreRef.current;
-    const rect = loadMoreElement.getBoundingClientRect();
-    const threshold = 100;
-    if (pageSummaryView.pageNo === 1 && pageSummaryView.totalPages < 2) return;
-
-    if (rect.top <= window.innerHeight + threshold) {
-      loadMorePatternData();
-    }
-  }, 200);
-
-  // Attach Throttled Scroll Listener
-  useEffect(() => {
-    window.addEventListener("scroll", throttledScrollHandler);
-    return () => window.removeEventListener("scroll", throttledScrollHandler);
-  }, [throttledScrollHandler, isLoading, hasMorePages, pageSummaryView]);
-
   useEffect(() => {
     if (ssoReady) {
       const payWalledShow = jStorageReact.get("chartPatternPaywallShown");
@@ -128,16 +108,21 @@ const PastChartPatternsClientSlug = ({
     }
   }, [ssoReady]);
 
+  const showingIdeasText = `Showing ${Math.min(
+    pageSummaryView.pageNo * pageSummaryView.pageSize,
+    pageSummaryView.totalRecords,
+  )} of ${pageSummaryView.totalRecords} past picks`;
+
   return (
     <>
       <TopNav pageUrl={pageUrl} />
       <div className="prel">
         {!!processingLoader && <Loader loaderType="container" />}
-        <TopHead
+        {/* <TopHead
           pageType="past"
           payload={payload}
           handlePayloadChange={onPayloadChange}
-        />
+        /> */}
 
         <div className={`${styles.container} ${styles.mt14}`}>
           {newPatternsList ? (
@@ -148,15 +133,17 @@ const PastChartPatternsClientSlug = ({
                 showCta={false}
               />
 
-              {response?.pageSummary?.totalPages > 1 && (
-                <div
-                  ref={loadMoreRef}
-                  data-pageno={pageSummaryView?.pageNo}
-                  data-totalpage={pageSummaryView?.totalPages || 1}
-                />
-              )}
-              {isLoading && (
-                <div ref={spinnerRef} className={styles.spinner}></div>
+              {hasMorePages && (
+                <div className={styles.loadMoreContainer}>
+                  <div className={styles.showingIdeas}>{showingIdeasText}</div>
+                  <button
+                    onClick={loadMorePatternData}
+                    className={styles.loadMoreButton}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Loading..." : "Load More"}
+                  </button>
+                </div>
               )}
             </>
           ) : (
