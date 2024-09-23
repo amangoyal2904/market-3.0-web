@@ -2,90 +2,61 @@
 
 .card {
   position: relative;
-  border: 1px solid $gray_70;
-  border-radius: 12px;
   .head {
     position: relative;
     display: block;
-    background: $salmon-50;
-    padding: 10px;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    padding: 10px 0;
     .title {
-      font-size: 16px;
-      line-height: 20px;
+      font-size: 24px;
+      line-height: 30px;
       font-weight: 700;
       margin-bottom: 8px;
     }
     .metric {
+      position: relative;
       display: flex;
-      justify-content: space-between;
-      gap: 10px;
+      gap: 20px;
       .list {
-        flex: 1;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
-        text-align: center;
-        padding: 5px;
-        border-radius: 6px;
+        flex-direction: column;
+        width: 250px;
+        height: 120px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px;
         background: linear-gradient(180deg, #ffefeb 0%, #fffbfa 100%);
-        box-shadow: 0px 0px 6.69px 0px #ffffff1f inset;
-        .graphic {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          height: 70px;
-          margin-bottom: 10px;
-          .return {
-            font-size: 12px;
-            font-weight: 700;
-            line-height: 16px;
-          }
-          .period {
-            margin-top: 8px;
-            font-size: 18px;
-            font-weight: 700;
-            line-height: 22px;
-            color: $green-70;
-          }
-          .days {
-            font-size: 10px;
-            font-weight: 400;
-            line-height: 12px;
-          }
-          &.pieChart {
-            width: 70px;
-            height: 70px;
-          }
-          &.donutBg {
-            background: url(/marketsmweb/img/donut_chart.png) no-repeat top
-              center;
-            background-size: contain;
-          }
-          &.calendarBg {
-            background: url(/marketsmweb/img/calendar.svg) no-repeat top center;
-            background-size: contain;
-          }
+        border: 1px solid $salmon-50;
+        box-shadow: 0px 0px 8px 0px #ffffff1f inset;
+        .pieChart {
+          width: 120px;
+          height: 120px;
         }
-        .desc {
-          p {
-            font-size: 12px;
-            line-height: 16px;
-            font-weight: 600;
-          }
+        .value {
+          font-size: 24px;
+          font-weight: 700;
+          line-height: 30px;
+          color: $gray_05;
+        }
+        .label {
+          font-size: 18px;
+          font-weight: 600;
+          line-height: 22px;
+        }
+        .labelSm {
+          position: absolute;
+          bottom: 10px;
+          font-size: 14px;
+          font-weight: 700;
+          line-height: 18px;
+        }
+        &:first-child {
+          width: 210px;
+          padding: 0;
+          background: $salmon-50;
         }
       }
-    }
-    .helpTxt {
-      margin-top: 5px;
-      font-size: 10px;
-      line-height: 18px;
-      font-weight: 400;
-      text-align: center;
     }
   }
   .bottom {
@@ -116,82 +87,121 @@
       width: 100%;
       max-width: 100%;
       overflow-x: auto;
+      margin: 10px auto 18px;
     }
-
     .table {
       width: 100%;
       border-collapse: collapse;
       border-spacing: 0;
 
-      thead {
-        th {
-          font-size: 12px;
-          line-height: 16px;
-          font-weight: 400;
-          color: $gray_40;
-        }
-      }
-
-      th,
       td {
-        min-width: 60px;
-        padding: 8px 4px;
+        max-width: 150px;
+        padding: 10px 12px;
+        border-right: 1px solid $gray_95;
+        border-bottom: 1px solid $gray_80;
+        color: $gray_40;
         text-align: left;
-        &:first-child {
-          min-width: 45%;
-          max-width: 60%;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        height: 40px;
+        font-style: normal;
+        line-height: 18px;
+        text-align: right;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        &.left {
+          max-width: 160px;
+          text-align: left;
+          .thead {
+            -webkit-box-pack: start;
+            -ms-flex-pack: start;
+            justify-content: flex-start;
+          }
+        }
+        &.center {
+          min-width: 140px;
+          text-align: center;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          justify-content: center;
         }
       }
 
-      td {
+      th {
+        min-width: 110px;
+        max-width: 180px;
+        height: 54px;
+        position: relative;
+        text-align: right;
+        padding: 10px 14px;
+        background-color: $gray_95;
+        border-right: 1px solid $gray_95;
+        border-bottom: 1px solid $gray_80;
+        border-right-style: solid;
+        font-weight: 600;
+        color: $gray_30;
         font-size: 12px;
-        vertical-align: middle;
-        &.ft10 {
-          font-size: 10px;
+        line-height: 16px;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        &.left {
+          min-width: 160px;
+          text-align: left;
         }
-        .bull {
-          display: inline-block;
-          background: $green-05;
-          padding: 3px 2px 3px 5px;
-          border-radius: 3px;
+        &.center {
+          min-width: 140px;
+          text-align: center;
+          padding: 0 5px;
         }
-        .stName {
-          display: -webkit-box;
-          -webkit-line-clamp: 2; /* Limit to 2 lines */
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: normal;
-          font-weight: 600;
-        }
-        .arrowIcons {
-          font-size: 16px;
-          margin-left: 1px;
-          vertical-align: text-bottom;
+      }
+
+      .firstTh {
+        width: 200px;
+        min-width: 200px;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      tr {
+        background-color: $white;
+        &.highlightedRow > td {
+          background-color: $gray_95 !important;
         }
       }
     }
-    .cta {
-      display: flex;
-      margin-top: 12px;
-      background: $black;
-      color: $white;
-      padding: 9px 10px;
-      border-radius: 3px;
-      text-align: center;
-      font-size: 14px;
+    .helpTxt {
+      font-size: 10px;
+      font-weight: 400;
       line-height: 18px;
-      font-weight: 600;
-      justify-content: center;
-      align-items: center;
-      i {
-        font-size: 30px;
-        margin-left: 4px;
+    }
+    .cta {
+      position: relative;
+      display: block;
+      a {
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 20px;
+        color: $blue-50;
+        i {
+          font-size: 18px;
+          vertical-align: bottom;
+        }
+        & + a {
+          margin-left: 10px;
+          padding-left: 10px;
+          border-left: 1px solid $gray_80;
+        }
       }
     }
   }
   & + .card {
-    margin-top: 12px;
+    margin-top: 24px;
   }
 }
 

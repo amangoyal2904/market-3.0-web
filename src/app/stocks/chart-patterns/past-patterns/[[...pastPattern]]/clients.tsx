@@ -1,14 +1,12 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { PatternCard } from "@/components/ChartPatterns/PatternCard";
-import TopHead from "@/components/ChartPatterns/TopHead";
 import TopNav from "@/components/ChartPatterns/TopNav";
 import { useStateContext } from "@/store/StateContext";
 import styles from "../../ChartPattern.module.scss";
 import { getNewChartPattern } from "../../utilities";
 import { getCookie } from "@/utils";
 import Loader from "@/components/Loader";
-import useThrottle from "@/hooks/useThrottle";
 import jStorageReact from "jstorage-react";
 import Blocker from "@/components/Blocker";
 import dynamic from "next/dynamic";
@@ -27,9 +25,6 @@ const PastPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
   const { state } = useStateContext();
   let { isPrime, isLogin, ssoReady, ssoid, ticketId } = state.login;
   const { pageSummary, newPatterns, latestPatternRequestDto } = response;
-
-  const loadMoreRef = useRef<HTMLDivElement>(null);
-  const spinnerRef = useRef<HTMLDivElement>(null); // For tracking spinner visibility
 
   const [newPatternsData, setNewPatternData] = useState(newPatterns);
   const [pageSummaryView, setPageSummaryView] = useState(pageSummary);
@@ -90,20 +85,6 @@ const PastPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
     setShowPaywall(true);
   };
 
-  // Throttled Scroll Handler
-  const throttledScrollHandler = useThrottle(() => {
-    if (!loadMoreRef.current || isLoading || !hasMorePages) return;
-
-    const loadMoreElement = loadMoreRef.current;
-    const rect = loadMoreElement.getBoundingClientRect();
-    const threshold = 400;
-    if (pageSummaryView.pageNo === 1 && pageSummaryView.totalPages < 2) return;
-
-    if (rect.top <= window.innerHeight + threshold) {
-      loadMorePatternData();
-    }
-  }, 200);
-
   useEffect(() => {
     if (initialRender.current) {
       // Skip the effect on the initial render
@@ -120,12 +101,6 @@ const PastPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
     }
   }, [isPrime]);
 
-  // Attach Throttled Scroll Listener
-  useEffect(() => {
-    window.addEventListener("scroll", throttledScrollHandler);
-    return () => window.removeEventListener("scroll", throttledScrollHandler);
-  }, [throttledScrollHandler, isLoading, hasMorePages, pageSummaryView]);
-
   useEffect(() => {
     if (ssoReady) {
       const payWalledShow = jStorageReact.get("chartPatternPaywallShown");
@@ -133,41 +108,55 @@ const PastPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
     }
   }, [ssoReady]);
 
+  const showingIdeasText = `Showing ${Math.min(
+    pageSummaryView.pageNo * pageSummaryView.pageSize,
+    pageSummaryView.totalRecords,
+  )} of ${pageSummaryView.totalRecords} ideas`;
+
   return (
     <>
       <TopNav pageUrl={pageUrl} />
       <div className="prel">
         {!!processingLoader && <Loader loaderType="container" />}
-        <TopHead
+        {/* <TopHead
           pageType="pastPatterns"
           payload={payload}
           latestPatternRequestDto={latestPatternRequestDto}
           pageSummary={pageSummaryView}
           handlePayloadChange={onPayloadChange}
-        />
-        <div className={`${styles.containerGrid} ${styles.mt14}`}>
-          {newPatternsData && newPatternsData.length > 0 ? (
-            newPatternsData.map((patternData: any, index: number) => (
-              <PatternCard
-                key={index}
-                patternData={patternData}
-                latestCard={false}
-                onCardClick={handleCardClick}
-              />
-            ))
-          ) : (
-            <Blocker
-              type={"noDataFound"}
-              customMessage="No past chart patterns identified for the selected filters. Please select a different filter to view past performance."
-            />
-          )}
-        </div>
-        <div
-          ref={loadMoreRef}
-          data-pageno={pageSummaryView.pageNo}
-          data-totalpage={pageSummaryView?.totalPages || 1}
-        />
-        {isLoading && <div ref={spinnerRef} className={styles.spinner}></div>}
+        /> */}
+
+        {newPatternsData && newPatternsData.length > 0 ? (
+          <>
+            <div className={`${styles.containerGrid} ${styles.mt14}`}>
+              {newPatternsData.map((patternData: any, index: number) => (
+                <PatternCard
+                  key={index}
+                  patternData={patternData}
+                  latestCard={false}
+                  onCardClick={handleCardClick}
+                />
+              ))}
+            </div>
+            {hasMorePages && (
+              <div className={styles.loadMoreContainer}>
+                <div className={styles.showingIdeas}>{showingIdeasText}</div>
+                <button
+                  onClick={loadMorePatternData}
+                  className={styles.loadMoreButton}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Loading..." : "Load More"}
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <Blocker
+            type={"noDataFound"}
+            customMessage="No past chart patterns identified for the selected filters. Please select a different filter to view past performance."
+          />
+        )}
       </div>
       <ChartPatternPaywall
         isLogin={isLogin || false}

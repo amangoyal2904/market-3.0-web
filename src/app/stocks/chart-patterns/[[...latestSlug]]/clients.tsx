@@ -117,35 +117,36 @@ const ChartPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
       <TopNav pageUrl={pageUrl} />
       <div className="prel">
         {!!processingLoader && <Loader loaderType="container" />}
-        <div className={`${styles.containerGrid} ${styles.mt14}`}>
-          {newPatternsData && newPatternsData.length > 0 ? (
-            newPatternsData.map((patternData: any, index: number) => (
-              <PatternCard
-                key={index}
-                patternData={patternData}
-                onCardClick={handleCardClick} // Pass down onCardClick handler
-              />
-            ))
-          ) : (
-            <Blocker
-              type={"noDataFound"}
-              customMessage="No new chart patterns found for the selected filters. Try choosing a different filter to explore the latest trading opportunities"
-            />
-          )}
-        </div>
 
-        {/* Load More Button */}
-        {hasMorePages && (
-          <div className={styles.loadMoreContainer}>
-            <div className={styles.showingIdeas}>{showingIdeasText}</div>
-            <button
-              onClick={loadMorePatternData}
-              className={styles.loadMoreButton}
-              disabled={isLoading}
-            >
-              {isLoading ? "Loading..." : "Load More"}
-            </button>
-          </div>
+        {newPatternsData && newPatternsData.length > 0 ? (
+          <>
+            <div className={`${styles.containerGrid} ${styles.mt14}`}>
+              {newPatternsData.map((patternData: any, index: number) => (
+                <PatternCard
+                  key={index}
+                  patternData={patternData}
+                  onCardClick={handleCardClick} // Pass down onCardClick handler
+                />
+              ))}
+            </div>
+            {hasMorePages && (
+              <div className={styles.loadMoreContainer}>
+                <div className={styles.showingIdeas}>{showingIdeasText}</div>
+                <button
+                  onClick={loadMorePatternData}
+                  className={styles.loadMoreButton}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Loading..." : "Load More"}
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <Blocker
+            type={"noDataFound"}
+            customMessage="No new chart patterns found for the selected filters.<br />Try choosing a different filter to explore the latest trading opportunities"
+          />
         )}
       </div>
 

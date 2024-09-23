@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 import { getExploreChartPattern } from "../utilities";
 import PastChartPatternsClient from "./clients";
 import ChartPatternHeader from "@/components/ChartPatterns/ChartPatternHeader";
+import ChartPatternDisclaimer from "@/components/ChartPatterns/ChartPatternDisclaimer";
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = headers();
@@ -31,6 +32,7 @@ const ExploreChartPatterns = async () => {
     <>
       <ChartPatternHeader />
       <PastChartPatternsClient response={data} pageUrl={pageUrl} />
+      <ChartPatternDisclaimer />
       <BreadCrumb
         pagePath={pageUrl}
         pageName={[{ label: "Explore by Patterns", redirectUrl: "" }]}

@@ -79,7 +79,7 @@ const PieChart: React.FC<PieChartProps> = ({
             return !!this.y && this.y !== 0 ? this.y.toString() : null;
           },
           style: {
-            fontSize: "8px",
+            fontSize: "12px",
             textOutline: "none",
           },
           distance: 1, // Distance from the pie slice to the label

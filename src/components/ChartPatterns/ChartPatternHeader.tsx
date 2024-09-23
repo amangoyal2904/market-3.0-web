@@ -1,5 +1,5 @@
-import { renderIconPaths } from "@/utils/iconUtils";
 import styles from "./ChartPatternHeader.module.scss";
+import ChartPatternLogo from "./ChartPatternLogo";
 interface ChartPatternHeaderProps {
   description?: string;
 }
@@ -14,15 +14,8 @@ const ChartPatternHeader = ({ description }: ChartPatternHeaderProps) => {
     <>
       <div className={styles.wrapper}>
         <div className="dflex align-items-center">
-          <div className={styles.logo}>
-            <div className={styles.prime}>ETPrime</div>
-            <h1 className={styles.heading}>
-              <i className="eticon_chart_pattern"></i> AI Chart
-              <span>Patterns</span>
-            </h1>
-          </div>
+          <ChartPatternLogo />
         </div>
-
         <div className={styles.desc}>
           <p dangerouslySetInnerHTML={{ __html: desc }} />
         </div>

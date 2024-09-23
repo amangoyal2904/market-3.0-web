@@ -7,6 +7,7 @@ import { cookies, headers } from "next/headers";
 import ChartPatternsClient from "./clients";
 import Blocker from "@/components/Blocker";
 import ChartPatternHeader from "@/components/ChartPatterns/ChartPatternHeader";
+import ChartPatternDisclaimer from "@/components/ChartPatterns/ChartPatternDisclaimer";
 
 const getCommonData = async (params: any) => {
   const headersList = headers();
@@ -28,7 +29,7 @@ const getCommonData = async (params: any) => {
     filterValue: [],
     filterType: "index",
     pageNo: 1,
-    pageSize: 10,
+    pageSize: 12,
     timeFrame: !!timeFrame ? timeFrame : "1m",
   };
 
@@ -96,6 +97,7 @@ const PastPatterns = async ({ params }: any) => {
           responsePayload={payload}
           pageUrl={pageUrl}
         />
+        <ChartPatternDisclaimer />
         <BreadCrumb
           pagePath={pageUrl}
           pageName={[

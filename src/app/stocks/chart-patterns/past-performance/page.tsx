@@ -6,6 +6,7 @@ import { cookies, headers } from "next/headers";
 import { getPastChartPattern } from "../utilities";
 import PastChartPatternsClient from "./clients";
 import ChartPatternHeader from "@/components/ChartPatterns/ChartPatternHeader";
+import ChartPatternDisclaimer from "@/components/ChartPatterns/ChartPatternDisclaimer";
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = headers();
@@ -45,6 +46,7 @@ const PastChartPatterns = async () => {
         responsePayload={payload}
         pageUrl={pageUrl}
       />
+      <ChartPatternDisclaimer />
       <BreadCrumb
         pagePath={pageUrl}
         pageName={[{ label: "Past Performance", redirectUrl: "" }]}

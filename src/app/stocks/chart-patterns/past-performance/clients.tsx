@@ -75,11 +75,11 @@ const PastChartPatternsClient = ({
       <TopNav pageUrl={pageUrl} />
       <div className="prel">
         {!!processingLoader && <Loader loaderType="container" />}
-        <TopHead
+        {/* <TopHead
           pageType="past"
           payload={payload}
           handlePayloadChange={onPayloadChange}
-        />
+        /> */}
         <div className={`${styles.container} ${styles.mt14}`}>
           {newPatternsList && newPatternsList.length > 0 ? (
             newPatternsList.map(
