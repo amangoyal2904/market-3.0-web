@@ -5,10 +5,8 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "../../ChartPattern.module.scss";
 import PastPatternCard from "@/components/ChartPatterns/PastPatternCard";
 import { getPastChartPatternPerformance } from "../../utilities";
-import useThrottle from "@/hooks/useThrottle";
 import jStorageReact from "jstorage-react";
 import dynamic from "next/dynamic";
-import TopHead from "@/components/ChartPatterns/TopHead";
 import Loader from "@/components/Loader";
 import { getCookie } from "@/utils";
 import Blocker from "@/components/Blocker";
@@ -33,9 +31,6 @@ const PastChartPatternsClientSlug = ({
   const [payload, setPayload] = useState(responsePayload);
   const [processingLoader, setProcessingLoader] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
-
-  const loadMoreRef = useRef<HTMLDivElement>(null);
-  const spinnerRef = useRef<HTMLDivElement>(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [hasMorePages, setHasMorePages] = useState(true);
@@ -111,7 +106,7 @@ const PastChartPatternsClientSlug = ({
   const showingIdeasText = `Showing ${Math.min(
     pageSummaryView.pageNo * pageSummaryView.pageSize,
     pageSummaryView.totalRecords,
-  )} of ${pageSummaryView.totalRecords} past picks`;
+  )} of ${pageSummaryView.totalRecords} picks`;
 
   return (
     <>
