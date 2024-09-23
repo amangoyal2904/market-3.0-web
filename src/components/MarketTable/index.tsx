@@ -33,6 +33,7 @@ interface propsType {
   setUpdateDateTime?: any;
   setFallbackWebsocket?: any;
   socketDataType?: any;
+  noSharePriceTitle?: string;
 }
 
 const DEBOUNCE_DELAY = 10;
@@ -60,6 +61,7 @@ const MarketTable = React.memo((props: propsType) => {
     setUpdateDateTime,
     setFallbackWebsocket = false,
     socketDataType = "",
+    noSharePriceTitle = "yes",
   } = props || {};
 
   const wsRef = useRef<WebSocket | null>(null);
@@ -713,6 +715,7 @@ const MarketTable = React.memo((props: propsType) => {
                 fixedCol={fixedCol}
                 objTracking={objTracking}
                 onRowHover={onRowHover}
+                noSharePriceTitle={noSharePriceTitle}
               />
             </div>
             <div
@@ -742,6 +745,7 @@ const MarketTable = React.memo((props: propsType) => {
                 setLeftScrollEnabled={setLeftScrollEnabled}
                 setRightScrollEnabled={setRightScrollEnabled}
                 onRowHover={onRowHover}
+                noSharePriceTitle={noSharePriceTitle}
               />
             </div>
           </>

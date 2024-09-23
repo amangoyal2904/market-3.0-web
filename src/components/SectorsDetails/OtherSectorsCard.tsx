@@ -3,6 +3,7 @@ import styles from "./SectorsDetails.module.scss";
 import Link from "next/link";
 import React from "react";
 import { trackingEvent } from "@/utils/ga";
+
 const OtherSectorsCard = React.memo(({ data }: any) => {
   const trend =
     data.percentChange > 0 ? "up" : data.percentChange < 0 ? "down" : "neutral";

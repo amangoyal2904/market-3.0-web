@@ -137,7 +137,6 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
 
   useEffect(() => {
     sendMouseFlowEvent();
-    console.log("____________mouse flow start ");
     loadAudienceDMPScript();
   }, []);
 

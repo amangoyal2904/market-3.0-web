@@ -30,6 +30,7 @@ const ScrollableTable = React.memo((props: any) => {
     setLeftScrollEnabled,
     setRightScrollEnabled,
     onRowHover,
+    noSharePriceTitle,
   } = props || {};
   const {
     showFilterInput = true,
