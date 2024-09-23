@@ -6,6 +6,7 @@ import { redirectToPlanPage } from "@/utils/ga";
 import { renderIconPaths } from "@/utils/iconUtils";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
+import ChartPatternLogo from "./ChartPatternLogo";
 
 // Constants
 const API_URL = `${(APIS_CONFIG as any)?.["DOMAIN"][APP_ENV]}reactfeed_metainfo.cms?msid=104293917&feedtype=json&type=nonprimedata`;
@@ -115,52 +116,45 @@ const ChartPatternPaywall = ({
         <div className={styles.closeIcon} onClick={handleClose}>
           <i className="eticon_cross"></i>
         </div>
-        <div className={styles.logo}>
-          <div className={styles.icon}>
-            <span className="eticon_prime_logo">
-              {renderIconPaths("eticon_prime_logo")}
-            </span>
+        <div className={styles.containerMain}>
+          <div className={styles.leftSec}>
+            <ChartPatternLogo primeLogo={false} />
+            <h4 className={styles.hl}>
+              Spot Real-Time Patterns, Maximise Your Profits
+              <span>with chart patterns.</span>
+            </h4>
+            <img
+              src="/marketsweb/img/chart_pattern_banner.svg"
+              className={styles.patternBanner}
+              alt="Chart Pattern Features"
+            />
           </div>
-          <div className={styles.prime}>ETPrime</div>
-          <h1 className={styles.heading}>
-            <i className="eticon_chart_pattern"></i>AI Chart
-            <span>Patterns</span>
-          </h1>
-        </div>
-        <h4 className={styles.hl}>
-          Get 5+ trading ideas daily
-          <span>Now make informed decisions.</span>
-        </h4>
-        <img
-          src="/marketsmweb/img/chart_pattern_banner.svg"
-          className={styles.patternBanner}
-          alt="Chart Pattern Features"
-        />
-        {!isPrime && (
-          <div className={styles.bottom}>
-            <p className={styles.title}>{nonPrimeOfferText}</p>
-            <div
-              className={styles.cta}
-              onClick={() => {
-                redirectToPlanPage({
-                  ...getRedirectData("click", "paywall"),
-                  cdp: {
-                    ...getRedirectData("click", "paywall").cdp,
-                    cta_text: "Subscribe Now",
-                  },
-                });
-              }}
-            >
-              Subscribe Now
+          {!isPrime && (
+            <div className={styles.rightSec}>
+              <p className={styles.title}>{nonPrimeOfferText}</p>
+              <div
+                className={styles.cta}
+                onClick={() => {
+                  redirectToPlanPage({
+                    ...getRedirectData("click", "paywall"),
+                    cdp: {
+                      ...getRedirectData("click", "paywall").cdp,
+                      cta_text: "Subscribe Now",
+                    },
+                  });
+                }}
+              >
+                Subscribe Now
+              </div>
+              {!isLogin && (
+                <p className={styles.bottomTxt}>
+                  Already a member?{" "}
+                  <span onClick={initSSOWidget}>Sign in Now</span>
+                </p>
+              )}
             </div>
-            {!isLogin && (
-              <p className={styles.bottomTxt}>
-                Already a member?{" "}
-                <span onClick={initSSOWidget}>Sign in Now</span>
-              </p>
-            )}
-          </div>
-        )}
+          )}
+        </div>
       </div>
       <div className={styles.modalOverlay} onClick={handleClose}></div>
     </>

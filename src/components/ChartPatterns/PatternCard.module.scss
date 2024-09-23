@@ -1,6 +1,9 @@
 @import "@/styles/variables.scss";
 .card {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;
@@ -58,6 +61,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
     margin: 8px auto;
     list-style-type: none;
     span {
@@ -149,7 +153,7 @@
     gap: 10px;
     border-radius: 3px;
     padding: 10px 8px;
-    margin-top: 18px;
+    margin: 15px auto;
   }
   .blurEffect {
     position: relative;
