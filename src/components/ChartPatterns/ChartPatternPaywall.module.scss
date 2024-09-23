@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 2% 5%;
+  padding: 2% 5% 0.5%;
   background: #fde6e2;
   border-top: 4px solid #debaae;
   background-image: url(/marketsweb/img/paywall_bkg.svg);
@@ -66,17 +66,27 @@
   }
 
   .rightSec {
+    position: relative;
     width: 30%;
     text-align: center;
+    border: 1px solid $salmon-70;
+    padding: 40px 20px 20px;
     .title {
+      position: absolute;
+      display: inline-block;
+      background: $salmon-70;
+      padding: 8px 15px;
       font-size: 14px;
-      line-height: 18px;
-      font-weight: 600;
+      line-height: 20px;
+      font-weight: 500;
+      top: -20px;
+      left: 20px;
+      right: 20px;
     }
     .cta {
+      position: relative;
       background: $red-50;
       color: $white;
-      text-transform: uppercase;
       font-size: 16px;
       line-height: 20px;
       font-weight: 700;
@@ -84,6 +94,7 @@
       border-radius: 100px;
       padding: 10px;
       margin: 8px auto 0;
+      cursor: pointer;
     }
     .bottomTxt {
       margin-top: 8px;

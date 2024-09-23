@@ -3,13 +3,12 @@ import styles from "./ChartPatternPaywall.module.scss";
 import { useEffect, useState } from "react";
 import { initSSOWidget } from "@/utils";
 import { redirectToPlanPage } from "@/utils/ga";
-import { renderIconPaths } from "@/utils/iconUtils";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import ChartPatternLogo from "./ChartPatternLogo";
 
 // Constants
-const API_URL = `${(APIS_CONFIG as any)?.["DOMAIN"][APP_ENV]}reactfeed_metainfo.cms?msid=104293917&feedtype=json&type=nonprimedata`;
+const API_URL = `${(APIS_CONFIG as any)?.["DOMAIN"][APP_ENV]}/reactfeed_metainfo.cms?msid=104293917&feedtype=json&type=nonprimedata`;
 const CACHE_KEY = "nonPrimeData";
 const CACHE_DURATION = 600000; // 10 minutes in milliseconds
 
@@ -17,7 +16,7 @@ const fetchNonPrimeData = async () => {
   try {
     const response = await fetch(API_URL);
     const data = await response.json();
-    return data?.data?.text || "";
+    return data?.data || {};
   } catch (error) {
     return ""; // Fallback text in case of error
   }
@@ -47,7 +46,10 @@ const ChartPatternPaywall = ({
   onPaywallStateChange: () => void;
 }) => {
   const [isVisible, setIsVisible] = useState(showPayWall);
-  const [nonPrimeOfferText, setNonPrimeOfferText] = useState("");
+  const [nonPrimeOfferText, setNonPrimeOfferText] = useState({
+    text: "Market Savvy Offer: Flat 20% Discount",
+    ctaText: "Subscribe to ETPrime",
+  });
 
   useEffect(() => {
     const loadNonPrimeText = async () => {
@@ -131,7 +133,7 @@ const ChartPatternPaywall = ({
           </div>
           {!isPrime && (
             <div className={styles.rightSec}>
-              <p className={styles.title}>{nonPrimeOfferText}</p>
+              <p className={styles.title}>{nonPrimeOfferText?.text}</p>
               <div
                 className={styles.cta}
                 onClick={() => {
@@ -139,12 +141,12 @@ const ChartPatternPaywall = ({
                     ...getRedirectData("click", "paywall"),
                     cdp: {
                       ...getRedirectData("click", "paywall").cdp,
-                      cta_text: "Subscribe Now",
+                      cta_text: nonPrimeOfferText?.ctaText,
                     },
                   });
                 }}
               >
-                Subscribe Now
+                {nonPrimeOfferText?.ctaText}
               </div>
               {!isLogin && (
                 <p className={styles.bottomTxt}>
