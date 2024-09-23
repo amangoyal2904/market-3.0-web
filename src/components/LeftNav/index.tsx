@@ -107,6 +107,8 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
         className={styles.navInnerWrap}
         itemScope
         itemType="https://schema.org/SiteNavigationElement"
+        role="menu"
+        aria-labelledby="menubutton"
       >
         <div className={styles.toggleMenuWrap}>
           <span
@@ -201,7 +203,9 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                                   })
                                 }
                                 role="menuitem"
+                                itemProp="url"
                               >
+                                <meta itemProp="name" content={sec.label} />
                                 {sec.label}
                               </Link>
                             </li>
@@ -242,9 +246,11 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                     onClick={() =>
                       navClickTrackingHandle({ l1: value.label, l2: "" })
                     }
+                    itemProp="url"
                     className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
                     role="menuitem"
                   >
+                    <meta itemProp="name" content={value.label} />
                     <span className={`${value.icon} ${styles.navIcon}`}>
                       {renderIconPaths(value.icon)}
                     </span>

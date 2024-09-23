@@ -97,7 +97,6 @@ const SectorsDetailsClient = ({
     },
     [scrollToActiveContent, handleScroll],
   );
-  console.log("@@@FaqsClient", sectorDescription);
   return (
     <>
       <SectorsDetailsOverview
