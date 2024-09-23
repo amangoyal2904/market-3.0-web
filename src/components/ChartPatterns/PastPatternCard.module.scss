@@ -112,7 +112,18 @@
         -o-text-overflow: ellipsis;
         text-overflow: ellipsis;
         white-space: nowrap;
-
+        &.txtBlack {
+          color: $black;
+        }
+        &.firstColumn {
+          width: 200px;
+          min-width: 200px;
+          text-align: left;
+          font-size: 14px;
+          font-weight: 600;
+          line-height: 18px;
+          color: $black;
+        }
         &.left {
           max-width: 160px;
           text-align: left;
@@ -128,6 +139,23 @@
           -webkit-box-pack: center;
           -ms-flex-pack: center;
           justify-content: center;
+        }
+        &.ft10 {
+          font-size: 10px;
+        }
+        .bull,
+        .bear {
+          font-size: 10px;
+          font-weight: 400;
+          line-height: 18px;
+          padding: 3px 5px;
+          border-radius: 3px;
+        }
+        .bull {
+          background: $green-05;
+        }
+        .bear {
+          background: $red-05;
         }
       }
 
@@ -150,6 +178,12 @@
         -o-text-overflow: ellipsis;
         text-overflow: ellipsis;
         -webkit-box-orient: vertical;
+        &.firstColumn {
+          width: 200px;
+          min-width: 200px;
+          text-align: left;
+          cursor: pointer;
+        }
         &.left {
           min-width: 160px;
           text-align: left;
@@ -159,13 +193,6 @@
           text-align: center;
           padding: 0 5px;
         }
-      }
-
-      .firstTh {
-        width: 200px;
-        min-width: 200px;
-        text-align: left;
-        cursor: pointer;
       }
 
       tr {

@@ -3,7 +3,7 @@ import styles from "./PastPatternCard.module.scss";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
-import { dateFormat } from "@/utils";
+import { dateFormat, formatNumber } from "@/utils";
 
 // Lazy-load PieChart
 const PieChart = dynamic(() => import("../PieChart"), {
@@ -17,8 +17,8 @@ interface Pattern {
   companyName: string;
   patternName?: string;
   patternFormedDate?: string;
-  breakoutPrice?: number;
-  marketCap?: number;
+  breakoutPrice: number;
+  marketCap: number;
   stockReturn: number;
   returnTimeframe: number;
   industryName?: string;
@@ -107,20 +107,20 @@ const PastPatternCard = ({
           <table className={styles.table}>
             <thead>
               <tr>
-                <th className={styles.left}>Stock Name</th>
+                <th className={styles.firstColumn}>Stock Name</th>
                 {!subPatternFlag && <th>Pattern Formed</th>}
                 <th>Formed Date</th>
                 <th>Breakout Price</th>
                 <th>Return %</th>
                 <th>Days</th>
                 <th>Market Cap</th>
-                <th className={styles.center}>Industry</th>
+                <th className={styles.left}>Industry</th>
               </tr>
             </thead>
             <tbody>
               {pastPatternList.map((row, rowIndex) => (
                 <tr key={rowIndex}>
-                  <td className={`${styles.left} ${styles.firstTh}`}>
+                  <td className={styles.firstColumn}>
                     <a
                       href={getStockUrl(
                         row.companyId,
@@ -139,8 +139,12 @@ const PastPatternCard = ({
                       <span className={styles.bull}>{row.patternName}</span>
                     </td>
                   )}
-                  <td>{dateFormat(row.patternFormedDate, "%d %MMM")}</td>
-                  <td>{row.breakoutPrice}</td>
+                  <td className={styles.txtBlack}>
+                    {dateFormat(row.patternFormedDate, "%d %MMM, %H:%m%p")}
+                  </td>
+                  <td className="numberFonts">
+                    {formatNumber(row.breakoutPrice)}
+                  </td>
                   <td
                     className={
                       row.stockReturn < 0
@@ -157,9 +161,13 @@ const PastPatternCard = ({
                       }`}
                     />
                   </td>
-                  <td>{`${row.returnTimeframe} days`}</td>
-                  <td>{row.marketCap}</td>
-                  <td>{row.industryName}</td>
+                  <td>
+                    <span className="numberFonts">
+                      {row.returnTimeframe} days
+                    </span>
+                  </td>
+                  <td className="numberFonts">{formatNumber(row.marketCap)}</td>
+                  <td className={styles.left}>{row.industryName}</td>
                 </tr>
               ))}
             </tbody>

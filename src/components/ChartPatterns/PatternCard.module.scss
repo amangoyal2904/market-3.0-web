@@ -168,11 +168,7 @@
       filter: blur(4px); /* Fallback for older browsers */
       z-index: -1; /* Place the blurred background behind the content */
     }
-
     span {
-      position: relative;
-
-      z-index: 2;
       &.icons {
         font-size: 16px;
       }
