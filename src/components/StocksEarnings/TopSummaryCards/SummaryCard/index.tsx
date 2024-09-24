@@ -122,6 +122,11 @@ const SummaryCard = ({ data, type }: any) => {
               <div className={styles.middleRight}>
                 {type === "yoyData" || type === "qoqData" ? (
                   <span className={data?.sales > 0 ? styles.up : styles.down}>
+                    {data?.sales > 0 ? (
+                      <span className="eticon_up_arrow"></span>
+                    ) : (
+                      <span className="eticon_down_arrow"></span>
+                    )}
                     {data?.sales}%
                   </span>
                 ) : (
@@ -146,6 +151,11 @@ const SummaryCard = ({ data, type }: any) => {
               <div className={styles.middleRight}>
                 {type === "yoyData" || type === "qoqData" ? (
                   <span className={data?.profit > 0 ? styles.up : styles.down}>
+                    {data?.profit > 0 ? (
+                      <span className="eticon_up_arrow"></span>
+                    ) : (
+                      <span className="eticon_down_arrow"></span>
+                    )}
                     {data?.profit}%
                   </span>
                 ) : (

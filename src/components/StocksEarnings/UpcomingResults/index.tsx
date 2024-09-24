@@ -265,16 +265,18 @@ const UpcomingResults = ({
                     })
                   : ""}
               </ul>
-              <div className={styles.arrowsec}>
-                <span
-                  className={`${styles.arrow} ${styles.arrowLeft} ${isLeftDisabled ? styles.disabled : ""}`}
-                  onClick={!isLeftDisabled ? scrollLeft : undefined}
-                ></span>
-                <span
-                  className={`${styles.arrow} ${styles.arrowRight} ${isRightDisabled ? styles.disabled : ""}`}
-                  onClick={!isRightDisabled ? scrollRight : undefined}
-                ></span>
-              </div>
+              {tabData && tabData.length > 4 && (
+                <div className={styles.arrowsec}>
+                  <span
+                    className={`${styles.arrow} ${styles.arrowLeft} ${isLeftDisabled ? styles.disabled : ""}`}
+                    onClick={!isLeftDisabled ? scrollLeft : undefined}
+                  ></span>
+                  <span
+                    className={`${styles.arrow} ${styles.arrowRight} ${isRightDisabled ? styles.disabled : ""}`}
+                    onClick={!isRightDisabled ? scrollRight : undefined}
+                  ></span>
+                </div>
+              )}
             </div>
           ) : topTabTimeHide === "yes" &&
             showLeftNavigation === "yes" &&

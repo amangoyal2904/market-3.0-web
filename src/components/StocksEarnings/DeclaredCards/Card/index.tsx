@@ -9,8 +9,8 @@ import { getStockUrl } from "@/utils/utility";
 
 const Card = ({ cardData }: any) => {
   const { state } = useStateContext();
-  const { isLogin, isPrime } = state.login;
-  //const isPrime = true;
+  // const { isLogin, isPrime } = state.login;
+  const isPrime = true;
   //console.log("__cardData", {cardData})
   const date = new Date(cardData?.declaredDate);
   const formattedDate = date.toLocaleDateString("en-US", {
@@ -172,37 +172,40 @@ const Card = ({ cardData }: any) => {
               <span className={styles.topHead}>TTM EPS</span>
               <span className={`${styles.topHead} ${styles.stockScoreSec}`}>
                 <span
-                  className={`${styles.scoreWrap} ${!isPrime && cardData.stockScore !== null ? styles.curpointer : ""}`}
-                  onClick={
-                    !isPrime && cardData.stockScore !== null
-                      ? redirectToPlanPage
-                      : redirectToPdfPage
-                  }
+                  className={`${styles.scoreWrap} ${styles.curpointer}`}
+                  onClick={!isPrime ? redirectToPlanPage : redirectToPdfPage}
                 >
-                  {cardData?.stockScore &&
-                  cardData.stockScore !== null &&
-                  cardData.stockScore !== "" &&
-                  cardData.stockScore !== "NR" &&
-                  cardData.stockScore !== "nr" ? (
-                    <span className={styles.topWrap}>
-                      {isPrime ? (
-                        <span className={styles.cardValue}>
-                          {cardData.stockScore}
-                        </span>
-                      ) : (
+                  <span className={styles.topWrap}>
+                    {!isPrime ? (
+                      <span className={styles.topWrap}>
                         <i className={styles.lockIcon}></i>
-                      )}
-                      <small className={styles.small}>10</small>
-                    </span>
-                  ) : cardData.stockScore === "NR" ||
-                    cardData.stockScore === "nr" ? (
-                    <span className={styles.nrStyle}>NR</span>
-                  ) : (
-                    <span className={styles.naStyle}>N/A</span>
-                  )}
+                        <small className={styles.small}>10</small>
+                      </span>
+                    ) : (
+                      <>
+                        {cardData?.stockScore &&
+                        cardData.stockScore !== null &&
+                        cardData.stockScore !== "" &&
+                        cardData.stockScore !== "NR" &&
+                        cardData.stockScore !== "nr" ? (
+                          <span className={styles.topWrap}>
+                            <span className={styles.cardValue}>
+                              {cardData.stockScore}
+                            </span>
+                            <small className={styles.small}>10</small>
+                          </span>
+                        ) : cardData.stockScore === "NR" ||
+                          cardData.stockScore === "nr" ? (
+                          <span className={styles.nrStyle}>NR</span>
+                        ) : (
+                          <span className={styles.naStyle}>N/A</span>
+                        )}
+                      </>
+                    )}
 
-                  <span className={styles.btmWrap}>
-                    Earnings <br /> Score
+                    <span className={styles.btmWrap}>
+                      Earnings <br /> Score
+                    </span>
                   </span>
                 </span>
               </span>

@@ -94,29 +94,6 @@
     color: $green-80;
     font-weight: 700;
     position: relative;
-    &::after {
-      content: "";
-      position: absolute;
-      left: -10px;
-      top: 3px;
-      width: 4px;
-      height: 4px;
-      display: inline-block;
-      vertical-align: top;
-      border-top: solid 1px $green-80;
-      border-left: solid 1px $green-80;
-      transform: rotate(45deg);
-    }
-    &::before {
-      content: "";
-      position: absolute;
-      left: -8.5px;
-      top: 3px;
-      height: 8px;
-      display: inline-block;
-      vertical-align: top;
-      border-left: solid 1px $green-80;
-    }
   }
   .down {
     font-size: 13px;
@@ -144,15 +121,13 @@
   }
 }
 
-
-
-@media screen and (max-width: 1314px) {
+@media screen and (max-width: 1366px) {
   .grphTxtWrap {
     .graph {
       width: 80px;
     }
   }
-  .cardWrap{
+  .cardWrap {
     padding: 5px 10px;
     min-width: auto;
   }

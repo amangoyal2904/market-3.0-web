@@ -218,15 +218,21 @@
     min-width: 380px;
   }
 }
-@media screen and (max-width: 1363px) {
+@media screen and (max-width: 1366px) {
+  .cardWrap {
+    padding: 10px 12px;
+    min-width: 330px;
+  }
+}
+@media screen and (max-width: 1310px) {
   .cardWrap {
     padding: 10px 12px;
     min-width: 310px;
   }
 }
-@media screen and (max-width: 1168px) {
+@media screen and (max-width: 1238px) {
   .cardWrap {
     padding: 10px 12px;
-    min-width: 310px;
+    min-width: 290px;
   }
 }

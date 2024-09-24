@@ -75,7 +75,7 @@
 .dateList {
   display: block;
   list-style-type: none;
-  width: 700px;
+  max-width: 700px;
   overflow-x: auto;
   white-space: nowrap;
   scrollbar-width: none;
@@ -229,7 +229,7 @@
   position: relative;
   border-radius: 100px;
   border: 1px solid #000;
-  
+
   .filterTxt {
     font-size: 12px;
     padding: 3px 30px 3px 10px;
@@ -354,7 +354,7 @@
 @media screen and (max-width: 1500px) {
   .topTabsSec {
     .dateList {
-      width: 400px;
+      max-width: 400px;
     }
   }
 }
@@ -362,7 +362,7 @@
 @media screen and (max-width: 1168px) {
   .topTabsSec {
     .dateList {
-      width: 380px;
+      max-width: 380px;
     }
   }
 }
