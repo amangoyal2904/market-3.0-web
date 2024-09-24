@@ -86,7 +86,7 @@ const SectorsPerformance = React.memo(
       <>
         <h2
           className={styles.heading}
-        >{`Peer Performance of ${indexName} Sector v/s Market`}</h2>
+        >{`Performance of  ${indexName} Sectoral Comparison`}</h2>
         <table className={styles.marketsCustomTable}>
           <thead>
             <tr>
