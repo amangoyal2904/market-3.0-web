@@ -37,10 +37,9 @@
   }
 }
 .ctaContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 24px;
   margin-top: 12px;
   .cta {
     flex: 1;
@@ -48,11 +47,11 @@
     border: 1px solid $black;
     border-radius: 3px;
     color: $white;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 16px;
     font-weight: 700;
     text-align: center;
-    padding: 7px 5px;
+    padding: 8px 12px;
     &.outline {
       background: $white;
       color: $black;

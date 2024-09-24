@@ -110,15 +110,14 @@ const PastChartPatternsClientSlug = ({
 
   return (
     <>
-      <TopNav pageUrl={pageUrl} />
+      <TopNav
+        pageUrl={pageUrl}
+        pageType="past"
+        payload={payload}
+        handlePayloadChange={onPayloadChange}
+      />
       <div className="prel">
         {!!processingLoader && <Loader loaderType="container" />}
-        {/* <TopHead
-          pageType="past"
-          payload={payload}
-          handlePayloadChange={onPayloadChange}
-        /> */}
-
         <div className={`${styles.container} ${styles.mt14}`}>
           {newPatternsList ? (
             <>

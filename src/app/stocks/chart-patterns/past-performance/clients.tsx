@@ -5,7 +5,6 @@ import { getCookie } from "@/utils";
 import React, { useEffect, useRef, useState } from "react";
 import { getPastChartPattern } from "../utilities";
 import Loader from "@/components/Loader";
-import TopHead from "@/components/ChartPatterns/TopHead";
 import styles from "../ChartPattern.module.scss";
 import PastPatternCard from "@/components/ChartPatterns/PastPatternCard";
 import jStorageReact from "jstorage-react";
@@ -72,14 +71,14 @@ const PastChartPatternsClient = ({
 
   return (
     <>
-      <TopNav pageUrl={pageUrl} />
+      <TopNav
+        pageUrl={pageUrl}
+        pageType="past"
+        payload={payload}
+        handlePayloadChange={onPayloadChange}
+      />
       <div className="prel">
         {!!processingLoader && <Loader loaderType="container" />}
-        {/* <TopHead
-          pageType="past"
-          payload={payload}
-          handlePayloadChange={onPayloadChange}
-        /> */}
         <div className={`${styles.container} ${styles.mt14}`}>
           {newPatternsList && newPatternsList.length > 0 ? (
             newPatternsList.map(

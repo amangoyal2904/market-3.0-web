@@ -19,8 +19,8 @@
   align-items: center;
   flex-direction: column;
   padding: 2% 5% 0.5%;
-  background: #fde6e2;
-  border-top: 4px solid #debaae;
+  background: $salmon-50;
+  border-top: 4px solid $salmon-70;
   background-image: url(/marketsweb/img/paywall_bkg.svg);
   background-repeat: no-repeat;
   background-position: bottom left;
@@ -49,7 +49,7 @@
     width: 100%;
   }
   .leftSec {
-    width: 70%;
+    width: 65%;
     .hl {
       font-size: 25px;
       font-weight: 800;
@@ -67,7 +67,7 @@
 
   .rightSec {
     position: relative;
-    width: 30%;
+    width: 35%;
     text-align: center;
     border: 1px solid $salmon-70;
     padding: 40px 20px 20px;
@@ -75,19 +75,19 @@
       position: absolute;
       display: inline-block;
       background: $salmon-70;
-      padding: 8px 15px;
+      padding: 8px;
       font-size: 14px;
-      line-height: 20px;
+      line-height: 17px;
       font-weight: 500;
       top: -20px;
-      left: 20px;
-      right: 20px;
+      left: 80px;
+      right: 80px;
     }
     .cta {
       position: relative;
       background: $red-50;
       color: $white;
-      font-size: 16px;
+      font-size: 18px;
       line-height: 20px;
       font-weight: 700;
       width: 80%;

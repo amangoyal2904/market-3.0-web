@@ -30,7 +30,7 @@ const ExploreChartPatternsClient = ({ response, pageUrl }: any) => {
 
   return (
     <>
-      <TopNav pageUrl={pageUrl} />
+      {/* <TopNav pageUrl={pageUrl} /> */}
       {response && response.length > 0 ? (
         <div className={styles.cards}>
           {response.map((pattern: any, index: number) =>

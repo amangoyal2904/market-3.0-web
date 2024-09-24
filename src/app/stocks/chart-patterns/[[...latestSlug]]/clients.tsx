@@ -114,7 +114,13 @@ const ChartPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
 
   return (
     <>
-      <TopNav pageUrl={pageUrl} />
+      <TopNav
+        pageUrl={pageUrl}
+        pageType="latest"
+        payload={payload}
+        latestPatternRequestDto={latestPatternRequestDto}
+        handlePayloadChange={onPayloadChange}
+      />
       <div className="prel">
         {!!processingLoader && <Loader loaderType="container" />}
         {newPatternsData && newPatternsData.length > 0 ? (

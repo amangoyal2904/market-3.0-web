@@ -115,16 +115,15 @@ const PastPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
 
   return (
     <>
-      <TopNav pageUrl={pageUrl} />
+      <TopNav
+        pageUrl={pageUrl}
+        pageType="past-pattern"
+        payload={payload}
+        latestPatternRequestDto={latestPatternRequestDto}
+        handlePayloadChange={onPayloadChange}
+      />
       <div className="prel">
         {!!processingLoader && <Loader loaderType="container" />}
-        {/* <TopHead
-          pageType="pastPatterns"
-          payload={payload}
-          latestPatternRequestDto={latestPatternRequestDto}
-          pageSummary={pageSummaryView}
-          handlePayloadChange={onPayloadChange}
-        /> */}
 
         {newPatternsData && newPatternsData.length > 0 ? (
           <>

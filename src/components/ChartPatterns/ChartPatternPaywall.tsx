@@ -124,8 +124,8 @@ const ChartPatternPaywall = ({
           <div className={styles.leftSec}>
             <ChartPatternLogo primeLogo={false} />
             <h4 className={styles.hl}>
-              Spot Real-Time Patterns, Maximise Your Profits
-              <span>with chart patterns.</span>
+              Spot real-time patterns and maximise your profits
+              <span>with 5+ trading ideas every day.</span>
             </h4>
             <img
               src="/marketsweb/img/chart_pattern_banner.svg"
