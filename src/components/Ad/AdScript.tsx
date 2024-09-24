@@ -146,6 +146,7 @@ export const renderDfpAds = (userType = true) => {
       pathName.indexOf("/top-india-investors-portfolio") > -1 ||
       pathName.indexOf("/stockreportsplus") > -1 ||
       pathName.indexOf("/stock-market-mood") > -1 ||
+      pathName.indexOf("/stocks/chart-patterns") > -1 ||
       pathName.indexOf("/watchlist") > -1
     ) {
       Array.from(document.getElementsByClassName("hideAd")).forEach(

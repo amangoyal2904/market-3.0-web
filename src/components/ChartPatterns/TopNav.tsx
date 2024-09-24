@@ -32,18 +32,18 @@ const tabData = [
 
 interface TopNavProps {
   pageUrl: string;
-  payload: any;
+  payload?: any;
   latestPatternRequestDto?: any;
-  pageType: string;
-  handlePayloadChange: (updatedPayload: any) => void;
+  pageType?: string;
+  handlePayloadChange?: (updatedPayload: any) => void;
 }
 
 const TopNav = ({
   pageUrl,
   latestPatternRequestDto,
-  pageType,
-  payload,
-  handlePayloadChange,
+  pageType = "",
+  payload = {},
+  handlePayloadChange = () => {},
 }: TopNavProps) => {
   const durationFilterOptions = [
     {
@@ -63,7 +63,7 @@ const TopNav = ({
   const selectedPatternFilter = {
     id: latestPatternRequestDto?.patternType || "bullish",
     value:
-      latestPatternRequestDto?.patternName == "Bullish Patterns"
+      latestPatternRequestDto?.patternName === "Bullish Patterns"
         ? "All Patterns"
         : latestPatternRequestDto?.patternName || "All Patterns",
   };
@@ -222,7 +222,7 @@ const TopNav = ({
           ))}
         </div>
         <div className={styles.filtersContainer}>
-          {(pageType == "past" || pageType == "past-pattern") && (
+          {(pageType === "past" || pageType === "past-pattern") && (
             <CustomDropDown
               filterOptions={durationFilterOptions}
               onFilterChange={handleDurationFilterChange}
@@ -234,7 +234,7 @@ const TopNav = ({
             <i className="eticon_filter"></i>
             <span>{selectedIndexFilter.name}</span>
           </div>
-          {(pageType == "latest" || pageType == "past-pattern") && (
+          {(pageType === "latest" || pageType === "past-pattern") && (
             <CustomDropDown
               selectedFilter={selectedPatternFilter}
               filterOptions={[selectedPatternFilter]}
