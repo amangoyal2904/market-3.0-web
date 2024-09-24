@@ -10,7 +10,7 @@ const PieChart = dynamic(() => import("../PieChart"), {
   loading: () => <div className={styles.spinner}></div>, // Optional: a fallback while the component is loading
 });
 
-import { Pattern, PatternData, PastPatternCardProps } from "./types";
+import { PastPatternCardProps } from "./types";
 
 const PastPatternCard = ({
   patternData,
@@ -74,6 +74,7 @@ const PastPatternCard = ({
         <ChartPatternTableContainer
           pastPatternList={pastPatternList}
           subPatternFlag={subPatternFlag}
+          fixedHeader={!!showCta ? false : true}
         />
         <div className="dflex align-item-center space-between">
           <div className={styles.helpTxt}>

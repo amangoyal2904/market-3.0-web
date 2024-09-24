@@ -73,8 +73,8 @@
       color: $black;
     }
     &.firstColumn {
-      width: 110px;
-      min-width: 250px;
+      width: 200px;
+      max-width: 200px;
       text-align: left;
       font-size: 14px;
       font-weight: 600;
@@ -145,20 +145,9 @@
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
-    &::after {
-      content: "";
-      display: block;
-      width: 100%;
-      height: 1px;
-      background: $gray_70;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      box-shadow: 0 1px 0 $gray_70;
-    }
     &.firstColumn {
-      width: 250px;
-      min-width: 250px;
+      width: 200px;
+      max-width: 200px;
       text-align: left;
       cursor: pointer;
     }

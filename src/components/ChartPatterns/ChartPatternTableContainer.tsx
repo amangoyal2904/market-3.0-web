@@ -76,7 +76,7 @@ const ChartPatternTableContainer = ({
         }
       }
     }, 10),
-    [debounce, fixedHeader]
+    [debounce, fixedHeader],
   );
 
   useEffect(() => {
@@ -156,7 +156,7 @@ const ChartPatternTableContainer = ({
                     href={getStockUrl(
                       row.companyId,
                       row.companySeoName,
-                      "equity"
+                      "equity",
                     )}
                     title={row.companyName}
                     className={styles.stName}
@@ -243,20 +243,25 @@ const ChartPatternTableContainer = ({
           </tbody>
         </table>
       </div>
-      {showCustomScroll && (
-        <div id="showScroll" className={styles.showScroll}>
-          <span
-            className={`${styles.leftIcon} ${
-              !leftScrollEnabled ? styles.disabled : ""
-            }`}
+      {!!parentHasScroll && showCustomScroll && (
+        <div id="customScroll" className={styles.horizontalCustomScroll}>
+          <button
+            id="scrollButton_l"
             onClick={leftClickScroll}
-          />
-          <span
-            className={`${styles.rightIcon} ${
-              !rightScrollEnabled ? styles.disabled : ""
-            }`}
+            className={`${styles.scrollButton} ${!leftScrollEnabled ? styles.disableBtn : ""}`}
+            disabled={!leftScrollEnabled}
+          >
+            &#8592;
+          </button>
+          <span />
+          <button
+            id="scrollButton_r"
             onClick={rightClickScroll}
-          />
+            className={`${styles.scrollButton} ${!rightScrollEnabled ? styles.disableBtn : ""}`}
+            disabled={!rightScrollEnabled}
+          >
+            &#8594;
+          </button>
         </div>
       )}
     </div>
