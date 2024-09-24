@@ -60,8 +60,10 @@ const ChartPatternPaywall = ({
       } else {
         // Fetch new data if not cached or expired
         const fetchedText = await fetchNonPrimeData();
-        setNonPrimeOfferText(fetchedText);
-        cacheNonPrimeOfferData(fetchedText);
+        if (!!fetchedText) {
+          setNonPrimeOfferText(fetchedText);
+          cacheNonPrimeOfferData(fetchedText);
+        }
       }
     };
 

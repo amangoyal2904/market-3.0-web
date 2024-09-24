@@ -1,9 +1,8 @@
-import { getStockUrl } from "@/utils/utility";
 import styles from "./PastPatternCard.module.scss";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
-import { dateFormat, formatNumber } from "@/utils";
+import ChartPatternTableContainer from "./ChartPatternTableContainer";
 
 // Lazy-load PieChart
 const PieChart = dynamic(() => import("../PieChart"), {
@@ -11,38 +10,7 @@ const PieChart = dynamic(() => import("../PieChart"), {
   loading: () => <div className={styles.spinner}></div>, // Optional: a fallback while the component is loading
 });
 
-interface Pattern {
-  companyId: string;
-  companySeoName: string;
-  companyName: string;
-  patternName?: string;
-  patternFormedDate?: string;
-  breakoutPrice: number;
-  marketCap: number;
-  stockReturn: number;
-  returnTimeframe: number;
-  industryName?: string;
-}
-
-interface PatternData {
-  subPatternFlag?: boolean;
-  headingText?: string;
-  positiveCount?: number;
-  negativeCount?: number;
-  successRate?: number;
-  averageReturn?: number;
-  holdingPeriod?: string;
-  patternType?: string;
-  totalCount?: number;
-  companyName?: string;
-  pastPatternList: Pattern[];
-}
-
-interface PastPatternCardProps {
-  patternData: PatternData;
-  timeFrame?: string; // Made optional
-  showCta?: boolean;
-}
+import { Pattern, PatternData, PastPatternCardProps } from "./types";
 
 const PastPatternCard = ({
   patternData,
@@ -103,76 +71,10 @@ const PastPatternCard = ({
         >
           <h4 className={styles.title}>Top Picks</h4>
         </div>
-        <div className={styles.tableContainer}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th className={styles.firstColumn}>Stock Name</th>
-                {!subPatternFlag && <th>Pattern Formed</th>}
-                <th>Formed Date</th>
-                <th>Breakout Price</th>
-                <th>Return %</th>
-                <th>Days</th>
-                <th>Market Cap</th>
-                <th className={styles.left}>Industry</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pastPatternList.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  <td className={styles.firstColumn}>
-                    <a
-                      href={getStockUrl(
-                        row.companyId,
-                        row.companySeoName,
-                        "equity",
-                      )}
-                      title={row.companyName}
-                      className={styles.stName}
-                      target="_blank"
-                    >
-                      {row.companyName}
-                    </a>
-                  </td>
-                  {!subPatternFlag && (
-                    <td className={styles.ft10}>
-                      <span className={styles.bull}>{row.patternName}</span>
-                    </td>
-                  )}
-                  <td className={styles.txtBlack}>
-                    {dateFormat(row.patternFormedDate, "%d %MMM, %H:%m%p")}
-                  </td>
-                  <td className="numberFonts">
-                    {formatNumber(row.breakoutPrice)}
-                  </td>
-                  <td
-                    className={
-                      row.stockReturn < 0
-                        ? "numberFonts down"
-                        : "numberFonts up"
-                    }
-                  >
-                    {`${row.stockReturn}%`}
-                    <span
-                      className={`${styles.arrowIcons} ${
-                        row.stockReturn < 0
-                          ? "eticon_down_arrow"
-                          : "eticon_up_arrow"
-                      }`}
-                    />
-                  </td>
-                  <td>
-                    <span className="numberFonts">
-                      {row.returnTimeframe} days
-                    </span>
-                  </td>
-                  <td className="numberFonts">{formatNumber(row.marketCap)}</td>
-                  <td className={styles.left}>{row.industryName}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ChartPatternTableContainer
+          pastPatternList={pastPatternList}
+          subPatternFlag={subPatternFlag}
+        />
         <div className="dflex align-item-center space-between">
           <div className={styles.helpTxt}>
             *Returns based on all positive & negative closed ideas
