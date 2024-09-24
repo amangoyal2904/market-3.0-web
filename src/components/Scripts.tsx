@@ -11,7 +11,7 @@ import {
 import GLOBAL_CONFIG from "../network/global_config.json";
 import { getUserType, trackingEvent } from "@/utils/ga";
 import { useStateContext } from "@/store/StateContext";
-import { renderDfpAds, loadAndBeyondScript } from "@/components/Ad/AdScript";
+import { renderDfpAds, loadAndBeyondScript, loadAmazonTamScript } from "@/components/Ad/AdScript";
 import { sendMouseFlowEvent } from "../utils/utility";
 interface Props {
   isprimeuser?: number | boolean;
@@ -63,6 +63,8 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
   //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
+  const ET_ADS_URL = APP_ENV === "development" ? "https://toidev.indiatimes.com/etads_v2/minify-1.cms" : "https://timesofindia.indiatimes.com/etads_v2/minify-1.cms";
+  const ET_TIL_PREBID_URL = "https://assets.toiimg.com/js/til_prebid.js";
 
   let execution = 0;
   const surveyLoad = () => {
@@ -107,6 +109,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
             renderDfpAds(isPrime);
           });
       loadAndBeyondScript(isPrime);
+      loadAmazonTamScript(isPrime);
       if (window.isSurveyLoad) {
         surveyLoad();
       } else {
@@ -283,7 +286,19 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
                 document.dispatchEvent(gptLoaded);
               }}
             />
+            
           )}
+          {!isprimeuser && !searchParams?.get("opt") && (
+            <Script
+              src={ET_ADS_URL}
+            />            
+          )}
+          {!isprimeuser && !searchParams?.get("opt") && (
+            <Script
+              src={ET_TIL_PREBID_URL}
+            />
+          )}
+
           {/* <Script
             id="tag-manager"
             strategy="lazyOnload"

@@ -48,10 +48,6 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
       <link rel="dns-prefetch" href="https://api.ibeat-analytics.com" />
       <link rel="dns-prefetch" href="https://tml.clmbtech.com" />
       <link rel="dns-prefetch" href="https://px.ads.linkedin.com" />
-      <link
-        rel="dns-prefetch"
-        href="https://secure-assets.rubiconproject.com"
-      />
       <link rel="dns-prefetch" href="https://snap.licdn.com" />
       <link
         rel="dns-prefetch"
