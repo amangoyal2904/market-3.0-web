@@ -5,6 +5,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import styles from "./Sectors.module.scss";
 import { getAllSectors } from "@/utils/utility";
 import MarketStatus from "@/components/MarketStatus";
+import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import refeshConfig from "@/utils/refreshConfig.json";
 
 const SectorsClient = ({
   tableHeaderData = [],
@@ -50,6 +52,14 @@ const SectorsClient = ({
     }
     setProcessingLoader(false);
   };
+
+  useIntervalApiCall(
+    () => {
+      if (currentMarketStatus === "LIVE") updateTableData();
+    },
+    refeshConfig.indicesListing,
+    [currentMarketStatus],
+  );
 
   useEffect(() => {
     if (sortData.field != null) {
