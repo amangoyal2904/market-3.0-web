@@ -166,8 +166,8 @@
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getMfCashData.json"
   },
   "MARKETS_LIVEBLOG": {
-    "development": "https://economictimes.indiatimes.com/etstatic/liveblogs/host-et,format-json.htm",
-    "production": "https://economictimes.indiatimes.com/etstatic/liveblogs/host-et,format-json.htm"
+    "development": "https://etdev8243.indiatimes.com/feed_mktliveblog.cms?feedtype=json",
+    "production": "https://economictimes.indiatimes.com/feed_mktliveblog.cms?feedtype=json"
   },
   "MARKETMOODS_OVERVIEW": {
     "development": "https://screener.indiatimes.com/screener/marketbreadth/overview",
