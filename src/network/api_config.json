@@ -166,7 +166,7 @@
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getMfCashData.json"
   },
   "MARKETS_LIVEBLOG": {
-    "development": "https://etdev8243.indiatimes.com/feed_mktliveblog.cms?feedtype=json",
+    "development": "https://economictimes.indiatimes.com/feed_mktliveblog.cms?feedtype=json",
     "production": "https://economictimes.indiatimes.com/feed_mktliveblog.cms?feedtype=json"
   },
   "MARKETMOODS_OVERVIEW": {
@@ -204,10 +204,10 @@
     },
     "AllScreenerCategory": {
       "development": [
-        "https://screener.indiatimes.com//screener/getScreenerSelectCategoryFieldMapping"
+        "https://screener.indiatimes.com/screener/getScreenerSelectCategoryFieldMapping"
       ],
       "production": [
-        "https://screener.indiatimes.com//screener/getScreenerSelectCategoryFieldMapping"
+        "https://screener.indiatimes.com/screener/getScreenerSelectCategoryFieldMapping"
       ]
     },
     "saveViewName": {
