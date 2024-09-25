@@ -230,10 +230,15 @@ const TopNav = ({
               filterLabelKey="value"
             />
           )}
-          <div className={styles.filterBtn} onClick={() => filterHandler(true)}>
-            <i className="eticon_filter"></i>
-            <span>{selectedIndexFilter.name}</span>
-          </div>
+          {pageType !== "" && (
+            <div
+              className={styles.filterBtn}
+              onClick={() => filterHandler(true)}
+            >
+              <i className="eticon_filter"></i>
+              <span>{selectedIndexFilter.name}</span>
+            </div>
+          )}
           {(pageType === "latest" || pageType === "past-pattern") && (
             <CustomDropDown
               selectedFilter={selectedPatternFilter}
