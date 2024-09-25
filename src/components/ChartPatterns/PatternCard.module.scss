@@ -15,10 +15,11 @@
   .patternInfo {
     position: relative;
     display: inline-flex;
+    width: max-content;
     gap: 10px;
     border-radius: 3px;
-    padding: 3px 5px;
-    margin-bottom: 5px;
+    padding: 3px 10px;
+    margin-bottom: 8px;
     font-size: 14px;
     line-height: 18px;
     span + span {
@@ -66,6 +67,10 @@
     list-style-type: none;
     span {
       color: $gray-40;
+      &.label {
+        display: inline-block;
+        margin-bottom: 4px;
+      }
     }
     p {
       font-family: var(--font-lato);
@@ -85,9 +90,11 @@
     }
   }
   .patternImage {
+    position: relative;
     width: 100%;
     height: auto;
     object-fit: cover;
+    cursor: pointer;
   }
   .desc {
     display: flex;
@@ -143,16 +150,30 @@
     text-align: center;
   }
   .unlockCta {
+    position: relative;
     display: inline-flex;
-    font-size: 14px;
+    font-size: 16px;
     background: $red-60;
     color: $white;
     align-items: center;
     justify-content: center;
     gap: 10px;
     border-radius: 3px;
-    padding: 10px 8px;
+    padding: 10px 16px;
     margin: 15px auto;
+    border-radius: 4px;
+    .pdl {
+      padding-left: 14px;
+    }
+    .icons:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 44px;
+      background: $white;
+      width: 1px;
+    }
   }
   .blurEffect {
     position: relative;
@@ -172,7 +193,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(0, 0, 0, 0.06); /* Transparent background color */
+      background-color: rgba(0, 0, 0, 0.1); /* Transparent background color */
       backdrop-filter: blur(4px); /* Apply blur to the background */
       filter: blur(4px); /* Fallback for older browsers */
       z-index: -1; /* Place the blurred background behind the content */

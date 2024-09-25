@@ -33,7 +33,7 @@ export const PatternCard = ({
 }: PatternCardProps) => {
   const [showTechnicalChart, setShowTechnicalChart] = useState(false);
   const [imageSrc, setImageSrc] = useState(
-    "https://img.etimg.com/photo/42031747.cms",
+    "/marketsweb/img/chart_pattern_placeholder.png",
   );
 
   const defaultWidgetProps: any = {
@@ -146,18 +146,18 @@ export const PatternCard = ({
 
       <ul className={styles.metrics}>
         <li className={styles.metric}>
-          <span>Formed on</span>
+          <span className={styles.label}>Formed on</span>
           <p>
             {dateFormat(formedDate, "%d %MMM")}
             <span className={styles.time}>{formedTime}</span>
           </p>
         </li>
         <li className={styles.metric}>
-          <span>Breakout Price</span>
+          <span className={styles.label}>Breakout Price</span>
           {!isLocked ? <p>{formatNumber(breakoutPrice)}</p> : <PaywallBlur />}
         </li>
         <li className={styles.metric}>
-          <span>
+          <span className={styles.label}>
             {ideaFlag === "ideaActive" ? "Current Price" : "Return %"}
           </span>
           {!isLocked ? (
@@ -197,7 +197,9 @@ export const PatternCard = ({
         className={styles.patternImage}
         loading="lazy"
         onClick={handleImageClick}
-        onError={() => setImageSrc("https://img.etimg.com/photo/42031747.cms")}
+        onError={() =>
+          setImageSrc("/marketsmweb/img/chart_pattern_placeholder.png")
+        }
       />
 
       {latestCard && (
@@ -241,7 +243,7 @@ export const PatternCard = ({
         <div className={styles.centerContainer}>
           <div className={styles.unlockCta}>
             <span className={`eticon_lock_filled ${styles.icons}`}></span>
-            <p>Unlock Stock Name</p>
+            <p className={styles.pdl}>Unlock Stock Name</p>
           </div>
         </div>
       )}
