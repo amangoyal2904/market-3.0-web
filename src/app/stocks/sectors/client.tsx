@@ -5,8 +5,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import styles from "./Sectors.module.scss";
 import { getAllSectors } from "@/utils/utility";
 import MarketStatus from "@/components/MarketStatus";
-import useIntervalApiCall from "@/utils/useIntervalApiCall";
-import refeshConfig from "@/utils/refreshConfig.json";
 
 const SectorsClient = ({
   tableHeaderData = [],
@@ -21,7 +19,10 @@ const SectorsClient = ({
   const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
   const [_tableData, setTableData] = useState(tableData);
   const [processingLoader, setProcessingLoader] = useState(false);
-  const [sortData, setSortData] = useState({ field: null, order: "DESC" });
+  const [sortData, setSortData] = useState({
+    field: "sectorMarketCap",
+    order: "DESC",
+  });
 
   const onServerSideSort = useCallback(
     async (field: any) => {
@@ -53,20 +54,11 @@ const SectorsClient = ({
     setProcessingLoader(false);
   };
 
-  useIntervalApiCall(
-    () => {
-      if (currentMarketStatus === "LIVE") updateTableData();
-    },
-    refeshConfig.indicesListing,
-    [currentMarketStatus],
-  );
-
   useEffect(() => {
-    if (sortData.field != null) {
-      setProcessingLoader(true);
-      updateTableData();
-    }
+    setProcessingLoader(true);
+    updateTableData();
   }, [sortData]);
+
   return (
     <>
       <div className="dflex align-item-center">
