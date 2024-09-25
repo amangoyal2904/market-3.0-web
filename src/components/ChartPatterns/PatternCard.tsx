@@ -7,6 +7,7 @@ import StockDescription from "./StockDescription";
 import ChartClient from "@/app/chart/clients";
 import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
+import ChartPatternLogo from "./ChartPatternLogo";
 
 interface PatternCardProps {
   patternData: any;
@@ -86,12 +87,14 @@ export const PatternCard = ({
   const handleImageClick = () => {
     if (!isLocked) {
       setShowTechnicalChart(true);
+      document.body.style.overflow = "hidden";
       window.history.pushState({ showTechnicalChart: true }, "");
     }
   };
 
   const removeTechnicalWidget = () => {
     setShowTechnicalChart(false);
+    document.body.style.overflow = "";
   };
 
   useEffect(() => {
@@ -250,13 +253,7 @@ export const PatternCard = ({
               onClick={removeTechnicalWidget}
               className={`${styles.icon} ${styles.lg} eticon_caret_left`}
             ></i>
-            <img
-              src="/marketsmweb/img/chart_pattern_logo.svg"
-              className={styles.logo}
-              width={156}
-              height={22}
-              alt="Chart Pattern Logo"
-            />
+            <ChartPatternLogo primeLogo={false} />
             <i
               onClick={removeTechnicalWidget}
               className={`${styles.icon} eticon_cross`}

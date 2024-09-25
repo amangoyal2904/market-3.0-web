@@ -137,7 +137,7 @@ const PastPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
                 />
               ))}
             </div>
-            {hasMorePages && (
+            {hasMorePages && pageSummaryView.totalPages > 1 && (
               <div className={styles.loadMoreContainer}>
                 <div className={styles.showingIdeas}>{showingIdeasText}</div>
                 <button

@@ -258,6 +258,31 @@ const getLiPath = (router: string, pagePath: string) => {
       showCurrLi: true,
       listItemSchema: "",
     };
+  } else if (router == "/stocks/chart-patterns") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Chart Patterns
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router.includes("/stocks/chart-patterns/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <Link href="/stocks/chart-patterns" title="Chart Patterns">
+            Chart Patterns
+          </Link>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
   } else if (router == "/markets/benefits/stockreportsplus") {
     return {
       showNextLi: false,

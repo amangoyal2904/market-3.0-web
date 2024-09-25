@@ -12,7 +12,7 @@ const ChartPatternLogo: React.FC<ChartPatternLogoProps> = ({
       {primeLogo && <div className={styles.prime}>ETPrime</div>}
       <h1 className={styles.heading}>
         <i className="eticon_chart_pattern"></i> AI Chart
-        <span>Patterns</span>
+        <span> Patterns</span>
       </h1>
     </div>
   );

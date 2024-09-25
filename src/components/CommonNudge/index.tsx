@@ -79,7 +79,8 @@ const CommonNudge = ({ modalType }: any) => {
   };
   const checkUrl = () =>
     pathName.includes("top-india-investors-portfolio") ||
-    pathName.includes("stock-market-mood");
+    pathName.includes("stock-market-mood") ||
+    pathName.includes("/stocks/chart-patterns");
   const getNudgeCheck = (key: any) => {
     const nudge = jStorageReact.get(key) && JSON.parse(jStorageReact.get(key));
     return {

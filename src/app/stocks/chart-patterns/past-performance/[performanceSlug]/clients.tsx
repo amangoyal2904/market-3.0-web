@@ -127,7 +127,7 @@ const PastChartPatternsClientSlug = ({
                 showCta={false}
               />
 
-              {hasMorePages && (
+              {hasMorePages && pageSummaryView.totalPages > 1 && (
                 <div className={styles.loadMoreContainer}>
                   <div className={styles.showingIdeas}>{showingIdeasText}</div>
                   <button
