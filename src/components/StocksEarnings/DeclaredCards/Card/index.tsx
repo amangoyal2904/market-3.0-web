@@ -9,8 +9,8 @@ import { getStockUrl } from "@/utils/utility";
 
 const Card = ({ cardData }: any) => {
   const { state } = useStateContext();
-  // const { isLogin, isPrime } = state.login;
-  const isPrime = true;
+  const { isLogin, isPrime } = state.login;
+  //const isPrime = true;
   //console.log("__cardData", {cardData})
   const date = new Date(cardData?.declaredDate);
   const formattedDate = date.toLocaleDateString("en-US", {
