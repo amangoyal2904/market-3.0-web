@@ -201,7 +201,7 @@ export const fnGenerateMetaData = (meta?: any) => {
       },
     },
     openGraph: {
-      title: meta?.title,
+      title: `${meta?.title} | The Economic Times`,
       description: meta?.desc,
       url: meta?.pathname,
       siteName: "The Economic Times",
@@ -217,7 +217,7 @@ export const fnGenerateMetaData = (meta?: any) => {
     },
     twitter: {
       card: "summary_large_image",
-      title: meta?.title,
+      title: `${meta?.title} | The Economic Times`,
       description: meta?.desc,
       creator: "@etmarkets",
       images: ["https://img.etimg.com/photo/msid-65498029/et-logo.jpg"],
@@ -1581,8 +1581,6 @@ export const getSectorsOverview = async (indexid: number) => {
 
 export const getPeerSectors = async (indexid: number) => {
   let serviceUrl = `${(APIS_CONFIG as any)?.SECTORS_PEER[APP_ENV]}?sectorIds=${indexid}`;
-
-  console.log("@@@@ serviceUrl", serviceUrl);
   const response = await Service.get({
     url: serviceUrl,
     params: {},

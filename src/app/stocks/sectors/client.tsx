@@ -19,7 +19,10 @@ const SectorsClient = ({
   const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
   const [_tableData, setTableData] = useState(tableData);
   const [processingLoader, setProcessingLoader] = useState(false);
-  const [sortData, setSortData] = useState({ field: null, order: "DESC" });
+  const [sortData, setSortData] = useState({
+    field: "sectorMarketCap",
+    order: "DESC",
+  });
 
   const onServerSideSort = useCallback(
     async (field: any) => {
@@ -52,11 +55,10 @@ const SectorsClient = ({
   };
 
   useEffect(() => {
-    if (sortData.field != null) {
-      setProcessingLoader(true);
-      updateTableData();
-    }
+    setProcessingLoader(true);
+    updateTableData();
   }, [sortData]);
+
   return (
     <>
       <div className="dflex align-item-center">
@@ -72,10 +74,9 @@ const SectorsClient = ({
       <p className={styles.desc}>
         Analyse the latest trend in major sectors by tracking the change in
         market-cap of individual sectors daily, quarterly, monthly, half-yearly
-        and year-to-date. You can track it with the advance-decline graph of
-        stocks plotted according to the change in market-cap contribution in
-        their sector along with an absolute count of stocks advancing or
-        declining.
+        and beyond. You can track it with the advance-decline graph of stocks
+        plotted according to the change in market-cap contribution in their
+        sector along with an absolute count of stocks advancing or declining.
       </p>
       <MarketTable
         data={_tableData}
@@ -89,6 +90,7 @@ const SectorsClient = ({
         l2NavTracking="Sectors"
         setUpdateDateTime={setUpdateDateTime}
         setFallbackWebsocket={setFallbackWebsocket}
+        noSharePriceTitle="no"
       />
     </>
   );

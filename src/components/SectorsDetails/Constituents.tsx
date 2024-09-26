@@ -128,7 +128,6 @@ const SectorsConstituents = React.memo(
         id: viewId,
       };
       setToasterConfirmData(confirmData);
-      console.log("removePersonaliseViewFun", viewId);
     };
 
     const onServerSideSort = useCallback(
@@ -179,16 +178,9 @@ const SectorsConstituents = React.memo(
       value: boolean,
       data: any,
     ) => {
-      console.log(
-        "toasterRemovePersonaliseViewCloseHandlerFun",
-        value,
-        "___data",
-        data,
-      );
       setToasterPersonaliseViewRemove(false);
       if (value && data && data.id && data.id !== "") {
         const removeViewById = await removePersonalizeViewById(data?.id);
-        console.log("removeViewById", removeViewById);
         onPersonalizeHandlerfun();
       }
     };
@@ -225,7 +217,6 @@ const SectorsConstituents = React.memo(
           }
         }
       } catch (error) {
-        console.error("Error fetching constituents table data:", error);
         // Handle error appropriately if needed
       } finally {
         setProcessingLoader(false);
@@ -305,18 +296,18 @@ const SectorsConstituents = React.memo(
             </div>
             <div className={styles.viewOtherBox}>
               <Link
-                href="/stocks/sectors"
-                title="View Other Sectors"
+                href={"/stocks/sectors"}
+                title="View All Sectors"
                 className={styles.viewAll}
                 onClick={() =>
                   trackingEvent("et_push_event", {
                     event_category: "mercury_engagement",
                     event_action: "page_cta_click",
-                    event_label: "View Other Sectors",
+                    event_label: "View All Sectors",
                   })
                 }
               >
-                View Other Sectors{" "}
+                View All Sectors{" "}
                 <span className={`eticon_next ${styles.rightIcon}`}></span>
               </Link>
             </div>

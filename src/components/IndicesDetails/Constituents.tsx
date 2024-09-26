@@ -34,7 +34,7 @@ const IndicesConstituents = React.memo(
     liveblog,
   }: any) => {
     const constituentsRef = useRef<HTMLDivElement>(null);
-    const liveBlog = liveblog?.lb || {};
+    const liveBlog = liveblog || {};
     const indexNews = indicesNews?.Item?.[0]?.NewsItem ?? [];
 
     const newsResponsive = [
