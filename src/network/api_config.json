@@ -493,23 +493,23 @@
   },
   "EARNINGS_SUMMARY": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/earnings-summary",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/earnings-summary"
+    "production": "https://etapi.indiatimes.com/et-screener/earnings-summary"
   },
   "SCREENER_CALENDAR": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/calendar",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/calendar"
+    "production": "https://etapi.indiatimes.com/et-screener/calendar"
   },
   "UPCOMING_COMPANIES": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/upcoming-companies",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/upcoming-companies"
+    "production": "https://etapi.indiatimes.com/et-screener/upcoming-companies"
   },
   "DECLARED_COMPANIES": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/declared-companies",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/declared-companies"
+    "production": "https://etapi.indiatimes.com/et-screener/declared-companies"
   },
   "SECTOR_AGGREGATE": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-aggregate",
-    "production": "https://qcbselivefeeds.indiatimes.com/et-screener/sector-aggregate"
+    "production": "https://etapi.indiatimes.com/et-screener/sector-aggregate"
   },
   "EARNINGS_SEARCH": {
     "development": "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep",
