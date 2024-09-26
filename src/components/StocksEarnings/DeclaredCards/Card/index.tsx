@@ -10,7 +10,7 @@ import { getStockUrl } from "@/utils/utility";
 const Card = ({ cardData }: any) => {
   const { state } = useStateContext();
   const { isLogin, isPrime } = state.login;
-  //const isPrime = true;
+  // const isPrime = true;
   //console.log("__cardData", {cardData})
   const date = new Date(cardData?.declaredDate);
   const formattedDate = date.toLocaleDateString("en-US", {
@@ -172,7 +172,12 @@ const Card = ({ cardData }: any) => {
               <span className={styles.topHead}>TTM EPS</span>
               <span className={`${styles.topHead} ${styles.stockScoreSec}`}>
                 <span
-                  className={`${styles.scoreWrap} ${styles.curpointer}`}
+                  className={`${styles.scoreWrap} ${
+                    !isPrime ||
+                    (cardData.stockScore !== null && cardData.stockScore !== "")
+                      ? styles.curpointer
+                      : ""
+                  }`}
                   onClick={!isPrime ? redirectToPlanPage : redirectToPdfPage}
                 >
                   <span className={styles.topWrap}>
