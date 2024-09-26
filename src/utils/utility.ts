@@ -439,9 +439,12 @@ export const getStockUrl = (
   }
 };
 
-export const fetchAllWatchListData = async (): Promise<Stock[]> => {
-  const Ssoid: any = getCookie("ssoid") ? getCookie("ssoid") : "";
-  const TicketId: any = getCookie("TicketId") ? getCookie("TicketId") : "";
+export const fetchAllWatchListData = async (
+  ssoid?: string,
+  ticketid?: string,
+): Promise<Stock[]> => {
+  const Ssoid: string = ssoid || getCookie("ssoid") || "";
+  const TicketId: string = ticketid || getCookie("TicketId") || "";
   const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.fetchStocks[APP_ENV]}`;
   const headers = new Headers({ ticketid: TicketId, ssoid: Ssoid });
   const options: any = {

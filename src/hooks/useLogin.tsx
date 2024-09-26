@@ -15,7 +15,10 @@ const useLogin = () => {
   const { dispatch } = useStateContext();
 
   const fetchWatchListStocks = async () => {
-    const data = await fetchAllWatchListData();
+    const data = await fetchAllWatchListData(
+      window.objUser.ssoid,
+      window.objUser.ticketId,
+    );
     if (data.length > 0) {
       dispatch({
         type: "UPDATE_MSID",
