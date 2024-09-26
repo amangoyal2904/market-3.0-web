@@ -13,6 +13,7 @@ import Link from "next/link";
 
 import { getStockUrl } from "@/utils/utility";
 import useDebounce from "@/hooks/useDebounce";
+import { trackingEvent } from "@/utils/ga";
 
 const latestResult = [
   { title: "Latest Results", value: "latest-results" },
@@ -124,6 +125,7 @@ const UpcomingResults = ({
   const handlerClickLatestResultFilter = (value: string) => {
     setActiveResultHandler(value);
     setShowLatestFilterMenu(false);
+    gaTrackingClickHandler(value);
   };
   const getDateFormate = (value: any) => {
     if (value && value !== "") {
@@ -185,6 +187,7 @@ const UpcomingResults = ({
     setNiftyFilterData(__selectedFilter);
     niftyFIlterHandler(type, __selectedFilter);
     //setPayload({ ..._payload, filterValue: __id, pageNo: 1 });
+    //gaTrackingClickHandler(name)
   };
   const formatUnixTimestamp = (unixTimestamp: any): string => {
     const _unixTime = Number(unixTimestamp);
@@ -202,7 +205,17 @@ const UpcomingResults = ({
     //return `${hours}:${minutes} ${ampm} | ${day} ${month} ${year}`;
     return `${day} ${month} ${year}`;
   };
-
+  const gaTrackingClickHandler = (value: any) => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_Earnings",
+      event_action: "page_filter_click",
+      event_category: "mercury_engagement",
+      event_label: `Filter Click ${value}`,
+      feature_name: "Earnings",
+      page_template: "Earnings_Overview",
+      product_name: "Mercury_Earnings",
+    });
+  };
   useEffect(() => {
     filterApiCall();
     document.addEventListener("mousedown", handleClickOutside);
@@ -406,7 +419,7 @@ const UpcomingResults = ({
                   onClick={() => showFilterMenu(true)}
                 >
                   <i className={`eticon_filter ${styles.mr}`}></i>{" "}
-                  {niftyFilterData?.name || "Rohit Nifty"}
+                  {niftyFilterData?.name || ""}
                 </span>
               </>
             ) : (

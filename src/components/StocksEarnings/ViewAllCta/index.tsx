@@ -1,5 +1,6 @@
 import styles from "./styles.module.scss";
 import Link from "next/link";
+import { trackingEvent } from "@/utils/ga";
 
 const ViewAllCta = ({
   text,
@@ -7,9 +8,23 @@ const ViewAllCta = ({
   self = "_blank",
   urlInternal = "no",
 }: any) => {
+  const gaTrackingViewAllClick = (sectorName: any) => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_Earnings",
+      event_action: "page_cta_click",
+      event_category: "mercury_engagement",
+      event_label: `View All  ${sectorName}`,
+      feature_name: "Earnings",
+      page_template: "Earnings_Overview",
+      product_name: "Mercury_Earnings",
+    });
+  };
   return (
     <>
-      <div className={styles.viewAllCta}>
+      <div
+        className={styles.viewAllCta}
+        onClick={() => gaTrackingViewAllClick(text)}
+      >
         {urlInternal === "yes" ? (
           <Link href={`${url}`}>{text}</Link>
         ) : (

@@ -1,5 +1,6 @@
 import styles from "./styles.module.scss";
 import { useRouter } from "next/navigation";
+import { trackingEvent } from "@/utils/ga";
 
 const SummaryCard = ({ data, type }: any) => {
   //console.log("____data", data)
@@ -32,24 +33,33 @@ const SummaryCard = ({ data, type }: any) => {
   const linkHandler = () => {
     let routerURL =
       type === "yoyData"
-        ? "/markets/stocks/earnings/declared-results/latest"
-        : type === "qoqData"
-          ? "/markets/stocks/earnings/declared-results/latest"
-          : type === "topPerformingSectors"
-            ? "/markets/stocks/earnings/sector-aggregate/top-performing"
-            : type === "underPerformingSectors"
-              ? "/markets/stocks/earnings/sector-aggregate/under-performing"
-              : type === "declaredData"
-                ? "/markets/stocks/earnings/declared-results/latest"
-                : "";
-
+        ? "/markets/stocks/earnings/declared-results/sales-gainers"
+        : type === "topPerformingSectors"
+          ? "/markets/stocks/earnings/sector-aggregate/top-performing"
+          : type === "underPerformingSectors"
+            ? "/markets/stocks/earnings/sector-aggregate/under-performing"
+            : type === "declaredData"
+              ? "/markets/stocks/earnings/declared-results/latest"
+              : "";
     router.push(routerURL);
+  };
+  const gaTrackingCardClick = () => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_Earnings",
+      event_action: "page_card_click",
+      event_category: "mercury_engagement",
+      event_label: `Card Click ${type}`,
+      feature_name: "Earnings",
+      page_template: "Earnings_Overview",
+      product_name: "Mercury_Earnings",
+    });
+    type !== "qoqData" && linkHandler();
   };
   return (
     <>
       <div
         className={`${styles.cardWrap} ${styles[type]}`}
-        onClick={linkHandler}
+        onClick={gaTrackingCardClick}
       >
         {type !== "declaredData" ? (
           <div className={styles.topHead}>{topTxt}</div>

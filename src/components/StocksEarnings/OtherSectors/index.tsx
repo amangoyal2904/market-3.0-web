@@ -80,6 +80,17 @@ const OtherSectors = ({ title, viewTxt, viewUrl, data }: any) => {
       slide.style.borderRight = "solid 1px rgb(204, 204, 204)"; // Remove any existing border
     });
   };
+  const gaTrackingCardClick = (sectorName: any) => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_Earnings",
+      event_action: "page_card_click",
+      event_category: "mercury_engagement",
+      event_label: `Card Click ${sectorName}`,
+      feature_name: "Earnings",
+      page_template: "Earnings_Overview",
+      product_name: "Mercury_Earnings",
+    });
+  };
   useEffect(() => {
     __onSlideChange(0);
   }, []);
@@ -95,6 +106,7 @@ const OtherSectors = ({ title, viewTxt, viewUrl, data }: any) => {
                   href={`/markets/stocks/earnings/sector-aggregate/${list?.assetSeoName}/id-${list?.assetId}`}
                   key={`topNews${index}`}
                   className={styles.newsCard}
+                  onClick={() => gaTrackingCardClick(list?.assetName)}
                 >
                   <div className={styles.topHeadTxt}>
                     <span>{list?.assetName}</span>
@@ -102,20 +114,7 @@ const OtherSectors = ({ title, viewTxt, viewUrl, data }: any) => {
                   <div className={styles.mcap}>
                     {ChangeNumberFormate(list?.marketCap)}
                   </div>
-                  {/* <div className={styles.rday}>
-                    <span
-                      className={`${list?.r1Day > 0 && list?.r1Day !== 0 ? styles.up : list?.r1Day !== 0 ? styles.down : ""}`}
-                    >
-                      {list?.r1Day > 0 && list?.r1Day !== 0 ? (
-                        <i className="eticon_up_arrow" />
-                      ) : list?.r1Day !== 0 ? (
-                        <i className="eticon_down_arrow" />
-                      ) : (
-                        ""
-                      )}
-                      {list?.r1Day === 0 ? "-" : list?.r1Day}
-                    </span>
-                  </div> */}
+
                   <div className={styles.adDecSec}>
                     <div className={styles.topTxt}>
                       <span>{list?.advances} Advances</span>

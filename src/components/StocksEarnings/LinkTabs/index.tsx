@@ -2,6 +2,7 @@ import Link from "next/link";
 import styles from "./styles.module.scss";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { trackingEvent } from "@/utils/ga";
 
 const tabsLinkData = [
   { url: "/markets/stocks/earnings", title: "Summary" },
@@ -61,6 +62,17 @@ const LinkTabs = ({
     sortHandlerFun(sortData);
     setShowSortingMenu(false);
   };
+  const gaTrackingClickHandler = (value: any) => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_Earnings",
+      event_action: "page_filter_click",
+      event_category: "mercury_engagement",
+      event_label: `Filter Click ${value}`,
+      feature_name: "Earnings",
+      page_template: "Earnings_Overview",
+      product_name: "Mercury_Earnings",
+    });
+  };
   return (
     <>
       <div className={styles.linkTabWrap}>
@@ -89,7 +101,10 @@ const LinkTabs = ({
                       return (
                         <li
                           className={`${sortingValue === item.value ? styles.active : ""}`}
-                          onClick={() => sortHandler(item)}
+                          onClick={() => {
+                            sortHandler(item),
+                              gaTrackingClickHandler(item.title);
+                          }}
                           key={`${index}-${item.title}`}
                         >
                           {item.title}

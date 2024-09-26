@@ -20,9 +20,13 @@ const Card = ({ cardData }: any) => {
   });
   const gaTrackingCompanyNameClick = (comname: any) => {
     trackingEvent("et_push_event", {
-      event_category: "mercury_earnings",
-      event_action: "company_clicked",
-      event_label: comname,
+      et_product: "Mercury_Earnings",
+      event_action: "page_card_click",
+      event_category: "mercury_engagement",
+      event_label: `Card Click ${comname}`,
+      feature_name: "Earnings",
+      page_template: "Earnings_Overview",
+      product_name: "Mercury_Earnings",
     });
   };
   const redirectToPlanPage = () => {

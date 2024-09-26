@@ -5,6 +5,7 @@ import { commonPostAPIHandler } from "../../../utils/screeners";
 import PaginationEarning from "../../BigBullTableCard/PaginationEarning";
 import Loader from "@/components/Loader";
 import Link from "next/link";
+import { trackingEvent } from "@/utils/ga";
 
 const leftSideTabData = [
   {
@@ -98,6 +99,17 @@ const SectorPageCard = ({ data, tpName = "", sortingValue = "" }: any) => {
     }
     setLoading(false);
   };
+  const clickHandler = (item: any) => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_HomePage",
+      event_action: "lhsmenu_click",
+      event_category: "mercury_engagement",
+      event_label: `Earnings ${item}`,
+      feature_name: "HomePage",
+      product_name: "Mercury_HomePage",
+      selected_category: "Earnings",
+    });
+  };
   useEffect(() => {
     loadMoreData();
   }, [_payloadTopSector, _payloadUnderSector]);
@@ -133,6 +145,7 @@ const SectorPageCard = ({ data, tpName = "", sortingValue = "" }: any) => {
             <li
               className={index === activeTab ? styles.active : ""}
               key={item.id}
+              onClick={() => clickHandler(item.title)}
             >
               <Link href={`${item.link}`}>{item.title}</Link>
             </li>

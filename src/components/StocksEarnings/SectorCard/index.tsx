@@ -1,5 +1,6 @@
 import styles from "./styles.module.scss";
 import Link from "next/link";
+import { trackingEvent } from "@/utils/ga";
 
 const SectorCard = ({ item, index, className = "" }: any) => {
   const getPercentage = (part: any, total: any) =>
@@ -16,6 +17,17 @@ const SectorCard = ({ item, index, className = "" }: any) => {
     item?.declarationData?.pendingCompanies,
     item?.declarationData?.totalCompanies,
   );
+  const gaTrackingCardClick = (sectorName: any) => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_Earnings",
+      event_action: "page_card_click",
+      event_category: "mercury_engagement",
+      event_label: `Card Click ${sectorName}`,
+      feature_name: "Earnings",
+      page_template: "Earnings_Overview",
+      product_name: "Mercury_Earnings",
+    });
+  };
   return (
     <>
       <div
@@ -26,6 +38,7 @@ const SectorCard = ({ item, index, className = "" }: any) => {
           <Link
             href={`/markets/stocks/earnings/sector-aggregate/${item?.sectorSeoName}/id-${item?.sectorId}`}
             title={item?.sectorName}
+            onClick={() => gaTrackingCardClick(item?.sectorName)}
           >
             {item?.sectorName}
           </Link>
