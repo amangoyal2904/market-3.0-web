@@ -1,6 +1,7 @@
 import styels from "./style.module.scss";
 import SlickSlider from "../../SlickSlider";
 import Link from "next/link";
+import { trackingEvent } from "@/utils/ga";
 
 const StockScreeners = ({ data }: any) => {
   //console.log("____data___",data)
@@ -62,6 +63,17 @@ const StockScreeners = ({ data }: any) => {
       },
     },
   ];
+  const gaTrackingSearchClickHandler = (name: string) => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_Earnings",
+      event_action: "Earnings Screener click",
+      event_category: "mercury_engagement",
+      event_label: `Screener click_ ${name}`,
+      feature_name: "Earnings",
+      page_template: "Earnings_Overview",
+      product_name: "Mercury_Earnings",
+    });
+  };
   //console.log("______", data);
   return (
     <>
@@ -76,6 +88,7 @@ const StockScreeners = ({ data }: any) => {
                     <Link
                       href={`/markets/stock-screener/${item.seoName}/screens/scrid-${item.screenerId}`}
                       className={styels.linkrap}
+                      onClick={() => gaTrackingSearchClickHandler(item.name)}
                     >
                       <div className={styels.leftCard}>
                         <div className={styels.headTxt}>{item.name}</div>

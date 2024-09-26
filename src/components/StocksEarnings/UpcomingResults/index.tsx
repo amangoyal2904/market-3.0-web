@@ -216,6 +216,17 @@ const UpcomingResults = ({
       product_name: "Mercury_Earnings",
     });
   };
+  const gaTrackingSearchClickHandler = () => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_Earnings",
+      event_action: "Stock Search",
+      event_category: "mercury_engagement",
+      event_label: `Stock Search`,
+      feature_name: "Earnings",
+      page_template: "Earnings_Overview",
+      product_name: "Mercury_Earnings",
+    });
+  };
   useEffect(() => {
     filterApiCall();
     document.addEventListener("mousedown", handleClickOutside);
@@ -351,6 +362,7 @@ const UpcomingResults = ({
                     <input
                       className={styles.inputStyle}
                       type="text"
+                      onFocus={gaTrackingSearchClickHandler}
                       placeholder={`${type === "upcoming" ? "Search Upcoming results" : type === "declared" ? "Search Declared results" : ""}`}
                       value={query}
                       onChange={queryChangeHandler}
