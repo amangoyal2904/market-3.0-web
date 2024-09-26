@@ -7,6 +7,7 @@ import { useStateContext } from "@/store/StateContext";
 import tableConfig from "@/utils/tableConfig.json";
 import DeclaredCards from "../DeclaredCards";
 import ViewAllCta from "../ViewAllCta";
+import Blocker from "@/components/Blocker";
 
 const EarningsWatchlist = () => {
   const [processingLoader, setProcessingLoader] = useState(false);
@@ -28,7 +29,7 @@ const EarningsWatchlist = () => {
   const [cardLoading, setCardLoading] = useState(false);
 
   const { state } = useStateContext();
-  const { isPrime } = state.login;
+  const { isPrime, isLogin, ssoid } = state.login;
   const { currentMarketStatus } = state.marketStatus;
   const config = tableConfig["stocksearningsWatchListTable"];
   const tableHeaderData =
@@ -107,11 +108,18 @@ const EarningsWatchlist = () => {
     setTableData(_watchlistdata);
     setProcessingLoader(false);
   };
+
   useEffect(() => {
-    watchlistAPICall();
+    if (isLogin) {
+      console.log("isLogin useEffect 1", isLogin, isPrime, ssoid);
+      watchlistAPICall();
+    }
   }, [tabActive]);
   useEffect(() => {
-    callUpcomingWatchListData();
+    if (isLogin) {
+      console.log("isLogin useEffect 2", isLogin, isPrime, ssoid);
+      callUpcomingWatchListData();
+    }
   }, [_payload]);
   return (
     <>
@@ -132,38 +140,44 @@ const EarningsWatchlist = () => {
         </ul>
         <div className={styles.tabContent}>
           <div className={styles.tableSection}>
-            {tabActive ? (
-              <div className={styles.cardTableSec}>
-                <div className={styles.mainCardWrap}>
-                  <DeclaredCards
-                    typeMode="watchlist"
-                    data={declareCompanies}
-                    loading={cardLoading}
-                  />
-                </div>
-              </div>
+            {!isLogin ? (
+              <Blocker type="loginBlocker" />
             ) : (
               <>
-                <MarketTable
-                  highlightLtp={
-                    !!currentMarketStatus && currentMarketStatus != "CLOSED"
-                  }
-                  data={tableData}
-                  tableHeaders={tableHeaderData}
-                  tableConfig={config}
-                  isprimeuser={isPrime}
-                  processingLoader={processingLoader}
-                  l1NavTracking="Markets"
-                  l2NavTracking="Stocks/earnings"
-                  l3NavTracking={activeItem}
-                  setFallbackWebsocket={setFallbackWebsocket}
-                  handleSortServerSide={onServerSideSort}
-                />
-                <ViewAllCta
-                  text="View all Results"
-                  urlInternal="yes"
-                  url="/markets/stocks/earnings/upcoming-results"
-                />
+                {tabActive ? (
+                  <div className={styles.cardTableSec}>
+                    <div className={styles.mainCardWrap}>
+                      <DeclaredCards
+                        typeMode="watchlist"
+                        data={declareCompanies}
+                        loading={cardLoading}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <MarketTable
+                      highlightLtp={
+                        !!currentMarketStatus && currentMarketStatus != "CLOSED"
+                      }
+                      data={tableData}
+                      tableHeaders={tableHeaderData}
+                      tableConfig={config}
+                      isprimeuser={isPrime}
+                      processingLoader={processingLoader}
+                      l1NavTracking="Markets"
+                      l2NavTracking="Stocks/earnings"
+                      l3NavTracking={activeItem}
+                      setFallbackWebsocket={setFallbackWebsocket}
+                      handleSortServerSide={onServerSideSort}
+                    />
+                    <ViewAllCta
+                      text="View all Results"
+                      urlInternal="yes"
+                      url="/markets/stocks/earnings/upcoming-results"
+                    />
+                  </>
+                )}
               </>
             )}
           </div>

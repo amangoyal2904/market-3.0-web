@@ -10,6 +10,11 @@
 }
 .cardWrap.qoqData {
   cursor: auto;
+  .topHead {
+    &::after {
+      display: none;
+    }
+  }
 }
 .middleSec {
   display: flex;

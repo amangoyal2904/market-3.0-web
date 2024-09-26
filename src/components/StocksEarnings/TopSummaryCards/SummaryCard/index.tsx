@@ -39,7 +39,7 @@ const SummaryCard = ({ data, type }: any) => {
           : type === "underPerformingSectors"
             ? "/markets/stocks/earnings/sector-aggregate/under-performing"
             : type === "declaredData"
-              ? "/markets/stocks/earnings/declared-results/latest"
+              ? "/markets/stocks/earnings/declared-results/sales-gainers"
               : "";
     router.push(routerURL);
   };
