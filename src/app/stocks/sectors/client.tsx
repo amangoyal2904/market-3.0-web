@@ -19,7 +19,10 @@ const SectorsClient = ({
   const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
   const [_tableData, setTableData] = useState(tableData);
   const [processingLoader, setProcessingLoader] = useState(false);
-  const [sortData, setSortData] = useState({ field: null, order: "DESC" });
+  const [sortData, setSortData] = useState({
+    field: "sectorMarketCap",
+    order: "DESC",
+  });
 
   const onServerSideSort = useCallback(
     async (field: any) => {
@@ -52,11 +55,10 @@ const SectorsClient = ({
   };
 
   useEffect(() => {
-    if (sortData.field != null) {
-      setProcessingLoader(true);
-      updateTableData();
-    }
+    setProcessingLoader(true);
+    updateTableData();
   }, [sortData]);
+
   return (
     <>
       <div className="dflex align-item-center">

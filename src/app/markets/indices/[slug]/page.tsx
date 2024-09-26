@@ -92,7 +92,6 @@ const Indices = async ({ params }: any) => {
   );
 
   const { liveblog } = await getMarketsLiveBlog();
-
   const indicesNews = await getIndicesNews(
     overviewData.assetId,
     overviewData.assetExchangeId,
