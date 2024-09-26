@@ -43,7 +43,7 @@ const ExploreChartPatternsClient = ({ response, pageUrl }: any) => {
                       </h3>
                       <img
                         className={styles.patternImage}
-                        src={subPattern?.imageUrl}
+                        src={subPattern?.imageUrlLarge || subPattern?.imageUrl}
                         width={106}
                         height={80}
                         alt={subPattern?.name}
