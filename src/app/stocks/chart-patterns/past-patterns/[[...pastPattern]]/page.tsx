@@ -28,6 +28,7 @@ const getCommonData = async (params: any) => {
     patternType: patternType,
     filterValue: [],
     filterType: "index",
+    ideaType: "all",
     pageNo: 1,
     pageSize: 12,
     timeFrame: !!timeFrame ? timeFrame : "1m",

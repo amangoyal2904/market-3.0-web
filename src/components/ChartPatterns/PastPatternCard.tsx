@@ -112,7 +112,7 @@ const PastPatternCard = ({
                     : `/stocks/chart-patterns/past-patterns${timeFrame && timeFrame !== "1m" ? `?timeframe=${timeFrame}` : ""}`
                 }
               >
-                {`View all ${totalCount} Past Ideas`}
+                View all Past Ideas
                 <i className="eticon_next"></i>
               </Link>
             )}

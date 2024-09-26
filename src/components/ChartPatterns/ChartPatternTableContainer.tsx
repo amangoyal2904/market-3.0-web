@@ -209,7 +209,7 @@ const ChartPatternTableContainer = ({
                   </td>
                 )}
                 <td className={styles.txtBlack}>
-                  {dateFormat(row.patternFormedDate, "%d %MMM, %H:%m%p")}
+                  {dateFormat(row.patternFormedDate, "%d %MMM %Y")}
                 </td>
                 <td className="numberFonts">
                   {formatNumber(row.breakoutPrice)}

@@ -21,6 +21,10 @@ const tabData = [
     label: "New Patterns",
   },
   {
+    key: "/stocks/chart-patterns/closed-patterns",
+    label: "Closed Patterns",
+  },
+  {
     key: "/stocks/chart-patterns/past-performance",
     label: "Past Performance",
   },
@@ -183,6 +187,15 @@ const TopNav = ({
     ) {
       return true;
     }
+
+    // Match the base path /stocks/chart-patterns/closed-patterns and any dynamic segments first
+    if (
+      tabKey === "/stocks/chart-patterns/closed-patterns" &&
+      pageUrl.startsWith("/stocks/chart-patterns/closed-patterns")
+    ) {
+      return true;
+    }
+
     // Exact match for /stocks/chart-patterns/explore
     if (tabKey === "/stocks/chart-patterns/explore" && pageUrl === tabKey) {
       return true;
@@ -192,6 +205,7 @@ const TopNav = ({
       tabKey === "/stocks/chart-patterns" &&
       pageUrl.startsWith("/stocks/chart-patterns") &&
       !pageUrl.startsWith("/stocks/chart-patterns/past") &&
+      !pageUrl.startsWith("/stocks/chart-patterns/closed") &&
       !pageUrl.startsWith("/stocks/chart-patterns/explore")
     ) {
       return true;

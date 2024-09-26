@@ -1,13 +1,13 @@
 import { fnGenerateMetaData } from "@/utils/utility";
 import { Metadata } from "next";
 import React from "react";
-import { getNewChartPattern } from "../utilities";
 import BreadCrumb from "@/components/BreadCrumb";
 import { cookies, headers } from "next/headers";
-import ChartPatternsClient from "./clients";
 import Blocker from "@/components/Blocker";
 import ChartPatternHeader from "@/components/ChartPatterns/ChartPatternHeader";
 import ChartPatternDisclaimer from "@/components/ChartPatterns/ChartPatternDisclaimer";
+import { getNewChartPattern } from "../../utilities";
+import ChartPatternsClient from "../../[[...latestSlug]]/clients";
 
 const getCommonData = async (params: any) => {
   const headersList = headers();
@@ -22,7 +22,7 @@ const getCommonData = async (params: any) => {
     timeFrame: "latest",
     filterValue: [],
     filterType: "index",
-    ideaType: "active",
+    ideaType: "closed",
     pageNo: 1,
     pageSize: 12,
   };
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: any): Promise<Metadata> {
   }
 }
 
-const ChartPatterns = async ({ params }: any) => {
+const ClosedChartPatterns = async ({ params }: any) => {
   try {
     const { data, payload, pageUrl } = await getCommonData(params);
 
@@ -111,4 +111,4 @@ const ChartPatterns = async ({ params }: any) => {
   }
 };
 
-export default ChartPatterns;
+export default ClosedChartPatterns;

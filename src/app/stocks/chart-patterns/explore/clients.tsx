@@ -85,7 +85,7 @@ const ExploreChartPatternsClient = ({ response, pageUrl }: any) => {
                             });
                           }}
                         >
-                          {`New Trading Ideas (${subPattern?.newPatternCount})`}
+                          New Trading Ideas
                         </Link>
                       </div>
                     </div>
