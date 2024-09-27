@@ -100,8 +100,8 @@ const DeclaredPage = ({
         `SCREENER_CALENDAR`,
         queryParams,
       );
-      if (getData) {
-        setDeclaredCalendar(getData);
+      if (getData && getData?.calendarData) {
+        setDeclaredCalendar(getData?.calendarData);
       }
       //console.log("getData declared",getData)
     } catch (error) {

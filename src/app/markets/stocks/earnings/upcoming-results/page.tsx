@@ -39,7 +39,7 @@ const UpcomingResultsPage = async (props: any) => {
     `?apiType=upcoming`,
   );
   const bodyPayloadUpcomingCompaniesQuery = {
-    date: _upcomingCalendar?.[0]?.date || "",
+    date: _upcomingCalendar?.calendarData?.[0]?.date || "",
     filterType: "companyId",
     filterValue: [searchParamCompanyID],
     pageSize: 2,
@@ -55,7 +55,7 @@ const UpcomingResultsPage = async (props: any) => {
         )
       : "";
   const bodyPayloadUpcomingCompanies = {
-    date: _upcomingCalendar?.[0]?.date || "",
+    date: _upcomingCalendar?.calendarData?.[0]?.date || "",
     filterType: "index",
     filterValue: [],
     pageSize: 4,
@@ -107,7 +107,7 @@ const UpcomingResultsPage = async (props: any) => {
     date:
       searchParamCompanyID && searchParamCompanyID !== ""
         ? ""
-        : _upcomingCalendar?.[0]?.date,
+        : _upcomingCalendar?.calendarData?.[0]?.date,
     filterType:
       searchParamCompanyID && searchParamCompanyID !== ""
         ? "companyId"
@@ -128,7 +128,7 @@ const UpcomingResultsPage = async (props: any) => {
 
   const upcoingData = {
     data: "coming soon...",
-    upcomingCalendar: _upcomingCalendar || [],
+    upcomingCalendar: _upcomingCalendar?.calendarData || [],
     upcomingCompanies: _upcomingCompanies || {},
     topNewsData: topNewsData,
     payload: {

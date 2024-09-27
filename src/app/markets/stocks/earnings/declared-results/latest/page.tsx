@@ -45,7 +45,7 @@ const DeclaredResultsPage = async (props: any) => {
     pageNo: 1,
   };
   const bodyPayloadDeclaredCompanies = {
-    date: _declaredCalendar?.[0]?.date || "",
+    date: _declaredCalendar?.calendarData?.[0]?.date || "",
     filterType: "index",
     filterValue: [],
     apiType: "latest-results",
@@ -65,7 +65,7 @@ const DeclaredResultsPage = async (props: any) => {
   );
   const upcoingData = {
     data: "coming soon...",
-    declaredCalendar: _declaredCalendar || [],
+    declaredCalendar: _declaredCalendar?.calendarData || [],
     declaredCompanies: _declaredCompanies || {},
     _declaredCompaniesQuery,
     payload: {

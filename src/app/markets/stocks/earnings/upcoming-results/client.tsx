@@ -89,8 +89,8 @@ const UpcomingResultsClintPage = ({
         `SCREENER_CALENDAR`,
         queryParams,
       );
-      if (getData) {
-        setUpcomingCalendar(getData);
+      if (getData && getData?.calendarData) {
+        setUpcomingCalendar(getData?.calendarData || []);
       }
       //console.log("getData upcoming",getData)
     } catch (error) {

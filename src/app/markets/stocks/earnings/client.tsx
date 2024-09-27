@@ -169,8 +169,8 @@ const StocksEarningsClintPage = ({
         `SCREENER_CALENDAR`,
         queryParams,
       );
-      if (getData) {
-        setDeclaredCalendar(getData);
+      if (getData && getData?.calendarData) {
+        setDeclaredCalendar(getData?.calendarData);
       }
       //console.log("getData declared",getData)
     } catch (error) {
@@ -194,8 +194,8 @@ const StocksEarningsClintPage = ({
         `SCREENER_CALENDAR`,
         queryParams,
       );
-      if (getData) {
-        setUpcomingCalendar(getData);
+      if (getData && getData?.calendarData) {
+        setUpcomingCalendar(getData?.calendarData);
       }
       //console.log("getData upcoming",getData)
     } catch (error) {

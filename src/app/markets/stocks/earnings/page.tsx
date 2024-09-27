@@ -85,7 +85,7 @@ const StocksEarningsPage = async () => {
   );
 
   const bodyPayloadUpcomingCompanies = {
-    date: _upcomingCalendar?.[0]?.date || "",
+    date: _upcomingCalendar?.calendarData?.[0]?.date || "",
     filterType: "index",
     filterValue: [],
     pageSize: 8,
@@ -94,7 +94,9 @@ const StocksEarningsPage = async () => {
     sort: [{ field: "R1MonthReturn", order: "DESC" }],
   };
   const bodyPayloadDeclaredCompanies = {
-    date: isFutureDateGreater ? "" : _declaredCalendar?.[0]?.date || "",
+    date: isFutureDateGreater
+      ? ""
+      : _declaredCalendar?.calendarData?.[0]?.date || "",
     filterType: "index",
     filterValue: [],
     apiType: isFutureDateGreater ? "sales-gainers" : "latest-results",
@@ -140,8 +142,8 @@ const StocksEarningsPage = async () => {
   );
   const earningData = {
     topSummaryCardData: earningsSummary || {},
-    declaredCalendar: _declaredCalendar || [],
-    upcomingCalendar: _upcomingCalendar || [],
+    declaredCalendar: _declaredCalendar?.calendarData || [],
+    upcomingCalendar: _upcomingCalendar?.calendarData || [],
     upcomingCompanies: _upcomingCompanies || {},
     declaredCompanies: _declaredCompanies || {},
     topNewsData: topNewsData,
