@@ -112,7 +112,10 @@ export const PatternCard = ({
   }, [showTechnicalChart]);
 
   return (
-    <div className={styles.card} onClick={isLocked ? onCardClick : undefined}>
+    <div
+      className={isLocked ? `${styles.card} ${styles.pointer}` : styles.card}
+      onClick={isLocked ? onCardClick : undefined}
+    >
       <div
         className={`${styles.patternInfo} ${trendType === "bear" ? styles.bear : styles.bull}`}
       >

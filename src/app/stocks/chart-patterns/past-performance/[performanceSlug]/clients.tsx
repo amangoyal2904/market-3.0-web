@@ -119,7 +119,9 @@ const PastChartPatternsClientSlug = ({
       <div className="prel">
         {!!processingLoader && <Loader loaderType="container" />}
         <div className={`${styles.container} ${styles.mt14}`}>
-          {newPatternsList ? (
+          {newPatternsList &&
+          newPatternsList.pastPatternList &&
+          newPatternsList.pastPatternList.length ? (
             <>
               <PastPatternCard
                 patternData={newPatternsList}
@@ -141,7 +143,10 @@ const PastChartPatternsClientSlug = ({
               )}
             </>
           ) : (
-            <Blocker type={"noDataMinimal"} />
+            <Blocker
+              type={"noDataFound"}
+              customMessage="No past performances identified for the selected filters. Please select a different filter to view past performance."
+            />
           )}
         </div>
       </div>

@@ -12,6 +12,9 @@
   border: 2px solid $gray_90;
   min-width: 0;
   width: 100%;
+  &.pointer {
+    cursor: pointer;
+  }
   .patternInfo {
     position: relative;
     display: inline-flex;
@@ -153,7 +156,7 @@
     position: relative;
     display: inline-flex;
     font-size: 16px;
-    background: $red-60;
+    background: $black;
     color: $white;
     align-items: center;
     justify-content: center;
