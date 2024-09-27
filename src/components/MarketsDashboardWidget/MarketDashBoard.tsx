@@ -126,9 +126,13 @@ function MarketDashBoard(props: propsType) {
     setNiftyFilterData(selectedFilter);
     setPayload({
       ...payload,
-      filterValue: !!filter ? [filter] : [],
+      filterValue: filter === "watchlist" ? [] : !!filter ? [filter] : [],
       filterType:
-        filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
+        filter === "watchlist"
+          ? "watchlist"
+          : filter == undefined || !isNaN(Number(filter))
+            ? "index"
+            : "marketcap",
     });
   };
 

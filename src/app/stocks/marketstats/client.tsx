@@ -209,11 +209,13 @@ const MarketStats = ({
     const url = actualUrl;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
     const filter =
-      id !== undefined && !isNaN(Number(id))
-        ? parseInt(id)
-        : id !== undefined
-          ? id
-          : 0;
+      id === "watchlist"
+        ? "watchlist"
+        : id !== undefined && !isNaN(Number(id))
+          ? parseInt(id)
+          : id !== undefined
+            ? id
+            : 0;
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     const isExist: any = shortUrlMapping?.find(
