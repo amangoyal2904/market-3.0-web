@@ -73,7 +73,7 @@ const SectorAggregates = ({ data }: any) => {
     {
       breakpoint: 1366,
       settings: {
-        slidesToShow: 4,
+        slidesToShow: 3,
         slidesToScroll: 1,
       },
     },
