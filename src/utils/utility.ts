@@ -442,9 +442,7 @@ export const fetchAllWatchListData = async (
   if (authorization === "") {
     console.log("peuuid is not getting please check cookie__", authorization);
   }
-  const apiUrl = isLocalhost
-    ? `${(APIS_CONFIG as any)?.WATCHLISTAPI.getAllWatchlistNextJsAPI[APP_ENV]}?stype=${type}&usersettingsubType=${usersettingsubType}&authorization=${authorization}`
-    : `${(APIS_CONFIG as any)?.WATCHLISTAPI.getAllWatchlist[APP_ENV]}?stype=${type}&usersettingsubType=${usersettingsubType}`;
+  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.getAllWatchlist[APP_ENV]}?stype=${type}&usersettingsubType=${usersettingsubType}`;
   const headers = new Headers({ Authorization: authorization });
   const options: any = {
     cache: "no-store",
