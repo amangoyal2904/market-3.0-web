@@ -153,7 +153,7 @@ const PastPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
         ) : (
           <Blocker
             type={"noDataFound"}
-            customMessage="No past chart patterns identified for the selected filters. Please select a different filter to view past performance."
+            customMessage={`No past chart patterns identified for the selected filters.<span class="desc">Please select a different filter to view past performance.</span>`}
           />
         )}
       </div>

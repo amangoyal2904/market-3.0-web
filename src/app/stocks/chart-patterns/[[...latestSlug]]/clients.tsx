@@ -150,7 +150,7 @@ const ChartPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
         ) : (
           <Blocker
             type={"noDataFound"}
-            customMessage="No new chart patterns found for the selected filters.<br />Try choosing a different filter to explore the latest trading opportunities"
+            customMessage={`No new chart patterns found for the selected filters.<span class="desc">Try choosing a different filter to explore the latest trading opportunities</span>`}
           />
         )}
       </div>

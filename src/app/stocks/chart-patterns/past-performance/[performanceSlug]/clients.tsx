@@ -145,7 +145,7 @@ const PastChartPatternsClientSlug = ({
           ) : (
             <Blocker
               type={"noDataFound"}
-              customMessage="No past performances identified for the selected filters. Please select a different filter to view past performance."
+              customMessage={`No past performances identified for the selected filters.<span class="desc">Please select a different filter to view past performance.</span>`}
             />
           )}
         </div>

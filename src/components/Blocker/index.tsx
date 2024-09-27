@@ -70,6 +70,7 @@ const blockerList: any = {
     icon: 107522570,
   },
 };
+
 const Blocker = (props: propsType) => {
   const [addStockShow, setAddStockShow] = useState(false);
   const { type, updateTableHandler, customMessage } = props;
@@ -102,7 +103,10 @@ const Blocker = (props: propsType) => {
           />
         )}
         {customMessage ? (
-          <p dangerouslySetInnerHTML={{ __html: customMessage }} />
+          <div
+            className={styles.customMessageWrapper} // You can apply your styles here
+            dangerouslySetInnerHTML={{ __html: customMessage }}
+          />
         ) : (
           message && <p dangerouslySetInnerHTML={{ __html: message }} />
         )}
