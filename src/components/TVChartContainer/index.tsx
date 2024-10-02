@@ -170,10 +170,10 @@ export const TVChartContainer = (
       const originalWidth = screenshotCanvas.width;
       const originalHeight = screenshotCanvas.height;
 
-      // Calculate the cropped dimensions (5% from left/right, 10% from top/bottom)
-      const cropWidth = originalWidth * 0.9; // 90% of the original width (5% from each side)
+      // Calculate crop values based on percentages
+      const cropX = originalWidth * 0.01; // Crop 1% from the left
       const cropHeight = originalHeight * 0.8; // 80% of the original height (10% from top and bottom)
-      const cropX = originalWidth * 0.04; // Starting x-coordinate (4% from the left)
+      const cropWidth = originalWidth * 0.98; // 98% of the width (1% crop from both left and right)
       const cropY = originalHeight * 0.1; // Starting y-coordinate (10% from the top)
 
       // Create an off-screen canvas to hold the cropped image
@@ -455,13 +455,22 @@ export const TVChartContainer = (
             shape: patternShape,
             chartStartDate,
             chartEndDate,
+            patternTrend,
+            breakoutData,
           } = patternList;
 
           // Convert pattern data
           const processedPatternData = patternData.map((item: any) => ({
-            time: item.time / 1000,
+            time: (item.time + 34200000) / 1000,
             price: item.price,
           }));
+
+          const processedBreakoutData = [
+            {
+              time: (breakoutData.time + 34200000) / 1000,
+              price: breakoutData.price,
+            },
+          ];
 
           // Date conversion
           const patternFromDate = Math.floor(
@@ -477,16 +486,30 @@ export const TVChartContainer = (
           const maxPrice = Math.max(...prices) * 1.25;
 
           // Get active chart and price scale
-
           const priceScale = activeChart.getPanes()[0].getRightPriceScales()[0];
           const range: VisiblePriceRange | null =
             priceScale.getVisiblePriceRange();
 
           // Set visible range for the chart
-          activeChart.setVisibleRange(
-            { from: patternFromDate, to: patternToDate },
-            { percentRightMargin: 7 },
-          );
+          if (savePatternImages === "true") {
+            // Find the minDate from processedPatternData
+            const minDateInSeconds = Math.min(
+              ...processedPatternData.map((item: any) => item.time),
+            );
+
+            // Adjust minDate by subtracting 15 days (15 days * 86400 seconds)
+            const adjustedMinDate = minDateInSeconds - 15 * 86400;
+
+            activeChart.setVisibleRange(
+              { from: adjustedMinDate, to: patternToDate },
+              { percentRightMargin: 7 },
+            );
+          } else {
+            activeChart.setVisibleRange(
+              { from: patternFromDate, to: patternToDate },
+              { percentRightMargin: 7 },
+            );
+          }
 
           // Adjust price range if visible range exists
           if (range) {
@@ -499,8 +522,47 @@ export const TVChartContainer = (
           // Create shape
           activeChart.createMultipointShape(processedPatternData, {
             shape: patternShape,
+            disableSelection: true,
+            disableSave: true,
+            disableUndo: true,
             lock: true,
+            overrides: {
+              linecolor: patternTrend === "bear" ? "#fef1f3" : "#e9fbe9",
+              backgroundColor: patternTrend === "bear" ? "#fef1f3" : "#e9fbe9",
+              linewidth: 1,
+              transparency: 1,
+            },
           });
+
+          if (savePatternImages !== "true") {
+            activeChart.createMultipointShape(processedBreakoutData, {
+              shape: "text",
+              text: "Breakout Level",
+              zOrder: "top",
+              disableSelection: true,
+              disableSave: true,
+              disableUndo: true,
+              lock: true,
+              overrides: {
+                fontsize: 16,
+                color: "rgba(43, 116, 227, 1)",
+              },
+            });
+
+            activeChart.createMultipointShape(processedBreakoutData, {
+              text: "Breakout Price",
+              shape: "horizontal_line",
+              zOrder: "top",
+              disableSelection: true,
+              disableSave: true,
+              disableUndo: true,
+              lock: true,
+              overrides: {
+                linecolor: "rgba(43, 116, 227, 1)",
+                linewidth: 1,
+              },
+            });
+          }
 
           // Save pattern image if required
           if (savePatternImages === "true") {
