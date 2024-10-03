@@ -51,7 +51,6 @@ export const PatternCard = ({
       "context_menus",
       "go_to_date",
       "edit_buttons_in_legend",
-      "create_volume_indicator_by_default",
       "border_around_the_chart",
       "adaptive_logo",
     ],

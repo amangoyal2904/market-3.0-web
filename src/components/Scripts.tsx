@@ -11,8 +11,13 @@ import {
 import GLOBAL_CONFIG from "../network/global_config.json";
 import { getUserType, trackingEvent } from "@/utils/ga";
 import { useStateContext } from "@/store/StateContext";
-import { renderDfpAds, loadAndBeyondScript, loadAmazonTamScript } from "@/components/Ad/AdScript";
+import {
+  renderDfpAds,
+  loadAndBeyondScript,
+  loadAmazonTamScript,
+} from "@/components/Ad/AdScript";
 import { sendMouseFlowEvent } from "../utils/utility";
+import adFreePages from "@/components/Ad/AdInfo/adFree.json";
 interface Props {
   isprimeuser?: number | boolean;
   objVc?: object;
@@ -63,9 +68,16 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
   const { state, dispatch } = useStateContext();
   const { isLogin, userInfo, ssoReady, isPrime } = state.login;
   //APP_ENV === "development" ? "https://etdev8243.indiatimes.com" : "https://js.etimg.com";
-  const ET_ADS_URL = APP_ENV === "development" ? "https://toidev.indiatimes.com/etads_v2/minify-1.cms" : "https://timesofindia.indiatimes.com/etads_v2/minify-1.cms";
+  const ET_ADS_URL =
+    APP_ENV === "development"
+      ? "https://toidev.indiatimes.com/etads_v2/minify-1.cms"
+      : "https://timesofindia.indiatimes.com/etads_v2/minify-1.cms";
   const ET_TIL_PREBID_URL = "https://assets.toiimg.com/js/til_prebid.js";
-
+  const adfreeTemplate =
+    adFreePages &&
+    adFreePages.some(function (v) {
+      return router.indexOf(v) > -1;
+    });
   let execution = 0;
   const surveyLoad = () => {
     if (window._sva && window._sva.setVisitorTraits) {
@@ -104,12 +116,12 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
       if (typeof window.objUser == "undefined") window.objUser = {};
       window.objUser && (window.objUser.prevPath = prevPath);
       window.googletag
-        ? renderDfpAds(isPrime)
+        ? !adfreeTemplate && renderDfpAds(isPrime)
         : document.addEventListener("gptLoaded", function () {
-            renderDfpAds(isPrime);
+            !adfreeTemplate && renderDfpAds(isPrime);
           });
-      loadAndBeyondScript(isPrime);
-      loadAmazonTamScript(isPrime);
+      !adfreeTemplate && loadAndBeyondScript(isPrime);
+      !adfreeTemplate && loadAmazonTamScript(isPrime);
       if (window.isSurveyLoad) {
         surveyLoad();
       } else {
@@ -277,7 +289,7 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               `,
             }}
           />
-          {!isprimeuser && !searchParams?.get("opt") && (
+          {!isprimeuser && !searchParams?.get("opt") && !adfreeTemplate && (
             <Script
               src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
               onLoad={() => {
@@ -285,17 +297,12 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
                 document.dispatchEvent(gptLoaded);
               }}
             />
-            
           )}
-          {!isprimeuser && !searchParams?.get("opt") && (
-            <Script
-              src={ET_ADS_URL}
-            />            
+          {!isprimeuser && !searchParams?.get("opt") && !adfreeTemplate && (
+            <Script src={ET_ADS_URL} />
           )}
-          {!isprimeuser && !searchParams?.get("opt") && (
-            <Script
-              src={ET_TIL_PREBID_URL}
-            />
+          {!isprimeuser && !searchParams?.get("opt") && !adfreeTemplate && (
+            <Script src={ET_TIL_PREBID_URL} />
           )}
 
           {/* <Script

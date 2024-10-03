@@ -118,6 +118,14 @@ export const TVChartContainer = (
       symbol_search_request_delay: 2000,
     };
 
+    if (patternId) {
+      widgetOptions.overrides = {
+        ...widgetOptions.overrides,
+        "scalesProperties.showSeriesLastValue": false,
+        "mainSeriesProperties.showPriceLine": false,
+      };
+    }
+
     if (loadLastChart) {
       Object.assign(widgetOptions, {
         charts_storage_url: "https://etapi.indiatimes.com/charts/mrkts",
@@ -491,25 +499,10 @@ export const TVChartContainer = (
             priceScale.getVisiblePriceRange();
 
           // Set visible range for the chart
-          if (savePatternImages === "true") {
-            // Find the minDate from processedPatternData
-            const minDateInSeconds = Math.min(
-              ...processedPatternData.map((item: any) => item.time),
-            );
-
-            // Adjust minDate by subtracting 15 days (15 days * 86400 seconds)
-            const adjustedMinDate = minDateInSeconds - 15 * 86400;
-
-            activeChart.setVisibleRange(
-              { from: adjustedMinDate, to: patternToDate },
-              { percentRightMargin: 7 },
-            );
-          } else {
-            activeChart.setVisibleRange(
-              { from: patternFromDate, to: patternToDate },
-              { percentRightMargin: 7 },
-            );
-          }
+          activeChart.setVisibleRange(
+            { from: patternFromDate, to: patternToDate },
+            { percentRightMargin: 7 },
+          );
 
           // Adjust price range if visible range exists
           if (range) {
@@ -527,30 +520,25 @@ export const TVChartContainer = (
             disableUndo: true,
             lock: true,
             overrides: {
-              linecolor: patternTrend === "bear" ? "#fef1f3" : "#e9fbe9",
-              backgroundColor: patternTrend === "bear" ? "#fef1f3" : "#e9fbe9",
-              linewidth: 1,
+              linecolor: patternTrend === "bear" ? "#F57B8F" : "#24CB24",
+              backgroundColor: patternTrend === "bear" ? "#FDE7EB" : "#E9FBE9",
+              linewidth: 2,
               transparency: 1,
             },
           });
 
           if (savePatternImages !== "true") {
-            activeChart.createMultipointShape(processedBreakoutData, {
-              shape: "text",
+            activeChart.createShape(processedBreakoutData[0], {
+              shape: patternTrend === "bear" ? "arrow_down" : "arrow_up",
               text: "Breakout Level",
               zOrder: "top",
               disableSelection: true,
               disableSave: true,
               disableUndo: true,
               lock: true,
-              overrides: {
-                fontsize: 16,
-                color: "rgba(43, 116, 227, 1)",
-              },
             });
 
             activeChart.createMultipointShape(processedBreakoutData, {
-              text: "Breakout Price",
               shape: "horizontal_line",
               zOrder: "top",
               disableSelection: true,
@@ -558,8 +546,11 @@ export const TVChartContainer = (
               disableUndo: true,
               lock: true,
               overrides: {
-                linecolor: "rgba(43, 116, 227, 1)",
-                linewidth: 1,
+                linecolor:
+                  patternTrend === "bear"
+                    ? "rgb(204, 47, 60)"
+                    : "rgb(8, 153, 129)",
+                linewidth: 2,
               },
             });
           }

@@ -2,6 +2,8 @@
 import styles from "./styles.module.scss";
 import { FC, useEffect } from "react";
 import { useStateContext } from "@/store/StateContext";
+import { usePathname } from "next/navigation";
+import adFreePages from "@/components/Ad/AdInfo/adFree.json";
 
 declare global {
   interface Window {}
@@ -16,6 +18,12 @@ interface AdInfoProps {
 }
 
 const DfpAds: FC<AdInfoProps> = function (props) {
+  const router = usePathname();
+  const adfreeTemplate =
+    adFreePages &&
+    adFreePages.some(function (v) {
+      return router.indexOf(v) > -1;
+    });
   const { state } = useStateContext();
   const { isLogin, isPrime } = state.login;
   const { adInfo } = props;
@@ -49,7 +57,8 @@ const DfpAds: FC<AdInfoProps> = function (props) {
   //   );
 
   return (
-    !isPrime && (
+    !isPrime &&
+    !adfreeTemplate && (
       <>
         <div className={`${styles.midAdContainer} hideAd`}>
           <div id={adInfo.id} className="dfpAd"></div>
