@@ -520,9 +520,9 @@ export const TVChartContainer = (
             disableUndo: true,
             lock: true,
             overrides: {
-              linecolor: patternTrend === "bear" ? "#fef1f3" : "#e9fbe9",
-              backgroundColor: patternTrend === "bear" ? "#fef1f3" : "#e9fbe9",
-              linewidth: 1,
+              linecolor: patternTrend === "bear" ? "#F57B8F" : "#24CB24",
+              backgroundColor: patternTrend === "bear" ? "#FDE7EB" : "#E9FBE9",
+              linewidth: 2,
               transparency: 1,
             },
           });
@@ -550,7 +550,7 @@ export const TVChartContainer = (
                   patternTrend === "bear"
                     ? "rgb(204, 47, 60)"
                     : "rgb(8, 153, 129)",
-                linewidth: 1,
+                linewidth: 2,
               },
             });
           }
