@@ -9,6 +9,9 @@
   @media (min-width: 1920px) {
     grid-template-columns: repeat(4, 1fr);
   }
+  @media (max-width: 1150px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .card {
     display: flex;
     flex-direction: column;

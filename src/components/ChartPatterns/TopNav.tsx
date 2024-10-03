@@ -109,7 +109,7 @@ const TopNav = ({
     const updatedPayload = {
       ...payload,
       pageNo: 1,
-      pageSize: 12,
+      pageSize: pageType === "past" ? 10 : 12,
       timeFrame: key,
     };
 
@@ -125,7 +125,7 @@ const TopNav = ({
     const updatedPayload = {
       ...payload,
       pageNo: 1,
-      pageSize: 12,
+      pageSize: pageType === "past" ? 10 : 12,
       patternType: key,
     };
 
@@ -167,7 +167,7 @@ const TopNav = ({
     handlePayloadChange({
       ...payload,
       pageNo: 1,
-      pageSize: 12,
+      pageSize: pageType === "past" ? 10 : 12,
       filterValue: selectedFilter.indexId,
     });
 

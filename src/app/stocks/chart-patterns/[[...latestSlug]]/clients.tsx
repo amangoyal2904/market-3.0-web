@@ -4,12 +4,13 @@ import { PatternCard } from "@/components/ChartPatterns/PatternCard";
 import TopNav from "@/components/ChartPatterns/TopNav";
 import { useStateContext } from "@/store/StateContext";
 import styles from "../ChartPattern.module.scss";
-import { getNewChartPattern } from "../utilities";
+import { getNewChartPattern, getPatternDescriptionText } from "../utilities";
 import { getCookie } from "@/utils";
 import Loader from "@/components/Loader";
 import jStorageReact from "jstorage-react";
 import Blocker from "@/components/Blocker";
 import dynamic from "next/dynamic";
+import ChartPatternHeader from "@/components/ChartPatterns/ChartPatternHeader";
 
 const ChartPatternPaywall = dynamic(
   () => import("@/components/ChartPatterns/ChartPatternPaywall"),
@@ -18,16 +19,21 @@ const ChartPatternPaywall = dynamic(
   },
 );
 
-const ChartPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
+const ChartPatternsClient = ({
+  patternDesc,
+  response,
+  responsePayload,
+  pageUrl,
+}: any) => {
   // Add a ref to track initial render
   const initialRender = useRef(true);
 
   const { state } = useStateContext();
   let { isPrime, isLogin, ssoReady, ssoid, ticketId } = state.login;
   const { pageSummary, newPatterns, latestPatternRequestDto } = response;
-
   const [newPatternsData, setNewPatternData] = useState(newPatterns);
   const [pageSummaryView, setPageSummaryView] = useState(pageSummary);
+  const [patternDescription, setPatternDescription] = useState(patternDesc);
   const [payload, setPayload] = useState(responsePayload);
   const [isLoading, setIsLoading] = useState(false);
   const [processingLoader, setProcessingLoader] = useState(false);
@@ -78,7 +84,8 @@ const ChartPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
     setProcessingLoader(false);
   };
 
-  const onPayloadChange = (newPayload: string) => {
+  const onPayloadChange = (newPayload: any) => {
+    setPatternDescription(getPatternDescriptionText(newPayload?.patternType));
     setPayload(newPayload);
   };
 
@@ -114,6 +121,7 @@ const ChartPatternsClient = ({ response, responsePayload, pageUrl }: any) => {
 
   return (
     <>
+      <ChartPatternHeader description={patternDescription} />
       <TopNav
         pageUrl={pageUrl}
         pageType="latest"

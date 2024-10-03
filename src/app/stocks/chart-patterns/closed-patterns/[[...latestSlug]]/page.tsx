@@ -4,9 +4,8 @@ import React from "react";
 import BreadCrumb from "@/components/BreadCrumb";
 import { cookies, headers } from "next/headers";
 import Blocker from "@/components/Blocker";
-import ChartPatternHeader from "@/components/ChartPatterns/ChartPatternHeader";
 import ChartPatternDisclaimer from "@/components/ChartPatterns/ChartPatternDisclaimer";
-import { getNewChartPattern } from "../../utilities";
+import { getNewChartPattern, getPatternDescriptionText } from "../../utilities";
 import ChartPatternsClient from "../../[[...latestSlug]]/clients";
 
 const getCommonData = async (params: any) => {
@@ -67,25 +66,13 @@ const ClosedChartPatterns = async ({ params }: any) => {
 
     const patternDescription = (() => {
       const pattern = params?.latestSlug?.[0]?.toLowerCase(); // Safeguard and normalize pattern value
-
-      switch (pattern) {
-        case "ascending-triangle":
-          return "An <b>ascending triangle</b> is a bullish pattern with rising lows and flat resistance, signaling a potential breakout. Here are new chart patterns based on it.";
-        case "symmetrical-triangle":
-          return "A <b>symmetrical triangle</b> is a neutral pattern with converging trendlines, signaling a potential breakout in either direction. Here are new chart patterns based on it.";
-        case "falling-wedge":
-          return "A <b>falling wedge</b> is a bullish pattern with converging downward trendlines, indicating a potential breakout to the upside. Here are new chart patterns based on it.";
-        case "rising-channel":
-          return "A <b>rising channel</b> is a bullish pattern with parallel upward trendlines, suggesting continued upward momentum. Here are new chart patterns based on it.";
-        default:
-          return "AI Chart Pattern Past Performance provides insights into past patterns like Ascending Triangle, Symmetrical Triangle, and Falling Wedge, with quick summaries and performance metrics across various stocks";
-      }
+      return getPatternDescriptionText(pattern);
     })();
 
     return (
       <>
-        <ChartPatternHeader description={patternDescription} />
         <ChartPatternsClient
+          patternDesc={patternDescription}
           response={data}
           responsePayload={payload}
           pageUrl={pageUrl}

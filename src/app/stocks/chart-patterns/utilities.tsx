@@ -97,3 +97,18 @@ export const getPatternFilterData = async () => {
   });
   return await response?.json();
 };
+
+export const getPatternDescriptionText = (pattern: string) => {
+  switch (pattern) {
+    case "ascending-triangle":
+      return "An <b>ascending triangle</b> is a bullish pattern with rising lows and flat resistance, signaling a potential breakout. Here are new chart patterns based on it.";
+    case "symmetrical-triangle":
+      return "A <b>symmetrical triangle</b> is a neutral pattern with converging trendlines, signaling a potential breakout in either direction. Here are new chart patterns based on it.";
+    case "falling-wedge":
+      return "A <b>falling wedge</b> is a bullish pattern with converging downward trendlines, indicating a potential breakout to the upside. Here are new chart patterns based on it.";
+    case "rising-channel":
+      return "A <b>rising channel</b> is a bullish pattern with parallel upward trendlines, suggesting continued upward momentum. Here are new chart patterns based on it.";
+    default:
+      return "AI Chart Pattern Past Performance provides insights into past patterns like Ascending Triangle, Symmetrical Triangle, and Falling Wedge, with quick summaries and performance metrics across various stocks";
+  }
+};

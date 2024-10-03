@@ -53,6 +53,7 @@ const PastChartPatternsClientSlug = ({
 
     const data = await getPastChartPatternPerformance(payload, ssoid, ticketId);
     setNewPatternList(data);
+    setPageSummaryView(data?.pageSummary);
     setProcessingLoader(false);
   };
 

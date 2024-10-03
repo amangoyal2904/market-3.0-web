@@ -1,12 +1,11 @@
 import { fnGenerateMetaData } from "@/utils/utility";
 import { Metadata } from "next";
 import React from "react";
-import { getNewChartPattern } from "../../utilities";
+import { getNewChartPattern, getPatternDescriptionText } from "../../utilities";
 import BreadCrumb from "@/components/BreadCrumb";
 import { cookies, headers } from "next/headers";
 import ChartPatternsClient from "./clients";
 import Blocker from "@/components/Blocker";
-import ChartPatternHeader from "@/components/ChartPatterns/ChartPatternHeader";
 import ChartPatternDisclaimer from "@/components/ChartPatterns/ChartPatternDisclaimer";
 
 const getCommonData = async (params: any) => {
@@ -76,24 +75,13 @@ const PastPatterns = async ({ params }: any) => {
     const patternDescription = (() => {
       const pattern = params?.pastPattern?.[0]?.toLowerCase(); // Safeguard and normalize pattern value
 
-      switch (pattern) {
-        case "ascending-triangle":
-          return "An <b>ascending triangle</b> is a bullish pattern with rising lows and flat resistance, signaling a potential breakout. Here are new chart patterns based on it.";
-        case "symmetrical-triangle":
-          return "A <b>symmetrical triangle</b> is a neutral pattern with converging trendlines, signaling a potential breakout in either direction. Here are new chart patterns based on it.";
-        case "falling-wedge":
-          return "A <b>falling wedge</b> is a bullish pattern with converging downward trendlines, indicating a potential breakout to the upside. Here are new chart patterns based on it.";
-        case "rising-channel":
-          return "A <b>rising channel</b> is a bullish pattern with parallel upward trendlines, suggesting continued upward momentum. Here are new chart patterns based on it.";
-        default:
-          return "AI Chart Pattern detects real-time chart formations and provides actionable investment ideas. It highlights bullish patterns like Ascending Triangles,  Falling Wedges and more helping traders make informed decisions for better investments";
-      }
+      return getPatternDescriptionText(pattern);
     })();
 
     return (
       <>
-        <ChartPatternHeader description={patternDescription} />
         <ChartPatternsClient
+          patternDesc={patternDescription}
           response={data}
           responsePayload={payload}
           pageUrl={pageUrl}
