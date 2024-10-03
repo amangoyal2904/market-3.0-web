@@ -1,7 +1,7 @@
 import { trackingEvent } from "@/utils/ga";
 import styles from "./TopNav.module.scss";
 import Link from "next/link";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { getPatternFilterData } from "@/app/stocks/chart-patterns/utilities";
 import { fetchFilters } from "@/utils/utility";
 import CustomDropDown from "../CustomDropdown";
@@ -179,6 +179,24 @@ const TopNav = ({
     ? selectedIndexFilter.indexId[0]?.toString()
     : "0";
 
+  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const isSmallScreen = screenWidth <= 1024;
+  const showLimitedTabs =
+    (pageType === "latest" ||
+      pageType === "past" ||
+      pageType === "past-pattern") &&
+    isSmallScreen;
+
+  const visibleTabs = showLimitedTabs ? tabData.slice(0, 2) : tabData;
+  const hiddenTabs = showLimitedTabs ? tabData.slice(2) : [];
+
   const isActive = (tabKey: string): boolean => {
     // Match the base path /stocks/chart-patterns/past-performance and any dynamic segments first
     if (
@@ -215,9 +233,9 @@ const TopNav = ({
 
   return (
     <>
-      <div className="dflex align-item-center" id={styles.l3Nav}>
+      <div id={styles.l3Nav}>
         <div className={styles.l3ListWrapper}>
-          {tabData.map((item) => (
+          {visibleTabs.map((item) => (
             <Link
               key={item.key}
               href={item.key}
@@ -234,6 +252,35 @@ const TopNav = ({
               {item.label}
             </Link>
           ))}
+          {hiddenTabs.length > 0 && (
+            <div className={styles.moreTabWrap}>
+              <div className={styles.moreSec}>
+                <span>More</span>
+                <span
+                  className={`eticon_caret_down ${styles.moreCaretDown}`}
+                ></span>
+              </div>
+              <div className={styles.moreListItem}>
+                {hiddenTabs.map((item: any, index: number) => (
+                  <Link
+                    key={item.key}
+                    href={item.key}
+                    className={`${styles.l3List} ${isActive(item.key) ? styles.active : ""}`}
+                    onClick={() => {
+                      trackingEvent("et_push_event", {
+                        event_category: "mercury_engagement",
+                        event_action: "tab_selected",
+                        event_label: `ChartPatterns_${item.label}`,
+                      });
+                    }}
+                    title={item.label}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
         <div className={styles.filtersContainer}>
           {(pageType === "past" || pageType === "past-pattern") && (

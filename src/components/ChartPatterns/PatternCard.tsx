@@ -116,84 +116,85 @@ export const PatternCard = ({
       className={isLocked ? `${styles.card} ${styles.pointer}` : styles.card}
       onClick={isLocked ? onCardClick : undefined}
     >
-      <div
-        className={`${styles.patternInfo} ${trendType === "bear" ? styles.bear : styles.bull}`}
-      >
-        <span className={styles.patternName}>{patternName}</span>
-        <span>
-          {patternData?.patternTrend}
-          <i
-            className={
-              trendType === "bear"
-                ? "eticon_pattern_down_red"
-                : "eticon_pattern_up_green"
-            }
-          ></i>
-        </span>
-      </div>
-
-      {!isLocked ? (
-        <a
-          className={styles.stockName}
-          href={getStockUrl(companyId, companySeoName, "equity")}
-          target="_blank"
-          title={companyName}
+      <div>
+        <div
+          className={`${styles.patternInfo} ${trendType === "bear" ? styles.bear : styles.bull}`}
         >
-          {companyName}
-        </a>
-      ) : (
-        <PaywallBlur>
-          <span className={styles.text}>Unlock Company Name</span>
-        </PaywallBlur>
-      )}
-
-      <ul className={styles.metrics}>
-        <li className={styles.metric}>
-          <span className={styles.label}>Formed on</span>
-          <p>
-            {dateFormat(formedDate, "%d %MMM")}
-            <span className={styles.time}>{formedTime}</span>
-          </p>
-        </li>
-        <li className={styles.metric}>
-          <span className={styles.label}>Breakout Price</span>
-          {!isLocked ? <p>{formatNumber(breakoutPrice)}</p> : <PaywallBlur />}
-        </li>
-        <li className={styles.metric}>
-          <span className={styles.label}>
-            {ideaFlag === "ideaActive" ? "Current Price" : "Return %"}
-          </span>
-          {!isLocked ? (
-            <p
+          <span className={styles.patternName}>{patternName}</span>
+          <span>
+            {patternData?.patternTrend}
+            <i
               className={
-                ideaFlag !== "ideaActive"
-                  ? closedPatternReturns < 0
-                    ? "down"
-                    : "up"
-                  : ""
+                trendType === "bear"
+                  ? "eticon_pattern_down_red"
+                  : "eticon_pattern_up_green"
               }
-            >
-              {ideaFlag === "ideaActive" ? (
-                formatNumber(currentPrice)
-              ) : (
-                <>
-                  {`${Math.abs(closedPatternReturns)?.toFixed(2)}%`}
-                  <i
-                    className={
-                      closedPatternReturns < 0
-                        ? "eticon_down_arrow"
-                        : "eticon_up_arrow"
-                    }
-                  ></i>
-                </>
-              )}
-            </p>
-          ) : (
-            <PaywallBlur />
-          )}
-        </li>
-      </ul>
+            ></i>
+          </span>
+        </div>
 
+        {!isLocked ? (
+          <a
+            className={styles.stockName}
+            href={getStockUrl(companyId, companySeoName, "equity")}
+            target="_blank"
+            title={companyName}
+          >
+            {companyName}
+          </a>
+        ) : (
+          <PaywallBlur>
+            <span className={styles.text}>Unlock Company Name</span>
+          </PaywallBlur>
+        )}
+
+        <ul className={styles.metrics}>
+          <li className={styles.metric}>
+            <span className={styles.label}>Formed on</span>
+            <p>
+              {dateFormat(formedDate, "%d %MMM")}
+              <span className={styles.time}>{formedTime}</span>
+            </p>
+          </li>
+          <li className={styles.metric}>
+            <span className={styles.label}>Breakout Price</span>
+            {!isLocked ? <p>{formatNumber(breakoutPrice)}</p> : <PaywallBlur />}
+          </li>
+          <li className={styles.metric}>
+            <span className={styles.label}>
+              {ideaFlag === "ideaActive" ? "Current Price" : "Return %"}
+            </span>
+            {!isLocked ? (
+              <p
+                className={
+                  ideaFlag !== "ideaActive"
+                    ? closedPatternReturns < 0
+                      ? "down"
+                      : "up"
+                    : ""
+                }
+              >
+                {ideaFlag === "ideaActive" ? (
+                  formatNumber(currentPrice)
+                ) : (
+                  <>
+                    {`${Math.abs(closedPatternReturns)?.toFixed(2)}%`}
+                    <i
+                      className={
+                        closedPatternReturns < 0
+                          ? "eticon_down_arrow"
+                          : "eticon_up_arrow"
+                      }
+                    ></i>
+                  </>
+                )}
+              </p>
+            ) : (
+              <PaywallBlur />
+            )}
+          </li>
+        </ul>
+      </div>
       <img
         src={imageSrc}
         alt={`${patternName} Technical Chart`}
