@@ -499,25 +499,10 @@ export const TVChartContainer = (
             priceScale.getVisiblePriceRange();
 
           // Set visible range for the chart
-          if (savePatternImages === "true") {
-            // Find the minDate from processedPatternData
-            const minDateInSeconds = Math.min(
-              ...processedPatternData.map((item: any) => item.time),
-            );
-
-            // Adjust minDate by subtracting 15 days (15 days * 86400 seconds)
-            const adjustedMinDate = minDateInSeconds - 15 * 86400;
-
-            activeChart.setVisibleRange(
-              { from: adjustedMinDate, to: patternToDate },
-              { percentRightMargin: 7 },
-            );
-          } else {
-            activeChart.setVisibleRange(
-              { from: patternFromDate, to: patternToDate },
-              { percentRightMargin: 7 },
-            );
-          }
+          activeChart.setVisibleRange(
+            { from: patternFromDate, to: patternToDate },
+            { percentRightMargin: 7 },
+          );
 
           // Adjust price range if visible range exists
           if (range) {
@@ -554,7 +539,6 @@ export const TVChartContainer = (
             });
 
             activeChart.createMultipointShape(processedBreakoutData, {
-              text: "Breakout Price",
               shape: "horizontal_line",
               zOrder: "top",
               disableSelection: true,
