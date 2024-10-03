@@ -118,6 +118,14 @@ export const TVChartContainer = (
       symbol_search_request_delay: 2000,
     };
 
+    if (patternId) {
+      widgetOptions.overrides = {
+        ...widgetOptions.overrides,
+        "scalesProperties.showSeriesLastValue": false,
+        "mainSeriesProperties.showPriceLine": false,
+      };
+    }
+
     if (loadLastChart) {
       Object.assign(widgetOptions, {
         charts_storage_url: "https://etapi.indiatimes.com/charts/mrkts",
@@ -535,18 +543,14 @@ export const TVChartContainer = (
           });
 
           if (savePatternImages !== "true") {
-            activeChart.createMultipointShape(processedBreakoutData, {
-              shape: "text",
+            activeChart.createShape(processedBreakoutData[0], {
+              shape: patternTrend === "bear" ? "arrow_down" : "arrow_up",
               text: "Breakout Level",
               zOrder: "top",
               disableSelection: true,
               disableSave: true,
               disableUndo: true,
               lock: true,
-              overrides: {
-                fontsize: 16,
-                color: "rgba(43, 116, 227, 1)",
-              },
             });
 
             activeChart.createMultipointShape(processedBreakoutData, {
@@ -558,7 +562,10 @@ export const TVChartContainer = (
               disableUndo: true,
               lock: true,
               overrides: {
-                linecolor: "rgba(43, 116, 227, 1)",
+                linecolor:
+                  patternTrend === "bear"
+                    ? "rgb(204, 47, 60)"
+                    : "rgb(8, 153, 129)",
                 linewidth: 1,
               },
             });
