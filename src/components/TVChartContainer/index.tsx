@@ -520,8 +520,8 @@ export const TVChartContainer = (
             disableUndo: true,
             lock: true,
             overrides: {
-              linecolor: patternTrend === "bear" ? "#fef1f3" : "#24CB24",
-              backgroundColor: patternTrend === "bear" ? "#fef1f3" : "#E9FBE9",
+              linecolor: patternTrend === "bear" ? "#F57B8F" : "#24CB24",
+              backgroundColor: patternTrend === "bear" ? "#FDE7EB" : "#E9FBE9",
               linewidth: 2,
               transparency: 1,
             },
