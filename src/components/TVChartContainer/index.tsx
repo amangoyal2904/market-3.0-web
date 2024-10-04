@@ -172,17 +172,19 @@ export const TVChartContainer = (
     };
 
     const savePatternImage = async (patternId: string) => {
-      const screenshotCanvas = await tvWidget.takeClientScreenshot({});
-      const ctx = screenshotCanvas.getContext("2d");
+      const screenshotCanvas = await tvWidget.takeClientScreenshot({
+        hideResolution: true,
+        hideStudiesFromLegend: true,
+      });
 
       const originalWidth = screenshotCanvas.width;
       const originalHeight = screenshotCanvas.height;
 
-      // Calculate crop values based on percentages
+      // Calculate crop values based on new percentages
       const cropX = originalWidth * 0.01; // Crop 1% from the left
-      const cropHeight = originalHeight * 0.8; // 80% of the original height (10% from top and bottom)
       const cropWidth = originalWidth * 0.98; // 98% of the width (1% crop from both left and right)
-      const cropY = originalHeight * 0.1; // Starting y-coordinate (10% from the top)
+      const cropY = originalHeight * 0.08; // Start cropping 8% from the top
+      const cropHeight = originalHeight * 0.84; // 84% of the original height (8% cropped from both top and bottom)
 
       // Create an off-screen canvas to hold the cropped image
       const croppedCanvas = document.createElement("canvas");
@@ -488,27 +490,27 @@ export const TVChartContainer = (
             new Date(chartEndDate).getTime() / 1000,
           );
 
+          // Set visible range for the chart
+          activeChart.setVisibleRange({
+            from: patternFromDate,
+            to: patternToDate,
+          });
+
           // Price range calculations
           const prices = processedPatternData.map((item: any) => item.price);
-          const minPrice = Math.min(...prices) * 0.75;
-          const maxPrice = Math.max(...prices) * 1.25;
+          const minPrice = Math.min(...prices) * 0.95; // Reduce min price by 5%
+          const maxPrice = Math.max(...prices) * 1.05; // Increase max price by 5%
 
           // Get active chart and price scale
           const priceScale = activeChart.getPanes()[0].getRightPriceScales()[0];
           const range: VisiblePriceRange | null =
             priceScale.getVisiblePriceRange();
 
-          // Set visible range for the chart
-          activeChart.setVisibleRange(
-            { from: patternFromDate, to: patternToDate },
-            { percentRightMargin: 7 },
-          );
-
           // Adjust price range if visible range exists
           if (range) {
             priceScale.setVisiblePriceRange({
               from: Math.min(range.from, minPrice),
-              to: Math.max(range.to, maxPrice),
+              to: Math.min(range.to, maxPrice),
             });
           }
 
