@@ -5,7 +5,6 @@ import { APP_ENV, initSSOWidget, logout } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
-import Image from "next/image";
 import useLogin from "@/hooks/useLogin";
 import { renderIconPaths } from "@/utils/iconUtils";
 
