@@ -135,14 +135,7 @@ const Login = () => {
                   </a>
                 </li>
                 <li className={styles.ddList}>
-                  <Image
-                    className={styles.rght12}
-                    src="/marketsweb/img/icon_svgs/Redeem_Benefits_01.svg"
-                    alt="Redeem_Benefits_Icons"
-                    title="Redeem_Benefits_Icons"
-                    width="16"
-                    height="23"
-                  />
+                  <span className="eticon_benefits"></span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}et_benefits.cms`}
                     rel="nofollow noreferrer"
@@ -165,11 +158,7 @@ const Login = () => {
                 </li>
                 <li className={styles.ddList}>
                   <span className="eticon_watchlist">
-                    <span className="path1"></span>
-                    <span className="path2"></span>
-                    <span className="path3"></span>
-                    <span className="path4"></span>
-                    <span className="path5"></span>
+                    {renderIconPaths("eticon_watchlist")}
                   </span>
                   <a
                     href="/watchlist"
@@ -195,14 +184,7 @@ const Login = () => {
                 </li>
                 <li className={styles.ddList}>
                   {/* <span className="eticon_recos"></span> */}
-                  <Image
-                    className={styles.rght12}
-                    src="/marketsweb/img/icon_svgs/live-chat01.svg"
-                    alt="Redeem Benefits"
-                    title="Redeem Benefits"
-                    width="18"
-                    height="16"
-                  />
+                  <span className="eticon_live_chat"></span>
                   <a
                     href={`${(GLOBAL_CONFIG as any)[APP_ENV].ET_WEB_URL}contactus.cms`}
                     rel="nofollow noreferrer"
