@@ -87,7 +87,7 @@
         padding-left: 4px;
       }
       i {
-        font-size: 16px;
+        font-size: 1rem;
         vertical-align: bottom;
       }
     }
@@ -97,6 +97,7 @@
     width: 100%;
     height: auto;
     object-fit: cover;
+    margin-top: 5px;
     cursor: pointer;
   }
   .desc {

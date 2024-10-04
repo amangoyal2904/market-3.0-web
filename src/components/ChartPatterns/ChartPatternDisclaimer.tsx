@@ -7,7 +7,7 @@ const StyledDisclaimer = styled.p`
   color: #4d4d4d;
   line-height: 20px;
   margin: 50px 0;
-  padding: 32px 80px;
+  padding: 32px 30px;
   background-color: #f4f4f4;
 `;
 

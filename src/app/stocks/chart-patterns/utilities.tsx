@@ -109,6 +109,6 @@ export const getPatternDescriptionText = (pattern: string) => {
     case "rising-channel":
       return "A <b>Rising Channel</b> is a bullish pattern with parallel upward trendlines, suggesting continued upward momentum. Below are some new chart patterns based on this formation.";
     default:
-      return "AI Chart Pattern Past Performance provides insights into past patterns like Ascending Triangle, Symmetrical Triangle, and Falling Wedge, with quick summaries and performance metrics across various stocks";
+      return "AI Chart Pattern detects real-time chart formations and provides actionable investment ideas. It highlights bullish patterns like Ascending Triangles, Falling Wedges and more helping traders make informed decisions for better investments.";
   }
 };

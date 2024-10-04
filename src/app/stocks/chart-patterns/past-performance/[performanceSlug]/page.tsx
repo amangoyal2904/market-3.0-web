@@ -63,7 +63,7 @@ const PastPerformanceSlug = async ({ params }: any) => {
 
     return (
       <>
-        <ChartPatternHeader />
+        <ChartPatternHeader description="AI Chart Pattern Past Performance provides insights into past patterns like Ascending Triangle, Symmetrical Triangle, and Falling Wedge, with quick summaries and performance metrics across various stocks" />
         <PastPerformanceClientSlug
           response={data}
           responsePayload={payload}

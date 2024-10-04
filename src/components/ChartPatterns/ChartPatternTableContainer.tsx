@@ -185,11 +185,11 @@ const ChartPatternTableContainer = ({
           >
             <tr>
               {!subPatternFlag && <th>Pattern Formed</th>}
-              <th>Formed Date</th>
+              <th>Formed On</th>
               <th>Breakout Price</th>
               <th>Return %</th>
               <th>Days</th>
-              <th>Market Cap</th>
+              <th>Market Cap (Rs Cr)</th>
               <th className={styles.left}>Industry</th>
               <th
                 className={`${styles.fullWidth} ${styles.noRborder} ${!!parentHasScroll ? styles.hide : ""}`}
