@@ -510,7 +510,7 @@ export const TVChartContainer = (
           if (range) {
             priceScale.setVisiblePriceRange({
               from: Math.min(range.from, minPrice),
-              to: Math.min(range.to, maxPrice),
+              to: Math.max(range.to, maxPrice),
             });
           }
 
