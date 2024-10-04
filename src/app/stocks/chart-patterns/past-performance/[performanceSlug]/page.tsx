@@ -7,6 +7,7 @@ import PastPerformanceClientSlug from "./clients";
 import BreadCrumb from "@/components/BreadCrumb";
 import Blocker from "@/components/Blocker";
 import ChartPatternHeader from "@/components/ChartPatterns/ChartPatternHeader";
+import ChartPatternDisclaimer from "@/components/ChartPatterns/ChartPatternDisclaimer";
 
 const getCommonData = async (params: any) => {
   const headersList = headers();
@@ -69,6 +70,7 @@ const PastPerformanceSlug = async ({ params }: any) => {
           responsePayload={payload}
           pageUrl={pageUrl}
         />
+        <ChartPatternDisclaimer />
         <BreadCrumb
           pagePath={pageUrl}
           pageName={[
