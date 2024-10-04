@@ -101,13 +101,13 @@ export const getPatternFilterData = async () => {
 export const getPatternDescriptionText = (pattern: string) => {
   switch (pattern) {
     case "ascending-triangle":
-      return "An <b>ascending triangle</b> is a bullish pattern with rising lows and flat resistance, signaling a potential breakout. Here are new chart patterns based on it.";
+      return "An <b>Ascending Triangle</b> is a bullish pattern with rising lows and flat resistance, signaling a potential breakout. Below are some new chart patterns based on this formation.";
     case "symmetrical-triangle":
-      return "A <b>symmetrical triangle</b> is a neutral pattern with converging trendlines, signaling a potential breakout in either direction. Here are new chart patterns based on it.";
+      return "A <b>Symmetrical Triangle</b> is a neutral chart pattern characterized by converging trendlines, indicating a potential breakout in either direction. Below are some new chart patterns based on this formation.";
     case "falling-wedge":
-      return "A <b>falling wedge</b> is a bullish pattern with converging downward trendlines, indicating a potential breakout to the upside. Here are new chart patterns based on it.";
+      return "A <b>falling wedge</b> is a bullish pattern with converging downward trendlines, indicating a potential breakout to the upside. Below are some new chart patterns based on this formation.";
     case "rising-channel":
-      return "A <b>rising channel</b> is a bullish pattern with parallel upward trendlines, suggesting continued upward momentum. Here are new chart patterns based on it.";
+      return "A <b>rising channel</b> is a bullish pattern with parallel upward trendlines, suggesting continued upward momentum. Below are some new chart patterns based on this formation.";
     default:
       return "AI Chart Pattern Past Performance provides insights into past patterns like Ascending Triangle, Symmetrical Triangle, and Falling Wedge, with quick summaries and performance metrics across various stocks";
   }
