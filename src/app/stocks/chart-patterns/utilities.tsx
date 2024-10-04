@@ -105,9 +105,9 @@ export const getPatternDescriptionText = (pattern: string) => {
     case "symmetrical-triangle":
       return "A <b>Symmetrical Triangle</b> is a neutral chart pattern characterized by converging trendlines, indicating a potential breakout in either direction. Below are some new chart patterns based on this formation.";
     case "falling-wedge":
-      return "A <b>falling wedge</b> is a bullish pattern with converging downward trendlines, indicating a potential breakout to the upside. Below are some new chart patterns based on this formation.";
+      return "A <b>Falling Wedge</b> is a bullish pattern with converging downward trendlines, indicating a potential breakout to the upside. Below are some new chart patterns based on this formation.";
     case "rising-channel":
-      return "A <b>rising channel</b> is a bullish pattern with parallel upward trendlines, suggesting continued upward momentum. Below are some new chart patterns based on this formation.";
+      return "A <b>Rising Channel</b> is a bullish pattern with parallel upward trendlines, suggesting continued upward momentum. Below are some new chart patterns based on this formation.";
     default:
       return "AI Chart Pattern Past Performance provides insights into past patterns like Ascending Triangle, Symmetrical Triangle, and Falling Wedge, with quick summaries and performance metrics across various stocks";
   }
