@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from "react";
 import {
   ChartingLibraryWidgetOptions,
   ResolutionString,
-  VisiblePriceRange,
   widget,
 } from "../../../public/static/v28/charting_library";
 import { trackingEvent } from "@/utils/ga";
@@ -118,6 +117,14 @@ export const TVChartContainer = (
       symbol_search_request_delay: 2000,
     };
 
+    if (patternId) {
+      widgetOptions.overrides = {
+        ...widgetOptions.overrides,
+        "scalesProperties.showSeriesLastValue": false,
+        "mainSeriesProperties.showPriceLine": false,
+      };
+    }
+
     if (loadLastChart) {
       Object.assign(widgetOptions, {
         charts_storage_url: "https://etapi.indiatimes.com/charts/mrkts",
@@ -164,17 +171,19 @@ export const TVChartContainer = (
     };
 
     const savePatternImage = async (patternId: string) => {
-      const screenshotCanvas = await tvWidget.takeClientScreenshot({});
-      const ctx = screenshotCanvas.getContext("2d");
+      const screenshotCanvas = await tvWidget.takeClientScreenshot({
+        hideResolution: true,
+        hideStudiesFromLegend: true,
+      });
 
       const originalWidth = screenshotCanvas.width;
       const originalHeight = screenshotCanvas.height;
 
-      // Calculate the cropped dimensions (5% from left/right, 10% from top/bottom)
-      const cropWidth = originalWidth * 0.9; // 90% of the original width (5% from each side)
-      const cropHeight = originalHeight * 0.8; // 80% of the original height (10% from top and bottom)
-      const cropX = originalWidth * 0.04; // Starting x-coordinate (4% from the left)
-      const cropY = originalHeight * 0.1; // Starting y-coordinate (10% from the top)
+      // Calculate crop values based on new percentages
+      const cropX = originalWidth * 0.01; // Crop 1% from the left
+      const cropWidth = originalWidth * 0.98; // 98% of the width (1% crop from both left and right)
+      const cropY = originalHeight * 0.08; // Start cropping 8% from the top
+      const cropHeight = originalHeight * 0.84; // 84% of the original height (8% cropped from both top and bottom)
 
       // Create an off-screen canvas to hold the cropped image
       const croppedCanvas = document.createElement("canvas");
@@ -455,13 +464,22 @@ export const TVChartContainer = (
             shape: patternShape,
             chartStartDate,
             chartEndDate,
+            patternTrend,
+            breakoutData,
           } = patternList;
 
           // Convert pattern data
           const processedPatternData = patternData.map((item: any) => ({
-            time: item.time / 1000,
+            time: (item.time + 34200000) / 1000,
             price: item.price,
           }));
+
+          const processedBreakoutData = [
+            {
+              time: (breakoutData.time + 34200000) / 1000,
+              price: breakoutData.price,
+            },
+          ];
 
           // Date conversion
           const patternFromDate = Math.floor(
@@ -471,36 +489,70 @@ export const TVChartContainer = (
             new Date(chartEndDate).getTime() / 1000,
           );
 
+          // Set visible range for the chart
+          activeChart.setVisibleRange({
+            from: patternFromDate,
+            to: patternToDate,
+          });
+
           // Price range calculations
           const prices = processedPatternData.map((item: any) => item.price);
-          const minPrice = Math.min(...prices) * 0.75;
-          const maxPrice = Math.max(...prices) * 1.25;
+          const minPrice = Math.min(...prices) * 0.95; // Reduce min price by 5%
+          const maxPrice = Math.max(...prices) * 1.05; // Increase max price by 5%
 
           // Get active chart and price scale
-
           const priceScale = activeChart.getPanes()[0].getRightPriceScales()[0];
-          const range: VisiblePriceRange | null =
-            priceScale.getVisiblePriceRange();
 
-          // Set visible range for the chart
-          activeChart.setVisibleRange(
-            { from: patternFromDate, to: patternToDate },
-            { percentRightMargin: 7 },
-          );
-
+          const adjustedMinBreakoutPrice = breakoutData.price * 0.95;
+          const adjustedMaxBreakoutPrice = breakoutData.price * 1.05;
           // Adjust price range if visible range exists
-          if (range) {
-            priceScale.setVisiblePriceRange({
-              from: Math.min(range.from, minPrice),
-              to: Math.max(range.to, maxPrice),
-            });
-          }
+          priceScale.setVisiblePriceRange({
+            from: Math.min(adjustedMinBreakoutPrice, minPrice),
+            to: Math.max(adjustedMaxBreakoutPrice, maxPrice),
+          });
 
           // Create shape
           activeChart.createMultipointShape(processedPatternData, {
             shape: patternShape,
+            disableSelection: true,
+            disableSave: true,
+            disableUndo: true,
             lock: true,
+            overrides: {
+              linecolor: patternTrend === "bear" ? "#F57B8F" : "#24CB24",
+              backgroundColor: patternTrend === "bear" ? "#FDE7EB" : "#E9FBE9",
+              linewidth: 2,
+              transparency: 1,
+            },
           });
+
+          if (savePatternImages !== "true") {
+            activeChart.createShape(processedBreakoutData[0], {
+              shape: patternTrend === "bear" ? "arrow_down" : "arrow_up",
+              text: "Breakout Level",
+              zOrder: "top",
+              disableSelection: true,
+              disableSave: true,
+              disableUndo: true,
+              lock: true,
+            });
+
+            activeChart.createMultipointShape(processedBreakoutData, {
+              shape: "horizontal_line",
+              zOrder: "top",
+              disableSelection: true,
+              disableSave: true,
+              disableUndo: true,
+              lock: true,
+              overrides: {
+                linecolor:
+                  patternTrend === "bear"
+                    ? "rgb(204, 47, 60)"
+                    : "rgb(8, 153, 129)",
+                linewidth: 2,
+              },
+            });
+          }
 
           // Save pattern image if required
           if (savePatternImages === "true") {
