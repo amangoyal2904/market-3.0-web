@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from "react";
 import {
   ChartingLibraryWidgetOptions,
   ResolutionString,
-  VisiblePriceRange,
   widget,
 } from "../../../public/static/v28/charting_library";
 import { trackingEvent } from "@/utils/ga";
@@ -503,16 +502,14 @@ export const TVChartContainer = (
 
           // Get active chart and price scale
           const priceScale = activeChart.getPanes()[0].getRightPriceScales()[0];
-          const range: VisiblePriceRange | null =
-            priceScale.getVisiblePriceRange();
 
+          const adjustedMinBreakoutPrice = breakoutData.price * 0.95;
+          const adjustedMaxBreakoutPrice = breakoutData.price * 1.05;
           // Adjust price range if visible range exists
-          if (range) {
-            priceScale.setVisiblePriceRange({
-              from: Math.min(range.from, minPrice),
-              to: Math.min(range.to, maxPrice),
-            });
-          }
+          priceScale.setVisiblePriceRange({
+            from: Math.min(adjustedMinBreakoutPrice, minPrice),
+            to: Math.max(adjustedMaxBreakoutPrice, maxPrice),
+          });
 
           // Create shape
           activeChart.createMultipointShape(processedPatternData, {
