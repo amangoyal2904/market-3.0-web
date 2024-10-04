@@ -495,21 +495,25 @@ export const TVChartContainer = (
             to: patternToDate,
           });
 
-          // Price range calculations
-          const prices = processedPatternData.map((item: any) => item.price);
-          const minPrice = Math.min(...prices) * 0.95; // Reduce min price by 5%
-          const maxPrice = Math.max(...prices) * 1.05; // Increase max price by 5%
+          if (savePatternImages === "true") {
+            // Get active chart and price scale
+            const priceScale = activeChart
+              .getPanes()[0]
+              .getRightPriceScales()[0];
 
-          // Get active chart and price scale
-          const priceScale = activeChart.getPanes()[0].getRightPriceScales()[0];
+            // Price range calculations
+            const prices = processedPatternData.map((item: any) => item.price);
+            const minPrice = Math.min(...prices) * 0.95; // Reduce min price by 5%
+            const maxPrice = Math.max(...prices) * 1.05; // Increase max price by 5%
 
-          const adjustedMinBreakoutPrice = breakoutData.price * 0.95;
-          const adjustedMaxBreakoutPrice = breakoutData.price * 1.05;
-          // Adjust price range if visible range exists
-          priceScale.setVisiblePriceRange({
-            from: Math.min(adjustedMinBreakoutPrice, minPrice),
-            to: Math.max(adjustedMaxBreakoutPrice, maxPrice),
-          });
+            const adjustedMinBreakoutPrice = breakoutData.price * 0.95;
+            const adjustedMaxBreakoutPrice = breakoutData.price * 1.05;
+
+            priceScale.setVisiblePriceRange({
+              from: Math.min(adjustedMinBreakoutPrice, minPrice),
+              to: Math.max(adjustedMaxBreakoutPrice, maxPrice),
+            });
+          }
 
           // Create shape
           activeChart.createMultipointShape(processedPatternData, {
