@@ -11,19 +11,19 @@ const responsive = [
   {
     breakpoint: 2560,
     settings: {
-      slidesToShow: 5,
+      slidesToShow: 4,
     },
   },
   {
     breakpoint: 1921,
     settings: {
-      slidesToShow: 4,
+      slidesToShow: 3,
     },
   },
   {
     breakpoint: 1601,
     settings: {
-      slidesToShow: 3,
+      slidesToShow: 2,
     },
   },
   {
@@ -144,7 +144,7 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
   useEffect(() => {
     observeSections(); // Start observing sections when component mounts
   }, [resultData]); // Re-observe if resultData changes
-
+  console.log("___resultData", resultData);
   return (
     <>
       <div className={styles.subHead}>
@@ -190,7 +190,14 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
                 }}
                 key={index}
               >
-                <h2>{item?.label}</h2>
+                <h2 className={styles.catHead}>
+                  <a
+                    href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"].list}${item.seoPath}`}
+                    className={styles.spanTxt}
+                  >
+                    {item?.label}
+                  </a>
+                </h2>
                 <div className={styles.ieBoxList}>
                   <InvestEdgeLeftVideo
                     videoId={`video${item?.data[0]?.msid}`}
@@ -212,7 +219,7 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
                                 index={index}
                                 seoPath={item.seoPath}
                                 sliderFlag={true}
-                                key={index}
+                                key={`${index}-slider`}
                               />
                             ),
                           }))}

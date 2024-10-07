@@ -51,20 +51,18 @@
   margin-top: 30px;
   .ieBox {
     margin-bottom: 50px;
-    h2 {
-      font-size: 24px;
-      margin-bottom: 15px;
-      font-weight: 400;
-    }
     .viewall {
       color: #2b74e3;
       margin-top: 20px;
-      display: block;
+      display: inline-block;
+      vertical-align: top;
+      font-weight: 600;
+      font-size: 16px;
       .nextIcon {
         font-size: 20px;
         position: relative;
         top: 4px;
-        left: -3px;
+        left: 1px;
       }
     }
     .ieBoxList {
@@ -101,12 +99,37 @@
 
       .right_ieContent {
         position: relative;
-        width: 64%;
+        width: 49%;
         &.noSlider {
           display: flex;
           flex-wrap: wrap;
         }
       }
+    }
+  }
+}
+.catHead {
+  font-size: 24px;
+  margin-bottom: 15px;
+  font-weight: 700;
+  .spanTxt {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    padding-right: 25px;
+    &::after {
+      position: absolute;
+      content: "";
+      right: 4px;
+      top: 50%;
+      border-top: solid 2px #000000;
+      border-right: solid 2px #000000;
+      transform: rotate(45deg);
+      display: inline-block;
+      vertical-align: top;
+      width: 10px;
+      height: 10px;
+      margin-top: -5px;
     }
   }
 }

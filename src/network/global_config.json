@@ -35,8 +35,8 @@
     "overview": "/markets/stock-recos/overview"
   },
   "INVESTEDGE_BASELINK": {
-    "list": "/markets/investedge/list/",
-    "video": "/markets/investedge/video/"
+    "list": "/markets/etlearn/list/",
+    "video": "/markets/etlearn/video/"
   },
   "NAV_CONFIG": {
     "Auto_Collapsed": true,

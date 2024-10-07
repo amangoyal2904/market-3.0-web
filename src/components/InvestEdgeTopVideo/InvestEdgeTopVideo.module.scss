@@ -37,6 +37,8 @@
 }
 .right_vidBox {
   max-width: 100%;
+  min-height: 260px;
+  margin-bottom: 20px;
   .redirectLink {
     position: relative;
     display: block;
@@ -90,6 +92,7 @@
     display: flex;
     margin-bottom: 15px;
     gap: 15px;
+    color: #656565;
     span {
       font-size: 12px;
     }
@@ -101,15 +104,16 @@
   margin-bottom: 20px;
 }
 .left_ieContent {
-  min-width: 34%;
-  max-width: 34%;
+  min-width: 49%;
+  max-width: 49%;
   max-height: 550px;
   .videoShowWrapper {
     cursor: pointer;
     position: relative;
     img {
-      height: 400px;
-      max-height: 400px;
+      height: 450px;
+      width: 100%;
+      max-height: 450px;
     }
     .playButton {
       position: absolute;

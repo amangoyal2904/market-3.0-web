@@ -68,11 +68,15 @@ const InvestEdge = async () => {
     return fullData;
   };
 
-  const getResult = await generateFullData(); // Await the result of generateFullData
+  const getResult: any = await generateFullData();
+  // Double the data array in each object
+  getResult.forEach((item: any) => {
+    item.data = [...item.data, ...item.data];
+  });
 
   return (
     <>
-      <h1 className={styles.title}>Invest Edge</h1>
+      <h1 className={styles.title}>ET Learn</h1>
       <p className={styles.desc}>
         Curated videos on stocks, mutual funds, investment strategies & more to
         help you manage your wealth seamlessly.

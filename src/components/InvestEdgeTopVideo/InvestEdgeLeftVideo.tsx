@@ -131,7 +131,7 @@ const InvestEdgeLeftVideo = ({
         )}
         <span className={styles.dash}>|</span>
         <span className={styles.views}>
-          Views: {view.length > 0 ? view[0].views : "Loading..."}
+          Views: {view.length > 0 ? view?.[0]?.views : "Loading..."}
         </span>
       </div>
       <div className={styles.socialDetails}>
