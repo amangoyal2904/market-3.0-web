@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./InvestEdgeTopVideo.module.scss";
 import VideoEmbed from "../VideoEmbed";
 import { formatTimestamp, getViews, millisToMinutesAndSeconds } from "@/utils";
+import Share from "../Share";
 
 // Define the interface for the view object
 interface View {
@@ -16,6 +17,8 @@ const InvestEdgeLeftVideo = ({
   activeVideoId,
   setActiveVideoId,
   videoDetails,
+  videoMsid,
+  videoSecSeoPath,
 }: any) => {
   const [isVisible, setIsVisible] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
@@ -135,9 +138,14 @@ const InvestEdgeLeftVideo = ({
         </span>
       </div>
       <div className={styles.socialDetails}>
-        <span className={styles.socialSpan}>
+        {/* <span className={styles.socialSpan}>
           <span className={`eticon_share ${styles.socialIcon}`}></span>Share
-        </span>
+        </span> */}
+        <Share
+          title={videoDetails?.title || ""}
+          streamURL={`https://economictimes.indiatimes.com/markets/etlearn/video/${videoSecSeoPath}/${videoMsid}`}
+          shareIconStyle="round"
+        />
         <span className={styles.socialSpan}>
           <span className={`eticon_thumbs_up ${styles.socialIcon}`}></span>Like
         </span>

@@ -1,7 +1,7 @@
 import SocialShare from "@/utils/SocialShare";
 import styles from "./Share.module.scss";
 
-const Share = ({ title, streamURL }: any) => {
+const Share = ({ title, streamURL, shareIconStyle = "" }: any) => {
   let shareParam: { title: any; url: any; type?: any };
   if (title && streamURL) {
     shareParam = {
@@ -17,7 +17,14 @@ const Share = ({ title, streamURL }: any) => {
   return (
     <div className={styles.shareWrapper}>
       <div className={styles.socialShare}>
-        <span className={`eticon_share ${styles.shareIcon}`}></span>
+        {shareIconStyle === "round" ? (
+          <span className={styles.shareRoundSec}>
+            <span className={`eticon_share ${styles.socialIcon}`}></span>Share
+          </span>
+        ) : (
+          <span className={`eticon_share ${styles.shareIcon}`}></span>
+        )}
+
         <div className={styles.sharingIcon}>
           <span
             aria-label="facebook"

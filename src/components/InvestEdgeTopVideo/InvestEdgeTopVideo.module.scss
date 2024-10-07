@@ -135,11 +135,13 @@
   }
   .socialDetails {
     display: flex;
+    align-items: center;
     gap: 20px;
     .socialSpan {
       padding: 5px 15px;
       border: 1px solid;
       border-radius: 20px;
+      cursor: pointer;
       .socialIcon {
         margin-right: 5px;
       }

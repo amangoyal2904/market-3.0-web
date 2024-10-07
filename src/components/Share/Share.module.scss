@@ -44,6 +44,16 @@
     top: 20px;
     display: none;
   }
+  .shareRoundSec {
+    padding: 5px 15px;
+    border: 1px solid;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  .shareRoundSec + .sharingIcon {
+    top: 22px;
+    right: 15px;
+  }
 
   .icon {
     background-image: url("https://img.etimg.com/photo/92482633.cms");

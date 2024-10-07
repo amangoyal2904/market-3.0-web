@@ -201,9 +201,11 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
                 <div className={styles.ieBoxList}>
                   <InvestEdgeLeftVideo
                     videoId={`video${item?.data[0]?.msid}`}
+                    videoMsid={`${item?.data[0]?.msid}`}
                     activeVideoId={activeVideoId}
                     setActiveVideoId={setActiveVideoId}
                     videoDetails={item?.data[0]}
+                    videoSecSeoPath={item?.seoPath}
                   />
                   <div
                     className={`${styles.right_ieContent} ${item.data.length < 7 ? styles["noSlider"] : ""}`}
