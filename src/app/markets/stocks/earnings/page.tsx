@@ -91,7 +91,7 @@ const StocksEarningsPage = async () => {
     pageSize: 8,
     pageNo: 1,
     deviceType: "web",
-    sort: [{ field: "R1MonthReturn", order: "DESC" }],
+    //sort: [{ field: "R1MonthReturn", order: "DESC" }],
   };
   const bodyPayloadDeclaredCompanies = {
     date: isFutureDateGreater
