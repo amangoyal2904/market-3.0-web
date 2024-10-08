@@ -33,6 +33,7 @@ interface propsType {
   setUpdateDateTime?: any;
   setFallbackWebsocket?: any;
   socketDataType?: any;
+  nodataFound?: any;
 }
 
 const DEBOUNCE_DELAY = 10;
@@ -60,6 +61,7 @@ const MarketTable = React.memo((props: propsType) => {
     setUpdateDateTime,
     setFallbackWebsocket = false,
     socketDataType = "",
+    nodataFound = "",
   } = props || {};
 
   const wsRef = useRef<WebSocket | null>(null);
@@ -793,6 +795,7 @@ const MarketTable = React.memo((props: propsType) => {
                   ? "noStocks"
                   : "noDataFound"
               }
+              nodataFound={nodataFound}
               updateTableHandler={updateTableHandler}
             />
           )}

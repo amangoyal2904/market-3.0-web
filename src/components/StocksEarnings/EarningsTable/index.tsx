@@ -37,6 +37,7 @@ const EarningsTable = ({ data, processingLoader, type = "" }: any) => {
         l2NavTracking="Stocks/earnings"
         l3NavTracking={activeItem}
         setFallbackWebsocket={setFallbackWebsocket}
+        nodataFound={`No Upcoming results for "Selected date". Please check for future dates.`}
       />
       {tableData && tableData.length > 0 ? (
         <ViewAllCta

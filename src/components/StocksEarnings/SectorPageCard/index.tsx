@@ -6,6 +6,7 @@ import PaginationEarning from "../../BigBullTableCard/PaginationEarning";
 import Loader from "@/components/Loader";
 import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
+import NoDataCard from "../DeclaredCards/NoDataCard";
 
 const leftSideTabData = [
   {
@@ -156,9 +157,19 @@ const SectorPageCard = ({ data, tpName = "", sortingValue = "" }: any) => {
         {!_loading ? (
           <>
             <div className={styles.cardSecWrap}>
-              {tabContentData.map((item, index) => (
-                <SectorCard key={index} item={item} className="sectionCard" />
-              ))}
+              {tabContentData && tabContentData.length > 0 ? (
+                <>
+                  {tabContentData.map((item, index) => (
+                    <SectorCard
+                      key={index}
+                      item={item}
+                      className="sectionCard"
+                    />
+                  ))}
+                </>
+              ) : (
+                <NoDataCard title={`Not Enough Results published till date`} />
+              )}
             </div>
             {activeTab === 0 && _pageTopSector.totalpages > 1 ? (
               <PaginationEarning

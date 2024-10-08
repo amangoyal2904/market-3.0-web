@@ -18,8 +18,9 @@ const DeclaredPage = ({
   topTabTimeHide = "no",
   paginationTxt = "",
   queryTitle = "",
+  activeResultTxt = "latest-results",
 }: any) => {
-  const [activeResultValue, setActiveResultValue] = useState("latest-results");
+  const [activeResultValue, setActiveResultValue] = useState(activeResultTxt);
   const [_cardLoading, setCardLoading] = useState(false);
   const [_declareCompanies, setDeclareCompanies] = useState(
     data?.declaredCompanies,
@@ -181,6 +182,7 @@ const DeclaredPage = ({
             }
             loading={_cardLoading}
             showViewAll="no"
+            activeResultValue={activeResultValue}
           />
           {queryParameter !== "" && queryResult !== "" ? (
             ""

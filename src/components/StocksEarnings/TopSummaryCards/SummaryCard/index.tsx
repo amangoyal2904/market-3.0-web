@@ -71,10 +71,12 @@ const SummaryCard = ({ data, type }: any) => {
             <div className={styles.middleSec}>
               <div className={styles.left}>
                 <div className={styles.decTxt}>Declared results</div>
-                <div className={styles.resData}>
-                  <span>{data?.declaredCompanies}</span>
-                  <span>/{data?.totalCompanies}</span>
-                </div>
+                {data?.totalCompanies && (
+                  <div className={styles.resData}>
+                    <span>{data?.declaredCompanies}</span>
+                    <span>/{data?.totalCompanies}</span>
+                  </div>
+                )}
               </div>
               <div className={styles.right}>
                 <div className={styles.grphTxtWrap}>
@@ -131,13 +133,19 @@ const SummaryCard = ({ data, type }: any) => {
               </div>
               <div className={styles.middleRight}>
                 {type === "yoyData" || type === "qoqData" ? (
-                  <span className={data?.sales > 0 ? styles.up : styles.down}>
+                  <span
+                    className={
+                      data?.sales > 0 ? styles.up : data?.sales && styles.down
+                    }
+                  >
                     {data?.sales > 0 ? (
                       <span className="eticon_up_arrow"></span>
-                    ) : (
+                    ) : data?.sales ? (
                       <span className="eticon_down_arrow"></span>
+                    ) : (
+                      "-"
                     )}
-                    {data?.sales}%
+                    {data?.sales && `${data?.sales}%`}
                   </span>
                 ) : (
                   ""
@@ -153,20 +161,34 @@ const SummaryCard = ({ data, type }: any) => {
                     : ""}
                 {type === "topPerformingSectors" ||
                 type === "underPerformingSectors" ? (
-                  <span>{data[1]?.sectorName}</span>
+                  <>
+                    {data[1]?.sectorName ? (
+                      <span>{data[1]?.sectorName}</span>
+                    ) : (
+                      <span className={styles.nocolor}>
+                        Not Enough Results published till date
+                      </span>
+                    )}
+                  </>
                 ) : (
                   ""
                 )}
               </div>
               <div className={styles.middleRight}>
                 {type === "yoyData" || type === "qoqData" ? (
-                  <span className={data?.profit > 0 ? styles.up : styles.down}>
+                  <span
+                    className={
+                      data?.profit > 0 ? styles.up : data?.profit && styles.down
+                    }
+                  >
                     {data?.profit > 0 ? (
                       <span className="eticon_up_arrow"></span>
-                    ) : (
+                    ) : data?.profit ? (
                       <span className="eticon_down_arrow"></span>
+                    ) : (
+                      "-"
                     )}
-                    {data?.profit}%
+                    {data?.profit && `${data?.profit}%`}
                   </span>
                 ) : (
                   ""

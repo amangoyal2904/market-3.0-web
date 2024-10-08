@@ -11,7 +11,19 @@ const DeclaredCards = ({
   showViewAll = "yes",
   activeResultValue = "",
 }: any) => {
-  const _title = `No Results have been declared for this quarter. Kindly check the upcoming result list.`;
+  //console.log("________",activeResultValue)
+  const _title =
+    activeResultValue === "latest-results"
+      ? "No results have been declared for this quarter. Kindly check the upcoming results list or change any filters applied by you."
+      : activeResultValue === "sales-gainers"
+        ? "Out of declared results, no company has shown positive sales growth."
+        : activeResultValue === "sales-losers"
+          ? "Out of declared results, no company has shown negative sales growth"
+          : activeResultValue === "profit-gainers"
+            ? "Out of declared results, no company has shown positive profit growth"
+            : activeResultValue === "profit-losers"
+              ? "Out of declared results, no company has shown negative profit growth"
+              : "No results have been declared for this quarter. Kindly check the upcoming results list or change any filters applied by you.";
 
   const cardData = data?.declaredCompanies || [];
   const viewAllTxt =

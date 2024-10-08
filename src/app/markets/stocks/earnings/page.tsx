@@ -138,7 +138,7 @@ const StocksEarningsPage = async () => {
   const topNewsData = await fetchTopNews();
   const _earningScreeners = await commonGetAPIHandler(
     `EARNINGS_SCREENERS`,
-    `?collectiontypeid=6&screenercount=10&list=false`,
+    `?screenercollectionid=6&pageno=1&pagesize=20`,
   );
   const earningData = {
     topSummaryCardData: earningsSummary || {},

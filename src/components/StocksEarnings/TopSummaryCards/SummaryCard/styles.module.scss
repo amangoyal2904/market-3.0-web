@@ -116,6 +116,10 @@
       font-size: 13px;
       color: $green-80;
       font-weight: 600;
+      .nocolor {
+        color: $black;
+        font-weight: 400;
+      }
     }
   }
 }
@@ -125,6 +129,10 @@
       font-size: 13px;
       color: $red-50;
       font-weight: 600;
+      .nocolor {
+        color: $black;
+        font-weight: 400;
+      }
     }
   }
 }

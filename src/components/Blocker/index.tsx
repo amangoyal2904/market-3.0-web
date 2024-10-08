@@ -10,6 +10,7 @@ import { APP_ENV } from "@/utils/index";
 interface propsType {
   type: any;
   updateTableHandler?: any;
+  nodataFound?: any;
 }
 
 const handleLoginToggle = (): void => {
@@ -57,7 +58,7 @@ const blockerList: any = {
 };
 const Blocker = (props: propsType) => {
   const [addStockShow, setAddStockShow] = useState(false);
-  const { type, updateTableHandler } = props;
+  const { type, updateTableHandler, nodataFound } = props;
   const { message, cta, action, icon, id } = blockerList[type] || {};
 
   const moduelClose = () => {
@@ -86,7 +87,13 @@ const Blocker = (props: propsType) => {
             loading="lazy"
           />
         )}
-        {message && <p dangerouslySetInnerHTML={{ __html: message }} />}
+        {message && (
+          <p
+            dangerouslySetInnerHTML={{
+              __html: nodataFound !== "" ? nodataFound : message,
+            }}
+          />
+        )}
         {type == "notFound" && (
           <a
             className="linkUnderline"

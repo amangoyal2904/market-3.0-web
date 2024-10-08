@@ -163,6 +163,7 @@ const UpcomingTable = ({
         setUpdateDateTime={setUpdateDateTime}
         setFallbackWebsocket={setFallbackWebsocket}
         socketDataType="stock"
+        nodataFound={`No Upcoming results for "Selected date". Please check for future dates.`}
       />
     </>
   );

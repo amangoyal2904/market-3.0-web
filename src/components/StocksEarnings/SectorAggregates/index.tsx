@@ -3,6 +3,7 @@ import { startTransition, useState, useRef, useEffect } from "react";
 import SlickSlider from "../../SlickSlider";
 import SectorCard from "../SectorCard";
 import ViewAllCta from "../ViewAllCta";
+import NoDataCard from "../DeclaredCards/NoDataCard";
 
 const SectorAggregates = ({ data }: any) => {
   //const sliderRef = useRef<HTMLDivElement>(null);
@@ -104,34 +105,40 @@ const SectorAggregates = ({ data }: any) => {
           })}
         </ul>
         <div className={styles.tabContent}>
-          <div className={styles.contentWrap}>
-            <SlickSlider
-              // ref={sliderRef}
-              slides={tabContentData?.map((item: any, index: any) => ({
-                content: (
-                  <SectorCard
-                    item={item}
-                    index={index}
-                    key={`${index}-tabSecTab`}
-                  />
-                ),
-              }))}
-              key={`slider-${tabActive}`}
-              sliderId={`slider-earningsTopSector`}
-              slidesToShow={5}
-              slidesToScroll={1}
-              rows={1}
-              responsive={responsive}
-              noPadding={true}
-              topSpaceClass="earningsTopSector"
-              //   screenWidth={screenWidth}
-            />
-          </div>
-          <ViewAllCta
-            text={`${tabActive ? "View all Under Performing Sectors" : "View all Top Performing Sectors"}`}
-            urlInternal="yes"
-            url={`${tabActive ? "/markets/stocks/earnings/sector-aggregate/under-performing" : "/markets/stocks/earnings/sector-aggregate/top-performing"}`}
-          />
+          {tabContentData && tabContentData.length > 0 ? (
+            <>
+              <div className={styles.contentWrap}>
+                <SlickSlider
+                  // ref={sliderRef}
+                  slides={tabContentData?.map((item: any, index: any) => ({
+                    content: (
+                      <SectorCard
+                        item={item}
+                        index={index}
+                        key={`${index}-tabSecTab`}
+                      />
+                    ),
+                  }))}
+                  key={`slider-${tabActive}`}
+                  sliderId={`slider-earningsTopSector`}
+                  slidesToShow={5}
+                  slidesToScroll={1}
+                  rows={1}
+                  responsive={responsive}
+                  noPadding={true}
+                  topSpaceClass="earningsTopSector"
+                  //   screenWidth={screenWidth}
+                />
+              </div>
+              <ViewAllCta
+                text={`${tabActive ? "View all Under Performing Sectors" : "View all Top Performing Sectors"}`}
+                urlInternal="yes"
+                url={`${tabActive ? "/markets/stocks/earnings/sector-aggregate/under-performing" : "/markets/stocks/earnings/sector-aggregate/top-performing"}`}
+              />
+            </>
+          ) : (
+            <NoDataCard title={`Not Enough Results published till date`} />
+          )}
         </div>
       </div>
     </>

@@ -32,6 +32,7 @@ const DeclaredResultsClintPage = ({ data, selectedFilter }: any) => {
         selectedFilter={selectedFilter}
         paginationTxt="Declard Results"
         queryTitle={queryTitle}
+        activeResultTxt="latest-results"
       />
     </>
   );

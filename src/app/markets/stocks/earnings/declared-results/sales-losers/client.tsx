@@ -31,6 +31,7 @@ const DeclaredResultsSalesLosersClient = ({ data, selectedFilter }: any) => {
         selectedFilter={selectedFilter}
         topTabTimeHide="yes"
         paginationTxt="Sales Losers Results"
+        activeResultTxt="sales-losers"
       />
     </>
   );
