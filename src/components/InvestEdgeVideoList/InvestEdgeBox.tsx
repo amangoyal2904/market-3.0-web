@@ -3,6 +3,8 @@ import Link from "next/link";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { formatDateIE, getViews, millisToMinutesAndSeconds } from "@/utils";
 import { useEffect, useState } from "react";
+import { calculateExtendedViews } from "../../utils";
+
 interface View {
   sid: string;
   views: number;
@@ -54,7 +56,10 @@ const InvestEdgeBox = ({ slide, index, slug }: any) => {
           </>
         )}
         <span className={styles.views}>
-          Views: {view.length > 0 ? view[0].views : "Loading..."}
+          Views:{" "}
+          {view.length > 0
+            ? calculateExtendedViews(view[0].views)
+            : "Loading..."}
         </span>
       </div>
     </div>

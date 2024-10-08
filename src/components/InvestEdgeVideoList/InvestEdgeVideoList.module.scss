@@ -57,8 +57,10 @@
     .socialDetails {
       display: flex;
       gap: 20px;
+      align-items: center;
       .socialSpan {
         padding: 5px 15px;
+        cursor: pointer;
         border: 1px solid;
         border-radius: 20px;
         .socialIcon {

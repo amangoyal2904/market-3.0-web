@@ -3,6 +3,7 @@ import styles from "./InvestEdgeTopVideo.module.scss";
 import VideoEmbed from "../VideoEmbed";
 import { formatTimestamp, getViews, millisToMinutesAndSeconds } from "@/utils";
 import Share from "../Share";
+import { calculateExtendedViews } from "../../utils";
 
 // Define the interface for the view object
 interface View {
@@ -134,7 +135,10 @@ const InvestEdgeLeftVideo = ({
         )}
         <span className={styles.dash}>|</span>
         <span className={styles.views}>
-          Views: {view.length > 0 ? view?.[0]?.views : "Loading..."}
+          Views:{" "}
+          {view.length > 0
+            ? calculateExtendedViews(view?.[0]?.views)
+            : "Loading..."}
         </span>
       </div>
       <div className={styles.socialDetails}>

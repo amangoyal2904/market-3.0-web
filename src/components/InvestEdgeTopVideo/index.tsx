@@ -3,6 +3,8 @@ import styles from "./InvestEdgeTopVideo.module.scss";
 import Link from "next/link";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { formatDateIE, getViews, millisToMinutesAndSeconds } from "@/utils";
+import { calculateExtendedViews } from "../../utils";
+
 interface View {
   sid: string;
   views: number;
@@ -56,7 +58,10 @@ const InvestEdgeTopVideo = ({ slide, index, seoPath, sliderFlag }: any) => {
           </>
         )}
         <span className={styles.views}>
-          Views: {view.length > 0 ? view[0].views : "Loading..."}
+          Views:{" "}
+          {view.length > 0
+            ? calculateExtendedViews(view[0].views)
+            : "Loading..."}
         </span>
       </div>
     </div>

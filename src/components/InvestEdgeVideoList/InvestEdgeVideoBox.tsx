@@ -7,6 +7,8 @@ import VideoEmbed from "../VideoEmbed";
 import { useEffect, useState } from "react";
 import { formatDateIE, getViews, millisToMinutesAndSeconds } from "@/utils";
 import InvestEdgeBox from "./InvestEdgeBox";
+import { calculateExtendedViews } from "../../utils";
+import Share from "../Share";
 interface View {
   sid: string;
   views: number;
@@ -19,7 +21,10 @@ interface VideoDetails {
   videoDuration: string;
 }
 const InvestEdgeVideoBox = (props: any) => {
+  console.log({ props });
   const { title, invementIdeaNavResult, sectionData, slug } = props;
+  const videoSecSeoPath: string = slug?.[0] || "";
+  const videoMsid: any = slug?.[1] || "";
   const [showLoader, setShowLoader] = useState(true);
   const [view, setView] = useState<View[]>([]);
   const [videoData, setVideoData] = useState<VideoDetails>();
@@ -74,13 +79,22 @@ const InvestEdgeVideoBox = (props: any) => {
           )}
           <span className={styles.views}>
             Views: {"  "}
-            <span>{view.length > 0 ? view[0].views : "Loading..."}</span>
+            <span>
+              {view.length > 0
+                ? calculateExtendedViews(view[0]?.views)
+                : "Loading..."}
+            </span>
           </span>
         </div>
         <div className={styles.socialDetails}>
-          <span className={styles.socialSpan}>
+          {/* <span className={styles.socialSpan}>
             <span className={`eticon_share ${styles.socialIcon}`}></span>Share
-          </span>
+          </span> */}
+          <Share
+            title={videoData?.title || ""}
+            streamURL={`https://economictimes.indiatimes.com/markets/etlearn/video/${videoSecSeoPath}/${videoMsid}`}
+            shareIconStyle="round"
+          />
           <span className={styles.socialSpan}>
             <span className={`eticon_thumbs_up ${styles.socialIcon}`}></span>
             Like
