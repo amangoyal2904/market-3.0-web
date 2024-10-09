@@ -354,7 +354,15 @@
 @media screen and (max-width: 1500px) {
   .topTabsSec {
     .dateList {
-      max-width: 400px;
+      max-width: 500px;
+    }
+  }
+}
+
+@media screen and (max-width: 1210px) {
+  .topTabsSec {
+    .dateList {
+      max-width: 480px;
     }
   }
 }
