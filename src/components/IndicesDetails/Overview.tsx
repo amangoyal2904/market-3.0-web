@@ -22,7 +22,7 @@ const IndicesDetailsOverview = React.memo(
     const [changePeriod, setChangePeriod] = useState("netChange");
     const [percentChange, setPercentChange] = useState("percentChange");
     const [iframeSrc, setIframeSrc] = useState(
-      `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=1d&height=320&transparentBg=1`,
+      `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=1d&height=320&transparentBg=1`
     );
     const handleIntervalClick = (item: any) => {
       trackingEvent("et_push_event", {
@@ -34,13 +34,13 @@ const IndicesDetailsOverview = React.memo(
       setChangePeriod(item?.change);
       setPercentChange(item?.percentChange);
       setIframeSrc(
-        `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=${item?.value}&height=320&transparentBg=1`,
+        `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${symbol}&exchange=${exchangeId}&period=${item?.value}&height=320&transparentBg=1`
       );
     };
     const calcualteScalePercentage = (
       value: number,
       low: number,
-      high: number,
+      high: number
     ) => {
       const range = high - low;
       const position = value - low;
@@ -105,7 +105,7 @@ const IndicesDetailsOverview = React.memo(
             <p
               className={styles.ltp}
               id="lastTradedPrice"
-            >{`₹${formatNumber(overviewData?.lastTradedPrice, 2)}`}</p>
+            >{`${formatNumber(overviewData?.lastTradedPrice, 2)}`}</p>
             <div
               className={`${styles.change} ${trend == "up" ? styles.up : trend == "down" ? styles.down : ""}`}
             >
@@ -240,7 +240,7 @@ const IndicesDetailsOverview = React.memo(
                         calcualteScalePercentage(
                           overviewData?.lastTradedPrice,
                           overviewData?.lowPrice,
-                          overviewData?.highPrice,
+                          overviewData?.highPrice
                         ) + "%",
                     }}
                   ></span>
@@ -281,7 +281,7 @@ const IndicesDetailsOverview = React.memo(
                         calcualteScalePercentage(
                           overviewData?.lastTradedPrice,
                           overviewData?.fiftyTwoWeekLow,
-                          overviewData?.fiftyTwoWeekHigh,
+                          overviewData?.fiftyTwoWeekHigh
                         ) + "%",
                     }}
                   ></span>
@@ -303,7 +303,7 @@ const IndicesDetailsOverview = React.memo(
         </div>
       </section>
     );
-  },
+  }
 );
 IndicesDetailsOverview.displayName = "IndicesDetailsOverview";
 export default IndicesDetailsOverview;
