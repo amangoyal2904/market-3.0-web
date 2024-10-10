@@ -45,13 +45,29 @@
     display: none;
   }
   .shareRoundSec {
-    padding: 5px 15px;
-    border: 1px solid;
-    border-radius: 20px;
-    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    margin-top: 2px;
+    &::after {
+      content: "";
+      background-image: url(https://img.etimg.com/photo/92482633.cms);
+      background-repeat: no-repeat;
+      display: inline-block;
+      vertical-align: top;
+      background-size: 248px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-position: -104px -15px;
+      width: 18px;
+      height: 18px;
+    }
   }
   .shareRoundSec + .sharingIcon {
-    top: 22px;
+    top: 42px;
     right: 15px;
   }
 
@@ -99,5 +115,19 @@
     &:hover {
       background-position: -51px -88px;
     }
+  }
+}
+.socialShare.shareDivParent {
+  padding: 10px 13px;
+  display: inline-block;
+  vertical-align: top;
+  cursor: pointer;
+  position: relative;
+  &:hover {
+    background: #f7f7f7;
+    -webkit-box-shadow: 0 6px 14px 0 rgb(0 0 0 / 34%);
+    box-shadow: 0 6px 14px 0 rgb(0 0 0 / 34%);
+    position: relative;
+    z-index: 2;
   }
 }

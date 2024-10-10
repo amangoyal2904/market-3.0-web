@@ -192,7 +192,9 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                       className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
                       role="menuitem"
                     >
-                      <span className={`${value.icon} ${styles.navIcon}`}>
+                      <span
+                        className={`${value.icon} ${styles.navIcon} ${styles[value?.icon]}`}
+                      >
                         {renderIconPaths(value.icon)}
                       </span>
                       <span

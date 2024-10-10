@@ -136,15 +136,31 @@
   .socialDetails {
     display: flex;
     align-items: center;
-    gap: 20px;
-    .socialSpan {
-      padding: 5px 15px;
-      border: 1px solid;
-      border-radius: 20px;
-      cursor: pointer;
-      .socialIcon {
-        margin-right: 5px;
-      }
-    }
+  }
+}
+.likeSocial {
+  border-right: solid 1px #d7d7d7;
+  padding-right: 14px;
+  margin-right: 8px;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  padding-left: 27px;
+  cursor: pointer;
+  min-width: 20px;
+  min-height: 20px;
+  &::after {
+    content: "";
+    background-image: url("https://img.etimg.com/photo/92482633.cms");
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: top;
+    background-size: 248px;
+    background-position: -142px -15px;
+    width: 19px;
+    height: 19px;
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 }

@@ -95,10 +95,10 @@ const InvestEdgeVideoBox = (props: any) => {
             streamURL={`https://economictimes.indiatimes.com/markets/etlearn/video/${videoSecSeoPath}/${videoMsid}`}
             shareIconStyle="round"
           />
-          <span className={styles.socialSpan}>
+          {/* <span className={styles.socialSpan}>
             <span className={`eticon_thumbs_up ${styles.socialIcon}`}></span>
             Like
-          </span>
+          </span> */}
         </div>
       </div>
       <div className={styles.ieVidList}>

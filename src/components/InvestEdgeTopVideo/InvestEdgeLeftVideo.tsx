@@ -4,6 +4,7 @@ import VideoEmbed from "../VideoEmbed";
 import { formatTimestamp, getViews, millisToMinutesAndSeconds } from "@/utils";
 import Share from "../Share";
 import { calculateExtendedViews } from "../../utils";
+import { APP_ENV, getCookie, initSSOWidget } from "@/utils";
 
 // Define the interface for the view object
 interface View {
@@ -29,6 +30,75 @@ const InvestEdgeLeftVideo = ({
 
   const DEBOUNCE_DELAY = 100; // Adjust the delay as needed (milliseconds)
 
+  const checkUserAllreadyLikeOrNot = async () => {
+    const APIURL = `https://etusersqc2.economictimes.indiatimes.com/et/getpref?stype=2&usersettingsubType=23`;
+    const _authorization: any = getCookie("peuuid");
+
+    const resData = await fetch(APIURL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: _authorization,
+      },
+    });
+    const response = await resData.json();
+    console.log("__checkUserAllreadyLikeOrNot", response);
+  };
+  const checkLikeCount = async () => {
+    const APIURL =
+      "https://etusersqc2.economictimes.indiatimes.com/et/fetchprefdatavalcount";
+    const _authorization: any = getCookie("peuuid");
+    const bodyPayload = [
+      {
+        prefDataVal: videoMsid,
+        userSettingSubType: "Stream",
+      },
+    ];
+
+    const resData = await fetch(APIURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: _authorization,
+      },
+      body: JSON.stringify(bodyPayload),
+    });
+    const response = await resData.json();
+    console.log("__responseCount", response);
+  };
+  const likeAPICall = async (dataBody: any) => {
+    const followData = {
+      action: dataBody?.likeStatus === "likeUp" ? 1 : 0,
+      applicationname: 1,
+      articletype: dataBody?.type,
+      position: 0,
+      source: 0,
+      stype: 2,
+      msid: videoMsid,
+    };
+    const _authorization: any = getCookie("peuuid");
+    const APIURL =
+      "https://etusersqc2.economictimes.indiatimes.com/et/savesettings/json";
+    const resData = await fetch(APIURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: _authorization,
+      },
+      body: JSON.stringify(followData),
+    });
+    const response = await resData.json();
+    console.log("__response", response);
+    checkLikeCount();
+  };
+  const likeHandler = () => {
+    const dataBody = {
+      likeStatus: "likeUp",
+      type: 23,
+    };
+    checkUserAllreadyLikeOrNot();
+    likeAPICall(dataBody);
+  };
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -142,17 +212,14 @@ const InvestEdgeLeftVideo = ({
         </span>
       </div>
       <div className={styles.socialDetails}>
-        {/* <span className={styles.socialSpan}>
-          <span className={`eticon_share ${styles.socialIcon}`}></span>Share
+        {/* <span className={styles.likeSocial} onClick={likeHandler}>
+          <span className={`${styles.likeTxt}`}></span>
         </span> */}
         <Share
           title={videoDetails?.title || ""}
           streamURL={`https://economictimes.indiatimes.com/markets/etlearn/video/${videoSecSeoPath}/${videoMsid}`}
           shareIconStyle="round"
         />
-        <span className={styles.socialSpan}>
-          <span className={`eticon_thumbs_up ${styles.socialIcon}`}></span>Like
-        </span>
       </div>
     </div>
   );

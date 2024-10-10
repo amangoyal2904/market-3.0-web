@@ -16,11 +16,11 @@ const Share = ({ title, streamURL, shareIconStyle = "" }: any) => {
   }
   return (
     <div className={styles.shareWrapper}>
-      <div className={styles.socialShare}>
+      <div
+        className={`${styles.socialShare} ${shareIconStyle === "round" ? styles.shareDivParent : ""}`}
+      >
         {shareIconStyle === "round" ? (
-          <span className={styles.shareRoundSec}>
-            <span className={`eticon_share ${styles.socialIcon}`}></span>Share
-          </span>
+          <span className={styles.shareRoundSec}></span>
         ) : (
           <span className={`eticon_share ${styles.shareIcon}`}></span>
         )}
