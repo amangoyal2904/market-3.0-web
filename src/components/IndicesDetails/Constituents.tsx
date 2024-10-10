@@ -32,6 +32,7 @@ const IndicesConstituents = React.memo(
     payload,
     indicesNews,
     liveblog,
+    pagePath,
   }: any) => {
     const constituentsRef = useRef<HTMLDivElement>(null);
     const liveBlog = liveblog || {};
@@ -128,7 +129,7 @@ const IndicesConstituents = React.memo(
 
     const onPersonalizeHandlerfun = async (
       newActiveId: any = "",
-      mode = "",
+      mode = ""
     ) => {
       if (mode === "update") {
         setModalBodyText({
@@ -174,7 +175,7 @@ const IndicesConstituents = React.memo(
         setPayload((prevPayload: any) => {
           const sortConfig = prevPayload.sort;
           const isFieldSorted = sortConfig.find(
-            (config: any) => config.field === field,
+            (config: any) => config.field === field
           );
           let newSortConfig;
 
@@ -182,7 +183,7 @@ const IndicesConstituents = React.memo(
             newSortConfig = sortConfig.map((config: any) =>
               config.field === field
                 ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
-                : config,
+                : config
             );
           } else {
             newSortConfig = [...sortConfig, { field, order: "DESC" }];
@@ -191,7 +192,7 @@ const IndicesConstituents = React.memo(
           return { ...prevPayload, sort: newSortConfig };
         });
       },
-      [_payload],
+      [_payload]
     );
 
     const onPaginationChange = async (pageNumber: number) => {
@@ -201,7 +202,7 @@ const IndicesConstituents = React.memo(
 
     const sectorFitlerHandlerChange = async (
       sectorid: any,
-      sectorname: any,
+      sectorname: any
     ) => {
       setProcessingLoader(true);
       setResetSort(sectorid);
@@ -214,13 +215,13 @@ const IndicesConstituents = React.memo(
 
     const toasterRemovePersonaliseViewCloseHandlerFun = async (
       value: boolean,
-      data: any,
+      data: any
     ) => {
       console.log(
         "toasterRemovePersonaliseViewCloseHandlerFun",
         value,
         "___data",
-        data,
+        data
       );
       setToasterPersonaliseViewRemove(false);
       if (value && data && data.id && data.id !== "") {
@@ -239,7 +240,7 @@ const IndicesConstituents = React.memo(
           _payload,
           "MARKETSTATS_INTRADAY",
           isPrimeUser,
-          ssoid,
+          ssoid
         );
 
         if (responseData) {
@@ -276,16 +277,54 @@ const IndicesConstituents = React.memo(
       },
       refeshConfig.marketstats,
       [_payload, isPrime, currentMarketStatus, fallbackWebsocket],
-      constituentsRef,
+      constituentsRef
     );
 
     useEffect(() => {
       setProcessingLoader(true);
       updateTableData();
     }, [_payload, isPrime]);
-
+    console.log("@@@ pagePath", pagePath);
     return (
       <>
+        {pagePath === "/markets/indices/nifty-50" && (
+          <>
+            {!!liveBlog && liveBlog.msid != "" && (
+              <div className={`${styles.wrapper} ${styles.liveBlog}`}>
+                <div className="prel">
+                  <span className={styles.liveBlinker}></span>
+                  <span className={styles.heading}>Live Blog</span>
+                </div>
+                <Link
+                  className={styles.linkBlog}
+                  href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/${liveBlog.seolocation}/liveblog/${liveBlog.msid}.cms`}
+                  target="_blank"
+                  title={liveBlog?.title}
+                  dangerouslySetInnerHTML={{
+                    __html: liveBlog?.title,
+                  }}
+                ></Link>
+              </div>
+            )}
+            {!!indexNews.length && (
+              <div className={`${styles.wrapper} ${styles.highlightedSection}`}>
+                <h2 className={styles.heading}>{`${indexName} News`}</h2>
+                <SlickSlider
+                  slides={indexNews?.map((slides: any, index: any) => ({
+                    content: <IndicesNewsCard data={slides} index={index} />,
+                  }))}
+                  key={`indicesNews}`}
+                  sliderId={`slider-news`}
+                  slidesToShow={4}
+                  slidesToScroll={1}
+                  rows={1}
+                  topSpaceClass="indicesNews"
+                  responsive={newsResponsive}
+                />
+              </div>
+            )}
+          </>
+        )}
         <h2 className={styles.heading}>{`${indexName} Constituents`}</h2>
         <div className={styles.wrapper} ref={constituentsRef}>
           <div className="tabsWrap">
@@ -323,39 +362,43 @@ const IndicesConstituents = React.memo(
             socketDataType="stock"
           />
         </div>
-        {!!liveBlog && liveBlog.msid != "" && (
-          <div className={`${styles.wrapper} ${styles.liveBlog}`}>
-            <div className="prel">
-              <span className={styles.liveBlinker}></span>
-              <span className={styles.heading}>Live Blog</span>
-            </div>
-            <Link
-              className={styles.linkBlog}
-              href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/${liveBlog.seolocation}/liveblog/${liveBlog.msid}.cms`}
-              target="_blank"
-              title={liveBlog?.title}
-              dangerouslySetInnerHTML={{
-                __html: liveBlog?.title,
-              }}
-            ></Link>
-          </div>
-        )}
-        {!!indexNews.length && (
-          <div className={`${styles.wrapper} ${styles.highlightedSection}`}>
-            <h2 className={styles.heading}>{`${indexName} News`}</h2>
-            <SlickSlider
-              slides={indexNews?.map((slides: any, index: any) => ({
-                content: <IndicesNewsCard data={slides} index={index} />,
-              }))}
-              key={`indicesNews}`}
-              sliderId={`slider-news`}
-              slidesToShow={4}
-              slidesToScroll={1}
-              rows={1}
-              topSpaceClass="indicesNews"
-              responsive={newsResponsive}
-            />
-          </div>
+        {pagePath !== "/markets/indices/nifty-50" && (
+          <>
+            {!!liveBlog && liveBlog.msid != "" && (
+              <div className={`${styles.wrapper} ${styles.liveBlog}`}>
+                <div className="prel">
+                  <span className={styles.liveBlinker}></span>
+                  <span className={styles.heading}>Live Blog</span>
+                </div>
+                <Link
+                  className={styles.linkBlog}
+                  href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/${liveBlog.seolocation}/liveblog/${liveBlog.msid}.cms`}
+                  target="_blank"
+                  title={liveBlog?.title}
+                  dangerouslySetInnerHTML={{
+                    __html: liveBlog?.title,
+                  }}
+                ></Link>
+              </div>
+            )}
+            {!!indexNews.length && (
+              <div className={`${styles.wrapper} ${styles.highlightedSection}`}>
+                <h2 className={styles.heading}>{`${indexName} News`}</h2>
+                <SlickSlider
+                  slides={indexNews?.map((slides: any, index: any) => ({
+                    content: <IndicesNewsCard data={slides} index={index} />,
+                  }))}
+                  key={`indicesNews}`}
+                  sliderId={`slider-news`}
+                  slidesToShow={4}
+                  slidesToScroll={1}
+                  rows={1}
+                  topSpaceClass="indicesNews"
+                  responsive={newsResponsive}
+                />
+              </div>
+            )}
+          </>
         )}
 
         {!!otherIndices.length && (
@@ -393,7 +436,7 @@ const IndicesConstituents = React.memo(
         )}
       </>
     );
-  },
+  }
 );
 IndicesConstituents.displayName = "IndicesConstituents";
 export default IndicesConstituents;

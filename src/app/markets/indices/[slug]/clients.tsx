@@ -48,6 +48,7 @@ const IndicesDetailsClient = ({
   indicesNews = {},
   liveblog = {},
   faq = {},
+  pagePath = {},
 }: any) => {
   const { state } = useStateContext();
   const { currentMarketStatus } = state.marketStatus;
@@ -115,7 +116,7 @@ const IndicesDetailsClient = ({
         setScrollByItemClick(false); // Reset flag after scrolling is done
       }, 1000);
     },
-    [scrollToActiveContent, handleScroll],
+    [scrollToActiveContent, handleScroll]
   );
 
   useIntervalApiCall(
@@ -123,7 +124,7 @@ const IndicesDetailsClient = ({
       if (currentMarketStatus === "LIVE") refreshOverviewData();
     },
     refeshConfig.indicesDetail,
-    [currentMarketStatus],
+    [currentMarketStatus]
   );
 
   return (
@@ -204,6 +205,7 @@ const IndicesDetailsClient = ({
                     payload={payload}
                     indicesNews={indicesNews}
                     liveblog={liveblog}
+                    pagePath={pagePath}
                   />
                 )}
                 {item.key === "faqs" && <IndicesFaqs faqs={indexFaq} />}
