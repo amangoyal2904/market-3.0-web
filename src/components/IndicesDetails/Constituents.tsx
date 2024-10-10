@@ -284,7 +284,6 @@ const IndicesConstituents = React.memo(
       setProcessingLoader(true);
       updateTableData();
     }, [_payload, isPrime]);
-    console.log("@@@ pagePath", pagePath);
     return (
       <>
         {pagePath === "/markets/indices/nifty-50" && (

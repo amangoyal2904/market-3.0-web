@@ -124,7 +124,6 @@ const Indices = async ({ params }: any) => {
 
   const { tableHeaderData, tableData, pageSummary, payload } =
     await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
-  console.log("@@@ indexFilterData --->", pageUrl, "pagesize --->", pagesize);
   return (
     <Fragment key="indices">
       <IndicesDetailsClient
