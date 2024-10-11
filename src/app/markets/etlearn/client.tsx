@@ -23,7 +23,7 @@ const responsive = [
   {
     breakpoint: 1601,
     settings: {
-      slidesToShow: 2,
+      slidesToShow: 3,
     },
   },
   {
