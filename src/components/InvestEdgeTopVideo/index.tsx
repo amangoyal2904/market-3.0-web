@@ -47,7 +47,16 @@ const InvestEdgeTopVideo = ({ slide, index, seoPath, sliderFlag }: any) => {
         )}
         {/* <span className={styles.playButton}>&#9658;</span> */}
       </Link>
-      <h4>{slide.title}</h4>
+      <h4>
+        <Link
+          data-tt={seoPath}
+          href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"].video}${seoPath}/${slide.msid}`}
+          //onClick={() => handleTabTracking(item.label)}
+          title={slide.title}
+        >
+          {slide.title}
+        </Link>
+      </h4>
       <div className={styles.videoDetails}>
         {slide.insertdate && (
           <>

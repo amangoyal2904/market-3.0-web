@@ -7,6 +7,7 @@ import service from "@/network/service";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import { IeTab } from "@/components/InvestEdgeVideoList/IeTab";
+import Link from "next/link";
 
 export async function generateMetadata(
   { searchParams }: any,
@@ -69,7 +70,12 @@ const List = async ({
   const getSectionData = getSectionResult.searchResult[0].data || [];
   return (
     <>
-      <h1 className={styles.title}>Invest Edge</h1>
+      <h1 className={styles.title}>
+        <Link href={`/markets/etlearn`} className={styles.backbtn}>
+          {" "}
+        </Link>
+        ET Learn
+      </h1>
       <p className={styles.desc}>
         Curated videos on stocks, mutual funds, investment strategies & more to
         help you manage your wealth seamlessly.

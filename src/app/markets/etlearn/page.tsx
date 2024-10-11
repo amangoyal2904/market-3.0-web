@@ -44,10 +44,10 @@ const InvestEdge = async () => {
     const getSectionResult_Link = (APIS_CONFIG as any)["INVESTMENTEDGE"][
       APP_ENV
     ];
-    console.log("URL-->", getSectionResult_Link);
 
     // Using Promise.all to handle multiple async requests
     const promises = invementIdeaNavResult?.tabs.map(async (item: any) => {
+      console.log("_____url", getSectionResult_Link + item.msid);
       const getSectionPromise = await service.get({
         url: getSectionResult_Link + item.msid,
         params: {},

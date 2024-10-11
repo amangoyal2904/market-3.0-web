@@ -45,7 +45,17 @@ const InvestEdgeBox = ({ slide, index, slug }: any) => {
           </span>
         )}
       </Link>
-      <h4>{slide.title}</h4>
+      <h4>
+        <Link
+          data-tt={slide.seoPath}
+          href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"].video}${slug?.[0]}/${slide.msid}`}
+          // onClick={() => handleTabTracking(slide.label)}
+          title={slide.label}
+          className={styles.redirectLink}
+        >
+          {slide.title}
+        </Link>
+      </h4>
       <div className={styles.videoDetails}>
         {slide?.insertdate && (
           <>

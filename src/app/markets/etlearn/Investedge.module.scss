@@ -39,6 +39,8 @@
   font-size: 32px;
   line-height: 39.01px;
   text-transform: capitalize;
+  display: flex;
+  align-items: center;
 }
 .desc {
   font-size: 12px;
@@ -106,6 +108,28 @@
         }
       }
     }
+  }
+}
+.backbtn {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  &::after {
+    position: absolute;
+    content: "";
+    left: 7px;
+    top: 50%;
+    border-top: solid 2px #000000;
+    border-right: solid 2px #000000;
+    transform: rotate(-135deg);
+    display: inline-block;
+    vertical-align: top;
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
   }
 }
 .catHead {

@@ -5,6 +5,8 @@ import { formatTimestamp, getViews, millisToMinutesAndSeconds } from "@/utils";
 import Share from "../Share";
 import { calculateExtendedViews } from "../../utils";
 import { APP_ENV, getCookie, initSSOWidget } from "@/utils";
+import Link from "next/link";
+import GLOBAL_CONFIG from "../../network/global_config.json";
 
 // Define the interface for the view object
 interface View {
@@ -187,7 +189,16 @@ const InvestEdgeLeftVideo = ({
           )}
         </div>
       )}
-      <h3>{videoDetails?.title}</h3>
+      <h3>
+        <Link
+          data-tt={videoSecSeoPath}
+          href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"].video}${videoSecSeoPath}/${videoMsid}`}
+          //onClick={() => handleTabTracking(item.label)}
+          title={videoSecSeoPath.title}
+        >
+          {videoDetails?.title}
+        </Link>
+      </h3>
 
       <div className={styles.videoDetails}>
         {videoDetails?.insertdate && (
@@ -210,16 +221,17 @@ const InvestEdgeLeftVideo = ({
             ? calculateExtendedViews(view?.[0]?.views)
             : "Loading..."}
         </span>
-      </div>
-      <div className={styles.socialDetails}>
-        {/* <span className={styles.likeSocial} onClick={likeHandler}>
+        <span className={styles.dash}>|</span>
+        <div className={styles.socialDetails}>
+          {/* <span className={styles.likeSocial} onClick={likeHandler}>
           <span className={`${styles.likeTxt}`}></span>
         </span> */}
-        <Share
-          title={videoDetails?.title || ""}
-          streamURL={`https://economictimes.indiatimes.com/markets/etlearn/video/${videoSecSeoPath}/${videoMsid}`}
-          shareIconStyle="round"
-        />
+          <Share
+            title={videoDetails?.title || ""}
+            streamURL={`https://economictimes.indiatimes.com/markets/etlearn/video/${videoSecSeoPath}/${videoMsid}`}
+            shareIconStyle="round"
+          />
+        </div>
       </div>
     </div>
   );

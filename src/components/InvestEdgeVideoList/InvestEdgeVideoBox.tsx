@@ -85,20 +85,20 @@ const InvestEdgeVideoBox = (props: any) => {
                 : "Loading..."}
             </span>
           </span>
-        </div>
-        <div className={styles.socialDetails}>
-          {/* <span className={styles.socialSpan}>
+          <div className={styles.socialDetails}>
+            {/* <span className={styles.socialSpan}>
             <span className={`eticon_share ${styles.socialIcon}`}></span>Share
           </span> */}
-          <Share
-            title={videoData?.title || ""}
-            streamURL={`https://economictimes.indiatimes.com/markets/etlearn/video/${videoSecSeoPath}/${videoMsid}`}
-            shareIconStyle="round"
-          />
-          {/* <span className={styles.socialSpan}>
+            <Share
+              title={videoData?.title || ""}
+              streamURL={`https://economictimes.indiatimes.com/markets/etlearn/video/${videoSecSeoPath}/${videoMsid}`}
+              shareIconStyle="round"
+            />
+            {/* <span className={styles.socialSpan}>
             <span className={`eticon_thumbs_up ${styles.socialIcon}`}></span>
             Like
           </span> */}
+          </div>
         </div>
       </div>
       <div className={styles.ieVidList}>

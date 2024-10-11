@@ -49,6 +49,7 @@
       gap: 15px;
       span {
         font-size: 11px;
+        padding-top: 3px;
         span {
           font-weight: bold;
         }
@@ -58,6 +59,7 @@
       display: flex;
       gap: 20px;
       align-items: center;
+      margin-top: -12px;
       .socialSpan {
         padding: 5px 15px;
         cursor: pointer;

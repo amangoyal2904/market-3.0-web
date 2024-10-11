@@ -144,7 +144,7 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
   useEffect(() => {
     observeSections(); // Start observing sections when component mounts
   }, [resultData]); // Re-observe if resultData changes
-  console.log("___resultData", resultData);
+  //console.log("___resultData", resultData);
   return (
     <>
       <div className={styles.subHead}>
