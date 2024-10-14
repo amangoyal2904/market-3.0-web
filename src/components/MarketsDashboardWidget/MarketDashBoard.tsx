@@ -15,6 +15,7 @@ import { getCookie } from "@/utils";
 import refeshConfig from "@/utils/refreshConfig.json";
 import MarketFiltersTab from "../MarketTabs/MarketFiltersTab";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import Blocker from "../Blocker";
 interface propsType {
   tabsData: any[];
   tableData: any[];
@@ -126,9 +127,13 @@ function MarketDashBoard(props: propsType) {
     setNiftyFilterData(selectedFilter);
     setPayload({
       ...payload,
-      filterValue: !!filter ? [filter] : [],
+      filterValue: filter === "watchlist" ? [] : !!filter ? [filter] : [],
       filterType:
-        filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
+        filter === "watchlist"
+          ? "watchlist"
+          : filter == undefined || !isNaN(Number(filter))
+            ? "index"
+            : "marketcap",
     });
   };
 
@@ -229,22 +234,30 @@ function MarketDashBoard(props: propsType) {
           intradayDurationOptions={intradayDurationOptions}
         />
       </div>
-      <MarketTable
-        data={dashBoardTableData}
-        highlightLtp={!!currentMarketStatus && currentMarketStatus != "CLOSED"}
-        tableHeaders={dashBoardHeaderData}
-        tableConfig={tableConfig["marketDashboard"]}
-        isprimeuser={isPrime}
-        processingLoader={processingLoader}
-        l1NavTracking="Markets"
-        l2NavTracking="Market Dashboard Widget"
-        setFallbackWebsocket={setFallbackWebsocket}
-        socketDataType="stock"
-      />
-      {dashBoardTableData.length ? (
-        <ViewAllLink text="View All Stocks" link={shortURL} />
+      {payload.filterType === "watchlist" && !isLogin ? (
+        <Blocker type="loginBlocker" />
       ) : (
-        ""
+        <>
+          <MarketTable
+            data={dashBoardTableData}
+            highlightLtp={
+              !!currentMarketStatus && currentMarketStatus != "CLOSED"
+            }
+            tableHeaders={dashBoardHeaderData}
+            tableConfig={tableConfig["marketDashboard"]}
+            isprimeuser={isPrime}
+            processingLoader={processingLoader}
+            l1NavTracking="Markets"
+            l2NavTracking="Market Dashboard Widget"
+            setFallbackWebsocket={setFallbackWebsocket}
+            socketDataType="stock"
+          />
+          {dashBoardTableData.length ? (
+            <ViewAllLink text="View All Stocks" link={shortURL} />
+          ) : (
+            ""
+          )}
+        </>
       )}
     </div>
   );

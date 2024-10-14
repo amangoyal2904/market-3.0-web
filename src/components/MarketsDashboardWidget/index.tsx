@@ -27,8 +27,7 @@ const MarketsDashboardWidget = async () => {
     apiType: "gainers",
     ...(duration ? { duration } : {}), // Conditional inclusion of duration
     filterValue: filter,
-    filterType:
-      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
+    filterType: "index",
     sort,
     pagesize,
     pageno,

@@ -224,7 +224,11 @@ const MarketFiltersTab = React.memo(
       createNewScreener(true);
     };
     const filterApiCall = async () => {
-      const data = await fetchFilters({ all: true, marketcap: true });
+      const data = await fetchFilters({
+        all: true,
+        marketcap: true,
+        watchlist: true,
+      });
       setFilterMenuData(data);
     };
     const setOpenPersonaliseModalHandler = (value: any) => {

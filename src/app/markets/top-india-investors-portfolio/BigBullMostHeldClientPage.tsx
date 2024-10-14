@@ -89,9 +89,13 @@ const BigBullMostHeldClientPage = ({
         : id !== undefined
           ? id
           : 0;
-    const __id = filter === 0 ? [] : [filter];
+    const __id = filter === 0 || filter === "watchlist" ? [] : [filter];
     const __filterType =
-      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap";
+      filter === "watchlist"
+        ? "watchlist"
+        : filter == undefined || !isNaN(Number(filter))
+          ? "index"
+          : "marketcap";
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     setPayload({

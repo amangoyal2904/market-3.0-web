@@ -21,6 +21,7 @@ import TechincalOperands from "@/components/TechincalOperands";
 
 import MarketStatus from "@/components/MarketStatus";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import Blocker from "@/components/Blocker";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -52,7 +53,7 @@ const MarketStats = ({
   const searchParams = useSearchParams();
   const router = useRouter();
   const { state } = useStateContext();
-  const { isPrime, ssoid } = state.login;
+  const { isPrime, ssoid, isLogin } = state.login;
   const { currentMarketStatus } = state.marketStatus;
   const [resetSort, setResetSort] = useState("");
   const [updateDateTime, setUpdateDateTime] = useState(unixDateTime);
@@ -209,11 +210,13 @@ const MarketStats = ({
     const url = actualUrl;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
     const filter =
-      id !== undefined && !isNaN(Number(id))
-        ? parseInt(id)
-        : id !== undefined
-          ? id
-          : 0;
+      id === "watchlist"
+        ? "watchlist"
+        : id !== undefined && !isNaN(Number(id))
+          ? parseInt(id)
+          : id !== undefined
+            ? id
+            : 0;
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     const isExist: any = shortUrlMapping?.find(
@@ -509,28 +512,33 @@ const MarketStats = ({
               shortUrlMapping={shortUrlMapping}
             />
           </div>
-          <MarketTable
-            data={_tableData}
-            highlightLtp={
-              !!currentMarketStatus && currentMarketStatus != "CLOSED"
-            }
-            tableHeaders={_tableHeaderData}
-            tabsViewIdUpdate={resetSort}
-            pageSummary={_pageSummary}
-            tableConfig={tableConfig}
-            handleSortServerSide={onServerSideSort}
-            handlePageChange={onPaginationChange}
-            processingLoader={processingLoader}
-            isprimeuser={isPrime}
-            l1NavTracking={!isTechnical ? "Stocks" : "Technical Signals"}
-            l2NavTracking={
-              !isTechnical ? "Intraday" : _technicalCategory?.category
-            }
-            l3NavTracking={getNavName()}
-            setUpdateDateTime={setUpdateDateTime}
-            setFallbackWebsocket={setFallbackWebsocket}
-            socketDataType="stock"
-          />
+
+          {_payload.filterType === "watchlist" && !isLogin ? (
+            <Blocker type="loginBlocker" />
+          ) : (
+            <MarketTable
+              data={_tableData}
+              highlightLtp={
+                !!currentMarketStatus && currentMarketStatus != "CLOSED"
+              }
+              tableHeaders={_tableHeaderData}
+              tabsViewIdUpdate={resetSort}
+              pageSummary={_pageSummary}
+              tableConfig={tableConfig}
+              handleSortServerSide={onServerSideSort}
+              handlePageChange={onPaginationChange}
+              processingLoader={processingLoader}
+              isprimeuser={isPrime}
+              l1NavTracking={!isTechnical ? "Stocks" : "Technical Signals"}
+              l2NavTracking={
+                !isTechnical ? "Intraday" : _technicalCategory?.category
+              }
+              l3NavTracking={getNavName()}
+              setUpdateDateTime={setUpdateDateTime}
+              setFallbackWebsocket={setFallbackWebsocket}
+              socketDataType="stock"
+            />
+          )}
         </div>
       </div>
       {toasterPersonaliseViewRemove && (

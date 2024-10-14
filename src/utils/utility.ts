@@ -648,7 +648,15 @@ export const fetchSelectedFilter = async (
   seoNameOrIndexId?: string | number,
 ) => {
   try {
-    const data = await fetchFilters({ marketcap: true });
+    if (seoNameOrIndexId === "watchlist")
+      return {
+        name: "Watchlist",
+        indexId: "watchlist",
+        seoname: "",
+        exchange: "nse",
+      };
+
+    const data = await fetchFilters({ marketcap: true, watchlist: true });
     if (
       !data ||
       !data.keyIndices ||
