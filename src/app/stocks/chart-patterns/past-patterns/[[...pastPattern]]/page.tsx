@@ -30,6 +30,7 @@ const getCommonData = async (params: any) => {
     ideaType: "all",
     pageNo: 1,
     pageSize: 12,
+    sortBy: "closedPatternReturns",
     timeFrame: !!timeFrame ? timeFrame : "1m",
   };
 

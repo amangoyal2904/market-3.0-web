@@ -18,7 +18,7 @@ const getCommonData = async (params: any) => {
 
   const payload = {
     patternType,
-    timeFrame: "latest",
+    timeFrame: "6m",
     filterValue: [],
     filterType: "index",
     ideaType: "closed",

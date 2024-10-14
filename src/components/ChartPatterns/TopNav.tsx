@@ -179,7 +179,7 @@ const TopNav = ({
     ? selectedIndexFilter.indexId[0]?.toString()
     : "0";
 
-  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth);
+  const [screenWidth, setScreenWidth] = useState<number>(400);
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
