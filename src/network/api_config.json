@@ -404,7 +404,7 @@
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-overview"
   },
   "BigBullFreshEntryExit": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/fresh-entry-exit",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/fresh-entry-exit",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/fresh-entry-exit"
   },
   "BigBullHolding": {

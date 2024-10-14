@@ -29,7 +29,11 @@ const TopTabs = ({
     filterDataChange(id, name, selectedTab);
   };
   const filterApiCall = async () => {
-    const data = await fetchFilters({ all: true, marketcap: true });
+    const data = await fetchFilters({
+      all: true,
+      marketcap: true,
+      watchlist: true,
+    });
     setFilterMenuData(data);
   };
   useEffect(() => {
