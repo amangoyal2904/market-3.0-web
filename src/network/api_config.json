@@ -260,7 +260,7 @@
   "WATCHLISTAPI": {
     "fetchStocks": {
       "development": [
-        "http://etusersqc2.economictimes.indiatimes.com/watchlist/v0/details"
+        "https://etusersqc2.economictimes.indiatimes.com/watchlist/v0/details"
       ],
       "production": [
         "https://etup.economictimes.indiatimes.com/watchlist/v0/details"
@@ -268,7 +268,7 @@
     },
     "updateStocks": {
       "development": [
-        "http://etusersqc2.economictimes.indiatimes.com/watchlist/v0/update-stocks"
+        "https://etusersqc2.economictimes.indiatimes.com/watchlist/v0/update-stocks"
       ],
       "production": [
         "https://etup.economictimes.indiatimes.com/watchlist/v0/update-stocks"

@@ -333,6 +333,7 @@ export const fetchViewTable = async (
 export const fetchTableData = async (viewId: any, params?: any) => {
   try {
     const ssoid = window.objUser?.ssoid;
+    const ticketId = window.objUser?.ticketId;
     const isprimeuser = getCookie("isprimeuser") == "true" ? true : false;
     const apiUrl = `${(APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE[APP_ENV]}`;
     const response = await Service.post({
@@ -340,6 +341,7 @@ export const fetchTableData = async (viewId: any, params?: any) => {
       headers: {
         "Content-Type": "application/json",
         ssoid: ssoid,
+        ticketId: ticketId,
         isprime: isprimeuser ? isprimeuser : false,
       },
       cache: "no-store",

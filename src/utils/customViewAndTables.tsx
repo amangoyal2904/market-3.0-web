@@ -116,6 +116,7 @@ const fetchViewTable = async (
   bodyParams: any,
   isprimeuser: any,
   ssoid: any,
+  ticketId: any,
   apiType: any,
 ) => {
   const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
@@ -124,6 +125,7 @@ const fetchViewTable = async (
     headers: {
       "Content-Type": "application/json",
       ssoid: ssoid,
+      ticketId: ticketId,
       isprime: isprimeuser,
     },
     cache: "no-store",
@@ -191,12 +193,14 @@ export const getCustomViewTable = async (
   bodyParams: any,
   isprimeuser: boolean,
   ssoid: any,
+  ticketId: any,
   apiType: string,
 ) => {
   const responseData = await fetchViewTable(
     bodyParams,
     isprimeuser,
     ssoid,
+    ticketId,
     apiType,
   );
   let unixDateTime = "";

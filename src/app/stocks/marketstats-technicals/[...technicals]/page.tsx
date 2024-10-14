@@ -154,6 +154,7 @@ const Technicals = async ({ params, searchParams }: any) => {
 
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
   const filter =
     intFilter === "watchlist" ? [] : !!intFilter ? [intFilter] : [];
   const pagesize = 100;
@@ -189,7 +190,13 @@ const Technicals = async ({ params, searchParams }: any) => {
     pageno,
   };
   const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
-    await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_TECHNICALS");
+    await getCustomViewTable(
+      bodyParams,
+      true,
+      ssoid,
+      ticketId,
+      "MARKETSTATS_TECHNICALS",
+    );
 
   const selectedFilter = await fetchSelectedFilter(intFilter);
   const technicalCategory = await getTechincalOperands(

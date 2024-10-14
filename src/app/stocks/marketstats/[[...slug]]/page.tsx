@@ -137,6 +137,7 @@ const Intraday = async ({ searchParams }: any) => {
 
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
   const filter =
     intFilter === "watchlist" ? [] : !!intFilter ? [intFilter] : [];
   const pagesize = 100;
@@ -171,7 +172,13 @@ const Intraday = async ({ searchParams }: any) => {
   };
 
   const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
-    await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
+    await getCustomViewTable(
+      bodyParams,
+      true,
+      ssoid,
+      ticketId,
+      "MARKETSTATS_INTRADAY",
+    );
 
   const selectedFilter = await fetchSelectedFilter(intFilter);
 

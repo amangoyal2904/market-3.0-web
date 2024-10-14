@@ -33,7 +33,7 @@ const useLogin = () => {
     try {
       fetchWatchListStocks();
       const primeRes = await loadPrimeApiNew();
-      if (primeRes.code === "200") {
+      if (!!primeRes && primeRes?.code === "200") {
         const resObj = primeRes.data.productDetails.filter((item: any) => {
           return item.productCode == "ETPR";
         });

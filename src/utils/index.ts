@@ -187,8 +187,9 @@ export const verifyLogin = () => {
       //console.log("SUCCESS");
 
       if (typeof window.objUser == "undefined") window.objUser = {};
-      //generateFpid(true);}
-      createPeuuid();
+      if (window.location.hostname !== "localhost") {
+        createPeuuid();
+      }
       window.objUser.ticketId = response.data.ticketId;
       window.objUser.loginType = response.data.loginType;
       window.objUser.afterCheckUserLoginStatus = true;

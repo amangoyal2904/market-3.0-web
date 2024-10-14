@@ -22,6 +22,7 @@ export async function generateMetadata(
   const cookieStore = cookies();
   const isprimeuser = cookieStore.get("isprimeuser")?.value === "true";
   const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
   const regex = /scrid-(\d+)/;
   const match = pageUrl.match(regex);
   let scrid = "";
@@ -50,6 +51,7 @@ export async function generateMetadata(
     bodyParams,
     isprimeuser,
     ssoid,
+    ticketId,
     "screenerGetViewById",
   );
   //console.log("screenerDetail",screenerDetail)
@@ -72,6 +74,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
   const cookieStore = cookies();
   const isprimeuser = cookieStore.get("isprimeuser")?.value === "true";
   const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
   const myList = params.scrid;
   const scridElement = myList.find((element: any) => element.includes("scrid"));
   const scridParts = scridElement.split("-");
@@ -170,6 +173,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
     bodyParams,
     isprimeuser,
     ssoid,
+    ticketId,
     "screenerGetViewById",
   );
   //console.log("__bodyParams__", bodyParams);
