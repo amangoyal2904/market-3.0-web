@@ -448,8 +448,8 @@
     "production": "https://etup.economictimes.indiatimes.com/et/getpref?type=Follow&usersettingsubType=23"
   },
   "WEBSOCKET_ENDPOINT": {
-    "development": "ws://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW",
-    "production": "wss://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW"
+    "development": "etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW",
+    "production": "etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW"
   },
   "ACCESS_PASS": {
     "development": "https://qcsubscription.economictimes.indiatimes.com/subscription/merchant/ET/product/ETPR/geoRegion/IN/code/ACCESSPASS/generateAccessPass",

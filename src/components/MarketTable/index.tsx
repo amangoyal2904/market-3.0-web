@@ -510,9 +510,14 @@ const MarketTable = React.memo((props: propsType) => {
         return;
       }
 
-      wsRef.current = new WebSocket(
-        (APIS_CONFIG as any)?.WEBSOCKET_ENDPOINT[APP_ENV],
-      );
+      const websocketUrl = (APIS_CONFIG as any)?.WEBSOCKET_ENDPOINT[APP_ENV];
+
+      // Check if the app is running on localhost
+      const protocol =
+        window.location.hostname === "localhost" ? "ws://" : "wss://";
+
+      // Append the correct protocol
+      wsRef.current = new WebSocket(`${protocol}${websocketUrl}`);
 
       wsRef.current.onopen = () => {
         console.log("WebSocket connection opened");
