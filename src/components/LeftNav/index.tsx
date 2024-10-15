@@ -83,7 +83,6 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
   );
 
   const navClickTrackingHandle = useCallback((navList: any) => {
-    console.log("navList", navList);
     trackingEvent("et_push_event", {
       event_category: "mercury_engagement",
       event_action: "lhsmenu_click",
