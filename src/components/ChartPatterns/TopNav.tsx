@@ -82,6 +82,9 @@ const TopNav = ({
   });
 
   const [isIndexDataLoaded, setIsIndexDataLoaded] = useState(false);
+  const [screenWidth, setScreenWidth] = useState<number>(
+    typeof window !== "undefined" ? window.innerWidth : 1100,
+  );
 
   const fetchPatternOptions = async () => {
     try {
@@ -179,12 +182,12 @@ const TopNav = ({
     ? selectedIndexFilter.indexId[0]?.toString()
     : "0";
 
-  const [screenWidth, setScreenWidth] = useState<number>(400);
-
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, []);
 
   const isSmallScreen = screenWidth <= 1024;
