@@ -11,12 +11,12 @@ import { fetchViewTable, removePersonalizeViewById } from "@/utils/utility";
 import refeshConfig from "@/utils/refreshConfig.json";
 import SlickSlider from "../SlickSlider";
 import { getCookie } from "@/utils";
-import IndicesNewsCard from "./IndicesNewsCard";
 import OtherIndicesCard from "./OtherIndicesCard";
 import Link from "next/link";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import LiveBlogIndexNews from "./LiveBlogIndexNews";
 
 const IndicesConstituents = React.memo(
   ({
@@ -35,39 +35,6 @@ const IndicesConstituents = React.memo(
     pagePath,
   }: any) => {
     const constituentsRef = useRef<HTMLDivElement>(null);
-    const liveBlog = liveblog || {};
-    const indexNews = indicesNews?.Item?.[0]?.NewsItem ?? [];
-
-    const newsResponsive = [
-      {
-        breakpoint: 2561,
-        settings: {
-          slidesToShow: 7,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 1921,
-        settings: {
-          slidesToShow: 5,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 1601,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 1361,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-    ];
 
     const indicesResponsive = [
       {
@@ -284,46 +251,9 @@ const IndicesConstituents = React.memo(
       setProcessingLoader(true);
       updateTableData();
     }, [_payload, isPrime]);
+
     return (
       <>
-        {pagePath === "/markets/indices/nifty-50" && (
-          <>
-            {!!liveBlog && liveBlog.msid != "" && (
-              <div className={`${styles.wrapper} ${styles.liveBlog}`}>
-                <div className="prel">
-                  <span className={styles.liveBlinker}></span>
-                  <span className={styles.heading}>Live Blog</span>
-                </div>
-                <Link
-                  className={styles.linkBlog}
-                  href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/${liveBlog.seolocation}/liveblog/${liveBlog.msid}.cms`}
-                  target="_blank"
-                  title={liveBlog?.title}
-                  dangerouslySetInnerHTML={{
-                    __html: liveBlog?.title,
-                  }}
-                ></Link>
-              </div>
-            )}
-            {!!indexNews.length && (
-              <div className={`${styles.wrapper} ${styles.highlightedSection}`}>
-                <h2 className={styles.heading}>{`${indexName} News`}</h2>
-                <SlickSlider
-                  slides={indexNews?.map((slides: any, index: any) => ({
-                    content: <IndicesNewsCard data={slides} index={index} />,
-                  }))}
-                  key={`indicesNews}`}
-                  sliderId={`slider-news`}
-                  slidesToShow={4}
-                  slidesToScroll={1}
-                  rows={1}
-                  topSpaceClass="indicesNews"
-                  responsive={newsResponsive}
-                />
-              </div>
-            )}
-          </>
-        )}
         <h2 className={styles.heading}>{`${indexName} Constituents`}</h2>
         <div className={styles.wrapper} ref={constituentsRef}>
           <div className="tabsWrap">
@@ -362,44 +292,12 @@ const IndicesConstituents = React.memo(
           />
         </div>
         {pagePath !== "/markets/indices/nifty-50" && (
-          <>
-            {!!liveBlog && liveBlog.msid != "" && (
-              <div className={`${styles.wrapper} ${styles.liveBlog}`}>
-                <div className="prel">
-                  <span className={styles.liveBlinker}></span>
-                  <span className={styles.heading}>Live Blog</span>
-                </div>
-                <Link
-                  className={styles.linkBlog}
-                  href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/${liveBlog.seolocation}/liveblog/${liveBlog.msid}.cms`}
-                  target="_blank"
-                  title={liveBlog?.title}
-                  dangerouslySetInnerHTML={{
-                    __html: liveBlog?.title,
-                  }}
-                ></Link>
-              </div>
-            )}
-            {!!indexNews.length && (
-              <div className={`${styles.wrapper} ${styles.highlightedSection}`}>
-                <h2 className={styles.heading}>{`${indexName} News`}</h2>
-                <SlickSlider
-                  slides={indexNews?.map((slides: any, index: any) => ({
-                    content: <IndicesNewsCard data={slides} index={index} />,
-                  }))}
-                  key={`indicesNews}`}
-                  sliderId={`slider-news`}
-                  slidesToShow={4}
-                  slidesToScroll={1}
-                  rows={1}
-                  topSpaceClass="indicesNews"
-                  responsive={newsResponsive}
-                />
-              </div>
-            )}
-          </>
+          <LiveBlogIndexNews
+            indexName={indexName}
+            indicesNews={indicesNews}
+            liveblog={liveblog}
+          />
         )}
-
         {!!otherIndices.length && (
           <div className={styles.wrapper}>
             <h2 className={styles.heading}>Other Indices</h2>
