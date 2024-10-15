@@ -532,13 +532,28 @@ export const TVChartContainer = (
 
           if (savePatternImages !== "true") {
             activeChart.createShape(processedBreakoutData[0], {
-              shape: patternTrend === "bear" ? "arrow_down" : "arrow_up",
-              text: "Breakout Level",
+              shape: "icon",
               zOrder: "top",
               disableSelection: true,
               disableSave: true,
-              disableUndo: true,
               lock: true,
+              overrides: {
+                color: "#2962ff",
+                size: 25,
+              },
+              icon: 0xf192, // Heart
+            });
+
+            activeChart.createMultipointShape(processedBreakoutData, {
+              shape: "text",
+              zOrder: "top",
+              disableSelection: true,
+              disableSave: true,
+              lock: true,
+              overrides: {
+                text: "Breakout Level",
+                color: "#000", // Text color (white)
+              },
             });
 
             activeChart.createMultipointShape(processedBreakoutData, {
@@ -549,10 +564,8 @@ export const TVChartContainer = (
               disableUndo: true,
               lock: true,
               overrides: {
-                linecolor:
-                  patternTrend === "bear"
-                    ? "rgb(204, 47, 60)"
-                    : "rgb(8, 153, 129)",
+                linecolor: "#000",
+                linestyle: 2,
                 linewidth: 2,
               },
             });
