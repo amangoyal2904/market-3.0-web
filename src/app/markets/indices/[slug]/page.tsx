@@ -39,7 +39,7 @@ async function fetchData(assetId: number) {
 
 async function generateMetadata(
   { params }: any,
-  parent: ResolvingMetadata,
+  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const headersList = headers();
   const indexFilterData = await fetchSelectedIndex(params.slug);
@@ -83,25 +83,31 @@ const Indices = async ({ params }: any) => {
     notFound();
   }
   const [overviewData, technicalsData, othersData, faqData] = await fetchData(
-    indexFilterData.assetId,
+    indexFilterData.assetId
   );
 
   const peersData = await getPeerIndices(
     overviewData.assetId,
-    overviewData.assetExchangeId,
+    overviewData.assetExchangeId
   );
 
   const { liveblog } = await getMarketsLiveBlog();
   const indicesNews = await getIndicesNews(
     overviewData.assetId,
-    overviewData.assetExchangeId,
+    overviewData.assetExchangeId
   );
 
   const { tabData, activeViewId } = await getCustomViewsTab({
     L3NavSubItem: "watchlist",
     ssoid,
   });
-  const pagesize = 13;
+  let pagesize;
+  if (pageUrl === "/markets/indices/nifty-50") {
+    pagesize = 50;
+  } else {
+    pagesize = 13;
+  }
+
   const pageno = 1;
   const sort: any = [];
 
@@ -137,6 +143,7 @@ const Indices = async ({ params }: any) => {
         indicesNews={indicesNews}
         liveblog={liveblog}
         faq={faqData}
+        pagePath={pageUrl}
       />
       <TextBottom indicesName={overviewData?.assetName} />
       <IndicesQuickLinks />
