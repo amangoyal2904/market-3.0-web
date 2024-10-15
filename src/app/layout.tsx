@@ -57,8 +57,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const versionControl = {};
-  const isprimeuser = cookies().get("isprimeuser") ? true : false;
   const headersList = headers();
   const pageUrl = headersList.get("x-pathname") || "";
   const noLayout = pageUrl == "/chart";
@@ -99,7 +97,7 @@ export default async function RootLayout({
           )}
           {!savePatternImage && (
             <>
-              <Scripts objVc={versionControl} isprimeuser={isprimeuser} />
+              <Scripts />
               <Toaster position="bottom-right" reverseOrder={false} />
             </>
           )}
