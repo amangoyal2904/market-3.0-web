@@ -4,10 +4,7 @@ import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 // import WatchlistAddition from "../WatchlistAddition";
 import { useStateContext } from "../../store/StateContext";
-import {
-  fetchAllWatchListData,
-  saveStockInWatchList,
-} from "../../utils/utility";
+import { fetchAllWatchListData } from "../../utils/utility";
 import dynamic from "next/dynamic";
 const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
   ssr: false,

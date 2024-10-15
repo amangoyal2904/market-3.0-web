@@ -453,7 +453,6 @@ export const fetchAllWatchListData = async (
     cache: "no-store",
     headers: headers,
   };
-
   try {
     const response = await fetch(apiUrl, options);
     if (!response.ok) {
@@ -462,7 +461,7 @@ export const fetchAllWatchListData = async (
     const responseData = await response.json();
 
     // Check if the response is successful and has a stocks array
-    if (responseData?.statusCode === 200 && Array.isArray(responseData)) {
+    if (responseData?.length && Array.isArray(responseData)) {
       // Extract and process the stocks array
       const allStocks = responseData.reduce((acc: any[], item: any) => {
         if (Array.isArray(item.stocks)) {
@@ -498,27 +497,19 @@ export const fetchAllWatchListData = async (
 };
 
 export const saveStockInWatchList = async (followData: any) => {
-  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
-  const isLocalhost = window.location.origin.includes("localhost");
-  let postBodyData = {};
-  if (isLocalhost) {
-    postBodyData = {
-      _authorization: authorization,
-      followData,
-    };
-  } else {
-    postBodyData = followData;
-  }
-  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.addWatchList[APP_ENV]}`;
+  const Ssoid: any = getCookie("ssoid") ? getCookie("ssoid") : "";
+  const TicketId: any = getCookie("TicketId") ? getCookie("TicketId") : "";
+  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.updateStocks[APP_ENV]}`;
   const headers = new Headers({
-    Authorization: authorization,
+    ticketid: TicketId,
+    ssoid: Ssoid,
     "Content-Type": "application/json",
   });
   const options: any = {
     method: "POST",
     cache: "no-store",
     headers: headers,
-    body: JSON.stringify(postBodyData),
+    body: JSON.stringify(followData),
   };
   try {
     const response = await fetch(apiUrl, options);
@@ -560,28 +551,20 @@ export const createPeuuid = async () => {
   }
 };
 
-export const removeMultipleStockInWatchList = async (followData: any) => {
-  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
-  const isLocalhost = window.location.origin.includes("localhost");
-  let postBodyData = {};
-  if (isLocalhost) {
-    postBodyData = {
-      _authorization: authorization,
-      followData,
-    };
-  } else {
-    postBodyData = followData;
-  }
-  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.multipleWatchList[APP_ENV]}`;
+export const removeMultipleStockInWatchList = async (stockData: any) => {
+  const Ssoid: any = getCookie("ssoid") ? getCookie("ssoid") : "";
+  const TicketId: any = getCookie("TicketId") ? getCookie("TicketId") : "";
+  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.updateStocks[APP_ENV]}`;
   const headers = new Headers({
-    Authorization: authorization,
+    ticketid: TicketId,
+    ssoid: Ssoid,
     "Content-Type": "application/json",
   });
   const options: any = {
     method: "POST",
     cache: "no-store",
     headers: headers,
-    body: JSON.stringify(postBodyData),
+    body: JSON.stringify(stockData),
   };
   try {
     const response = await fetch(apiUrl, options);
