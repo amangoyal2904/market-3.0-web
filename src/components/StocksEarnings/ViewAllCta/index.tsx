@@ -13,7 +13,7 @@ const ViewAllCta = ({
       et_product: "Mercury_Earnings",
       event_action: "page_cta_click",
       event_category: "mercury_engagement",
-      event_label: `View All  ${sectorName}`,
+      event_label: `${sectorName}`,
       feature_name: "Earnings",
       page_template: "Earnings_Overview",
       product_name: "Mercury_Earnings",

@@ -73,6 +73,17 @@ const LinkTabs = ({
       product_name: "Mercury_Earnings",
     });
   };
+  const gaTrackingClickTabHandler = (value: any) => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_Earnings",
+      event_action: "tab_selected",
+      event_category: "mercury_engagement",
+      event_label: `Earnings_${value}`,
+      feature_name: "Earnings",
+      page_template: "Earnings_Overview",
+      product_name: "Mercury_Earnings",
+    });
+  };
   return (
     <>
       <div className={styles.linkTabWrap}>
@@ -83,7 +94,12 @@ const LinkTabs = ({
                 key={`${index}-${item.title}`}
                 className={`${isActive(item.url) ? styles.active : ""}`}
               >
-                <Link href={`${item.url}`}>{item.title}</Link>
+                <Link
+                  onClick={() => gaTrackingClickTabHandler(item?.title)}
+                  href={`${item.url}`}
+                >
+                  {item.title}
+                </Link>
               </li>
             );
           })}

@@ -102,11 +102,11 @@ const SectorPageCard = ({ data, tpName = "", sortingValue = "" }: any) => {
   };
   const clickHandler = (item: any) => {
     trackingEvent("et_push_event", {
-      et_product: "Mercury_HomePage",
+      et_product: "Mercury_Earnings",
       event_action: "lhsmenu_click",
       event_category: "mercury_engagement",
       event_label: `Earnings ${item}`,
-      feature_name: "HomePage",
+      feature_name: "Earnings",
       product_name: "Mercury_HomePage",
       selected_category: "Earnings",
     });

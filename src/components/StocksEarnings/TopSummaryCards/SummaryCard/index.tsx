@@ -46,7 +46,7 @@ const SummaryCard = ({ data, type }: any) => {
   const gaTrackingCardClick = () => {
     trackingEvent("et_push_event", {
       et_product: "Mercury_Earnings",
-      event_action: "page_card_click",
+      event_action: "Overview_Top Card Click",
       event_category: "mercury_engagement",
       event_label: `Card Click ${type}`,
       feature_name: "Earnings",

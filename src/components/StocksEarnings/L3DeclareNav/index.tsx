@@ -8,12 +8,12 @@ const L3DeclareNav = () => {
   const pathname = usePathname();
   const clickHandler = (item: any) => {
     trackingEvent("et_push_event", {
-      et_product: "Mercury_HomePage",
+      et_product: "Mercury_Earnings",
       event_action: "lhsmenu_click",
       event_category: "mercury_engagement",
       event_label: `Earnings ${item}`,
-      feature_name: "HomePage",
-      product_name: "Mercury_HomePage",
+      feature_name: "Earnings",
+      product_name: "Earnings_Overview",
       selected_category: "Earnings",
     });
   };
