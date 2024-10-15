@@ -77,7 +77,8 @@ const LiveBlogIndexNews = React.memo(
         )}
       </>
     );
-  }
+  },
 );
 
+LiveBlogIndexNews.displayName = "LiveBlogIndexNews";
 export default LiveBlogIndexNews;
