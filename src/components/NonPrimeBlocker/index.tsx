@@ -79,7 +79,7 @@ const NonPrimeBlockerModule = ({
           <div className={styles.contentSec}>
             <div className={styles.left}>
               <img
-                src="/marketsweb/img/nonprimebg.png"
+                src="https://img.etimg.com/photo/msid-114258683,quality-100/nonprimebg.jpg"
                 alt="Prime logo"
                 title="Prime logo"
                 width={400}
