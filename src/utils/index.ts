@@ -1008,9 +1008,9 @@ export const returnPPID = () => {
   }
 };
 
-export const calculateExtendedViews = (actualViews: number) => {
+export const calculateExtendedViews = (actualViews: any) => {
   if (!actualViews || actualViews <= 0) {
-    return "Invalid views";
+    return Math.round(2 * (2 + Math.log(999999) / Math.log(2)));
   }
   return Math.round(
     actualViews * (1 + Math.log(999999) / Math.log(actualViews)),

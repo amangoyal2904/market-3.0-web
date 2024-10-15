@@ -77,13 +77,9 @@ const InvestEdgeVideoBox = (props: any) => {
               </span>
             </>
           )}
-          <span className={styles.views}>
+          <span className={styles.views} data-v={view[0]?.views || "noview"}>
             Views: {"  "}
-            <span>
-              {view.length > 0
-                ? calculateExtendedViews(view[0]?.views)
-                : "Loading..."}
-            </span>
+            <span>{calculateExtendedViews(view[0]?.views)}</span>
           </span>
           <div className={styles.socialDetails}>
             {/* <span className={styles.socialSpan}>

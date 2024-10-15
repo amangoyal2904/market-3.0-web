@@ -65,11 +65,8 @@ const InvestEdgeBox = ({ slide, index, slug }: any) => {
             <span className={styles.dash}>|</span>
           </>
         )}
-        <span className={styles.views}>
-          Views:{" "}
-          {view.length > 0
-            ? calculateExtendedViews(view[0].views)
-            : "Loading..."}
+        <span className={styles.views} data-v={view[0]?.views || "noview"}>
+          Views: {calculateExtendedViews(view[0]?.views)}
         </span>
       </div>
     </div>

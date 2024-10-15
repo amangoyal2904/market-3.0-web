@@ -19,7 +19,7 @@ const InvestEdgeTopVideo = ({ slide, index, seoPath, sliderFlag }: any) => {
   }, [slide?.slikeId]);
 
   const viewsWrapper = async (slikeId: string) => {
-    console.log("SlikeId---", slikeId);
+    //console.log("SlikeId---", slikeId);
     const viewsJson = await getViews(slikeId);
     if (viewsJson && viewsJson?.data?.length > 0) {
       setView(viewsJson.data);
@@ -66,11 +66,8 @@ const InvestEdgeTopVideo = ({ slide, index, seoPath, sliderFlag }: any) => {
             <span className={styles.dash}>|</span>
           </>
         )}
-        <span className={styles.views}>
-          Views:{" "}
-          {view.length > 0
-            ? calculateExtendedViews(view[0].views)
-            : "Loading..."}
+        <span className={styles.views} data-v={view[0]?.views || "noview"}>
+          Views: {calculateExtendedViews(view[0]?.views)}
         </span>
       </div>
     </div>
