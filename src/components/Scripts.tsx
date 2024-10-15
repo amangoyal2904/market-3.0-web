@@ -18,10 +18,6 @@ import {
 } from "@/components/Ad/AdScript";
 import { sendMouseFlowEvent } from "../utils/utility";
 import adFreePages from "@/components/Ad/AdInfo/adFree.json";
-interface Props {
-  isprimeuser?: number | boolean;
-  objVc?: object;
-}
 
 declare global {
   interface Window {
@@ -59,7 +55,7 @@ declare global {
 
 declare var JssoCrosswalk: any;
 
-const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
+const Scripts = () => {
   //console.log(APP_ENV);
   const router = usePathname();
   const [prevPath, setPrevPath] = useState<any>(null);
@@ -289,7 +285,8 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               `,
             }}
           />
-          {!isprimeuser && !searchParams?.get("opt") && !adfreeTemplate && (
+
+          {!isPrime && !searchParams?.get("opt") && !adfreeTemplate && (
             <Script
               src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"
               onLoad={() => {
@@ -298,10 +295,10 @@ const Scripts: FC<Props> = ({ isprimeuser, objVc = {} }) => {
               }}
             />
           )}
-          {!isprimeuser && !searchParams?.get("opt") && !adfreeTemplate && (
+          {!isPrime && !searchParams?.get("opt") && !adfreeTemplate && (
             <Script src={ET_ADS_URL} />
           )}
-          {!isprimeuser && !searchParams?.get("opt") && !adfreeTemplate && (
+          {!isPrime && !searchParams?.get("opt") && !adfreeTemplate && (
             <Script src={ET_TIL_PREBID_URL} />
           )}
 
