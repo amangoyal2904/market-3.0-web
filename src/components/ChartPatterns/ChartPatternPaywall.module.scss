@@ -1,0 +1,117 @@
+@import "@/styles/variables.scss";
+
+.modalOverlay {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 102;
+}
+
+.modalContent {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: -100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 2% 5% 0.5%;
+  background: $salmon-50;
+  border-top: 4px solid $salmon-70;
+  background-image: url(/marketsweb/img/paywall_bkg.svg);
+  background-repeat: no-repeat;
+  background-position: bottom left;
+  transition: bottom 0.3s ease;
+  max-height: 75vh;
+  animation: slideUp 0.3s forwards;
+  z-index: 103;
+  .closeIcon {
+    background: $black;
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
+    color: $white;
+    border-radius: 50%;
+    position: absolute;
+    top: -13px;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .containerMain {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  .leftSec {
+    width: 65%;
+    .hl {
+      font-size: 25px;
+      font-weight: 800;
+      line-height: 32px;
+      margin: 20px auto 0;
+      span {
+        display: block;
+        font-weight: 600;
+      }
+    }
+    .patternBanner {
+      width: 60%;
+    }
+  }
+
+  .rightSec {
+    position: relative;
+    width: 35%;
+    text-align: center;
+    border: 1px solid $salmon-70;
+    padding: 40px 20px 20px;
+    .title {
+      position: absolute;
+      display: inline-block;
+      background: $salmon-70;
+      padding: 8px;
+      font-size: 14px;
+      line-height: 17px;
+      font-weight: 500;
+      top: -20px;
+      left: 80px;
+      right: 80px;
+    }
+    .cta {
+      position: relative;
+      background: $red-50;
+      color: $white;
+      font-size: 18px;
+      line-height: 20px;
+      font-weight: 700;
+      width: 80%;
+      border-radius: 100px;
+      padding: 10px;
+      margin: 8px auto 0;
+      cursor: pointer;
+    }
+    .bottomTxt {
+      margin-top: 8px;
+      span {
+        color: $red-50;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@keyframes slideUp {
+  from {
+    bottom: -100%;
+  }
+  to {
+    bottom: 0;
+  }
+}

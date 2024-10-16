@@ -1,6 +1,5 @@
 import styles from "./styles.module.scss";
 import ETLogo from "../../../../../public/img/et-markets-logo.svg";
-import Image from "next/image";
 import { redirectToPlanPage } from "@/utils/ga";
 import { useEffect } from "react";
 
