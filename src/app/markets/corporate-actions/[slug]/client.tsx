@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import CorporateActionseHeader from "@/components/CorporateActions/Header";
 import CorporateActionseTabs from "@/components/CorporateActions/Tabs";
 import { getFiiDiiData, getFiiDiiSummaryData } from "@/utils/utility";
+import PageHeaderSection from "@/components/PageHeader";
 import MarketTable from "@/components/MarketTable";
 interface FiiDiiActivitySubPagesClientsProps {
   // summaryData: any;
@@ -97,13 +97,12 @@ const CorporateActionsSubPageClients: React.FC<
 
   return (
     <>
-      <CorporateActionseHeader />
       <CorporateActionseTabs activeTab={type} handleApiType={onApiTypeChange} />
-      <MarketTable
+      {/* <MarketTable
         data={tableData}
         setFallbackWebsocket={false}
         tableHeaders={tableHeaderData}
-      />
+      /> */}
     </>
   );
 };

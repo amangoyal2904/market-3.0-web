@@ -1,12 +1,10 @@
-import {
-  fnGenerateMetaData,
-  getCorporateActionsData,
-  getFiiDiiSummaryData,
-} from "@/utils/utility";
-import CorporateActionsSubPageClients from "./client";
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { Metadata } from "next";
+
+import { fnGenerateMetaData, getCorporateActionsData } from "@/utils/utility";
+import CorporateActionsSubPageClients from "./client";
+import PageHeaderSection from "@/components/PageHeader";
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = headers();
@@ -32,20 +30,48 @@ const typeToFunctionMap: { [key: string]: () => Promise<any> } = {
     filterType: "company",
   }),
   bonus: getCorporateActionsData.bind(null, "bonusnew", {
-    filterType: "daily",
+    pageNo: 1,
+    marketcap: "All",
+    filterValue: ["2371"],
+    pageSize: 10,
+    marketactionType: "bonus",
+    duration: "default",
+    filterType: "index",
   }),
   "board-meetings": getCorporateActionsData.bind(null, "boardmeetingsnew", {
-    filterType: "daily",
-    apiType: "index",
+    pageNo: 1,
+    marketcap: "All",
+    pageSize: 10,
+    marketactionType: "boardmeetingsnew",
+    duration: "default",
+    filterType: "index",
   }),
   "agm-egm": getCorporateActionsData.bind(null, "AGMMeetingnew", {
-    filterType: "daily",
+    pageNo: 1,
+    marketcap: "All",
+    filterValue: ["2371"],
+    pageSize: 10,
+    marketactionType: "AGMMeeting",
+    duration: "default",
+    filterType: "index",
   }),
   splits: getCorporateActionsData.bind(null, "splitnew", {
-    filterType: "daily",
+    pageNo: 1,
+    marketcap: "All",
+    filterValue: ["2371"],
+    pageSize: 10,
+    marketactionType: "split",
+    duration: "default",
+    filterType: "index",
   }),
   rights: getCorporateActionsData.bind(null, "rightnew", {
-    filterType: "daily",
+    pageNo: 1,
+    marketcap: "All",
+    filterValue: ["2371"],
+    pageSize: 10,
+    marketactionType: "right",
+    duration: "default",
+    filterType: "index",
   }),
 };
 
@@ -66,7 +92,6 @@ const CorporateActionsSubPage = async ({ params }: any) => {
 
   const responseGetter = typeToFunctionMap[type];
   const response: any = await responseGetter();
-  const { searchresult, pagesummary } = response;
 
   /* const summaryParam = typeToSummaryParamMap[type];
   const summaryResponse: any = await getFiiDiiSummaryData(summaryParam);
@@ -74,13 +99,15 @@ const CorporateActionsSubPage = async ({ params }: any) => {
 
   return (
     <>
+      <PageHeaderSection
+        heading="Corporate Actions"
+        description="Stay ahead of market-moving events! Track key corporate actions like Mergers, Buybacks, Dividends, Spinoffs, Reverse Stock Splits, Bonus Issues, and Right Issues with our comprehensive insights."
+      />
       <CorporateActionsSubPageClients
         summaryType={typeToSummaryParamMap[type]}
         type={type}
-        listData={searchresult}
+        listData={response?.searchresult}
       />
-      {/* summaryData={summaryData}
-       */}
     </>
   );
 };
