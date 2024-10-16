@@ -1,6 +1,6 @@
 import {
   fnGenerateMetaData,
-  getFiiDiiData,
+  getCorporateActionsData,
   getFiiDiiSummaryData,
 } from "@/utils/utility";
 import CorporateActionsSubPageClients from "./client";
@@ -22,19 +22,31 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const typeToFunctionMap: { [key: string]: () => Promise<any> } = {
-  dividend: getFiiDiiData.bind(null, "FIIDII_CASHPROVISIONAL", {
+  dividend: getCorporateActionsData.bind(null, "dividendnew", {
+    pageNo: 1,
+    marketcap: "All",
+    filterValue: ["14034"],
+    pageSize: 10,
+    marketactionType: "dividend",
+    duration: "default",
+    filterType: "company",
+  }),
+  bonus: getCorporateActionsData.bind(null, "bonusnew", {
     filterType: "daily",
   }),
-  bonus: getFiiDiiData.bind(null, "FIIDII_FIICASH", {
-    filterType: "daily",
-  }),
-  "board-meetings": getFiiDiiData.bind(null, "FIIDII_FANDOCASH", {
+  "board-meetings": getCorporateActionsData.bind(null, "boardmeetingsnew", {
     filterType: "daily",
     apiType: "index",
   }),
-  "agm-egm": getFiiDiiData.bind(null, "FIIDII_MFCASH", { filterType: "daily" }),
-  splits: getFiiDiiData.bind(null, "FIIDII_MFCASH", { filterType: "daily" }),
-  rights: getFiiDiiData.bind(null, "FIIDII_MFCASH", { filterType: "daily" }),
+  "agm-egm": getCorporateActionsData.bind(null, "AGMMeetingnew", {
+    filterType: "daily",
+  }),
+  splits: getCorporateActionsData.bind(null, "splitnew", {
+    filterType: "daily",
+  }),
+  rights: getCorporateActionsData.bind(null, "rightnew", {
+    filterType: "daily",
+  }),
 };
 
 const typeToSummaryParamMap: { [key: string]: string } = {
@@ -45,31 +57,30 @@ const typeToSummaryParamMap: { [key: string]: string } = {
 };
 
 const CorporateActionsSubPage = async ({ params }: any) => {
-  const headersList = headers();
-  const pageUrl = headersList.get("x-url") || "";
   const type = params.slug;
+  // console.log("Sub Page Called", type);
   const possibleTypes = Object.keys(typeToFunctionMap);
   if (!possibleTypes.includes(type)) {
     notFound();
   }
 
-  /* const responseGetter = typeToFunctionMap[type];
-        const response: any = await responseGetter();
-        const { listData } = response.datainfo.data;
-        
-        const summaryParam = typeToSummaryParamMap[type];
-        const summaryResponse: any = await getFiiDiiSummaryData(summaryParam);
-        const summaryData = summaryResponse; */
-  console.log("Sub Page Called");
+  const responseGetter = typeToFunctionMap[type];
+  const response: any = await responseGetter();
+  const { searchresult, pagesummary } = response;
+
+  /* const summaryParam = typeToSummaryParamMap[type];
+  const summaryResponse: any = await getFiiDiiSummaryData(summaryParam);
+  const summaryData = summaryResponse; */
 
   return (
     <>
       <CorporateActionsSubPageClients
         summaryType={typeToSummaryParamMap[type]}
         type={type}
+        listData={searchresult}
       />
       {/* summaryData={summaryData}
-          listData={listData} */}
+       */}
     </>
   );
 };

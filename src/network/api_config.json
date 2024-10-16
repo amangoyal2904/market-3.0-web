@@ -492,5 +492,9 @@
   "CHARTPATTERNBYID": {
     "development": "https://etelectionk8s.indiatimes.com/chartpatterns/companyChartPatternById",
     "production": "https://etelectionk8s.indiatimes.com/chartpatterns/companyChartPatternById"
+  },
+  "CORPORATE_ACTIONS": {
+    "development": "https://etmarketsapis.indiatimes.com/ET_Stats",
+    "production": "https://etmarketsapis.indiatimes.com/ET_Stats"
   }
 }

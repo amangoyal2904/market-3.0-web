@@ -3,10 +3,10 @@ import React, { useState, useEffect, useRef } from "react";
 import CorporateActionseHeader from "@/components/CorporateActions/Header";
 import CorporateActionseTabs from "@/components/CorporateActions/Tabs";
 import { getFiiDiiData, getFiiDiiSummaryData } from "@/utils/utility";
-
+import MarketTable from "@/components/MarketTable";
 interface FiiDiiActivitySubPagesClientsProps {
   // summaryData: any;
-  // listData: any;
+  listData: any;
   summaryType: string;
   type: string;
 }
@@ -32,12 +32,20 @@ const typeToSummaryParamMap: { [key: string]: string } = {
 
 const CorporateActionsSubPageClients: React.FC<
   FiiDiiActivitySubPagesClientsProps
-> = ({ summaryType, type }) => {
-  // listData, summaryData
-  // const [tableData, setTableData] = useState<any[]>(listData);
+> = ({ summaryType, type, listData }) => {
+  // , summaryData
+  const [tableData, setTableData] = useState(listData);
   // const [summary, setSummary] = useState(summaryData);
   const [filterType, setFilterType] = useState<string>("daily");
   const [apiType, setApiType] = useState<string>(summaryType);
+  const tableHeaderData = [
+    { keyText: "Stock Name", keyId: "stockName" },
+    { keyText: "Announced on", keyId: "announcedOn" },
+    { keyText: "Type", keyId: "type" },
+    { keyText: "Dividend %", keyId: "dividend" },
+    { keyText: "Div./Share", keyId: "divShare" },
+    { keyText: "Ex-Dividend", keyId: "exDividend" },
+  ];
 
   const prevFilterType = useRef<string>(filterType);
   const prevApiType = useRef<string>(summaryType);
@@ -91,6 +99,11 @@ const CorporateActionsSubPageClients: React.FC<
     <>
       <CorporateActionseHeader />
       <CorporateActionseTabs activeTab={type} handleApiType={onApiTypeChange} />
+      <MarketTable
+        data={tableData}
+        setFallbackWebsocket={false}
+        tableHeaders={tableHeaderData}
+      />
     </>
   );
 };

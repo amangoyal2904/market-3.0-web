@@ -1619,3 +1619,18 @@ export const fetchPaywallcounts = function () {
     paywallViewCountMonth,
   };
 };
+
+export const getCorporateActionsData = async (apiType: string, params: any) => {
+  let url = `${(APIS_CONFIG as any)?.["CORPORATE_ACTIONS"][APP_ENV]}/${apiType}`;
+
+  const response = await Service.post({
+    url,
+    body: JSON.stringify({ ...params }),
+    params: {},
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const originalJson = await response?.json();
+  return originalJson;
+};
