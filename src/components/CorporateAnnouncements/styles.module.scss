@@ -2,12 +2,15 @@
 
 /* Announcement Card Styles */
 .card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: 1px solid #e0e0e0;
+  display: inline-block;
   border-radius: 10px;
   padding: 16px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  font-family: Arial, sans-serif;
+  width: 378px;
+  height: 200px;
+  float: left;
+  margin: 10px;
 
   .cardHeader {
     display: flex;
@@ -37,15 +40,19 @@
     padding: 4px 8px;
     font-size: 12px;
     border-radius: 5px;
-    margin-top: 8px;
+    margin-top: 14px;
     font-weight: 600;
     display: inline-block;
   }
 
   .cardContent {
-    margin: 16px 0;
+    margin: 12px 0;
     font-size: 14px;
     color: #333;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .cardFooter {
@@ -62,14 +69,17 @@
     .pdfButton {
       display: inline-flex;
       align-items: center;
-      background-color: #fff;
       border: 1px solid #d3d3d3;
-      padding: 4px 8px;
-      font-size: 12px;
       text-decoration: none;
       color: #000;
       border-radius: 5px;
       transition: background-color 0.2s ease-in-out;
+      width: 140px;
+      height: 15px;
+      background: #fff3f0;
+      font-size: 10px;
+      padding: 0;
+      font-weight: 600;
 
       &:hover {
         background-color: #f3f3f3;
@@ -85,3 +95,25 @@
 }
 
 /* Filters Styles */
+.roundBtn {
+  width: fit-content;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  cursor: pointer;
+  border-radius: 15px;
+  border: 1px solid $black;
+  font-size: 12px;
+  line-height: 18px;
+  font-style: normal;
+  font-weight: 600;
+  padding: 3px 10px;
+  white-space: nowrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  i {
+    font-size: 18px;
+    margin-right: 4px;
+  }
+}

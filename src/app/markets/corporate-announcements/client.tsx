@@ -1,13 +1,15 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { getFiiDiiData, getFiiDiiSummaryData } from "@/utils/utility";
-import PageHeaderSection from "@/components/PageHeader";
 import CardsList from "@/components/CorporateAnnouncements/Card";
+import _data from "./Data.json";
+import CorporateAnnouncementFilters from "@/components/CorporateAnnouncements/Filters";
 
 const CorporateAnnouncementsClient = () => {
   return (
     <>
-      <CardsList />
+      <CorporateAnnouncementFilters />
+      <CardsList listData={_data} />
       {/* <MarketTable
         data={tableData}
         setFallbackWebsocket={false}
