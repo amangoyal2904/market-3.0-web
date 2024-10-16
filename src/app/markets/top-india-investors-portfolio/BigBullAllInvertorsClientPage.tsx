@@ -1,11 +1,8 @@
 "use client";
 import styles from "./style.module.scss";
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { fetchSelectedFilter } from "@/utils/utility";
 import BigBullTableCard from "../../../components/BigBullTableCard";
 import BigBullTabs from "../../../components/BigBullTabs";
-import tabsJson from "../../../DataJson/bigbullTabs.json";
 import indiFilter from "../../../DataJson/individualFilter.json";
 import { fetchGetCommonAPI } from "../../../utils/bigbull";
 import { commonPostAPIHandler } from "../../../utils/screeners";
@@ -16,6 +13,7 @@ import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
 
 const individualFilter = indiFilter;
 import { getBigbullTopTabData } from "@/utils/utility";
+import { getCookie } from "@/utils";
 
 const BigBullAllInvertorsClientPage = ({
   tableData,
@@ -27,6 +25,8 @@ const BigBullAllInvertorsClientPage = ({
 }: any) => {
   const __spanTxt = "";
   const router = useRouter();
+  const ssoid = getCookie("ssoid") || "";
+  const ticketId = getCookie("TicketId") || "";
   //console.log("___data", tableThSortFilterID, tableThSortFilterID);
   const [aciveFilter, setActiveFilter] = useState(payload.investorType);
   const [invstrQuery, setInvstrQuery] = useState("");
@@ -64,6 +64,8 @@ const BigBullAllInvertorsClientPage = ({
       const _data = await commonPostAPIHandler(
         `BigBullGetInvestorList`,
         _payload,
+        ssoid,
+        ticketId,
       );
       const __tableData: any[] =
         _data?.datainfo?.investorlist?.investorData || [];

@@ -10,6 +10,7 @@ import { fetchFilters } from "@/utils/utility";
 import StockFilterNifty from "@/components/StockFilterNifty";
 import { commonPostAPIHandler } from "../../../utils/screeners";
 import BreadCrumb from "@/components/BreadCrumb";
+import { getCookie } from "@/utils";
 
 const InvestorClientCategoryPage = ({
   data,
@@ -25,6 +26,8 @@ const InvestorClientCategoryPage = ({
   rightTabTxt = "",
   tableThSortFilterID,
 }: any) => {
+  const ssoid = getCookie("ssoid") || "";
+  const ticketId = getCookie("TicketId") || "";
   const [tableLoadingShow, setTableLoadingShow] = useState(false);
   const [sortByTrade, setSortByTrade]: any = useState([
     { label: "All Entries", value: "ALL" },
@@ -130,7 +133,12 @@ const InvestorClientCategoryPage = ({
   };
   const callAPIforHoldingData = async () => {
     setTableLoadingShow(true);
-    const invertorData = await commonPostAPIHandler(`BigBullHolding`, _payload);
+    const invertorData = await commonPostAPIHandler(
+      `BigBullHolding`,
+      _payload,
+      ssoid,
+      ticketId,
+    );
     pageData = invertorData ? invertorData : "";
     const arrayOfCompany =
       pageData?.datainfo?.holdingsCompanyInfo?.holdingsStockData || [];
@@ -162,6 +170,8 @@ const InvestorClientCategoryPage = ({
     const invertorData = await commonPostAPIHandler(
       `BigBullBulkBlockDeal`,
       _payload,
+      ssoid,
+      ticketId,
     );
     const pageData = invertorData ? invertorData : "";
     const arrayOfCompany =
@@ -177,6 +187,8 @@ const InvestorClientCategoryPage = ({
     const invertorData = await commonPostAPIHandler(
       `BigBullFreshEntryExit`,
       _payload,
+      ssoid,
+      ticketId,
     );
     const pageData = invertorData ? invertorData : "";
     const arrayOfCompany =
@@ -193,6 +205,8 @@ const InvestorClientCategoryPage = ({
     const invertorData = await commonPostAPIHandler(
       `BigBullHoldingChanges`,
       _payload,
+      ssoid,
+      ticketId,
     );
     const pageData = invertorData ? invertorData : "";
     const arrayOfCompany =

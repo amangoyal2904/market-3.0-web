@@ -12,6 +12,7 @@ const individualFilter = indiFilter;
 import BreadCrumb from "@/components/BreadCrumb";
 import DfpAds from "@/components/Ad/DfpAds";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
+import { getCookie } from "@/utils";
 
 const BigBullBestPicksClientPage = ({
   selectedFilter,
@@ -23,6 +24,8 @@ const BigBullBestPicksClientPage = ({
   tableThSortFilterID,
 }: any) => {
   const router = useRouter();
+  const ssoid = getCookie("ssoid") || "";
+  const ticketId = getCookie("TicketId") || "";
   const __title = "Investors Best Picks";
   const pageType = "bestPicks";
   const [aciveFilter, setActiveFilter] = useState(payload.investorType);
@@ -51,7 +54,12 @@ const BigBullBestPicksClientPage = ({
   const callAPIfitler = async () => {
     setTableLoadingShow(true);
     console.log("__payload", _payload);
-    const allData = await commonPostAPIHandler(`BigBullGetBestPicks`, _payload);
+    const allData = await commonPostAPIHandler(
+      `BigBullGetBestPicks`,
+      _payload,
+      ssoid,
+      ticketId,
+    );
     const __tableData: any[] =
       allData?.datainfo?.bestPicksDataInfo?.bestPicksListInfo || [];
     const __pagination =

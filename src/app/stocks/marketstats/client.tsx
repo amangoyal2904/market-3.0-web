@@ -123,6 +123,7 @@ const MarketStats = ({
   const updateTableData = async () => {
     const isPrimeUser = getCookie("isprimeuser") === "true";
     const ssoid = getCookie("ssoid");
+    const ticketId = getCookie("TicketId");
     const fetchType = isTechnical
       ? "MARKETSTATS_TECHNICALS"
       : "MARKETSTATS_INTRADAY";
@@ -133,6 +134,7 @@ const MarketStats = ({
         fetchType,
         isPrimeUser,
         ssoid,
+        ticketId,
       );
 
       if (responseData) {

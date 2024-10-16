@@ -7,7 +7,7 @@ import {
 import ErrorBoundary from "../../../../components/ErrorBoundary";
 // import InvestorClientCatePage from "./investorCatClient";
 // import InvestorClientPage from "./investorClient";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { Metadata, ResolvingMetadata } from "next";
 import BigBullClientPage from "../clients";
 import BigBullAllInvertorsClientPage from "../BigBullAllInvertorsClientPage";
@@ -34,7 +34,9 @@ export async function generateMetadata(
   const pageUrl = headersList.get("x-url") || "";
   const slugArray = params.slug;
   const pageType: any = getBigBullPageName(slugArray);
-
+  const cookieStore = cookies();
+  const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
   let SubCategoryName = "";
   let seo_title = `Top Investors in India, List of Individual & Institutional Investors, Investors Portfolio`;
   let seo_desc = `Top Investors in India: Check the list of top Indian investors with detailed portfolio. Get all super investors & shareholders with their recently added stocks investments & corporate shareholdings at The Economic Times`;
@@ -71,11 +73,15 @@ export async function generateMetadata(
     seo_desc = `${SubCategoryName} Investors in India: Check the list of top Indian investors with detailed portfolio. Get all super investors & shareholders with their recently added stocks investments & corporate shareholdings at The Economic Times`;
     seo_keywords = `${SubCategoryName} Investors, ${SubCategoryName} Investors in India, Individual Investors, Institutional Investors, Investors Portfolio, Investors Portfolio list, ${SubCategoryName} Investors list, List of ${SubCategoryName} Investors`;
   } else if (pageType?.page === "investorhomepage") {
-    const invertorData = await commonPostAPIHandler(`BigBullInvestorOverview`, {
-      sharkId: pageType?.expertId,
-      ssoId: "",
-      primeFlag: 1,
-    });
+    const invertorData = await commonPostAPIHandler(
+      `BigBullInvestorOverview`,
+      {
+        sharkId: pageType?.expertId,
+        primeFlag: 1,
+      },
+      ssoid,
+      ticketId,
+    );
 
     const InvestorsName =
       invertorData?.datainfo?.investorOverviewInfo?.investorIntro?.name || "";
@@ -84,11 +90,15 @@ export async function generateMetadata(
     seo_desc = `${InvestorsName} Portfolio - Check ${InvestorsName} Investments Portfolio, recently added stocks details, corporate shareholdings at The Economic Times`;
     seo_keywords = `${InvestorsName} Portfolio, ${InvestorsName} Investments, Top Investors, Top Investors in India, Individual Investors, Institutional Investors, Investors Portfolio, Investors Portfolio list, Top Investors list, List of Top Investors, super investor, super investor in India, super investors list, super investor portfolio, super investor stocks`;
   } else if (pageType?.page === "expertPage") {
-    const invertorData = await commonPostAPIHandler(`BigBullInvestorOverview`, {
-      sharkId: pageType?.expertId,
-      ssoId: "",
-      primeFlag: 1,
-    });
+    const invertorData = await commonPostAPIHandler(
+      `BigBullInvestorOverview`,
+      {
+        sharkId: pageType?.expertId,
+        primeFlag: 1,
+      },
+      ssoid,
+      ticketId,
+    );
     const InvestorsName =
       invertorData?.datainfo?.investorOverviewInfo?.investorIntro?.name || "";
     const subCategoryName = pageType?.subCategoryNameSeo || "";
@@ -109,6 +119,9 @@ export async function generateMetadata(
 const BigBullPage = async ({ params }: any) => {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
+  const cookieStore = cookies();
+  const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
   const slugArray = params.slug;
   const pageType: any = getBigBullPageName(slugArray);
   //console.log('____pageUrl',pageUrl)
@@ -130,6 +143,8 @@ const BigBullPage = async ({ params }: any) => {
       const getData = await commonPostAPIHandler(
         `BigBullAllInverstorOverview`,
         payload,
+        ssoid,
+        ticketId,
       );
       data = { pageData: getData.datainfo };
       return (
@@ -156,6 +171,8 @@ const BigBullPage = async ({ params }: any) => {
       const IndividualInvestors = await commonPostAPIHandler(
         `BigBullGetInvestorList`,
         payload,
+        ssoid,
+        ticketId,
       );
       const __tableData: any[] =
         IndividualInvestors?.datainfo?.investorlist?.investorData || [];
@@ -203,6 +220,8 @@ const BigBullPage = async ({ params }: any) => {
       const allData = await commonPostAPIHandler(
         `BigBullGetLastQuarter`,
         payload,
+        ssoid,
+        ticketId,
       );
       const __tableData: any[] =
         allData?.datainfo?.investorKeyChanges?.investorKeyChangesData || [];
@@ -253,6 +272,8 @@ const BigBullPage = async ({ params }: any) => {
       const allData = await commonPostAPIHandler(
         `BigBullGetRecentTransactions`,
         payload,
+        ssoid,
+        ticketId,
       );
       const __tableData: any[] =
         allData?.datainfo?.recentDealsInfo?.listRecentDeals || [];
@@ -301,6 +322,8 @@ const BigBullPage = async ({ params }: any) => {
       const allData = await commonPostAPIHandler(
         `BigBullGetBestPicks`,
         payload,
+        ssoid,
+        ticketId,
       );
       const __tableData: any[] =
         allData?.datainfo?.bestPicksDataInfo?.bestPicksListInfo || [];
@@ -347,7 +370,12 @@ const BigBullPage = async ({ params }: any) => {
         pageNo: 1,
         pageSize: 25,
       };
-      const allData = await commonPostAPIHandler(`BigBullGetMostHeld`, payload);
+      const allData = await commonPostAPIHandler(
+        `BigBullGetMostHeld`,
+        payload,
+        ssoid,
+        ticketId,
+      );
       const __tableData: any[] =
         allData?.datainfo?.mostHoldCompanyInfo?.mostHoldStockData || [];
       const __tableHead: any[] = mostHeldTableHead;
@@ -399,6 +427,8 @@ const BigBullPage = async ({ params }: any) => {
       const invertorDataTopHolding = await commonPostAPIHandler(
         `BigBullHolding`,
         payload,
+        ssoid,
+        ticketId,
       );
       const pageData = invertorDataTopHolding ? invertorDataTopHolding : "";
       const arrayOfCompany =
@@ -421,14 +451,17 @@ const BigBullPage = async ({ params }: any) => {
       const InvertorOverviewData = await commonPostAPIHandler(
         `BigBullInvestorPortfolioOverview`,
         InvertorPorfolioOverviewPayload,
+        ssoid,
+        ticketId,
       );
       const invertorData = await commonPostAPIHandler(
         `BigBullInvestorOverview`,
         {
           sharkId: pageType?.expertId,
-          ssoId: "",
           primeFlag: 1,
         },
+        ssoid,
+        ticketId,
       );
       return (
         <>
@@ -457,9 +490,10 @@ const BigBullPage = async ({ params }: any) => {
         `BigBullInvestorOverview`,
         {
           sharkId: pageType?.expertId,
-          ssoId: "",
           primeFlag: 1,
         },
+        ssoid,
+        ticketId,
       );
       if (pageType?.slug === "fresh-entry-exit") {
         payload = {
@@ -476,6 +510,8 @@ const BigBullPage = async ({ params }: any) => {
         const invertorData = await commonPostAPIHandler(
           `BigBullFreshEntryExit`,
           payload,
+          ssoid,
+          ticketId,
         );
         pageData = invertorData ? invertorData : "";
         _title = pageData?.datainfo?.entryExitDataInfo?.entryExitData?.title;
@@ -499,6 +535,8 @@ const BigBullPage = async ({ params }: any) => {
         const invertorData = await commonPostAPIHandler(
           `BigBullHolding`,
           payload,
+          ssoid,
+          ticketId,
         );
         pageData = invertorData ? invertorData : "";
         _title = `Top Holdings of ${pageData?.datainfo?.holdingsCompanyInfo?.investorIntro.name}`;
@@ -526,6 +564,8 @@ const BigBullPage = async ({ params }: any) => {
         const invertorData = await commonPostAPIHandler(
           `BigBullHoldingChanges`,
           payload,
+          ssoid,
+          ticketId,
         );
         pageData = invertorData ? invertorData : "";
         _title = pageData?.datainfo?.stockIncreaseDecreaseDataInfo?.title;
@@ -553,6 +593,8 @@ const BigBullPage = async ({ params }: any) => {
         const invertorData = await commonPostAPIHandler(
           `BigBullBulkBlockDeal`,
           payload,
+          ssoid,
+          ticketId,
         );
         pageData = invertorData ? invertorData : "";
         _title = `${pageData?.datainfo?.bulkblockDealsInfo?.pageSummaryInfo.totalRecords} Deals`;

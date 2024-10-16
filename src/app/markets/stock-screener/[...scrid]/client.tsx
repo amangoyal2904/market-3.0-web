@@ -456,13 +456,14 @@ const StockScreeners = ({
   const updateTableData = async () => {
     const isPrimeUser = getCookie("isprimeuser") === "true";
     const ssoid = getCookie("ssoid");
-
+    const ticketId = getCookie("TicketId");
     try {
       const responseData: any = await fetchViewTable(
         _payload,
         "screenerGetViewById",
         isPrimeUser,
         ssoid,
+        ticketId,
       );
 
       if (responseData && Array.isArray(responseData.dataList)) {

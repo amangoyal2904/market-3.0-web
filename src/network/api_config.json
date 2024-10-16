@@ -142,27 +142,27 @@
     "production": "https://screener.indiatimes.com/screener/indexFaq"
   },
   "FIIDII_SUMMARY": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/fiiDiiSummary.json",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/fiiDiiSummary.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/fiiDiiSummary.json"
   },
   "FIIDII_OVERVIEW": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getDaywiseActivityData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json"
   },
   "FIIDII_CASHPROVISIONAL": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getCashData.json",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getCashData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getCashData.json"
   },
   "FIIDII_FIICASH": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiCashData.json",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getFiiCashData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiCashData.json"
   },
   "FIIDII_FANDOCASH": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFandOCashData.json",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getFandOCashData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFandOCashData.json"
   },
   "FIIDII_MFCASH": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getMfCashData.json",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getMfCashData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getMfCashData.json"
   },
   "MARKETS_LIVEBLOG": {
@@ -422,7 +422,7 @@
     "production": "https://etinsights.indiatimes.com/ET_TechnicalIndicator/getTechnicalDashboardData"
   },
   "FIIDIICash": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash"
   },
   "SLIKE_CLEO_URL": {

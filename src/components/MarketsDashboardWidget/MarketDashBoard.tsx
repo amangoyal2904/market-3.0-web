@@ -83,13 +83,14 @@ function MarketDashBoard(props: propsType) {
   const updateTableData = async () => {
     const isPrimeUser = getCookie("isprimeuser") === "true";
     const ssoid = getCookie("ssoid");
-
+    const ticketId = getCookie("TicketId");
     try {
       const responseData: any = await fetchViewTable(
         { ...payload },
         "MARKETSTATS_INTRADAY",
         isPrimeUser,
         ssoid,
+        ticketId,
       );
 
       if (responseData) {

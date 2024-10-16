@@ -305,6 +305,7 @@ export const fetchViewTable = async (
   apiType: any,
   isprimeuser: any,
   ssoid: any,
+  ticketId: any,
 ) => {
   try {
     const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
@@ -313,6 +314,7 @@ export const fetchViewTable = async (
       headers: {
         "Content-Type": "application/json",
         ssoid: ssoid,
+        ticketId: ticketId,
         isprime: isprimeuser,
       },
       cache: "no-store",
