@@ -1,0 +1,23 @@
+@import "@/styles/variables.scss";
+
+.wrapper {
+  position: relative;
+  margin: 15px auto;
+  padding: 0 10px;
+  .desc {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    color: $gray-30;
+    margin: 5px auto;
+    p {
+      display: inline;
+    }
+  }
+}
+
+.disclaimerTxt {
+  padding: 10px;
+  font-size: 14px;
+  line-height: 18px;
+}

@@ -491,6 +491,26 @@
   },
   "CHARTPATTERNBYID": {
     "development": "https://etelectionk8s.indiatimes.com/chartpatterns/companyChartPatternById",
-    "production": "https://etelectionk8s.indiatimes.com/chartpatterns/companyChartPatternById"
+    "production": "https://etapi.indiatimes.com/chartpatterns/companyChartPatternById"
+  },
+  "CHARTPATTERN_NEW": {
+    "development": "https://etelectionk8s.indiatimes.com/chartpatterns/latest-patterns",
+    "production": "https://etapi.indiatimes.com/chartpatterns/latest-patterns"
+  },
+  "CHARTPATTERN_PAST_ALL": {
+    "development": "https://etelectionk8s.indiatimes.com/chartpatterns/all-past-performance",
+    "production": "https://etapi.indiatimes.com/chartpatterns/all-past-performance"
+  },
+  "CHARTPATTERN_EXPLORE": {
+    "development": "https://etelectionk8s.indiatimes.com/chartpatterns/explore-patterns",
+    "production": "https://etapi.indiatimes.com/chartpatterns/explore-patterns"
+  },
+  "CHARTPATTERN_PAST": {
+    "development": "https://etelectionk8s.indiatimes.com/chartpatterns/pattern-past-performance",
+    "production": "https://etapi.indiatimes.com/chartpatterns/pattern-past-performance"
+  },
+  "PATTERN_FILTER_LIST": {
+    "development": "https://etelectionk8s.indiatimes.com/chartpatterns/pattern-filter-list",
+    "production": "https://etapi.indiatimes.com/chartpatterns/pattern-filter-list"
   }
 }

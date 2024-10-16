@@ -1,0 +1,95 @@
+@import "@/styles/variables.scss";
+
+.modalOverlay {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 102;
+}
+
+.modalContent {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: -100%;
+  background: $white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  transition: bottom 0.3s ease;
+  max-height: 75vh;
+  animation: slideUp 0.3s forwards;
+  z-index: 103;
+  .modalHeader {
+    padding: 15px 10px;
+    border-bottom: 1px solid #f3f3f3;
+    .heading {
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 20px;
+      text-align: center;
+    }
+    .desc {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 16px;
+      text-align: left;
+      margin-top: 10px;
+    }
+    .modalClose {
+      position: absolute;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      top: 15px;
+      font-size: 20px;
+    }
+  }
+  .modalBody {
+    display: block;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: calc(75vh - 100px);
+  }
+}
+
+.listWrapper {
+  margin: 0;
+  padding: 0 0 5px 0;
+  list-style-type: none;
+  .listItem {
+    border-bottom: 1px solid #f3f3f3;
+    padding: 15px 10px;
+    label {
+      font-size: 14px;
+      display: inline-block;
+      vertical-align: top;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+    input {
+      display: inline-block;
+      vertical-align: top;
+      cursor: pointer;
+      margin-top: 2px;
+      &:checked ~ label {
+        font-weight: bold;
+      }
+    }
+    &:last-child {
+      border: none;
+    }
+  }
+}
+
+@keyframes slideUp {
+  from {
+    bottom: -100%;
+  }
+  to {
+    bottom: 0;
+  }
+}

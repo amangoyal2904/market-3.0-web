@@ -127,7 +127,7 @@ const Scripts = () => {
             window.isSurveyLoad = true;
             surveyLoad();
           },
-          { once: true }
+          { once: true },
         );
       }
     } catch (e) {
@@ -285,6 +285,7 @@ const Scripts = () => {
               `,
             }}
           />
+
           {!isPrime && !searchParams?.get("opt") && !adfreeTemplate && (
             <Script
               src="https://securepubads.g.doubleclick.net/tag/js/gpt.js?network-code=7176"

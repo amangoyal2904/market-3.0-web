@@ -12,6 +12,10 @@ export const renderIconPaths = (icon: string) => {
       React.createElement("span", { key: "6", className: "path6" }),
       React.createElement("span", { key: "7", className: "path7" }),
     ],
+    eticon_lock: [
+      React.createElement("span", { key: "1", className: "path1" }),
+      React.createElement("span", { key: "2", className: "path2" }),
+    ],
     eticon_watchlist: [
       React.createElement("span", { key: "1", className: "path1" }),
       React.createElement("span", { key: "2", className: "path2" }),
