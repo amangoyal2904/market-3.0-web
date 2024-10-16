@@ -4,6 +4,7 @@ import SlickSlider from "../../SlickSlider";
 import SectorCard from "../SectorCard";
 import ViewAllCta from "../ViewAllCta";
 import NoDataCard from "../DeclaredCards/NoDataCard";
+import { trackingEvent } from "@/utils/ga";
 
 const SectorAggregates = ({ data }: any) => {
   //const sliderRef = useRef<HTMLDivElement>(null);
@@ -17,13 +18,14 @@ const SectorAggregates = ({ data }: any) => {
     { title: "Top Performing Sectors", id: 0 },
     { title: "Under Performing Sectors", id: 1 },
   ];
-  const tabHandler = (value: number) => {
+  const tabHandler = (value: number, title: string) => {
     setTabActive(value);
     if (value === 0) {
       setTabContentData(_tabData?.topSector || []);
     } else {
       setTabContentData(_tabData?.underSector || []);
     }
+    gaTrackingTabClick(title);
     // if (sliderRef.current) {
     //   sliderRef.current.slickGoTo(0);
     // }
@@ -86,7 +88,17 @@ const SectorAggregates = ({ data }: any) => {
       },
     },
   ];
-
+  const gaTrackingTabClick = (sectorName: any) => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_Earnings",
+      event_action: "Sector Widget_Tab Change",
+      event_category: "mercury_engagement",
+      event_label: `Sector_ ${sectorName}`,
+      feature_name: "Earnings",
+      page_template: "Earnings_Overview",
+      product_name: "Mercury_Earnings",
+    });
+  };
   return (
     <>
       <div className={styles.sectorWrap}>
@@ -95,7 +107,7 @@ const SectorAggregates = ({ data }: any) => {
           {tabData.map((item: any, index: number) => {
             return (
               <li
-                onClick={() => tabHandler(index)}
+                onClick={() => tabHandler(index, item?.title)}
                 className={tabActive === index ? styles.active : ""}
                 key={`${index}-${item.title}`}
               >

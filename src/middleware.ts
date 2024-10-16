@@ -25,11 +25,11 @@ export function middleware(request: NextRequest) {
       headers: requestHeaders,
     },
   });
-  if (pathname === "/health") {
-    return new NextResponse("OK!", {
-      status: 200,
-    });
-  }
+  // if (pathname === "/health") {
+  //   return new NextResponse("OK!", {
+  //     status: 200,
+  //   });
+  // }
   // Set cache control headers based on the request path
   if (pathname.startsWith("/marketsweb/_next/static/chunks")) {
     response.headers.set(
