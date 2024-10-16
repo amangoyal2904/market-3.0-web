@@ -8,6 +8,7 @@ import tableConfig from "@/utils/tableConfig.json";
 import DeclaredCards from "../DeclaredCards";
 import ViewAllCta from "../ViewAllCta";
 import Blocker from "@/components/Blocker";
+import { trackingEvent } from "@/utils/ga";
 
 const EarningsWatchlist = () => {
   const [processingLoader, setProcessingLoader] = useState(false);
@@ -38,13 +39,14 @@ const EarningsWatchlist = () => {
     { title: "Upcoming Results", id: 0 },
     { title: "Declared Results", id: 1 },
   ];
-  const tabHandler = (value: number) => {
+  const tabHandler = (value: number, title: string) => {
     setTabActive(value);
     if (value === 0) {
       // setTabContentData(_tabData?.topSector || []);
     } else {
       // setTabContentData(_tabData?.underSector || []);
     }
+    gaTrackingTabClick(title);
   };
   const watchlistAPICall = async () => {
     tabActive ? setCardLoading(true) : setProcessingLoader(true);
@@ -108,6 +110,17 @@ const EarningsWatchlist = () => {
     setTableData(_watchlistdata);
     setProcessingLoader(false);
   };
+  const gaTrackingTabClick = (sectorName: any) => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_Earnings",
+      event_action: "Watchlist Widget_Tab Change",
+      event_category: "mercury_engagement",
+      event_label: `Watchlist_ ${sectorName}`,
+      feature_name: "Earnings",
+      page_template: "Earnings_Overview",
+      product_name: "Mercury_Earnings",
+    });
+  };
 
   useEffect(() => {
     if (isLogin) {
@@ -129,7 +142,7 @@ const EarningsWatchlist = () => {
           {tabData.map((item: any, index: number) => {
             return (
               <li
-                onClick={() => tabHandler(index)}
+                onClick={() => tabHandler(index, item.title)}
                 className={tabActive === index ? styles.active : ""}
                 key={`${index}-${item.title}`}
               >
