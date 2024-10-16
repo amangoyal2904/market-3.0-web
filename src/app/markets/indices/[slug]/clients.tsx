@@ -20,6 +20,7 @@ import IndicesConstituents from "@/components/IndicesDetails/Constituents";
 import IndicesPerformance from "@/components/IndicesDetails/Performance";
 import { trackingEvent } from "@/utils/ga";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import LiveBlogIndexNews from "@/components/IndicesDetails/LiveBlogIndexNews";
 
 const pageTabData = [
   { label: "Key Metrics", key: "keymetrics" },
@@ -48,6 +49,7 @@ const IndicesDetailsClient = ({
   indicesNews = {},
   liveblog = {},
   faq = {},
+  pagePath = {},
 }: any) => {
   const { state } = useStateContext();
   const { currentMarketStatus } = state.marketStatus;
@@ -115,7 +117,7 @@ const IndicesDetailsClient = ({
         setScrollByItemClick(false); // Reset flag after scrolling is done
       }, 1000);
     },
-    [scrollToActiveContent, handleScroll],
+    [scrollToActiveContent, handleScroll]
   );
 
   useIntervalApiCall(
@@ -123,7 +125,7 @@ const IndicesDetailsClient = ({
       if (currentMarketStatus === "LIVE") refreshOverviewData();
     },
     refeshConfig.indicesDetail,
-    [currentMarketStatus],
+    [currentMarketStatus]
   );
 
   return (
@@ -188,23 +190,39 @@ const IndicesDetailsClient = ({
                   />
                 )}
                 {item.key === "technicalanalysis" && (
-                  <IndicesTechnicalAnalysis data={technicals} symbol={symbol} />
+                  <>
+                    <IndicesTechnicalAnalysis
+                      data={technicals}
+                      symbol={symbol}
+                    />
+                    {pagePath === "/markets/indices/nifty-50" && (
+                      <LiveBlogIndexNews
+                        indexName={indexName}
+                        indicesNews={indicesNews}
+                        liveblog={liveblog}
+                      />
+                    )}
+                  </>
                 )}
+
                 {item.key === "constituents" && (
-                  <IndicesConstituents
-                    indexName={indexName}
-                    otherIndices={others}
-                    tabData={tabData}
-                    activeViewId={activeViewId}
-                    tableHeaderData={tableHeaderData}
-                    tableData={tableData}
-                    pageSummary={pageSummary}
-                    tableConfig={tableConfig}
-                    tabConfig={tabConfig}
-                    payload={payload}
-                    indicesNews={indicesNews}
-                    liveblog={liveblog}
-                  />
+                  <>
+                    <IndicesConstituents
+                      indexName={indexName}
+                      otherIndices={others}
+                      tabData={tabData}
+                      activeViewId={activeViewId}
+                      tableHeaderData={tableHeaderData}
+                      tableData={tableData}
+                      pageSummary={pageSummary}
+                      tableConfig={tableConfig}
+                      tabConfig={tabConfig}
+                      payload={payload}
+                      indicesNews={indicesNews}
+                      liveblog={liveblog}
+                      pagePath={pagePath}
+                    />
+                  </>
                 )}
                 {item.key === "faqs" && <IndicesFaqs faqs={indexFaq} />}
               </div>

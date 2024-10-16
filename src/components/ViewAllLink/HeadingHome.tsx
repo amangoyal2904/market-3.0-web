@@ -28,7 +28,7 @@ const HeadingHome = ({ title, url }: any) => {
         <p className={styles.powered}>
           Powered By
           <img
-            src="/marketsweb/img/refinitiv.png"
+            src="https://img.etimg.com/photo/msid-114256957,quality-100/refinitiv.jpg"
             width={88}
             height={22}
             alt="Refinitiv"

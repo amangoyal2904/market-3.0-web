@@ -164,27 +164,33 @@
       height: 40px;
     }
     .stockRplus {
-      background: url("/marketsweb/img/srplusicon.png") no-repeat 0 0;
+      background: url("https://img.etimg.com/photo/msid-114258679,quality-100/srplusicon.jpg")
+        no-repeat 0 0;
       background-size: 100%;
     }
     .marketMood {
-      background: url("/marketsweb/img/marketMood.png") no-repeat 0 0;
+      background: url("https://img.etimg.com/photo/msid-114258692,quality-100/marketMood.jpg")
+        no-repeat 0 0;
       background-size: 100%;
     }
     .stockAnalyzer {
-      background: url("/marketsweb/img/stockAnalyzer.png") no-repeat 0 0;
+      background: url("https://img.etimg.com/photo/msid-114258678,quality-100/stockAnalyzer.jpg")
+        no-repeat 0 0;
       background-size: 100%;
     }
     .inverstmentIdeas {
-      background: url("/marketsweb/img/inverstmentIdeas.png") no-repeat 0 0;
+      background: url("https://img.etimg.com/photo/msid-114258693,quality-100/inverstmentIdeas.jpg")
+        no-repeat 0 0;
       background-size: 100%;
     }
     .epaper {
-      background: url("/marketsweb/img/epaper.png") no-repeat 0 0;
+      background: url("https://img.etimg.com/photo/msid-114258697,quality-100/epaper.jpg")
+        no-repeat 0 0;
       background-size: 100%;
     }
     .etprimeExclusives {
-      background: url("/marketsweb/img/etprimeExclusives.png") no-repeat 0 0;
+      background: url("https://img.etimg.com/photo/msid-114258696,quality-100/etprimeExclusives.jpg")
+        no-repeat 0 0;
       background-size: 100%;
     }
   }
@@ -204,7 +210,8 @@
     top: 0;
     width: 60px;
     height: 10px;
-    background: url("/marketsweb/img/etprimelogo.png") no-repeat 0 0;
+    background: url("https://img.etimg.com/photo/msid-114258695,quality-100/etprimelogo.jpg")
+      no-repeat 0 0;
     background-size: 100%;
   }
   &::before {
@@ -214,7 +221,8 @@
     top: -18px;
     width: 14px;
     height: 70px;
-    background: url("/marketsweb/img/etprimelogoline.png") no-repeat top center;
+    background: url("https://img.etimg.com/photo/msid-114258694,quality-100/etprimelogoline.jpg")
+      no-repeat top center;
     background-size: 100%;
   }
 }
