@@ -12,8 +12,8 @@ import { trackingEvent } from "@/utils/ga";
 import jStorageReact from "jstorage-react";
 
 const useLogin = () => {
-  const { dispatch } = useStateContext();
-
+  const { state, dispatch } = useStateContext();
+  const { isLogin } = state.login;
   const fetchWatchListStocks = async () => {
     const data = await fetchAllWatchListData(
       window.objUser.ssoid,
@@ -31,7 +31,6 @@ const useLogin = () => {
 
   const verifyLoginSuccessCallback = async () => {
     try {
-      fetchWatchListStocks();
       const primeRes = await loadPrimeApiNew();
       if (!!primeRes && primeRes?.code === "200") {
         const resObj = primeRes.data.productDetails.filter((item: any) => {
@@ -176,6 +175,10 @@ const useLogin = () => {
       document.removeEventListener("getUserDetailsFail", authFailCallback);
     };
   }, []);
+
+  useEffect(() => {
+    if (isLogin) fetchWatchListStocks();
+  }, [isLogin]);
 };
 
 export default useLogin;
