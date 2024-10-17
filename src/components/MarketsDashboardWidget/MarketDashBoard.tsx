@@ -236,7 +236,7 @@ function MarketDashBoard(props: propsType) {
         />
       </div>
       {payload.filterType === "watchlist" && !isLogin ? (
-        <Blocker type="loginBlocker" />
+        <Blocker type="watchlitFilterBlocker" />
       ) : (
         <>
           <MarketTable

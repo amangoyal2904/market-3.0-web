@@ -132,7 +132,6 @@ const BigBullPage = async ({ params }: any) => {
   try {
     if (pageType?.page === "homepage") {
       payload = {
-        ssoId: "",
         investorType: pageType?.subCate || "INDIVIDUAL",
         sortBy: "networth",
         orderBy: "DESC",
@@ -160,7 +159,6 @@ const BigBullPage = async ({ params }: any) => {
       );
     } else if (pageType?.page === "allInvestors") {
       payload = {
-        ssoId: "",
         investorType: pageType?.subCate || "INDIVIDUAL",
         sortBy: "networth",
         orderBy: "DESC",
@@ -206,7 +204,6 @@ const BigBullPage = async ({ params }: any) => {
       );
     } else if (pageType?.page === "qtrChanges") {
       payload = {
-        ssoId: "",
         primeFlag: 1,
         investorType: pageType?.subCate || "INDIVIDUAL",
         position: "All",
@@ -257,7 +254,6 @@ const BigBullPage = async ({ params }: any) => {
       );
     } else if (pageType?.page === "recentTransactions") {
       payload = {
-        ssoId: "",
         primeFlag: 1,
         investorType: pageType?.subCate || "INDIVIDUAL",
         position: "All",
@@ -308,7 +304,6 @@ const BigBullPage = async ({ params }: any) => {
       );
     } else if (pageType?.page === "bestPicks") {
       payload = {
-        ssoId: "",
         primeFlag: 1,
         investorType: pageType?.subCate || "INDIVIDUAL",
         position: "All",
@@ -359,7 +354,6 @@ const BigBullPage = async ({ params }: any) => {
       );
     } else if (pageType?.page === "mostHeld") {
       payload = {
-        ssoId: "",
         primeFlag: 1,
         investorType: pageType?.subCate || "INDIVIDUAL",
         position: "All",
@@ -414,7 +408,6 @@ const BigBullPage = async ({ params }: any) => {
       );
     } else if (pageType?.page === "investorhomepage") {
       payload = {
-        ssoId: "",
         primeFlag: 1,
         sharkId: pageType?.expertId,
         filterType: "index",
@@ -443,7 +436,6 @@ const BigBullPage = async ({ params }: any) => {
         pageSummaryInfo,
       };
       const InvertorPorfolioOverviewPayload = {
-        ssoId: "",
         primeFlag: 1,
         sharkId: pageType?.expertId,
         pageSize: 7,
@@ -497,7 +489,6 @@ const BigBullPage = async ({ params }: any) => {
       );
       if (pageType?.slug === "fresh-entry-exit") {
         payload = {
-          ssoId: "",
           primeFlag: 1,
           sharkId: pageType?.expertId,
           qtrFilter: "3M",
@@ -522,7 +513,6 @@ const BigBullPage = async ({ params }: any) => {
           pageData?.datainfo?.entryExitDataInfo?.pageSummaryInfo || {};
       } else if (pageType?.slug === "holdings") {
         payload = {
-          ssoId: "",
           primeFlag: 1,
           sharkId: pageType?.expertId,
           filterType: "index",
@@ -553,7 +543,6 @@ const BigBullPage = async ({ params }: any) => {
           pageData?.datainfo?.holdingsCompanyInfo?.investorIntro?.latestQuartor;
       } else if (pageType?.slug === "change-in-holdings") {
         payload = {
-          ssoId: "",
           primeFlag: 1,
           sharkId: pageType?.expertId,
           qtrFilter: "3M",
@@ -580,7 +569,6 @@ const BigBullPage = async ({ params }: any) => {
             ?.latestQuartor;
       } else if (pageType?.slug === "bulk-block-deals") {
         payload = {
-          ssoId: "",
           primeFlag: 1,
           sharkId: pageType?.expertId,
           filterType: "index",

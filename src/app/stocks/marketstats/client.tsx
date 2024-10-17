@@ -516,7 +516,7 @@ const MarketStats = ({
           </div>
 
           {_payload.filterType === "watchlist" && !isLogin ? (
-            <Blocker type="loginBlocker" />
+            <Blocker type="watchlitFilterBlocker" />
           ) : (
             <MarketTable
               data={_tableData}

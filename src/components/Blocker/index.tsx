@@ -18,6 +18,13 @@ const handleLoginToggle = (): void => {
 };
 
 const blockerList: any = {
+  watchlitFilterBlocker: {
+    id: 1,
+    message: "Please login to view stats based on your watchlist filter.",
+    cta: "Login",
+    action: handleLoginToggle,
+    icon: 107522568,
+  },
   loginBlocker: {
     id: 1,
     message:

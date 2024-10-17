@@ -7,6 +7,8 @@ import BiggBullBestPicksTable from "./BiggBullTable/BestPicks";
 import BiggBullMostHeldTable from "./BiggBullTable/MostHeld";
 import Pagination from "./Pagination";
 import NodataForTable from "./NodataForTable";
+import Blocker from "../Blocker";
+import { useStateContext } from "@/store/StateContext";
 
 const BigBullTableCard = ({
   niftyFilterData,
@@ -30,6 +32,8 @@ const BigBullTableCard = ({
   sortByActive,
   sortByActiveHandler,
 }: any) => {
+  const { state } = useStateContext();
+  const { isLogin } = state.login;
   return (
     <>
       <TopTabs
@@ -95,6 +99,10 @@ const BigBullTableCard = ({
             />
           )}
         </>
+      ) : !!niftyFilter &&
+        niftyFilterData?.indexId === "watchlist" &&
+        !isLogin ? (
+        <Blocker type="watchlitFilterBlocker" />
       ) : (
         <NodataForTable />
       )}
