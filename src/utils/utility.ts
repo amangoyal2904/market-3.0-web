@@ -309,12 +309,18 @@ export const fetchViewTable = async (
 ) => {
   try {
     const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
+    // Check if we are in a browser environment
+    const isBrowser = typeof window !== "undefined";
+    // Fetch ssoid and ticketId from cookies if not provided and we're in the browser
+    const finalSsoid = ssoid || (isBrowser ? getCookie("ssoid") : "");
+    const finalTicketId = ticketId || (isBrowser ? getCookie("TicketId") : "");
+
     const response = await Service.post({
       url: apiUrl,
       headers: {
         "Content-Type": "application/json",
-        ssoid: ssoid || getCookie("ssoid"),
-        ticketId: ticketId || getCookie("TicketId"),
+        ssoid: finalSsoid,
+        ticketId: finalTicketId,
         isprime: isprimeuser,
       },
       cache: "no-store",
