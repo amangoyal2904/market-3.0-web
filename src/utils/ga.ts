@@ -340,6 +340,10 @@ export const updateGtm = (_gtmEventDimension, prevPath) => {
     _gtmEventDimension["referral_url"] =
       window.location.pathname == prevPath ? "" : prevPath;
     _gtmEventDimension["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
+    _gtmEventDimension["numbers_of_stocks_in_watchlist"] = window?.objUser
+      ?.watchlistCount
+      ? window?.objUser?.watchlistCount
+      : "";
     _gtmEventDimension["user_region"] = window?.geoinfo.region_code;
     _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
     _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");

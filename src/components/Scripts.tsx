@@ -33,6 +33,7 @@ declare global {
     ssoWidget?: any;
     verifyLoginSuccess?: any;
     objUser: {
+      watchlistCount?: number;
       ssoid?: any;
       ticketId?: any;
       loginType?: string;
