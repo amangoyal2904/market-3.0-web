@@ -173,7 +173,7 @@ const Card = ({ cardData }: any) => {
             <div className={styles.mainSec}>
               <span className={styles.topHead}>{`M.Cap (Rs. Cr.)`}</span>
               <span className={styles.topHead}>TTM EPS {`(₹)`}</span>
-              <span className={styles.topHead}>TTM EPS</span>
+              <span className={styles.topHead}>TTM PE</span>
               <span className={`${styles.topHead} ${styles.stockScoreSec}`}>
                 <span
                   className={`${styles.scoreWrap} ${
