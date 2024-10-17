@@ -108,7 +108,7 @@ const SliderBanner = ({
                   </div>
                   <div className={styles.imgSec}>
                     <img
-                      src={`https://img.etimg.com/photo/msid-114256952,quality-100/sliderImg1.jpg`}
+                      src={`https://img.etimg.com/photo/msid-114256971,quality-100/et-markets-logo.jpg`}
                       alt="et market logo"
                       width="118"
                       height="23"
@@ -135,7 +135,7 @@ const SliderBanner = ({
                       </div>
                       <div className={styles.rightImg}>
                         <img
-                          src={`https://img.etimg.com/photo/114256952.cms`}
+                          src={`https://img.etimg.com/photo/msid-114256952,quality-100/sliderImg1.jpg`}
                           alt="slider img one"
                           width={310}
                           height={200}
