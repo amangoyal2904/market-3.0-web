@@ -3,8 +3,6 @@ import styles from "./styles.module.scss";
 import { saveStockInWatchList } from "../../utils/utility";
 import { initSSOWidget } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
-import APIS_CONFIG from "../../network/api_config.json";
-import { APP_ENV } from "../../utils/index";
 import { trackingEvent } from "@/utils/ga";
 import toast from "react-hot-toast";
 
@@ -104,7 +102,8 @@ const WatchlistAddition = ({
       toast((t) => (
         <span className="errorToast">
           <span>
-            Watchlist limit reached. Please delete stocks to add more.
+            {` You've reached the limit of stocks in your watchlist! Consider
+            removing some stocks to add new ones.`}
           </span>
           <button onClick={() => toast.dismiss(t.id)}>
             <i className="eticon_cross"></i>
