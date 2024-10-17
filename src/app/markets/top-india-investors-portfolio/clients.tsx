@@ -5,7 +5,6 @@ import BigBullSection from "../../../components/BigBullSection";
 import BigBullTabs from "../../../components/BigBullTabs";
 //import tabsJson from "../../../DataJson/bigbullTabs.json";
 import indiFilter from "../../../DataJson/individualFilter.json";
-import { commonPostAPIHandler } from "../../../utils/screeners";
 import Loader from "@/components/Loader";
 import { useRouter } from "next/navigation";
 import { getBigbullTopTabData } from "@/utils/utility";

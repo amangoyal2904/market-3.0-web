@@ -128,7 +128,7 @@ const Overview: React.FC<Props> = ({
               >
                 {obj.apiType == "recoOnWL" ? (
                   !isLogin ? (
-                    <Blocker type="loginBlocker" />
+                    <Blocker type="watchlitFilterBlocker" />
                   ) : (
                     <Blocker type={"noDataFound"} />
                   )

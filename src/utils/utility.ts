@@ -312,8 +312,9 @@ export const fetchViewTable = async (
     // Check if we are in a browser environment
     const isBrowser = typeof window !== "undefined";
     // Fetch ssoid and ticketId from cookies if not provided and we're in the browser
-    const finalSsoid = ssoid || (isBrowser ? getCookie("ssoid") : "");
-    const finalTicketId = ticketId || (isBrowser ? getCookie("TicketId") : "");
+    const finalSsoid = ssoid || (isBrowser ? getCookie("ssoid") || "" : "");
+    const finalTicketId =
+      ticketId || (isBrowser ? getCookie("TicketId") || "" : "");
 
     const response = await Service.post({
       url: apiUrl,
