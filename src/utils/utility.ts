@@ -304,8 +304,8 @@ export const fetchViewTable = async (
   requestObj: any,
   apiType: any,
   isprimeuser: any,
-  ssoid: any,
-  ticketId: any,
+  ssoid?: any,
+  ticketId?: any,
 ) => {
   try {
     const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
@@ -313,8 +313,8 @@ export const fetchViewTable = async (
       url: apiUrl,
       headers: {
         "Content-Type": "application/json",
-        ssoid: ssoid,
-        ticketId: ticketId,
+        ssoid: ssoid || getCookie("ssoid"),
+        ticketId: ticketId || getCookie("TicketId"),
         isprime: isprimeuser,
       },
       cache: "no-store",
