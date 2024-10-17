@@ -95,25 +95,3 @@
 }
 
 /* Filters Styles */
-.roundBtn {
-  width: fit-content;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  cursor: pointer;
-  border-radius: 15px;
-  border: 1px solid $black;
-  font-size: 12px;
-  line-height: 18px;
-  font-style: normal;
-  font-weight: 600;
-  padding: 3px 10px;
-  white-space: nowrap;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  i {
-    font-size: 18px;
-    margin-right: 4px;
-  }
-}

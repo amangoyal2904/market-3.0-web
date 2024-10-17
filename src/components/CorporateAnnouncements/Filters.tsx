@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import CAApiTypeDropdown from "./DropdownComponent";
 import styles from "./styles.module.scss";
+import CustomDropdown from "../CustomDropdown";
 
 const CorporateAnnouncementFilters = () => {
   const overviewOptions = [
@@ -13,31 +13,17 @@ const CorporateAnnouncementFilters = () => {
     { label: "Last 30 Days", key: "last30" },
     { label: "Last 60 Days", key: "last60" },
   ];
-  const [apiFilterShow, setApiFilterShow] = useState(false);
-  const [apiType, setApiType] = useState(overviewOptions[0]);
-
-  const onApiChangeHandler = (key: string, label: string) => {
-    setApiType({ key: key, label: label });
-    setApiFilterShow(false);
+  const handleDurationFilterChange = (key: string, label: string) => {
+    console.log(key, label);
   };
 
   return (
-    <div className="prel">
-      <span
-        className={`${styles.roundBtn} ${styles.fitlerDay}`}
-        onClick={() => setApiFilterShow(true)}
-      >
-        {apiType.label} <i className="eticon_caret_down"></i>
-      </span>
-      {apiFilterShow && (
-        <CAApiTypeDropdown
-          selectedApiType={overviewOptions[0]}
-          setApiFilterShow={setApiFilterShow}
-          filterHandler={onApiChangeHandler}
-          apiTypeOptions={overviewOptions}
-        />
-      )}
-    </div>
+    <CustomDropdown
+      filterOptions={overviewOptions}
+      onFilterChange={handleDurationFilterChange}
+      filterKey="key"
+      filterLabelKey="label"
+    />
   );
 };
 
