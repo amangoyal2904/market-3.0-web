@@ -29,13 +29,18 @@
   position: relative;
   .closeIcon {
     position: absolute;
-    right: -1px;
-    top: -11px;
-    background: url("/marketsweb/img/modalClose2.svg") no-repeat 0 0;
-    display: inline-block;
+    right: 5px;
+    top: -15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     vertical-align: top;
-    width: 36px;
-    height: 36px;
+    background: #000;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
   }
 }
