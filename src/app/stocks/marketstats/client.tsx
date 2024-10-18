@@ -21,6 +21,7 @@ import TechincalOperands from "@/components/TechincalOperands";
 
 import MarketStatus from "@/components/MarketStatus";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import PrimeBannerExperiment from "@/components/PrimeBannerExperiment";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -455,6 +456,7 @@ const MarketStats = ({
         />
       </div>
       <p className={styles.desc}>{_metaData.desc}</p>
+      {!isPrime && <PrimeBannerExperiment />}
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
           <MarketStatsNav
