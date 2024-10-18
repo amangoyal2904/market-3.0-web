@@ -297,7 +297,9 @@ const CreateScreenerModule = ({
                 <div
                   className={styles.closeIcon}
                   onClick={cancelScreenerCreate}
-                ></div>
+                >
+                  <i className="eticon_cross"></i>
+                </div>
               ) : (
                 ""
               )}

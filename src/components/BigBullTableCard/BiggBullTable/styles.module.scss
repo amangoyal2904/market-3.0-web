@@ -207,16 +207,10 @@
       position: relative;
       color: $green-80;
       &:after {
-        content: "";
-        position: absolute;
-        display: inline-block;
-        vertical-align: top;
-        right: -12px;
-        top: 3px;
-        background: url("/marketsweb/img/uparrow.svg") no-repeat 0 0;
-        height: 11px;
-        width: 8px;
-        background-size: cover;
+        content: "\e951";
+        font-family: var(--font-eticons) !important;
+        font-size: 16px;
+        vertical-align: bottom;
       }
     }
   }
@@ -227,16 +221,10 @@
       position: relative;
       color: $red-60;
       &:after {
-        content: "";
-        position: absolute;
-        display: inline-block;
-        vertical-align: top;
-        right: -12px;
-        top: 3px;
-        background: url("/marketsweb/img/downarrow.svg") no-repeat 0 0;
-        height: 11px;
-        width: 8px;
-        background-size: cover;
+        content: "\e91f";
+        font-family: var(--font-eticons) !important;
+        font-size: 16px;
+        vertical-align: bottom;
       }
     }
   }
