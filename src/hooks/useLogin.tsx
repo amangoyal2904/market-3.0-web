@@ -19,9 +19,6 @@ const useLogin = () => {
       window.objUser.ssoid,
       window.objUser.ticketId,
     );
-    if (!!data) {
-      window.objUser.watchlistCount = data.length;
-    }
     if (data.length > 0) {
       dispatch({
         type: "UPDATE_MSID",
