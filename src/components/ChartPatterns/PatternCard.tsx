@@ -33,7 +33,7 @@ export const PatternCard = ({
 }: PatternCardProps) => {
   const [showTechnicalChart, setShowTechnicalChart] = useState(false);
   const [imageSrc, setImageSrc] = useState(
-    "/marketsweb/img/chart_pattern_placeholder.png",
+    "https://img.etimg.com/photo/msid-114377331,quality-100/chart_pattern_placeholder.jpg",
   );
 
   const defaultWidgetProps: any = {
@@ -201,7 +201,9 @@ export const PatternCard = ({
         loading="lazy"
         onClick={handleImageClick}
         onError={() =>
-          setImageSrc("/marketsmweb/img/chart_pattern_placeholder.png")
+          setImageSrc(
+            "https://img.etimg.com/photo/msid-114377331,quality-100/chart_pattern_placeholder.jpg",
+          )
         }
       />
 
