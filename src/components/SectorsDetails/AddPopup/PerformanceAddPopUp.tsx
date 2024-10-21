@@ -32,11 +32,15 @@ const PerformanceAddPopUp = ({
       <div className={styles.filterWrap} ref={popupRef}>
         <div className={styles.headerBox}>
           <span>Select Sector</span>
-          <span className={styles.closePopUp} onClick={onClose}></span>
+          <span className={styles.closePopUp} onClick={onClose}>
+            <i className="eticon_cross"></i>
+          </span>
         </div>
         <div className={styles.searchSectorBox}>
           <div className={styles.searchIconBox}>
-            <span className={styles.sreachIcon}></span>
+            <span className={styles.sreachIcon}>
+              <i className="eticon_search"></i>
+            </span>
             <input
               type="text"
               placeholder="Search items..."

@@ -188,14 +188,15 @@ const SectorsConstituents = React.memo(
     const updateTableData = async () => {
       const isPrimeUser = getCookie("isprimeuser") === "true";
       const ssoid = getCookie("ssoid");
-
+      const ticketId = getCookie("TicketId");
       try {
-        const responseData: any = await fetchViewTable(
-          _payload,
-          "MARKETSTATS_INTRADAY",
-          isPrimeUser,
-          ssoid,
-        );
+        const responseData: any = await fetchViewTable({
+          requestObj: _payload,
+          apiType: "MARKETSTATS_INTRADAY",
+          isprimeuser: isPrimeUser,
+          ssoid: ssoid,
+          ticketId: ticketId,
+        });
 
         if (responseData) {
           const { dataList = [], pageSummary = {} } = responseData;

@@ -346,6 +346,60 @@ const getLiPath = (router: string, pagePath: string) => {
       showCurrLi: true,
       listItemSchema: "",
     };
+  } else if (router === "/markets/stocks/earnings") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          Earnings
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router === "/markets/stocks/earnings/upcoming-results") {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/stocks/earnings" title="Earnings">
+            Earnings
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router.includes("/markets/stocks/earnings/declared-results/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/stocks/earnings" title="Earnings">
+            Earnings
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router.includes("/markets/stocks/earnings/sector-aggregate/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/stocks/earnings" title="Earnings">
+            Earnings
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
   } else {
     return {};
   }

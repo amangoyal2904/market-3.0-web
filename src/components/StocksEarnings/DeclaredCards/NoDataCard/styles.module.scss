@@ -1,0 +1,23 @@
+@import "@/styles/variables.scss";
+
+.textError {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 600px;
+  margin: 10px auto 20px auto;
+  p {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+  }
+}
+.noDataFound {
+  margin-top: 10px;
+  margin-bottom: 16px;
+  background: url("/marketsweb/img/nodatafound.png") no-repeat 0 0;
+  width: 100px;
+  height: 83px;
+  background-size: 100%;
+}

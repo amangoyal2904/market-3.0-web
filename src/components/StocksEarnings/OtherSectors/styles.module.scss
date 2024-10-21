@@ -1,0 +1,106 @@
+@import "@/styles/variables.scss";
+
+.mainWrap {
+  margin-top: 20px;
+}
+.mainHead {
+  font-size: 32px;
+  font-weight: 700;
+}
+.secSliderWrap {
+  margin-top: 24px;
+  border: solid 1px $gray-80;
+  border-radius: 8px;
+  padding: 0 3px;
+}
+.newsCard {
+  padding: 16px 20px;
+  display: block;
+  .topHeadTxt {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    span {
+      display: inline-block;
+      vertical-align: top;
+      position: relative;
+      &::after {
+        content: "";
+        position: absolute;
+        right: -20px;
+        top: 7px;
+        width: 6px;
+        height: 6px;
+        display: inline-block;
+        vertical-align: top;
+        border-top: solid 1.5px $black;
+        border-right: solid 1.5px $black;
+        transform: rotate(45deg);
+      }
+    }
+  }
+  .mcap {
+    margin-top: 2px;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: var(--font-lato);
+  }
+  .adDecSec {
+    .topTxt {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-lato);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 10px 0 5px 0;
+    }
+
+    .btmSec {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-lato);
+      font-size: 12px;
+      font-weight: 400;
+      padding: 5px 0 5px 0;
+    }
+    .grapSec {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      span {
+        display: inline-block;
+        vertical-align: top;
+        height: 8px;
+        &:first-child {
+          border-top-left-radius: 2px;
+          border-bottom-left-radius: 2px;
+          background: $green-80;
+        }
+        &:nth-of-type(2) {
+          border-top-right-radius: 2px;
+          border-bottom-right-radius: 2px;
+          background: $red-60;
+        }
+      }
+    }
+  }
+  .rday {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    font-family: var(--font-lato);
+    margin-top: 2px;
+    span {
+      display: flex;
+      align-items: center;
+    }
+    .up {
+      color: $green-80;
+    }
+    .down {
+      color: $red-50;
+    }
+  }
+}

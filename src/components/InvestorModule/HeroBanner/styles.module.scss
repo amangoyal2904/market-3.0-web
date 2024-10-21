@@ -1,22 +1,13 @@
 @import "@/styles/variables.scss";
 .topSec {
   a {
-    display: inline-block;
-    vertical-align: top;
+    display: flex;
+    align-items: center;
     text-transform: capitalize;
     position: relative;
-    padding-left: 10px;
-    &::after {
-      content: "";
-      position: absolute;
-      left: 2px;
-      top: 3px;
-      background: url("/marketsweb/img/backarrow.svg") no-repeat 0 0;
-      display: inline-block;
-      vertical-align: top;
-      width: 5px;
-      height: 8px;
-      background-size: cover;
+    font-size: 14px;
+    .icon {
+      font-size: 20px;
     }
   }
 }

@@ -43,10 +43,9 @@ const ScreenerNameViewPopup = ({
         <div className={`moduleWrap ${styles.perWrap}`}>
           <div className={styles.header}>
             Name Your Screener
-            <span
-              className={`${styles.closeIcon}`}
-              onClick={modalCloseHandler}
-            ></span>
+            <span className={`${styles.closeIcon}`} onClick={modalCloseHandler}>
+              <i className="eticon_cross"></i>
+            </span>
           </div>
           <div className={styles.body}>
             <div className={styles.createFormGoup}>

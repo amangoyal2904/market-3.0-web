@@ -1,0 +1,16 @@
+@import "@/styles/variables.scss";
+
+.cardSec {
+  display: flex;
+  .left {
+    width: 200px;
+    margin-top: 24px;
+  }
+  .right {
+    width: calc(100% - 200px);
+  }
+  .fullWidth.right {
+    width: 100%;
+    padding-bottom: 2px;
+  }
+}
