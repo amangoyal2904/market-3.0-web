@@ -94,4 +94,66 @@
   }
 }
 
-/* Filters Styles */
+/* Categories Component */
+.itemLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 100%;
+}
+.categoriesComponent {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+  .searchInput {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin: 15px;
+    width: -webkit-fill-available;
+    box-sizing: border-box;
+    background: #f4f4f4;
+  }
+  .categoryHeading {
+    @extend .itemLabel;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 10px 15px;
+    border: 1px solid #cccccc;
+    border-right: none;
+    border-left: none;
+  }
+  .categoriesList {
+    max-height: 450px;
+    overflow-y: auto;
+    .categoryItem {
+      padding: 10px 15px;
+      border-bottom: 1px dotted #b3b3b3;
+      &:last-child {
+        border: none;
+      }
+      label {
+        @extend .itemLabel;
+        font-size: 12px;
+        font-weight: 600;
+      }
+    }
+  }
+  .stickyFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-top: 1px solid #ccc;
+    button {
+      background: #000;
+      color: #fff;
+      padding: 6px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+  }
+}

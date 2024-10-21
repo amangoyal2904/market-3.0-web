@@ -516,5 +516,9 @@
   "CORPORATE_ACTIONS": {
     "development": "https://etmarketsapis.indiatimes.com/ET_Stats",
     "production": "https://etmarketsapis.indiatimes.com/ET_Stats"
+  },
+  "CORPORATE_CATEGORIES": {
+    "development": "https://etcrypto.indiatimes.com/ET_Cryptocurrency/category",
+    "production": "https://etcrypto.indiatimes.com/ET_Cryptocurrency/category"
   }
 }
