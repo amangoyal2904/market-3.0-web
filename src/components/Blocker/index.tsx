@@ -10,6 +10,7 @@ import { APP_ENV } from "@/utils/index";
 interface propsType {
   type: any;
   updateTableHandler?: any;
+  nodataFound?: any;
   customMessage?: string; // Add the customMessage prop
 }
 
@@ -73,7 +74,7 @@ const blockerList: any = {
 
 const Blocker = (props: propsType) => {
   const [addStockShow, setAddStockShow] = useState(false);
-  const { type, updateTableHandler, customMessage } = props;
+  const { type, updateTableHandler, customMessage, nodataFound } = props;
   const { message, cta, action, icon, id } = blockerList[type] || {};
 
   const moduelClose = () => {
@@ -108,7 +109,13 @@ const Blocker = (props: propsType) => {
             dangerouslySetInnerHTML={{ __html: customMessage }}
           />
         ) : (
-          message && <p dangerouslySetInnerHTML={{ __html: message }} />
+          message && (
+            <p
+              dangerouslySetInnerHTML={{
+                __html: nodataFound !== "" ? nodataFound : message,
+              }}
+            />
+          )
         )}
         {type == "notFound" && (
           <a

@@ -1,6 +1,6 @@
 import Service from "../network/service";
 import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV } from "@/utils";
+import { APP_ENV, getCookie } from "@/utils";
 
 export const createNewScreener = async (bodyParams: any) => {
   const apiUrl = (APIS_CONFIG as any)?.["SaveScreenerAPI"][APP_ENV];
@@ -21,11 +21,13 @@ export const commonPostAPIHandler = async (
   bodyParams: any,
 ) => {
   try {
+    const userSsoId = getCookie("ssoid");
     const apiUrl = (APIS_CONFIG as any)?.[urlPathName][APP_ENV];
     const response: any = await Service.post({
       url: apiUrl,
       headers: {
         "Content-Type": "application/json",
+        ssoid: userSsoId,
       },
       cache: "no-store",
       body: JSON.stringify({ ...bodyParams }),
@@ -39,6 +41,29 @@ export const commonPostAPIHandler = async (
     return response.json();
   } catch (error) {
     console.error("Error in commonPostAPIHandler:", error);
+    throw error; // Rethrow the error to handle it outside of this function
+  }
+};
+
+export const commonGetAPIHandler = async (urlPathName: string, query = "") => {
+  try {
+    const apiUrl = `${(APIS_CONFIG as any)?.[urlPathName][APP_ENV]}${query && query !== "" ? query : ""}`;
+    const response: any = await Service.get({
+      url: apiUrl,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+      params: {},
+    });
+
+    if (!response?.ok) {
+      throw new Error(`Failed to fetch: ${response.statusText}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error in commonGetAPIHandler:", error);
     throw error; // Rethrow the error to handle it outside of this function
   }
 };

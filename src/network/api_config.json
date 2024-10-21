@@ -463,6 +463,38 @@
     "development": "https://etapipre.indiatimes.com/api/mercury/metainfo",
     "production": "https://etpwaapi.economictimes.com/api/mercury/metainfo"
   },
+  "EARNINGS_SUMMARY": {
+    "development": "https://etapi.indiatimes.com/et-screener/earnings-summary",
+    "production": "https://etapi.indiatimes.com/et-screener/earnings-summary"
+  },
+  "SCREENER_CALENDAR": {
+    "development": "https://etapi.indiatimes.com/et-screener/calendar",
+    "production": "https://etapi.indiatimes.com/et-screener/calendar"
+  },
+  "UPCOMING_COMPANIES": {
+    "development": "https://etapi.indiatimes.com/et-screener/upcoming-companies",
+    "production": "https://etapi.indiatimes.com/et-screener/upcoming-companies"
+  },
+  "DECLARED_COMPANIES": {
+    "development": "https://etapi.indiatimes.com/et-screener/declared-companies",
+    "production": "https://etapi.indiatimes.com/et-screener/declared-companies"
+  },
+  "SECTOR_AGGREGATE": {
+    "development": "https://etapi.indiatimes.com/et-screener/sector-aggregate",
+    "production": "https://etapi.indiatimes.com/et-screener/sector-aggregate"
+  },
+  "EARNINGS_SEARCH": {
+    "development": "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep",
+    "production": "https://etsearch.indiatimes.com/etspeeds/etsearchMdata.ep"
+  },
+  "EARNINGS_SCREENERS": {
+    "development": "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataById",
+    "production": "https://screener.indiatimes.com/screener/getScreenerCollectionMasterDataById"
+  },
+  "SECTOR_FAQ": {
+    "development": "https://screener.indiatimes.com/screener/sectorFaq",
+    "production": "https://screener.indiatimes.com/screener/sectorFaq"
+  },
   "SECTORS_LIST": {
     "development": "https://qcbselivefeeds.indiatimes.com/et-screener/sectors-seo-data",
     "production": "https://etapi.indiatimes.com/et-screener/sectors-seo-data"
