@@ -2,6 +2,15 @@ import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import Service from "@/network/service";
 import { getAllShortUrls } from "./marketstats";
+import { fetchViewTable } from "./utility";
+
+interface getCustomViewTableParams {
+  bodyParams: any;
+  apiType: any;
+  isprimeuser: any;
+  ssoid?: any;
+  ticketId?: any;
+}
 
 const IntradayTabOptions = [
   {
@@ -112,28 +121,6 @@ const concatenateAndLowerCase = (
   return concatenatedString;
 };
 
-const fetchViewTable = async (
-  bodyParams: any,
-  isprimeuser: any,
-  ssoid: any,
-  apiType: any,
-) => {
-  const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
-  const response = await Service.post({
-    url: apiUrl,
-    headers: {
-      "Content-Type": "application/json",
-      ssoid: ssoid,
-      isprime: isprimeuser,
-    },
-    cache: "no-store",
-    body: JSON.stringify({ ...bodyParams }),
-    params: {},
-  });
-  const resJson = response?.json();
-  return resJson;
-};
-
 export const getIntradayViewsTab = async () => {
   const apiUrl = `${(APIS_CONFIG as any)?.MARKETSINTRADAY_CUSTOM_TAB[APP_ENV]}`;
   const data = await fetch(apiUrl);
@@ -187,29 +174,30 @@ export const getCustomViewsTab = async ({
   };
 };
 
-export const getCustomViewTable = async (
-  bodyParams: any,
-  isprimeuser: boolean,
-  ssoid: any,
-  apiType: string,
-) => {
-  const responseData = await fetchViewTable(
-    bodyParams,
+export const getCustomViewTable = async ({
+  bodyParams,
+  apiType,
+  isprimeuser,
+  ssoid,
+  ticketId,
+}: getCustomViewTableParams) => {
+  const responseData = await fetchViewTable({
+    requestObj: bodyParams,
     isprimeuser,
-    ssoid,
     apiType,
-  );
+    ssoid,
+    ticketId,
+  });
   let unixDateTime = "";
   let pageSummary = null;
   let tableData = [];
   let tableHeaderData = [];
-  //console.log('____resresponseDataponse', {bodyParams})
 
   if (responseData?.unixDateTime) {
     unixDateTime = responseData.unixDateTime;
   }
 
-  if (responseData?.pageSummary) {
+  if (typeof responseData != "undefined" && responseData.pageSummary) {
     pageSummary = responseData.pageSummary;
   }
 

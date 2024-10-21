@@ -11,6 +11,66 @@ const Eticons = () => {
       <div className={styles.pageContainter}>
         <div className={styles.glyphLeft}>
           <div className={styles.container}>
+            <span className="eticon_chart_pattern"></span>
+            <span className={styles.mls}> eticon_chart_pattern</span>
+          </div>
+        </div>
+        <div className={styles.glyphLeft}>
+          <div className={styles.container}>
+            <span className="eticon_accordion_down"></span>
+            <span className={styles.mls}> eticon_accordion_down</span>
+          </div>
+        </div>
+        <div className={styles.glyphLeft}>
+          <div className={styles.container}>
+            <span className="eticon_accordion_up"></span>
+            <span className={styles.mls}> eticon_accordion_up</span>
+          </div>
+        </div>
+        <div className={styles.glyphLeft}>
+          <div className={styles.container}>
+            <span className="eticon_ai_badge"></span>
+            <span className={styles.mls}> eticon_ai_badge</span>
+          </div>
+        </div>
+        <div className={styles.glyphLeft}>
+          <div className={styles.container}>
+            <span className="eticon_home"></span>
+            <span className={styles.mls}> eticon_home</span>
+          </div>
+        </div>
+        <div className={styles.glyphLeft}>
+          <div className={styles.container}>
+            <span className="eticon_lock_filled"></span>
+            <span className={styles.mls}> eticon_lock_filled</span>
+          </div>
+        </div>
+        <div className={styles.glyphLeft}>
+          <div className={styles.container}>
+            <span className="eticon_pattern_down_red"></span>
+            <span className={styles.mls}> eticon_pattern_down_red</span>
+          </div>
+        </div>
+        <div className={styles.glyphLeft}>
+          <div className={styles.container}>
+            <span className="eticon_pattern_up_green"></span>
+            <span className={styles.mls}> eticon_pattern_up_green</span>
+          </div>
+        </div>
+        <div className={styles.glyphLeft}>
+          <div className={styles.container}>
+            <span className="eticon_switch_to_et"></span>
+            <span className={styles.mls}> eticon_switch_to_et</span>
+          </div>
+        </div>
+        <div className={styles.glyphLeft}>
+          <div className={styles.container}>
+            <span className="eticon_technical_signals"></span>
+            <span className={styles.mls}> eticon_technical_signals</span>
+          </div>
+        </div>
+        <div className={styles.glyphLeft}>
+          <div className={styles.container}>
             <span className="eticon_add"></span>
             <span className={styles.mls}> eticon_add</span>
           </div>

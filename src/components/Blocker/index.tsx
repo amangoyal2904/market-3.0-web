@@ -11,6 +11,7 @@ interface propsType {
   type: any;
   updateTableHandler?: any;
   nodataFound?: any;
+  customMessage?: string; // Add the customMessage prop
 }
 
 const handleLoginToggle = (): void => {
@@ -55,10 +56,25 @@ const blockerList: any = {
     action: "",
     icon: 107522570,
   },
+  noRecentDeals: {
+    id: 6,
+    message: "No recent deals have been made by the investor",
+    cta: "",
+    action: "",
+    icon: 107522565,
+  },
+  apiFailed: {
+    id: 7,
+    message: "Something Went Wrong!!",
+    cta: "",
+    action: "",
+    icon: 107522570,
+  },
 };
+
 const Blocker = (props: propsType) => {
   const [addStockShow, setAddStockShow] = useState(false);
-  const { type, updateTableHandler, nodataFound } = props;
+  const { type, updateTableHandler, customMessage, nodataFound } = props;
   const { message, cta, action, icon, id } = blockerList[type] || {};
 
   const moduelClose = () => {
@@ -87,12 +103,19 @@ const Blocker = (props: propsType) => {
             loading="lazy"
           />
         )}
-        {message && (
-          <p
-            dangerouslySetInnerHTML={{
-              __html: nodataFound !== "" ? nodataFound : message,
-            }}
+        {customMessage ? (
+          <div
+            className={styles.customMessageWrapper} // You can apply your styles here
+            dangerouslySetInnerHTML={{ __html: customMessage }}
           />
+        ) : (
+          message && (
+            <p
+              dangerouslySetInnerHTML={{
+                __html: nodataFound !== "" ? nodataFound : message,
+              }}
+            />
+          )
         )}
         {type == "notFound" && (
           <a

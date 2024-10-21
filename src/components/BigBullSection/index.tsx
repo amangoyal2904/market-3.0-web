@@ -10,7 +10,6 @@ const BigBullSection = ({
   spanTxt = "",
   cartLink = "",
 }: any) => {
-  //console.log({ data, pageSummaryInfo });
   return (
     <>
       <div className={styles.mainCardSec}>

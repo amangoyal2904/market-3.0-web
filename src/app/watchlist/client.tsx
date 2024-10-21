@@ -51,7 +51,7 @@ const WatchListClient = () => {
     title: "You have Successfully created your personalise view",
   });
   const { state } = useStateContext();
-  const { isPrime, isLogin, ssoid } = state.login;
+  const { isPrime, isLogin, ssoid, ticketId } = state.login;
   const { currentMarketStatus } = state.marketStatus;
   const config = tableConfig["watchList"];
   const pageSummary = {};
@@ -124,12 +124,13 @@ const WatchListClient = () => {
     const bodyParams = requestPayload;
 
     try {
-      const response = await getCustomViewTable(
+      const response = await getCustomViewTable({
         bodyParams,
-        true,
+        isprimeuser: true,
+        apiType: "MARKETS_CUSTOM_TABLE",
         ssoid,
-        "MARKETS_CUSTOM_TABLE",
-      );
+        ticketId,
+      });
 
       if (response) {
         const {
@@ -170,7 +171,13 @@ const WatchListClient = () => {
       sort: [],
     };
     const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
-      await getCustomViewTable(bodyParams, true, ssoid, "MARKETS_CUSTOM_TABLE");
+      await getCustomViewTable({
+        bodyParams,
+        isprimeuser: true,
+        apiType: "MARKETS_CUSTOM_TABLE",
+        ssoid,
+        ticketId,
+      });
 
     try {
       setTabData(tabData);

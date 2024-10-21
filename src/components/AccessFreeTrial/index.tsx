@@ -7,9 +7,13 @@ import styles from "./styles.module.scss";
 const AccessFreeTrial = () => {
   const [showDialog, setShowDialog] = useState({ show: false, flag: "" });
 
+  const closeDialog = () => {
+    setShowDialog({ show: false, flag: "" });
+    window.location.reload();
+  };
+
   useEffect(() => {
     const dialogStateChange = (e: any) => {
-      console.log(e.detail, "###########");
       setShowDialog({ show: true, flag: e.detail });
     };
 
@@ -19,11 +23,6 @@ const AccessFreeTrial = () => {
       document.removeEventListener("freeTrialStateChange", dialogStateChange);
     };
   }, []);
-
-  const closeDialog = () => {
-    setShowDialog({ show: false, flag: "" });
-    window.location.reload();
-  };
 
   return (
     showDialog?.show && (

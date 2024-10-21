@@ -7,6 +7,7 @@ import {
 } from "@/utils/index";
 import { getCookie } from "@/utils/index";
 import Service from "@/network/service";
+import jStorageReact from "jstorage-react";
 
 const API_SOURCE = 0;
 
@@ -25,6 +26,14 @@ type FiiDiiApiType =
 interface FiiDiiApiParams {
   filterType: string;
   apiType?: string;
+}
+
+interface FetchViewTableParams {
+  requestObj: any;
+  apiType: any;
+  isprimeuser: any;
+  ssoid?: any;
+  ticketId?: any;
 }
 
 const convertJSONToParams = (jsonObject: any) => {
@@ -195,7 +204,7 @@ export const fnGenerateMetaData = (meta?: any) => {
       },
     },
     openGraph: {
-      title: meta?.title,
+      title: `${meta?.title} | The Economic Times`,
       description: meta?.desc,
       url: meta?.pathname,
       siteName: "The Economic Times",
@@ -211,7 +220,7 @@ export const fnGenerateMetaData = (meta?: any) => {
     },
     twitter: {
       card: "summary_large_image",
-      title: meta?.title,
+      title: `${meta?.title} | The Economic Times`,
       description: meta?.desc,
       creator: "@etmarkets",
       images: ["https://img.etimg.com/photo/msid-65498029/et-logo.jpg"],
@@ -294,34 +303,41 @@ export const fetchTabsData = async () => {
   return res;
 };
 
-export const fetchViewTable = async (
-  requestObj: any,
-  apiType: any,
-  isprimeuser: any,
-  ssoid: any,
-) => {
-  try {
-    const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
-    const response = await Service.post({
-      url: apiUrl,
-      headers: {
-        "Content-Type": "application/json",
-        ssoid: ssoid,
-        isprime: isprimeuser,
-      },
-      cache: "no-store",
-      body: JSON.stringify({ ...requestObj }),
-      params: {},
-    });
-    return response?.json();
-  } catch (e) {
-    console.log("error in fetching viewTable data", e);
-    saveLogs({
-      type: "Mercury",
-      res: "error",
-      msg: "Error in fetching viewTable data",
-    });
+export const fetchViewTable = async ({
+  requestObj,
+  apiType,
+  isprimeuser,
+  ssoid,
+  ticketId,
+}: FetchViewTableParams) => {
+  const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
+
+  if (apiType === "MARKETSTATS_TECHNICALS") {
+    delete requestObj.apiType;
   }
+
+  // Check if we are in a browser environment
+  const isBrowser = typeof window !== "undefined";
+
+  // Fetch ssoid and ticketId from cookies if not provided and we're in the browser
+  const finalSsoid = ssoid || (isBrowser ? getCookie("ssoid") || "" : "");
+  const finalTicketId =
+    ticketId || (isBrowser ? getCookie("TicketId") || "" : "");
+
+  const response = await Service.post({
+    url: apiUrl,
+    headers: {
+      "Content-Type": "application/json",
+      isprime: isprimeuser,
+      ssoid: finalSsoid,
+      ticketId: finalTicketId,
+    },
+    cache: "no-store",
+    body: JSON.stringify({ ...requestObj }),
+    params: {},
+  });
+
+  return response?.json();
 };
 
 export const fetchTableData = async (viewId: any, params?: any) => {
@@ -473,9 +489,7 @@ export const saveStockInWatchList = async (followData: any) => {
   } else {
     postBodyData = followData;
   }
-  const apiUrl = isLocalhost
-    ? `${(APIS_CONFIG as any)?.WATCHLISTAPI.addWatchListNextJsAPI[APP_ENV]}`
-    : `${(APIS_CONFIG as any)?.WATCHLISTAPI.addWatchList[APP_ENV]}`;
+  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.addWatchList[APP_ENV]}`;
   const headers = new Headers({
     Authorization: authorization,
     "Content-Type": "application/json",
@@ -538,9 +552,7 @@ export const removeMultipleStockInWatchList = async (followData: any) => {
   } else {
     postBodyData = followData;
   }
-  const apiUrl = isLocalhost
-    ? `${(APIS_CONFIG as any)?.WATCHLISTAPI.multipleWatchListNextJsAPI[APP_ENV]}`
-    : `${(APIS_CONFIG as any)?.WATCHLISTAPI.multipleWatchList[APP_ENV]}`;
+  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.multipleWatchList[APP_ENV]}`;
   const headers = new Headers({
     Authorization: authorization,
     "Content-Type": "application/json",
@@ -1554,8 +1566,6 @@ export const getSectorsOverview = async (indexid: number) => {
 
 export const getPeerSectors = async (indexid: number) => {
   let serviceUrl = `${(APIS_CONFIG as any)?.SECTORS_PEER[APP_ENV]}?sectorIds=${indexid}`;
-
-  console.log("@@@@ serviceUrl", serviceUrl);
   const response = await Service.get({
     url: serviceUrl,
     params: {},
@@ -1578,4 +1588,49 @@ export const getSectorFaqs = async (indexid: number) => {
   });
   const originalJson = await response?.json();
   return originalJson;
+};
+export const getjStorageVal = (keyName: string) => {
+  let value = "";
+  try {
+    value = jStorageReact.get(keyName);
+  } catch (e) {}
+  return value;
+};
+export const appendZero = (num: any) =>
+  num >= 0 && num < 10 ? "0" + num : num;
+export const setPaywallCounts = () => {
+  const dt = dateFormat(new Date(), "%Y%M%d");
+  var prime_key = "et_paywall_" + dt;
+  var prime_count = jStorageReact.get(prime_key) || 0;
+  jStorageReact.set(prime_key, prime_count + 1, {
+    TTL: 30 * 24 * 60 * 60 * 1000,
+  });
+};
+export const fetchPaywallcounts = function () {
+  const dtObject = new Date(),
+    dt =
+      dtObject.getFullYear() +
+      "" +
+      appendZero(dtObject.getMonth() + 1) +
+      "" +
+      appendZero(dtObject.getDate());
+  let paywallViewCountMonth: any = 0;
+  try {
+    let jstorageKeys = jStorageReact.index();
+    jstorageKeys
+      .filter(function (key) {
+        return key.indexOf("et_paywall_") !== -1;
+      })
+      .forEach(function (key) {
+        paywallViewCountMonth += getjStorageVal(key) || 0;
+      });
+  } catch (e) {
+    console.log("error in fetching paywallcount", e);
+  }
+  const paywallViewCountTodayKey = "et_paywall_" + dt;
+  const paywallViewCountToday = getjStorageVal(paywallViewCountTodayKey) || 0;
+  return {
+    paywallViewCountToday,
+    paywallViewCountMonth,
+  };
 };

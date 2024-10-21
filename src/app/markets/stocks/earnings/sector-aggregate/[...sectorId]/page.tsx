@@ -108,12 +108,12 @@ const SectorPage = async (props: any) => {
     unixDateTime,
     payload,
     screenerDetail,
-  } = await getCustomViewTable(
+  } = await getCustomViewTable({
     bodyParams,
     isprimeuser,
     ssoid,
-    "MARKETSTATS_INTRADAY",
-  );
+    apiType: "MARKETSTATS_INTRADAY",
+  });
   const upcoingData = {
     data: "coming soon...",
     sectorSummary: _sectorSummary,

@@ -1,11 +1,10 @@
-import jStorageReact from "jstorage-react";
-
 import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
 import Service from "../network/service";
 import { createPeuuid } from "./utility";
 import service from "../network/service";
 import { getPageName } from "./ga";
+import jStorageReact from "jstorage-react";
 
 declare global {
   interface Window {
@@ -26,9 +25,18 @@ declare global {
 
 declare var ssoWidget: any;
 
-export const APP_ENV =
-  (process.env.NODE_ENV && process.env.NODE_ENV.trim()) || "production";
-// export const APP_ENV = "development";
+const isBrowser = typeof window !== "undefined";
+const isServer = !isBrowser;
+
+const defaultEnv = isServer
+  ? process.env.NEXT_PUBLIC_APP_ENV ||
+    (process.env.NODE_ENV && process.env.NODE_ENV.trim()) ||
+    "production"
+  : window.location.host === "economictimes.indiatimes.com"
+    ? "production"
+    : "development";
+
+export const APP_ENV = defaultEnv;
 
 export const customImageLoader = ({
   src,
@@ -186,8 +194,6 @@ export const verifyLogin = () => {
       window.objUser.afterCheckUserLoginStatus = true;
       setUserData();
     } else {
-      console.log("failure");
-      //generateFpid(false);
       window.objUser.afterCheckUserLoginStatus = false;
       ssoLoginWidget();
     }
@@ -206,7 +212,7 @@ export const setUserData = () => {
       window.objUser.info = response.data;
       window.objUser.ssoid = response.data.ssoid;
     } else {
-      console.log("failure");
+      console.warn("getUserDetails failed");
     }
 
     const getUserDetailsStatus = new Event(
@@ -287,10 +293,6 @@ export const initSSOWidget = () => {
             : "891351984915-kodsh6b9vik3h6ue008fh8jgfstageh6.apps.googleusercontent.com",
       },
       {
-        type: "Facebook",
-        clientId: "424450167700259",
-      },
-      {
         type: "Apple",
         clientId: "com.economictimes.login",
       },
@@ -339,7 +341,6 @@ export const initSSOWidget = () => {
 
 export const logout = async () => {
   const ticketId = getCookie("TicketId");
-  console.log("TIcket ID outside Logut---->", getCookie("TicketId"), ticketId);
   window?.jsso?.signOutUser(async function (response: any) {
     if (response.status == "SUCCESS") {
       delete_cookie("OTR");
@@ -348,11 +349,6 @@ export const logout = async () => {
       delete_cookie("pfuuid");
       delete_cookie("peuuid");
       delete_cookie("fpid");
-      console.log(
-        "TIcket ID inside Logut---->",
-        getCookie("TicketId"),
-        ticketId,
-      );
       const url = (APIS_CONFIG as any)["LOGOUT_AUTH_NEW_TOKEN"][APP_ENV],
         oauthClientId = (GLOBAL_CONFIG as any)[APP_ENV]["X_CLIENT_ID"],
         deviceId = getCookie("_grx"),
@@ -379,7 +375,7 @@ export const logout = async () => {
       //const logoutSuccess = await response?.json();
       window.location.reload();
     } else {
-      console.log("failure");
+      console.warn("signOutUser failed");
     }
   });
 };

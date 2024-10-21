@@ -78,6 +78,7 @@ const Indices = async ({ params }: any) => {
   const pageUrl = headersList.get("x-url") || "";
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
   const indexFilterData = await fetchSelectedIndex(params.slug);
   if (indexFilterData.assetId == 0 || indexFilterData.assetId == null) {
     notFound();
@@ -92,7 +93,6 @@ const Indices = async ({ params }: any) => {
   );
 
   const { liveblog } = await getMarketsLiveBlog();
-
   const indicesNews = await getIndicesNews(
     overviewData.assetId,
     overviewData.assetExchangeId,
@@ -102,7 +102,13 @@ const Indices = async ({ params }: any) => {
     L3NavSubItem: "watchlist",
     ssoid,
   });
-  const pagesize = 13;
+  let pagesize;
+  if (pageUrl === "/markets/indices/nifty-50") {
+    pagesize = 50;
+  } else {
+    pagesize = 13;
+  }
+
   const pageno = 1;
   const sort: any = [];
 
@@ -118,7 +124,13 @@ const Indices = async ({ params }: any) => {
   };
 
   const { tableHeaderData, tableData, pageSummary, payload } =
-    await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
+    await getCustomViewTable({
+      bodyParams,
+      isprimeuser: true,
+      apiType: "MARKETSTATS_INTRADAY",
+      ssoid,
+      ticketId,
+    });
   return (
     <Fragment key="indices">
       <IndicesDetailsClient
@@ -138,6 +150,7 @@ const Indices = async ({ params }: any) => {
         indicesNews={indicesNews}
         liveblog={liveblog}
         faq={faqData}
+        pagePath={pageUrl}
       />
       <TextBottom indicesName={overviewData?.assetName} />
       <IndicesQuickLinks />

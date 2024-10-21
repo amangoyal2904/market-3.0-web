@@ -119,12 +119,12 @@ const UpcomingResultsPage = async (props: any) => {
     sort: [],
   };
   const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
-    await getCustomViewTable(
-      bodyPayload,
+    await getCustomViewTable({
+      bodyParams: bodyPayload,
       isprimeuser,
       ssoid,
-      "UPCOMING_COMPANIES",
-    );
+      apiType: "UPCOMING_COMPANIES",
+    });
 
   const upcoingData = {
     data: "coming soon...",

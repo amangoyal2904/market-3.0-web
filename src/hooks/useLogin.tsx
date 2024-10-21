@@ -8,10 +8,10 @@ import {
 } from "@/utils";
 import { fetchAllWatchListData, saveLogs } from "@/utils/utility";
 import { activateFreeTrial } from "@/utils/freeTrail";
-import jStorageReact from "jstorage-react";
 import { trackingEvent } from "@/utils/ga";
+import jStorageReact from "jstorage-react";
 
-const useLogin = (frmapp: string = "", platform: string = "") => {
+const useLogin = () => {
   const { dispatch } = useStateContext();
 
   const fetchWatchListStocks = async () => {
@@ -76,7 +76,6 @@ const useLogin = (frmapp: string = "", platform: string = "") => {
         }
         setCookieToSpecificTime("etprc", oauthAPiRes.prc, 30, 0, 0);
         trackingEvent("user_profile_create", { url: window.location.href });
-
         const freeTrialData = jStorageReact.get("et_freetrial");
         if (freeTrialData?.hitAccessPass) {
           setTimeout(() => {

@@ -40,12 +40,12 @@ const UpcomingTable = ({
     const ssoid = getCookie("ssoid");
 
     try {
-      const responseData: any = await fetchViewTable(
-        _payload,
-        "UPCOMING_COMPANIES",
-        isPrimeUser,
+      const responseData: any = await fetchViewTable({
+        requestObj: _payload,
+        apiType: "UPCOMING_COMPANIES",
+        isprimeuser: isPrimeUser,
         ssoid,
-      );
+      });
 
       if (responseData && Array.isArray(responseData.dataList)) {
         const {

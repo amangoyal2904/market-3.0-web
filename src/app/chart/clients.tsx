@@ -53,7 +53,7 @@ const ChartClient = (defaultWidgetProps: any) => {
     <>
       <Script
         src="/marketsweb/static/v28/datafeeds/udf/dist/bundle.js"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         onReady={() => {
           setIsScriptReady(true);
         }}

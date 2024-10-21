@@ -9,7 +9,6 @@ import { APP_ENV } from "@/utils";
 import { useEffect, useState } from "react";
 import { redirectToPlanPage } from "@/utils/ga";
 import SubscribeBtn from "./SubscribeBtn";
-import nonprimebgImg from "../../../public/img/nonprimebg.png";
 
 const NonPrimeBlockerModule = ({
   oncloseModule,
@@ -20,11 +19,12 @@ const NonPrimeBlockerModule = ({
   const { isLogin, isPrime } = state.login;
   const [ctaTxt, setCtaTxt] = useState("");
   const [text, setText] = useState("");
+  const validAccessPass = freeTrialElegibilty();
+
   const signHandler = () => {
     oncloseModule();
     initSSOWidget();
   };
-  const [validAccessPass, setValidAccessPass] = useState(false);
 
   const getDataFromMetalist = async () => {
     const apiUrl = (APIS_CONFIG as any)?.["DOMAIN"][APP_ENV];
@@ -66,8 +66,6 @@ const NonPrimeBlockerModule = ({
   };
   useEffect(() => {
     getDataFromMetalist();
-    const isValidAccessPass = freeTrialElegibilty();
-    setValidAccessPass(isValidAccessPass);
   }, []);
 
   return (
@@ -76,12 +74,14 @@ const NonPrimeBlockerModule = ({
         <div className={styles.overlay} onClick={oncloseModule}></div>
         <div className={styles.nonPrimeWrap}>
           <div className={styles.header}>
-            <span className={styles.closeIcon} onClick={oncloseModule}></span>
+            <span className={styles.closeIcon} onClick={oncloseModule}>
+              <i className="eticon_cross"></i>
+            </span>
           </div>
           <div className={styles.contentSec}>
             <div className={styles.left}>
               <img
-                src="/marketsweb/img/nonprimebg.png"
+                src="https://img.etimg.com/photo/msid-114258683,quality-100/nonprimebg.jpg"
                 alt="Prime logo"
                 title="Prime logo"
                 width={400}

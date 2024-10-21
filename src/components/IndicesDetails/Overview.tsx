@@ -105,7 +105,7 @@ const IndicesDetailsOverview = React.memo(
             <p
               className={styles.ltp}
               id="lastTradedPrice"
-            >{`₹${formatNumber(overviewData?.lastTradedPrice, 2)}`}</p>
+            >{`${formatNumber(overviewData?.lastTradedPrice, 2)}`}</p>
             <div
               className={`${styles.change} ${trend == "up" ? styles.up : trend == "down" ? styles.down : ""}`}
             >

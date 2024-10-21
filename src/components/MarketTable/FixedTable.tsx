@@ -6,6 +6,7 @@ import { dateFormat } from "@/utils";
 import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { renderIconPaths } from "@/utils/iconUtils";
 const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
   ssr: false,
 });
@@ -29,6 +30,7 @@ const FixedTable = React.memo((props: any) => {
     fixedCol = 3,
     objTracking,
     onRowHover,
+    noSharePriceTitle,
   } = props || {};
   const {
     showFilterInput = true,
@@ -118,13 +120,11 @@ const FixedTable = React.memo((props: any) => {
                   <div className={styles.thead}>
                     <div className={styles.theading}>
                       {isPrime && thead.primeFlag ? (
-                        <Image
-                          src="/marketsweb/img/icon_prime.svg"
-                          width={10}
-                          height={10}
-                          alt="ETPrime"
-                          className={styles.primeIcon}
-                        />
+                        <span className={styles.primeIcon}>
+                          <span className="eticon_prime_logo">
+                            {renderIconPaths("eticon_prime_logo")}
+                          </span>
+                        </span>
                       ) : null}
                       {thead.keyText}
                     </div>
@@ -276,7 +276,7 @@ const FixedTable = React.memo((props: any) => {
                                 ? "_self"
                                 : "_blank"
                             }
-                            title={`${!!tdData.value ? tdData.value : item.assetName}${item.assetType !== "index" ? " Share Price" : ""}`}
+                            title={`${!!tdData.value ? tdData.value : item.assetName}${item.assetType !== "index" && noSharePriceTitle === "yes" ? " Share Price" : ""}`}
                           >
                             {!!tdData.value ? tdData.value : item.assetName}
                           </a>

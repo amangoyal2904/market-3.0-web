@@ -70,7 +70,9 @@ const NameViewComponent = ({
             <span
               className={`refRemoveList ${styles.closeIcon}`}
               onClick={closeNameViewModule}
-            ></span>
+            >
+              <i className="eticon_cross"></i>
+            </span>
           </div>
           <div className={styles.body}>
             <div className={styles.createFormGoup}>

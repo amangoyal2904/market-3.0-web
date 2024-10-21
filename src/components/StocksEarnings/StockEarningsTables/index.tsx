@@ -108,12 +108,12 @@ const StockEarningsTables = ({
     const ssoid = getCookie("ssoid");
 
     try {
-      const responseData: any = await fetchViewTable(
-        _payload,
-        "MARKETSTATS_INTRADAY",
-        isPrimeUser,
+      const responseData: any = await fetchViewTable({
+        requestObj: _payload,
+        apiType: "MARKETSTATS_INTRADAY",
+        isprimeuser: isPrimeUser,
         ssoid,
-      );
+      });
 
       if (responseData && Array.isArray(responseData.dataList)) {
         const {

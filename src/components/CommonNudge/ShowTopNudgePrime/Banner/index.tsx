@@ -1,6 +1,6 @@
-import styles from "./styles.module.scss";
-import { useState, useEffect } from "react";
+import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
 import { redirectToPlanPage } from "@/utils/ga";
+import styles from "./styles.module.scss";
 
 const TopBannerPrimeUser = ({
   bannerType,
@@ -14,6 +14,8 @@ const TopBannerPrimeUser = ({
   crossFrequency,
   closeHandler,
 }: any) => {
+  const validAccessPass = freeTrialElegibilty();
+
   const checkUserType = (value: string) => {
     let lableText = "";
     if (value === "grace_period") {
@@ -52,6 +54,10 @@ const TopBannerPrimeUser = ({
     },
   };
 
+  const planRedirection = () => {
+    validAccessPass ? activateFreeTrial() : redirectToPlanPage(objTracking);
+  };
+
   return (
     <>
       <div
@@ -75,11 +81,8 @@ const TopBannerPrimeUser = ({
           {/* <a className={styles.info_cta} href={buttonLink}>
             {buttonText}
           </a> */}
-          <span
-            className={styles.info_cta}
-            onClick={() => redirectToPlanPage(objTracking)}
-          >
-            {buttonText}
+          <span className={styles.info_cta} onClick={planRedirection}>
+            {validAccessPass ? "Start Free Trial" : buttonText}
           </span>
           {bannerCross === "TRUE" && (
             <span

@@ -7,6 +7,7 @@ import {
   ChartingLibraryWidgetOptions,
   ResolutionString,
 } from "../../../public/static/v28/charting_library/charting_library";
+import ChartClientSave from "./saveChart";
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = headers();
@@ -169,10 +170,12 @@ const Chart = () => {
         "context_menus",
         "go_to_date",
         "edit_buttons_in_legend",
-        "create_volume_indicator_by_default",
         "border_around_the_chart",
         "adaptive_logo",
       );
+      if (savePatternImages == "true") {
+        onlyChart.push("legend_widget");
+      }
     }
 
     return onlyChart;
@@ -206,7 +209,16 @@ const Chart = () => {
     fullscreen: true,
   };
 
-  return (
+  return savePatternImages == "true" ||
+    (patternId != "" && patternId != null) ? (
+    <ChartClientSave
+      {...defaultWidgetProps}
+      patternId={patternId}
+      gaHit="false"
+      chartType={chartType}
+      savePatternImages={savePatternImages}
+    />
+  ) : (
     <ChartClient
       {...defaultWidgetProps}
       patternId={patternId}
