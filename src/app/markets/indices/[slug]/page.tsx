@@ -39,7 +39,7 @@ async function fetchData(assetId: number) {
 
 async function generateMetadata(
   { params }: any,
-  parent: ResolvingMetadata
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const headersList = headers();
   const indexFilterData = await fetchSelectedIndex(params.slug);
@@ -84,18 +84,18 @@ const Indices = async ({ params }: any) => {
     notFound();
   }
   const [overviewData, technicalsData, othersData, faqData] = await fetchData(
-    indexFilterData.assetId
+    indexFilterData.assetId,
   );
 
   const peersData = await getPeerIndices(
     overviewData.assetId,
-    overviewData.assetExchangeId
+    overviewData.assetExchangeId,
   );
 
   const { liveblog } = await getMarketsLiveBlog();
   const indicesNews = await getIndicesNews(
     overviewData.assetId,
-    overviewData.assetExchangeId
+    overviewData.assetExchangeId,
   );
 
   const { tabData, activeViewId } = await getCustomViewsTab({
@@ -124,13 +124,13 @@ const Indices = async ({ params }: any) => {
   };
 
   const { tableHeaderData, tableData, pageSummary, payload } =
-    await getCustomViewTable(
+    await getCustomViewTable({
       bodyParams,
-      true,
+      isprimeuser: true,
+      apiType: "MARKETSTATS_INTRADAY",
       ssoid,
       ticketId,
-      "MARKETSTATS_INTRADAY",
-    );
+    });
   return (
     <Fragment key="indices">
       <IndicesDetailsClient

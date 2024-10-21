@@ -33,12 +33,20 @@ interface FiiDiiApiParams {
   apiType?: string;
 }
 
+interface FetchViewTableParams {
+  requestObj: any;
+  apiType: any;
+  isprimeuser: any;
+  ssoid?: any;
+  ticketId?: any;
+}
+
 const convertJSONToParams = (jsonObject: any) => {
   let paramsArray = [];
   for (let key in jsonObject) {
     if (jsonObject.hasOwnProperty(key)) {
       paramsArray.push(
-        encodeURIComponent(key) + "=" + encodeURIComponent(jsonObject[key]),
+        encodeURIComponent(key) + "=" + encodeURIComponent(jsonObject[key])
       );
     }
   }
@@ -167,7 +175,7 @@ export const durationOptions = [
 export const updateOrAddParamToPath = (
   pathname: any,
   param: any,
-  value: any,
+  value: any
 ) => {
   const url = new URL(window.location.origin + pathname);
   const searchParams = url.searchParams;
@@ -300,43 +308,41 @@ export const fetchTabsData = async () => {
   return res;
 };
 
-export const fetchViewTable = async (
-  requestObj: any,
-  apiType: any,
-  isprimeuser: any,
-  ssoid?: any,
-  ticketId?: any,
-) => {
-  try {
-    const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
-    // Check if we are in a browser environment
-    const isBrowser = typeof window !== "undefined";
-    // Fetch ssoid and ticketId from cookies if not provided and we're in the browser
-    const finalSsoid = ssoid || (isBrowser ? getCookie("ssoid") || "" : "");
-    const finalTicketId =
-      ticketId || (isBrowser ? getCookie("TicketId") || "" : "");
+export const fetchViewTable = async ({
+  requestObj,
+  apiType,
+  isprimeuser,
+  ssoid,
+  ticketId,
+}: FetchViewTableParams) => {
+  const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
 
-    const response = await Service.post({
-      url: apiUrl,
-      headers: {
-        "Content-Type": "application/json",
-        ssoid: finalSsoid,
-        ticketId: finalTicketId,
-        isprime: isprimeuser,
-      },
-      cache: "no-store",
-      body: JSON.stringify({ ...requestObj }),
-      params: {},
-    });
-    return response?.json();
-  } catch (e) {
-    console.log("error in fetching viewTable data", e);
-    saveLogs({
-      type: "Mercury",
-      res: "error",
-      msg: "Error in fetching viewTable data",
-    });
+  if (apiType === "MARKETSTATS_TECHNICALS") {
+    delete requestObj.apiType;
   }
+
+  // Check if we are in a browser environment
+  const isBrowser = typeof window !== "undefined";
+
+  // Fetch ssoid and ticketId from cookies if not provided and we're in the browser
+  const finalSsoid = ssoid || (isBrowser ? getCookie("ssoid") || "" : "");
+  const finalTicketId =
+    ticketId || (isBrowser ? getCookie("TicketId") || "" : "");
+
+  const response = await Service.post({
+    url: apiUrl,
+    headers: {
+      "Content-Type": "application/json",
+      isprime: isprimeuser,
+      ssoid: finalSsoid,
+      ticketId: finalTicketId,
+    },
+    cache: "no-store",
+    body: JSON.stringify({ ...requestObj }),
+    params: {},
+  });
+
+  return response?.json();
 };
 
 export const fetchTableData = async (viewId: any, params?: any) => {
@@ -382,7 +388,7 @@ export const getStockUrl = (
   subType: string = "company",
   fromCurrencyShort: string = "",
   toCurrencyShort: string = "",
-  fno: string = "",
+  fno: string = ""
 ) => {
   if (stockType === "index") {
     return "/markets/indices/" + seoName;
@@ -452,7 +458,7 @@ export const getStockUrl = (
 
 export const fetchAllWatchListData = async (
   ssoid?: string,
-  ticketid?: string,
+  ticketid?: string
 ): Promise<Stock[]> => {
   const Ssoid: string = ssoid || getCookie("ssoid") || "";
   const TicketId: string = ticketid || getCookie("TicketId") || "";
@@ -478,7 +484,7 @@ export const fetchAllWatchListData = async (
             item.stocks.map((stock: any) => ({
               companyId: stock.id,
               companyType: stock.companyType,
-            })),
+            }))
           );
         }
         return acc;
@@ -490,8 +496,8 @@ export const fetchAllWatchListData = async (
           allStocks.map((stock) => [
             `${stock.companyId}-${stock.companyType}`,
             stock,
-          ]),
-        ).values(),
+          ])
+        ).values()
       );
 
       return uniqueStocks;
@@ -604,7 +610,7 @@ export const removePersonalizeViewById = async (viewId: any) => {
 };
 
 export const fetchSelectedIndex = async (
-  seoNameOrIndexId?: string | number,
+  seoNameOrIndexId?: string | number
 ) => {
   try {
     const data = await fetchIndices();
@@ -639,7 +645,7 @@ export const fetchSelectedIndex = async (
 };
 
 export const fetchSelectedFilter = async (
-  seoNameOrIndexId?: string | number,
+  seoNameOrIndexId?: string | number
 ) => {
   try {
     if (seoNameOrIndexId === "watchlist")
@@ -680,7 +686,7 @@ export const fetchSelectedFilter = async (
       foundIndex = allIndices.find(
         (index) =>
           index.indexId === String(seoNameOrIndexId) ||
-          index.seoname === seoNameOrIndexId,
+          index.seoname === seoNameOrIndexId
       );
     }
 
@@ -775,7 +781,7 @@ export const getOverviewData = async (indexid: number, pageno: number) => {
 export const getAdvanceDeclineData = async (
   indexid: number,
   duration: string,
-  pageno: number,
+  pageno: number
 ) => {
   const response = await Service.get({
     url: `${(APIS_CONFIG as any)?.MARKETMOODS_ADVANCEDECLINE[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=100`,
@@ -815,7 +821,7 @@ export const getAdvanceDeclineData = async (
 export const getPeriodicData = async (
   indexid: number,
   duration: string,
-  pageno: number,
+  pageno: number
 ) => {
   const response = await Service.get({
     url: `${(APIS_CONFIG as any)?.MARKETMOODS_PERIODIC[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=100`,
@@ -852,7 +858,7 @@ export const getPeriodicData = async (
 export const getAllIndices = async (
   exchange: string,
   sortField: any,
-  sortOrder: string,
+  sortOrder: string
 ) => {
   try {
     let apiUrl = `${(APIS_CONFIG as any)?.ALLINDICES[APP_ENV]}?exchange=${exchange}`;
@@ -990,7 +996,7 @@ export const getDaywiseActivityData = async () => {
 
 export const getFiiDiiData = async (
   apiType: FiiDiiApiType,
-  params: FiiDiiApiParams,
+  params: FiiDiiApiParams
 ) => {
   const { filterType, apiType: extraApiType } = params;
   let url = `${(APIS_CONFIG as any)?.[apiType][APP_ENV]}?filterType=${filterType}`;
@@ -1184,7 +1190,7 @@ const getExpertIdBigbull = (arr: any) => {
 export const getBigBullPageName = (slugArray: any) => {
   const slug = slugArray.join("-");
   const checkExpertId = slugArray.some((slug: any) =>
-    slug.includes("expertid-"),
+    slug.includes("expertid-")
   );
   // console.log("slugArray", checkExpertId);
   if (slugArray.length === 1 && checkExpertId) {
@@ -1432,7 +1438,7 @@ export const saveLogs = (data: any) => {
         xhr.open("POST", "https://etx.indiatimes.com/log?et=desktop");
         xhr.setRequestHeader(
           "Content-Type",
-          "application/x-www-form-urlencoded",
+          "application/x-www-form-urlencoded"
         );
         xhr.send(logdata);
       } catch (e) {
@@ -1447,7 +1453,7 @@ export const loadScript = (
   src: string,
   async: boolean = true,
   type: string = "text/javascript",
-  position: "head" | "body" = "body",
+  position: "head" | "body" = "body"
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
@@ -1469,7 +1475,7 @@ export const loadScript = (
 export const sendMouseFlowEvent = async (): Promise<void> => {
   try {
     await loadScript(
-      "//cdn.mouseflow.com/projects/81baae85-f91c-464e-ac38-15a987752b7a.js",
+      "//cdn.mouseflow.com/projects/81baae85-f91c-464e-ac38-15a987752b7a.js"
     );
 
     if (typeof window !== "undefined") {
@@ -1498,7 +1504,7 @@ export const fetchSectors = async () => {
   }
 };
 export const fetchSelectedSectors = async (
-  seoNameOrIndexId?: string | number,
+  seoNameOrIndexId?: string | number
 ) => {
   try {
     const data = await fetchSectors();

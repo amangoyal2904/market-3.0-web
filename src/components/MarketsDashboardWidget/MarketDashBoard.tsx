@@ -46,7 +46,7 @@ function MarketDashBoard(props: propsType) {
   const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
   const [dashBoardTableData, setDashBoardTableData] = useState(tableData || []);
   const [dashBoardHeaderData, setDashBoardHeaderData] = useState(
-    tableHeaderData || [],
+    tableHeaderData || []
   );
   const [shortURL, setShortURL] = useState(shortUrl);
   const [activeViewID, setActiveViewID] = useState(activeViewId);
@@ -85,13 +85,13 @@ function MarketDashBoard(props: propsType) {
     const ssoid = getCookie("ssoid");
     const ticketId = getCookie("TicketId");
     try {
-      const responseData: any = await fetchViewTable(
-        { ...payload },
-        "MARKETSTATS_INTRADAY",
-        isPrimeUser,
-        ssoid,
-        ticketId,
-      );
+      const responseData: any = await fetchViewTable({
+        requestObj: { ...payload },
+        apiType: "MARKETSTATS_INTRADAY",
+        isprimeuser: isPrimeUser,
+        ssoid: ssoid,
+        ticketId: ticketId,
+      });
 
       if (responseData) {
         const {
@@ -171,7 +171,7 @@ function MarketDashBoard(props: propsType) {
     setIntradayDurationOptions(durationOptions);
     const selectedDuration = await getSelectedDuration(
       apiType,
-      durationOptions,
+      durationOptions
     );
     setDayFilterData(selectedDuration);
     if (apiType == "gainers" || apiType == "losers") {
@@ -194,7 +194,7 @@ function MarketDashBoard(props: propsType) {
   const updateShortUrl = async () => {
     const pageUrl = `/stocks/marketstats?type=${await getApiType(activeViewID)}${payload.duration ? "&duration=" + payload.duration : ""}${payload.timespan ? "&timespan=" + payload.timespan : ""}&filter=${!!payload?.filterValue[0] ? payload?.filterValue[0] : 2371}`;
     const isExist: any = shortUrlMapping?.find(
-      (item: any) => item.longURL == pageUrl,
+      (item: any) => item.longURL == pageUrl
     );
     const updatedUrl = isExist ? isExist.shortUrl : pageUrl;
     setShortURL(updatedUrl);
@@ -207,7 +207,7 @@ function MarketDashBoard(props: propsType) {
     },
     refeshConfig.marketstats,
     [payload, isPrime, currentMarketStatus, fallbackWebsocket],
-    dashboardRef,
+    dashboardRef
   );
 
   useEffect(() => {

@@ -1,0 +1,23 @@
+.graphWrap {
+  height: 18px;
+  border-bottom: solid 1px #000000;
+  text-align: left;
+  display: inline-block;
+  vertical-align: top;
+  padding: 0 2px;
+  .graphSpan {
+    width: 10px;
+    display: inline-block;
+    vertical-align: bottom;
+    background: rgba(61, 117, 220, 1);
+    &:nth-of-type(2),
+    &:nth-of-type(3),
+    &:nth-of-type(5),
+    &:nth-of-type(7) {
+      background: rgba(147, 178, 236, 1);
+    }
+  }
+  .graphSpan + .graphSpan {
+    margin-left: 4px;
+  }
+}

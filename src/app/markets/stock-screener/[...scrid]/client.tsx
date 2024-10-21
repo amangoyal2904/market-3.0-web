@@ -458,13 +458,13 @@ const StockScreeners = ({
     const ssoid = getCookie("ssoid");
     const ticketId = getCookie("TicketId");
     try {
-      const responseData: any = await fetchViewTable(
-        _payload,
-        "screenerGetViewById",
-        isPrimeUser,
-        ssoid,
-        ticketId,
-      );
+      const responseData: any = await fetchViewTable({
+        requestObj: _payload,
+        apiType: "screenerGetViewById",
+        isprimeuser: isPrimeUser,
+        ssoid: ssoid,
+        ticketId: ticketId,
+      });
 
       if (responseData && Array.isArray(responseData.dataList)) {
         const {

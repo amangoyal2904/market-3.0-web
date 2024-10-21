@@ -86,7 +86,9 @@ const SlickSlider: React.FC<SlickSliderProps> = ({
       setCurrentSlideIndex(newIndex);
     },
     afterChange: (newIndex: any) => {
-      topSpaceClass == "liveStreamPlay" ? onSlideChange(newIndex) : "";
+      topSpaceClass == "liveStreamPlay" || topSpaceClass == "otherSectorEarning"
+        ? onSlideChange(newIndex)
+        : "";
     },
     responsive: responsive,
   };

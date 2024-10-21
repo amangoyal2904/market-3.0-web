@@ -117,7 +117,7 @@ const IndicesDetailsClient = ({
         setScrollByItemClick(false); // Reset flag after scrolling is done
       }, 1000);
     },
-    [scrollToActiveContent, handleScroll]
+    [scrollToActiveContent, handleScroll],
   );
 
   useIntervalApiCall(
@@ -125,7 +125,7 @@ const IndicesDetailsClient = ({
       if (currentMarketStatus === "LIVE") refreshOverviewData();
     },
     refeshConfig.indicesDetail,
-    [currentMarketStatus]
+    [currentMarketStatus],
   );
 
   return (

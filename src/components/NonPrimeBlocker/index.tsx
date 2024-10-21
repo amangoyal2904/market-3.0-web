@@ -74,7 +74,9 @@ const NonPrimeBlockerModule = ({
         <div className={styles.overlay} onClick={oncloseModule}></div>
         <div className={styles.nonPrimeWrap}>
           <div className={styles.header}>
-            <span className={styles.closeIcon} onClick={oncloseModule}></span>
+            <span className={styles.closeIcon} onClick={oncloseModule}>
+              <i className="eticon_cross"></i>
+            </span>
           </div>
           <div className={styles.contentSec}>
             <div className={styles.left}>

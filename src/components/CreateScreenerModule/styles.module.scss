@@ -65,10 +65,8 @@
     vertical-align: top;
     right: 20px;
     top: 16px;
-    background: url("/marketsweb/img/closeIcon.svg") no-repeat 0 0;
     width: 12px;
     height: 12px;
-    background-size: cover;
     cursor: pointer;
   }
   .formGroup {
@@ -123,10 +121,7 @@
     vertical-align: top;
     right: 20px;
     top: 16px;
-    background: url(/img/closeIcon.svg) no-repeat 0 0;
-    width: 12px;
-    height: 12px;
-    background-size: cover;
+    font-size: 18px;
     cursor: pointer;
   }
 }

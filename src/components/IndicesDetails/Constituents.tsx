@@ -96,7 +96,7 @@ const IndicesConstituents = React.memo(
 
     const onPersonalizeHandlerfun = async (
       newActiveId: any = "",
-      mode = "",
+      mode = ""
     ) => {
       if (mode === "update") {
         setModalBodyText({
@@ -142,7 +142,7 @@ const IndicesConstituents = React.memo(
         setPayload((prevPayload: any) => {
           const sortConfig = prevPayload.sort;
           const isFieldSorted = sortConfig.find(
-            (config: any) => config.field === field,
+            (config: any) => config.field === field
           );
           let newSortConfig;
 
@@ -150,7 +150,7 @@ const IndicesConstituents = React.memo(
             newSortConfig = sortConfig.map((config: any) =>
               config.field === field
                 ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
-                : config,
+                : config
             );
           } else {
             newSortConfig = [...sortConfig, { field, order: "DESC" }];
@@ -159,7 +159,7 @@ const IndicesConstituents = React.memo(
           return { ...prevPayload, sort: newSortConfig };
         });
       },
-      [_payload],
+      [_payload]
     );
 
     const onPaginationChange = async (pageNumber: number) => {
@@ -169,7 +169,7 @@ const IndicesConstituents = React.memo(
 
     const sectorFitlerHandlerChange = async (
       sectorid: any,
-      sectorname: any,
+      sectorname: any
     ) => {
       setProcessingLoader(true);
       setResetSort(sectorid);
@@ -182,13 +182,13 @@ const IndicesConstituents = React.memo(
 
     const toasterRemovePersonaliseViewCloseHandlerFun = async (
       value: boolean,
-      data: any,
+      data: any
     ) => {
       console.log(
         "toasterRemovePersonaliseViewCloseHandlerFun",
         value,
         "___data",
-        data,
+        data
       );
       setToasterPersonaliseViewRemove(false);
       if (value && data && data.id && data.id !== "") {
@@ -203,13 +203,13 @@ const IndicesConstituents = React.memo(
       const ssoid = getCookie("ssoid");
       const ticketId = getCookie("TicketId");
       try {
-        const responseData: any = await fetchViewTable(
-          _payload,
-          "MARKETSTATS_INTRADAY",
-          isPrimeUser,
-          ssoid,
-          ticketId,
-        );
+        const responseData: any = await fetchViewTable({
+          requestObj: _payload,
+          apiType: "MARKETSTATS_INTRADAY",
+          isprimeuser: isPrimeUser,
+          ssoid: ssoid,
+          ticketId: ticketId,
+        });
 
         if (responseData) {
           const { dataList = [], pageSummary = {} } = responseData;
@@ -245,7 +245,7 @@ const IndicesConstituents = React.memo(
       },
       refeshConfig.marketstats,
       [_payload, isPrime, currentMarketStatus, fallbackWebsocket],
-      constituentsRef,
+      constituentsRef
     );
 
     useEffect(() => {
@@ -334,7 +334,7 @@ const IndicesConstituents = React.memo(
         )}
       </>
     );
-  },
+  }
 );
 IndicesConstituents.displayName = "IndicesConstituents";
 export default IndicesConstituents;

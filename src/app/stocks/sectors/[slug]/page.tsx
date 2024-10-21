@@ -35,7 +35,7 @@ async function fetchData(assetId: number) {
 
 async function generateMetadata(
   { params }: any,
-  parent: ResolvingMetadata,
+  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const headersList = headers();
   const indexFilterData = await fetchSelectedSectors(params.slug);
@@ -68,7 +68,7 @@ const IndividualSectors = async ({ params }: any) => {
     notFound();
   }
   const [overviewData, othersData, faqData] = await fetchData(
-    indexFilterData.assetId,
+    indexFilterData.assetId
   );
 
   const peersData = await getPeerSectors(overviewData.assetId);
@@ -92,13 +92,13 @@ const IndividualSectors = async ({ params }: any) => {
   };
 
   const { tableHeaderData, tableData, pageSummary, payload } =
-    await getCustomViewTable(
+    await getCustomViewTable({
       bodyParams,
-      true,
+      isprimeuser: true,
+      apiType: "MARKETSTATS_INTRADAY",
       ssoid,
       ticketId,
-      "MARKETSTATS_INTRADAY",
-    );
+    });
   return (
     <Fragment key="Sectors">
       <SectorsDetailsClient

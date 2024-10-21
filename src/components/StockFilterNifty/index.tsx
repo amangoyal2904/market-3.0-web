@@ -72,6 +72,7 @@ export default function StockFilterNifty({
 
   const handleClickOutside = useCallback(
     (event: any) => {
+      console.log("_______event", event);
       if (popupRef.current && !popupRef.current.contains(event.target)) {
         onclick(false);
       }
@@ -113,10 +114,12 @@ export default function StockFilterNifty({
   useEffect(() => {
     if (showFilter) {
       document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("click", handleClickOutside);
       document.addEventListener("keydown", handleEscapeKey);
     }
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
       document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [showFilter, handleClickOutside, handleEscapeKey]);

@@ -240,6 +240,8 @@ export const getPageName = (pageURL = "") => {
     pageName = "Mercury_Screener";
   } else if (pagePathName.includes("/indices")) {
     pageName = "Mercury_Indices";
+  } else if (pagePathName.includes("stocks/earnings")) {
+    pageName = "Mercury_Earnings";
   } else if (pagePathName.includes("/top-india-investors-portfolio/")) {
     pageName = "Mercury_BigBull";
   } else if (pagePathName.includes("/stockreportsplus")) {

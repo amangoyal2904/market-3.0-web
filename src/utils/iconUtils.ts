@@ -51,6 +51,11 @@ export const renderIconPaths = (icon: string) => {
       React.createElement("span", { key: "2", className: "path2" }),
       React.createElement("span", { key: "3", className: "path3" }),
     ],
+    eticon_pdf: [
+      React.createElement("span", { key: "1", className: "path1" }),
+      React.createElement("span", { key: "2", className: "path2" }),
+      React.createElement("span", { key: "3", className: "path3" }),
+    ],
   };
 
   return iconPaths[icon] || null;

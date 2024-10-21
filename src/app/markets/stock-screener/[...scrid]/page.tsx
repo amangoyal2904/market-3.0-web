@@ -47,13 +47,13 @@ export async function generateMetadata(
     filterValue: [],
     screenerId: scrid,
   };
-  const { screenerDetail } = await getCustomViewTable(
+  const { screenerDetail } = await getCustomViewTable({
     bodyParams,
-    isprimeuser,
+    isprimeuser: isprimeuser,
+    apiType: "screenerGetViewById",
     ssoid,
     ticketId,
-    "screenerGetViewById",
-  );
+  });
   //console.log("screenerDetail",screenerDetail)
 
   const seo_title = screenerDetail?.seoTitle || screenerDetail?.name;
@@ -169,13 +169,13 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
     unixDateTime,
     payload,
     screenerDetail,
-  } = await getCustomViewTable(
+  } = await getCustomViewTable({
     bodyParams,
-    isprimeuser,
+    isprimeuser: isprimeuser,
+    apiType: "screenerGetViewById",
     ssoid,
     ticketId,
-    "screenerGetViewById",
-  );
+  });
   //console.log("__bodyParams__", bodyParams);
   const title =
     screenerDetail && screenerDetail?.name ? screenerDetail.name : "";

@@ -154,19 +154,12 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
                 }}
                 customeFun={wathlistFunctionHandler}
               />
-              {/* <span>{item.tagName}</span>
-              {item?.follow === "yes" ? (
-                <span className={styles.removeRemove}></span>
-              ) : (
-                <span className={styles.addRemove}></span>
-              )} */}
             </li>
           );
         })}
       </ul>
     );
   };
-  // console.log('___WatchlistStock',watchlistStock)
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {

@@ -37,7 +37,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata(
   { searchParams, params }: any,
-  parent: ResolvingMetadata,
+  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
@@ -90,7 +90,7 @@ export async function generateMetadata(
     L3NavMenuItem,
     firstOperand,
     operationType,
-    secondOperand,
+    secondOperand
   );
   const seo_title = !!shortUrl ? pageData?.seo_title : metaData[0]?.title;
   const seo_desc = !!shortUrl
@@ -190,20 +190,20 @@ const Technicals = async ({ params, searchParams }: any) => {
     pageno,
   };
   const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
-    await getCustomViewTable(
+    await getCustomViewTable({
       bodyParams,
-      true,
+      isprimeuser: true,
+      apiType: "MARKETSTATS_TECHNICALS",
       ssoid,
       ticketId,
-      "MARKETSTATS_TECHNICALS",
-    );
+    });
 
   const selectedFilter = await fetchSelectedFilter(intFilter);
   const technicalCategory = await getTechincalOperands(
     L3NavMenuItem,
     firstOperand,
     operationType,
-    secondOperand,
+    secondOperand
   );
 
   const title = !!shortUrl ? pageData?.heading : metaData[0]?.title;
@@ -223,7 +223,7 @@ const Technicals = async ({ params, searchParams }: any) => {
     L3NavMenuItem,
     technicalCategory.selectedFilter,
     true,
-    title,
+    title
   );
 
   breadCrumbObj.push({ label: selectedFilter?.name, redirectUrl: "" });

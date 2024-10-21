@@ -33,6 +33,7 @@ interface propsType {
   setUpdateDateTime?: any;
   setFallbackWebsocket?: any;
   socketDataType?: any;
+  nodataFound?: any;
   noSharePriceTitle?: string;
 }
 
@@ -61,6 +62,7 @@ const MarketTable = React.memo((props: propsType) => {
     setUpdateDateTime,
     setFallbackWebsocket = false,
     socketDataType = "",
+    nodataFound = "",
     noSharePriceTitle = "yes",
   } = props || {};
 
@@ -802,6 +804,7 @@ const MarketTable = React.memo((props: propsType) => {
                   ? "noStocks"
                   : "noDataFound"
               }
+              nodataFound={nodataFound}
               updateTableHandler={updateTableHandler}
             />
           )}

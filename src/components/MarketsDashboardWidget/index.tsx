@@ -34,20 +34,20 @@ const MarketsDashboardWidget = async () => {
     pageno,
   };
 
-  const { tableHeaderData, tableData, payload } = await getCustomViewTable(
+  const { tableHeaderData, tableData, payload } = await getCustomViewTable({
     bodyParams,
-    true,
+    isprimeuser: true,
+    apiType: "MARKETSTATS_INTRADAY",
     ssoid,
     ticketId,
-    "MARKETSTATS_INTRADAY",
-  );
+  });
 
   const selectedFilter = await fetchSelectedFilter(intFilter);
   const intradayDurationOptions = await generateIntradayDurations("gainers");
   const pageUrl = "/stocks/marketstats?type=gainers&duration=1D&filter=2371";
   const shortUrlMapping = await getAllShortUrls();
   const isExist: any = shortUrlMapping?.find(
-    (item: any) => item.longURL == pageUrl,
+    (item: any) => item.longURL == pageUrl
   );
   const updatedUrl = isExist ? isExist.shortUrl : pageUrl;
 

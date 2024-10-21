@@ -2,6 +2,15 @@ import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import Service from "@/network/service";
 import { getAllShortUrls } from "./marketstats";
+import { fetchViewTable } from "./utility";
+
+interface getCustomViewTableParams {
+  bodyParams: any;
+  apiType: any;
+  isprimeuser: any;
+  ssoid?: any;
+  ticketId?: any;
+}
 
 const IntradayTabOptions = [
   {
@@ -101,7 +110,7 @@ const fetchTabsData = async ({ type, ssoid }: any) => {
 const concatenateAndLowerCase = (
   param1: string,
   param2: string,
-  param3: any,
+  param3: any
 ): string => {
   if (!isNaN(param3)) {
     param3 = "number";
@@ -112,37 +121,13 @@ const concatenateAndLowerCase = (
   return concatenatedString;
 };
 
-const fetchViewTable = async (
-  bodyParams: any,
-  isprimeuser: any,
-  ssoid: any,
-  ticketId: any,
-  apiType: any,
-) => {
-  const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
-  const response = await Service.post({
-    url: apiUrl,
-    headers: {
-      "Content-Type": "application/json",
-      ssoid: ssoid,
-      ticketId: ticketId,
-      isprime: isprimeuser,
-    },
-    cache: "no-store",
-    body: JSON.stringify({ ...bodyParams }),
-    params: {},
-  });
-  const resJson = response?.json();
-  return resJson;
-};
-
 export const getIntradayViewsTab = async () => {
   const apiUrl = `${(APIS_CONFIG as any)?.MARKETSINTRADAY_CUSTOM_TAB[APP_ENV]}`;
   const data = await fetch(apiUrl);
   const apiresponse = await data.json();
   const tabData = apiresponse.map((item: any) => {
     const localItem = IntradayTabOptions.find(
-      (local) => local.type.toLowerCase() === item.viewType.toLowerCase(),
+      (local) => local.type.toLowerCase() === item.viewType.toLowerCase()
     );
     return {
       ...item,
@@ -173,7 +158,7 @@ export const getCustomViewsTab = async ({
     L3NavSubItem = concatenateAndLowerCase(
       firstOperand,
       operationType,
-      secondOperand,
+      secondOperand
     );
   }
   const tabData = await fetchTabsData({ type: L3NavSubItem, ssoid });
@@ -189,31 +174,30 @@ export const getCustomViewsTab = async ({
   };
 };
 
-export const getCustomViewTable = async (
-  bodyParams: any,
-  isprimeuser: boolean,
-  ssoid: any,
-  ticketId: any,
-  apiType: string,
-) => {
-  const responseData = await fetchViewTable(
-    bodyParams,
+export const getCustomViewTable = async ({
+  bodyParams,
+  apiType,
+  isprimeuser,
+  ssoid,
+  ticketId,
+}: getCustomViewTableParams) => {
+  const responseData = await fetchViewTable({
+    requestObj: bodyParams,
     isprimeuser,
+    apiType,
     ssoid,
     ticketId,
-    apiType,
-  );
+  });
   let unixDateTime = "";
   let pageSummary = null;
   let tableData = [];
   let tableHeaderData = [];
-  //console.log('____resresponseDataponse', {bodyParams})
 
   if (responseData?.unixDateTime) {
     unixDateTime = responseData.unixDateTime;
   }
 
-  if (responseData?.pageSummary) {
+  if (typeof responseData != "undefined" && responseData.pageSummary) {
     pageSummary = responseData.pageSummary;
   }
 
@@ -257,7 +241,7 @@ export const getBreadcrumbObj = async (
   l3NavMenuItem: string,
   l3NavSubItem: any,
   isTechnical: boolean,
-  title: string,
+  title: string
 ) => {
   const shortUrlMapping = await getAllShortUrls();
 
@@ -266,7 +250,7 @@ export const getBreadcrumbObj = async (
     if (navItem.type === l3NavMenuItem) {
       navItem.sub_nav.forEach((subNavItem: any) => {
         const isExist: any = shortUrlMapping?.find(
-          (item: any) => item.longURL == subNavItem.link,
+          (item: any) => item.longURL == subNavItem.link
         );
         const updatedUrl = isExist ? isExist.shortUrl : subNavItem.link;
         if (!isTechnical) {

@@ -26,7 +26,7 @@ import useIntervalApiCall from "@/utils/useIntervalApiCall";
 import toast from "react-hot-toast";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
-  { ssr: false },
+  { ssr: false }
 );
 
 const WatchListClient = () => {
@@ -64,7 +64,7 @@ const WatchListClient = () => {
       setRequestPayload((prevPayload: any) => {
         const sortConfig = prevPayload.sort;
         const isFieldSorted = sortConfig.find(
-          (config: any) => config.field === field,
+          (config: any) => config.field === field
         );
         let newSortConfig;
 
@@ -72,7 +72,7 @@ const WatchListClient = () => {
           newSortConfig = sortConfig.map((config: any) =>
             config.field === field
               ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
-              : config,
+              : config
           );
         } else {
           newSortConfig = [{ field, order: "DESC" }];
@@ -81,7 +81,7 @@ const WatchListClient = () => {
         return { ...prevPayload, sort: newSortConfig };
       });
     },
-    [requestPayload],
+    [requestPayload]
   );
 
   const onTabViewUpdate = async (viewId: any) => {
@@ -126,13 +126,13 @@ const WatchListClient = () => {
     const bodyParams = requestPayload;
 
     try {
-      const response = await getCustomViewTable(
+      const response = await getCustomViewTable({
         bodyParams,
-        true,
+        isprimeuser: true,
+        apiType: "MARKETS_CUSTOM_TABLE",
         ssoid,
         ticketId,
-        "MARKETS_CUSTOM_TABLE",
-      );
+      });
 
       if (response) {
         const {
@@ -173,13 +173,13 @@ const WatchListClient = () => {
       sort: [],
     };
     const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
-      await getCustomViewTable(
+      await getCustomViewTable({
         bodyParams,
-        true,
+        isprimeuser: true,
+        apiType: "MARKETS_CUSTOM_TABLE",
         ssoid,
         ticketId,
-        "MARKETS_CUSTOM_TABLE",
-      );
+      });
 
     try {
       setTabData(tabData);
@@ -203,13 +203,13 @@ const WatchListClient = () => {
   };
   const toasterRemovePersonaliseViewCloseHandlerFun = async (
     value: boolean,
-    data: any,
+    data: any
   ) => {
     console.log(
       "toasterRemovePersonaliseViewCloseHandlerFun",
       value,
       "___data",
-      data,
+      data
     );
     setToasterPersonaliseViewRemove(false);
     if (value && data && data.id && data.id !== "") {
@@ -241,8 +241,8 @@ const WatchListClient = () => {
             !removedStocks.some(
               (removedStock: any) =>
                 removedStock.stock.id === watchlistItem.companyId &&
-                removedStock.stock.companyType === watchlistItem.companyType,
-            ),
+                removedStock.stock.companyType === watchlistItem.companyType
+            )
         );
         dispatch({
           type: "UPDATE_MSID",
@@ -302,7 +302,7 @@ const WatchListClient = () => {
       setUnFollowStocksList((prevList): any => [...prevList, data]);
     } else {
       setUnFollowStocksList((prevList): any =>
-        prevList.filter((item: any) => item.msid !== companyId),
+        prevList.filter((item: any) => item.msid !== companyId)
       );
     }
   };
@@ -332,7 +332,7 @@ const WatchListClient = () => {
         updateTableData();
     },
     refeshConfig.watchlist,
-    [requestPayload, isPrime, currentMarketStatus, fallbackWebsocket],
+    [requestPayload, isPrime, currentMarketStatus, fallbackWebsocket]
   );
 
   return (
