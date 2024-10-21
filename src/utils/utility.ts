@@ -28,6 +28,14 @@ interface FiiDiiApiParams {
   apiType?: string;
 }
 
+interface FetchViewTableParams {
+  requestObj: any;
+  apiType: any;
+  isprimeuser: any;
+  ssoid?: any;
+  ticketId?: any;
+}
+
 const convertJSONToParams = (jsonObject: any) => {
   let paramsArray = [];
   for (let key in jsonObject) {
@@ -295,34 +303,41 @@ export const fetchTabsData = async () => {
   return res;
 };
 
-export const fetchViewTable = async (
-  requestObj: any,
-  apiType: any,
-  isprimeuser: any,
-  ssoid: any,
-) => {
-  try {
-    const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
-    const response = await Service.post({
-      url: apiUrl,
-      headers: {
-        "Content-Type": "application/json",
-        ssoid: ssoid,
-        isprime: isprimeuser,
-      },
-      cache: "no-store",
-      body: JSON.stringify({ ...requestObj }),
-      params: {},
-    });
-    return response?.json();
-  } catch (e) {
-    console.log("error in fetching viewTable data", e);
-    saveLogs({
-      type: "Mercury",
-      res: "error",
-      msg: "Error in fetching viewTable data",
-    });
+export const fetchViewTable = async ({
+  requestObj,
+  apiType,
+  isprimeuser,
+  ssoid,
+  ticketId,
+}: FetchViewTableParams) => {
+  const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
+
+  if (apiType === "MARKETSTATS_TECHNICALS") {
+    delete requestObj.apiType;
   }
+
+  // Check if we are in a browser environment
+  const isBrowser = typeof window !== "undefined";
+
+  // Fetch ssoid and ticketId from cookies if not provided and we're in the browser
+  const finalSsoid = ssoid || (isBrowser ? getCookie("ssoid") || "" : "");
+  const finalTicketId =
+    ticketId || (isBrowser ? getCookie("TicketId") || "" : "");
+
+  const response = await Service.post({
+    url: apiUrl,
+    headers: {
+      "Content-Type": "application/json",
+      isprime: isprimeuser,
+      ssoid: finalSsoid,
+      ticketId: finalTicketId,
+    },
+    cache: "no-store",
+    body: JSON.stringify({ ...requestObj }),
+    params: {},
+  });
+
+  return response?.json();
 };
 
 export const fetchTableData = async (viewId: any, params?: any) => {
