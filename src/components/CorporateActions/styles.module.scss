@@ -78,3 +78,50 @@
     }
   }
 }
+
+/* Table Component */
+.flex {
+  display: flex;
+}
+.customTable {
+  table {
+    width: 100%;
+    margin: 16px 0;
+    tr {
+      width: 100%;
+      th {
+        min-width: 110px;
+        text-align: left;
+        height: 54px;
+        position: relative;
+        padding: 10px 14px;
+        background-color: #f4f4f4;
+        font-weight: 600;
+        color: #4d4d4d;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+      }
+      td {
+        max-width: 150px;
+        padding: 10px 12px;
+        border-right: 1px solid #f4f4f4;
+        border-bottom: 1px solid #ccc;
+        text-align: left;
+        font-size: 14px;
+        font-weight: 600;
+        height: 40px;
+        font-style: normal;
+        line-height: 18px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        .wlIcon {
+          margin-right: 6px;
+        }
+      }
+    }
+  }
+}

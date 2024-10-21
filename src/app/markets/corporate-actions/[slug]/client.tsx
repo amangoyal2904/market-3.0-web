@@ -1,87 +1,145 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+
+import TableComponent from "@/components/CorporateActions/TableComponent";
 import CorporateActionseTabs from "@/components/CorporateActions/Tabs";
-import { getFiiDiiData, getFiiDiiSummaryData } from "@/utils/utility";
-import PageHeaderSection from "@/components/PageHeader";
-import MarketTable from "@/components/MarketTable";
-interface FiiDiiActivitySubPagesClientsProps {
-  // summaryData: any;
-  listData: any;
-  summaryType: string;
-  type: string;
+import { postRequest } from "@/utils/ajaxUtility";
+interface CorporateActionProps {
+  flag: string;
 }
 
-const typeToFunctionMap: {
-  [key: string]: (params: {
-    filterType: string;
-    apiType?: string;
-  }) => Promise<any>;
-} = {
-  "cash-provisional": (params) =>
-    getFiiDiiData("FIIDII_CASHPROVISIONAL", params),
-  "fii-cash": (params) => getFiiDiiData("FIIDII_FIICASH", params),
-  "fii-fno": (params) => getFiiDiiData("FIIDII_FANDOCASH", params),
-  "mf-cash": (params) => getFiiDiiData("FIIDII_MFCASH", params),
+const ENDPOINT_MAPPING = {
+  dividend: {
+    ep: "CORPORATE_ACTIONS_DIVIDEND",
+    headers: [
+      { keyText: "Stock Name", keyId: "companyName", watchlist: true },
+      {
+        keyText: "Announced on",
+        keyId: "announcementDateLong",
+        sort: true,
+        type: "date",
+      },
+      { keyText: "Type", keyId: "dividendType" },
+      { keyText: "Dividend %", keyId: "value" },
+      { keyText: "Div./Share", keyId: "current" },
+      { keyText: "Ex-Dividend", keyId: "xdDateLong", sort: true, type: "date" },
+    ],
+  },
+  bonus: {
+    ep: "CORPORATE_ACTIONS_BONUS",
+    headers: [
+      { keyText: "Stock Name", keyId: "companyName", watchlist: true },
+      {
+        keyText: "Announced on",
+        keyId: "dateOfAnnouncementLong",
+        sort: true,
+        type: "date",
+      },
+      { keyText: "Record", keyId: "recordDateLong", type: "date" },
+      { keyText: "Ratio", keyId: "ratio" },
+      { keyText: "Ex-Dividend", keyId: "xbDateLong", sort: true, type: "date" },
+    ],
+  },
+  "board-meetings": {
+    ep: "CORPORATE_ACTIONS_BOARDMEETINGS",
+    headers: [
+      { keyText: "Stock Name", keyId: "companyName", watchlist: true },
+      { keyText: "Agenda", keyId: "purpose", sort: true },
+      { keyText: "Meeting On", keyId: "meetingDateLong", type: "date" },
+    ],
+  },
+  "agm-egm": {
+    ep: "CORPORATE_ACTIONS_AGMEGM",
+    headers: [
+      { keyText: "Stock Name", keyId: "companyName", watchlist: true },
+      { keyText: "Meeting On", keyId: "dateLong", sort: true, type: "date" },
+      { keyText: "Purpose", keyId: "purpose" },
+    ],
+  },
+  splits: {
+    ep: "CORPORATE_ACTIONS_SPLITS",
+    headers: [
+      { keyText: "Stock Name", keyId: "companyName", watchlist: true },
+      { keyText: "Old FV", keyId: "oldFaceValue" },
+      { keyText: "New FV", keyId: "newFaceValue" },
+      {
+        keyText: "Ex-Split",
+        keyId: "dateOfAnnouncementLong",
+        sort: true,
+        type: "date",
+      },
+    ],
+  },
+  rights: {
+    ep: "CORPORATE_ACTIONS_RIGHTS",
+    headers: [
+      { keyText: "Stock Name", keyId: "companyName", watchlist: true },
+      { keyText: "Ratio", keyId: "ratio" },
+      { keyText: "FV", keyId: "faceValueOfferedInstrument" },
+      { keyText: "Premium", keyId: "rightsPremium" },
+      {
+        keyText: "Announced on",
+        keyId: "dateOfAnnouncementLong",
+        sort: true,
+        type: "date",
+      },
+      { keyText: "Record", keyId: "recordDateLong", type: "date" },
+      {
+        keyText: "Ex-Rights",
+        keyId: "recordDateLong",
+        sort: true,
+        type: "date",
+      },
+    ],
+  },
 };
 
-const typeToSummaryParamMap: { [key: string]: string } = {
-  cash: "cash",
-  index: "foindex",
-  stock: "fostock",
-};
-
-const CorporateActionsSubPageClients: React.FC<
-  FiiDiiActivitySubPagesClientsProps
-> = ({ summaryType, type, listData }) => {
-  // , summaryData
-  const [tableData, setTableData] = useState(listData);
-  // const [summary, setSummary] = useState(summaryData);
-  const [filterType, setFilterType] = useState<string>("daily");
-  const [apiType, setApiType] = useState<string>(summaryType);
-  const tableHeaderData = [
-    { keyText: "Stock Name", keyId: "stockName" },
-    { keyText: "Announced on", keyId: "announcedOn" },
-    { keyText: "Type", keyId: "type" },
-    { keyText: "Dividend %", keyId: "dividend" },
-    { keyText: "Div./Share", keyId: "divShare" },
-    { keyText: "Ex-Dividend", keyId: "exDividend" },
-  ];
-
-  const prevFilterType = useRef<string>(filterType);
-  const prevApiType = useRef<string>(summaryType);
+const CorporateActionsClient: React.FC<CorporateActionProps> = ({ flag }) => {
+  const [filterType, setFilterType] = useState<string>("default");
+  const [currPage, setCurrPage] = useState(1);
+  const [tableData, setTableData] = useState([]);
+  const [pagesummary, setPageSummary] = useState({});
 
   useEffect(() => {
-    if (
-      prevFilterType.current !== filterType ||
-      prevApiType.current !== apiType
-    ) {
-      fetchData(type);
-    }
-    if (prevApiType.current !== apiType) {
-      fetchSummaryData();
-    }
-    prevFilterType.current = filterType;
-    prevApiType.current = apiType;
-  }, [filterType, apiType]);
+    fetchData();
+  }, [filterType, flag, currPage]);
 
-  const fetchSummaryData = async () => {
+  const fetchData = async () => {
     try {
-      const summaryParam = typeToSummaryParamMap[apiType];
-      const summaryResponse: any = await getFiiDiiSummaryData(summaryParam);
-      // setSummary(summaryResponse);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const fetchData = async (type: string) => {
-    try {
-      const responseGetter = typeToFunctionMap[type];
-      if (responseGetter) {
-        const response: any = await responseGetter({ filterType, apiType });
-        const { listData } = response.datainfo.data;
-        // setTableData(listData);
+      const filters = {
+        pageNo: currPage,
+        marketcap: "All",
+        filterValue: ["2371"],
+        pageSize: 10,
+        duration: filterType,
+        filterType: "index",
+      };
+      if (flag === "dividend") {
+        filters["filterValue"] = ["14034"];
+        filters["filterType"] = "company";
       }
+
+      const responseGetter = await postRequest(
+        (ENDPOINT_MAPPING as any)[flag]?.ep,
+        filters,
+      );
+
+      if (["rights", "bonus"].includes(flag)) {
+        let data = responseGetter?.searchresult;
+        data.forEach((ele: any) => {
+          ele.ratio = `${ele?.ratioExisting}:${ele?.ratioOffering || ele?.ratioOfferred}`;
+        });
+        setTableData(data);
+      } else {
+        setTableData(responseGetter?.searchresult);
+      }
+      const pageSummery = {
+        pageNo: currPage,
+        pageSize: 10,
+        totalPages: responseGetter?.pagesummary?.totalpages,
+        totalRecords: responseGetter?.pagesummary?.totalRecords,
+      };
+      setPageSummary(pageSummery);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -91,20 +149,23 @@ const CorporateActionsSubPageClients: React.FC<
     setFilterType(filterType);
   };
 
-  const onApiTypeChange = (apiType: string) => {
-    setApiType(apiType);
+  const handlePageChangeHandler = (value: any) => {
+    if (currPage !== value) {
+      setCurrPage(value);
+    }
   };
 
   return (
     <>
-      <CorporateActionseTabs activeTab={type} handleApiType={onApiTypeChange} />
-      {/* <MarketTable
-        data={tableData}
-        setFallbackWebsocket={false}
-        tableHeaders={tableHeaderData}
-      /> */}
+      <CorporateActionseTabs activeTab={flag} />
+      <TableComponent
+        pagesummary={pagesummary}
+        handlePageChange={handlePageChangeHandler}
+        header={(ENDPOINT_MAPPING as any)[flag]?.headers}
+        tableData={tableData}
+      />
     </>
   );
 };
 
-export default CorporateActionsSubPageClients;
+export default CorporateActionsClient;

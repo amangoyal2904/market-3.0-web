@@ -12,25 +12,30 @@ interface Category {
 }
 
 interface CategoriesComponentProps {
+  setSelectedCategories: any;
+  selectedCategories: any;
   categories: Category[];
+  onApply: any;
 }
 
 const CategoriesComponent: React.FC<CategoriesComponentProps> = ({
   categories,
+  onApply,
+  setSelectedCategories,
+  selectedCategories,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [allSelected, setAllSelected] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value.toLowerCase());
   };
 
-  const handleCheckboxChange = (categoryId: number) => {
-    setSelectedCategories((prevSelected) =>
-      prevSelected.includes(categoryId)
-        ? prevSelected.filter((id) => id !== categoryId)
-        : [...prevSelected, categoryId],
+  const handleCheckboxChange = (categoryName: string) => {
+    setSelectedCategories((prevSelected: any) =>
+      prevSelected.includes(categoryName)
+        ? prevSelected.filter((name: any) => categoryName !== categoryName)
+        : [...prevSelected, categoryName],
     );
     if (selectedCategories?.length) {
       setAllSelected(false);
@@ -51,7 +56,7 @@ const CategoriesComponent: React.FC<CategoriesComponentProps> = ({
   };
 
   const applyFun = () => {
-    console.log(selectedCategories, "Selected Cateoghrues");
+    onApply();
   };
 
   return (
@@ -80,8 +85,12 @@ const CategoriesComponent: React.FC<CategoriesComponentProps> = ({
                   {category.categoryName}
                   <input
                     type="checkbox"
-                    checked={selectedCategories.includes(category.id)}
-                    onChange={() => handleCheckboxChange(category.id)}
+                    checked={selectedCategories.includes(
+                      category?.categoryName,
+                    )}
+                    onChange={() =>
+                      handleCheckboxChange(category?.categoryName)
+                    }
                   />
                 </label>
               </div>

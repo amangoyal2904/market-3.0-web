@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
 import Link from "next/link";
-import CAApiTypeDropdown from "./CAApiTypeDropdown";
 import { trackingEvent } from "@/utils/ga";
+import CustomDropdown from "../CustomDropdown";
 
 const tabData = [
   { label: "Dividend", key: "dividend" },
@@ -14,24 +14,19 @@ const tabData = [
 ];
 
 const overviewOptions = [
-  { label: "Cash", key: "FIIDIICash" },
-  { label: "Index F&O", key: "IndexFandO" },
-  { label: "Stock F&O", key: "FIIDIIStockFAndO" },
+  { label: "All Time", key: "all" },
+  { label: "Upcoming", key: "upcoming" },
+  { label: "1 Week", key: "1week" },
+  { label: "1 Month", key: "month" },
+  { label: "3 Month", key: "3month" },
+  { label: "6 Month", key: "6month" },
+  { label: "1 Year", key: "year" },
 ];
 
 const CorporateActionseTabs = React.memo(
-  ({ activeTab, handleApiType }: { activeTab: string; handleApiType: any }) => {
-    const [apiFilterShow, setApiFilterShow] = useState(false);
-    const [apiType, setApiType] = useState(overviewOptions[0]);
-    const onApiChangeHandler = (key: string, label: string) => {
-      trackingEvent("et_push_event", {
-        event_category: "mercury_engagement",
-        event_action: `fiidii_category_filter_applied`,
-        event_label: label,
-      });
-      setApiType({ key: key, label: label });
-      handleApiType(key);
-      setApiFilterShow(false);
+  ({ activeTab }: { activeTab: string }) => {
+    const handleDurationFilterChange = (key: string) => {
+      console.log(key);
     };
 
     return (
@@ -64,28 +59,14 @@ const CorporateActionseTabs = React.memo(
             </li>
           ))}
         </ul>
-        {activeTab === "overview" || activeTab == "fii-fno" ? (
-          <div className="prel">
-            <span
-              className={`${styles.roundBtn} ${styles.fitlerDay}`}
-              onClick={() => setApiFilterShow(true)}
-            >
-              {apiType.label} <i className="eticon_caret_down"></i>
-            </span>
-            {apiFilterShow ? (
-              <CAApiTypeDropdown
-                selectedApiType={apiType}
-                setApiFilterShow={setApiFilterShow}
-                filterHandler={onApiChangeHandler}
-                apiTypeOptions={overviewOptions}
-              />
-            ) : (
-              ""
-            )}
-          </div>
-        ) : (
-          ""
-        )}
+        <div className="prel">
+          <CustomDropdown
+            filterOptions={overviewOptions}
+            onFilterChange={handleDurationFilterChange}
+            filterKey="key"
+            filterLabelKey="label"
+          />
+        </div>
       </div>
     );
   },

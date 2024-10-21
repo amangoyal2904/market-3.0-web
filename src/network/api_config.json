@@ -513,12 +513,36 @@
     "development": "https://etelectionk8s.indiatimes.com/chartpatterns/pattern-filter-list",
     "production": "https://etapi.indiatimes.com/chartpatterns/pattern-filter-list"
   },
-  "CORPORATE_ACTIONS": {
-    "development": "https://etmarketsapis.indiatimes.com/ET_Stats",
-    "production": "https://etmarketsapis.indiatimes.com/ET_Stats"
+  "CORPORATE_ACTIONS_DIVIDEND": {
+    "development": "https://etmarketsapis.indiatimes.com/ET_Stats/dividendnew",
+    "production": "https://etmarketsapis.indiatimes.com/ET_Stats/dividendnew"
+  },
+  "CORPORATE_ACTIONS_BONUS": {
+    "development": "https://etmarketsapis.indiatimes.com/ET_Stats/bonusnew",
+    "production": "https://etmarketsapis.indiatimes.com/ET_Stats/bonusnew"
+  },
+  "CORPORATE_ACTIONS_BOARDMEETINGS": {
+    "development": "https://etmarketsapis.indiatimes.com/ET_Stats/boardMeetingnew",
+    "production": "https://etmarketsapis.indiatimes.com/ET_Stats/boardMeetingnew"
+  },
+  "CORPORATE_ACTIONS_AGMEGM": {
+    "development": "https://etmarketsapis.indiatimes.com/ET_Stats/AGMMeetingnew",
+    "production": "https://etmarketsapis.indiatimes.com/ET_Stats/AGMMeetingnew"
+  },
+  "CORPORATE_ACTIONS_SPLITS": {
+    "development": "https://etmarketsapis.indiatimes.com/ET_Stats/splitnew",
+    "production": "https://etmarketsapis.indiatimes.com/ET_Stats/splitnew"
+  },
+  "CORPORATE_ACTIONS_RIGHTS": {
+    "development": "https://etmarketsapis.indiatimes.com/ET_Stats/rightnew",
+    "production": "https://etmarketsapis.indiatimes.com/ET_Stats/rightnew"
   },
   "CORPORATE_CATEGORIES": {
     "development": "https://etcrypto.indiatimes.com/ET_Cryptocurrency/category",
     "production": "https://etcrypto.indiatimes.com/ET_Cryptocurrency/category"
+  },
+  "CORPORATE_ANNOUNCEMENTS": {
+    "development": "https://etcrypto.indiatimes.com/ET_Cryptocurrency/corporatenews",
+    "production": "https://etcrypto.indiatimes.com/ET_Cryptocurrency/corporatenews"
   }
 }

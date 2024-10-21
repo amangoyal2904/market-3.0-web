@@ -1,21 +1,35 @@
 import { useCallback, useEffect, useState } from "react";
 
-import styles from "./styles.module.scss";
-import CustomDropdown from "../CustomDropdown";
-import { getRequest } from "@/utils/ajaxUtility";
 import CategoriesComponent from "./CategoriesDialog";
+import { getRequest } from "@/utils/ajaxUtility";
+import CustomDropdown from "../CustomDropdown";
+import styles from "./styles.module.scss";
 
-const CorporateAnnouncementFilters = () => {
+interface FilterComponentProps {
+  filters: {
+    duration: string;
+    category: String[];
+  };
+  setFilters: any;
+}
+
+const CorporateAnnouncementFilters: React.FC<FilterComponentProps> = ({
+  setFilters,
+  filters,
+}) => {
   const [categories, setCategories] = useState([]);
+
   const [showCategories, setShowCategories] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const overviewOptions = [
-    { label: "All Time", key: "alltime" },
-    { label: "Today", key: "today" },
-    { label: "Last 3 Days", key: "last3" },
-    { label: "Last 7 Days", key: "last7" },
-    { label: "Last 15 Days", key: "last15" },
-    { label: "Last 30 Days", key: "last30" },
-    { label: "Last 60 Days", key: "last60" },
+    { label: "All Time", key: "all" },
+    { label: "Today", key: "day" },
+    { label: "Last 3 Days", key: "3days" },
+    { label: "Last 7 Days", key: "week" },
+    { label: "Last 15 Days", key: "15days" },
+    { label: "Last 30 Days", key: "month" },
+    { label: "Last 60 Days", key: "2month" },
+    { label: "Last 90 Days", key: "3month" },
   ];
 
   useEffect(() => {
@@ -25,28 +39,48 @@ const CorporateAnnouncementFilters = () => {
   const getCategoriesList = useCallback(async () => {
     const categoriesList: any = await getRequest("CORPORATE_CATEGORIES", {});
     setCategories(categoriesList);
-    // console.log(categoriesList, '#categoriesList#');
   }, []);
 
-  const handleDurationFilterChange = (key: string, label: string) => {
-    console.log(key, label);
+  const handleDurationFilterChange = (key: string) => {
+    setFilters({
+      duration: key,
+      category: selectedCategories,
+    });
   };
 
   const toggleCategories = () => {
     setShowCategories(!showCategories);
   };
 
+  const onApply = () => {
+    setShowCategories(false);
+    setFilters({
+      duration: filters.duration,
+      category: selectedCategories,
+    });
+  };
+
   return (
-    <>
+    <div className={styles.filtersBox}>
       <CustomDropdown
         filterOptions={overviewOptions}
         onFilterChange={handleDurationFilterChange}
         filterKey="key"
         filterLabelKey="label"
       />
-      <span onClick={toggleCategories}>Categories</span>
-      {showCategories && <CategoriesComponent categories={categories} />}
-    </>
+      <div className={styles.categoryBtn} onClick={toggleCategories}>
+        Categories
+        <i className="eticon_caret_down"></i>
+      </div>
+      {showCategories && (
+        <CategoriesComponent
+          onApply={onApply}
+          categories={categories}
+          selectedCategories={selectedCategories}
+          setSelectedCategories={setSelectedCategories}
+        />
+      )}
+    </div>
   );
 };
 
