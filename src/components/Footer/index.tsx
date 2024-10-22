@@ -58,13 +58,13 @@ const Footer = ({ footerData }: any) => {
     return (
       <div className={styles.row}>
         <div className={`copyright ${styles.copyright}`}>
-          Copyright © {new Date().getFullYear()} Bennett, Coleman & Co. Ltd.
-          All rights reserved. For reprint rights:{" "}
+          {`Copyright © ${new Date().getFullYear()} Bennett, Coleman & Co. Ltd.
+          All rights reserved. For reprint rights:`}
           <a
-            data-ga-onclick="Times Syndication Service - href"
             href="https://timescontent.timesgroup.com/"
             target="_blank"
             rel="nofollow"
+            title="Times Syndication Service"
           >
             Times Syndication Service
           </a>
@@ -85,7 +85,7 @@ const Footer = ({ footerData }: any) => {
                 padding: 0 0 0 10px;
 
                 &:hover {
-                  background: 0;
+                  background-color: transparent;
                 }
               }
             }
