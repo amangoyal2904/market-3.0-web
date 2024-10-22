@@ -20,6 +20,7 @@ const Footer = ({ footerData }: any) => {
   const pathName = usePathname();
   const [footerRes, setFooterRes] = useState(footerData);
   const isFirstRender = useRef(true);
+  const [isCCPA, setIsCCPA] = useState(false);
   useEffect(() => {
     async function footerFunc() {
       const footerData = await footerAPIHit(pathName);
@@ -32,6 +33,62 @@ const Footer = ({ footerData }: any) => {
     }
     footerFunc();
   }, [pathName]);
+
+  const handleCCPA = () => {
+    const checkCCPA =
+      window.geoinfo &&
+      window.geoinfo.geolocation == "2" &&
+      window.geoinfo.region_code == "CA";
+    setIsCCPA(checkCCPA);
+  };
+
+  useEffect(() => {
+    document.addEventListener("geoLoaded", handleCCPA);
+    return () => {
+      document.removeEventListener("geoLoaded", handleCCPA);
+    };
+  }, []);
+
+  const copyrightSection = () => {
+    return (
+      <div className={styles.row}>
+        <div className={`copyright ${styles.copyright}`}>
+          Copyright © {new Date().getFullYear()} Bennett, Coleman & Co. Ltd.
+          All rights reserved. For reprint rights:{" "}
+          <a
+            data-ga-onclick="Times Syndication Service - href"
+            href="https://timescontent.timesgroup.com/"
+            target="_blank"
+            rel="nofollow"
+          >
+            Times Syndication Service
+          </a>
+          {isCCPA && (
+            <button id="ot-sdk-btn" className="ot-sdk-show-settings"></button>
+          )}
+        </div>
+
+        <style jsx>{`
+          .copyright {
+            #ot-sdk-btn {
+              &.ot-sdk-show-settings {
+                border: 0;
+                color: #9b9b9b;
+                text-decoration: underline;
+                font-size: 14px;
+                line-height: 1;
+                padding: 0 0 0 10px;
+
+                &:hover {
+                  background: 0;
+                }
+              }
+            }
+          }
+        `}</style>
+      </div>
+    );
+  };
 
   return (
     <div className={styles.footerContainer}>
@@ -414,6 +471,7 @@ const Footer = ({ footerData }: any) => {
           </div>
         </div>
       </footer>
+      {copyrightSection()}
     </div>
   );
 };
