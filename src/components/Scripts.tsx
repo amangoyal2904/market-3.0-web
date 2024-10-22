@@ -234,6 +234,7 @@ const Scripts = () => {
       <Script
         src="https://cdn.cookielaw.org/consent/9c436ed7-68da-4e62-86c3-bc55a27afd97/otSDKStub.js"
         data-domain-script="9c436ed7-68da-4e62-86c3-bc55a27afd97"
+        strategy="lazyOnload"
         onLoad={() => {
           function OptanonWrapper() {}
         }}
