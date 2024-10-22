@@ -48,8 +48,8 @@ const CardsList: React.FC<CardProps> = ({ listData }) => {
   };
 
   return (
-    <>
-      <div>
+    <div className={styles.cardsOuterContainer}>
+      <div className={styles.cardsContainer}>
         {listData?.map((ele) => (
           <div className={styles.card} key={ele?.compid}>
             <div className={styles.cardHeader}>
@@ -105,7 +105,7 @@ const CardsList: React.FC<CardProps> = ({ listData }) => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

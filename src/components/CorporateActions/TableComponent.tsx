@@ -19,10 +19,10 @@ interface TableHeader {
 }
 
 const TableComponent: React.FC<TableProps> = ({
-  header,
-  tableData,
   handlePageChange,
   pagesummary,
+  tableData,
+  header,
 }) => {
   return (
     <div className={styles.customTable}>
@@ -33,11 +33,11 @@ const TableComponent: React.FC<TableProps> = ({
               <th key={ele?.keyId}>
                 {ele?.keyText}
                 {/* {ele.sort && (
-                            <span className={`${styles.sortIcons}`}>
-                                <span className={`eticon_up_arrow`}></span>
-                                <span className={`eticon_down_arrow`}></span>
-                            </span>
-                            )} */}
+                <span className={`${styles.sortIcons}`}>
+                    <span className={`eticon_up_arrow`}></span>
+                    <span className={`eticon_down_arrow`}></span>
+                </span>
+                )} */}
               </th>
             ))}
           </tr>

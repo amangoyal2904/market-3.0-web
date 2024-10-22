@@ -1,26 +1,37 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import CategoriesComponent from "./CategoriesDialog";
 import { getRequest } from "@/utils/ajaxUtility";
 import CustomDropdown from "../CustomDropdown";
 import styles from "./styles.module.scss";
+import StockFilterNifty from "../StockFilterNifty";
 
 interface FilterComponentProps {
   filters: {
     duration: string;
     category: String[];
   };
+  setNiftyFilterData: any;
+  selectedFilter: any;
+  advanceDecline: any;
   setFilters: any;
+  allFilters: any;
+  overview: any;
+  periodic: any;
 }
 
 const CorporateAnnouncementFilters: React.FC<FilterComponentProps> = ({
   setFilters,
   filters,
+  selectedFilter,
+  allFilters,
+  setNiftyFilterData,
 }) => {
   const [categories, setCategories] = useState([]);
-
+  const [showFilter, setShowFilter] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+  const allFilterData = useMemo(() => allFilters, [allFilters]);
   const overviewOptions = [
     { label: "All Time", key: "all" },
     { label: "Today", key: "day" },
@@ -42,10 +53,10 @@ const CorporateAnnouncementFilters: React.FC<FilterComponentProps> = ({
   }, []);
 
   const handleDurationFilterChange = (key: string) => {
-    setFilters({
+    setFilters((prevState: any) => ({
+      ...prevState,
       duration: key,
-      category: selectedCategories,
-    });
+    }));
   };
 
   const toggleCategories = () => {
@@ -54,14 +65,54 @@ const CorporateAnnouncementFilters: React.FC<FilterComponentProps> = ({
 
   const onApply = () => {
     setShowCategories(false);
-    setFilters({
-      duration: filters.duration,
+    setFilters((prevState: any) => ({
+      ...prevState,
       category: selectedCategories,
+    }));
+  };
+
+  const showFilterMenu = useCallback((value: boolean) => {
+    setShowFilter(value);
+  }, []);
+
+  const filterDataChangeHander = async (
+    id: any,
+    name: string,
+    selectedTab: string,
+  ) => {
+    setFilters((prevState: any) => ({
+      ...prevState,
+      filterType: id,
+    }));
+    setShowFilter(false);
+    setNiftyFilterData({
+      name: name,
+      indexId: id,
+      seoname: name,
+      exchange: selectedTab,
     });
   };
 
   return (
     <div className={styles.filtersBox}>
+      <div className={styles.marginlr10}>
+        <span
+          className={`${styles.roundBtn} ${styles.filterNseBse}`}
+          onClick={() => showFilterMenu(true)}
+        >
+          <i className="eticon_filter"></i> {selectedFilter?.name}
+        </span>
+      </div>
+      {showFilter && (
+        <StockFilterNifty
+          data={allFilterData}
+          onclick={showFilterMenu}
+          showFilter={showFilter}
+          valuechange={filterDataChangeHander}
+          selectTab={selectedFilter.exchange}
+          childMenuTabActive={selectedFilter.indexId}
+        />
+      )}
       <CustomDropdown
         filterOptions={overviewOptions}
         onFilterChange={handleDurationFilterChange}

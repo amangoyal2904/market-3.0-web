@@ -1,11 +1,16 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 import TableComponent from "@/components/CorporateActions/TableComponent";
 import CorporateActionseTabs from "@/components/CorporateActions/Tabs";
 import { postRequest } from "@/utils/ajaxUtility";
 interface CorporateActionProps {
   flag: string;
+  selectedFilter: any;
+  advanceDecline: any;
+  allFilters: any;
+  overview: any;
+  periodic: any;
 }
 
 const ENDPOINT_MAPPING = {
@@ -94,34 +99,50 @@ const ENDPOINT_MAPPING = {
   },
 };
 
-const CorporateActionsClient: React.FC<CorporateActionProps> = ({ flag }) => {
-  const [filterType, setFilterType] = useState<string>("default");
+const CorporateActionsClient: React.FC<CorporateActionProps> = ({
+  flag,
+  allFilters,
+  selectedFilter,
+  overview,
+  advanceDecline,
+  periodic,
+}) => {
+  const [filters, setFilters] = useState({
+    filterType: "index",
+    duration: "default",
+  });
+  const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
+  const [advanceDeclineData, setAdvanceDeclineData] =
+    useState<any>(advanceDecline);
+  const [overviewData, setOverviewData] = useState<any>(overview);
+  const [periodicData, setPeriodicData] = useState<any>(periodic);
   const [currPage, setCurrPage] = useState(1);
   const [tableData, setTableData] = useState([]);
   const [pagesummary, setPageSummary] = useState({});
 
   useEffect(() => {
     fetchData();
-  }, [filterType, flag, currPage]);
+  }, [filters, flag, currPage]);
 
   const fetchData = async () => {
     try {
-      const filters = {
+      const reqFilters = {
         pageNo: currPage,
         marketcap: "All",
         filterValue: ["2371"],
         pageSize: 10,
-        duration: filterType,
-        filterType: "index",
+        duration: filters?.duration,
+        filterType: filters?.filterType,
       };
       if (flag === "dividend") {
-        filters["filterValue"] = ["14034"];
-        filters["filterType"] = "company";
+        reqFilters["filterValue"] = ["14034"];
+        reqFilters["filterType"] =
+          filters?.filterType !== "index" ? filters?.filterType : "company";
       }
 
       const responseGetter = await postRequest(
         (ENDPOINT_MAPPING as any)[flag]?.ep,
-        filters,
+        reqFilters,
       );
 
       if (["rights", "bonus"].includes(flag)) {
@@ -145,10 +166,6 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({ flag }) => {
     }
   };
 
-  const onFilterChange = (filterType: string) => {
-    setFilterType(filterType);
-  };
-
   const handlePageChangeHandler = (value: any) => {
     if (currPage !== value) {
       setCurrPage(value);
@@ -157,7 +174,16 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({ flag }) => {
 
   return (
     <>
-      <CorporateActionseTabs activeTab={flag} />
+      <CorporateActionseTabs
+        activeTab={flag}
+        advanceDecline={advanceDeclineData}
+        selectedFilter={niftyFilterData}
+        allFilters={allFilters}
+        overview={overviewData}
+        setNiftyFilterData={setNiftyFilterData}
+        periodic={periodicData}
+        setFilters={setFilters}
+      />
       <TableComponent
         pagesummary={pagesummary}
         handlePageChange={handlePageChangeHandler}

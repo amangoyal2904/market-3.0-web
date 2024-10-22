@@ -1,10 +1,24 @@
-import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { Metadata } from "next";
 
-import { fnGenerateMetaData } from "@/utils/utility";
+import {
+  fetchFilters,
+  fnGenerateMetaData,
+  getAdvanceDeclineData,
+  getOverviewData,
+  getPeriodicData,
+} from "@/utils/utility";
 import CorporateAnnouncementsClient from "./client";
 import PageHeaderSection from "@/components/PageHeader";
+
+async function fetchData(indexId: number) {
+  return Promise.all([
+    getOverviewData(indexId, 1),
+    getAdvanceDeclineData(indexId, "daily", 1),
+    getPeriodicData(indexId, "1M", 1),
+    fetchFilters({}),
+  ]);
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = headers();
@@ -21,12 +35,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const CorporateAnnouncementsPage = async () => {
-  // const responseGetter = typeToFunctionMap[type];
-  // const response: any = await responseGetter();
-
-  /* const summaryParam = typeToSummaryParamMap[type];
-  const summaryResponse: any = await getFiiDiiSummaryData(summaryParam);
-  const summaryData = summaryResponse; */
+  const niftyFilterData = {
+    name: "Nifty 50",
+    indexId: 2369,
+    seoname: "nifty-50",
+    exchange: "nse",
+  };
+  const [overviewData, advanceDeclineData, periodicData, allFilters] =
+    await fetchData(niftyFilterData.indexId);
 
   return (
     <>
@@ -34,7 +50,13 @@ const CorporateAnnouncementsPage = async () => {
         heading="Corporate Announcements"
         description="Stay Ahead with Essential Investor Updates: Track timely company news, press releases, and official announcements impacting your investments."
       />
-      <CorporateAnnouncementsClient />
+      <CorporateAnnouncementsClient
+        advanceDecline={advanceDeclineData}
+        selectedFilter={niftyFilterData}
+        allFilters={allFilters}
+        overview={overviewData}
+        periodic={periodicData}
+      />
     </>
   );
 };

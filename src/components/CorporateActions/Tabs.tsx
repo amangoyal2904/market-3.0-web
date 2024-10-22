@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import styles from "./styles.module.scss";
 import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 import CustomDropdown from "../CustomDropdown";
+import StockFilterNifty from "../StockFilterNifty";
 
 const tabData = [
   { label: "Dividend", key: "dividend" },
@@ -14,7 +15,7 @@ const tabData = [
 ];
 
 const overviewOptions = [
-  { label: "All Time", key: "all" },
+  { label: "All Time", key: "default" },
   { label: "Upcoming", key: "upcoming" },
   { label: "1 Week", key: "1week" },
   { label: "1 Month", key: "month" },
@@ -24,9 +25,54 @@ const overviewOptions = [
 ];
 
 const CorporateActionseTabs = React.memo(
-  ({ activeTab }: { activeTab: string }) => {
-    const handleDurationFilterChange = (key: string) => {
-      console.log(key);
+  ({
+    activeTab,
+    allFilters,
+    selectedFilter,
+    overview,
+    setNiftyFilterData,
+    setFilters,
+    advanceDecline,
+    periodic,
+  }: {
+    activeTab: string;
+    allFilters: any;
+    selectedFilter: any;
+    overview: any;
+    setNiftyFilterData: any;
+    setFilters: any;
+    advanceDecline: any;
+    periodic: any;
+  }) => {
+    const [showFilter, setShowFilter] = useState(false);
+    const allFilterData = useMemo(() => allFilters, [allFilters]);
+    const onDurationChange = (duration: string) => {
+      setFilters((prevState: any) => ({
+        ...prevState,
+        duration,
+      }));
+    };
+
+    const showFilterMenu = useCallback((value: boolean) => {
+      setShowFilter(value);
+    }, []);
+
+    const filterDataChangeHander = async (
+      id: any,
+      name: string,
+      selectedTab: string,
+    ) => {
+      setFilters((prevState: any) => ({
+        ...prevState,
+        filterType: id,
+      }));
+      setShowFilter(false);
+      setNiftyFilterData({
+        name: name,
+        indexId: id,
+        seoname: name,
+        exchange: selectedTab,
+      });
     };
 
     return (
@@ -59,10 +105,28 @@ const CorporateActionseTabs = React.memo(
             </li>
           ))}
         </ul>
-        <div className="prel">
+        <div className={styles.flex}>
+          <div className={styles.marginlr10}>
+            <span
+              className={`${styles.roundBtn} ${styles.filterNseBse}`}
+              onClick={() => showFilterMenu(true)}
+            >
+              <i className="eticon_filter"></i> {selectedFilter?.name}
+            </span>
+          </div>
+          {showFilter && (
+            <StockFilterNifty
+              data={allFilterData}
+              onclick={showFilterMenu}
+              showFilter={showFilter}
+              valuechange={filterDataChangeHander}
+              selectTab={selectedFilter.exchange}
+              childMenuTabActive={selectedFilter.indexId}
+            />
+          )}
           <CustomDropdown
+            onFilterChange={onDurationChange}
             filterOptions={overviewOptions}
-            onFilterChange={handleDurationFilterChange}
             filterKey="key"
             filterLabelKey="label"
           />
