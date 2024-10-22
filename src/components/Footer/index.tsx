@@ -58,8 +58,7 @@ const Footer = ({ footerData }: any) => {
     return (
       <div className={styles.row}>
         <div className={`copyright ${styles.copyright}`}>
-          {`Copyright © ${new Date().getFullYear()} Bennett, Coleman & Co. Ltd.
-          All rights reserved. For reprint rights:`}
+          {`Copyright © ${new Date().getFullYear()} Bennett, Coleman & Co. Ltd. All rights reserved. For reprint rights: `}
           <a
             href="https://timescontent.timesgroup.com/"
             target="_blank"
