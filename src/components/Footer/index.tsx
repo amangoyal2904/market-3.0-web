@@ -35,11 +35,16 @@ const Footer = ({ footerData }: any) => {
   }, [pathName]);
 
   const handleCCPA = () => {
-    const checkCCPA =
-      window.geoinfo &&
-      window.geoinfo.geolocation == "2" &&
-      window.geoinfo.region_code == "CA";
-    setIsCCPA(checkCCPA);
+    try {
+      const checkCCPA =
+        typeof window != "undefined" &&
+        window.geoinfo &&
+        window.geoinfo.geolocation == "2" &&
+        window.geoinfo.region_code == "CA";
+      setIsCCPA(checkCCPA);
+    } catch (err) {
+      console.log("handleCCPA Error: ", err);
+    }
   };
 
   useEffect(() => {
