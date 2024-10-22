@@ -20,6 +20,7 @@ const UpcomingTable = ({
   unixDateTime = new Date(),
   niftyFiftyDataUpdatePayload,
   tabDateTimeStorePayload,
+  queryComanyName,
 }: any) => {
   const [_tableData, setTableData] = useState(tableData);
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
@@ -65,7 +66,6 @@ const UpcomingTable = ({
         setTableData(newTableData);
         setTableHeaderData(newTableHeaderData);
         setPageSummary(pageSummary);
-
         if (newTableData.length === 0) {
           setUpdateDateTime(new Date().getTime());
           setTableData([]);
@@ -112,7 +112,7 @@ const UpcomingTable = ({
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    //console.log("_payload", _payload);
+    console.log("_payload", _payload);
   }, [_payload]);
   // useEffect(() => {
   //   setTableData(data?.dataList || []);
@@ -144,6 +144,10 @@ const UpcomingTable = ({
       setPayload(newPayload);
     }
   }, [tabDateTimeStorePayload]);
+  useEffect(() => {
+    //console.log("queryComanyName effect", tableData)
+    setTableData(tableData);
+  }, [queryComanyName]);
   return (
     <>
       <MarketTable
