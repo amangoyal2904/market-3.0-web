@@ -154,22 +154,20 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
             return (
               <li
                 key={`investEdge_main_${index}`}
-                className={`${styles.mainTab} ${activeTab === tabId ? styles.active : ""}`} // Highlight active tab
-                onClick={() => {
-                  handleTabTracking(item.label);
-                  scrollToSection(item.label); // Scroll on tab click
-                }}
+                className={`${styles.mainTab} ${activeTab === tabId ? styles.active : ""}`}
               >
                 {item.label === "Live Stream" ? (
-                  <Link
-                    href={item.redirectLink}
+                  <a
+                    href={item?.redirectLink}
                     target="_blank"
-                    title={item.label}
+                    title={item?.label}
                   >
-                    {item.label}
-                  </Link>
+                    {item?.label}
+                  </a>
                 ) : (
-                  item.label
+                  <Link href={`/`} title={item?.label}>
+                    {item?.label}
+                  </Link>
                 )}
               </li>
             );
@@ -192,7 +190,7 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
               >
                 <h2 className={styles.catHead}>
                   <a
-                    href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"].list}${item.seoPath}`}
+                    href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"]?.list}${item?.seoPath}`}
                     className={styles.spanTxt}
                   >
                     {item?.label}
