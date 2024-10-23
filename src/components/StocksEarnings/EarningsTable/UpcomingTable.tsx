@@ -82,7 +82,7 @@ const UpcomingTable = ({
   };
   const onPaginationChange = async (pageNumber: number) => {
     setProcessingLoader(true);
-    setPayload({ ..._payload, pageno: pageNumber });
+    setPayload({ ..._payload, pageNo: pageNumber });
   };
   const onServerSideSort = useCallback(
     async (field: any) => {
@@ -104,7 +104,7 @@ const UpcomingTable = ({
           newSortConfig = [...sortConfig, { field, order: "DESC" }];
         }
 
-        return { ...prevPayload, sort: newSortConfig };
+        return { ...prevPayload, sort: newSortConfig, pageNo: 1 };
       });
     },
     [_payload],
@@ -134,14 +134,14 @@ const UpcomingTable = ({
           ? [niftyFiftyDataUpdatePayload?.indexId]
           : [];
       newPayload.filterType = filterType;
-      setPayload(newPayload);
+      setPayload({ ...newPayload, pageNo: 1 });
     }
   }, [niftyFiftyDataUpdatePayload]);
   useEffect(() => {
     if (tabDateTimeStorePayload && tabDateTimeStorePayload !== "") {
       const newPayload: any = { ..._payload };
       newPayload.date = tabDateTimeStorePayload;
-      setPayload(newPayload);
+      setPayload({ ...newPayload, pageNo: 1 });
     }
   }, [tabDateTimeStorePayload]);
   useEffect(() => {
