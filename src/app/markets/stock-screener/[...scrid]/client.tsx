@@ -712,7 +712,12 @@ const StockScreeners = ({
         <p className={styles.desc}>{_metaData.desc}</p>
       )}
 
-      {!isPrime && <PrimeBannerExperiment />}
+      {!isPrime && (
+        <PrimeBannerExperiment
+          pageName="Mercury_Screener"
+          pageId={`screener_${screenerDetail?.seoName}`}
+        />
+      )}
 
       <div className={styles.container}>
         {createModuleScreener ? (

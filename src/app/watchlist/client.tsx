@@ -342,7 +342,12 @@ const WatchListClient = () => {
         stocks price change, stocks percentage change, low &amp; High stocks and
         more.
       </p>
-      {!isPrime && <PrimeBannerExperiment />}
+      {!isPrime && (
+        <PrimeBannerExperiment
+          pageName="Mercury_Watchlist"
+          pageId="watchlist"
+        />
+      )}
       <div className={styles.watclistContainer}>
         {showBlocker ? (
           <Blocker type="loginBlocker" />

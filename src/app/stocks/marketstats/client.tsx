@@ -458,7 +458,12 @@ const MarketStats = ({
         />
       </div>
       <p className={styles.desc}>{_metaData.desc}</p>
-      {!isPrime && <PrimeBannerExperiment />}
+      {!isPrime && (
+        <PrimeBannerExperiment
+          pageName="Mercury_MarketStats"
+          pageId={l3NavMenuItem + "_" + l3NavSubItem}
+        />
+      )}
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
           <MarketStatsNav

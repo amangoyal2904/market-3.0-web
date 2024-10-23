@@ -75,27 +75,7 @@ const getLiPath = (router: string, pagePath: string) => {
         item: { "@id": "/markets/stock-screener" },
       },
     };
-  }
-  // else if (
-  //   router == "/stocks/marketstats/top-gainers" ||
-  //   router.includes("/stocks/marketstats/top-gainers/") ||
-  //   router.includes("/stocks/marketstats/top-gainers?") ||
-  //   router == "/stocks/marketstats-technicals/golden-cross" ||
-  //   router.includes("/stocks/marketstats-technicals/golden-cross/") ||
-  //   router.includes("/stocks/marketstats-technicals/golden-cross?")
-  // ) {
-  //   return {
-  //     showNextLi: false,
-  //     currentLiNode: (
-  //       <li>
-  //         <span className="eticon_caret_right"></span>Stocks
-  //       </li>
-  //     ),
-  //     showCurrLi: true,
-  //     listItemSchema: "",
-  //   };
-  // }
-  else if (
+  } else if (
     router.includes("/stocks/marketstats/") ||
     pagePath.includes("/stocks/marketstats?")
   ) {
