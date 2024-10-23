@@ -39,7 +39,7 @@ async function fetchData(assetId: number) {
 
 async function generateMetadata(
   { params }: any,
-  parent: ResolvingMetadata
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const headersList = headers();
   const indexFilterData = await fetchSelectedIndex(params.slug);
@@ -78,23 +78,24 @@ const Indices = async ({ params }: any) => {
   const pageUrl = headersList.get("x-url") || "";
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
   const indexFilterData = await fetchSelectedIndex(params.slug);
   if (indexFilterData.assetId == 0 || indexFilterData.assetId == null) {
     notFound();
   }
   const [overviewData, technicalsData, othersData, faqData] = await fetchData(
-    indexFilterData.assetId
+    indexFilterData.assetId,
   );
 
   const peersData = await getPeerIndices(
     overviewData.assetId,
-    overviewData.assetExchangeId
+    overviewData.assetExchangeId,
   );
 
   const { liveblog } = await getMarketsLiveBlog();
   const indicesNews = await getIndicesNews(
     overviewData.assetId,
-    overviewData.assetExchangeId
+    overviewData.assetExchangeId,
   );
 
   const { tabData, activeViewId } = await getCustomViewsTab({
@@ -123,7 +124,13 @@ const Indices = async ({ params }: any) => {
   };
 
   const { tableHeaderData, tableData, pageSummary, payload } =
-    await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
+    await getCustomViewTable({
+      bodyParams,
+      isprimeuser: true,
+      apiType: "MARKETSTATS_INTRADAY",
+      ssoid,
+      ticketId,
+    });
   return (
     <Fragment key="indices">
       <IndicesDetailsClient

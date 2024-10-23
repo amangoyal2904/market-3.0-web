@@ -1,0 +1,21 @@
+@import "@/styles/variables.scss";
+
+.constWRap {
+  margin: 24px 0 40px 0;
+}
+.topHead {
+  font-size: 24px;
+  font-weight: 700;
+  span {
+    font-size: 16px;
+    font-weight: 400;
+    display: inline-block;
+    margin-left: 10px;
+  }
+}
+.topSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+}

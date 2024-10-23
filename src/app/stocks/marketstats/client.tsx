@@ -123,17 +123,19 @@ const MarketStats = ({
   const updateTableData = async () => {
     const isPrimeUser = getCookie("isprimeuser") === "true";
     const ssoid = getCookie("ssoid");
+    const ticketId = getCookie("TicketId");
     const fetchType = isTechnical
       ? "MARKETSTATS_TECHNICALS"
       : "MARKETSTATS_INTRADAY";
 
     try {
-      const responseData: any = await fetchViewTable(
-        _payload,
-        fetchType,
-        isPrimeUser,
-        ssoid,
-      );
+      const responseData: any = await fetchViewTable({
+        requestObj: _payload,
+        apiType: fetchType,
+        isprimeuser: isPrimeUser,
+        ssoid: ssoid,
+        ticketId: ticketId,
+      });
 
       if (responseData) {
         const {

@@ -161,3 +161,14 @@
     overflow: visible;
   }
 }
+
+.copyright {
+  text-align: center;
+  height: 50px;
+  font-size: 14px;
+  margin-top: 10px;
+
+  a {
+    text-decoration: underline;
+  }
+}

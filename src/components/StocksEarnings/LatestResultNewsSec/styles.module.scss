@@ -1,0 +1,37 @@
+@import "@/styles/variables.scss";
+
+.mainNewSec {
+  margin: 40px 0 0 0;
+}
+.mainNewSec.earningSector {
+  background: $salmon-10;
+  padding: 20px;
+}
+.newsCard {
+  margin: 0;
+  display: flex;
+  .topNewsList {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 17px;
+    position: relative;
+    border-right: solid 1px $gray-90;
+    padding-right: 16px;
+    min-height: 75px;
+  }
+  .topNewsTitle {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 18px;
+    color: #000000;
+  }
+  img {
+    vertical-align: top;
+  }
+}
+.topHead {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 700;
+}

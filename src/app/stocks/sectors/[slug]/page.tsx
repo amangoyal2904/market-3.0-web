@@ -61,6 +61,7 @@ const IndividualSectors = async ({ params }: any) => {
   const pageUrl = headersList.get("x-url") || "";
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
   const indexFilterData = await fetchSelectedSectors(params.slug);
   const fetchSectorData = await fetchSectors();
   if (indexFilterData.assetId == 0 || indexFilterData.assetId == null) {
@@ -91,7 +92,13 @@ const IndividualSectors = async ({ params }: any) => {
   };
 
   const { tableHeaderData, tableData, pageSummary, payload } =
-    await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
+    await getCustomViewTable({
+      bodyParams,
+      isprimeuser: true,
+      apiType: "MARKETSTATS_INTRADAY",
+      ssoid,
+      ticketId,
+    });
   return (
     <Fragment key="Sectors">
       <SectorsDetailsClient

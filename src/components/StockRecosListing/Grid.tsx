@@ -9,6 +9,7 @@ import GLOBAL_CONFIG from "@/network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { renderIconPaths } from "@/utils/iconUtils";
 const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
   ssr: false,
 });
@@ -263,13 +264,12 @@ const TableHtml = (props: any) => {
             href={obj.pdfUrl}
             target="_blank"
           >
-            <Image
-              src="/marketsweb/img/icon_pdf.svg"
-              width="20"
-              height="20"
-              alt={`${obj.companyName} View Report`}
+            <span
+              className="eticon_pdf"
               title={`${obj.companyName} View Report`}
-            />
+            >
+              {renderIconPaths("eticon_pdf")}
+            </span>
           </Link>
         </td>
       </>

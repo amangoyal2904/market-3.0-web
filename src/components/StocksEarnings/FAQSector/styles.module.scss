@@ -1,0 +1,67 @@
+@import "@/styles/variables.scss";
+
+.faqWrap {
+  margin-top: 60px;
+  margin-bottom: 40px;
+}
+.topHead {
+  font-size: 32px;
+  font-weight: 700;
+}
+.faqSec {
+  ul {
+    list-style-type: none;
+    .liList {
+      padding: 10px 0;
+      border-bottom: solid 1px #ddd;
+      &.active {
+        .question {
+          .arrow {
+            background: url("/marketsweb/img/accordionUp.png") no-repeat 0 0;
+            background-size: cover;
+          }
+        }
+        .answer {
+          display: block;
+          padding: 12px 0;
+          max-height: 1000px;
+          opacity: 1;
+          ul {
+            padding-left: 20px;
+            margin: 10px 0;
+          }
+        }
+      }
+    }
+    .question {
+      font-size: 18px;
+      font-weight: 600;
+      padding: 10px 0;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .arrow {
+        width: 25px;
+        height: 25px;
+        background: url("/marketsweb/img/accordionDown.png") no-repeat 0 0;
+        background-size: cover;
+      }
+    }
+    .answer {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 18px;
+      padding: 0;
+      display: none;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition:
+        max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        padding 0.3s ease,
+        opacity 0.4s ease;
+    }
+  }
+}

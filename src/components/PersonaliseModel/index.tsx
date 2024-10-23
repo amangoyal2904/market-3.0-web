@@ -163,7 +163,9 @@ const PersonaliseModel = ({
             <span
               className={`${styles.closeIcon}`}
               onClick={closePersonaliseModal}
-            ></span>
+            >
+              <i className="eticon_cross"></i>
+            </span>
           </div>
           <div className={`moduleBody ${styles.body}`}>
             <div className={styles.topHeader}>
@@ -232,9 +234,15 @@ const PersonaliseModel = ({
                                                 }
                                                 checked={list.selectedFlag}
                                               />
-                                              <span
-                                                className={styles.slider}
-                                              ></span>
+                                              <span className={styles.slider}>
+                                                <i
+                                                  className={
+                                                    list.selectedFlag
+                                                      ? "eticon_visible_eye"
+                                                      : "eticon_visible_eye_off"
+                                                  }
+                                                ></i>
+                                              </span>
                                             </label>
                                           </div>
                                         </div>
