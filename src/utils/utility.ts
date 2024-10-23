@@ -17,6 +17,11 @@ declare global {
   }
 }
 
+type Stock = {
+  companyId: string;
+  companyType: string;
+};
+
 type FiiDiiApiType =
   | "FIIDII_CASHPROVISIONAL"
   | "FIIDII_FIICASH"
@@ -41,7 +46,7 @@ const convertJSONToParams = (jsonObject: any) => {
   for (let key in jsonObject) {
     if (jsonObject.hasOwnProperty(key)) {
       paramsArray.push(
-        encodeURIComponent(key) + "=" + encodeURIComponent(jsonObject[key]),
+        encodeURIComponent(key) + "=" + encodeURIComponent(jsonObject[key])
       );
     }
   }
@@ -170,7 +175,7 @@ export const durationOptions = [
 export const updateOrAddParamToPath = (
   pathname: any,
   param: any,
-  value: any,
+  value: any
 ) => {
   const url = new URL(window.location.origin + pathname);
   const searchParams = url.searchParams;
@@ -343,6 +348,7 @@ export const fetchViewTable = async ({
 export const fetchTableData = async (viewId: any, params?: any) => {
   try {
     const ssoid = window.objUser?.ssoid;
+    const ticketId = window.objUser?.ticketId;
     const isprimeuser = getCookie("isprimeuser") == "true" ? true : false;
     const apiUrl = `${(APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE[APP_ENV]}`;
     const response = await Service.post({
@@ -350,6 +356,7 @@ export const fetchTableData = async (viewId: any, params?: any) => {
       headers: {
         "Content-Type": "application/json",
         ssoid: ssoid,
+        ticketId: ticketId,
         isprime: isprimeuser ? isprimeuser : false,
       },
       cache: "no-store",
@@ -381,7 +388,7 @@ export const getStockUrl = (
   subType: string = "company",
   fromCurrencyShort: string = "",
   toCurrencyShort: string = "",
-  fno: string = "",
+  fno: string = ""
 ) => {
   if (stockType === "index") {
     return "/markets/indices/" + seoName;
@@ -450,16 +457,13 @@ export const getStockUrl = (
 };
 
 export const fetchAllWatchListData = async (
-  type: any,
-  usersettingsubType: any,
-) => {
-  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
-  const isLocalhost = window.location.origin.includes("localhost");
-  if (authorization === "") {
-    console.log("peuuid is not getting please check cookie__", authorization);
-  }
-  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.getAllWatchlist[APP_ENV]}?stype=${type}&usersettingsubType=${usersettingsubType}`;
-  const headers = new Headers({ Authorization: authorization });
+  ssoid?: string,
+  ticketid?: string
+): Promise<Stock[]> => {
+  const Ssoid: string = ssoid || getCookie("ssoid") || "";
+  const TicketId: string = ticketid || getCookie("TicketId") || "";
+  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.fetchStocks[APP_ENV]}`;
+  const headers = new Headers({ ticketid: TicketId, ssoid: Ssoid });
   const options: any = {
     cache: "no-store",
     headers: headers,
@@ -470,35 +474,57 @@ export const fetchAllWatchListData = async (
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const responseData = await response.json();
-    return responseData;
+
+    // Check if the response is successful and has a stocks array
+    if (responseData?.length && Array.isArray(responseData)) {
+      // Extract and process the stocks array
+      const allStocks = responseData.reduce((acc: any[], item: any) => {
+        if (Array.isArray(item.stocks)) {
+          return acc.concat(
+            item.stocks.map((stock: any) => ({
+              companyId: stock.id,
+              companyType: stock.companyType,
+            }))
+          );
+        }
+        return acc;
+      }, []);
+
+      // Remove duplicates based on both companyId and companyType
+      const uniqueStocks = Array.from(
+        new Map(
+          allStocks.map((stock) => [
+            `${stock.companyId}-${stock.companyType}`,
+            stock,
+          ])
+        ).values()
+      );
+
+      return uniqueStocks;
+    }
+
+    // Return an empty array if the response doesn't meet the conditions
+    return [];
   } catch (error) {
     console.error("Error fetching watchlist data:", error);
-    throw error;
+    return [];
   }
 };
 
 export const saveStockInWatchList = async (followData: any) => {
-  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
-  const isLocalhost = window.location.origin.includes("localhost");
-  let postBodyData = {};
-  if (isLocalhost) {
-    postBodyData = {
-      _authorization: authorization,
-      followData,
-    };
-  } else {
-    postBodyData = followData;
-  }
-  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.addWatchList[APP_ENV]}`;
+  const Ssoid: any = getCookie("ssoid") ? getCookie("ssoid") : "";
+  const TicketId: any = getCookie("TicketId") ? getCookie("TicketId") : "";
+  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.updateStocks[APP_ENV]}`;
   const headers = new Headers({
-    Authorization: authorization,
+    ticketid: TicketId,
+    ssoid: Ssoid,
     "Content-Type": "application/json",
   });
   const options: any = {
     method: "POST",
     cache: "no-store",
     headers: headers,
-    body: JSON.stringify(postBodyData),
+    body: JSON.stringify(followData),
   };
   try {
     const response = await fetch(apiUrl, options);
@@ -540,28 +566,20 @@ export const createPeuuid = async () => {
   }
 };
 
-export const removeMultipleStockInWatchList = async (followData: any) => {
-  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
-  const isLocalhost = window.location.origin.includes("localhost");
-  let postBodyData = {};
-  if (isLocalhost) {
-    postBodyData = {
-      _authorization: authorization,
-      followData,
-    };
-  } else {
-    postBodyData = followData;
-  }
-  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.multipleWatchList[APP_ENV]}`;
+export const removeMultipleStockInWatchList = async (stockData: any) => {
+  const Ssoid: any = getCookie("ssoid") ? getCookie("ssoid") : "";
+  const TicketId: any = getCookie("TicketId") ? getCookie("TicketId") : "";
+  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.updateStocks[APP_ENV]}`;
   const headers = new Headers({
-    Authorization: authorization,
+    ticketid: TicketId,
+    ssoid: Ssoid,
     "Content-Type": "application/json",
   });
   const options: any = {
     method: "POST",
     cache: "no-store",
     headers: headers,
-    body: JSON.stringify(postBodyData),
+    body: JSON.stringify(stockData),
   };
   try {
     const response = await fetch(apiUrl, options);
@@ -592,7 +610,7 @@ export const removePersonalizeViewById = async (viewId: any) => {
 };
 
 export const fetchSelectedIndex = async (
-  seoNameOrIndexId?: string | number,
+  seoNameOrIndexId?: string | number
 ) => {
   try {
     const data = await fetchIndices();
@@ -627,10 +645,18 @@ export const fetchSelectedIndex = async (
 };
 
 export const fetchSelectedFilter = async (
-  seoNameOrIndexId?: string | number,
+  seoNameOrIndexId?: string | number
 ) => {
   try {
-    const data = await fetchFilters({ marketcap: true });
+    if (seoNameOrIndexId === "watchlist")
+      return {
+        name: "Watchlist",
+        indexId: "watchlist",
+        seoname: "",
+        exchange: "nse",
+      };
+
+    const data = await fetchFilters({ marketcap: true, watchlist: true });
     if (
       !data ||
       !data.keyIndices ||
@@ -660,7 +686,7 @@ export const fetchSelectedFilter = async (
       foundIndex = allIndices.find(
         (index) =>
           index.indexId === String(seoNameOrIndexId) ||
-          index.seoname === seoNameOrIndexId,
+          index.seoname === seoNameOrIndexId
       );
     }
 
@@ -755,7 +781,7 @@ export const getOverviewData = async (indexid: number, pageno: number) => {
 export const getAdvanceDeclineData = async (
   indexid: number,
   duration: string,
-  pageno: number,
+  pageno: number
 ) => {
   const response = await Service.get({
     url: `${(APIS_CONFIG as any)?.MARKETMOODS_ADVANCEDECLINE[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=100`,
@@ -795,7 +821,7 @@ export const getAdvanceDeclineData = async (
 export const getPeriodicData = async (
   indexid: number,
   duration: string,
-  pageno: number,
+  pageno: number
 ) => {
   const response = await Service.get({
     url: `${(APIS_CONFIG as any)?.MARKETMOODS_PERIODIC[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=100`,
@@ -832,7 +858,7 @@ export const getPeriodicData = async (
 export const getAllIndices = async (
   exchange: string,
   sortField: any,
-  sortOrder: string,
+  sortOrder: string
 ) => {
   try {
     let apiUrl = `${(APIS_CONFIG as any)?.ALLINDICES[APP_ENV]}?exchange=${exchange}`;
@@ -970,7 +996,7 @@ export const getDaywiseActivityData = async () => {
 
 export const getFiiDiiData = async (
   apiType: FiiDiiApiType,
-  params: FiiDiiApiParams,
+  params: FiiDiiApiParams
 ) => {
   const { filterType, apiType: extraApiType } = params;
   let url = `${(APIS_CONFIG as any)?.[apiType][APP_ENV]}?filterType=${filterType}`;
@@ -1164,7 +1190,7 @@ const getExpertIdBigbull = (arr: any) => {
 export const getBigBullPageName = (slugArray: any) => {
   const slug = slugArray.join("-");
   const checkExpertId = slugArray.some((slug: any) =>
-    slug.includes("expertid-"),
+    slug.includes("expertid-")
   );
   // console.log("slugArray", checkExpertId);
   if (slugArray.length === 1 && checkExpertId) {
@@ -1412,7 +1438,7 @@ export const saveLogs = (data: any) => {
         xhr.open("POST", "https://etx.indiatimes.com/log?et=desktop");
         xhr.setRequestHeader(
           "Content-Type",
-          "application/x-www-form-urlencoded",
+          "application/x-www-form-urlencoded"
         );
         xhr.send(logdata);
       } catch (e) {
@@ -1427,7 +1453,7 @@ export const loadScript = (
   src: string,
   async: boolean = true,
   type: string = "text/javascript",
-  position: "head" | "body" = "body",
+  position: "head" | "body" = "body"
 ): Promise<void> => {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
@@ -1449,7 +1475,7 @@ export const loadScript = (
 export const sendMouseFlowEvent = async (): Promise<void> => {
   try {
     await loadScript(
-      "//cdn.mouseflow.com/projects/81baae85-f91c-464e-ac38-15a987752b7a.js",
+      "//cdn.mouseflow.com/projects/81baae85-f91c-464e-ac38-15a987752b7a.js"
     );
 
     if (typeof window !== "undefined") {
@@ -1478,7 +1504,7 @@ export const fetchSectors = async () => {
   }
 };
 export const fetchSelectedSectors = async (
-  seoNameOrIndexId?: string | number,
+  seoNameOrIndexId?: string | number
 ) => {
   try {
     const data = await fetchSectors();

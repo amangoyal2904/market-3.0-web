@@ -15,6 +15,7 @@ import { getCookie } from "@/utils";
 import refeshConfig from "@/utils/refreshConfig.json";
 import MarketFiltersTab from "../MarketTabs/MarketFiltersTab";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import Blocker from "../Blocker";
 interface propsType {
   tabsData: any[];
   tableData: any[];
@@ -127,9 +128,13 @@ function MarketDashBoard(props: propsType) {
     setNiftyFilterData(selectedFilter);
     setPayload({
       ...payload,
-      filterValue: !!filter ? [filter] : [],
+      filterValue: filter === "watchlist" ? [] : !!filter ? [filter] : [],
       filterType:
-        filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
+        filter === "watchlist"
+          ? "watchlist"
+          : filter == undefined || !isNaN(Number(filter))
+            ? "index"
+            : "marketcap",
     });
   };
 
@@ -187,7 +192,13 @@ function MarketDashBoard(props: propsType) {
   };
 
   const updateShortUrl = async () => {
-    const pageUrl = `/stocks/marketstats?type=${await getApiType(activeViewID)}${payload.duration ? "&duration=" + payload.duration : ""}${payload.timespan ? "&timespan=" + payload.timespan : ""}&filter=${!!payload?.filterValue[0] ? payload?.filterValue[0] : 2371}`;
+    const pageUrl = `/stocks/marketstats?type=${await getApiType(activeViewID)}${payload.duration ? "&duration=" + payload.duration : ""}${payload.timespan ? "&timespan=" + payload.timespan : ""}&filter=${
+      payload.filterType === "watchlist"
+        ? "watchlist"
+        : !!payload?.filterValue[0]
+          ? payload?.filterValue[0]
+          : 2371
+    }`;
     const isExist: any = shortUrlMapping?.find(
       (item: any) => item.longURL == pageUrl,
     );
@@ -230,22 +241,30 @@ function MarketDashBoard(props: propsType) {
           intradayDurationOptions={intradayDurationOptions}
         />
       </div>
-      <MarketTable
-        data={dashBoardTableData}
-        highlightLtp={!!currentMarketStatus && currentMarketStatus != "CLOSED"}
-        tableHeaders={dashBoardHeaderData}
-        tableConfig={tableConfig["marketDashboard"]}
-        isprimeuser={isPrime}
-        processingLoader={processingLoader}
-        l1NavTracking="Markets"
-        l2NavTracking="Market Dashboard Widget"
-        setFallbackWebsocket={setFallbackWebsocket}
-        socketDataType="stock"
-      />
-      {dashBoardTableData.length ? (
-        <ViewAllLink text="View All Stocks" link={shortURL} />
+      {payload.filterType === "watchlist" && !isLogin ? (
+        <Blocker type="watchlitFilterBlocker" />
       ) : (
-        ""
+        <>
+          <MarketTable
+            data={dashBoardTableData}
+            highlightLtp={
+              !!currentMarketStatus && currentMarketStatus != "CLOSED"
+            }
+            tableHeaders={dashBoardHeaderData}
+            tableConfig={tableConfig["marketDashboard"]}
+            isprimeuser={isPrime}
+            processingLoader={processingLoader}
+            l1NavTracking="Markets"
+            l2NavTracking="Market Dashboard Widget"
+            setFallbackWebsocket={setFallbackWebsocket}
+            socketDataType="stock"
+          />
+          {dashBoardTableData.length ? (
+            <ViewAllLink text="View All Stocks" link={shortURL} />
+          ) : (
+            ""
+          )}
+        </>
       )}
     </div>
   );

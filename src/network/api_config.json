@@ -142,27 +142,27 @@
     "production": "https://screener.indiatimes.com/screener/indexFaq"
   },
   "FIIDII_SUMMARY": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/fiiDiiSummary.json",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/fiiDiiSummary.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/fiiDiiSummary.json"
   },
   "FIIDII_OVERVIEW": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getDaywiseActivityData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getDaywiseActivityData.json"
   },
   "FIIDII_CASHPROVISIONAL": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getCashData.json",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getCashData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getCashData.json"
   },
   "FIIDII_FIICASH": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiCashData.json",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getFiiCashData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiCashData.json"
   },
   "FIIDII_FANDOCASH": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFandOCashData.json",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getFandOCashData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFandOCashData.json"
   },
   "FIIDII_MFCASH": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getMfCashData.json",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getMfCashData.json",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getMfCashData.json"
   },
   "MARKETS_LIVEBLOG": {
@@ -258,26 +258,20 @@
     ]
   },
   "WATCHLISTAPI": {
-    "getAllWatchlist": {
+    "fetchStocks": {
       "development": [
-        "https://etusersqc2.economictimes.indiatimes.com/et/getpref"
-      ],
-      "production": ["https://etup.economictimes.indiatimes.com/et/getpref"]
-    },
-    "addWatchList": {
-      "development": [
-        "https://etusersqc2.economictimes.indiatimes.com/et/savesettings/json"
+        "https://etusersqc2.economictimes.indiatimes.com/watchlist/v0/details"
       ],
       "production": [
-        "https://etup.economictimes.indiatimes.com/et/savesettings/json"
+        "https://etup.economictimes.indiatimes.com/watchlist/v0/details"
       ]
     },
-    "multipleWatchList": {
+    "updateStocks": {
       "development": [
-        "https://etusersqc2.economictimes.indiatimes.com/et/v3/savesettings/json"
+        "https://etusersqc2.economictimes.indiatimes.com/watchlist/v0/update-stocks"
       ],
       "production": [
-        "https://etup.economictimes.indiatimes.com/et/v3/savesettings/json"
+        "https://etup.economictimes.indiatimes.com/watchlist/v0/update-stocks"
       ]
     }
   },
@@ -302,7 +296,7 @@
     "production": "https://screener.indiatimes.com/screener/getScreenerByScreenerId"
   },
   "GET_RECOS_DETAILS": {
-    "development": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail",
+    "development": "https://qcbselivefeeds.indiatimes.com/ET_Stats/getRecosDetail",
     "production": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail"
   },
   "STOCK_RECOS_NAV": {
@@ -310,7 +304,7 @@
     "production": "https://etpwaapi.economictimes.com/api/mercury/stockrecosnav"
   },
   "STOCK_RECOS_DETAIL": {
-    "development": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail",
+    "development": "https://qcbselivefeeds.indiatimes.com/ET_Stats/getRecosDetail",
     "production": "https://etmarketsapis.indiatimes.com/ET_Stats/getRecosDetail"
   },
   "MARKET_STATUS": {
@@ -368,23 +362,23 @@
     "production": "https://etpwaapi.economictimes.com/pushGaData"
   },
   "BigBullGetInvestorList": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-list",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/investor-list",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-list"
   },
   "BigBullGetLastQuarter": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/key-changes",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/key-changes",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/key-changes"
   },
   "BigBullGetRecentTransactions": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/recent-deals",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/recent-deals",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/recent-deals"
   },
   "BigBullGetBestPicks": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/best-picks",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/best-picks",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/best-picks"
   },
   "BigBullGetMostHeld": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/most-held",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/most-held",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/most-held"
   },
   "FOOTER_LINKS": {
@@ -392,11 +386,11 @@
     "production": "https://economictimes.indiatimes.com/feed_mercury_footermenu.cms?feedtype=etjson"
   },
   "BigBullGetSearchData": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-search",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/investor-search",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-search"
   },
   "BigBullAllInverstorOverview": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/all-investor-overview",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/all-investor-overview",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/all-investor-overview"
   },
   "BigBullInvestorOverview": {
@@ -404,7 +398,7 @@
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/investor-overview"
   },
   "BigBullFreshEntryExit": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/fresh-entry-exit",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/fresh-entry-exit",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/fresh-entry-exit"
   },
   "BigBullHolding": {
@@ -428,7 +422,7 @@
     "production": "https://etinsights.indiatimes.com/ET_TechnicalIndicator/getTechnicalDashboardData"
   },
   "FIIDIICash": {
-    "development": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash",
+    "development": "https://qcbselivefeeds.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash",
     "production": "https://etmarketsapis.indiatimes.com/etservicestockapps/getFiiDiiChartData.json?apitype=FIIDIICash"
   },
   "SLIKE_CLEO_URL": {
@@ -448,8 +442,8 @@
     "production": "https://etup.economictimes.indiatimes.com/et/getpref?type=Follow&usersettingsubType=23"
   },
   "WEBSOCKET_ENDPOINT": {
-    "development": "ws://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW",
-    "production": "wss://etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW"
+    "development": "etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW",
+    "production": "etlive.indiatimes.com/etws-web/ws-stock-data?x-ws-key=8nEwb9MRRPbAHA5jr3lwpmgzYdgohulW"
   },
   "ACCESS_PASS": {
     "development": "https://qcsubscription.economictimes.indiatimes.com/subscription/merchant/ET/product/ETPR/geoRegion/IN/code/ACCESSPASS/generateAccessPass",
