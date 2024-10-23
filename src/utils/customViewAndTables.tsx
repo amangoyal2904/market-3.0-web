@@ -110,7 +110,7 @@ const fetchTabsData = async ({ type, ssoid }: any) => {
 const concatenateAndLowerCase = (
   param1: string,
   param2: string,
-  param3: any,
+  param3: any
 ): string => {
   if (!isNaN(param3)) {
     param3 = "number";
@@ -127,7 +127,7 @@ export const getIntradayViewsTab = async () => {
   const apiresponse = await data.json();
   const tabData = apiresponse.map((item: any) => {
     const localItem = IntradayTabOptions.find(
-      (local) => local.type === item.viewType,
+      (local) => local.type.toLowerCase() === item.viewType.toLowerCase()
     );
     return {
       ...item,
@@ -158,7 +158,7 @@ export const getCustomViewsTab = async ({
     L3NavSubItem = concatenateAndLowerCase(
       firstOperand,
       operationType,
-      secondOperand,
+      secondOperand
     );
   }
   const tabData = await fetchTabsData({ type: L3NavSubItem, ssoid });
@@ -241,7 +241,7 @@ export const getBreadcrumbObj = async (
   l3NavMenuItem: string,
   l3NavSubItem: any,
   isTechnical: boolean,
-  title: string,
+  title: string
 ) => {
   const shortUrlMapping = await getAllShortUrls();
 
@@ -250,7 +250,7 @@ export const getBreadcrumbObj = async (
     if (navItem.type === l3NavMenuItem) {
       navItem.sub_nav.forEach((subNavItem: any) => {
         const isExist: any = shortUrlMapping?.find(
-          (item: any) => item.longURL == subNavItem.link,
+          (item: any) => item.longURL == subNavItem.link
         );
         const updatedUrl = isExist ? isExist.shortUrl : subNavItem.link;
         if (!isTechnical) {

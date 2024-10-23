@@ -3,8 +3,6 @@ import styles from "./styles.module.scss";
 import { saveStockInWatchList } from "../../utils/utility";
 import { initSSOWidget } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
-import APIS_CONFIG from "../../network/api_config.json";
-import { APP_ENV } from "../../utils/index";
 import { trackingEvent } from "@/utils/ga";
 import toast from "react-hot-toast";
 
@@ -21,80 +19,29 @@ const WatchlistAddition = ({
   const [loadingStatus, setLoadingStatus] = useState(false);
 
   const addStockInWatchlistHandler = (action: any) => {
-    // const companytType =
-    //   companyData?.entityType === "company" && !companyData.subType
-    //     ? "equity"
-    //     : companyData.subType || "equity";
-    //const { companyName, companyId, companyid } = companyData;
-
     const stockDetails = {
       companyName,
       companyType,
       companyId,
     };
-    const type = 11;
-    getMoreDetailsStockWatchList(action, stockDetails, type);
+    saveStockInWatchListHandler(action, stockDetails);
   };
 
-  const getMoreDetailsStockWatchList = async (
-    action: any,
-    data: any,
-    type: any,
-  ) => {
-    const API_URL = (APIS_CONFIG as any).GETCompanyShortData[APP_ENV];
-    const ApiFullURL = `${API_URL}?companyid=${data.companyId}&companytype=${data.companyType}`;
-    if (action == 1) {
-      const apiRes = await fetch(ApiFullURL);
-      const jsonRes = await apiRes.json();
-      let ltp = "",
-        exch: any = "";
-      if (jsonRes.nse?.current) {
-        ltp = jsonRes.nse.current;
-        exch = 50;
-      } else if (jsonRes.bse?.current) {
-        ltp = jsonRes.bse.current;
-        exch = 47;
-      }
-      data.ltp = ltp;
-      data.exchange = exch;
-    }
-    saveStockInWatchListHandler(action, data, type);
-  };
+  const saveStockInWatchListHandler = async (action: any, data: any) => {
+    const stockData = [
+      {
+        action,
+        stock: {
+          id: data?.companyId,
+          companyType: data?.companyType,
+        },
+      },
+    ];
 
-  const saveStockInWatchListHandler = async (
-    action: any,
-    data: any,
-    type: any,
-  ) => {
-    const followData = {
-      action,
-      applicationname: 1,
-      articletype: type || "11",
-      position: 0,
-      source: 0,
-      stype: 2,
-      ...(type == 22 || type == 23
-        ? { msid: data.id }
-        : {
-            companytype: data.companyType,
-            msid: data.companyId,
-          }),
-      ...(type == 11 &&
-        action == 1 && {
-          propertiesList: [
-            { key: "companyName", value: data.companyName },
-            { key: "priceOnDate", value: data.ltp },
-            { key: "updatedPrice", value: data.ltp },
-            { key: "exchange", value: data.exchange },
-          ],
-        }),
-    };
-
-    //console.log("data----", data, type);
-
-    const addWathlistResAPI = await saveStockInWatchList(followData);
-    if (addWathlistResAPI?.status === "success") {
-      const newWatchList =
+    const response = await saveStockInWatchList(stockData);
+    const addWathlistResAPI = response[0];
+    if (addWathlistResAPI?.statusCode === 200) {
+      const updatedWatchlist =
         action == 1
           ? [
               ...watchlist,
@@ -148,10 +95,22 @@ const WatchlistAddition = ({
       dispatch({
         type: "UPDATE_MSID",
         payload: {
-          watchlist: newWatchList,
+          watchlist: updatedWatchlist,
         },
       });
-    } else if (addWathlistResAPI?.status === "failure") {
+    } else if (addWathlistResAPI?.statusCode === 513) {
+      toast((t) => (
+        <span className="errorToast">
+          <span>
+            {` You've reached the limit of stocks in your watchlist! Consider
+            removing some stocks to add new ones.`}
+          </span>
+          <button onClick={() => toast.dismiss(t.id)}>
+            <i className="eticon_cross"></i>
+          </button>
+        </span>
+      ));
+    } else {
       toast((t) => (
         <span className="errorToast">
           <span>
@@ -163,7 +122,6 @@ const WatchlistAddition = ({
         </span>
       ));
     }
-
     setLoadingStatus(false);
     customeFun ? customeFun() : null;
   };
