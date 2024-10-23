@@ -101,6 +101,24 @@ const InvestEdgeLeftVideo = ({
     checkUserAllreadyLikeOrNot();
     likeAPICall(dataBody);
   };
+
+  const viewsWrapper = async (slikeId: string) => {
+    console.log("SlikeId---", slikeId);
+    const viewsJson = await getViews(slikeId);
+    if (viewsJson && viewsJson?.data?.length > 0) {
+      setView(viewsJson.data);
+    }
+  };
+
+  const loadVideoIframe = () => {
+    setIsVisible(true);
+    setShowLoader(true);
+    setActiveVideoId(videoId); // Set this video as active
+  };
+
+  const onIframeLoadTask = () => {
+    setShowLoader(false);
+  };
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -141,24 +159,6 @@ const InvestEdgeLeftVideo = ({
   useEffect(() => {
     viewsWrapper(videoDetails?.slikeId);
   }, [videoDetails?.slikeId]);
-
-  const viewsWrapper = async (slikeId: string) => {
-    console.log("SlikeId---", slikeId);
-    const viewsJson = await getViews(slikeId);
-    if (viewsJson && viewsJson?.data?.length > 0) {
-      setView(viewsJson.data);
-    }
-  };
-
-  const loadVideoIframe = () => {
-    setIsVisible(true);
-    setShowLoader(true);
-    setActiveVideoId(videoId); // Set this video as active
-  };
-
-  const onIframeLoadTask = () => {
-    setShowLoader(false);
-  };
 
   return (
     <div className={styles.left_ieContent} ref={liveStreamRef}>
@@ -206,14 +206,14 @@ const InvestEdgeLeftVideo = ({
             {formatTimestamp(videoDetails.insertdate)}
           </span>
         )}
-        {videoDetails?.videoDuration && (
+        {/* {videoDetails?.videoDuration && (
           <>
             <span className={styles.dash}>|</span>
             <span className={styles.duration}>
               Duration: {millisToMinutesAndSeconds(videoDetails.videoDuration)}
             </span>
           </>
-        )}
+        )} */}
         <span className={styles.dash}>|</span>
         <span className={styles.views}>
           Views:{" "}

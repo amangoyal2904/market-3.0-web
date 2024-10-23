@@ -7,6 +7,7 @@ import service from "@/network/service";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import Tabbing from "@/components/InvestEdgeTopVideo/Tabbing";
+import BreadCrumb from "@/components/BreadCrumb";
 
 import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
@@ -19,10 +20,10 @@ export async function generateMetadata(
   const pageUrl = headersList.get("x-url") || "";
   const meta = {
     title:
-      "Share Market, Nifty, Sensex, NSE/BSE Live Updates, Stock Market Today",
-    desc: "Curated videos on stocks, mutual funds, investment strategies & more to help you manage your wealth seamlessly.",
+      "ET Learn Stock Market, Mutual Funds & Investment Styles : Learning  Videos & Live Stream",
+    desc: "ET Learn offers video guide to learn manage stocks, mutual funds, and investment strategies, along with expert tips for making informed decisions. Boost your financial knowledge with latest videos on mutual funds, fixed income, and portfolio management",
     keywords:
-      "Share Market, Stock Market, share market live updates, NIFTY, Sensex Today live, NSE/BSE, big bull, stock reports, stock screeners, indices, market mood, forex, commodity, top investors",
+      "Mutual Funds India, Best Mutual Funds,  Best Performing Mutual Funds, Learn Mutual Funds",
     pathname: pageUrl,
     index: true,
   };
@@ -84,6 +85,10 @@ const InvestEdge = async () => {
       <InvestEdgeClient
         resultData={getResult}
         invementIdeaNavResult={invementIdeaNavResult}
+      />
+      <BreadCrumb
+        pagePath={`/markets/etlearn`}
+        pageName={[{ label: "ETLearn", redirectUrl: "" }]}
       />
     </>
   );
