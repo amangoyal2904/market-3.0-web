@@ -33,7 +33,7 @@ const PastChartPatterns = async () => {
     patternType: "bullish",
     filterType: "index",
     filterValue: [],
-    timeFrame: "1m",
+    timeFrame: "6m",
   };
 
   const data = await getPastChartPattern(payload, ssoid, ticketid);
