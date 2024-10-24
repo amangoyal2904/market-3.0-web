@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./ChartPatternTableContainer.module.scss";
 import { dateFormat, formatNumber } from "@/utils";
 import { getStockUrl } from "@/utils/utility";
-import { PatternData } from "./types";
+import { Pattern, PatternData } from "./types";
 
 interface ChartPatternTableContainerProps extends PatternData {
   fixedHeader?: boolean; // Optional prop with default value
@@ -212,7 +212,7 @@ const ChartPatternTableContainer = ({
                   {dateFormat(row.patternFormedDate, "%d %MMM %Y")}
                 </td>
                 <td className="numberFonts">
-                  {formatNumber(row.breakoutPrice)}
+                  {formatNumber(row?.breakoutPrice?.toFixed(2))}
                 </td>
                 <td
                   className={
@@ -233,7 +233,9 @@ const ChartPatternTableContainer = ({
                     {row.returnTimeframe} days
                   </span>
                 </td>
-                <td className="numberFonts">{formatNumber(row.marketCap)}</td>
+                <td className="numberFonts">
+                  {formatNumber(row?.marketCap?.toFixed(2))}
+                </td>
                 <td className={styles.left}>{row.industryName}</td>
                 <td
                   className={`${styles.fullWidth} ${styles.noRborder} ${!!parentHasScroll ? styles.hide : ""}`}

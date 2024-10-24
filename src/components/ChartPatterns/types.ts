@@ -4,8 +4,8 @@ export interface Pattern {
   companyName: string;
   patternName?: string;
   patternFormedDate?: string; // Allowing undefined here
-  breakoutPrice: number;
-  marketCap: number;
+  breakoutPrice: any;
+  marketCap: any;
   stockReturn: number;
   returnTimeframe: number;
   industryName?: string;
