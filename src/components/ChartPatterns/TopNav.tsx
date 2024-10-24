@@ -64,6 +64,11 @@ const TopNav = ({
     },
   ];
 
+  const defaultSelectedFilter = {
+    id: "6m",
+    value: "Last 6 Months",
+  };
+
   const selectedPatternFilter = {
     id: latestPatternRequestDto?.patternType || "bullish",
     value:
@@ -293,6 +298,7 @@ const TopNav = ({
         <div className={styles.filtersContainer}>
           {(pageType === "past" || pageType === "past-pattern") && (
             <CustomDropDown
+              selectedFilter={defaultSelectedFilter}
               filterOptions={durationFilterOptions}
               onFilterChange={handleDurationFilterChange}
               filterKey="id"

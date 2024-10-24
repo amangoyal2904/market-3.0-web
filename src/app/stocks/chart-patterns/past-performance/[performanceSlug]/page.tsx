@@ -25,7 +25,7 @@ const getCommonData = async (params: any) => {
     filterType: "index",
     pageNo: 1,
     pageSize: 10,
-    timeFrame: "1m",
+    timeFrame: "6m",
   };
 
   const data = await getPastChartPatternPerformance(payload, ssoid, ticketid);

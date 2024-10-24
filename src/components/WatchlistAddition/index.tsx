@@ -52,8 +52,9 @@ const WatchlistAddition = ({
             ]
           : watchlist.filter(
               (item: any) =>
-                item.companyId != data?.companyId?.toString() ||
-                item.companyType != data?.companyType,
+                item?.companyId?.toString() != data?.companyId?.toString() ||
+                item?.companyType?.toLowerCase() !=
+                  data?.companyType?.toLowerCase(),
             );
 
       if (action == 1) {
@@ -134,8 +135,8 @@ const WatchlistAddition = ({
         !!watchlist &&
         watchlist.some(
           (item: any) =>
-            item.companyId === companyId?.toString() &&
-            item.companyType === companyType,
+            item?.companyId?.toString() === companyId?.toString() &&
+            item?.companyType?.toLowerCase() === companyType?.toLowerCase(),
         )
           ? 0
           : 1;
@@ -152,8 +153,8 @@ const WatchlistAddition = ({
     !!watchlist &&
     watchlist.some(
       (item: any) =>
-        item?.companyId === companyId?.toString() &&
-        item?.companyType === companyType,
+        item?.companyId?.toString() === companyId?.toString() &&
+        item?.companyType?.toLowerCase() === companyType?.toLowerCase(),
     );
   return (
     <>
