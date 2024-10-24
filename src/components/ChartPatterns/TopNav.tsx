@@ -102,6 +102,11 @@ const TopNav = ({
         setIndexFilterOptions(data);
         setIsIndexDataLoaded(true);
       }
+      if (value) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
       setIndexFilterShow(value);
     } catch (error) {
       console.error("Error fetching index filter data:", error);
