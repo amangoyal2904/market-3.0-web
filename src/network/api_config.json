@@ -334,7 +334,7 @@
     }
   },
   "screenerGetViewById": {
-    "development": "https://qcbselivefeeds.indiatimes.com/screener/screenerByScreenerIdForWeb",
+    "development": "https://screener.indiatimes.com/screener/screenerByScreenerIdForWeb",
     "production": "https://screener.indiatimes.com/screener/screenerByScreenerIdForWeb"
   },
   "screenerL3Nav": {
