@@ -52,7 +52,12 @@ const ChartPatternsClient = ({
       pageNo: payload.pageNo + 1,
     };
 
-    const data = await getNewChartPattern(updatedPayload, ssoid, ticketId);
+    const data = await getNewChartPattern(
+      updatedPayload,
+      ssoid,
+      ticketId,
+      isPrime,
+    );
     const { pageSummary, newPatterns } = data;
 
     setNewPatternData((prevData: any) => [...prevData, ...newPatterns]);
@@ -75,8 +80,10 @@ const ChartPatternsClient = ({
     if (!ticketId) {
       ticketId = getCookie("TicketId");
     }
-
-    const data = await getNewChartPattern(payload, ssoid, ticketId);
+    if (!isPrime) {
+      isPrime = getCookie("isprimeuser");
+    }
+    const data = await getNewChartPattern(payload, ssoid, ticketId, isPrime);
     const { pageSummary, newPatterns } = data;
 
     setNewPatternData(newPatterns);

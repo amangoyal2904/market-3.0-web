@@ -47,8 +47,11 @@ const PastChartPatternsClient = ({
     if (!ticketId) {
       ticketId = getCookie("TicketId");
     }
+    if (!isPrime) {
+      isPrime = getCookie("isprimeuser");
+    }
 
-    const data = await getPastChartPattern(payload, ssoid, ticketId);
+    const data = await getPastChartPattern(payload, ssoid, ticketId, isPrime);
     const { patternsDataList } = data;
     setNewPatternList(patternsDataList);
     setProcessingLoader(false);
