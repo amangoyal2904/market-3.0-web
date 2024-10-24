@@ -15,7 +15,7 @@ const buildRequestOptions = (
   };
   if (ssoid) headers.ssoid = ssoid;
   if (ticketid) headers.ticketid = ticketid;
-  if (isprime) headers.isprime = !!isprime ? 1 : 0;
+  if (isprime) headers.feature = "ETCHPTR";
 
   // Add deviceType and appType to the headers
   headers.deviceType = "web";
