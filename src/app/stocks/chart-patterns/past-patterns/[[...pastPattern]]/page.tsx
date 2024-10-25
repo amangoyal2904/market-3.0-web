@@ -32,7 +32,7 @@ const getCommonData = async (params: any) => {
     pageNo: 1,
     pageSize: 12,
     sortBy: "closedPatternReturns",
-    timeFrame: !!timeFrame ? timeFrame : "1m",
+    timeFrame: !!timeFrame ? timeFrame : "6m",
   };
 
   const data = await getNewChartPattern(payload, ssoid, ticketid, isPrime);
