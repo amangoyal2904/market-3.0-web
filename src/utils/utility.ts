@@ -1663,3 +1663,20 @@ export const fetchPaywallcounts = function () {
     paywallViewCountMonth,
   };
 };
+
+export const getSymbolInfo = async (symbol: string): Promise<any> => {
+  try {
+    const url = (APIS_CONFIG as any)?.SYMBOLINFO[APP_ENV] + symbol;
+    const res = await Service.get({ url, cache: "no-store", params: {} });
+
+    if (res?.status === 200) {
+      return await res.json(); // Make sure to await the .json() call
+    } else {
+      console.error(`Failed to fetch market status: ${res?.status}`);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching market status", error);
+    return null; // or throw error if you want the caller to handle it
+  }
+};

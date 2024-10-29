@@ -540,5 +540,9 @@
   "PATTERN_FILTER_LIST": {
     "development": "https://etelectionk8s.indiatimes.com/chartpatterns/pattern-filter-list",
     "production": "https://etapi.indiatimes.com/chartpatterns/pattern-filter-list"
+  },
+  "SYMBOLINFO": {
+    "development": "https://etapi.indiatimes.com/charts/mrkts/symbols?currencyCode=INR&symbol=",
+    "production": "https://etapi.indiatimes.com/charts/mrkts/symbols?currencyCode=INR&symbol="
   }
 }
