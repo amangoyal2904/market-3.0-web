@@ -303,6 +303,31 @@ const getLiPath = (router: string, pagePath: string) => {
       showCurrLi: true,
       listItemSchema: "",
     };
+  } else if (router == "/markets/etlearn") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>ET Learn
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router.includes("/markets/etlearn/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/etlearn" title="ET Learn">
+            ET Learn
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
   } else {
     return {};
   }

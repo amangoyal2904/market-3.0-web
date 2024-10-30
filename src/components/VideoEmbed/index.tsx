@@ -2,7 +2,15 @@ import React, { useEffect } from "react";
 import styles from "./VideoEmbed.module.scss";
 import Loading from "./Loading";
 
-const VideoEmmbed = ({ url, onIframeLoadTask, showLoader }: any) => {
+const VideoEmmbed = ({
+  onIframeLoadTask,
+  showLoader,
+  herovideo = "",
+  videoMsid = "",
+}: any) => {
+  const domainUrl = "https://etdev8243.indiatimes.com";
+  const iframeUrl = `${domainUrl}/videodash.cms?autostart=1&tpname=investedge&widget=video&skipad=true&primeuser=0&ismktwebpre=true&msid=${videoMsid}`;
+
   useEffect(() => {
     let timeout: any;
     const videoEle: any = document.getElementById("videoShow");
@@ -25,8 +33,8 @@ const VideoEmmbed = ({ url, onIframeLoadTask, showLoader }: any) => {
         )}
         <iframe
           id="videoShow"
-          className={styles.videoFrame}
-          src={url}
+          className={`${styles.videoFrame} ${herovideo === "yes" ? styles.herovideo : ""}`}
+          src={iframeUrl}
           title="Video"
           loading="lazy"
         ></iframe>

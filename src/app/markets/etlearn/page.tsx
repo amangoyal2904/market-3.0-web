@@ -1,16 +1,11 @@
 import { fnGenerateMetaData } from "@/utils/utility";
 import { Metadata, ResolvingMetadata } from "next";
 import { headers } from "next/headers";
-import styles from "./Investedge.module.scss";
-import InvestEdgeClient from "./client";
+import ETLearnClient from "./client";
 import service from "@/network/service";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
-import Tabbing from "@/components/InvestEdgeTopVideo/Tabbing";
 import BreadCrumb from "@/components/BreadCrumb";
-
-import Link from "next/link";
-import { trackingEvent } from "@/utils/ga";
 
 export async function generateMetadata(
   { searchParams }: any,
@@ -70,19 +65,10 @@ const InvestEdge = async () => {
   };
 
   const getResult: any = await generateFullData();
-  // Double the data array in each object
-  getResult.forEach((item: any) => {
-    item.data = [...item.data, ...item.data];
-  });
 
   return (
     <>
-      <h1 className={styles.title}>ET Learn</h1>
-      <p className={styles.desc}>
-        Curated videos on stocks, mutual funds, investment strategies & more to
-        help you manage your wealth seamlessly.
-      </p>
-      <InvestEdgeClient
+      <ETLearnClient
         resultData={getResult}
         invementIdeaNavResult={invementIdeaNavResult}
       />

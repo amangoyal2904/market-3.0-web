@@ -1,12 +1,14 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./Investedge.module.scss";
 import SlickSlider from "@/components/SlickSlider";
 import InvestEdgeTopVideo from "@/components/InvestEdgeTopVideo";
 import InvestEdgeLeftVideo from "@/components/InvestEdgeTopVideo/InvestEdgeLeftVideo";
+import ETLearnTabs from "@/components/ETLearn/Tabs";
+import TopHero from "@/components/ETLearn/TopHero";
 import { trackingEvent } from "@/utils/ga";
+import { getSeoNameFromUrl } from "@/utils";
 import Link from "next/link";
-import GLOBAL_CONFIG from "@/network/global_config.json";
 const responsive = [
   {
     breakpoint: 2560,
@@ -34,11 +36,10 @@ const responsive = [
   },
 ];
 
-const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
+const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
   const [loadVideo, setLoadVideo] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
-  const [activeVideoId, setActiveVideoId] = useState(null);
-  const [activeTab, setActiveTab] = useState<string>(""); // State to track the active tab
+  const [activeVideoId, setActiveVideoId] = useState(null); // State to track the active tab
 
   // Create a ref to store references for each ieBox section
   const sectionRefs = useRef<any>({});
@@ -54,130 +55,54 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
     setShowLoader(false);
   };
 
-  const settings = {
-    dots: false,
-    arrow: false,
-    infinite: true,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    speed: 5000,
-    autoplaySpeed: 2,
-    cssEase: "linear",
-    pauseOnHover: false,
-    responsive: [
-      {
-        breakpoint: 1281,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
-
   const removeSpaceandSmallCase = (elem: string) => {
     return elem.replace(" ", "").toLowerCase();
   };
 
-  const handleTabTracking = (tabName: any) => {
+  const gaTrackingClickHandler = (value: any) => {
     trackingEvent("et_push_event", {
+      et_product: "Mercury_ETLearn",
+      event_action: "TitleClick",
       event_category: "mercury_engagement",
-      event_action: "tab_selected",
-      event_label: "InvestEdge_" + tabName,
+      event_label: `Click ${value}`,
+      feature_name: "ETLearn",
+      page_template: "etlearn",
+      product_name: "Mercury_Earnings",
+    });
+  };
+  const gaTrackingViewAllClickHandler = (value: any) => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_ETLearn",
+      event_action: "ViewAllClick",
+      event_category: "mercury_engagement",
+      event_label: `Click view all ${value} videos`,
+      feature_name: "ETLearn",
+      page_template: "etlearn",
+      product_name: "Mercury_Earnings",
     });
   };
 
-  // Scroll to the corresponding ieBox section with a 100px offset from the top
-  const scrollToSection = (label: string) => {
-    const sectionId = removeSpaceandSmallCase(label);
-    const section = sectionRefs.current[sectionId];
+  const pageDesc =
+    "Curated videos on stocks, mutual funds, investment strategies & more to help you manage your wealth seamlessly.";
 
-    if (section) {
-      // Get the offset position of the section and subtract 100px for the gap
-      const topOffset =
-        section.getBoundingClientRect().top + window.scrollY - 100;
-
-      window.scrollTo({
-        top: topOffset,
-        behavior: "smooth",
-      });
-
-      // Set the active tab when clicked
-      setActiveTab(sectionId);
-    }
-  };
-
-  // Handle tab highlighting when section comes into viewport
-  const observeSections = () => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const sectionId = entry.target.id;
-            setActiveTab(sectionId); // Set active tab based on section in the viewport
-          }
-        });
-      },
-      {
-        root: null,
-        rootMargin: "-100px 0px 0px 0px", // Adjust for a 100px offset
-        threshold: 0.5, // Trigger when 50% of the section is visible
-      },
-    );
-
-    // Observe each section
-    Object.values(sectionRefs.current).forEach((section: any) => {
-      if (section) {
-        observer.observe(section);
-      }
-    });
-  };
-
-  useEffect(() => {
-    observeSections(); // Start observing sections when component mounts
-  }, [resultData]); // Re-observe if resultData changes
-  console.log("resultData", resultData);
+  //console.log("invementIdeaNavResult?.tabs", invementIdeaNavResult?.tabs);
   return (
     <>
-      <div className={styles.subHead}>
-        <ul className={styles.mainTabsList}>
-          {invementIdeaNavResult?.tabs.map((item: any, index: any) => {
-            const tabId = removeSpaceandSmallCase(item.label);
-            return (
-              <li
-                key={`investEdge_main_${index}`}
-                className={`${styles.mainTab} ${activeTab === tabId ? styles.active : ""}`}
-              >
-                {item.label === "Live Stream" ? (
-                  <a
-                    href={item?.redirectLink}
-                    target="_blank"
-                    title={item?.label}
-                  >
-                    {item?.label}
-                  </a>
-                ) : (
-                  <Link href={`/`} title={item?.label}>
-                    {item?.label}
-                  </Link>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <TopHero head="ET Learn" desc={pageDesc} link="" />
+      <ETLearnTabs tabData={invementIdeaNavResult?.tabs} />
 
       <div className={styles.ieContainer}>
         {resultData?.map((item: any, index: any) => {
           const sectionId = removeSpaceandSmallCase(item?.label);
+          const videoPlayData = {
+            videoId: item?.data[0]?.msid,
+            videoMsid: item?.data[0]?.msid,
+            activeVideoId: activeVideoId,
+            setActiveVideoId: setActiveVideoId,
+            videoDetails: item?.data[0],
+            videoSecSeoPath: item?.seoPath,
+            videoTitelSlug: getSeoNameFromUrl(item?.data[0]?.url, "videoshow"),
+          };
           return (
             item.data.length > 0 && (
               <div
@@ -189,22 +114,16 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
                 key={index}
               >
                 <h2 className={styles.catHead}>
-                  <a
-                    href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"]?.list}${item?.seoPath}`}
+                  <Link
+                    href={`${item?.seoPath}`}
                     className={styles.spanTxt}
+                    onClick={() => gaTrackingClickHandler(item?.label)}
                   >
                     {item?.label}
-                  </a>
+                  </Link>
                 </h2>
                 <div className={styles.ieBoxList}>
-                  <InvestEdgeLeftVideo
-                    videoId={`video${item?.data[0]?.msid}`}
-                    videoMsid={`${item?.data[0]?.msid}`}
-                    activeVideoId={activeVideoId}
-                    setActiveVideoId={setActiveVideoId}
-                    videoDetails={item?.data[0]}
-                    videoSecSeoPath={item?.seoPath}
-                  />
+                  <InvestEdgeLeftVideo videoPlayData={videoPlayData} />
                   <div
                     className={`${styles.right_ieContent} ${item.data.length < 7 ? styles["noSlider"] : ""}`}
                   >
@@ -220,6 +139,10 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
                                 seoPath={item.seoPath}
                                 sliderFlag={true}
                                 key={`${index}-slider`}
+                                videoTitelSlug={getSeoNameFromUrl(
+                                  slide?.url,
+                                  "videoshow",
+                                )}
                               />
                             ),
                           }))}
@@ -240,6 +163,10 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
                             seoPath={item.seoPath}
                             sliderFlag={false}
                             key={index}
+                            videoTitelSlug={getSeoNameFromUrl(
+                              elem?.url,
+                              "videoshow",
+                            )}
                           />
                         ))
                     )}
@@ -247,11 +174,12 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
                 </div>
                 <Link
                   data-tt={item.seoPath}
-                  href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"].list}${item.seoPath}`}
+                  href={`${item.seoPath}`}
                   title={item.label}
                   className={styles.viewall}
+                  onClick={() => gaTrackingViewAllClickHandler(item.label)}
                 >
-                  View All {item.label} videos{" "}
+                  {`View All ${item.label} videos`}
                   <span className={`eticon_next ${styles.nextIcon}`}></span>
                 </Link>
               </div>
@@ -263,4 +191,4 @@ const InvestEdgeClient = ({ resultData, invementIdeaNavResult }: any) => {
   );
 };
 
-export default InvestEdgeClient;
+export default ETLearnClient;

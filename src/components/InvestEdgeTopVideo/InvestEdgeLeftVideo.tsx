@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./InvestEdgeTopVideo.module.scss";
 import VideoEmbed from "../VideoEmbed";
-import { formatTimestamp, getViews, millisToMinutesAndSeconds } from "@/utils";
-import Share from "../Share";
-import { calculateExtendedViews } from "../../utils";
-import { APP_ENV, getCookie, initSSOWidget } from "@/utils";
+import { getViews } from "@/utils";
+import { getCookie } from "@/utils";
 import Link from "next/link";
-import GLOBAL_CONFIG from "../../network/global_config.json";
+import ViewShareSec from "@/components/ETLearn/ViewShareSec";
+import { trackingEvent } from "@/utils/ga";
 
 // Define the interface for the view object
 interface View {
@@ -16,14 +15,16 @@ interface View {
   likes: number;
   dislikes: number;
 }
-const InvestEdgeLeftVideo = ({
-  videoId,
-  activeVideoId,
-  setActiveVideoId,
-  videoDetails,
-  videoMsid,
-  videoSecSeoPath,
-}: any) => {
+const InvestEdgeLeftVideo = ({ videoPlayData }: any) => {
+  const {
+    videoId,
+    activeVideoId,
+    setActiveVideoId,
+    videoDetails,
+    videoMsid,
+    videoSecSeoPath,
+    videoTitelSlug,
+  } = videoPlayData;
   const [isVisible, setIsVisible] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [view, setView] = useState<View[]>([]);
@@ -31,7 +32,12 @@ const InvestEdgeLeftVideo = ({
   const lastVisibilityChangeTime = useRef(0);
 
   const DEBOUNCE_DELAY = 100; // Adjust the delay as needed (milliseconds)
-
+  const viewData = {
+    videoDetails,
+    view,
+    videoSecSeoPath,
+    videoMsid,
+  };
   const checkUserAllreadyLikeOrNot = async () => {
     const APIURL = `https://etusersqc2.economictimes.indiatimes.com/et/getpref?stype=2&usersettingsubType=23`;
     const _authorization: any = getCookie("peuuid");
@@ -103,7 +109,7 @@ const InvestEdgeLeftVideo = ({
   };
 
   const viewsWrapper = async (slikeId: string) => {
-    console.log("SlikeId---", slikeId);
+    //console.log("SlikeId---", slikeId);
     const viewsJson = await getViews(slikeId);
     if (viewsJson && viewsJson?.data?.length > 0) {
       setView(viewsJson.data);
@@ -118,6 +124,17 @@ const InvestEdgeLeftVideo = ({
 
   const onIframeLoadTask = () => {
     setShowLoader(false);
+  };
+  const gaTrackingClickHandler = (value: any) => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_ETLearn",
+      event_action: "Click",
+      event_category: "mercury_engagement",
+      event_label: `${value}`,
+      feature_name: "ETLearn",
+      page_template: "etlearn",
+      product_name: "Mercury_Earnings",
+    });
   };
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -179,10 +196,7 @@ const InvestEdgeLeftVideo = ({
         <div className={styles.vid}>
           {videoDetails && (
             <VideoEmbed
-              url={
-                "https://etdev8243.indiatimes.com/videodash.cms?autostart=1&tpname=investedge&widget=video&skipad=true&primeuser=0&ismktwebpre=true&msid=" +
-                videoDetails.msid
-              }
+              videoMsid={videoDetails?.msid}
               showLoader={showLoader}
               onIframeLoadTask={onIframeLoadTask}
             />
@@ -192,47 +206,14 @@ const InvestEdgeLeftVideo = ({
       <h3>
         <Link
           data-tt={videoSecSeoPath}
-          href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"].video}${videoSecSeoPath}/${videoMsid}`}
-          //onClick={() => handleTabTracking(item.label)}
+          href={`${videoSecSeoPath}/${videoTitelSlug}/${videoMsid}`}
+          onClick={() => gaTrackingClickHandler(videoDetails?.title)}
           title={videoSecSeoPath.title}
         >
           {videoDetails?.title}
         </Link>
       </h3>
-
-      <div className={styles.videoDetails}>
-        {videoDetails?.insertdate && (
-          <span className={styles.date}>
-            {formatTimestamp(videoDetails.insertdate)}
-          </span>
-        )}
-        {/* {videoDetails?.videoDuration && (
-          <>
-            <span className={styles.dash}>|</span>
-            <span className={styles.duration}>
-              Duration: {millisToMinutesAndSeconds(videoDetails.videoDuration)}
-            </span>
-          </>
-        )} */}
-        <span className={styles.dash}>|</span>
-        <span className={styles.views}>
-          Views:{" "}
-          {view.length > 0
-            ? calculateExtendedViews(view?.[0]?.views)
-            : "Loading..."}
-        </span>
-        <span className={styles.dash}>|</span>
-        <div className={styles.socialDetails}>
-          {/* <span className={styles.likeSocial} onClick={likeHandler}>
-          <span className={`${styles.likeTxt}`}></span>
-        </span> */}
-          <Share
-            title={videoDetails?.title || ""}
-            streamURL={`https://economictimes.indiatimes.com/markets/etlearn/video/${videoSecSeoPath}/${videoMsid}`}
-            shareIconStyle="round"
-          />
-        </div>
-      </div>
+      <ViewShareSec data={viewData} />
     </div>
   );
 };

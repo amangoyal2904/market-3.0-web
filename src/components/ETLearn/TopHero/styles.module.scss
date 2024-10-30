@@ -1,0 +1,38 @@
+@import "@/styles/variables.scss";
+
+.title {
+  font-size: 32px;
+  line-height: 39.01px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  .backbtn {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    &::after {
+      position: absolute;
+      content: "";
+      left: 7px;
+      top: 50%;
+      border-top: solid 2px #000000;
+      border-right: solid 2px #000000;
+      transform: rotate(-135deg);
+      display: inline-block;
+      vertical-align: top;
+      width: 10px;
+      height: 10px;
+      margin-top: -5px;
+    }
+  }
+}
+.desc {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  color: $gray_30;
+  margin: 5px auto 10px;
+}

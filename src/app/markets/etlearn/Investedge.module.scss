@@ -1,54 +1,5 @@
 @import "@/styles/variables.scss";
-.subHead {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid $gray_80;
-  position: sticky;
-  top: 54px;
-  z-index: 8;
-  background: $color-white;
-  padding-top: 10px;
 
-  .headName {
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 29.26px;
-  }
-
-  .mainTabsList {
-    display: flex;
-    list-style: none;
-    .mainTab {
-      font-size: 14px;
-      line-height: 18px;
-      font-weight: 400;
-      padding: 8px 12px;
-      box-sizing: border-box;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-      &.active {
-        border-bottom: 2px solid $black;
-        font-weight: 700;
-      }
-    }
-  }
-}
-.title {
-  font-size: 32px;
-  line-height: 39.01px;
-  text-transform: capitalize;
-  display: flex;
-  align-items: center;
-}
-.desc {
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 400;
-  color: #4d4d4d;
-  margin: 5px auto 10px;
-}
 .ieContainer {
   margin-top: 30px;
   .ieBox {
@@ -133,9 +84,9 @@
   }
 }
 .catHead {
-  font-size: 24px;
+  font-size: 30px;
   margin-bottom: 15px;
-  font-weight: 700;
+  font-weight: 400;
   .spanTxt {
     display: inline-block;
     vertical-align: top;
@@ -151,8 +102,8 @@
       transform: rotate(45deg);
       display: inline-block;
       vertical-align: top;
-      width: 10px;
-      height: 10px;
+      width: 12px;
+      height: 12px;
       margin-top: -5px;
     }
   }

@@ -1009,10 +1009,26 @@ export const returnPPID = () => {
 };
 
 export const calculateExtendedViews = (actualViews: any) => {
-  if (!actualViews || actualViews <= 0) {
+  if (!actualViews || actualViews <= 1) {
     return Math.round(2 * (2 + Math.log(999999) / Math.log(2)));
   }
   return Math.round(
     actualViews * (1 + Math.log(999999) / Math.log(actualViews)),
   );
+};
+
+export const getSeoNameFromUrl = (url: string, type: string) => {
+  if (!url || !type) {
+    return ""; // Return empty if url or type is not provided
+  }
+
+  if (type === "videoshow") {
+    const regex = /\/([^\/]+)\/videoshow\/\d+\.cms$/; // Regex to match the desired pattern
+    const match = url.match(regex);
+    if (match && match[1]) {
+      return match[1]; // Return the SEO name if found
+    }
+  }
+
+  return "";
 };
