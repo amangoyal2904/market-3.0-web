@@ -3,9 +3,10 @@ import React, { useState, useEffect } from "react";
 
 import CorporateAnnouncementFilters from "@/components/CorporateAnnouncements/Filters";
 import CardsList from "@/components/CorporateAnnouncements/Card";
-import ETPagination from "@/components/Pagination/Pagination";
 import { postRequest } from "@/utils/ajaxUtility";
 import { trackingEvent } from "@/utils/ga";
+import Blocker from "@/components/Blocker";
+import Loader from "@/components/Loader";
 
 interface CorporateAnnouncementProps {
   selectedFilter: any;
@@ -33,6 +34,7 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
     totalPages: 1,
     totalRecords: 12,
   });
+  const [processingLoader, setProcessingLoader] = useState(false);
   const [listData, setListData] = useState([]);
   const [currPage, setCurrPage] = useState(1);
 
@@ -52,6 +54,7 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
   }, [filters, currPage]);
 
   const getAnnouncementsList = async () => {
+    setProcessingLoader(true);
     const filtersData = {
       duration: filters?.duration,
       category: filters?.category,
@@ -73,6 +76,7 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
       totalRecords: announcementsList?.pagesummary?.totalRecords,
     };
     setPageSummary(pageSummery);
+    setProcessingLoader(false);
   };
 
   const handlePageChange = (value: any) => {
@@ -93,13 +97,22 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
         overview={overviewData}
         periodic={periodicData}
       />
-      <CardsList listData={listData} />
-      {pagesummary?.totalPages > 1 && (
-        <ETPagination
-          pageSummary={pagesummary}
-          onPageChange={handlePageChange}
-        />
-      )}
+      <div className="prel">
+        {processingLoader ? (
+          <Loader loaderType="container" />
+        ) : listData?.length ? (
+          <CardsList
+            listData={listData}
+            pageSummary={pagesummary}
+            onPageChange={handlePageChange}
+          />
+        ) : (
+          <Blocker
+            type={"noDataFound"}
+            customMessage={`No new corporate announcements found for the selected filters.<span class="desc">Try choosing a different filter to explore the latest announcements</span>`}
+          />
+        )}
+      </div>
     </>
   );
 };

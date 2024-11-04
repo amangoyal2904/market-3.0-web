@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import TableComponent from "@/components/CorporateActions/TableComponent";
 import CorporateActionseTabs from "@/components/CorporateActions/Tabs";
 import { postRequest } from "@/utils/ajaxUtility";
+
 interface CorporateActionProps {
   flag: string;
   selectedFilter: any;
@@ -112,6 +113,7 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
     duration: "default",
   });
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
+  const [processingLoader, setProcessingLoader] = useState(false);
   const [advanceDeclineData, setAdvanceDeclineData] =
     useState<any>(advanceDecline);
   const [overviewData, setOverviewData] = useState<any>(overview);
@@ -126,6 +128,7 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
 
   const fetchData = async () => {
     try {
+      setProcessingLoader(true);
       const reqFilters = {
         pageNo: currPage,
         marketcap: "All",
@@ -161,6 +164,7 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
         totalRecords: responseGetter?.pagesummary?.totalRecords,
       };
       setPageSummary(pageSummery);
+      setProcessingLoader(false);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -184,12 +188,15 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
         periodic={periodicData}
         setFilters={setFilters}
       />
-      <TableComponent
-        pagesummary={pagesummary}
-        handlePageChange={handlePageChangeHandler}
-        header={(ENDPOINT_MAPPING as any)[flag]?.headers}
-        tableData={tableData}
-      />
+      <div className="prel">
+        <TableComponent
+          header={(ENDPOINT_MAPPING as any)[flag]?.headers}
+          handlePageChange={handlePageChangeHandler}
+          processingLoader={processingLoader}
+          pagesummary={pagesummary}
+          tableData={tableData}
+        />
+      </div>
     </>
   );
 };
