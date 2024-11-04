@@ -34,7 +34,7 @@ const ClientVideos = ({ invementIdeaNavResult, slug, sectionData }: any) => {
         link="/markets/etlearn"
       />
       <ETLearnTabs tabData={invementIdeaNavResult?.tabs} />
-      <InvestEdgeVideoBox data={videoData} />
+      <InvestEdgeVideoBox data={videoData} slug={slug} />
 
       <BreadCrumb
         pagePath={`/markets/etlearn/${slug[0]}`}

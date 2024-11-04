@@ -30,6 +30,7 @@ const InvestEdgeBox = ({ slide, slug, videoTitelSlug }: any) => {
     view,
     videoSecSeoPath: videoTitelSlug,
     videoMsid: slide.msid,
+    shareUrl: `https://economictimes.indiatimes.com${videoUrl}`,
   };
   const gaTrackingClickHandler = (value: any) => {
     trackingEvent("et_push_event", {

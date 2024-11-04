@@ -39,6 +39,7 @@ const InvestEdgeTopVideo = ({
     view,
     videoSecSeoPath: videoTitelSlug,
     videoMsid: slide.msid,
+    shareUrl: `https://economictimes.indiatimes.com${seoPath}/${videoTitelSlug}/${slide.msid}`,
   };
 
   const gaTrackingClickHandler = (value: any) => {

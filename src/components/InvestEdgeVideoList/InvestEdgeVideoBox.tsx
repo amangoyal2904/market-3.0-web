@@ -20,7 +20,7 @@ interface VideoDetails {
   videoDuration: string;
   synopsis?: any;
 }
-const InvestEdgeVideoBox = ({ data }: any) => {
+const InvestEdgeVideoBox = ({ data, slug }: any) => {
   const { title, sectionData, pageSlug, videoMsid } = data;
   const videoSecSeoPath: string = pageSlug || "";
   const [showLoader, setShowLoader] = useState(true);
@@ -42,7 +42,9 @@ const InvestEdgeVideoBox = ({ data }: any) => {
     view,
     videoSecSeoPath,
     videoMsid,
+    shareUrl: `https://economictimes.indiatimes.com/markets/etlearn/${slug[0]}/${slug[1]}/${slug[2]}`,
   };
+
   useEffect(() => {
     sectionData.length > 0 &&
       sectionData.map((slide: any, index: any) => {

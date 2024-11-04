@@ -7,9 +7,9 @@ const ViewShareSec = ({
   dataFormate = "",
   shareBoxShow = "yes",
 }: any) => {
-  const { videoDetails, view, videoSecSeoPath, videoMsid } = data;
+  const { videoDetails, view, videoSecSeoPath, videoMsid, shareUrl } = data;
   //console.log(data)
-  const streamURL = `https://economictimes.indiatimes.com/markets/etlearn/video/${videoSecSeoPath}/${videoMsid}`;
+
   return (
     <>
       <div className={styles.videoDetails}>
@@ -32,7 +32,7 @@ const ViewShareSec = ({
           {shareBoxShow === "yes" && (
             <Share
               title={videoDetails?.title || ""}
-              streamURL={streamURL}
+              streamURL={shareUrl}
               shareIconStyle="round"
             />
           )}
