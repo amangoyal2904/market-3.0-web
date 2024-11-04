@@ -25,7 +25,6 @@ const CategoriesComponent: React.FC<CategoriesComponentProps> = ({
   selectedCategories,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [allSelected, setAllSelected] = useState(false);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value.toLowerCase());
@@ -34,25 +33,17 @@ const CategoriesComponent: React.FC<CategoriesComponentProps> = ({
   const handleCheckboxChange = (categoryName: string) => {
     setSelectedCategories((prevSelected: any) =>
       prevSelected.includes(categoryName)
-        ? prevSelected.filter((name: any) => categoryName !== categoryName)
+        ? prevSelected.filter((name: any) => name !== categoryName)
         : [...prevSelected, categoryName],
     );
-    if (selectedCategories?.length) {
-      setAllSelected(false);
-    }
   };
 
   const filteredCategories = categories.filter((category) =>
     category.categoryName.toLowerCase().includes(searchQuery),
   );
 
-  const selectAllFun = () => {
-    if (!allSelected) {
-      setSelectedCategories([]);
-    } else {
-      setSelectedCategories([]);
-    }
-    setAllSelected(!allSelected);
+  const unSelectAll = () => {
+    setSelectedCategories([]);
   };
 
   const applyFun = () => {
@@ -72,11 +63,9 @@ const CategoriesComponent: React.FC<CategoriesComponentProps> = ({
           />
           <label className={styles.categoryHeading}>
             Categories
-            <input
-              type="checkbox"
-              checked={allSelected}
-              onChange={selectAllFun}
-            />
+            {selectedCategories?.length > 0 && (
+              <input type="checkbox" onChange={unSelectAll} />
+            )}
           </label>
           <div className={styles.categoriesList}>
             {filteredCategories.map((category) => (
