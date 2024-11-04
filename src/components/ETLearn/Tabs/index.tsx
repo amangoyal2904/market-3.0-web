@@ -24,7 +24,11 @@ const ETLearnTabs = ({ tabData }: any) => {
       <div className={styles.subHead}>
         <ul className={styles.mainTabsList}>
           {tabData.map((item: any, index: any) => {
-            const isActive = pathname.includes(item?.seoPath);
+            const isActive =
+              index === 0
+                ? pathname === item?.seoPath
+                : pathname.includes(item?.seoPath); // Conditional check based on index
+
             return (
               <li
                 key={`investEdge_main_${index}`}

@@ -22,7 +22,7 @@ const ClientCategoryList = ({
   //console.log("sectionData",invementIdeaNavResult?.tabs, slug)
   return (
     <>
-      <TopHero head="ET Learn" desc={pageDesc} link="/markets/etlearn" />
+      <TopHero head="ET Learn" desc={pageDesc} link="" />
       <ETLearnTabs tabData={invementIdeaNavResult?.tabs} />
       <InvestEdgeVideoList
         title={getSectionName()}

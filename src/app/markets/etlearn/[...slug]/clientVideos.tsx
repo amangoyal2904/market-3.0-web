@@ -28,11 +28,7 @@ const ClientVideos = ({ invementIdeaNavResult, slug, sectionData }: any) => {
     "Curated videos on stocks, mutual funds, investment strategies & more to help you manage your wealth seamlessly.";
   return (
     <>
-      <TopHero
-        head={getSectionName()}
-        desc={pageDesc}
-        link="/markets/etlearn"
-      />
+      <TopHero head={getSectionName()} desc={pageDesc} link="" />
       <ETLearnTabs tabData={invementIdeaNavResult?.tabs} />
       <InvestEdgeVideoBox data={videoData} slug={slug} />
 
