@@ -43,7 +43,7 @@ const InvestEdge = async () => {
 
     // Using Promise.all to handle multiple async requests
     const promises = invementIdeaNavResult?.tabs.map(async (item: any) => {
-      console.log("_____url", getSectionResult_Link + item.msid);
+      //console.log("_____url", getSectionResult_Link + item.msid);
       const getSectionPromise = await service.get({
         url: getSectionResult_Link + item.msid,
         params: {},

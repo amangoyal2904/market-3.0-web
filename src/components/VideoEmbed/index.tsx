@@ -37,6 +37,7 @@ const VideoEmmbed = ({
           src={iframeUrl}
           title="Video"
           loading="lazy"
+          allowFullScreen={true}
         ></iframe>
       </div>
     </>
