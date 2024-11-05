@@ -35,4 +35,8 @@
 }
 .tabContent {
   padding: 20px 0;
+  .noSliderWraper {
+    display: flex;
+    column-gap: 12px;
+  }
 }

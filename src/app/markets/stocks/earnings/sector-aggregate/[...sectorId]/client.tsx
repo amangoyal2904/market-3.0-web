@@ -6,7 +6,7 @@ import StockEarningsTables from "@/components/StocksEarnings/StockEarningsTables
 import AdInfo from "@/components/Ad/AdInfo/homeAds.json";
 import DfpAds from "@/components/Ad/DfpAds";
 import LatestResultNewsSec from "@/components/StocksEarnings/LatestResultNewsSec";
-import OtherSectors from "@/components/StocksEarnings/OtherSectors";
+//import OtherSectors from "@/components/StocksEarnings/OtherSectors";
 import FAQSector from "@/components/StocksEarnings/FAQSector";
 
 const SectorPageClient = ({
@@ -44,12 +44,12 @@ const SectorPageClient = ({
         type="earningSector"
         topNewsData={data?.topNewsData}
       />
-      <OtherSectors
+      {/* <OtherSectors
         title="Other Sectors"
         viewTxt="View Other Sectors"
         viewUrl="/markets/stocks/earnings/sector-aggregate/top-performing"
         data={data?.otherSectorData}
-      />
+      /> */}
       <FAQSector data={data?.faq?.sectorFaq} />
     </>
   );
