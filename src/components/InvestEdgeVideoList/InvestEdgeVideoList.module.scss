@@ -112,6 +112,7 @@
       h4 {
         font-size: 16px;
         margin: 5px 0;
+        min-height: 27px;
       }
       .videoDetails {
         display: flex;
@@ -128,4 +129,11 @@
   font-size: 14px;
   line-height: 22px;
   margin: 10px 0;
+}
+.head3 {
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin: 0;
 }

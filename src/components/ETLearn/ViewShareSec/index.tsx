@@ -6,6 +6,7 @@ const ViewShareSec = ({
   data,
   dataFormate = "",
   shareBoxShow = "yes",
+  showTimeStamp = "no",
 }: any) => {
   const { videoDetails, view, videoSecSeoPath, videoMsid, shareUrl } = data;
   //console.log(data)
@@ -13,14 +14,17 @@ const ViewShareSec = ({
   return (
     <>
       <div className={styles.videoDetails}>
-        {videoDetails?.insertdate && (
-          <span className={styles.date}>
-            {dataFormate === "two"
-              ? formatDateIE(videoDetails.insertdate)
-              : formatTimestamp(videoDetails.insertdate)}
-          </span>
+        {videoDetails?.insertdate && showTimeStamp === "yes" && (
+          <>
+            <span className={styles.date}>
+              {dataFormate === "two"
+                ? formatDateIE(videoDetails.insertdate)
+                : formatTimestamp(videoDetails.insertdate)}
+            </span>
+            <span className={styles.dash}>|</span>
+          </>
         )}
-        <span className={styles.dash}>|</span>
+
         <span className={styles.views}>
           Views:{" "}
           {view.length > 0
@@ -30,11 +34,16 @@ const ViewShareSec = ({
         <span className={styles.dash}>|</span>
         <div className={styles.socialDetails}>
           {shareBoxShow === "yes" && (
-            <Share
-              title={videoDetails?.title || ""}
-              streamURL={shareUrl}
-              shareIconStyle="round"
-            />
+            <>
+              <Share
+                title={
+                  `check out this new video on ET Learn:  ${videoDetails?.title}` ||
+                  ""
+                }
+                streamURL={shareUrl}
+                shareIconStyle="round"
+              />
+            </>
           )}
         </div>
       </div>

@@ -72,8 +72,8 @@ const InvestEdgeBox = ({ slide, slug, videoTitelSlug }: any) => {
           <span
             dangerouslySetInnerHTML={{
               __html:
-                slide.title.length > 45
-                  ? slide.title.substring(0, 45) + "..."
+                slide.title.length > 48
+                  ? slide.title.substring(0, 48) + "..."
                   : slide.title,
             }}
           />

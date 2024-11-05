@@ -84,14 +84,14 @@ const InvestEdgeTopVideo = ({
           <span
             dangerouslySetInnerHTML={{
               __html:
-                slide.title.length > 45
-                  ? slide.title.substring(0, 45) + "..."
+                slide.title.length > 40
+                  ? slide.title.substring(0, 40) + "..."
                   : slide.title,
             }}
           />
         </Link>
       </h4>
-      <ViewShareSec data={viewData} dataFormate="two" shareBoxShow="no" />
+      <ViewShareSec data={viewData} dataFormate="two" shareBoxShow="yes" />
     </div>
   );
 };

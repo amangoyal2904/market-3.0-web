@@ -74,6 +74,7 @@ const InvestEdgeVideoBox = ({ data, slug }: any) => {
         />
         <ViewShareSec data={viewData} />
       </div>
+      <h3 className={styles.head3}>Other videos in the {title}</h3>
       <div className={styles.ieVidList}>
         {sectionData.length > 0 &&
           sectionData.map(
