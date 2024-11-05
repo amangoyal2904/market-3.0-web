@@ -136,6 +136,7 @@ const InvestEdgeLeftVideo = ({ videoPlayData }: any) => {
       product_name: "Mercury_Earnings",
     });
   };
+  const imgUrlGenrate = `https://img.etimg.com/thumb/width-750,height-350,imgsize-527126,resizemode-100,msid-${videoDetails?.msid}/markets/etlearn/${videoSecSeoPath}/${videoTitelSlug}.jpg`;
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -183,7 +184,7 @@ const InvestEdgeLeftVideo = ({ videoPlayData }: any) => {
         <div className={styles.videoShowWrapper} onClick={loadVideoIframe}>
           {videoDetails && (
             <img
-              src={videoDetails.img}
+              src={imgUrlGenrate}
               alt={videoDetails.title}
               title={videoDetails.title}
               fetchPriority="high"

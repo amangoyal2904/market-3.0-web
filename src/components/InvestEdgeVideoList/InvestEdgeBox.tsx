@@ -43,6 +43,7 @@ const InvestEdgeBox = ({ slide, slug, videoTitelSlug }: any) => {
       product_name: "Mercury_Earnings",
     });
   };
+  const imgUrlGenrate = `https://img.etimg.com/thumb/width-580,height-390,imgsize-527126,resizemode-100,msid-${slide?.msid}/markets/etlearn/${videoTitelSlug}.jpg`;
   useEffect(() => {
     viewsWrapper(slide?.slikeId);
   }, [slide?.slikeId]);
@@ -55,7 +56,7 @@ const InvestEdgeBox = ({ slide, slug, videoTitelSlug }: any) => {
         title={slide.label}
         className={styles.redirectLink}
       >
-        <img src={slide.img} alt={slide.title} title={slide.title} />
+        <img src={imgUrlGenrate} alt={slide.title} title={slide.title} />
         {slide?.videoDuration && (
           <span className={styles.duration}>
             {millisToMinutesAndSeconds(slide.videoDuration)}

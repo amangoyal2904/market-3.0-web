@@ -22,9 +22,6 @@ const InvestEdgeTopVideo = ({
   videoTitelSlug,
 }: any) => {
   const [view, setView] = useState<View[]>([]);
-  useEffect(() => {
-    viewsWrapper(slide?.slikeId);
-  }, [slide?.slikeId]);
 
   const viewsWrapper = async (slikeId: string) => {
     //console.log("SlikeId---", slikeId);
@@ -54,6 +51,11 @@ const InvestEdgeTopVideo = ({
     });
   };
 
+  const imgUrlGenrate = `https://img.etimg.com/thumb/width-488,height-370,imgsize-527126,resizemode-100,msid-${slide?.msid}/markets/etlearn/${seoPath}/${videoTitelSlug}.jpg`;
+
+  useEffect(() => {
+    viewsWrapper(slide?.slikeId);
+  }, [slide?.slikeId]);
   return (
     <div
       className={`${styles.right_vidBox} ${!sliderFlag ? styles["noSlider"] : styles["yesSlider"]}`}
@@ -67,7 +69,7 @@ const InvestEdgeTopVideo = ({
         title={slide.title}
         className={styles.redirectLink}
       >
-        <img src={slide.img} alt={slide.title} title={slide.title} />
+        <img src={imgUrlGenrate} alt={slide.title} title={slide.title} />
         {slide?.videoDuration && (
           <span className={styles.duration}>
             {millisToMinutesAndSeconds(slide.videoDuration)}
