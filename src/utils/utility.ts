@@ -933,7 +933,7 @@ export const getIndicesTechnicals = async (indexid: number) => {
 export const getPeerIndices = async (indexid: number, exchangeid?: number) => {
   let serviceUrl = `${(APIS_CONFIG as any)?.INDICES_PEER[APP_ENV]}?indexId=${indexid}`;
   if (exchangeid !== undefined) {
-    serviceUrl += `&exchangeid=${exchangeid}`;
+    serviceUrl += `&exchangeId=${exchangeid}`;
   }
   const response = await Service.get({
     url: serviceUrl,
