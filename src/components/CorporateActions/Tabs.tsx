@@ -32,7 +32,6 @@ const CorporateActionseTabs = React.memo(
     overview,
     setNiftyFilterData,
     setFilters,
-    advanceDecline,
     periodic,
   }: {
     activeTab: string;
@@ -41,7 +40,6 @@ const CorporateActionseTabs = React.memo(
     overview: any;
     setNiftyFilterData: any;
     setFilters: any;
-    advanceDecline: any;
     periodic: any;
   }) => {
     const [showFilter, setShowFilter] = useState(false);

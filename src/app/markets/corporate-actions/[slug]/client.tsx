@@ -8,7 +8,6 @@ import { postRequest } from "@/utils/ajaxUtility";
 interface CorporateActionProps {
   flag: string;
   selectedFilter: any;
-  advanceDecline: any;
   allFilters: any;
   overview: any;
   periodic: any;
@@ -105,7 +104,6 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
   allFilters,
   selectedFilter,
   overview,
-  advanceDecline,
   periodic,
 }) => {
   const [filters, setFilters] = useState({
@@ -114,8 +112,6 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
   });
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [processingLoader, setProcessingLoader] = useState(false);
-  const [advanceDeclineData, setAdvanceDeclineData] =
-    useState<any>(advanceDecline);
   const [overviewData, setOverviewData] = useState<any>(overview);
   const [periodicData, setPeriodicData] = useState<any>(periodic);
   const [currPage, setCurrPage] = useState(1);
@@ -180,7 +176,6 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
     <>
       <CorporateActionseTabs
         activeTab={flag}
-        advanceDecline={advanceDeclineData}
         selectedFilter={niftyFilterData}
         allFilters={allFilters}
         overview={overviewData}

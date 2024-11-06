@@ -10,7 +10,6 @@ import Loader from "@/components/Loader";
 
 interface CorporateAnnouncementProps {
   selectedFilter: any;
-  advanceDecline: any;
   allFilters: any;
   overview: any;
   periodic: any;
@@ -20,7 +19,6 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
   allFilters,
   selectedFilter,
   overview,
-  advanceDecline,
   periodic,
 }) => {
   const [filters, setFilters] = useState({
@@ -38,8 +36,6 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
   const [listData, setListData] = useState([]);
   const [currPage, setCurrPage] = useState(1);
 
-  const [advanceDeclineData, setAdvanceDeclineData] =
-    useState<any>(advanceDecline);
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [overviewData, setOverviewData] = useState<any>(overview);
   const [periodicData, setPeriodicData] = useState<any>(periodic);
@@ -91,7 +87,6 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
         setFilters={setFilters}
         filters={filters}
         setNiftyFilterData={setNiftyFilterData}
-        advanceDecline={advanceDeclineData}
         selectedFilter={niftyFilterData}
         allFilters={allFilters}
         overview={overviewData}

@@ -6,7 +6,6 @@ import PageHeaderSection from "@/components/PageHeader";
 import {
   fetchFilters,
   fnGenerateMetaData,
-  getAdvanceDeclineData,
   getOverviewData,
   getPeriodicData,
 } from "@/utils/utility";
@@ -38,9 +37,8 @@ const validPages = [
 async function fetchData(indexId: number) {
   return Promise.all([
     getOverviewData(indexId, 1),
-    getAdvanceDeclineData(indexId, "daily", 1),
     getPeriodicData(indexId, "1M", 1),
-    fetchFilters({}),
+    fetchFilters({ watchlist: true, all: true }),
   ]);
 }
 
@@ -56,8 +54,9 @@ const CorporateActionsSubPage = async ({ params }: any) => {
     seoname: "nifty-50",
     exchange: "nse",
   };
-  const [overviewData, advanceDeclineData, periodicData, allFilters] =
-    await fetchData(niftyFilterData.indexId);
+  const [overviewData, periodicData, allFilters] = await fetchData(
+    niftyFilterData.indexId,
+  );
 
   return (
     <>
@@ -67,7 +66,6 @@ const CorporateActionsSubPage = async ({ params }: any) => {
       />
       <CorporateActionsClient
         flag={type}
-        advanceDecline={advanceDeclineData}
         selectedFilter={niftyFilterData}
         allFilters={allFilters}
         overview={overviewData}

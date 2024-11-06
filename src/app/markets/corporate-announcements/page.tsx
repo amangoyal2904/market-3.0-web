@@ -4,7 +4,6 @@ import { Metadata } from "next";
 import {
   fetchFilters,
   fnGenerateMetaData,
-  getAdvanceDeclineData,
   getOverviewData,
   getPeriodicData,
 } from "@/utils/utility";
@@ -14,9 +13,8 @@ import PageHeaderSection from "@/components/PageHeader";
 async function fetchData(indexId: number) {
   return Promise.all([
     getOverviewData(indexId, 1),
-    getAdvanceDeclineData(indexId, "daily", 1),
     getPeriodicData(indexId, "1M", 1),
-    fetchFilters({}),
+    fetchFilters({ watchlist: true, all: true }),
   ]);
 }
 
@@ -36,13 +34,14 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const CorporateAnnouncementsPage = async () => {
   const niftyFilterData = {
-    name: "Nifty 50",
-    indexId: 2369,
     seoname: "nifty-50",
+    name: "Nifty 50",
     exchange: "nse",
+    indexId: 2369,
   };
-  const [overviewData, advanceDeclineData, periodicData, allFilters] =
-    await fetchData(niftyFilterData.indexId);
+  const [overviewData, periodicData, allFilters] = await fetchData(
+    niftyFilterData.indexId,
+  );
 
   return (
     <>
@@ -51,7 +50,6 @@ const CorporateAnnouncementsPage = async () => {
         description="Stay Ahead with Essential Investor Updates: Track timely company news, press releases, and official announcements impacting your investments."
       />
       <CorporateAnnouncementsClient
-        advanceDecline={advanceDeclineData}
         selectedFilter={niftyFilterData}
         allFilters={allFilters}
         overview={overviewData}

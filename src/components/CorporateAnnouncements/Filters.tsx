@@ -13,7 +13,6 @@ interface FilterComponentProps {
   };
   setNiftyFilterData: any;
   selectedFilter: any;
-  advanceDecline: any;
   setFilters: any;
   allFilters: any;
   overview: any;

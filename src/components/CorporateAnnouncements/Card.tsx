@@ -106,7 +106,7 @@ const CardsList: React.FC<CardProps> = ({
                   className={styles.pdfButton}
                 >
                   <img
-                    src="https://img.etimg.com/photo/msid-114415005,quality-100/bsbg.jpg"
+                    src="https://img.etimg.com/photo/msid-114415005/view-announcements.jpg"
                     alt="PDF"
                     className={styles.pdfIcon}
                   />
