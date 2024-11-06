@@ -8,6 +8,7 @@ interface StockSRFilterProps {
     sectoralIndices: any;
     otherIndices: any;
     marketcap?: any;
+    watchlist?: any;
     all: any;
   };
   onclick: (value: boolean) => void;
@@ -28,7 +29,8 @@ export default function StockFilterNifty({
   const activeFilterValue = childMenuTabActive;
 
   const activeIndex = useMemo(() => {
-    if (!activeFilterValue && !!data.all) return 4;
+    if (!activeFilterValue && !!data.all) return 5;
+    if (!activeFilterValue && !!data.watchlist) return 4;
     const { keyIndices, sectoralIndices, otherIndices, marketcap } = data;
 
     if (
@@ -205,10 +207,25 @@ export default function StockFilterNifty({
             {(data?.marketcap || {}).nse &&
               (data?.marketcap || {}).bse &&
               renderSection(data.marketcap, 3)}
-            {(data?.all || {}).name && (
+            {(data?.watchlist || {}).name && (
               <li
                 onClick={() => handleItemClick(4)}
                 className={activeItem === 4 ? styles.active : ""}
+              >
+                <div
+                  className={styles.subMenu}
+                  onClick={() =>
+                    clickFilterMenu(data.watchlist.name, "watchlist")
+                  }
+                >
+                  <div className={styles.mainTxt}>{data.watchlist.name}</div>
+                </div>
+              </li>
+            )}
+            {(data?.all || {}).name && (
+              <li
+                onClick={() => handleItemClick(5)}
+                className={activeItem === 5 ? styles.active : ""}
               >
                 <div
                   className={styles.subMenu}

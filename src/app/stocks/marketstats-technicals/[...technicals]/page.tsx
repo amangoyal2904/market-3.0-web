@@ -56,22 +56,28 @@ export async function generateMetadata(
     operationType = requestParams?.operationtype;
     secondOperand = requestParams?.secondoperand;
     intFilter =
-      requestParams.filter !== undefined && !isNaN(Number(requestParams.filter))
-        ? parseInt(requestParams.filter)
-        : requestParams.filter !== undefined
-          ? requestParams.filter
-          : 0;
+      requestParams.filter === "watchlist"
+        ? "watchlist"
+        : requestParams.filter !== undefined &&
+            !isNaN(Number(requestParams.filter))
+          ? parseInt(requestParams.filter)
+          : requestParams.filter !== undefined
+            ? requestParams.filter
+            : 0;
   } else {
     L3NavMenuItem = params.technicals[0];
     firstOperand = searchParams?.firstoperand;
     operationType = searchParams?.operationtype;
     secondOperand = searchParams?.secondoperand;
     intFilter =
-      searchParams.filter !== undefined && !isNaN(Number(searchParams.filter))
-        ? parseInt(searchParams.filter)
-        : searchParams.filter !== undefined
-          ? searchParams.filter
-          : 0;
+      searchParams.filter === "watchlist"
+        ? "watchlist"
+        : searchParams.filter !== undefined &&
+            !isNaN(Number(searchParams.filter))
+          ? parseInt(searchParams.filter)
+          : searchParams.filter !== undefined
+            ? searchParams.filter
+            : 0;
     actualUrl = pageUrl;
   }
 
@@ -121,29 +127,36 @@ const Technicals = async ({ params, searchParams }: any) => {
     operationType = requestParams?.operationtype;
     secondOperand = requestParams?.secondoperand;
     intFilter =
-      requestParams.filter !== undefined && !isNaN(Number(requestParams.filter))
-        ? parseInt(requestParams.filter)
-        : requestParams.filter !== undefined
-          ? requestParams.filter
-          : 0;
+      requestParams.filter === "watchlist"
+        ? "watchlist"
+        : requestParams.filter !== undefined &&
+            !isNaN(Number(requestParams.filter))
+          ? parseInt(requestParams.filter)
+          : requestParams.filter !== undefined
+            ? requestParams.filter
+            : 0;
   } else {
     L3NavMenuItem = params.technicals[0];
     firstOperand = searchParams?.firstoperand;
     operationType = searchParams?.operationtype;
     secondOperand = searchParams?.secondoperand;
     intFilter =
-      searchParams.filter !== undefined && !isNaN(Number(searchParams.filter))
-        ? parseInt(searchParams.filter)
-        : searchParams.filter !== undefined
-          ? searchParams.filter
-          : 0;
+      searchParams.filter === "watchlist"
+        ? "watchlist"
+        : searchParams.filter !== undefined &&
+            !isNaN(Number(searchParams.filter))
+          ? parseInt(searchParams.filter)
+          : searchParams.filter !== undefined
+            ? searchParams.filter
+            : 0;
     actualUrl = pageUrl;
   }
 
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
   const ticketId = cookieStore.get("TicketId")?.value;
-  const filter = !!intFilter ? [intFilter] : [];
+  const filter =
+    intFilter === "watchlist" ? [] : !!intFilter ? [intFilter] : [];
   const pagesize = 100;
   const pageno = 1;
   const sort: any = [];
@@ -165,9 +178,13 @@ const Technicals = async ({ params, searchParams }: any) => {
     firstOperand,
     operationType,
     secondOperand,
-    filterValue: filter,
+    filterValue: intFilter === "watchlist" ? [] : filter,
     filterType:
-      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
+      intFilter === "watchlist"
+        ? "watchlist"
+        : filter == undefined || !isNaN(Number(filter))
+          ? "index"
+          : "marketcap",
     sort,
     pagesize,
     pageno,

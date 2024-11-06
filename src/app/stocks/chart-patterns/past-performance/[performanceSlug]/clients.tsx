@@ -50,8 +50,16 @@ const PastChartPatternsClientSlug = ({
     if (!ticketId) {
       ticketId = getCookie("TicketId");
     }
+    if (!isPrime) {
+      isPrime = getCookie("isprimeuser");
+    }
 
-    const data = await getPastChartPatternPerformance(payload, ssoid, ticketId);
+    const data = await getPastChartPatternPerformance(
+      payload,
+      ssoid,
+      ticketId,
+      isPrime,
+    );
     setNewPatternList(data);
     setPageSummaryView(data?.pageSummary);
     setProcessingLoader(false);
@@ -79,6 +87,7 @@ const PastChartPatternsClientSlug = ({
       updatedPayload,
       ssoid,
       ticketId,
+      isPrime,
     );
 
     const { pageSummary, pastPatternList } = data;

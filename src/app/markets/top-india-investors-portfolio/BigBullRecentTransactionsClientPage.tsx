@@ -1,7 +1,6 @@
 "use client";
 import styles from "./style.module.scss";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { fetchSelectedFilter, getBigbullTopTabData } from "@/utils/utility";
 import BigBullTableCard from "../../../components/BigBullTableCard";
 import BigBullTabs from "../../../components/BigBullTabs";
@@ -12,6 +11,7 @@ import { useRouter } from "next/navigation";
 import BreadCrumb from "@/components/BreadCrumb";
 import DfpAds from "@/components/Ad/DfpAds";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
+import { getCookie } from "@/utils";
 
 const individualFilter = indiFilter;
 
@@ -25,6 +25,8 @@ const BigBullRecentTransactionsClientPage = ({
   tableThSortFilterID,
 }: any) => {
   const router = useRouter();
+  const ssoid = getCookie("ssoid") || "";
+  const ticketId = getCookie("TicketId") || "";
   const __title = "Investors Recent Transactions";
   const pageType = "recentTransactions";
   const [aciveFilter, setActiveFilter] = useState(payload.investorType);
@@ -72,6 +74,8 @@ const BigBullRecentTransactionsClientPage = ({
     const allData = await commonPostAPIHandler(
       `BigBullGetRecentTransactions`,
       _payload,
+      ssoid,
+      ticketId,
     );
     const __tableData: any[] =
       allData?.datainfo?.recentDealsInfo?.listRecentDeals || [];
@@ -106,9 +110,13 @@ const BigBullRecentTransactionsClientPage = ({
         : id !== undefined
           ? id
           : 0;
-    const __id = filter === 0 ? [] : [filter];
+    const __id = filter === 0 || filter === "watchlist" ? [] : [filter];
     const __filterType =
-      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap";
+      filter === "watchlist"
+        ? "watchlist"
+        : filter == undefined || !isNaN(Number(filter))
+          ? "index"
+          : "marketcap";
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     setPayload({

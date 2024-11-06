@@ -14,6 +14,7 @@ const getCommonData = async (params: any) => {
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
   const ticketid = cookieStore.get("TicketId")?.value;
+  const isPrime = cookieStore.get("isprimeuser")?.value;
   const patternType = params?.latestSlug ? params.latestSlug[0] : "bullish";
 
   const payload = {
@@ -26,7 +27,7 @@ const getCommonData = async (params: any) => {
     pageSize: 12,
   };
 
-  const data = await getNewChartPattern(payload, ssoid, ticketid);
+  const data = await getNewChartPattern(payload, ssoid, ticketid, isPrime);
   return { data, payload, pageUrl };
 };
 

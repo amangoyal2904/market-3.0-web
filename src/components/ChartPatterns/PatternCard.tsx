@@ -157,7 +157,11 @@ export const PatternCard = ({
           </li>
           <li className={styles.metric}>
             <span className={styles.label}>Breakout Price</span>
-            {!isLocked ? <p>{formatNumber(breakoutPrice)}</p> : <PaywallBlur />}
+            {!isLocked ? (
+              <p>{formatNumber(breakoutPrice.toFixed(2))}</p>
+            ) : (
+              <PaywallBlur />
+            )}
           </li>
           <li className={styles.metric}>
             <span className={styles.label}>
@@ -174,7 +178,7 @@ export const PatternCard = ({
                 }
               >
                 {ideaFlag === "ideaActive" ? (
-                  formatNumber(currentPrice)
+                  formatNumber(currentPrice.toFixed(2))
                 ) : (
                   <>
                     {`${Math.abs(closedPatternReturns)?.toFixed(2)}%`}

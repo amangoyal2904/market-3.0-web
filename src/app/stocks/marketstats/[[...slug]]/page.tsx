@@ -106,11 +106,14 @@ const Intraday = async ({ searchParams }: any) => {
     duration = requestParams?.duration;
     timespan = requestParams?.timespan;
     intFilter =
-      requestParams.filter !== undefined && !isNaN(Number(requestParams.filter))
-        ? parseInt(requestParams.filter)
-        : requestParams.filter !== undefined
-          ? requestParams.filter
-          : 0;
+      requestParams.filter === "watchlist"
+        ? "watchlist"
+        : requestParams.filter !== undefined &&
+            !isNaN(Number(requestParams.filter))
+          ? parseInt(requestParams.filter)
+          : requestParams.filter !== undefined
+            ? requestParams.filter
+            : 0;
   } else {
     L3NavMenuItem = "intraday";
     L3NavSubItem = searchParams?.type?.toLowerCase();
@@ -121,18 +124,22 @@ const Intraday = async ({ searchParams }: any) => {
       ? searchParams.timespan.toUpperCase()
       : null;
     intFilter =
-      searchParams.filter !== undefined && !isNaN(Number(searchParams.filter))
-        ? parseInt(searchParams.filter)
-        : searchParams.filter !== undefined
-          ? searchParams.filter
-          : 0;
+      searchParams.filter === "watchlist"
+        ? "watchlist"
+        : searchParams.filter !== undefined &&
+            !isNaN(Number(searchParams.filter))
+          ? parseInt(searchParams.filter)
+          : searchParams.filter !== undefined
+            ? searchParams.filter
+            : 0;
     actualUrl = pageUrl;
   }
 
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
   const ticketId = cookieStore.get("TicketId")?.value;
-  const filter = !!intFilter ? [intFilter] : [];
+  const filter =
+    intFilter === "watchlist" ? [] : !!intFilter ? [intFilter] : [];
   const pagesize = 100;
   const pageno = 1;
   const sort: any = [];
@@ -152,9 +159,13 @@ const Intraday = async ({ searchParams }: any) => {
     apiType: L3NavSubItem,
     ...(duration ? { duration } : {}), // Conditional inclusion of duration
     ...(timespan ? { timespan } : {}), // Conditional inclusion of timespan
-    filterValue: filter,
+    filterValue: intFilter === "watchlist" ? [] : filter,
     filterType:
-      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
+      intFilter === "watchlist"
+        ? "watchlist"
+        : filter == undefined || !isNaN(Number(filter))
+          ? "index"
+          : "marketcap",
     sort,
     pagesize,
     pageno,

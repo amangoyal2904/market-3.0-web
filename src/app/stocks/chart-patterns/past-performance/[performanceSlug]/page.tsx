@@ -15,6 +15,7 @@ const getCommonData = async (params: any) => {
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
   const ticketid = cookieStore.get("TicketId")?.value;
+  const isPrime = cookieStore.get("isprimeuser")?.value;
   const patternType = !!params.performanceSlug
     ? params.performanceSlug
     : "bullish";
@@ -25,10 +26,15 @@ const getCommonData = async (params: any) => {
     filterType: "index",
     pageNo: 1,
     pageSize: 10,
-    timeFrame: "1m",
+    timeFrame: "6m",
   };
 
-  const data = await getPastChartPatternPerformance(payload, ssoid, ticketid);
+  const data = await getPastChartPatternPerformance(
+    payload,
+    ssoid,
+    ticketid,
+    isPrime,
+  );
   return { data, payload, pageUrl };
 };
 export async function generateMetadata({ params }: any): Promise<Metadata> {

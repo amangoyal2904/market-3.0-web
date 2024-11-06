@@ -14,6 +14,7 @@ const watchlistReducer: Reducer<watchlistState, watchlistAction> = (
 ) => {
   switch (action.type) {
     case "UPDATE_MSID":
+      window.objUser.watchlistCount = action.payload.watchlist.length;
       return {
         ...state,
         watchlist: action.payload.watchlist,

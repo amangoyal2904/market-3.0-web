@@ -7,14 +7,15 @@ const buildRequestOptions = (
   payload: any,
   ssoid?: any,
   ticketid?: any,
+  isprime?: any,
   method: "POST" | "GET" = "POST",
 ) => {
   const headers: any = {
     "Content-Type": "application/json",
   };
-
   if (ssoid) headers.ssoid = ssoid;
   if (ticketid) headers.ticketid = ticketid;
+  if (isprime) headers.feature = "ETCHPTR";
 
   // Add deviceType and appType to the headers
   headers.deviceType = "web";
@@ -37,11 +38,12 @@ export const getNewChartPattern = async (
   payload: any,
   ssoid?: any,
   ticketid?: any,
+  isprime?: any,
 ) => {
   try {
     const response = await service.post({
       url: `${(APIS_CONFIG as any)?.CHARTPATTERN_NEW[APP_ENV]}`,
-      ...buildRequestOptions(payload, ssoid, ticketid),
+      ...buildRequestOptions(payload, ssoid, ticketid, isprime),
     });
 
     const responseData = await response?.json();
@@ -56,10 +58,11 @@ export const getPastChartPattern = async (
   payload: any,
   ssoid?: any,
   ticketid?: any,
+  isprime?: any,
 ) => {
   const response = await service.post({
     url: `${(APIS_CONFIG as any)?.CHARTPATTERN_PAST_ALL[APP_ENV]}`,
-    ...buildRequestOptions(payload, ssoid, ticketid),
+    ...buildRequestOptions(payload, ssoid, ticketid, isprime),
   });
 
   return await response?.json();
@@ -70,10 +73,11 @@ export const getPastChartPatternPerformance = async (
   payload: any,
   ssoid?: any,
   ticketid?: any,
+  isprime?: any,
 ) => {
   const response = await service.post({
     url: `${(APIS_CONFIG as any)?.CHARTPATTERN_PAST[APP_ENV]}`,
-    ...buildRequestOptions(payload, ssoid, ticketid),
+    ...buildRequestOptions(payload, ssoid, ticketid, isprime),
   });
 
   return await response?.json();

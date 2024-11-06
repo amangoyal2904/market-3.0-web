@@ -17,6 +17,11 @@ declare global {
   }
 }
 
+type Stock = {
+  companyId: string;
+  companyType: string;
+};
+
 type FiiDiiApiType =
   | "FIIDII_CASHPROVISIONAL"
   | "FIIDII_FIICASH"
@@ -343,6 +348,7 @@ export const fetchViewTable = async ({
 export const fetchTableData = async (viewId: any, params?: any) => {
   try {
     const ssoid = window.objUser?.ssoid;
+    const ticketId = window.objUser?.ticketId;
     const isprimeuser = getCookie("isprimeuser") == "true" ? true : false;
     const apiUrl = `${(APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE[APP_ENV]}`;
     const response = await Service.post({
@@ -350,6 +356,7 @@ export const fetchTableData = async (viewId: any, params?: any) => {
       headers: {
         "Content-Type": "application/json",
         ssoid: ssoid,
+        ticketId: ticketId,
         isprime: isprimeuser ? isprimeuser : false,
       },
       cache: "no-store",
@@ -383,6 +390,10 @@ export const getStockUrl = (
   toCurrencyShort: string = "",
   fno: string = "",
 ) => {
+  seoName = seoName?.toLowerCase() || "";
+  stockType = stockType?.toLowerCase() || "equity";
+  subType = subType?.toLowerCase() || "";
+
   if (stockType === "index") {
     return "/markets/indices/" + seoName;
   } else if (stockType === "sector") {
@@ -392,8 +403,7 @@ export const getStockUrl = (
       seoName = seoName
         .replaceAll(" ", "-")
         .replaceAll("&", "")
-        .replaceAll(".", "")
-        .toLowerCase();
+        .replaceAll(".", "");
     }
     if ((stockType === "dvr" || stockType === "pp") && id.includes("1111")) {
       id = id.substring(0, id.length - 4);
@@ -410,15 +420,15 @@ export const getStockUrl = (
       stockType !== "equity" &&
       stockType !== "" &&
       stockType !== "company" &&
-      stockType?.toLowerCase() !== "etf"
+      stockType !== "etf"
     ) {
-      stockUrl = stockUrl + "?companytype=" + stockType?.toLowerCase();
+      stockUrl = stockUrl + "?companytype=" + stockType;
     }
 
-    if (subType === "NonList") {
+    if (subType === "nonlist") {
       stockUrl = domain + "/company/" + seoName + "/" + id;
     }
-    if (stockType === "ETF" || stockType === "MutualFund") {
+    if (stockType === "etf" || stockType === "mutualfund") {
       stockUrl =
         domain + "/" + seoName + "/mffactsheet/schemeid-" + id + ".cms";
     }
@@ -442,7 +452,7 @@ export const getStockUrl = (
     if (stockType === "commodity") {
       stockUrl = domain + "/commoditysummary/symbol-" + fno + ".cms";
     }
-    if (stockType === "NPS") {
+    if (stockType === "nps") {
       stockUrl = domain + "/" + seoName + "/nps/schemecode-" + id + ".cms";
     }
     return stockUrl;
@@ -450,16 +460,13 @@ export const getStockUrl = (
 };
 
 export const fetchAllWatchListData = async (
-  type: any,
-  usersettingsubType: any,
-) => {
-  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
-  const isLocalhost = window.location.origin.includes("localhost");
-  if (authorization === "") {
-    console.log("peuuid is not getting please check cookie__", authorization);
-  }
-  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.getAllWatchlist[APP_ENV]}?stype=${type}&usersettingsubType=${usersettingsubType}`;
-  const headers = new Headers({ Authorization: authorization });
+  ssoid?: string,
+  ticketid?: string,
+): Promise<Stock[]> => {
+  const Ssoid: string = ssoid || getCookie("ssoid") || "";
+  const TicketId: string = ticketid || getCookie("TicketId") || "";
+  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.fetchStocks[APP_ENV]}`;
+  const headers = new Headers({ ticketid: TicketId, ssoid: Ssoid });
   const options: any = {
     cache: "no-store",
     headers: headers,
@@ -470,35 +477,57 @@ export const fetchAllWatchListData = async (
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const responseData = await response.json();
-    return responseData;
+
+    // Check if the response is successful and has a stocks array
+    if (responseData?.length && Array.isArray(responseData)) {
+      // Extract and process the stocks array
+      const allStocks = responseData.reduce((acc: any[], item: any) => {
+        if (Array.isArray(item.stocks)) {
+          return acc.concat(
+            item.stocks.map((stock: any) => ({
+              companyId: stock.id,
+              companyType: stock.companyType,
+            })),
+          );
+        }
+        return acc;
+      }, []);
+
+      // Remove duplicates based on both companyId and companyType
+      const uniqueStocks = Array.from(
+        new Map(
+          allStocks.map((stock) => [
+            `${stock.companyId}-${stock.companyType}`,
+            stock,
+          ]),
+        ).values(),
+      );
+
+      return uniqueStocks;
+    }
+
+    // Return an empty array if the response doesn't meet the conditions
+    return [];
   } catch (error) {
     console.error("Error fetching watchlist data:", error);
-    throw error;
+    return [];
   }
 };
 
 export const saveStockInWatchList = async (followData: any) => {
-  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
-  const isLocalhost = window.location.origin.includes("localhost");
-  let postBodyData = {};
-  if (isLocalhost) {
-    postBodyData = {
-      _authorization: authorization,
-      followData,
-    };
-  } else {
-    postBodyData = followData;
-  }
-  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.addWatchList[APP_ENV]}`;
+  const Ssoid: any = getCookie("ssoid") ? getCookie("ssoid") : "";
+  const TicketId: any = getCookie("TicketId") ? getCookie("TicketId") : "";
+  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.updateStocks[APP_ENV]}`;
   const headers = new Headers({
-    Authorization: authorization,
+    ticketid: TicketId,
+    ssoid: Ssoid,
     "Content-Type": "application/json",
   });
   const options: any = {
     method: "POST",
     cache: "no-store",
     headers: headers,
-    body: JSON.stringify(postBodyData),
+    body: JSON.stringify(followData),
   };
   try {
     const response = await fetch(apiUrl, options);
@@ -540,28 +569,20 @@ export const createPeuuid = async () => {
   }
 };
 
-export const removeMultipleStockInWatchList = async (followData: any) => {
-  const authorization: any = getCookie("peuuid") ? getCookie("peuuid") : "";
-  const isLocalhost = window.location.origin.includes("localhost");
-  let postBodyData = {};
-  if (isLocalhost) {
-    postBodyData = {
-      _authorization: authorization,
-      followData,
-    };
-  } else {
-    postBodyData = followData;
-  }
-  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.multipleWatchList[APP_ENV]}`;
+export const removeMultipleStockInWatchList = async (stockData: any) => {
+  const Ssoid: any = getCookie("ssoid") ? getCookie("ssoid") : "";
+  const TicketId: any = getCookie("TicketId") ? getCookie("TicketId") : "";
+  const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.updateStocks[APP_ENV]}`;
   const headers = new Headers({
-    Authorization: authorization,
+    ticketid: TicketId,
+    ssoid: Ssoid,
     "Content-Type": "application/json",
   });
   const options: any = {
     method: "POST",
     cache: "no-store",
     headers: headers,
-    body: JSON.stringify(postBodyData),
+    body: JSON.stringify(stockData),
   };
   try {
     const response = await fetch(apiUrl, options);
@@ -630,7 +651,15 @@ export const fetchSelectedFilter = async (
   seoNameOrIndexId?: string | number,
 ) => {
   try {
-    const data = await fetchFilters({ marketcap: true });
+    if (seoNameOrIndexId === "watchlist")
+      return {
+        name: "Watchlist",
+        indexId: "watchlist",
+        seoname: "",
+        exchange: "nse",
+      };
+
+    const data = await fetchFilters({ marketcap: true, watchlist: true });
     if (
       !data ||
       !data.keyIndices ||
@@ -904,7 +933,7 @@ export const getIndicesTechnicals = async (indexid: number) => {
 export const getPeerIndices = async (indexid: number, exchangeid?: number) => {
   let serviceUrl = `${(APIS_CONFIG as any)?.INDICES_PEER[APP_ENV]}?indexId=${indexid}`;
   if (exchangeid !== undefined) {
-    serviceUrl += `&exchangeid=${exchangeid}`;
+    serviceUrl += `&exchangeId=${exchangeid}`;
   }
   const response = await Service.get({
     url: serviceUrl,
@@ -1648,4 +1677,20 @@ export const getCorporateActionsData = async (apiType: string, params: any) => {
   });
   const originalJson = await response?.json();
   return originalJson;
+};
+export const getSymbolInfo = async (symbol: string): Promise<any> => {
+  try {
+    const url = (APIS_CONFIG as any)?.SYMBOLINFO[APP_ENV] + symbol;
+    const res = await Service.get({ url, cache: "no-store", params: {} });
+
+    if (res?.status === 200) {
+      return await res.json(); // Make sure to await the .json() call
+    } else {
+      console.error(`Failed to fetch market status: ${res?.status}`);
+      return null;
+    }
+  } catch (error) {
+    console.error("Error fetching market status", error);
+    return null; // or throw error if you want the caller to handle it
+  }
 };

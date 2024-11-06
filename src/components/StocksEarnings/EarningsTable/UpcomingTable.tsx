@@ -20,6 +20,7 @@ const UpcomingTable = ({
   unixDateTime = new Date(),
   niftyFiftyDataUpdatePayload,
   tabDateTimeStorePayload,
+  queryComanyName,
 }: any) => {
   const [_tableData, setTableData] = useState(tableData);
   const [_tableHeaderData, setTableHeaderData] = useState(tableHeaderData);
@@ -65,7 +66,6 @@ const UpcomingTable = ({
         setTableData(newTableData);
         setTableHeaderData(newTableHeaderData);
         setPageSummary(pageSummary);
-
         if (newTableData.length === 0) {
           setUpdateDateTime(new Date().getTime());
           setTableData([]);
@@ -82,7 +82,7 @@ const UpcomingTable = ({
   };
   const onPaginationChange = async (pageNumber: number) => {
     setProcessingLoader(true);
-    setPayload({ ..._payload, pageno: pageNumber });
+    setPayload({ ..._payload, pageNo: pageNumber });
   };
   const onServerSideSort = useCallback(
     async (field: any) => {
@@ -104,7 +104,7 @@ const UpcomingTable = ({
           newSortConfig = [...sortConfig, { field, order: "DESC" }];
         }
 
-        return { ...prevPayload, sort: newSortConfig };
+        return { ...prevPayload, sort: newSortConfig, pageNo: 1 };
       });
     },
     [_payload],
@@ -112,7 +112,7 @@ const UpcomingTable = ({
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    //console.log("_payload", _payload);
+    console.log("_payload", _payload);
   }, [_payload]);
   // useEffect(() => {
   //   setTableData(data?.dataList || []);
@@ -134,16 +134,20 @@ const UpcomingTable = ({
           ? [niftyFiftyDataUpdatePayload?.indexId]
           : [];
       newPayload.filterType = filterType;
-      setPayload(newPayload);
+      setPayload({ ...newPayload, pageNo: 1 });
     }
   }, [niftyFiftyDataUpdatePayload]);
   useEffect(() => {
     if (tabDateTimeStorePayload && tabDateTimeStorePayload !== "") {
       const newPayload: any = { ..._payload };
       newPayload.date = tabDateTimeStorePayload;
-      setPayload(newPayload);
+      setPayload({ ...newPayload, pageNo: 1 });
     }
   }, [tabDateTimeStorePayload]);
+  useEffect(() => {
+    //console.log("queryComanyName effect", tableData)
+    setTableData(tableData);
+  }, [queryComanyName]);
   return (
     <>
       <MarketTable
@@ -163,7 +167,7 @@ const UpcomingTable = ({
         setUpdateDateTime={setUpdateDateTime}
         setFallbackWebsocket={setFallbackWebsocket}
         socketDataType="stock"
-        nodataFound={`No Upcoming results for "Selected date". Please check for future dates.`}
+        customMessage={`No Upcoming results for "Selected date". Please check for future dates.`}
       />
     </>
   );

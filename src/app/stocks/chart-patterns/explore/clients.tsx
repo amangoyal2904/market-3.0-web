@@ -76,7 +76,7 @@ const ExploreChartPatternsClient = ({ response, pageUrl }: any) => {
                         <Link
                           className={styles.cta}
                           href={`/stocks/chart-patterns/${subPattern?.seoPatternName}`}
-                          title={`${subPattern?.patternName} New Trading Ideas (${subPattern?.newPatternCount})`}
+                          title={`${subPattern?.patternName} New Trading Ideas`}
                           onClick={() => {
                             trackingEvent("et_push_event", {
                               event_category: "mercury_engagement",

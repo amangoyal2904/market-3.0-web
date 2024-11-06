@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import ChartClient from "./clients";
-import { fnGenerateMetaData } from "@/utils/utility";
+import { fnGenerateMetaData, getSymbolInfo } from "@/utils/utility";
 import {
   ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
@@ -24,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return fnGenerateMetaData(meta);
 }
 
-const Chart = () => {
+const Chart = async () => {
   const headersList = headers();
   const searchParams = new URLSearchParams(
     headersList.get("x-searchparam") || "",
@@ -182,6 +182,7 @@ const Chart = () => {
   };
 
   const symbol = getSymbol();
+  const { type } = await getSymbolInfo(symbol);
   const { timeframe, interval, defaultPeriod } = getInterval();
   const onlyChart = getOnlyChartFeatures();
   const disabledFeatures: ChartingLibraryFeatureset[] = onlyChart.length
@@ -217,6 +218,7 @@ const Chart = () => {
       gaHit="false"
       chartType={chartType}
       savePatternImages={savePatternImages}
+      showVolume={type === "stock" ? true : false}
     />
   ) : (
     <ChartClient
@@ -225,6 +227,7 @@ const Chart = () => {
       gaHit={gaHit}
       chartType={chartType}
       savePatternImages={savePatternImages}
+      showVolume={type === "stock" ? true : false}
     />
   );
 };

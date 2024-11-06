@@ -3,6 +3,8 @@ import BiggBullInvestorHoldingTable from "./BiggBullTable/InvestorHolding";
 import BiggBullBulkBlockDealsTable from "./BiggBullTable/BulkBlockDeals";
 import Pagination from "./Pagination";
 import NodataForTable from "./NodataForTable";
+import Blocker from "../Blocker";
+import { useStateContext } from "@/store/StateContext";
 
 const InvestorCatModule = ({
   niftyFilterData,
@@ -22,6 +24,16 @@ const InvestorCatModule = ({
   pageType = "",
   paginationLastNode = "",
 }: any) => {
+  const { state } = useStateContext();
+  const { isLogin } = state.login;
+  if (
+    pageType === "holdings" &&
+    niftyFilterData?.indexId === "watchlist" &&
+    !isLogin
+  ) {
+    return <Blocker type="watchlitFilterBlocker" />;
+  }
+
   return (
     <>
       {pageType === "holdings" && tableData && tableData.length > 0 ? (

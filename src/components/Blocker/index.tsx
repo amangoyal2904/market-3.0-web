@@ -10,7 +10,6 @@ import { APP_ENV } from "@/utils/index";
 interface propsType {
   type: any;
   updateTableHandler?: any;
-  nodataFound?: any;
   customMessage?: string; // Add the customMessage prop
 }
 
@@ -19,6 +18,13 @@ const handleLoginToggle = (): void => {
 };
 
 const blockerList: any = {
+  watchlitFilterBlocker: {
+    id: 1,
+    message: "Please login to view stats based on your watchlist filter.",
+    cta: "Login",
+    action: handleLoginToggle,
+    icon: 107522568,
+  },
   loginBlocker: {
     id: 1,
     message:
@@ -74,7 +80,7 @@ const blockerList: any = {
 
 const Blocker = (props: propsType) => {
   const [addStockShow, setAddStockShow] = useState(false);
-  const { type, updateTableHandler, customMessage, nodataFound } = props;
+  const { type, updateTableHandler, customMessage } = props;
   const { message, cta, action, icon, id } = blockerList[type] || {};
 
   const moduelClose = () => {
@@ -112,7 +118,7 @@ const Blocker = (props: propsType) => {
           message && (
             <p
               dangerouslySetInnerHTML={{
-                __html: nodataFound !== "" ? nodataFound : message,
+                __html: message,
               }}
             />
           )

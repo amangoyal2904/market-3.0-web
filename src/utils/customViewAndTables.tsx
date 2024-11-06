@@ -127,7 +127,7 @@ export const getIntradayViewsTab = async () => {
   const apiresponse = await data.json();
   const tabData = apiresponse.map((item: any) => {
     const localItem = IntradayTabOptions.find(
-      (local) => local.type === item.viewType,
+      (local) => local.type.toLowerCase() === item.viewType.toLowerCase(),
     );
     return {
       ...item,
