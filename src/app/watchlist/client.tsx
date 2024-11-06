@@ -24,6 +24,7 @@ import { trackingEvent } from "@/utils/ga";
 import MarketStatus from "@/components/MarketStatus";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
 import toast from "react-hot-toast";
+import PrimeBannerExperiment from "@/components/PrimeBannerExperiment";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false }
@@ -358,6 +359,12 @@ const WatchListClient = () => {
         stocks price change, stocks percentage change, low &amp; High stocks and
         more.
       </p>
+      {!isPrime && (
+        <PrimeBannerExperiment
+          pageName="Mercury_Watchlist"
+          pageId="watchlist"
+        />
+      )}
       <div className={styles.watclistContainer}>
         {showBlocker ? (
           <Blocker type="loginBlocker" />

@@ -1,0 +1,120 @@
+@import "@/styles/variables.scss";
+
+$totalWords: 4; // Total number of words
+
+.bannerExperiment {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 15px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid $salmon-50;
+  background: $salmon-20;
+
+  .headline {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22px;
+
+    .icon {
+      font-size: 12px;
+      margin-right: 8px;
+    }
+
+    .words {
+      position: relative; // Necessary for absolute positioning of the words
+      display: flex;
+      height: 22px; // Set a fixed height to prevent layout shifts
+      margin-left: 8px;
+    }
+
+    .words span {
+      position: absolute;
+      text-wrap: nowrap;
+      opacity: 0;
+      color: $red-50;
+      transition:
+        opacity 0.3s ease,
+        transform 0.3s ease; // Smooth transition for opacity and transform
+    }
+
+    // Apply animation to each word
+    @for $i from 1 through $totalWords {
+      .words span:nth-child(#{$i}) {
+        animation: rotateWord
+          $totalWords *
+          2 +
+          0s
+          ease-in-out
+          infinite; // Duration for rotation
+        animation-delay: 2 * ($i - 1) + 0s; // Delay for each word
+      }
+    }
+  }
+}
+
+@keyframes rotateWord {
+  0% {
+    opacity: 0;
+    transform: translateY(30px); // Start below the visible area
+  }
+  5% {
+    opacity: 1;
+    transform: translateY(0); // Move into position
+  }
+  25% {
+    opacity: 1; // Stay visible
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 0;
+    transform: translateY(-30px); // Move out of position
+  }
+  100% {
+    opacity: 0; // Fade out
+  }
+}
+
+.cta {
+  position: relative;
+  width: 222px;
+  height: 40px;
+  padding: 12px 0;
+  border-radius: 3px;
+  border: 1px solid $red-50;
+  color: $red-50;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* Responsiveness */
+@media (max-width: 1350px) {
+  .bannerExperiment {
+    zoom: 0.9;
+  }
+}
+
+@media (max-width: 1280px) {
+  .bannerExperiment {
+    zoom: 0.85;
+  }
+}
+
+@media (max-width: 1150px) {
+  .bannerExperiment {
+    zoom: 0.8;
+  }
+}
+
+@media (max-width: 1080px) {
+  .bannerExperiment {
+    zoom: 0.75;
+  }
+}

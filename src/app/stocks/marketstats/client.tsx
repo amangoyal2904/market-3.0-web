@@ -22,6 +22,7 @@ import TechincalOperands from "@/components/TechincalOperands";
 import MarketStatus from "@/components/MarketStatus";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
 import Blocker from "@/components/Blocker";
+import PrimeBannerExperiment from "@/components/PrimeBannerExperiment";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false }
@@ -460,6 +461,12 @@ const MarketStats = ({
         />
       </div>
       <p className={styles.desc}>{_metaData.desc}</p>
+      {!isPrime && (
+        <PrimeBannerExperiment
+          pageName="Mercury_MarketStats"
+          pageId={l3NavMenuItem + "_" + l3NavSubItem}
+        />
+      )}
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
           <MarketStatsNav

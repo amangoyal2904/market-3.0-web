@@ -322,7 +322,7 @@ const MarketMoodsClient = ({
       event_nature: "click",
       event_category: "subscription",
       event_name: "paywall",
-      cta_text: "",
+      cta_text: validAccessPass ? "Start Free Trial" : "Subscribe Now",
     },
   };
 
