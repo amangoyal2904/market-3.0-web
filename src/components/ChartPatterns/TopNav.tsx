@@ -64,6 +64,13 @@ const TopNav = ({
     },
   ];
 
+  const defaultSelectedFilter = {
+    id: payload?.timeFrame || "6m",
+    value:
+      durationFilterOptions.find((option) => option.id === payload?.timeFrame)
+        ?.value || "Last 6 Months",
+  };
+
   const selectedPatternFilter = {
     id: latestPatternRequestDto?.patternType || "bullish",
     value:
@@ -102,6 +109,11 @@ const TopNav = ({
         setIndexFilterOptions(data);
         setIsIndexDataLoaded(true);
       }
+      if (value) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
       setIndexFilterShow(value);
     } catch (error) {
       console.error("Error fetching index filter data:", error);
@@ -122,6 +134,23 @@ const TopNav = ({
       event_label: value,
     });
     handlePayloadChange(updatedPayload);
+
+    // Check if past pattern page, then timeframe search param needs to be updated
+    if (payload.sortBy === "closedPatternReturns") {
+      const url = new URL(window.location.href);
+      const params = url.searchParams;
+
+      if (key === "6m") {
+        // Remove the `timeframe` parameter if `key` is "6m"
+        params.delete("timeframe");
+      } else {
+        // Update the `timeframe` parameter if `key` is not "6m"
+        params.set("timeframe", key);
+      }
+
+      // Push the updated URL to the browser history
+      window.history.replaceState({}, "", url.toString());
+    }
   };
 
   const handlePatternFilterChange = (key: string, value: string) => {
@@ -288,6 +317,7 @@ const TopNav = ({
         <div className={styles.filtersContainer}>
           {(pageType === "past" || pageType === "past-pattern") && (
             <CustomDropDown
+              selectedFilter={defaultSelectedFilter}
               filterOptions={durationFilterOptions}
               onFilterChange={handleDurationFilterChange}
               filterKey="id"

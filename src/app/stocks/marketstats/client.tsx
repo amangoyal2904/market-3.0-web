@@ -21,10 +21,11 @@ import TechincalOperands from "@/components/TechincalOperands";
 
 import MarketStatus from "@/components/MarketStatus";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import Blocker from "@/components/Blocker";
 import PrimeBannerExperiment from "@/components/PrimeBannerExperiment";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
-  { ssr: false },
+  { ssr: false }
 );
 
 const MarketStats = ({
@@ -53,7 +54,7 @@ const MarketStats = ({
   const searchParams = useSearchParams();
   const router = useRouter();
   const { state } = useStateContext();
-  const { isPrime, ssoid } = state.login;
+  const { isPrime, ssoid, isLogin } = state.login;
   const { currentMarketStatus } = state.marketStatus;
   const [resetSort, setResetSort] = useState("");
   const [updateDateTime, setUpdateDateTime] = useState(unixDateTime);
@@ -85,7 +86,7 @@ const MarketStats = ({
           : intradayDurationOptions[0]?.label;
       let value = payload?.duration || payload?.timespan;
       const isExist = intradayDurationOptions.find(
-        (option: any) => option.value === value,
+        (option: any) => option.value === value
       );
       if (!!isExist) {
         label = isExist?.label;
@@ -180,7 +181,7 @@ const MarketStats = ({
       setPayload((prevPayload: any) => {
         const sortConfig = prevPayload.sort;
         const isFieldSorted = sortConfig.find(
-          (config: any) => config.field === field,
+          (config: any) => config.field === field
         );
         let newSortConfig;
 
@@ -188,7 +189,7 @@ const MarketStats = ({
           newSortConfig = sortConfig.map((config: any) =>
             config.field === field
               ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
-              : config,
+              : config
           );
         } else {
           newSortConfig = [{ field, order: "DESC" }];
@@ -197,7 +198,7 @@ const MarketStats = ({
         return { ...prevPayload, sort: newSortConfig };
       });
     },
-    [_payload],
+    [_payload]
   );
 
   const onTabViewUpdate = async (viewId: any) => {
@@ -212,15 +213,17 @@ const MarketStats = ({
     const url = actualUrl;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
     const filter =
-      id !== undefined && !isNaN(Number(id))
-        ? parseInt(id)
-        : id !== undefined
-          ? id
-          : 0;
+      id === "watchlist"
+        ? "watchlist"
+        : id !== undefined && !isNaN(Number(id))
+          ? parseInt(id)
+          : id !== undefined
+            ? id
+            : 0;
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     const isExist: any = shortUrlMapping?.find(
-      (item: any) => item.longURL == newUrl,
+      (item: any) => item.longURL == newUrl
     );
     const updatedUrl = isExist ? isExist.shortUrl : newUrl;
     router.push(updatedUrl, { scroll: false });
@@ -233,7 +236,7 @@ const MarketStats = ({
       const newDuration = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "duration", newDuration);
       const isExist: any = shortUrlMapping?.find(
-        (item: any) => item.longURL == newUrl,
+        (item: any) => item.longURL == newUrl
       );
       const updatedUrl = isExist ? isExist.shortUrl : newUrl;
       router.push(updatedUrl, { scroll: false });
@@ -242,7 +245,7 @@ const MarketStats = ({
       const newTimespan = value.toUpperCase();
       const newUrl = updateOrAddParamToPath(url, "timespan", newTimespan);
       const isExist: any = shortUrlMapping?.find(
-        (item: any) => item.longURL == newUrl,
+        (item: any) => item.longURL == newUrl
       );
       const updatedUrl = isExist ? isExist.shortUrl : newUrl;
       router.push(updatedUrl, { scroll: false });
@@ -327,7 +330,7 @@ const MarketStats = ({
       (url = updateOrAddParamToPath(url, "secondoperand", secondOperand)),
       (url = updateOrAddParamToPath(url, "operationtype", operationType));
     const isExist: any = shortUrlMapping?.find(
-      (item: any) => item.longURL == url,
+      (item: any) => item.longURL == url
     );
     const newUrl = isExist ? isExist.shortUrl : url;
     router.push(newUrl, { scroll: false });
@@ -343,13 +346,13 @@ const MarketStats = ({
   };
   const toasterRemovePersonaliseViewCloseHandlerFun = async (
     value: boolean,
-    data: any,
+    data: any
   ) => {
     console.log(
       "toasterRemovePersonaliseViewCloseHandlerFun",
       value,
       "___data",
-      data,
+      data
     );
     setToasterPersonaliseViewRemove(false);
     if (value && data && data.id && data.id !== "") {
@@ -372,11 +375,11 @@ const MarketStats = ({
               nav.operationtype ===
                 technicalCategory?.selectedFilter?.operationType &&
               nav.secondoperand ===
-                technicalCategory?.selectedFilter?.secondOperand,
+                technicalCategory?.selectedFilter?.secondOperand
           );
         } else {
           navName = navItem.sub_nav.find(
-            (nav: any) => nav.type === l3NavSubItem,
+            (nav: any) => nav.type === l3NavSubItem
           );
         }
         if (navName) {
@@ -404,7 +407,7 @@ const MarketStats = ({
         updateTableData();
     },
     refeshConfig.marketstats,
-    [_payload, isPrime, currentMarketStatus, fallbackWebsocket],
+    [_payload, isPrime, currentMarketStatus, fallbackWebsocket]
   );
 
   useEffect(() => {
@@ -518,28 +521,33 @@ const MarketStats = ({
               shortUrlMapping={shortUrlMapping}
             />
           </div>
-          <MarketTable
-            data={_tableData}
-            highlightLtp={
-              !!currentMarketStatus && currentMarketStatus != "CLOSED"
-            }
-            tableHeaders={_tableHeaderData}
-            tabsViewIdUpdate={resetSort}
-            pageSummary={_pageSummary}
-            tableConfig={tableConfig}
-            handleSortServerSide={onServerSideSort}
-            handlePageChange={onPaginationChange}
-            processingLoader={processingLoader}
-            isprimeuser={isPrime}
-            l1NavTracking={!isTechnical ? "Stocks" : "Technical Signals"}
-            l2NavTracking={
-              !isTechnical ? "Intraday" : _technicalCategory?.category
-            }
-            l3NavTracking={getNavName()}
-            setUpdateDateTime={setUpdateDateTime}
-            setFallbackWebsocket={setFallbackWebsocket}
-            socketDataType="stock"
-          />
+
+          {_payload.filterType === "watchlist" && !isLogin ? (
+            <Blocker type="watchlitFilterBlocker" />
+          ) : (
+            <MarketTable
+              data={_tableData}
+              highlightLtp={
+                !!currentMarketStatus && currentMarketStatus != "CLOSED"
+              }
+              tableHeaders={_tableHeaderData}
+              tabsViewIdUpdate={resetSort}
+              pageSummary={_pageSummary}
+              tableConfig={tableConfig}
+              handleSortServerSide={onServerSideSort}
+              handlePageChange={onPaginationChange}
+              processingLoader={processingLoader}
+              isprimeuser={isPrime}
+              l1NavTracking={!isTechnical ? "Stocks" : "Technical Signals"}
+              l2NavTracking={
+                !isTechnical ? "Intraday" : _technicalCategory?.category
+              }
+              l3NavTracking={getNavName()}
+              setUpdateDateTime={setUpdateDateTime}
+              setFallbackWebsocket={setFallbackWebsocket}
+              socketDataType="stock"
+            />
+          )}
         </div>
       </div>
       {toasterPersonaliseViewRemove && (

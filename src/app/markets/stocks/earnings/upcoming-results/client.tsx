@@ -27,7 +27,11 @@ const UpcomingResultsClintPage = ({
     data?.props?.searchParams?.companyid !== ""
       ? data?.props?.searchParams?.companyid
       : "";
-  //console.log("_data_tableData", queryParameter);
+  const queryComanyName = tableData[0]?.data?.find(
+    (item: any) => item?.keyId === "shortName",
+  )?.value;
+  //console.log("queryComanyName_____", queryComanyName);
+
   const _title = "Upcoming  Results";
   const _desc = `Explore upcoming earnings results of all companies with a day-by-day view. Easily search for individual stocks and apply filters to focus on the specific data you need, ensuring you never miss a crucial earnings update`;
   const [_upcomingCompanies, setUpcomingCompanies] = useState(
@@ -64,7 +68,7 @@ const UpcomingResultsClintPage = ({
       "UPCOMING_COMPANIES",
       _upcomingResultTablePayload,
     );
-    console.log("___data", responseData);
+    //console.log("___data", responseData);
     setProcessingLoader(false);
     if (responseData) {
       setUpcomingCompanies(responseData);
@@ -106,28 +110,6 @@ const UpcomingResultsClintPage = ({
         : "marketcap";
     callAPIUpcomingCalendar(filterType, filterValue);
   };
-
-  useEffect(() => {
-    //console.log("_____upcomingResultTablePayload", _upcomingResultTablePayload);
-    //callUpcomingTableData();
-  }, [_upcomingResultTablePayload]);
-  useEffect(() => {
-    // if (companyid && companyid !== "") {
-    //   setUpcomingCompanies(
-    //     data?._upcomingCompaniesQuery?.dataList
-    //       ? data?._upcomingCompaniesQuery
-    //       : data?.upcomingCompanies,
-    //   );
-    //   setUpcomingResultTablePayload(
-    //     data?._upcomingCompaniesQuery?.dataList
-    //       ? data?.payload?.queryPayload
-    //       : data?.payload?.upcomingResultTablePayload,
-    //   );
-    // } else {
-    //   setUpcomingCompanies(data?.upcomingCompanies);
-    //   setUpcomingResultTablePayload(data?.payload?.upcomingResultTablePayload);
-    // }
-  }, [companyid]);
   return (
     <>
       <HeroBanner title={_title} desc={_desc} />
@@ -143,6 +125,7 @@ const UpcomingResultsClintPage = ({
         upcomingResultTableHandler={upcomingResultTableHandler}
         niftyFIlterHandler={niftyFIlterHandler}
         bigSearchShow={queryParameter !== "" ? "yes" : "no"}
+        queryComanyName={queryComanyName}
       />
       <UpcomingTable
         //data={_upcomingCompanies}
@@ -155,6 +138,7 @@ const UpcomingResultsClintPage = ({
         unixDateTime={unixDateTime}
         niftyFiftyDataUpdatePayload={niftyFiftyFilterDataUpdate}
         tabDateTimeStorePayload={tabDateTimeStore}
+        queryComanyName={queryComanyName}
       />
       <LatestResultNewsSec topNewsData={data?.topNewsData} />
     </>

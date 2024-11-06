@@ -108,8 +108,8 @@ const PastPatternCard = ({
                 }}
                 href={
                   patternType !== "bullish"
-                    ? `/stocks/chart-patterns/past-patterns/${patternType}${timeFrame && timeFrame !== "1m" ? `?timeframe=${timeFrame}` : ""}`
-                    : `/stocks/chart-patterns/past-patterns${timeFrame && timeFrame !== "1m" ? `?timeframe=${timeFrame}` : ""}`
+                    ? `/stocks/chart-patterns/past-patterns/${patternType}${timeFrame && timeFrame !== "6m" ? `?timeframe=${timeFrame}` : ""}`
+                    : `/stocks/chart-patterns/past-patterns${timeFrame && timeFrame !== "6m" ? `?timeframe=${timeFrame}` : ""}`
                 }
               >
                 View all Past Ideas

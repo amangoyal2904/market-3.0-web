@@ -1,7 +1,6 @@
 "use client";
 import styles from "./style.module.scss";
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { fetchSelectedFilter, getBigbullTopTabData } from "@/utils/utility";
 import BigBullTableCard from "../../../components/BigBullTableCard";
 import BigBullTabs from "../../../components/BigBullTabs";
@@ -12,6 +11,7 @@ import { useRouter } from "next/navigation";
 import BreadCrumb from "@/components/BreadCrumb";
 import DfpAds from "@/components/Ad/DfpAds";
 import AdInfo from "@/components/Ad/AdInfo/marketstatsAds.json";
+import { getCookie } from "@/utils";
 
 const tabs = tabsJson;
 const individualFilter = indiFilter;
@@ -27,6 +27,8 @@ const BigBullMostHeldClientPage = ({
   tableThSortFilterID,
 }: any) => {
   const router = useRouter();
+  const ssoid = getCookie("ssoid") || "";
+  const ticketId = getCookie("TicketId") || "";
   const __title = `Held By Investors ${lastUpdatedQtr ? `<span>(${lastUpdatedQtr})</span>` : ""}`;
   const pageType = "mostHeld";
   const [aciveFilter, setActiveFilter] = useState(payload.investorType);
@@ -55,7 +57,12 @@ const BigBullMostHeldClientPage = ({
   const callAPIfitler = async () => {
     setTableLoadingShow(true);
     //console.log("__payload", _payload);
-    const allData = await commonPostAPIHandler(`BigBullGetMostHeld`, _payload);
+    const allData = await commonPostAPIHandler(
+      `BigBullGetMostHeld`,
+      _payload,
+      ssoid,
+      ticketId,
+    );
     const __tableData: any[] =
       allData?.datainfo?.mostHoldCompanyInfo?.mostHoldStockData || [];
     const __pagination =
@@ -89,9 +96,13 @@ const BigBullMostHeldClientPage = ({
         : id !== undefined
           ? id
           : 0;
-    const __id = filter === 0 ? [] : [filter];
+    const __id = filter === 0 || filter === "watchlist" ? [] : [filter];
     const __filterType =
-      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap";
+      filter === "watchlist"
+        ? "watchlist"
+        : filter == undefined || !isNaN(Number(filter))
+          ? "index"
+          : "marketcap";
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     setPayload({

@@ -172,7 +172,7 @@ const StockEarningsTables = ({
           newSortConfig = [...sortConfig, { field, order: "DESC" }];
         }
 
-        return { ...prevPayload, sort: newSortConfig };
+        return { ...prevPayload, sort: newSortConfig, pageno: 1 };
       });
     },
     [_payload],

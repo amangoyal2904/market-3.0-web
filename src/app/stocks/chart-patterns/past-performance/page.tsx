@@ -26,6 +26,7 @@ const PastChartPatterns = async () => {
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
   const ticketid = cookieStore.get("TicketId")?.value;
+  const isPrime = cookieStore.get("isprimeuser")?.value;
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
 
@@ -33,10 +34,10 @@ const PastChartPatterns = async () => {
     patternType: "bullish",
     filterType: "index",
     filterValue: [],
-    timeFrame: "1m",
+    timeFrame: "6m",
   };
 
-  const data = await getPastChartPattern(payload, ssoid, ticketid);
+  const data = await getPastChartPattern(payload, ssoid, ticketid, isPrime);
 
   return (
     <>

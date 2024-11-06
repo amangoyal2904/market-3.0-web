@@ -11,7 +11,8 @@ const TVChartContainer = dynamic(
 );
 
 const ChartClientSave = (defaultWidgetProps: any) => {
-  const { patternId, gaHit, chartType, savePatternImages } = defaultWidgetProps;
+  const { patternId, gaHit, chartType, savePatternImages, showVolume } =
+    defaultWidgetProps;
   const [isScriptReady, setIsScriptReady] = useState(false);
 
   const widgetProps = useMemo(() => {
@@ -35,6 +36,7 @@ const ChartClientSave = (defaultWidgetProps: any) => {
           chartType={chartType}
           savePatternImages={savePatternImages}
           updatePageUrl="false"
+          showVolume={showVolume}
         />
       ) : (
         <div className={styles.loadingIndicator}>

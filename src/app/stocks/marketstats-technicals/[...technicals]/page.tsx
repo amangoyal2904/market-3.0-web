@@ -37,7 +37,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata(
   { searchParams, params }: any,
-  parent: ResolvingMetadata,
+  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
@@ -56,22 +56,28 @@ export async function generateMetadata(
     operationType = requestParams?.operationtype;
     secondOperand = requestParams?.secondoperand;
     intFilter =
-      requestParams.filter !== undefined && !isNaN(Number(requestParams.filter))
-        ? parseInt(requestParams.filter)
-        : requestParams.filter !== undefined
-          ? requestParams.filter
-          : 0;
+      requestParams.filter === "watchlist"
+        ? "watchlist"
+        : requestParams.filter !== undefined &&
+            !isNaN(Number(requestParams.filter))
+          ? parseInt(requestParams.filter)
+          : requestParams.filter !== undefined
+            ? requestParams.filter
+            : 0;
   } else {
     L3NavMenuItem = params.technicals[0];
     firstOperand = searchParams?.firstoperand;
     operationType = searchParams?.operationtype;
     secondOperand = searchParams?.secondoperand;
     intFilter =
-      searchParams.filter !== undefined && !isNaN(Number(searchParams.filter))
-        ? parseInt(searchParams.filter)
-        : searchParams.filter !== undefined
-          ? searchParams.filter
-          : 0;
+      searchParams.filter === "watchlist"
+        ? "watchlist"
+        : searchParams.filter !== undefined &&
+            !isNaN(Number(searchParams.filter))
+          ? parseInt(searchParams.filter)
+          : searchParams.filter !== undefined
+            ? searchParams.filter
+            : 0;
     actualUrl = pageUrl;
   }
 
@@ -84,7 +90,7 @@ export async function generateMetadata(
     L3NavMenuItem,
     firstOperand,
     operationType,
-    secondOperand,
+    secondOperand
   );
   const seo_title = !!shortUrl ? pageData?.seo_title : metaData[0]?.title;
   const seo_desc = !!shortUrl
@@ -121,29 +127,36 @@ const Technicals = async ({ params, searchParams }: any) => {
     operationType = requestParams?.operationtype;
     secondOperand = requestParams?.secondoperand;
     intFilter =
-      requestParams.filter !== undefined && !isNaN(Number(requestParams.filter))
-        ? parseInt(requestParams.filter)
-        : requestParams.filter !== undefined
-          ? requestParams.filter
-          : 0;
+      requestParams.filter === "watchlist"
+        ? "watchlist"
+        : requestParams.filter !== undefined &&
+            !isNaN(Number(requestParams.filter))
+          ? parseInt(requestParams.filter)
+          : requestParams.filter !== undefined
+            ? requestParams.filter
+            : 0;
   } else {
     L3NavMenuItem = params.technicals[0];
     firstOperand = searchParams?.firstoperand;
     operationType = searchParams?.operationtype;
     secondOperand = searchParams?.secondoperand;
     intFilter =
-      searchParams.filter !== undefined && !isNaN(Number(searchParams.filter))
-        ? parseInt(searchParams.filter)
-        : searchParams.filter !== undefined
-          ? searchParams.filter
-          : 0;
+      searchParams.filter === "watchlist"
+        ? "watchlist"
+        : searchParams.filter !== undefined &&
+            !isNaN(Number(searchParams.filter))
+          ? parseInt(searchParams.filter)
+          : searchParams.filter !== undefined
+            ? searchParams.filter
+            : 0;
     actualUrl = pageUrl;
   }
 
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
   const ticketId = cookieStore.get("TicketId")?.value;
-  const filter = !!intFilter ? [intFilter] : [];
+  const filter =
+    intFilter === "watchlist" ? [] : !!intFilter ? [intFilter] : [];
   const pagesize = 100;
   const pageno = 1;
   const sort: any = [];
@@ -165,9 +178,13 @@ const Technicals = async ({ params, searchParams }: any) => {
     firstOperand,
     operationType,
     secondOperand,
-    filterValue: filter,
+    filterValue: intFilter === "watchlist" ? [] : filter,
     filterType:
-      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
+      intFilter === "watchlist"
+        ? "watchlist"
+        : filter == undefined || !isNaN(Number(filter))
+          ? "index"
+          : "marketcap",
     sort,
     pagesize,
     pageno,
@@ -186,7 +203,7 @@ const Technicals = async ({ params, searchParams }: any) => {
     L3NavMenuItem,
     firstOperand,
     operationType,
-    secondOperand,
+    secondOperand
   );
 
   const title = !!shortUrl ? pageData?.heading : metaData[0]?.title;
@@ -206,7 +223,7 @@ const Technicals = async ({ params, searchParams }: any) => {
     L3NavMenuItem,
     technicalCategory.selectedFilter,
     true,
-    title,
+    title
   );
 
   breadCrumbObj.push({ label: selectedFilter?.name, redirectUrl: "" });

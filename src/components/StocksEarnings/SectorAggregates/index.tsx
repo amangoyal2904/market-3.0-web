@@ -119,28 +119,42 @@ const SectorAggregates = ({ data }: any) => {
         <div className={styles.tabContent}>
           {tabContentData && tabContentData.length > 0 ? (
             <>
-              <div className={styles.contentWrap}>
-                <SlickSlider
-                  // ref={sliderRef}
-                  slides={tabContentData?.map((item: any, index: any) => ({
-                    content: (
+              <div
+                className={`${styles.contentWrap} ${tabContentData.length < 5 ? styles.noSliderWraper : ""}`}
+              >
+                {tabContentData.length > 4 ? (
+                  <SlickSlider
+                    // ref={sliderRef}
+                    slides={tabContentData?.map((item: any, index: any) => ({
+                      content: (
+                        <SectorCard
+                          item={item}
+                          index={index}
+                          key={`${index}-tabSecTab`}
+                        />
+                      ),
+                    }))}
+                    key={`slider-${tabActive}`}
+                    sliderId={`slider-earningsTopSector`}
+                    slidesToShow={5}
+                    slidesToScroll={1}
+                    rows={1}
+                    responsive={responsive}
+                    noPadding={true}
+                    topSpaceClass="earningsTopSector"
+                    //   screenWidth={screenWidth}
+                  />
+                ) : (
+                  tabContentData?.map((item: any, index: number) => {
+                    return (
                       <SectorCard
                         item={item}
                         index={index}
                         key={`${index}-tabSecTab`}
                       />
-                    ),
-                  }))}
-                  key={`slider-${tabActive}`}
-                  sliderId={`slider-earningsTopSector`}
-                  slidesToShow={5}
-                  slidesToScroll={1}
-                  rows={1}
-                  responsive={responsive}
-                  noPadding={true}
-                  topSpaceClass="earningsTopSector"
-                  //   screenWidth={screenWidth}
-                />
+                    );
+                  })
+                )}
               </div>
               <ViewAllCta
                 text={`${tabActive ? "View all Under Performing Sectors" : "View all Top Performing Sectors"}`}

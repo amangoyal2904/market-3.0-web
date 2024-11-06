@@ -23,10 +23,11 @@ import {
 import { trackingEvent } from "@/utils/ga";
 import MarketStatus from "@/components/MarketStatus";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import toast from "react-hot-toast";
 import PrimeBannerExperiment from "@/components/PrimeBannerExperiment";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
-  { ssr: false },
+  { ssr: false }
 );
 
 const WatchListClient = () => {
@@ -51,9 +52,10 @@ const WatchListClient = () => {
   const [modalBodyText, setModalBodyText] = useState({
     title: "You have Successfully created your personalise view",
   });
-  const { state } = useStateContext();
+  const { state, dispatch } = useStateContext();
   const { isPrime, isLogin, ssoid, ticketId } = state.login;
   const { currentMarketStatus } = state.marketStatus;
+  const { watchlist } = state.watchlistStatus;
   const config = tableConfig["watchList"];
   const pageSummary = {};
 
@@ -63,7 +65,7 @@ const WatchListClient = () => {
       setRequestPayload((prevPayload: any) => {
         const sortConfig = prevPayload.sort;
         const isFieldSorted = sortConfig.find(
-          (config: any) => config.field === field,
+          (config: any) => config.field === field
         );
         let newSortConfig;
 
@@ -71,7 +73,7 @@ const WatchListClient = () => {
           newSortConfig = sortConfig.map((config: any) =>
             config.field === field
               ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
-              : config,
+              : config
           );
         } else {
           newSortConfig = [{ field, order: "DESC" }];
@@ -80,7 +82,7 @@ const WatchListClient = () => {
         return { ...prevPayload, sort: newSortConfig };
       });
     },
-    [requestPayload],
+    [requestPayload]
   );
 
   const onTabViewUpdate = async (viewId: any) => {
@@ -202,13 +204,13 @@ const WatchListClient = () => {
   };
   const toasterRemovePersonaliseViewCloseHandlerFun = async (
     value: boolean,
-    data: any,
+    data: any
   ) => {
     console.log(
       "toasterRemovePersonaliseViewCloseHandlerFun",
       value,
       "___data",
-      data,
+      data
     );
     setToasterPersonaliseViewRemove(false);
     if (value && data && data.id && data.id !== "") {
@@ -229,27 +231,42 @@ const WatchListClient = () => {
   const toasterCloseHandlerFun = async (value: boolean) => {
     //console.log('getValue',value);
     const userConfirm = value || false;
-    const followData = {
-      source: "1",
-      userSettings: [...unFollowStocksList],
-    };
+    const removedStocks = [...unFollowStocksList];
     setToasterConfirmBoxShow(false);
     if (userConfirm) {
-      const removeAllStock = await removeMultipleStockInWatchList(followData);
-      if (
-        removeAllStock &&
-        removeAllStock.nextJsResponse &&
-        removeAllStock.nextJsResponse.length > 0
-      ) {
-        setShowTableCheckBox(false);
-        setUnFollowStocksList([]);
-        onTabViewUpdate(activeViewId);
-      } else if (removeAllStock.length > 0) {
+      const responseData = await removeMultipleStockInWatchList(removedStocks);
+      const response = responseData[0];
+      if (response.statusCode === 200) {
+        const updatedWatchlist = watchlist.filter(
+          (watchlistItem: any) =>
+            !removedStocks.some(
+              (removedStock: any) =>
+                removedStock.stock.id === watchlistItem.companyId &&
+                removedStock.stock.companyType === watchlistItem.companyType
+            )
+        );
+        dispatch({
+          type: "UPDATE_MSID",
+          payload: {
+            watchlist: updatedWatchlist,
+          },
+        });
+
         setShowTableCheckBox(false);
         setUnFollowStocksList([]);
         onTabViewUpdate(activeViewId);
       } else {
-        alert("Some api error plesae check now");
+        toast((t) => (
+          <span className="errorToast">
+            <span>
+              Oops! There is some error while removing the stocks from
+              Watchlist. Please retry.
+            </span>
+            <button onClick={() => toast.dismiss(t.id)}>
+              <i className="eticon_cross"></i>
+            </button>
+          </span>
+        ));
       }
     } else {
       setUnFollowStocksList([]);
@@ -277,16 +294,16 @@ const WatchListClient = () => {
     const checkInput = e.target.checked;
     const data = {
       action: checkInput ? 0 : 1, // If checked, action is 0 (add), else 1 (remove)
-      userSettingSubType: 11,
-      msid: companyId,
-      companytype: assetType,
-      stype: 2,
+      stock: {
+        id: companyId,
+        companyType: assetType,
+      },
     };
     if (checkInput) {
       setUnFollowStocksList((prevList): any => [...prevList, data]);
     } else {
       setUnFollowStocksList((prevList): any =>
-        prevList.filter((item: any) => item.msid !== companyId),
+        prevList.filter((item: any) => item.msid !== companyId)
       );
     }
   };
@@ -316,7 +333,7 @@ const WatchListClient = () => {
         updateTableData();
     },
     refeshConfig.watchlist,
-    [requestPayload, isPrime, currentMarketStatus, fallbackWebsocket],
+    [requestPayload, isPrime, currentMarketStatus, fallbackWebsocket]
   );
 
   return (

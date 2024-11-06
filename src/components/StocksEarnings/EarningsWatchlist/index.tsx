@@ -68,7 +68,7 @@ const EarningsWatchlist = () => {
     //console.log("ssoid_____________", ssoid, responseData.dataList)
     const _watchlistdata: any = responseData?.dataList || [];
     const _declareWatchlistData: any = responseData || {};
-    console.log("_declareWatchlistData", _declareWatchlistData);
+    //console.log("_declareWatchlistData", _declareWatchlistData);
     tabActive ? setCardLoading(false) : setProcessingLoader(false);
     tabActive
       ? setDeclareCompanies(_declareWatchlistData)
@@ -130,7 +130,7 @@ const EarningsWatchlist = () => {
   }, [tabActive]);
   useEffect(() => {
     if (isLogin) {
-      console.log("isLogin useEffect 2", isLogin, isPrime, ssoid);
+      //console.log("isLogin useEffect 2", isLogin, isPrime, ssoid);
       callUpcomingWatchListData();
     }
   }, [_payload]);
