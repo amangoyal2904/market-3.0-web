@@ -2,10 +2,8 @@
 import React, { useEffect, useState, useCallback, Suspense } from "react";
 import styles from "./Header.module.scss";
 import Link from "next/link";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useStateContext } from "../../store/StateContext";
-import ETLogo from "../../../public/img/et-markets-logo.svg";
 import { goToPlansPage1, trackingEvent } from "@/utils/ga";
 import Login from "../Login";
 import Search from "../Search";
@@ -112,14 +110,13 @@ const Header = () => {
                 })
               }
             >
-              <Image
-                src={ETLogo}
+              <img
+                src="https://img.etimg.com/photo/msid-114256969,quality-100/et-markets-logo.jpg"
                 width={138}
                 height={24}
-                quality={100}
                 alt="ET Markets"
                 title="ET Markets"
-                priority={true}
+                fetchPriority="high"
               />
             </Link>
           </div>

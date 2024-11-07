@@ -1,5 +1,4 @@
 import styles from "./styles.module.scss";
-import ETLogo from "../../../../../public/img/et-markets-logo.svg";
 import { redirectToPlanPage } from "@/utils/ga";
 import { useEffect } from "react";
 
@@ -58,7 +57,7 @@ const BottomStrip = ({
           ></span>
           <div className={styles.leftSec}>
             <img
-              src={ETLogo}
+              src="https://img.etimg.com/thumb/msid-114256969,width-124,height-21,quality-100/et-markets-logo.jpg"
               width={124}
               height={21}
               alt="ET Markets"

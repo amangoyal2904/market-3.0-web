@@ -1,10 +1,7 @@
 import { useEffect } from "react";
-import Image from "next/image";
-
 import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
 import { redirectToPlanPage } from "@/utils/ga";
 
-import ETLogo from "../../../../../public/img/et-markets-logo.svg";
 import styles from "./styles.module.scss";
 
 const RightSideStrip = ({
@@ -65,11 +62,10 @@ const RightSideStrip = ({
             <div className={styles.smallBg}></div>
           </div>
           <div className={styles.right}>
-            <Image
-              src={ETLogo}
+            <img
+              src="https://img.etimg.com/thumb/msid-114256969,width-96,height-17,quality-100/et-markets-logo.jpg"
               width={96}
               height={17}
-              quality={100}
               alt="ET Markets"
               title="ET Markets"
             />
