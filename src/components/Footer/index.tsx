@@ -1,16 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Footer.module.scss";
-import Image from "next/image";
 import Search from "../Search";
-import fbIcon from "../../../public/img/logos_facebook.svg";
-import xIcon from "../../../public/img/logos_x.com.svg";
-import linkedIcon from "../../../public/img/logos_linkedin.svg";
-import rssIcon from "../../../public/img/logos_rss.svg";
-import et_become from "../../../public/img/etprime-become-a-member.svg";
-import android from "../../../public/img/android-on-google.svg";
-import apple from "../../../public/img/app-store-download.svg";
-import subscribe from "../../../public/img/subscribe-newsletter.svg";
 import FooterList from "./FooterList";
 import { APP_ENV, footerAPIHit } from "@/utils";
 import GLOBAL_CONFIG from "@/network/global_config.json";
@@ -352,55 +343,39 @@ const Footer = ({ footerData }: any) => {
                 rel="nofollow"
                 title="Facebook"
                 target="_blank"
+                className={styles.socialIcons}
               >
-                <Image
-                  src={fbIcon}
-                  width={40}
-                  height={40}
-                  quality={100}
-                  alt="Facebook"
-                />
+                <span className={`${styles.footerSprite} ${styles.fb}`}></span>
               </a>
               <a
                 href="https://twitter.com/economictimes"
                 rel="nofollow"
                 target="_blank"
                 title="Twitter"
+                className={styles.socialIcons}
               >
-                <Image
-                  src={xIcon}
-                  width={40}
-                  height={40}
-                  quality={100}
-                  alt="X"
-                />
+                <span
+                  className={`${styles.footerSprite} ${styles.twitter}`}
+                ></span>
               </a>
               <a
                 href="https://www.linkedin.com/company/economictimes"
                 rel="nofollow"
                 target="_blank"
                 title="LinkedIn"
+                className={styles.socialIcons}
               >
-                <Image
-                  src={linkedIcon}
-                  width={40}
-                  height={40}
-                  quality={100}
-                  alt="LinkedIn"
-                />
+                <span
+                  className={`${styles.footerSprite} ${styles.linkedin}`}
+                ></span>
               </a>
               <a
                 href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}rss.cms`}
                 target="_blank"
                 title="RSS"
+                className={styles.socialIcons}
               >
-                <Image
-                  src={rssIcon}
-                  width={40}
-                  height={40}
-                  quality={100}
-                  alt="RSS"
-                />
+                <span className={`${styles.footerSprite} ${styles.rss}`}></span>
               </a>
             </div>
             <div className={styles.etDwnld}>
@@ -412,13 +387,9 @@ const Footer = ({ footerData }: any) => {
                 target="_blank"
                 title="Download ET App"
               >
-                <Image
-                  src={android}
-                  width={98}
-                  height={27}
-                  quality={100}
-                  alt="ET Markets"
-                />
+                <span
+                  className={`${styles.footerSprite} ${styles.playStore}`}
+                ></span>
               </a>
               <a
                 href="https://itunes.apple.com/us/app/the-economic-times/id474766725?ls=1&amp;t=8apple.com/us"
@@ -427,13 +398,9 @@ const Footer = ({ footerData }: any) => {
                 target="_blank"
                 title="Download ET App"
               >
-                <Image
-                  src={apple}
-                  width={98}
-                  height={27}
-                  quality={100}
-                  alt="ET Markets"
-                />
+                <span
+                  className={`${styles.footerSprite} ${styles.appStore}`}
+                ></span>
               </a>
             </div>
           </div>
@@ -444,13 +411,9 @@ const Footer = ({ footerData }: any) => {
                 target="_blank"
                 title="subscribe to our newsletter"
               >
-                <Image
-                  src={subscribe}
-                  width={52}
-                  height={47}
-                  quality={100}
-                  alt="subscribe newsletter Img"
-                />
+                <span
+                  className={`${styles.footerSprite} ${styles.newsLetter}`}
+                ></span>
                 <h3 className={styles.footerSubscrTxt}>
                   subscribe to our newsletter
                 </h3>
@@ -463,13 +426,9 @@ const Footer = ({ footerData }: any) => {
                 target="_blank"
                 title="ET Prime"
               >
-                <Image
-                  src={et_become}
-                  width={160}
-                  height={59}
-                  quality={100}
-                  alt="ET Markets"
-                />
+                <span
+                  className={`${styles.footerSprite} ${styles.primeMember}`}
+                ></span>
               </a>
             </div>
           </div>
