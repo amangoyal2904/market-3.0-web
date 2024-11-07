@@ -1,21 +1,12 @@
 import { headers } from "next/headers";
 import { Metadata } from "next";
 
-import {
-  fetchFilters,
-  fnGenerateMetaData,
-  getOverviewData,
-  getPeriodicData,
-} from "@/utils/utility";
-import CorporateAnnouncementsClient from "./client";
+import { fnGenerateMetaData, fetchFilters } from "@/utils/utility";
 import PageHeaderSection from "@/components/PageHeader";
+import CorporateAnnouncementsClient from "./client";
 
 async function fetchData(indexId: number) {
-  return Promise.all([
-    getOverviewData(indexId, 1),
-    getPeriodicData(indexId, "1M", 1),
-    fetchFilters({ watchlist: true, all: true }),
-  ]);
+  return Promise.all([fetchFilters({ watchlist: true, all: true })]);
 }
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -39,9 +30,7 @@ const CorporateAnnouncementsPage = async () => {
     exchange: "nse",
     indexId: 2369,
   };
-  const [overviewData, periodicData, allFilters] = await fetchData(
-    niftyFilterData.indexId,
-  );
+  const [allFilters] = await fetchData(niftyFilterData.indexId);
 
   return (
     <>
@@ -52,8 +41,6 @@ const CorporateAnnouncementsPage = async () => {
       <CorporateAnnouncementsClient
         selectedFilter={niftyFilterData}
         allFilters={allFilters}
-        overview={overviewData}
-        periodic={periodicData}
       />
     </>
   );

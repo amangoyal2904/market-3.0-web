@@ -2,13 +2,8 @@ import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { Metadata } from "next";
 
+import { fnGenerateMetaData, fetchFilters } from "@/utils/utility";
 import PageHeaderSection from "@/components/PageHeader";
-import {
-  fetchFilters,
-  fnGenerateMetaData,
-  getOverviewData,
-  getPeriodicData,
-} from "@/utils/utility";
 import CorporateActionsClient from "./client";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -35,11 +30,7 @@ const validPages = [
 ];
 
 async function fetchData(indexId: number) {
-  return Promise.all([
-    getOverviewData(indexId, 1),
-    getPeriodicData(indexId, "1M", 1),
-    fetchFilters({ watchlist: true, all: true }),
-  ]);
+  return Promise.all([fetchFilters({ watchlist: true, all: true })]);
 }
 
 const CorporateActionsSubPage = async ({ params }: any) => {
@@ -54,9 +45,7 @@ const CorporateActionsSubPage = async ({ params }: any) => {
     seoname: "nifty-50",
     exchange: "nse",
   };
-  const [overviewData, periodicData, allFilters] = await fetchData(
-    niftyFilterData.indexId,
-  );
+  const [niftyData] = await fetchData(niftyFilterData.indexId);
 
   return (
     <>
@@ -65,11 +54,9 @@ const CorporateActionsSubPage = async ({ params }: any) => {
         description="Stay ahead of market-moving events! Track key corporate actions like Mergers, Buybacks, Dividends, Spinoffs, Reverse Stock Splits, Bonus Issues, and Right Issues with our comprehensive insights."
       />
       <CorporateActionsClient
-        flag={type}
         selectedFilter={niftyFilterData}
-        allFilters={allFilters}
-        overview={overviewData}
-        periodic={periodicData}
+        niftyData={niftyData}
+        flag={type}
       />
     </>
   );

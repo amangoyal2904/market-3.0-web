@@ -6,11 +6,9 @@ import CorporateActionseTabs from "@/components/CorporateActions/Tabs";
 import { postRequest } from "@/utils/ajaxUtility";
 
 interface CorporateActionProps {
-  flag: string;
   selectedFilter: any;
-  allFilters: any;
-  overview: any;
-  periodic: any;
+  niftyData: any;
+  flag: string;
 }
 
 const ENDPOINT_MAPPING = {
@@ -100,23 +98,19 @@ const ENDPOINT_MAPPING = {
 };
 
 const CorporateActionsClient: React.FC<CorporateActionProps> = ({
-  flag,
-  allFilters,
   selectedFilter,
-  overview,
-  periodic,
+  niftyData,
+  flag,
 }) => {
   const [filters, setFilters] = useState({
-    filterType: "index",
     duration: "default",
+    filterValue: "",
   });
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [processingLoader, setProcessingLoader] = useState(false);
-  const [overviewData, setOverviewData] = useState<any>(overview);
-  const [periodicData, setPeriodicData] = useState<any>(periodic);
-  const [currPage, setCurrPage] = useState(1);
-  const [tableData, setTableData] = useState([]);
   const [pagesummary, setPageSummary] = useState({});
+  const [tableData, setTableData] = useState([]);
+  const [currPage, setCurrPage] = useState(1);
 
   useEffect(() => {
     fetchData();
@@ -126,18 +120,18 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
     try {
       setProcessingLoader(true);
       const reqFilters = {
+        filterValue: [0, "watchlist"].includes(filters?.filterValue)
+          ? []
+          : filters?.filterValue
+            ? [filters?.filterValue]
+            : [],
+        filterType:
+          filters?.filterValue === "watchlist" ? "watchlist" : "index",
+        duration: filters?.duration,
         pageNo: currPage,
         marketcap: "All",
-        filterValue: ["2371"],
         pageSize: 10,
-        duration: filters?.duration,
-        filterType: filters?.filterType,
       };
-      if (flag === "dividend") {
-        reqFilters["filterValue"] = ["14034"];
-        reqFilters["filterType"] =
-          filters?.filterType !== "index" ? filters?.filterType : "company";
-      }
 
       const responseGetter = await postRequest(
         (ENDPOINT_MAPPING as any)[flag]?.ep,
@@ -175,13 +169,11 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
   return (
     <>
       <CorporateActionseTabs
-        activeTab={flag}
-        selectedFilter={niftyFilterData}
-        allFilters={allFilters}
-        overview={overviewData}
         setNiftyFilterData={setNiftyFilterData}
-        periodic={periodicData}
+        selectedFilter={niftyFilterData}
         setFilters={setFilters}
+        niftyData={niftyData}
+        activeTab={flag}
       />
       <div className="prel">
         <TableComponent

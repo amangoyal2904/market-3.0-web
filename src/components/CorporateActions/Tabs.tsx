@@ -1,9 +1,10 @@
 import React, { useCallback, useMemo, useState } from "react";
-import styles from "./styles.module.scss";
 import Link from "next/link";
-import { trackingEvent } from "@/utils/ga";
-import CustomDropdown from "../CustomDropdown";
+
 import StockFilterNifty from "../StockFilterNifty";
+import CustomDropdown from "../CustomDropdown";
+import { trackingEvent } from "@/utils/ga";
+import styles from "./styles.module.scss";
 
 const tabData = [
   { label: "Dividend", key: "dividend" },
@@ -26,24 +27,20 @@ const overviewOptions = [
 
 const CorporateActionseTabs = React.memo(
   ({
-    activeTab,
-    allFilters,
-    selectedFilter,
-    overview,
     setNiftyFilterData,
+    selectedFilter,
+    niftyData,
     setFilters,
-    periodic,
+    activeTab,
   }: {
-    activeTab: string;
-    allFilters: any;
-    selectedFilter: any;
-    overview: any;
     setNiftyFilterData: any;
+    selectedFilter: any;
+    activeTab: string;
+    niftyData: any;
     setFilters: any;
-    periodic: any;
   }) => {
     const [showFilter, setShowFilter] = useState(false);
-    const allFilterData = useMemo(() => allFilters, [allFilters]);
+    const allFilterData = useMemo(() => niftyData, [niftyData]);
     const onDurationChange = (duration: string) => {
       setFilters((prevState: any) => ({
         ...prevState,
@@ -62,7 +59,7 @@ const CorporateActionseTabs = React.memo(
     ) => {
       setFilters((prevState: any) => ({
         ...prevState,
-        filterType: id,
+        filterValue: id,
       }));
       setShowFilter(false);
       setNiftyFilterData({
@@ -114,19 +111,19 @@ const CorporateActionseTabs = React.memo(
           </div>
           {showFilter && (
             <StockFilterNifty
-              data={allFilterData}
-              onclick={showFilterMenu}
-              showFilter={showFilter}
+              childMenuTabActive={selectedFilter.indexId}
               valuechange={filterDataChangeHander}
               selectTab={selectedFilter.exchange}
-              childMenuTabActive={selectedFilter.indexId}
+              onclick={showFilterMenu}
+              showFilter={showFilter}
+              data={allFilterData}
             />
           )}
           <CustomDropdown
             onFilterChange={onDurationChange}
             filterOptions={overviewOptions}
-            filterKey="key"
             filterLabelKey="label"
+            filterKey="key"
           />
         </div>
       </div>
