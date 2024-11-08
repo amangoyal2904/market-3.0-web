@@ -21,12 +21,12 @@ const Share = ({
     };
   }
 
-  const gaTrackingClickHandler = (action: any, lable: any, cate: any) => {
+  const gaTrackingClickHandler = () => {
     trackingEvent("et_push_event", {
       et_product: "Mercury_ETLearn",
-      event_action: action,
+      event_action: "share",
       event_category: "mercury_engagement",
-      event_label: `${lable}-${cate}`,
+      event_label: `${title}`,
       feature_name: "ETLearn",
       page_template: "etlearn",
       product_name: "Mercury_Earnings",
@@ -53,7 +53,7 @@ const Share = ({
             data-ga-onshare={`Facebook#Share#${streamURL}`}
             onClick={(e) => {
               SocialShare.Share(e, { ...shareParam, type: "fb" });
-              gaTrackingClickHandler("Facebook", "Share", `${streamURL}`);
+              gaTrackingClickHandler();
             }}
             data-share-title={`"Facebook#Share#${streamURL}`}
             title="facebook"
@@ -65,7 +65,7 @@ const Share = ({
             data-ga-onshare={`Twitter#Tweet#${streamURL}`}
             onClick={(e) => {
               SocialShare.Share(e, { ...shareParam, type: "twt" });
-              gaTrackingClickHandler("Twitter", "Share", `${streamURL}`);
+              gaTrackingClickHandler();
             }}
             data-share-title={title}
             aria-label="twitter"
@@ -79,7 +79,7 @@ const Share = ({
             data-ga-onshare={`LinkedIn#Share#${streamURL}`}
             onClick={(e) => {
               SocialShare.Share(e, { ...shareParam, type: "lin" });
-              gaTrackingClickHandler("Linkedin", "Share", `${streamURL}`);
+              gaTrackingClickHandler();
             }}
             data-share-title={title}
             title="linkedin"
@@ -91,7 +91,7 @@ const Share = ({
             data-ga-onshare={`Whatsapp#Share#${streamURL}`}
             onClick={(e) => {
               SocialShare.Share(e, { ...shareParam, type: "wa" });
-              gaTrackingClickHandler("whatsapp", "Share", `${streamURL}`);
+              gaTrackingClickHandler();
             }}
             data-watext="Hey, This might interest you! %0A%0A"
             data-share-title={title}
