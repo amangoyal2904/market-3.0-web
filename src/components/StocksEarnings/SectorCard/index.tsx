@@ -51,47 +51,55 @@ const SectorCard = ({ item, index, className = "" }: any) => {
         <div className={styles.middleTxt}>
           <span>Revenue</span>
           <span
-            className={`${item?.sectorNetSalesQoqAvg > 0 ? styles.up : styles.down}`}
+            className={`${item?.sectorNetSalesQoqAvg > 0 ? styles.up : item?.sectorNetSalesQoqAvg < 0 ? styles.down : ""}`}
           >
             {item?.sectorNetSalesQoqAvg > 0 ? (
               <i className="eticon_up_arrow" />
-            ) : (
+            ) : item?.sectorNetSalesQoqAvg < 0 ? (
               <i className="eticon_down_arrow" />
+            ) : (
+              ""
             )}
-            {item?.sectorNetSalesQoqAvg}
+            {item?.sectorNetSalesQoqAvg || "-"}
           </span>
           <span
-            className={`${item?.sectorNetSalesYoyAvg > 0 ? styles.up : styles.down}`}
+            className={`${item?.sectorNetSalesYoyAvg > 0 ? styles.up : item?.sectorNetSalesYoyAvg < 0 ? styles.down : ""}`}
           >
             {item?.sectorNetSalesYoyAvg > 0 ? (
               <i className="eticon_up_arrow" />
-            ) : (
+            ) : item?.sectorNetSalesYoyAvg < 0 ? (
               <i className="eticon_down_arrow" />
+            ) : (
+              ""
             )}
-            {item?.sectorNetSalesYoyAvg}
+            {item?.sectorNetSalesYoyAvg || "-"}
           </span>
         </div>
         <div className={styles.middleTxt}>
           <span>Net Profit</span>
           <span
-            className={`${item?.sectorPATQoqAvg > 0 ? styles.up : styles.down}`}
+            className={`${item?.sectorPATQoqAvg > 0 ? styles.up : item?.sectorPATQoqAvg < 0 ? styles.down : ""}`}
           >
             {item?.sectorPATQoqAvg > 0 ? (
               <i className="eticon_up_arrow" />
-            ) : (
+            ) : item?.sectorPATQoqAvg < 0 ? (
               <i className="eticon_down_arrow" />
+            ) : (
+              ""
             )}
-            {item?.sectorPATQoqAvg}
+            {item?.sectorPATQoqAvg || "-"}
           </span>
           <span
-            className={`${item?.sectorPATYoyAvg > 0 ? styles.up : styles.down}`}
+            className={`${item?.sectorPATYoyAvg > 0 ? styles.up : item?.sectorPATYoyAvg < 0 ? styles.down : ""}`}
           >
             {item?.sectorPATYoyAvg > 0 ? (
               <i className="eticon_up_arrow" />
-            ) : (
+            ) : item?.sectorPATYoyAvg < 0 ? (
               <i className="eticon_down_arrow" />
+            ) : (
+              ""
             )}
-            {item?.sectorPATYoyAvg}
+            {item?.sectorPATYoyAvg || "-"}
           </span>
         </div>
         <div className={styles.botmSec}>
