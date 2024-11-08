@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+
 import styles from "./styles.module.scss";
 
 interface Category {
@@ -14,17 +15,52 @@ interface Category {
 interface CategoriesComponentProps {
   setSelectedCategories: any;
   selectedCategories: any;
+  showCategories: boolean;
   categories: Category[];
   onApply: any;
 }
 
 const CategoriesComponent: React.FC<CategoriesComponentProps> = ({
-  categories,
-  onApply,
   setSelectedCategories,
   selectedCategories,
+  showCategories,
+  categories,
+  onApply,
 }) => {
+  const popupRef = useRef<HTMLDivElement | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const handleClickOutside = useCallback(
+    (event: any) => {
+      console.log("_______event", event);
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        onApply(false);
+      }
+    },
+    [onApply],
+  );
+
+  const handleEscapeKey = useCallback(
+    (event: any) => {
+      if (event.key === "Escape") {
+        onApply(false);
+      }
+    },
+    [onApply],
+  );
+
+  useEffect(() => {
+    if (showCategories) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("click", handleClickOutside);
+      document.addEventListener("keydown", handleEscapeKey);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("keydown", handleEscapeKey);
+    };
+  }, [showCategories, handleClickOutside, handleEscapeKey]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value.toLowerCase());
@@ -42,10 +78,6 @@ const CategoriesComponent: React.FC<CategoriesComponentProps> = ({
     category.categoryName.toLowerCase().includes(searchQuery),
   );
 
-  const unSelectAll = () => {
-    setSelectedCategories([]);
-  };
-
   const applyFun = () => {
     onApply();
   };
@@ -53,7 +85,7 @@ const CategoriesComponent: React.FC<CategoriesComponentProps> = ({
   return (
     <div className={`customModule`}>
       <div className="moduleWrap">
-        <div className={styles.categoriesComponent}>
+        <div className={styles.categoriesComponent} ref={popupRef}>
           <input
             type="search"
             placeholder="Search Categories"
@@ -61,12 +93,7 @@ const CategoriesComponent: React.FC<CategoriesComponentProps> = ({
             onChange={handleSearchChange}
             className={styles.searchInput}
           />
-          <label className={styles.categoryHeading}>
-            Categories
-            {selectedCategories?.length > 0 && (
-              <input type="checkbox" onChange={unSelectAll} />
-            )}
-          </label>
+          <label className={styles.categoryHeading}>Categories</label>
           <div className={styles.categoriesList}>
             {filteredCategories.map((category) => (
               <div key={category.id} className={styles.categoryItem}>
@@ -84,6 +111,11 @@ const CategoriesComponent: React.FC<CategoriesComponentProps> = ({
                 </label>
               </div>
             ))}
+            {!filteredCategories?.length && (
+              <div className={styles.categoryItem}>
+                <label>No Cateogry found with this filter.</label>
+              </div>
+            )}
           </div>
           <div className={styles.stickyFooter}>
             <span>

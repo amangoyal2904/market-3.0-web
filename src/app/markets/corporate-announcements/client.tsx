@@ -83,7 +83,6 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
         selectedFilter={niftyFilterData}
         setFilters={setFilters}
         allFilters={allFilters}
-        filters={filters}
       />
       <div className="prel">
         {processingLoader ? (

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import TableComponent from "@/components/CorporateActions/TableComponent";
 import CorporateActionseTabs from "@/components/CorporateActions/Tabs";
 import { postRequest } from "@/utils/ajaxUtility";
+import { getCookie } from "@/utils";
 
 interface CorporateActionProps {
   selectedFilter: any;
@@ -15,7 +16,12 @@ const ENDPOINT_MAPPING = {
   dividend: {
     ep: "CORPORATE_ACTIONS_DIVIDEND",
     headers: [
-      { keyText: "Stock Name", keyId: "companyName", watchlist: true },
+      {
+        keyText: "Stock Name",
+        keyId: "companyName",
+        watchlist: true,
+        width: "400px",
+      },
       {
         keyText: "Announced on",
         keyId: "announcementDateLong",
@@ -23,15 +29,20 @@ const ENDPOINT_MAPPING = {
         type: "date",
       },
       { keyText: "Type", keyId: "dividendType" },
-      { keyText: "Dividend %", keyId: "value" },
-      { keyText: "Div./Share", keyId: "current" },
+      { keyText: "Dividend %", keyId: "percent" },
+      { keyText: "Div./Share", keyId: "value" },
       { keyText: "Ex-Dividend", keyId: "xdDateLong", sort: true, type: "date" },
     ],
   },
   bonus: {
     ep: "CORPORATE_ACTIONS_BONUS",
     headers: [
-      { keyText: "Stock Name", keyId: "companyName", watchlist: true },
+      {
+        keyText: "Stock Name",
+        keyId: "companyName",
+        watchlist: true,
+        width: "400px",
+      },
       {
         keyText: "Announced on",
         keyId: "dateOfAnnouncementLong",
@@ -76,7 +87,12 @@ const ENDPOINT_MAPPING = {
   rights: {
     ep: "CORPORATE_ACTIONS_RIGHTS",
     headers: [
-      { keyText: "Stock Name", keyId: "companyName", watchlist: true },
+      {
+        keyText: "Stock Name",
+        keyId: "companyName",
+        watchlist: true,
+        width: "400px",
+      },
       { keyText: "Ratio", keyId: "ratio" },
       { keyText: "FV", keyId: "faceValueOfferedInstrument" },
       { keyText: "Premium", keyId: "rightsPremium" },
@@ -126,22 +142,30 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
             ? [filters?.filterValue]
             : [],
         filterType:
-          filters?.filterValue === "watchlist" ? "watchlist" : "index",
+          filters?.filterValue === "watchlist"
+            ? "watchlist"
+            : filters?.filterValue
+              ? "index"
+              : "",
         duration: filters?.duration,
         pageNo: currPage,
         marketcap: "All",
-        pageSize: 10,
+        pageSize: 15,
       };
+
+      const ssoid = getCookie("ssoid"),
+        ticketId = getCookie("TicketId");
 
       const responseGetter = await postRequest(
         (ENDPOINT_MAPPING as any)[flag]?.ep,
         reqFilters,
+        { ssoid: ssoid, ticketId: ticketId },
       );
 
       if (["rights", "bonus"].includes(flag)) {
         let data = responseGetter?.searchresult;
         data.forEach((ele: any) => {
-          ele.ratio = `${ele?.ratioExisting}:${ele?.ratioOffering || ele?.ratioOfferred}`;
+          ele.ratio = `${ele?.ratioOffering || ele?.ratioOfferred}:${ele?.ratioExisting}`;
         });
         setTableData(data);
       } else {
@@ -149,7 +173,7 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
       }
       const pageSummery = {
         pageNo: currPage,
-        pageSize: 10,
+        pageSize: 15,
         totalPages: responseGetter?.pagesummary?.totalpages,
         totalRecords: responseGetter?.pagesummary?.totalRecords,
       };
@@ -168,14 +192,14 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
 
   return (
     <>
-      <CorporateActionseTabs
-        setNiftyFilterData={setNiftyFilterData}
-        selectedFilter={niftyFilterData}
-        setFilters={setFilters}
-        niftyData={niftyData}
-        activeTab={flag}
-      />
       <div className="prel">
+        <CorporateActionseTabs
+          setNiftyFilterData={setNiftyFilterData}
+          selectedFilter={niftyFilterData}
+          setFilters={setFilters}
+          niftyData={niftyData}
+          activeTab={flag}
+        />
         <TableComponent
           header={(ENDPOINT_MAPPING as any)[flag]?.headers}
           handlePageChange={handlePageChangeHandler}

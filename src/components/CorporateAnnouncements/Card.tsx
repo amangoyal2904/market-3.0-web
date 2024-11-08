@@ -12,8 +12,10 @@ interface CardItem {
   attachmentURL: string;
   caption: string;
   fullText: string;
+  fullTextData: string;
   companyType: string;
   companyShortName: string;
+  category: [];
   tpilCode: string;
   companyName2: string;
   companyName: string;
@@ -91,10 +93,11 @@ const CardsList: React.FC<CardProps> = ({
               </div>
               {(ele?.symbol || ele?.companyType) && (
                 <div className={styles.cardTag}>
-                  {ele?.symbol || ele?.companyType}
+                  {/* {ele?.symbol || ele?.companyType} */}
+                  {ele?.category.map((ele) => <span key={ele}>{ele}</span>)}
                 </div>
               )}
-              <p className={styles.cardContent}>{ele?.caption}</p>
+              <p className={styles.cardContent}>{ele?.fullTextData}</p>
               <div className={styles.cardFooter}>
                 <div className={styles.footerTime}>
                   {dateFormat(ele?.updatedDateTime, "%MMM %d, %H:%m %p")}

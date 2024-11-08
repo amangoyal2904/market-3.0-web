@@ -1,6 +1,9 @@
+import Link from "next/link";
+
 import WatchlistAddition from "../WatchlistAddition";
 import ETPagination from "../Pagination/Pagination";
 import Blocker from "@/components/Blocker";
+import { trackingEvent } from "@/utils/ga";
 import styles from "./styles.module.scss";
 import Loader from "@/components/Loader";
 import { dateFormat } from "@/utils";
@@ -18,8 +21,34 @@ interface TableHeader {
   keyText: string;
   sort?: boolean;
   keyId?: string;
+  width?: string;
   type?: string;
 }
+const companyPage = (companyName: string) => {
+  trackingEvent("et_push_event", {
+    event_category: "mercury_engagement",
+    event_action: "click",
+    event_label: companyName,
+  });
+};
+
+const StockLink = (ele: any) => {
+  return (
+    <Link
+      className={styles.cardTitle}
+      onClick={() =>
+        companyPage(
+          ele?.companyName || ele?.companyShortName || ele?.companyName2,
+        )
+      }
+      title={ele?.companyName}
+      target="_blank"
+      href={`/${ele?.companyName?.replaceAll(" ", "-").toLowerCase()}/stocks/companyid-${ele?.companyId}.cms`}
+    >
+      {ele?.companyName || ele?.companyShortName || ele?.companyName2}
+    </Link>
+  );
+};
 
 const TableComponent: React.FC<TableProps> = ({
   handlePageChange,
@@ -40,7 +69,7 @@ const TableComponent: React.FC<TableProps> = ({
             <thead>
               <tr>
                 {header.map((ele) => (
-                  <th key={ele?.keyId}>
+                  <th key={ele?.keyId} style={{ width: ele?.width || "auto" }}>
                     {ele?.keyText}
                     {/* {ele.sort && (
                   <span className={`${styles.sortIcons}`}>
@@ -51,6 +80,8 @@ const TableComponent: React.FC<TableProps> = ({
                   </th>
                 ))}
               </tr>
+            </thead>
+            <tbody>
               {tableData.map((ele: any) => (
                 <tr key={ele?.id}>
                   {header.map((cellVal) => (
@@ -74,13 +105,15 @@ const TableComponent: React.FC<TableProps> = ({
                               cellVal?.keyId && ele[cellVal?.keyId],
                               "%d %MMM' %y",
                             )
-                          : cellVal?.keyId && ele[cellVal?.keyId]}
+                          : cellVal?.keyId === "companyName"
+                            ? StockLink(ele)
+                            : cellVal?.keyId && ele[cellVal?.keyId]}
                       </div>
                     </td>
                   ))}
                 </tr>
               ))}
-            </thead>
+            </tbody>
           </table>
           {pagesummary?.totalRecords > 10 && (
             <ETPagination

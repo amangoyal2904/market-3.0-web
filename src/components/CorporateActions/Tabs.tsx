@@ -17,12 +17,12 @@ const tabData = [
 
 const overviewOptions = [
   { label: "All Time", key: "default" },
-  { label: "Upcoming", key: "upcoming" },
-  { label: "1 Week", key: "1week" },
-  { label: "1 Month", key: "month" },
-  { label: "3 Month", key: "3month" },
-  { label: "6 Month", key: "6month" },
-  { label: "1 Year", key: "year" },
+  { label: "Upcoming", key: "u" },
+  { label: "1 Week", key: "1w" },
+  { label: "1 Month", key: "1m" },
+  { label: "3 Month", key: "3m" },
+  { label: "6 Month", key: "6m" },
+  { label: "1 Year", key: "1y" },
 ];
 
 const CorporateActionseTabs = React.memo(
@@ -71,62 +71,65 @@ const CorporateActionseTabs = React.memo(
     };
 
     return (
-      <div className={styles.tabsWrap}>
-        <ul className={styles.tabsList}>
-          {tabData.map((item) => (
-            <li
-              key={item.key}
-              className={`${styles.tabItem} ${
-                activeTab === item.key ? styles.active : ""
-              }`}
-            >
-              <Link
-                title={item.label}
-                href={
-                  item.key === "overview"
-                    ? "/markets/corporate-actions"
-                    : `/markets/corporate-actions/${item.key}`
-                }
-                onClick={(e) => {
-                  trackingEvent("et_push_event", {
-                    event_category: "mercury_engagement",
-                    event_action: "tab_selected",
-                    event_label: `FIIDII_${item.label}`,
-                  });
-                }}
+      <>
+        <div className={styles.tabsWrap}>
+          <ul className={styles.tabsList}>
+            {tabData.map((item) => (
+              <li
+                key={item.key}
+                className={`${styles.tabItem} ${
+                  activeTab === item.key ? styles.active : ""
+                }`}
               >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <div className={styles.flex}>
-          <div className={styles.marginlr10}>
-            <span
-              className={`${styles.roundBtn} ${styles.filterNseBse}`}
-              onClick={() => showFilterMenu(true)}
-            >
-              <i className="eticon_filter"></i> {selectedFilter?.name}
-            </span>
-          </div>
-          {showFilter && (
-            <StockFilterNifty
-              childMenuTabActive={selectedFilter.indexId}
-              valuechange={filterDataChangeHander}
-              selectTab={selectedFilter.exchange}
-              onclick={showFilterMenu}
-              showFilter={showFilter}
-              data={allFilterData}
+                <Link
+                  title={item.label}
+                  href={
+                    item.key === "overview"
+                      ? "/markets/corporate-actions"
+                      : `/markets/corporate-actions/${item.key}`
+                  }
+                  onClick={(e) => {
+                    trackingEvent("et_push_event", {
+                      event_category: "mercury_engagement",
+                      event_action: "tab_selected",
+                      event_label: `FIIDII_${item.label}`,
+                    });
+                  }}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div className={styles.flex}>
+            <div className={styles.marginlr10}>
+              <span
+                className={`${styles.roundBtn} ${styles.filterNseBse}`}
+                onClick={() => showFilterMenu(true)}
+              >
+                <i className="eticon_filter"></i> {selectedFilter?.name}
+              </span>
+            </div>
+            {showFilter && (
+              <StockFilterNifty
+                childMenuTabActive={selectedFilter.indexId}
+                valuechange={filterDataChangeHander}
+                selectTab={selectedFilter.exchange}
+                onclick={showFilterMenu}
+                showFilter={showFilter}
+                data={allFilterData}
+              />
+            )}
+            <CustomDropdown
+              onFilterChange={onDurationChange}
+              filterOptions={overviewOptions}
+              filterLabelKey="label"
+              filterKey="key"
             />
-          )}
-          <CustomDropdown
-            onFilterChange={onDurationChange}
-            filterOptions={overviewOptions}
-            filterLabelKey="label"
-            filterKey="key"
-          />
+          </div>
         </div>
-      </div>
+      </>
     );
   },
 );

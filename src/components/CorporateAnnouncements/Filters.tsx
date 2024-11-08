@@ -1,16 +1,12 @@
-import { useRef, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import CategoriesComponent from "./CategoriesDialog";
+import StockFilterNifty from "../StockFilterNifty";
 import { getRequest } from "@/utils/ajaxUtility";
 import CustomDropdown from "../CustomDropdown";
 import styles from "./styles.module.scss";
-import StockFilterNifty from "../StockFilterNifty";
 
 interface FilterComponentProps {
-  filters: {
-    duration: string;
-    category: String[];
-  };
   setNiftyFilterData: any;
   selectedFilter: any;
   setFilters: any;
@@ -19,19 +15,17 @@ interface FilterComponentProps {
 
 const CorporateAnnouncementFilters: React.FC<FilterComponentProps> = ({
   setFilters,
-  filters,
   selectedFilter,
   allFilters,
   setNiftyFilterData,
 }) => {
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const [categories, setCategories] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const [showFilter, setShowFilter] = useState(false);
-  const [showCategories, setShowCategories] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
+  const [showCategories, setShowCategories] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
+  const [categories, setCategories] = useState([]);
+
   const allFilterData = useMemo(() => allFilters, [allFilters]);
+
   const overviewOptions = [
     { label: "All Time", key: "all" },
     { label: "Today", key: "day" },
@@ -42,27 +36,6 @@ const CorporateAnnouncementFilters: React.FC<FilterComponentProps> = ({
     { label: "Last 60 Days", key: "2month" },
     { label: "Last 90 Days", key: "3month" },
   ];
-
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false); // Close dropdown when clicking outside
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleOutsideClick);
-    } else {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [isOpen]);
 
   useEffect(() => {
     getCategoriesList();
@@ -82,7 +55,6 @@ const CorporateAnnouncementFilters: React.FC<FilterComponentProps> = ({
 
   const toggleCategories = () => {
     setShowCategories(!showCategories);
-    setIsOpen(true);
   };
 
   const onApply = () => {
@@ -141,18 +113,15 @@ const CorporateAnnouncementFilters: React.FC<FilterComponentProps> = ({
         filterKey="key"
         filterLabelKey="label"
       />
-      <div
-        className={styles.categoryBtn}
-        onClick={toggleCategories}
-        ref={dropdownRef}
-      >
+      <div className={styles.categoryBtn} onClick={toggleCategories}>
         Categories
         <i className="eticon_caret_down"></i>
       </div>
-      {isOpen && (
+      {showCategories && (
         <CategoriesComponent
           onApply={onApply}
           categories={categories}
+          showCategories={showCategories}
           selectedCategories={selectedCategories}
           setSelectedCategories={setSelectedCategories}
         />

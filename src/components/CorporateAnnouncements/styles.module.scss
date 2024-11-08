@@ -51,14 +51,21 @@
         }
       }
 
-      .cardTag {
-        background-color: #ffd697;
-        padding: 4px 8px;
-        font-size: 12px;
+      .cardTag span {
+        font-size: 11px;
         border-radius: 5px;
-        margin-top: 14px;
         font-weight: 600;
         display: inline-block;
+        margin: 6px 6px 0 0;
+        &::before {
+          content: "";
+          display: inline-block;
+          height: 4px;
+          width: 4px;
+          background-color: #a49e9e;
+          border-radius: 3px;
+          margin: 3px 6px 2px 0;
+        }
       }
 
       .cardContent {
@@ -131,6 +138,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
+    width: 388px;
     margin: 15px;
     width: -webkit-fill-available;
     box-sizing: border-box;
@@ -146,8 +154,8 @@
     border-left: none;
   }
   .categoriesList {
-    // max-height: 450px;
-    max-height: 150px;
+    max-height: 400px;
+    min-height: 150px;
     overflow-y: auto;
     .categoryItem {
       padding: 10px 15px;

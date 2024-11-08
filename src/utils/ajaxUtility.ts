@@ -17,14 +17,19 @@ export const getRequest = async (endpoint: string, filters: any) => {
   return originalJson;
 };
 
-export const postRequest = async (endpoint: string, bodyObj: any) => {
+export const postRequest = async (
+  endpoint: string,
+  bodyObj?: any,
+  headers?: any,
+) => {
   let baseUrl = `${(APIS_CONFIG as any)?.[endpoint][APP_ENV]}`;
   const response = await Service.post({
     url: baseUrl,
-    body: JSON.stringify(bodyObj),
+    body: bodyObj ? JSON.stringify(bodyObj) : {},
     params: {},
     headers: {
       "Content-Type": "application/json",
+      ...headers,
     },
   });
   const originalJson = await response?.json();
