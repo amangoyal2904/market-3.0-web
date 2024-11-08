@@ -68,6 +68,7 @@ const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
       feature_name: "ETLearn",
       page_template: "etlearn",
       product_name: "Mercury_Earnings",
+      selected_category: value,
     });
   };
   const gaTrackingViewAllClickHandler = (value: any) => {
@@ -79,6 +80,7 @@ const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
       feature_name: "ETLearn",
       page_template: "etlearn",
       product_name: "Mercury_Earnings",
+      selected_category: value,
     });
   };
 
@@ -123,7 +125,10 @@ const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
                   </Link>
                 </h2>
                 <div className={styles.ieBoxList}>
-                  <InvestEdgeLeftVideo videoPlayData={videoPlayData} />
+                  <InvestEdgeLeftVideo
+                    videoPlayData={videoPlayData}
+                    selectedcategory={item?.label}
+                  />
                   <div
                     className={`${styles.right_ieContent} ${item.data.length < 7 ? styles["noSlider"] : ""}`}
                   >
@@ -143,6 +148,7 @@ const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
                                   slide?.url,
                                   "videoshow",
                                 )}
+                                selectedcategory={item?.label}
                               />
                             ),
                           }))}
@@ -167,6 +173,7 @@ const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
                               elem?.url,
                               "videoshow",
                             )}
+                            selectedcategory={item?.label}
                           />
                         ))
                     )}

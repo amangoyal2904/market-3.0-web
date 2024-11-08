@@ -30,7 +30,11 @@ const ClientVideos = ({ invementIdeaNavResult, slug, sectionData }: any) => {
     <>
       <TopHero head={getSectionName()} desc={pageDesc} link="" />
       <ETLearnTabs tabData={invementIdeaNavResult?.tabs} />
-      <InvestEdgeVideoBox data={videoData} slug={slug} />
+      <InvestEdgeVideoBox
+        data={videoData}
+        slug={slug}
+        selectedcategory={getSectionName()}
+      />
 
       <BreadCrumb
         pagePath={`/markets/etlearn/${slug[0]}`}

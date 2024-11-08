@@ -14,7 +14,12 @@ interface View {
   likes: number;
   dislikes: number;
 }
-const InvestEdgeBox = ({ slide, slug, videoTitelSlug }: any) => {
+const InvestEdgeBox = ({
+  slide,
+  slug,
+  videoTitelSlug,
+  selectedcategory = "",
+}: any) => {
   const [view, setView] = useState<View[]>([]);
 
   const viewsWrapper = async (slikeId: string) => {
@@ -41,6 +46,7 @@ const InvestEdgeBox = ({ slide, slug, videoTitelSlug }: any) => {
       feature_name: "ETLearn",
       page_template: slug,
       product_name: "Mercury_Earnings",
+      selected_category: selectedcategory,
     });
   };
   const imgUrlGenrate = `https://img.etimg.com/thumb/width-580,height-390,imgsize-527126,resizemode-100,msid-${slide?.msid}/markets/etlearn/${videoTitelSlug}.jpg`;
@@ -80,7 +86,11 @@ const InvestEdgeBox = ({ slide, slug, videoTitelSlug }: any) => {
           />
         </Link>
       </h4>
-      <ViewShareSec data={viewData} dataFormate="two" />
+      <ViewShareSec
+        data={viewData}
+        dataFormate="two"
+        selectedcategory={selectedcategory}
+      />
     </div>
   );
 };

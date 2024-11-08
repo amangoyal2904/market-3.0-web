@@ -1,7 +1,13 @@
 import SocialShare from "@/utils/SocialShare";
 import styles from "./Share.module.scss";
+import { trackingEvent } from "@/utils/ga";
 
-const Share = ({ title, streamURL, shareIconStyle = "" }: any) => {
+const Share = ({
+  title,
+  streamURL,
+  shareIconStyle = "",
+  selectedcategory,
+}: any) => {
   let shareParam: { title: any; url: any; type?: any };
   if (title && streamURL) {
     shareParam = {
@@ -14,6 +20,19 @@ const Share = ({ title, streamURL, shareIconStyle = "" }: any) => {
       url: "",
     };
   }
+
+  const gaTrackingClickHandler = (action: any, lable: any, cate: any) => {
+    trackingEvent("et_push_event", {
+      et_product: "Mercury_ETLearn",
+      event_action: action,
+      event_category: "mercury_engagement",
+      event_label: `${lable}-${cate}`,
+      feature_name: "ETLearn",
+      page_template: "etlearn",
+      product_name: "Mercury_Earnings",
+      selected_category: selectedcategory,
+    });
+  };
   return (
     <div className={styles.shareWrapper}>
       <div
@@ -32,8 +51,11 @@ const Share = ({ title, streamURL, shareIconStyle = "" }: any) => {
             rel="nofollow"
             data-dimension="1"
             data-ga-onshare={`Facebook#Share#${streamURL}`}
-            onClick={(e) => SocialShare.Share(e, { ...shareParam, type: "fb" })}
-            data-share-title={title}
+            onClick={(e) => {
+              SocialShare.Share(e, { ...shareParam, type: "fb" });
+              gaTrackingClickHandler("Facebook", "Share", `${streamURL}`);
+            }}
+            data-share-title={`"Facebook#Share#${streamURL}`}
             title="facebook"
           ></span>
           <span
@@ -41,9 +63,10 @@ const Share = ({ title, streamURL, shareIconStyle = "" }: any) => {
             rel="nofollow"
             data-dimension="1"
             data-ga-onshare={`Twitter#Tweet#${streamURL}`}
-            onClick={(e) =>
-              SocialShare.Share(e, { ...shareParam, type: "twt" })
-            }
+            onClick={(e) => {
+              SocialShare.Share(e, { ...shareParam, type: "twt" });
+              gaTrackingClickHandler("Twitter", "Share", `${streamURL}`);
+            }}
             data-share-title={title}
             aria-label="twitter"
             title="twitter"
@@ -54,9 +77,10 @@ const Share = ({ title, streamURL, shareIconStyle = "" }: any) => {
             rel="nofollow"
             data-dimension="1"
             data-ga-onshare={`LinkedIn#Share#${streamURL}`}
-            onClick={(e) =>
-              SocialShare.Share(e, { ...shareParam, type: "lin" })
-            }
+            onClick={(e) => {
+              SocialShare.Share(e, { ...shareParam, type: "lin" });
+              gaTrackingClickHandler("Linkedin", "Share", `${streamURL}`);
+            }}
             data-share-title={title}
             title="linkedin"
           ></span>
@@ -65,7 +89,10 @@ const Share = ({ title, streamURL, shareIconStyle = "" }: any) => {
             rel="nofollow"
             data-dimension="1"
             data-ga-onshare={`Whatsapp#Share#${streamURL}`}
-            onClick={(e) => SocialShare.Share(e, { ...shareParam, type: "wa" })}
+            onClick={(e) => {
+              SocialShare.Share(e, { ...shareParam, type: "wa" });
+              gaTrackingClickHandler("whatsapp", "Share", `${streamURL}`);
+            }}
             data-watext="Hey, This might interest you! %0A%0A"
             data-share-title={title}
             aria-label="whatsapp"

@@ -20,6 +20,7 @@ const InvestEdgeTopVideo = ({
   seoPath,
   sliderFlag,
   videoTitelSlug,
+  selectedcategory,
 }: any) => {
   const [view, setView] = useState<View[]>([]);
 
@@ -48,6 +49,7 @@ const InvestEdgeTopVideo = ({
       feature_name: "ETLearn",
       page_template: "etlearn",
       product_name: "Mercury_Earnings",
+      selected_category: selectedcategory,
     });
   };
 
@@ -93,7 +95,12 @@ const InvestEdgeTopVideo = ({
           />
         </Link>
       </h4>
-      <ViewShareSec data={viewData} dataFormate="two" shareBoxShow="yes" />
+      <ViewShareSec
+        data={viewData}
+        dataFormate="two"
+        shareBoxShow="yes"
+        selectedcategory={selectedcategory}
+      />
     </div>
   );
 };

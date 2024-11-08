@@ -15,7 +15,7 @@ interface View {
   likes: number;
   dislikes: number;
 }
-const InvestEdgeLeftVideo = ({ videoPlayData }: any) => {
+const InvestEdgeLeftVideo = ({ videoPlayData, selectedcategory }: any) => {
   const {
     videoId,
     activeVideoId,
@@ -25,6 +25,7 @@ const InvestEdgeLeftVideo = ({ videoPlayData }: any) => {
     videoSecSeoPath,
     videoTitelSlug,
   } = videoPlayData;
+  console.log(videoPlayData);
   const [isVisible, setIsVisible] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [view, setView] = useState<View[]>([]);
@@ -37,6 +38,7 @@ const InvestEdgeLeftVideo = ({ videoPlayData }: any) => {
     view,
     videoSecSeoPath,
     videoMsid,
+    shareUrl: `https://economictimes.indiatimes.com${videoSecSeoPath}/${videoTitelSlug}/${videoMsid}`,
   };
   const checkUserAllreadyLikeOrNot = async () => {
     const APIURL = `https://etusersqc2.economictimes.indiatimes.com/et/getpref?stype=2&usersettingsubType=23`;
@@ -50,7 +52,7 @@ const InvestEdgeLeftVideo = ({ videoPlayData }: any) => {
       },
     });
     const response = await resData.json();
-    console.log("__checkUserAllreadyLikeOrNot", response);
+    //console.log("__checkUserAllreadyLikeOrNot", response);
   };
   const checkLikeCount = async () => {
     const APIURL =
@@ -72,7 +74,7 @@ const InvestEdgeLeftVideo = ({ videoPlayData }: any) => {
       body: JSON.stringify(bodyPayload),
     });
     const response = await resData.json();
-    console.log("__responseCount", response);
+    //console.log("__responseCount", response);
   };
   const likeAPICall = async (dataBody: any) => {
     const followData = {
@@ -96,7 +98,7 @@ const InvestEdgeLeftVideo = ({ videoPlayData }: any) => {
       body: JSON.stringify(followData),
     });
     const response = await resData.json();
-    console.log("__response", response);
+    //console.log("__response", response);
     checkLikeCount();
   };
   const likeHandler = () => {
@@ -134,6 +136,7 @@ const InvestEdgeLeftVideo = ({ videoPlayData }: any) => {
       feature_name: "ETLearn",
       page_template: "etlearn",
       product_name: "Mercury_Earnings",
+      selected_category: selectedcategory,
     });
   };
   const imgUrlGenrate = `https://img.etimg.com/thumb/width-750,height-350,imgsize-527126,resizemode-100,msid-${videoDetails?.msid}/markets/etlearn/${videoSecSeoPath}/${videoTitelSlug}.jpg`;
@@ -214,7 +217,7 @@ const InvestEdgeLeftVideo = ({ videoPlayData }: any) => {
           {videoDetails?.title}
         </Link>
       </h3>
-      <ViewShareSec data={viewData} />
+      <ViewShareSec data={viewData} selectedcategory={selectedcategory} />
     </div>
   );
 };

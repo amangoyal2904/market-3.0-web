@@ -7,6 +7,7 @@ const VideoEmmbed = ({
   showLoader,
   herovideo = "",
   videoMsid = "",
+  selectedcategory,
 }: any) => {
   const domainUrl = "https://etdev8243.indiatimes.com";
   const iframeUrl = `${domainUrl}/videodash.cms?autostart=1&tpname=investedge&widget=video&skipad=true&primeuser=0&ismktwebpre=true&msid=${videoMsid}`;

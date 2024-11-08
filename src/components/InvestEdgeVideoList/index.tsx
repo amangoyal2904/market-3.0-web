@@ -17,6 +17,7 @@ const InvestEdgeVideoList = (props: any) => {
                 key={index}
                 slug={slug[0]}
                 videoTitelSlug={getSeoNameFromUrl(slide?.url, "videoshow")}
+                selectedcategory={title}
               />
             ))}
         </div>

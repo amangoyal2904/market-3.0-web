@@ -20,7 +20,7 @@ interface VideoDetails {
   videoDuration: string;
   synopsis?: any;
 }
-const InvestEdgeVideoBox = ({ data, slug }: any) => {
+const InvestEdgeVideoBox = ({ data, slug, selectedcategory = "" }: any) => {
   const { title, sectionData, pageSlug, videoMsid } = data;
   const videoSecSeoPath: string = pageSlug || "";
   const [showLoader, setShowLoader] = useState(true);
@@ -63,6 +63,7 @@ const InvestEdgeVideoBox = ({ data, slug }: any) => {
           showLoader={showLoader}
           onIframeLoadTask={onIframeLoadTask}
           herovideo="yes"
+          selectedcategory={selectedcategory}
         />
       ) : (
         ""
@@ -72,7 +73,7 @@ const InvestEdgeVideoBox = ({ data, slug }: any) => {
           className={styles.descSec}
           dangerouslySetInnerHTML={{ __html: videoData?.synopsis }}
         />
-        <ViewShareSec data={viewData} />
+        <ViewShareSec data={viewData} selectedcategory={selectedcategory} />
       </div>
       <h3 className={styles.head3}>Other videos in the {title}</h3>
       <div className={styles.ieVidList}>
@@ -85,6 +86,7 @@ const InvestEdgeVideoBox = ({ data, slug }: any) => {
                   key={`slikde-${index}`}
                   slug={videoSecSeoPath}
                   videoTitelSlug={getSeoNameFromUrl(slide?.url, "videoshow")}
+                  selectedcategory={selectedcategory}
                 />
               ),
           )}

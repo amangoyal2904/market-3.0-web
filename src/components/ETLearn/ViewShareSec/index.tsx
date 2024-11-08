@@ -7,6 +7,7 @@ const ViewShareSec = ({
   dataFormate = "",
   shareBoxShow = "yes",
   showTimeStamp = "no",
+  selectedcategory = "",
 }: any) => {
   const { videoDetails, view, videoSecSeoPath, videoMsid, shareUrl } = data;
   //console.log(data)
@@ -42,6 +43,7 @@ const ViewShareSec = ({
                 }
                 streamURL={shareUrl}
                 shareIconStyle="round"
+                selectedcategory={selectedcategory}
               />
             </>
           )}

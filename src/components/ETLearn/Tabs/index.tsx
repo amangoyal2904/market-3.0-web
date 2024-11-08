@@ -17,6 +17,7 @@ const ETLearnTabs = ({ tabData }: any) => {
       feature_name: "ETLearn",
       page_template: value,
       product_name: "Mercury_Earnings",
+      selected_category: value,
     });
   };
   return (
