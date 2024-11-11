@@ -1,10 +1,7 @@
 "use client";
 import styles from "./ViewAll.module.scss";
 import { trackingEvent } from "@/utils/ga";
-import Image from "next/image";
 import Link from "next/link";
-import LiveStreamLogo from "../../../public/img/liveStream.svg";
-import { customImageLoader } from "@/utils";
 
 const HeadingHome = ({ title, url }: any) => {
   return title == "Stock Reports Plus" ? (
@@ -28,7 +25,7 @@ const HeadingHome = ({ title, url }: any) => {
         <p className={styles.powered}>
           Powered By
           <img
-            src="/marketsweb/img/refinitiv.png"
+            src="https://img.etimg.com/photo/msid-114256957,quality-100/refinitiv.jpg"
             width={88}
             height={22}
             alt="Refinitiv"
@@ -52,12 +49,13 @@ const HeadingHome = ({ title, url }: any) => {
           })
         }
       >
-        <Image
-          src={LiveStreamLogo}
+        <img
+          src="https://img.etimg.com/photo/msid-115049821,quality-100/live-stream.jpg"
           alt={title}
           title="LiveStream"
           loading="lazy"
-          quality={100}
+          width={170}
+          height={26}
         />
         <span className={`eticon_caret_right ${styles.headingIcon}`} />
       </Link>

@@ -10,6 +10,7 @@ import { fetchFilters } from "@/utils/utility";
 import StockFilterNifty from "@/components/StockFilterNifty";
 import { commonPostAPIHandler } from "../../../utils/screeners";
 import BreadCrumb from "@/components/BreadCrumb";
+import { getCookie } from "@/utils";
 
 const InvestorClientCategoryPage = ({
   data,
@@ -25,6 +26,8 @@ const InvestorClientCategoryPage = ({
   rightTabTxt = "",
   tableThSortFilterID,
 }: any) => {
+  const ssoid = getCookie("ssoid") || "";
+  const ticketId = getCookie("TicketId") || "";
   const [tableLoadingShow, setTableLoadingShow] = useState(false);
   const [sortByTrade, setSortByTrade]: any = useState([
     { label: "All Entries", value: "ALL" },
@@ -101,7 +104,11 @@ const InvestorClientCategoryPage = ({
   });
 
   const filterApiCall = async () => {
-    const data = await fetchFilters({ all: true, marketcap: true });
+    const data = await fetchFilters({
+      all: true,
+      marketcap: true,
+      watchlist: true,
+    });
     setFilterMenuData(data);
   };
   const showFilterMenu = (value: boolean) => {
@@ -120,17 +127,27 @@ const InvestorClientCategoryPage = ({
         : id !== undefined
           ? id
           : 0;
-    const __id = filter === 0 ? [] : [filter];
+    const __id = filter === 0 || filter === "watchlist" ? [] : [filter];
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
-    setPayload({ ..._payload, filterValue: __id, pageNo: 1 });
+    setPayload({
+      ..._payload,
+      filterType: filter === "watchlist" ? "watchlist" : "index",
+      filterValue: __id,
+      pageNo: 1,
+    });
   };
   const handlePageChangeHandler = (value: any) => {
     setPayload({ ..._payload, pageNo: value });
   };
   const callAPIforHoldingData = async () => {
     setTableLoadingShow(true);
-    const invertorData = await commonPostAPIHandler(`BigBullHolding`, _payload);
+    const invertorData = await commonPostAPIHandler(
+      `BigBullHolding`,
+      _payload,
+      ssoid,
+      ticketId,
+    );
     pageData = invertorData ? invertorData : "";
     const arrayOfCompany =
       pageData?.datainfo?.holdingsCompanyInfo?.holdingsStockData || [];
@@ -162,6 +179,8 @@ const InvestorClientCategoryPage = ({
     const invertorData = await commonPostAPIHandler(
       `BigBullBulkBlockDeal`,
       _payload,
+      ssoid,
+      ticketId,
     );
     const pageData = invertorData ? invertorData : "";
     const arrayOfCompany =
@@ -177,6 +196,8 @@ const InvestorClientCategoryPage = ({
     const invertorData = await commonPostAPIHandler(
       `BigBullFreshEntryExit`,
       _payload,
+      ssoid,
+      ticketId,
     );
     const pageData = invertorData ? invertorData : "";
     const arrayOfCompany =
@@ -193,6 +214,8 @@ const InvestorClientCategoryPage = ({
     const invertorData = await commonPostAPIHandler(
       `BigBullHoldingChanges`,
       _payload,
+      ssoid,
+      ticketId,
     );
     const pageData = invertorData ? invertorData : "";
     const arrayOfCompany =
@@ -246,11 +269,10 @@ const InvestorClientCategoryPage = ({
           {slug === "holdings" ? (
             <>
               <span
-                className={`${styles.roundBtn} ${styles.filterNseBse}`}
+                className={`${styles.roundBtn}`}
                 onClick={() => showFilterMenu(true)}
               >
-                <i className={`eticon_filter ${styles.mr}`}></i>{" "}
-                {niftyFilterData?.name}
+                <i className={`eticon_filter`}></i> {niftyFilterData?.name}
               </span>
             </>
           ) : (
@@ -329,6 +351,8 @@ const InvestorClientCategoryPage = ({
             pageType={slug}
             pagination={_pageSummaryInfo}
             paginationLastNode=" Holdings"
+            niftyFilterData={niftyFilterData}
+            niftyFilter={true}
             handlePageChange={handlePageChangeHandler}
           />
         )}

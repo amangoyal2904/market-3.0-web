@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./BreadCrumb.module.scss";
 import { APP_ENV } from "@/utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
+import Link from "next/link";
 
 interface Props {
   pageName: any;
@@ -26,12 +27,12 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a
+          <Link
             href={(GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"]}
             title="Stock Recommendations"
           >
             Stock Recommendations
-          </a>
+          </Link>
         </li>
       ),
       showCurrLi: true,
@@ -39,7 +40,9 @@ const getLiPath = (router: string, pagePath: string) => {
         "@type": "ListItem",
         position: "3",
         name: "Stock Recommendations",
-        item: { "@id": (GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"] },
+        item: {
+          "@id": (GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"],
+        },
       },
     };
   } else if (router == "/markets/stock-screener") {
@@ -59,9 +62,9 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/stock-screener" title="Stock Screeners">
+          <Link href={"/markets/stock-screener"} title="Stock Screeners">
             Stock Screeners
-          </a>
+          </Link>
         </li>
       ),
       showCurrLi: true,
@@ -72,27 +75,7 @@ const getLiPath = (router: string, pagePath: string) => {
         item: { "@id": "/markets/stock-screener" },
       },
     };
-  }
-  // else if (
-  //   router == "/stocks/marketstats/top-gainers" ||
-  //   router.includes("/stocks/marketstats/top-gainers/") ||
-  //   router.includes("/stocks/marketstats/top-gainers?") ||
-  //   router == "/stocks/marketstats-technicals/golden-cross" ||
-  //   router.includes("/stocks/marketstats-technicals/golden-cross/") ||
-  //   router.includes("/stocks/marketstats-technicals/golden-cross?")
-  // ) {
-  //   return {
-  //     showNextLi: false,
-  //     currentLiNode: (
-  //       <li>
-  //         <span className="eticon_caret_right"></span>Stocks
-  //       </li>
-  //     ),
-  //     showCurrLi: true,
-  //     listItemSchema: "",
-  //   };
-  // }
-  else if (
+  } else if (
     router.includes("/stocks/marketstats/") ||
     pagePath.includes("/stocks/marketstats?")
   ) {
@@ -101,9 +84,9 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocks/marketstats/top-gainers" title="Stocks">
+          <Link href={"/stocks/marketstats/top-gainers"} title="Stocks">
             Stocks
-          </a>
+          </Link>
         </li>
       ),
       showCurrLi: false,
@@ -111,7 +94,9 @@ const getLiPath = (router: string, pagePath: string) => {
         "@type": "ListItem",
         position: "3",
         name: "Stocks",
-        item: { "@id": "/stocks/marketstats/top-gainers" },
+        item: {
+          "@id": "/stocks/marketstats/top-gainers",
+        },
       },
     };
   } else if (router.includes("/stocks/marketstats-technicals/")) {
@@ -120,9 +105,12 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocks/marketstats-technicals/golden-cross" title="Stocks">
+          <Link
+            href={"/stocks/marketstats-technicals/golden-cross"}
+            title="Stocks"
+          >
             Stocks
-          </a>
+          </Link>
         </li>
       ),
       showCurrLi: false,
@@ -130,7 +118,9 @@ const getLiPath = (router: string, pagePath: string) => {
         "@type": "ListItem",
         position: "3",
         name: "Technicals",
-        item: { "@id": "/stocks/marketstats-technicals/golden-cross" },
+        item: {
+          "@id": "/stocks/marketstats-technicals/golden-cross",
+        },
       },
     };
   } else if (router == "/markets/indices") {
@@ -150,9 +140,9 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/indices" title="Indices">
+          <Link href={"/markets/indices"} title="Indices">
             Indices
-          </a>
+          </Link>
         </li>
       ),
       showCurrLi: true,
@@ -165,23 +155,12 @@ const getLiPath = (router: string, pagePath: string) => {
     };
   } else if (router == "/stocks/sectors") {
     return {
-      showNextLi: false,
-      currentLiNode: (
-        <li>
-          <span className="eticon_caret_right"></span>Sectors
-        </li>
-      ),
-      showCurrLi: true,
-      listItemSchema: "",
-    };
-  } else if (router.includes("/sectors/")) {
-    return {
       showNextLi: true,
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/stocks/sectors" title="Sectors">
-            Sectors
+          <a href={"/markets/stocks"} title="Stocks">
+            Stocks
           </a>
         </li>
       ),
@@ -189,8 +168,27 @@ const getLiPath = (router: string, pagePath: string) => {
       listItemSchema: {
         "@type": "ListItem",
         position: "3",
-        name: "Sectors",
-        item: { "@id": "/stocks/sectors" },
+        name: "Stocks",
+        item: { "@id": "/markets/stocks" },
+      },
+    };
+  } else if (router.includes("/sectors/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href={"/markets/stocks"} title="Stocks">
+            Stocks
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: {
+        "@type": "ListItem",
+        position: "3",
+        name: "Stocks",
+        item: { "@id": "/markets/stocks" },
       },
     };
   } else if (router == "/watchlist") {
@@ -232,9 +230,34 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a href="/markets/fii-dii-activity" title="FII DII Activity">
+          <Link href={"/markets/fii-dii-activity"} title="FII DII Activity">
             FII DII Activity
-          </a>
+          </Link>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router == "/stocks/chart-patterns") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Chart Patterns
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router.includes("/stocks/chart-patterns/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <Link href="/stocks/chart-patterns" title="Chart Patterns">
+            Chart Patterns
+          </Link>
         </li>
       ),
       showCurrLi: true,
@@ -258,7 +281,7 @@ const getLiPath = (router: string, pagePath: string) => {
         <li>
           <span className="eticon_caret_right"></span>
           <a
-            href="/markets/benefits/stockreportsplus"
+            href={"/markets/benefits/stockreportsplus"}
             title="Stock Reports Plus"
           >
             Stock Reports Plus
@@ -292,11 +315,65 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <a
-            href="/markets/top-india-investors-portfolio/individual"
+          <Link
+            href={"/markets/top-india-investors-portfolio/individual"}
             title="Investors Portfolio"
           >
             Investors Portfolio
+          </Link>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router === "/markets/stocks/earnings") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          Earnings
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router === "/markets/stocks/earnings/upcoming-results") {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/stocks/earnings" title="Earnings">
+            Earnings
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router.includes("/markets/stocks/earnings/declared-results/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/stocks/earnings" title="Earnings">
+            Earnings
+          </a>
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router.includes("/markets/stocks/earnings/sector-aggregate/")) {
+    return {
+      showNextLi: true,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          <a href="/markets/stocks/earnings" title="Earnings">
+            Earnings
           </a>
         </li>
       ),
@@ -343,7 +420,9 @@ const jsonLd = (getLiTab: any, pageName: any) => {
       "@type": "ListItem",
       position: "1",
       name: "Home",
-      item: { "@id": "https://economictimes.indiatimes.com" },
+      item: {
+        "@id": "https://economictimes.indiatimes.com",
+      },
     },
     {
       "@type": "ListItem",
@@ -415,9 +494,9 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           ) : (
             <>
               <span className="eticon_caret_right"></span>
-              <a href="/markets/live-coverage" title="Markets Live">
+              <Link href={"/markets/live-coverage"} title="Markets Live">
                 Markets Live
-              </a>
+              </Link>
             </>
           )}
         </li>

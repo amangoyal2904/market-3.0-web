@@ -14,6 +14,7 @@ import SectorsConstituents from "@/components/SectorsDetails/Constituents";
 import { trackingEvent } from "@/utils/ga";
 import SectorsPerformance from "@/components/SectorsDetails/Performance";
 import SectorsFaqs from "@/components/SectorsDetails/Faqs";
+import { getSectorsOverview } from "@/utils/utility";
 
 const pageTabData = [
   { label: "Key Metrics", key: "keymetrics" },
@@ -97,7 +98,16 @@ const SectorsDetailsClient = ({
     },
     [scrollToActiveContent, handleScroll],
   );
-  console.log("@@@FaqsClient", sectorDescription);
+
+  const updateOverviewData = async () => {
+    const overviewData = await getSectorsOverview(assetId);
+    setOverviewData(overviewData);
+  };
+
+  useEffect(() => {
+    updateOverviewData();
+  }, []);
+
   return (
     <>
       <SectorsDetailsOverview

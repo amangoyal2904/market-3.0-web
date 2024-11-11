@@ -484,7 +484,9 @@ const CreateNewViewComponent = ({
             <span
               className={`${styles.closeIcon}`}
               onClick={closePersonaliseCreateViewModal}
-            ></span>
+            >
+              <i className="eticon_cross"></i>
+            </span>
             {editmode && editmode.mode && editmode.viewId != "" ? (
               <span className={styles.editViewName}>
                 {screenerName}{" "}

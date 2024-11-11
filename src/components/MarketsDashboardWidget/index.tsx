@@ -13,6 +13,7 @@ import { getAllShortUrls } from "@/utils/marketstats";
 const MarketsDashboardWidget = async () => {
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
   const intFilter = 2371;
   const filter = !!intFilter ? [intFilter] : [];
   const pagesize = 10;
@@ -27,19 +28,19 @@ const MarketsDashboardWidget = async () => {
     apiType: "gainers",
     ...(duration ? { duration } : {}), // Conditional inclusion of duration
     filterValue: filter,
-    filterType:
-      filter == undefined || !isNaN(Number(filter)) ? "index" : "marketcap",
+    filterType: "index",
     sort,
     pagesize,
     pageno,
   };
 
-  const { tableHeaderData, tableData, payload } = await getCustomViewTable(
+  const { tableHeaderData, tableData, payload } = await getCustomViewTable({
     bodyParams,
-    true,
+    isprimeuser: true,
+    apiType: "MARKETSTATS_INTRADAY",
     ssoid,
-    "MARKETSTATS_INTRADAY",
-  );
+    ticketId,
+  });
 
   const selectedFilter = await fetchSelectedFilter(intFilter);
   const intradayDurationOptions = await generateIntradayDurations("gainers");

@@ -158,5 +158,61 @@
     "loaderType": "inner",
     "showWatchlistIcon": true,
     "horizontalScroll": true
+  },
+  "stocksearningsTable": {
+    "name": "stocksearningsTable",
+    "tabs": false,
+    "loader": true,
+    "showFilterInput": false,
+    "isSorting": false,
+    "serverSideSort": false,
+    "isHeaderSticky": false,
+    "pagination": false,
+    "loaderType": "inner",
+    "showWatchlistIcon": true,
+    "horizontalScroll": true,
+    "isWidget": true
+  },
+  "stocksearningsWatchListTable": {
+    "name": "stocksearningsWatchListTable",
+    "tabs": false,
+    "loader": true,
+    "showFilterInput": false,
+    "isSorting": true,
+    "serverSideSort": true,
+    "isHeaderSticky": false,
+    "pagination": false,
+    "loaderType": "inner",
+    "showWatchlistIcon": true,
+    "horizontalScroll": true,
+    "isWidget": true
+  },
+  "stocksearningsWatchListPageTable": {
+    "name": "stocksearningsWatchListPageTable",
+    "tabs": false,
+    "loader": true,
+    "showFilterInput": false,
+    "isSorting": true,
+    "serverSideSort": true,
+    "isHeaderSticky": true,
+    "pagination": true,
+    "loaderType": "inner",
+    "showWatchlistIcon": true,
+    "horizontalScroll": true,
+    "isWidget": false
+  },
+  "stocksEarningMainTable": {
+    "name": "stocksEarningMainTable",
+    "tabs": true,
+    "loader": false,
+    "showFilterInput": false,
+    "isSorting": true,
+    "serverSideSort": true,
+    "isHeaderSticky": true,
+    "pagination": true,
+    "loaderType": "inner",
+    "showWatchlistIcon": true,
+    "horizontalScroll": true,
+    "isWidget": true
   }
 }

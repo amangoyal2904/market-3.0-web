@@ -23,6 +23,7 @@ import { useStateContext } from "@/store/StateContext";
 import MarketStatus from "@/components/MarketStatus";
 import { trackingEvent } from "@/utils/ga";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import PrimeBannerExperiment from "@/components/PrimeBannerExperiment";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -98,7 +99,7 @@ const StockScreeners = ({
     title: "You have Successfully created your personalise view",
   });
   const { state } = useStateContext();
-  const { isLogin, ssoid } = state.login;
+  const { isLogin, isPrime, ssoid } = state.login;
   const { currentMarketStatus } = state.marketStatus;
   const onSearchParamChange = async () => {
     setL3Nav(l3Nav);
@@ -456,14 +457,15 @@ const StockScreeners = ({
   const updateTableData = async () => {
     const isPrimeUser = getCookie("isprimeuser") === "true";
     const ssoid = getCookie("ssoid");
-
+    const ticketId = getCookie("TicketId");
     try {
-      const responseData: any = await fetchViewTable(
-        _payload,
-        "screenerGetViewById",
-        isPrimeUser,
-        ssoid,
-      );
+      const responseData: any = await fetchViewTable({
+        requestObj: _payload,
+        apiType: "screenerGetViewById",
+        isprimeuser: isPrimeUser,
+        ssoid: ssoid,
+        ticketId: ticketId,
+      });
 
       if (responseData && Array.isArray(responseData.dataList)) {
         const {
@@ -708,6 +710,13 @@ const StockScreeners = ({
         ""
       ) : (
         <p className={styles.desc}>{_metaData.desc}</p>
+      )}
+
+      {!isPrime && (
+        <PrimeBannerExperiment
+          pageName="Mercury_Screener"
+          pageId={`screener_${screenerDetail?.seoName}`}
+        />
       )}
 
       <div className={styles.container}>

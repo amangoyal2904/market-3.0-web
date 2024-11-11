@@ -1,6 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Script from "next/script";
 import { getCookie } from "@/utils";
 import { useStateContext } from "@/store/StateContext";
@@ -13,6 +13,8 @@ const TVChartContainer = dynamic(
 );
 
 const ChartClient = (defaultWidgetProps: any) => {
+  const { patternId, gaHit, chartType, savePatternImages, showVolume } =
+    defaultWidgetProps;
   const { state } = useStateContext();
   const { ssoReady, isLogin, ssoid } = state.login;
   const [isScriptReady, setIsScriptReady] = useState(false);
@@ -28,17 +30,45 @@ const ChartClient = (defaultWidgetProps: any) => {
     return { ...defaultWidgetProps, user_id: userid };
   }, [defaultWidgetProps, userid]);
 
+  useEffect(() => {
+    const handleSymbolData = (event: MessageEvent) => {
+      if (event.data && event.data.symbolData) {
+        const { symbol, fullName, exchange, entity, periodicity } =
+          event.data.symbolData;
+
+        // Update the page URL based on the received symbolData
+        const newUrl = `${window.location.pathname}?symbol=${symbol}&entity=${entity}&exchange=${exchange}&periodicity=${periodicity}`;
+        window.history.replaceState(null, "", newUrl);
+      }
+    };
+
+    window.addEventListener("message", handleSymbolData);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("message", handleSymbolData);
+    };
+  }, []);
+
   return (
     <>
       <Script
         src="/marketsweb/static/v28/datafeeds/udf/dist/bundle.js"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         onReady={() => {
           setIsScriptReady(true);
         }}
       />
       {userid && isScriptReady ? (
-        <TVChartContainer {...widgetProps} />
+        <TVChartContainer
+          {...widgetProps}
+          patternId={patternId}
+          gaHit={gaHit}
+          chartType={chartType}
+          savePatternImages={savePatternImages}
+          updatePageUrl="true"
+          showVolume={showVolume}
+        />
       ) : (
         <div className={styles.loadingIndicator}>
           <div className={styles.spinner}></div>

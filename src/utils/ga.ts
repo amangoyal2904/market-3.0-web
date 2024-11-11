@@ -6,7 +6,8 @@ import Service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import grxMappingObj from "@/utils/grxMappingObj.json";
 import cdpObj from "@/utils/cdpObj.json";
-import { usePathname } from "next/navigation";
+import { setPaywallCounts } from "@/utils/utility";
+import jStorageReact from "jstorage-react";
 declare global {
   interface Window {
     trackingEvent: (type: string, gaData: object) => void;
@@ -35,6 +36,7 @@ export const redirectToPlanPage = (
         widget_name: objTracking.widget_name ? objTracking.widget_name : "",
         tab_name: objTracking.tab_name ? objTracking.tab_name : "",
       });
+      setPaywallCounts();
     }
     goToPlansPage1(type, objTracking.obj, redirect, objTracking.cdp);
   } catch (Err) {
@@ -117,7 +119,18 @@ export const trackPushData = (
   const ticketId = getCookie("encTicket")
     ? `&ticketid=${getCookie("encTicket")}`
     : "";
-  const ACQ_SUB_SOURCE = `${sendGTMdata?.item_category}|${sendGTMdata?.item_category2}|${sendGTMdata?.item_category3}|${sendGTMdata?.item_category4?.replace(" ", "_")}`;
+  let ACQ_SUB_SOURCE = `${sendGTMdata?.item_category}|${sendGTMdata?.item_category2}|${sendGTMdata?.item_category3}|${sendGTMdata?.item_category4?.replace(" ", "_")}`;
+  let ACQ_SOURCE = sendGTMdata?.item_brand || "";
+  const acqDetails = localStorage.getItem("acqDetails");
+  if (acqDetails) {
+    const data = JSON.parse(acqDetails);
+    ACQ_SOURCE = data?.acqSource
+      ? data?.acqSource + "|" + ACQ_SOURCE
+      : ACQ_SOURCE;
+    ACQ_SUB_SOURCE = data?.acqSubSource
+      ? data?.acqSubSource + "|" + ACQ_SUB_SOURCE
+      : ACQ_SUB_SOURCE;
+  }
   const planUrl = (GLOBAL_CONFIG as any)[APP_ENV]["Plan_PAGE"];
   const newPlanUrl =
     planUrl +
@@ -127,7 +140,9 @@ export const trackPushData = (
     "&grxId=" +
     getCookie("_grx") +
     ticketId +
-    "&meta=market_tools&acqSubSource=" +
+    "&acqSource=" +
+    ACQ_SOURCE +
+    "&acqSubSource=" +
     ACQ_SUB_SOURCE;
   const headers = {
     "Content-Type": "application/json",
@@ -225,6 +240,8 @@ export const getPageName = (pageURL = "") => {
     pageName = "Mercury_Screener";
   } else if (pagePathName.includes("/indices")) {
     pageName = "Mercury_Indices";
+  } else if (pagePathName.includes("stocks/earnings")) {
+    pageName = "Mercury_Earnings";
   } else if (pagePathName.includes("/top-india-investors-portfolio/")) {
     pageName = "Mercury_BigBull";
   } else if (pagePathName.includes("/stockreportsplus")) {
@@ -325,9 +342,32 @@ export const updateGtm = (_gtmEventDimension, prevPath) => {
     _gtmEventDimension["referral_url"] =
       window.location.pathname == prevPath ? "" : prevPath;
     _gtmEventDimension["ssoid"] = getCookie("ssoid") ? getCookie("ssoid") : "";
+    _gtmEventDimension["numbers_of_stocks_in_watchlist"] = window?.objUser
+      ?.watchlistCount
+      ? window?.objUser?.watchlistCount
+      : "";
     _gtmEventDimension["user_region"] = window?.geoinfo.region_code;
     _gtmEventDimension["web_peuuid"] = getCookie("peuuid");
     _gtmEventDimension["web_pfuuid"] = getCookie("pfuuid");
+    const savedFreeTrialData = jStorageReact.get("et_freetrial") || {};
+    const isAPUser = window?.objUser?.userAcquisitionType === "ACCESS_PASS";
+
+    if (Object.keys(savedFreeTrialData).length) {
+      if (window?.objUser?.info?.primaryEmail && isAPUser) {
+        const now = +new Date();
+        const expiryDate = +new Date(window?.objUser?.userAcquisitionType);
+        _gtmEventDimension["experiment_variant_name"] =
+          "Free Trial_" + (expiryDate < now ? "Expired" : "Activated");
+      } else if (
+        savedFreeTrialData.eligible &&
+        !window?.objUser?.permissions?.includes("subscribed")
+      ) {
+        _gtmEventDimension["experiment_variant_name"] = "Free Trial_Eligible";
+      }
+    } else {
+      delete _gtmEventDimension["experiment_variant_name"];
+    }
+
     return _gtmEventDimension;
   } catch (e) {
     console.log("Error", e);
@@ -405,6 +445,7 @@ export const generateGrxFunnel = (prevPath) => {
     objGrx["dimension152"] = document.title;
     objGrx["dimension153"] =
       window.location.pathname == prevPath ? "" : prevPath;
+
     return objGrx;
   } catch (e) {
     console.log("Error ", e);

@@ -21,6 +21,8 @@ import TechincalOperands from "@/components/TechincalOperands";
 
 import MarketStatus from "@/components/MarketStatus";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import Blocker from "@/components/Blocker";
+import PrimeBannerExperiment from "@/components/PrimeBannerExperiment";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -52,7 +54,7 @@ const MarketStats = ({
   const searchParams = useSearchParams();
   const router = useRouter();
   const { state } = useStateContext();
-  const { isPrime, ssoid } = state.login;
+  const { isPrime, ssoid, isLogin } = state.login;
   const { currentMarketStatus } = state.marketStatus;
   const [resetSort, setResetSort] = useState("");
   const [updateDateTime, setUpdateDateTime] = useState(unixDateTime);
@@ -122,17 +124,19 @@ const MarketStats = ({
   const updateTableData = async () => {
     const isPrimeUser = getCookie("isprimeuser") === "true";
     const ssoid = getCookie("ssoid");
+    const ticketId = getCookie("TicketId");
     const fetchType = isTechnical
       ? "MARKETSTATS_TECHNICALS"
       : "MARKETSTATS_INTRADAY";
 
     try {
-      const responseData: any = await fetchViewTable(
-        _payload,
-        fetchType,
-        isPrimeUser,
-        ssoid,
-      );
+      const responseData: any = await fetchViewTable({
+        requestObj: _payload,
+        apiType: fetchType,
+        isprimeuser: isPrimeUser,
+        ssoid: ssoid,
+        ticketId: ticketId,
+      });
 
       if (responseData) {
         const {
@@ -209,11 +213,13 @@ const MarketStats = ({
     const url = actualUrl;
     const newUrl = updateOrAddParamToPath(url, "filter", id);
     const filter =
-      id !== undefined && !isNaN(Number(id))
-        ? parseInt(id)
-        : id !== undefined
-          ? id
-          : 0;
+      id === "watchlist"
+        ? "watchlist"
+        : id !== undefined && !isNaN(Number(id))
+          ? parseInt(id)
+          : id !== undefined
+            ? id
+            : 0;
     const selectedFilter = await fetchSelectedFilter(filter);
     setNiftyFilterData(selectedFilter);
     const isExist: any = shortUrlMapping?.find(
@@ -455,6 +461,12 @@ const MarketStats = ({
         />
       </div>
       <p className={styles.desc}>{_metaData.desc}</p>
+      {!isPrime && (
+        <PrimeBannerExperiment
+          pageName="Mercury_MarketStats"
+          pageId={l3NavMenuItem + "_" + l3NavSubItem}
+        />
+      )}
       <div className={styles.marketstatsContainer}>
         <aside className={styles.lhs}>
           <MarketStatsNav
@@ -509,28 +521,33 @@ const MarketStats = ({
               shortUrlMapping={shortUrlMapping}
             />
           </div>
-          <MarketTable
-            data={_tableData}
-            highlightLtp={
-              !!currentMarketStatus && currentMarketStatus != "CLOSED"
-            }
-            tableHeaders={_tableHeaderData}
-            tabsViewIdUpdate={resetSort}
-            pageSummary={_pageSummary}
-            tableConfig={tableConfig}
-            handleSortServerSide={onServerSideSort}
-            handlePageChange={onPaginationChange}
-            processingLoader={processingLoader}
-            isprimeuser={isPrime}
-            l1NavTracking={!isTechnical ? "Stocks" : "Technical Signals"}
-            l2NavTracking={
-              !isTechnical ? "Intraday" : _technicalCategory?.category
-            }
-            l3NavTracking={getNavName()}
-            setUpdateDateTime={setUpdateDateTime}
-            setFallbackWebsocket={setFallbackWebsocket}
-            socketDataType="stock"
-          />
+
+          {_payload.filterType === "watchlist" && !isLogin ? (
+            <Blocker type="watchlitFilterBlocker" />
+          ) : (
+            <MarketTable
+              data={_tableData}
+              highlightLtp={
+                !!currentMarketStatus && currentMarketStatus != "CLOSED"
+              }
+              tableHeaders={_tableHeaderData}
+              tabsViewIdUpdate={resetSort}
+              pageSummary={_pageSummary}
+              tableConfig={tableConfig}
+              handleSortServerSide={onServerSideSort}
+              handlePageChange={onPaginationChange}
+              processingLoader={processingLoader}
+              isprimeuser={isPrime}
+              l1NavTracking={!isTechnical ? "Stocks" : "Technical Signals"}
+              l2NavTracking={
+                !isTechnical ? "Intraday" : _technicalCategory?.category
+              }
+              l3NavTracking={getNavName()}
+              setUpdateDateTime={setUpdateDateTime}
+              setFallbackWebsocket={setFallbackWebsocket}
+              socketDataType="stock"
+            />
+          )}
         </div>
       </div>
       {toasterPersonaliseViewRemove && (

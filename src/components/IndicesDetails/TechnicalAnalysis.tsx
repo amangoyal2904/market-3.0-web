@@ -59,6 +59,7 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
     interval: "1D" as ResolutionString,
     user_id: "default",
     disabled_features: disabledFeatures,
+    enabled_features: ["show_zoom_and_move_buttons_on_touch"],
   };
 
   return (

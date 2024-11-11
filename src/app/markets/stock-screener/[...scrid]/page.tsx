@@ -22,6 +22,7 @@ export async function generateMetadata(
   const cookieStore = cookies();
   const isprimeuser = cookieStore.get("isprimeuser")?.value === "true";
   const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
   const regex = /scrid-(\d+)/;
   const match = pageUrl.match(regex);
   let scrid = "";
@@ -46,12 +47,13 @@ export async function generateMetadata(
     filterValue: [],
     screenerId: scrid,
   };
-  const { screenerDetail } = await getCustomViewTable(
+  const { screenerDetail } = await getCustomViewTable({
     bodyParams,
-    isprimeuser,
+    isprimeuser: isprimeuser,
+    apiType: "screenerGetViewById",
     ssoid,
-    "screenerGetViewById",
-  );
+    ticketId,
+  });
   //console.log("screenerDetail",screenerDetail)
 
   const seo_title = screenerDetail?.seoTitle || screenerDetail?.name;
@@ -72,6 +74,7 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
   const cookieStore = cookies();
   const isprimeuser = cookieStore.get("isprimeuser")?.value === "true";
   const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
   const myList = params.scrid;
   const scridElement = myList.find((element: any) => element.includes("scrid"));
   const scridParts = scridElement.split("-");
@@ -166,12 +169,13 @@ const ScreenerIneerpage = async ({ params, searchParams }: any) => {
     unixDateTime,
     payload,
     screenerDetail,
-  } = await getCustomViewTable(
+  } = await getCustomViewTable({
     bodyParams,
-    isprimeuser,
+    isprimeuser: isprimeuser,
+    apiType: "screenerGetViewById",
     ssoid,
-    "screenerGetViewById",
-  );
+    ticketId,
+  });
   //console.log("__bodyParams__", bodyParams);
   const title =
     screenerDetail && screenerDetail?.name ? screenerDetail.name : "";

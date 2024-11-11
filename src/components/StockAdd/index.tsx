@@ -4,14 +4,16 @@ import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 // import WatchlistAddition from "../WatchlistAddition";
 import { useStateContext } from "../../store/StateContext";
-import {
-  fetchAllWatchListData,
-  saveStockInWatchList,
-} from "../../utils/utility";
+import { fetchAllWatchListData } from "../../utils/utility";
 import dynamic from "next/dynamic";
 const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
   ssr: false,
 });
+
+type Stock = {
+  companyId: string;
+  companyType: string;
+};
 
 const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   const { state, dispatch } = useStateContext();
@@ -24,7 +26,7 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   const [loading, setLoading] = useState(false);
   const [searchNode, setSearchNode] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-  const [watchlistStock, setWatchlistStock] = useState([]);
+  const [watchlistStock, setWatchlistStock] = useState<Stock[]>([]);
   const viewWraperRef = useRef<HTMLDivElement>(null);
   const [showTextDefault, setShowTextDefault] = useState(false);
   const addStockModuleHandler = () => {
@@ -70,11 +72,8 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
   };
   const fetchWatchListStocks = async () => {
     setLoading(true);
-    const data = await fetchAllWatchListData(2, 11);
-    if (data?.resData?.length > 0) {
-      setWatchlistStock(data.resData);
-      fetchMostPopularStocks(data.resData);
-    } else if (data?.length > 0) {
+    const data = await fetchAllWatchListData();
+    if (data?.length > 0) {
       setWatchlistStock(data);
       fetchMostPopularStocks(data);
     } else {
@@ -155,19 +154,12 @@ const AddStockComponent = ({ moduelClose, updateTableHandler }: any) => {
                 }}
                 customeFun={wathlistFunctionHandler}
               />
-              {/* <span>{item.tagName}</span>
-              {item?.follow === "yes" ? (
-                <span className={styles.removeRemove}></span>
-              ) : (
-                <span className={styles.addRemove}></span>
-              )} */}
             </li>
           );
         })}
       </ul>
     );
   };
-  // console.log('___WatchlistStock',watchlistStock)
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {

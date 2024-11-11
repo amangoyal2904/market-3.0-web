@@ -1,12 +1,13 @@
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import ChartClient from "./clients";
-import { fnGenerateMetaData } from "@/utils/utility";
+import { fnGenerateMetaData, getSymbolInfo } from "@/utils/utility";
 import {
   ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
   ResolutionString,
 } from "../../../public/static/v28/charting_library/charting_library";
+import ChartClientSave from "./saveChart";
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = headers();
@@ -23,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return fnGenerateMetaData(meta);
 }
 
-const Chart = () => {
+const Chart = async () => {
   const headersList = headers();
   const searchParams = new URLSearchParams(
     headersList.get("x-searchparam") || "",
@@ -56,9 +57,15 @@ const Chart = () => {
     "5Y": "60M",
   };
 
+  const patternId = searchParams.get("patternid");
+  const gaHit = searchParams.get("ga_hit");
+  const chartType = searchParams.get("chart_type");
+  const savePatternImages = searchParams.get("save_pattern_image");
+
   const hideMenu = searchParams.get("no_menu")
     ? searchParams.get("no_menu")
     : 0;
+
   const dontSave = searchParams.get("dont_save")
     ? searchParams.get("dont_save")
     : false;
@@ -90,16 +97,27 @@ const Chart = () => {
   const getInterval = () => {
     const itvl = searchParams.get("periodicity") || "day";
     const defaultPeriod = searchParams.get("default_period") || null; // Updated to handle null if not present
+
     const timeframe =
       defaultPeriod && timeFramePair[defaultPeriod]
         ? timeFramePair[defaultPeriod]
         : "1D"; // Set to "1D" by default if default_period is not available
+
+    // Mapping for defaultPeriod values to intervals
+    const defaultPeriodIntervalMap: { [key: string]: string | number } = {
+      "1D": 1,
+      "5D": 15,
+      "1M": "1D",
+      "3M": "1D",
+      "6M": "1D",
+      "1Y": "1D",
+      "3Y": "W",
+      "5Y": "W",
+    };
+
     const interval =
-      (timeframe === "1D" || timeframe === "5D" || timeframe === "1W") &&
-      itvl === "day"
-        ? timeframe === "1D"
-          ? 1
-          : 15
+      defaultPeriod && defaultPeriodIntervalMap[defaultPeriod]
+        ? defaultPeriodIntervalMap[defaultPeriod]
         : typeof itvl !== "undefined" && Number(itvl)
           ? Number(itvl)
           : typeof itvl !== "undefined" && timePair[itvl]
@@ -141,10 +159,30 @@ const Chart = () => {
       onlyChart.push("header_saveload", "use_localstorage_for_settings");
     }
 
+    if (patternId != "" && patternId != null) {
+      onlyChart.push(
+        "header_saveload",
+        "use_localstorage_for_settings",
+        "left_toolbar",
+        "header_widget",
+        "timeframes_toolbar",
+        "main_series_scale_menu",
+        "context_menus",
+        "go_to_date",
+        "edit_buttons_in_legend",
+        "border_around_the_chart",
+        "adaptive_logo",
+      );
+      if (savePatternImages == "true") {
+        onlyChart.push("legend_widget");
+      }
+    }
+
     return onlyChart;
   };
 
   const symbol = getSymbol();
+  const { type } = await getSymbolInfo(symbol);
   const { timeframe, interval, defaultPeriod } = getInterval();
   const onlyChart = getOnlyChartFeatures();
   const disabledFeatures: ChartingLibraryFeatureset[] = onlyChart.length
@@ -172,7 +210,26 @@ const Chart = () => {
     fullscreen: true,
   };
 
-  return <ChartClient {...defaultWidgetProps} />;
+  return savePatternImages == "true" ||
+    (patternId != "" && patternId != null) ? (
+    <ChartClientSave
+      {...defaultWidgetProps}
+      patternId={patternId}
+      gaHit="false"
+      chartType={chartType}
+      savePatternImages={savePatternImages}
+      showVolume={type === "stock" ? true : false}
+    />
+  ) : (
+    <ChartClient
+      {...defaultWidgetProps}
+      patternId={patternId}
+      gaHit={gaHit}
+      chartType={chartType}
+      savePatternImages={savePatternImages}
+      showVolume={type === "stock" ? true : false}
+    />
+  );
 };
 
 export default Chart;

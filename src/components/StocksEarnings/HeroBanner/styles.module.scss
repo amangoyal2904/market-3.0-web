@@ -1,0 +1,14 @@
+@import "@/styles/variables.scss";
+.heroWrap {
+  .head1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: $black;
+  }
+  .pTxt {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    color: $gray-30;
+  }
+}

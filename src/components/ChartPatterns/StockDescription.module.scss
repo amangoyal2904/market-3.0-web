@@ -1,0 +1,22 @@
+@import "@/styles/variables.scss";
+.stockDesc {
+  font-size: 14px;
+  line-height: 18px;
+  padding: 8px 10px;
+  span {
+    display: inline-block;
+    margin-right: 3px;
+    i {
+      font-size: 1.1rem;
+      vertical-align: text-bottom;
+    }
+  }
+  .green {
+    font-weight: 600;
+    color: $green-50;
+  }
+  .red {
+    font-weight: 600;
+    color: $red-40;
+  }
+}

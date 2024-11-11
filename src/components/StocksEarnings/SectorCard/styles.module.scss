@@ -1,0 +1,152 @@
+@import "@/styles/variables.scss";
+
+.sectorCard {
+  padding: 11px 0;
+  border-radius: 12px;
+  background: $white;
+  border: solid 1px $gray-80;
+  .secName {
+    margin: 0 10px 10px 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: $black;
+    width: 85%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    a {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .topNTxt {
+    display: flex;
+    background: $gray-95;
+    margin: 0 10px 10px 10px;
+    color: $gray-50;
+    font-size: 11px;
+    font-weight: 600;
+    justify-content: space-between;
+    span {
+      width: 30%;
+      padding: 2px 0;
+      text-align: right;
+      &:last-child {
+        padding-right: 10px;
+      }
+    }
+    span + span {
+      width: 35%;
+    }
+  }
+  .middleTxt {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 10px;
+    span {
+      width: 30%;
+      &:last-child {
+        padding-right: 10px;
+        padding-left: 0px;
+      }
+    }
+    span + span {
+      text-align: right;
+      padding-left: 6px;
+      width: 35%;
+    }
+    .up {
+      color: $green-70;
+      font-weight: 600;
+    }
+    .down {
+      color: $red-50;
+      font-weight: 700;
+    }
+  }
+}
+.sectionCard.sectorCard {
+  min-width: 300px;
+}
+.botmSec {
+  border-top: solid 1px $gray-90;
+}
+.middleSec {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  .left {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.decTxt {
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.resData {
+  margin-top: 2px;
+  display: flex;
+  span {
+    font-size: 17px;
+    font-weight: 700;
+    &:last-child {
+      font-weight: 400;
+    }
+  }
+}
+.grphTxtWrap {
+  display: flex;
+  .graph {
+    width: 60px;
+    justify-content: flex-end;
+    display: flex;
+    margin-right: 8px;
+    align-items: center;
+    .drawGraph {
+      height: 5px;
+      display: block;
+      border-radius: 3px;
+      background: #709c53;
+    }
+    .neg {
+      background: #ed193b;
+    }
+    .pen {
+      background: #c4c4c4;
+    }
+  }
+  .num {
+    font-size: 13px;
+    font-weight: 600;
+    width: 36px;
+  }
+  .txt {
+    font-size: 12px;
+    width: 60px;
+    text-align: left;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.5);
+  }
+}
+.grphTxtWrap + .grphTxtWrap {
+  margin-top: 5px;
+}
+
+@media screen and (max-width: 1314px) {
+  .grphTxtWrap {
+    .graph {
+      width: 40px;
+    }
+    .num {
+      font-size: 12px;
+      width: 30px;
+    }
+  }
+  .middleSec {
+    padding: 5px 10px;
+    min-width: auto;
+  }
+}

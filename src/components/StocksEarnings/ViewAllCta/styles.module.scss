@@ -1,0 +1,37 @@
+@import "@/styles/variables.scss";
+
+.viewAllCta {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px 10px 0 0;
+  a {
+    color: $blue-50;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 16px;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    padding-right: 20px;
+    &::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      width: 10px;
+      border-top: solid 1px $blue-50;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      margin-top: -2.5px;
+      width: 6px;
+      height: 6px;
+      border-top: solid 1px $blue-50;
+      border-right: solid 1px $blue-50;
+      transform: rotate(45deg);
+    }
+  }
+}

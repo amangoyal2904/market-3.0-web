@@ -48,10 +48,6 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
       <link rel="dns-prefetch" href="https://api.ibeat-analytics.com" />
       <link rel="dns-prefetch" href="https://tml.clmbtech.com" />
       <link rel="dns-prefetch" href="https://px.ads.linkedin.com" />
-      <link
-        rel="dns-prefetch"
-        href="https://secure-assets.rubiconproject.com"
-      />
       <link rel="dns-prefetch" href="https://snap.licdn.com" />
       <link
         rel="dns-prefetch"
@@ -70,6 +66,16 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
       <link rel="dns-prefetch" href="https://id.rlcdn.com" />
       <link rel="dns-prefetch" href="https://stags.bluekai.com" />
       <link rel="dns-prefetch" href="https://c.amazon-adsystem.com" />
+      <link
+        href="https://assets.toiimg.com/js/til_prebid.js?v=14"
+        rel="preload"
+        as="script"
+      />
+      <link
+        href="https://c.amazon-adsystem.com/aax2/apstag.js"
+        rel="preload"
+        as="script"
+      />
     </>
   ) : null;
 

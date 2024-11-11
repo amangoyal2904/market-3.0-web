@@ -13,7 +13,8 @@
     vertical-align: top;
     width: 71px;
     height: 55px;
-    background: url("/marketsweb/img/bigbulllogo.svg") no-repeat 0 0;
+    background: url("https://img.etimg.com/photo/msid-114256975,quality-100/bigbulllogo.jpg")
+      no-repeat 0 0;
     left: 0;
     top: 0;
     background-size: cover;
@@ -57,14 +58,20 @@
   font-weight: 400;
 }
 .roundBtn {
+  display: flex;
   cursor: pointer;
   border-radius: 100px;
   border: 1px solid #000;
   font-size: 12px;
+  line-height: 18px;
   font-style: normal;
   font-weight: 600;
-  padding: 5px 10px;
+  padding: 3px 10px;
   white-space: nowrap;
+  align-items: center;
+  i {
+    font-size: 18px;
+  }
 }
 .overviewTopHoldingSec {
   margin: 20px 0 0 0;
@@ -72,7 +79,7 @@
 .viewHoldingLinkSec {
   margin: 10px 0 20px 0;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   a {
     display: inline-block;
     vertical-align: top;
@@ -92,7 +99,8 @@
         position: absolute;
         right: 0;
         top: 4px;
-        background: url(/img/longRightArrow.svg) no-repeat -12px 0;
+        background: url("https://img.etimg.com/photo/msid-114256967,quality-100/longRightArrow.jpg")
+          no-repeat -12px 0;
         width: 10px;
         height: 9px;
       }

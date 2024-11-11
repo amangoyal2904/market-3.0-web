@@ -44,6 +44,7 @@ const HeroBanner = ({ data }: any) => {
     <>
       <div className={styles.topSec}>
         <Link href={`/markets/top-india-investors-portfolio/individual`}>
+          <span className={`${styles.icon} eticon_caret_left`}></span>
           <span>back</span>
         </Link>
       </div>

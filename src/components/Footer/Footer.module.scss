@@ -70,8 +70,7 @@
         text-transform: capitalize;
         margin-bottom: 5px;
       }
-      a img {
-        font-size: 40px;
+      .socialIcons {
         margin-right: 10px;
       }
     }
@@ -159,5 +158,63 @@
   .footerList.visible {
     height: auto;
     overflow: visible;
+  }
+}
+
+.copyright {
+  text-align: center;
+  height: 50px;
+  font-size: 14px;
+  margin-top: 10px;
+
+  a {
+    text-decoration: underline;
+  }
+}
+
+.footerSprite {
+  display: inline-block;
+  background: url("https://img.etimg.com/photo/msid-115049824,quality-100/footer-sprite.jpg");
+  background-repeat: no-repeat;
+  background-size: 289px 230px;
+  &.primeMember {
+    background-position: -10px -16px;
+    width: 160px;
+    height: 50px;
+  }
+  &.playStore {
+    background-position: -10px -133px;
+    width: 98px;
+    height: 27px;
+  }
+  &.appStore {
+    background-position: -191px -11px;
+    width: 88px;
+    height: 27px;
+  }
+  &.newsLetter {
+    background-position: -191px -58px;
+    width: 52px;
+    height: 47px;
+  }
+  &.rss {
+    background-position: -10px -180px;
+    width: 40px;
+    height: 40px;
+  }
+  &.fb {
+    background-position: -192px -180px;
+    width: 40px;
+    height: 40px;
+  }
+  &.linkedin {
+    background-position: -71px -180px;
+    width: 40px;
+    height: 40px;
+  }
+  &.twitter {
+    background-position: -131px -180px;
+    width: 40px;
+    height: 40px;
   }
 }

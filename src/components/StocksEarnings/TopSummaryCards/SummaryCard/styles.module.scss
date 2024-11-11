@@ -1,0 +1,199 @@
+@import "@/styles/variables.scss";
+
+.cardWrap {
+  background: #fffbfa;
+  border-radius: 10px;
+  border: solid 1px #eaeaea;
+  padding: 12px 15px;
+  min-width: 200px;
+  cursor: pointer;
+}
+.cardWrap.qoqData {
+  cursor: auto;
+  .topHead {
+    &::after {
+      display: none;
+    }
+  }
+}
+.middleSec {
+  display: flex;
+  justify-content: space-between;
+}
+.decTxt {
+  font-size: 14px;
+  font-weight: 600;
+}
+.resData {
+  margin-top: 7px;
+  display: flex;
+  span {
+    font-size: 17px;
+    font-weight: 700;
+    &:last-child {
+      font-weight: 400;
+    }
+  }
+}
+.grphTxtWrap {
+  display: flex;
+  .graph {
+    width: 120px;
+    justify-content: flex-end;
+    display: flex;
+    margin-right: 8px;
+    align-items: center;
+    .drawGraph {
+      height: 5px;
+      display: block;
+      border-radius: 3px;
+      background: #709c53;
+    }
+    .neg {
+      background: #ed193b;
+    }
+    .pen {
+      background: #c4c4c4;
+    }
+  }
+  .num {
+    font-size: 13px;
+    font-weight: 600;
+    width: 36px;
+  }
+  .txt {
+    font-size: 12px;
+    width: 60px;
+    text-align: left;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.5);
+  }
+}
+.grphTxtWrap + .grphTxtWrap {
+  margin-top: 10px;
+}
+.topHead {
+  font-size: 14px;
+  font-weight: 600;
+  position: relative;
+  padding-right: 50px;
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 6px;
+    width: 7px;
+    height: 7px;
+    display: inline-block;
+    vertical-align: top;
+    border-top: solid 2px $black;
+    border-right: solid 2px $black;
+    transform: rotate(45deg);
+  }
+}
+.middleTxtSec {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 400;
+  margin-top: 9px;
+  .up {
+    font-size: 13px;
+    color: $green-80;
+    font-weight: 700;
+    position: relative;
+  }
+  .down {
+    font-size: 13px;
+    color: $red-80;
+    font-weight: 700;
+    position: relative;
+  }
+}
+.topPerformingSectors {
+  .middleTxtSec {
+    .middleLeft {
+      font-size: 13px;
+      color: $green-80;
+      font-weight: 600;
+      .nocolor {
+        color: $black;
+        font-weight: 400;
+      }
+    }
+  }
+}
+.underPerformingSectors {
+  .middleTxtSec {
+    .middleLeft {
+      font-size: 13px;
+      color: $red-50;
+      font-weight: 600;
+      .nocolor {
+        color: $black;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .grphTxtWrap {
+    .graph {
+      width: 80px;
+    }
+  }
+  .cardWrap {
+    padding: 5px 10px;
+    min-width: auto;
+  }
+}
+
+@media screen and (max-width: 1168px) {
+  .cardWrap {
+    padding: 5px 6px;
+  }
+  .resData {
+    span {
+      font-size: 15px;
+    }
+  }
+  .grphTxtWrap {
+    .graph {
+      width: 40px;
+      margin-right: 6px;
+    }
+    .num {
+      width: 28px;
+    }
+    .txt {
+      width: 35px;
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .cardWrap {
+    zoom: 0.8;
+    width: auto;
+    min-width: auto;
+  }
+  .decTxt {
+    font-size: 12px;
+  }
+  .topHead {
+    padding-right: 30px;
+  }
+  .grphTxtWrap {
+    .graph {
+      width: 30px;
+    }
+    .num {
+      font-size: 12px;
+    }
+    .txt {
+      font-size: 12px;
+      width: 60px;
+    }
+  }
+}

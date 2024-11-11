@@ -4,6 +4,7 @@ import SectorsDetailsClient from "./clients";
 import tabConfig from "@/utils/tabConfig.json";
 import tableConfig from "@/utils/tableConfig.json";
 import { cookies, headers } from "next/headers";
+
 import {
   fetchSectors,
   fetchSelectedSectors,
@@ -51,7 +52,6 @@ async function generateMetadata(
     desc: pageDesc,
     keywords: pageKeywords,
     pathname: pageUrl,
-    index: false,
   };
   return fnGenerateMetaData(meta);
 }
@@ -61,9 +61,9 @@ const IndividualSectors = async ({ params }: any) => {
   const pageUrl = headersList.get("x-url") || "";
   const cookieStore = cookies();
   const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
   const indexFilterData = await fetchSelectedSectors(params.slug);
   const fetchSectorData = await fetchSectors();
-  console.log("@@@ indexFilterData ", indexFilterData.assetId);
   if (indexFilterData.assetId == 0 || indexFilterData.assetId == null) {
     notFound();
   }
@@ -92,7 +92,13 @@ const IndividualSectors = async ({ params }: any) => {
   };
 
   const { tableHeaderData, tableData, pageSummary, payload } =
-    await getCustomViewTable(bodyParams, true, ssoid, "MARKETSTATS_INTRADAY");
+    await getCustomViewTable({
+      bodyParams,
+      isprimeuser: true,
+      apiType: "MARKETSTATS_INTRADAY",
+      ssoid,
+      ticketId,
+    });
   return (
     <Fragment key="Sectors">
       <SectorsDetailsClient
@@ -113,7 +119,13 @@ const IndividualSectors = async ({ params }: any) => {
       />
       <BreadCrumb
         pagePath={pageUrl}
-        pageName={[{ label: overviewData?.assetName, redirectUrl: "" }]}
+        pageName={[
+          {
+            label: "Sectors",
+            redirectUrl: "/stocks/sectors",
+          },
+          { label: overviewData?.assetName, redirectUrl: "" },
+        ]}
       />
       <PageRefresh refreshTime={180000} />
     </Fragment>

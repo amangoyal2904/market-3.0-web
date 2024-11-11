@@ -29,7 +29,11 @@ const TopTabs = ({
     filterDataChange(id, name, selectedTab);
   };
   const filterApiCall = async () => {
-    const data = await fetchFilters({ all: true, marketcap: true });
+    const data = await fetchFilters({
+      all: true,
+      marketcap: true,
+      watchlist: true,
+    });
     setFilterMenuData(data);
   };
   useEffect(() => {
@@ -96,7 +100,9 @@ const TopTabs = ({
           {searchInvestor ? (
             <div className={styles.searchInd}>
               <div className={styles.formGroup}>
-                <span className={styles.searchIcon}></span>
+                <span className={styles.searchIcon}>
+                  <i className="eticon_search"></i>
+                </span>
                 <input
                   type="text"
                   value={invstrQuery}

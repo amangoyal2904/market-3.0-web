@@ -15,7 +15,7 @@ export const useMarketStatus = () => {
   });
 
   useEffect(() => {
-    let isMounted = true;
+    let isCancelled = true;
     let timeoutId: number;
 
     const getMarketStatus = async () => {
@@ -24,7 +24,7 @@ export const useMarketStatus = () => {
       }
       try {
         const result = await getCurrentMarketStatus();
-        if (isMounted && !!result) {
+        if (isCancelled && !!result) {
           if (
             result.currentMarketStatus !== undefined &&
             result.marketStatus !== undefined
@@ -63,7 +63,7 @@ export const useMarketStatus = () => {
     }
 
     return () => {
-      isMounted = false;
+      isCancelled = false;
       clearTimeout(timeoutId);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };

@@ -5,6 +5,8 @@ import { freeTrialElegibilty, activateFreeTrial } from "@/utils/freeTrail";
 import { redirectToPlanPage } from "@/utils/ga";
 import styles from "./MarketTable.module.scss";
 import { dateFormat } from "@/utils";
+import Table7DGraph from "../StocksEarnings/Table7DGraph";
+import { renderIconPaths } from "@/utils/iconUtils";
 
 const ScrollableTable = React.memo((props: any) => {
   const {
@@ -29,20 +31,16 @@ const ScrollableTable = React.memo((props: any) => {
     setLeftScrollEnabled,
     setRightScrollEnabled,
     onRowHover,
+    noSharePriceTitle,
   } = props || {};
   const {
     showFilterInput = true,
     isSorting = true,
     isHeaderSticky = true,
   } = tableConfig || {};
+  const validAccessPass = freeTrialElegibilty();
   const prevTableDataListRef = useRef<any>([]);
   const scrollableTableRef = useRef<HTMLDivElement>(null);
-  const [validAccessPass, setValidAccessPass] = useState(false);
-
-  useEffect(() => {
-    const isValidAccessPass = freeTrialElegibilty();
-    setValidAccessPass(isValidAccessPass);
-  }, []);
 
   useEffect(() => {
     prevTableDataListRef.current = tableDataList;
@@ -162,6 +160,7 @@ const ScrollableTable = React.memo((props: any) => {
                       thead.valueType != "date" &&
                       thead.valueType != "lineGraph" &&
                       thead.valueType != "sparklineGraph" &&
+                      thead.valueType != "lineGraph7dVolume" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? styles.enableSort
                         : thead.valueType != "number" ||
@@ -176,6 +175,7 @@ const ScrollableTable = React.memo((props: any) => {
                       thead.valueType != "date" &&
                       thead.valueType != "lineGraph" &&
                       thead.valueType != "sparklineGraph" &&
+                      thead.valueType != "lineGraph7dVolume" &&
                       (!thead.primeFlag || (isPrime && thead.primeFlag))
                         ? handleSort(thead.keyId)
                         : null;
@@ -185,13 +185,11 @@ const ScrollableTable = React.memo((props: any) => {
                     <div className={styles.thead}>
                       <div className={styles.theading}>
                         {isPrime && thead.primeFlag ? (
-                          <Image
-                            src="/marketsweb/img/icon_prime.svg"
-                            width={10}
-                            height={10}
-                            alt="ETPrime"
-                            className={styles.primeIcon}
-                          />
+                          <span className={styles.primeIcon}>
+                            <span className="eticon_prime_logo">
+                              {renderIconPaths("eticon_prime_logo")}
+                            </span>
+                          </span>
                         ) : null}
                         {thead.keyText}
                       </div>
@@ -199,6 +197,7 @@ const ScrollableTable = React.memo((props: any) => {
                         thead.valueType != "date" &&
                         thead.valueType != "lineGraph" &&
                         thead.valueType != "sparklineGraph" &&
+                        thead.valueType != "lineGraph7dVolume" &&
                         (!thead.primeFlag || (isPrime && thead.primeFlag)) && (
                           <span className={`${styles.sortIcons}`}>
                             <span
@@ -371,6 +370,8 @@ const ScrollableTable = React.memo((props: any) => {
                               ) : (
                                 "-"
                               )
+                            ) : tdData.keyId == "volume7D" ? (
+                              <Table7DGraph data={tdData?.value || ""} />
                             ) : !!tdData.value ? (
                               tdData.value
                             ) : (

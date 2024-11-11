@@ -15,7 +15,6 @@ const InvestorClientHomePage = ({
   pageUrl,
   tableThSortFilterID,
 }: any) => {
-  console.log({ data, topHoldingData, otherViewData, pageUrl });
   const sharkSeoName =
     data?.datainfo?.investorOverviewInfo?.investorIntro?.sharkSeoName;
   const sharkName = data?.datainfo?.investorOverviewInfo?.investorIntro?.name;

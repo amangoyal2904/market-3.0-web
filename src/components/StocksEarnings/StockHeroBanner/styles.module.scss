@@ -1,0 +1,150 @@
+@import "@/styles/variables.scss";
+
+.mainWrap {
+  display: flex;
+  justify-content: space-between;
+  background: $salmon-10;
+  padding: 24px 24px 18px 24px;
+}
+.left {
+  width: calc(100% - 522px);
+  border-right: solid 1px $salmon-50;
+}
+.top {
+  display: flex;
+  align-items: center;
+  .mainHead {
+    font-size: 32px;
+    font-weight: 700;
+    color: $black;
+  }
+  .link {
+    position: relative;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18px;
+    color: $blue-50;
+    padding-left: 20px;
+    margin-left: 20px;
+    border-left: solid 1px $gray-90;
+  }
+}
+.middle {
+  margin-top: 5px;
+}
+.ptxt {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  color: $gray-30;
+}
+.bottom {
+  margin-top: 24px;
+  ul {
+    list-style-type: none;
+    display: inline-block;
+    vertical-align: top;
+    li {
+      display: flex;
+      align-items: center;
+      padding: 7px 0;
+      &:first-child {
+        background: $gray-95;
+      }
+      div {
+        &:first-child {
+          width: 150px;
+        }
+        &:nth-of-type(2) {
+          width: 150px;
+        }
+        &:nth-of-type(3) {
+          width: 100px;
+        }
+      }
+      .subHead {
+        color: #777;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+      }
+    }
+    .headRow {
+      font-size: 16px;
+      font-weight: 600;
+      color: #777;
+    }
+    .subNumber {
+      font-size: 16px;
+      font-weight: 600;
+      position: relative;
+      .up {
+        color: #009060;
+      }
+      .down {
+        color: $red-50;
+      }
+    }
+  }
+}
+.right {
+  width: 500px;
+  padding-left: 24px;
+}
+.rightTop {
+  font-size: 18px;
+  font-weight: 600;
+}
+.rightBtm {
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  .infoSec {
+    margin-left: 20px;
+    ul {
+      list-style-type: none;
+      li {
+        display: flex;
+        .graphWrap {
+          width: 70px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          margin-right: 10px;
+          span {
+            display: inline-block;
+            vertical-align: top;
+            height: 5px;
+            border-radius: 3px;
+          }
+          .green {
+            background: #709c53;
+          }
+          .red {
+            background: #ed193b;
+          }
+          .gray {
+            background: #c4c4c4;
+          }
+        }
+        .graphNo {
+          width: 30px;
+          text-align: center;
+          font-weight: 700;
+          font-size: 16px;
+          margin-right: 5px;
+        }
+        .graphTxt {
+          width: 70px;
+          font-size: 14px;
+          line-height: 18px;
+          font-weight: 400;
+          color: rgba(0, 0, 0, 0.5);
+        }
+      }
+      li + li {
+        margin-top: 10px;
+      }
+    }
+  }
+}

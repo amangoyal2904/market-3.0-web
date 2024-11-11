@@ -136,7 +136,11 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
     setProcessingLoader(false);
   };
 
-  const handlePaywallClick = (value: boolean, catName: any) => {
+  const handlePaywallClick = (
+    value: boolean,
+    catName: any,
+    fireTracking = true,
+  ) => {
     const objTracking = {
       category: "mercury_engagement",
       action: "card_clicked",
@@ -158,7 +162,9 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
         event_name: "subscription_feature",
       },
     };
-    redirectToPlanPage(objTracking, "view_item_list", false);
+    if (fireTracking) {
+      redirectToPlanPage(objTracking, "view_item_list", false);
+    }
     setIsModalOpen(value);
     if (value) {
       document.body.style.overflow = "hidden";

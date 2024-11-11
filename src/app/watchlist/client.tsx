@@ -23,6 +23,8 @@ import {
 import { trackingEvent } from "@/utils/ga";
 import MarketStatus from "@/components/MarketStatus";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import toast from "react-hot-toast";
+import PrimeBannerExperiment from "@/components/PrimeBannerExperiment";
 const MessagePopupShow = dynamic(
   () => import("@/components/MessagePopupShow"),
   { ssr: false },
@@ -50,9 +52,10 @@ const WatchListClient = () => {
   const [modalBodyText, setModalBodyText] = useState({
     title: "You have Successfully created your personalise view",
   });
-  const { state } = useStateContext();
-  const { isPrime, isLogin, ssoid } = state.login;
+  const { state, dispatch } = useStateContext();
+  const { isPrime, isLogin, ssoid, ticketId } = state.login;
   const { currentMarketStatus } = state.marketStatus;
+  const { watchlist } = state.watchlistStatus;
   const config = tableConfig["watchList"];
   const pageSummary = {};
 
@@ -124,12 +127,13 @@ const WatchListClient = () => {
     const bodyParams = requestPayload;
 
     try {
-      const response = await getCustomViewTable(
+      const response = await getCustomViewTable({
         bodyParams,
-        true,
+        isprimeuser: true,
+        apiType: "MARKETS_CUSTOM_TABLE",
         ssoid,
-        "MARKETS_CUSTOM_TABLE",
-      );
+        ticketId,
+      });
 
       if (response) {
         const {
@@ -170,7 +174,13 @@ const WatchListClient = () => {
       sort: [],
     };
     const { tableHeaderData, tableData, pageSummary, unixDateTime, payload } =
-      await getCustomViewTable(bodyParams, true, ssoid, "MARKETS_CUSTOM_TABLE");
+      await getCustomViewTable({
+        bodyParams,
+        isprimeuser: true,
+        apiType: "MARKETS_CUSTOM_TABLE",
+        ssoid,
+        ticketId,
+      });
 
     try {
       setTabData(tabData);
@@ -221,27 +231,42 @@ const WatchListClient = () => {
   const toasterCloseHandlerFun = async (value: boolean) => {
     //console.log('getValue',value);
     const userConfirm = value || false;
-    const followData = {
-      source: "1",
-      userSettings: [...unFollowStocksList],
-    };
+    const removedStocks = [...unFollowStocksList];
     setToasterConfirmBoxShow(false);
     if (userConfirm) {
-      const removeAllStock = await removeMultipleStockInWatchList(followData);
-      if (
-        removeAllStock &&
-        removeAllStock.nextJsResponse &&
-        removeAllStock.nextJsResponse.length > 0
-      ) {
-        setShowTableCheckBox(false);
-        setUnFollowStocksList([]);
-        onTabViewUpdate(activeViewId);
-      } else if (removeAllStock.length > 0) {
+      const responseData = await removeMultipleStockInWatchList(removedStocks);
+      const response = responseData[0];
+      if (response.statusCode === 200) {
+        const updatedWatchlist = watchlist.filter(
+          (watchlistItem: any) =>
+            !removedStocks.some(
+              (removedStock: any) =>
+                removedStock.stock.id === watchlistItem.companyId &&
+                removedStock.stock.companyType === watchlistItem.companyType,
+            ),
+        );
+        dispatch({
+          type: "UPDATE_MSID",
+          payload: {
+            watchlist: updatedWatchlist,
+          },
+        });
+
         setShowTableCheckBox(false);
         setUnFollowStocksList([]);
         onTabViewUpdate(activeViewId);
       } else {
-        alert("Some api error plesae check now");
+        toast((t) => (
+          <span className="errorToast">
+            <span>
+              Oops! There is some error while removing the stocks from
+              Watchlist. Please retry.
+            </span>
+            <button onClick={() => toast.dismiss(t.id)}>
+              <i className="eticon_cross"></i>
+            </button>
+          </span>
+        ));
       }
     } else {
       setUnFollowStocksList([]);
@@ -269,10 +294,10 @@ const WatchListClient = () => {
     const checkInput = e.target.checked;
     const data = {
       action: checkInput ? 0 : 1, // If checked, action is 0 (add), else 1 (remove)
-      userSettingSubType: 11,
-      msid: companyId,
-      companytype: assetType,
-      stype: 2,
+      stock: {
+        id: companyId,
+        companyType: assetType,
+      },
     };
     if (checkInput) {
       setUnFollowStocksList((prevList): any => [...prevList, data]);
@@ -334,6 +359,12 @@ const WatchListClient = () => {
         stocks price change, stocks percentage change, low &amp; High stocks and
         more.
       </p>
+      {!isPrime && (
+        <PrimeBannerExperiment
+          pageName="Mercury_Watchlist"
+          pageId="watchlist"
+        />
+      )}
       <div className={styles.watclistContainer}>
         {showBlocker ? (
           <Blocker type="loginBlocker" />

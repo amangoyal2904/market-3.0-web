@@ -16,7 +16,7 @@ import {
   getSearchParams,
 } from "@/utils/utility";
 import Disclaimer from "@/components/StockRecosListing/Disclaimer";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { headers, cookies } from "next/headers";
 import { Metadata, ResolvingMetadata } from "next";
 import BreadCrumb from "@/components/BreadCrumb";
@@ -386,7 +386,7 @@ export default async function stocksrecos({
     const fundHouseStr = `${topSection?.seoName}-${topSection?.omId}`;
 
     if (fundHouseStr.indexOf("undefined") != -1) {
-      redirect("/not-found");
+      notFound();
     } else if (header_url.indexOf(fundHouseStr) == -1) {
       const newPath = header_url.replace(slug[1], fundHouseStr);
       redirect(newPath);

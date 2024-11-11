@@ -108,7 +108,7 @@ const SliderBanner = ({
                   </div>
                   <div className={styles.imgSec}>
                     <img
-                      src={`/marketsweb/img/etmarketlogo.png`}
+                      src={`https://img.etimg.com/photo/msid-114256971,quality-100/et-markets-logo.jpg`}
                       alt="et market logo"
                       width="118"
                       height="23"
@@ -135,7 +135,7 @@ const SliderBanner = ({
                       </div>
                       <div className={styles.rightImg}>
                         <img
-                          src={`/marketsweb/img/sliderImg1.png`}
+                          src={`https://img.etimg.com/photo/msid-114256952,quality-100/sliderImg1.jpg`}
                           alt="slider img one"
                           width={310}
                           height={200}
@@ -150,7 +150,7 @@ const SliderBanner = ({
                       </div>
                       <div className={styles.rightImg}>
                         <img
-                          src={`/marketsweb/img/sliderImg2.png`}
+                          src={`https://img.etimg.com/photo/msid-114256950,quality-100/sliderImg2.jpg`}
                           alt="slider img one"
                           width={253}
                           height={195}
@@ -165,7 +165,7 @@ const SliderBanner = ({
                       </div>
                       <div className={styles.rightImg}>
                         <img
-                          src={`/marketsweb/img/sliderImg3.png`}
+                          src={`https://img.etimg.com/photo/msid-114256948,quality-100/sliderImg3.jpg`}
                           alt="slider img one"
                           width={322}
                           height={200}

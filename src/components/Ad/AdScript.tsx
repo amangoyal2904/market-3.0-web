@@ -6,8 +6,35 @@ declare global {
     googletag: any;
     arrDfpAds: {}[];
     _auds: any;
+    apstag: any;
+    _dfpObj: any;
+
+    displayAllAdsInArray: any;
   }
 }
+
+export const loadAmazonTamScript = function (userType = true) {
+  try {
+    if (!userType) {
+      let isExist = document.querySelector(
+        "script[src*='https://c.amazon-adsystem.com/aax2/apstag.js']",
+      );
+      if (!isExist) {
+        loadAssets(
+          "https://c.amazon-adsystem.com/aax2/apstag.js",
+          "js",
+          "async",
+          "body",
+          function () {},
+          {},
+        );
+        window.apstag.init({ pubID: "5025", adServer: "googletag" });
+      }
+    }
+  } catch (e) {
+    console.log("loadAmazonTamScript::" + e);
+  }
+};
 
 export const loadAndBeyondScript = function (userType = true) {
   try {
@@ -33,6 +60,29 @@ export const loadAndBeyondScript = function (userType = true) {
     console.log("loadAndBeyondScript::" + e);
   }
 };
+export const getAdName = function (slot = "bottom") {
+  try {
+    var adName = "";
+    if (slot && slot.toLowerCase().indexOf("_atf") > -1) {
+      adName = "atf";
+    } else if (slot && slot.toLowerCase().indexOf("_skin") > -1) {
+      adName = "gutter";
+    } else if (slot && slot.toLowerCase().indexOf("_mrec") > -1) {
+      adName = "mrec";
+    } else if (slot && slot.toLowerCase().indexOf("_masthead") > -1) {
+      adName = "masthead";
+    } else if (
+      slot &&
+      (slot.toLowerCase().indexOf("_bottomoverlay") > -1 ||
+        slot.toLowerCase().indexOf("_sticky") > -1)
+    ) {
+      adName = "bottomoverlay";
+    } else {
+      adName = "bottom";
+    }
+    return adName;
+  } catch (e) {}
+};
 const getDFPData = async function () {
   try {
     let dfp;
@@ -49,6 +99,8 @@ const callDfpAd = async function () {
   try {
     let dfp: any;
     let divIds: any;
+
+    let arrDfpPageAds: any = [];
     divIds = [];
     //dfp = getDFPData();
     let pathName = location.pathname;
@@ -64,6 +116,9 @@ const callDfpAd = async function () {
     // console.log("Helloooooooooooo", dfp);
     let googleTag: any;
     googleTag = window.googletag || {};
+    window._dfpObj.filterLazyLoad = [];
+    window._dfpObj.renderedSlots = [];
+    window._dfpObj.definedSlots = [];
     googleTag.destroySlots();
     let dfpData = dfp.dfp;
     //dfp.forEach(function (data:any, index) {
@@ -97,9 +152,9 @@ const callDfpAd = async function () {
         if (adSlot != "" && adSize != "" && divId != "") {
           if (typeof googleTag != "undefined" && googleTag.apiReady) {
             googleTag.cmd.push(function () {
-              ad_ref = googleTag
-                .defineSlot(adSlot, adSize, divId)
-                .addService(googleTag.pubads());
+              // ad_ref = googleTag
+              //   .defineSlot(adSlot, adSize, divId)
+              //   .addService(googleTag.pubads());
               if (window._auds) {
                 googleTag.pubads().setTargeting("sg", window._auds);
               }
@@ -111,27 +166,42 @@ const callDfpAd = async function () {
               googleTag.enableServices();
             });
           }
+          let objPageAds: any = {};
+          let adName = getAdName(adSlot);
+          objPageAds.adCode = adSlot;
+          objPageAds.divId = divId;
+          objPageAds.size = adSize;
+          objPageAds.name = adName;
+          //objPageAds.skipLazy = 1;
+          arrDfpPageAds.push(objPageAds);
+
+          //adName!="" && window._dfpObj && window._dfpObj.primeSlots  && window._dfpObj.primeSlots.push(adName);
         }
       });
-      if (divIds && divIds.length > 0) {
-        divIds.forEach(function (element: any) {
-          let ele = document.getElementById(element);
-          if (ele) {
-            googleTag.cmd.push(function () {
-              googleTag.display(element);
-            });
-          } else {
-            setTimeout(() => {
-              let ele = document.getElementById(element);
-              if (ele) {
-                googleTag.cmd.push(function () {
-                  googleTag.display(element);
-                });
-              }
-            }, 2000);
-          }
-        });
-      }
+      typeof window.displayAllAdsInArray != "undefined" &&
+        arrDfpPageAds &&
+        arrDfpPageAds.length > 0 &&
+        window.displayAllAdsInArray(arrDfpPageAds);
+
+      // if (divIds && divIds.length > 0) {
+      //   divIds.forEach(function (element: any) {
+      //     let ele = document.getElementById(element);
+      //     if (ele) {
+      //       googleTag.cmd.push(function () {
+      //         googleTag.display(element);
+      //       });
+      //     } else {
+      //       setTimeout(() => {
+      //         let ele = document.getElementById(element);
+      //         if (ele) {
+      //           googleTag.cmd.push(function () {
+      //             googleTag.display(element);
+      //           });
+      //         }
+      //       }, 2000);
+      //     }
+      //   });
+      // }
     }
     window.arrDfpAds = [];
   } catch (e) {
@@ -140,32 +210,7 @@ const callDfpAd = async function () {
 };
 export const renderDfpAds = (userType = true) => {
   try {
-    let pathName = location.pathname;
-    let showAd = true;
-    if (
-      pathName.indexOf("/top-india-investors-portfolio") > -1 ||
-      pathName.indexOf("/stockreportsplus") > -1 ||
-      pathName.indexOf("/stock-market-mood") > -1 ||
-      pathName.indexOf("/watchlist") > -1
-    ) {
-      Array.from(document.getElementsByClassName("hideAd")).forEach(
-        function (e) {
-          e && e.classList.add("displayHide");
-        },
-      );
-      showAd = false;
-    } else {
-      Array.from(document.getElementsByClassName("hideAd")).forEach(
-        function (e) {
-          e && e.classList.remove("displayHide");
-        },
-      );
-      showAd = true;
-    }
-    // if (userType == true) {
-    //   document.querySelectorAll(".hideAd").forEach((el) => el.remove());
-    // }
-    if (!userType && showAd == true) {
+    if (!userType) {
       let googleTag: any;
       let maxTry = 20;
       let counter = 1;

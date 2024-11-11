@@ -8,39 +8,22 @@ import {
 } from "@/utils";
 import { fetchAllWatchListData, saveLogs } from "@/utils/utility";
 import { activateFreeTrial } from "@/utils/freeTrail";
-import jStorageReact from "jstorage-react";
 import { trackingEvent } from "@/utils/ga";
+import jStorageReact from "jstorage-react";
 
-const useLogin = (frmapp: string = "", platform: string = "") => {
-  const { dispatch } = useStateContext();
-
+const useLogin = () => {
+  const { state, dispatch } = useStateContext();
+  const { isLogin } = state.login;
   const fetchWatchListStocks = async () => {
-    const data = await fetchAllWatchListData(2, 11);
-    let watchlistArr = [];
-    if (data?.resData?.length > 0) {
-      watchlistArr = data?.resData.map((entry: any) => {
-        return (
-          entry.companyType && {
-            companyId: entry.prefDataVal,
-            companyType: entry.id,
-          }
-        );
-      });
-    } else if (data?.length > 0) {
-      watchlistArr = data.map((entry: any) => {
-        return (
-          entry.companyType && {
-            companyId: entry.prefDataVal,
-            companyType: entry.companyType,
-          }
-        );
-      });
-    }
-    if (watchlistArr.length > 0) {
+    const data = await fetchAllWatchListData(
+      window.objUser.ssoid,
+      window.objUser.ticketId,
+    );
+    if (data.length > 0) {
       dispatch({
         type: "UPDATE_MSID",
         payload: {
-          watchlist: watchlistArr,
+          watchlist: data,
         },
       });
     }
@@ -48,9 +31,8 @@ const useLogin = (frmapp: string = "", platform: string = "") => {
 
   const verifyLoginSuccessCallback = async () => {
     try {
-      fetchWatchListStocks();
       const primeRes = await loadPrimeApiNew();
-      if (primeRes.code === "200") {
+      if (!!primeRes && primeRes?.code === "200") {
         const resObj = primeRes.data.productDetails.filter((item: any) => {
           return item.productCode == "ETPR";
         });
@@ -76,7 +58,6 @@ const useLogin = (frmapp: string = "", platform: string = "") => {
         }
         setCookieToSpecificTime("etprc", oauthAPiRes.prc, 30, 0, 0);
         trackingEvent("user_profile_create", { url: window.location.href });
-
         const freeTrialData = jStorageReact.get("et_freetrial");
         if (freeTrialData?.hitAccessPass) {
           setTimeout(() => {
@@ -194,6 +175,10 @@ const useLogin = (frmapp: string = "", platform: string = "") => {
       document.removeEventListener("getUserDetailsFail", authFailCallback);
     };
   }, []);
+
+  useEffect(() => {
+    if (isLogin) fetchWatchListStocks();
+  }, [isLogin]);
 };
 
 export default useLogin;

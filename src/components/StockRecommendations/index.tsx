@@ -186,7 +186,7 @@ const StockRecommendations: React.FC<Props> = ({
                 responsive={responsive}
               />
             ) : activeTab.seoPath == "recos-on-your-watchlist" && !isLogin ? (
-              <Blocker type="loginBlocker" />
+              <Blocker type="watchlitFilterBlocker" />
             ) : (
               <Blocker type={"noDataFound"} />
             )}
