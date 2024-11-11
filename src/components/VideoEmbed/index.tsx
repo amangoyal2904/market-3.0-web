@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
 import styles from "./VideoEmbed.module.scss";
-import Loading from "./Loading";
+import Loader from "../Loader";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils";
 
-const VideoEmmbed = ({
+const VideoEmbed = ({
   onIframeLoadTask,
   showLoader,
   herovideo = "",
   videoMsid = "",
   selectedcategory,
 }: any) => {
-  const domainUrl = "https://etdev8243.indiatimes.com";
+  const domainUrl = `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}`;
   const iframeUrl = `${domainUrl}/videodash.cms?autostart=1&tpname=investedge&widget=video&skipad=true&primeuser=0&ismktwebpre=true&msid=${videoMsid}`;
 
   useEffect(() => {
@@ -25,13 +27,11 @@ const VideoEmmbed = ({
   return (
     <>
       <div className={styles.videoContainer}>
-        {showLoader ? (
-          <div className={styles.loaderWrapper}>
-            <Loading />
-          </div>
+        {/* {!showLoader ? (
+          <Loader loaderType="inner"/>
         ) : (
           ""
-        )}
+        )} */}
         <iframe
           id="videoShow"
           className={`${styles.videoFrame} ${herovideo === "yes" ? styles.herovideo : ""}`}
@@ -45,4 +45,4 @@ const VideoEmmbed = ({
   );
 };
 
-export default VideoEmmbed;
+export default VideoEmbed;

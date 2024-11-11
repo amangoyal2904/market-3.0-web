@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import Share from "../../Share";
-import { formatTimestamp, calculateExtendedViews, formatDateIE } from "@/utils";
+import { calculateExtendedViews } from "@/utils";
 
 const ViewShareSec = ({
   data,
@@ -15,17 +15,6 @@ const ViewShareSec = ({
   return (
     <>
       <div className={styles.videoDetails}>
-        {videoDetails?.insertdate && showTimeStamp === "yes" && (
-          <>
-            <span className={styles.date}>
-              {dataFormate === "two"
-                ? formatDateIE(videoDetails.insertdate)
-                : formatTimestamp(videoDetails.insertdate)}
-            </span>
-            <span className={styles.dash}>|</span>
-          </>
-        )}
-
         <span className={styles.views}>
           Views:{" "}
           {view.length > 0

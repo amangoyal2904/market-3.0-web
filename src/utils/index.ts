@@ -617,68 +617,6 @@ export const millisToMinutesAndSeconds = (millis: any) => {
 
   return `${minutes}:${paddedSeconds}`;
 };
-export const formatTimestamp = (timestamp: any) => {
-  const date = new Date(timestamp);
-
-  // Extract individual date and time components
-  const day = date.getDate().toString().padStart(2, "0");
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const month = monthNames[date.getMonth()];
-  const year = date.getFullYear();
-
-  // Get hours and minutes
-  let hours = date.getHours();
-  const minutes = date.getMinutes().toString().padStart(2, "0");
-
-  // Format to 12-hour format
-  const ampm = hours >= 12 ? "PM" : "AM";
-  hours = hours % 12;
-  hours = hours ? hours : 12; // Convert hour '0' to '12' for 12-hour clock
-
-  // Combine date and time into the required format
-  const formattedDate = `${day} ${month} ${year}, ${hours}:${minutes} ${ampm} IST`;
-
-  return formattedDate;
-};
-
-export const formatDateIE = (timestamp: any) => {
-  const date = new Date(timestamp);
-
-  // Extract day, month, and year
-  const day = date.getDate().toString().padStart(2, "0");
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const month = monthNames[date.getMonth()];
-  const year = date.getFullYear();
-
-  // Return the formatted date
-  return `${day} ${month} ${year}`;
-};
 
 export const setCookies = (
   name: string,

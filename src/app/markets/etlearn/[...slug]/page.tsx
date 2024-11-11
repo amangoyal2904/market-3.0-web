@@ -103,9 +103,16 @@ const AllETlearnPage = async ({ params }: any) => {
     params: {},
   });
   const getSectionResult = await getSectionPromise?.json();
-  const getSectionData = getSectionResult.searchResult[0].data || [];
+  const getSectionData = getSectionResult?.searchResult[0]?.data || [];
 
   if (slug.length === 1) {
+    if (getSectionData.length === 0) {
+      return (
+        <>
+          return <>{notFound()}</>;
+        </>
+      );
+    }
     return (
       <>
         <ClientCategoryList
@@ -116,6 +123,13 @@ const AllETlearnPage = async ({ params }: any) => {
       </>
     );
   } else if (slug.length === 3) {
+    if (getSectionData.length === 0) {
+      return (
+        <>
+          return <>{notFound()}</>;
+        </>
+      );
+    }
     return (
       <>
         <ClientVideos

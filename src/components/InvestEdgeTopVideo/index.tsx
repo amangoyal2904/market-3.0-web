@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./InvestEdgeTopVideo.module.scss";
 import Link from "next/link";
 import GLOBAL_CONFIG from "../../network/global_config.json";
-import { formatDateIE, getViews, millisToMinutesAndSeconds } from "@/utils";
+import { getViews, millisToMinutesAndSeconds } from "@/utils";
 import { calculateExtendedViews } from "../../utils";
 import ViewShareSec from "@/components/ETLearn/ViewShareSec";
 import { trackingEvent } from "@/utils/ga";

@@ -3,7 +3,7 @@ import styles from "./InvestEdgeVideoList.module.scss";
 import { trackingEvent } from "@/utils/ga";
 import VideoEmbed from "../VideoEmbed";
 import { useEffect, useState } from "react";
-import { getViews, millisToMinutesAndSeconds } from "@/utils";
+import { getViews } from "@/utils";
 import InvestEdgeBox from "./InvestEdgeBox";
 import { getSeoNameFromUrl } from "@/utils";
 import ViewShareSec from "@/components/ETLearn/ViewShareSec";

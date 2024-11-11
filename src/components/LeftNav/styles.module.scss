@@ -326,24 +326,6 @@
     }
   }
 }
-.etlearnstockIcon {
-  margin: 0;
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  &::after {
-    content: "";
-    position: absolute;
-    left: 11px;
-    top: -10px;
-    display: inline-block;
-    vertical-align: top;
-    width: 24px;
-    height: 21px;
-    background: url("https://img.etimg.com/photo/114110020.cms") no-repeat 0 0;
-    background-size: cover;
-  }
-}
 .etprimeLogoText {
   font-size: 16px;
   font-weight: 600;
