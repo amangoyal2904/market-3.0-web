@@ -4,6 +4,7 @@ import ETLearnTabs from "@/components/ETLearn/Tabs";
 import TopHero from "@/components/ETLearn/TopHero";
 import InvestEdgeVideoList from "@/components/InvestEdgeVideoList";
 import BreadCrumb from "@/components/BreadCrumb";
+import { ListItemSchema } from "@/utils/schema";
 
 const ClientCategoryList = ({
   invementIdeaNavResult,
@@ -22,9 +23,17 @@ const ClientCategoryList = ({
     );
     return activeObj[0]?.desc;
   };
-  //console.log("sectionData",invementIdeaNavResult?.tabs, slug)
+
   return (
     <>
+      {
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(ListItemSchema({ sectionData, slug })),
+          }}
+        />
+      }
       <TopHero head="ET Learn" headTag="h2" desc={pageDesc()} link="" />
       <ETLearnTabs tabData={invementIdeaNavResult?.tabs} />
       <InvestEdgeVideoList
