@@ -403,7 +403,14 @@ const getLiPath = (router: string, pagePath: string) => {
         </li>
       ),
       showCurrLi: true,
-      listItemSchema: "",
+      listItemSchema: {
+        "@type": "ListItem",
+        position: "3",
+        name: "ET Learn",
+        item: {
+          "@id": "/markets/etlearn",
+        },
+      },
     };
   } else {
     return {};

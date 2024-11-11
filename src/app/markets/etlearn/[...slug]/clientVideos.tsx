@@ -24,14 +24,19 @@ const ClientVideos = ({ invementIdeaNavResult, slug, sectionData }: any) => {
     pageSlug: slug[0],
     videoMsid: slug[2],
   };
-  const pageDesc =
-    "Curated videos on stocks, mutual funds, investment strategies & more to help you manage your wealth seamlessly.";
+  const pageDesc = () => {
+    const activeObj = invementIdeaNavResult?.tabs.filter(
+      (item: any) => item.apiSlug == `/${slug?.[0]}`,
+    );
+    return activeObj[0]?.desc;
+  };
   return (
     <>
-      <TopHero head={getSectionName()} desc={pageDesc} link="" />
+      <TopHero head={getSectionName()} headTag="h2" desc={pageDesc()} link="" />
       <ETLearnTabs tabData={invementIdeaNavResult?.tabs} />
       <InvestEdgeVideoBox
         data={videoData}
+        headTag="h1"
         slug={slug}
         selectedcategory={getSectionName()}
       />

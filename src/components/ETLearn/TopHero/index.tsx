@@ -2,7 +2,7 @@ import styles from "./styles.module.scss";
 import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 
-const TopHero = ({ head, desc, link }: any) => {
+const TopHero = ({ head, desc, link, headTag = "" }: any) => {
   const gaTrackingClickHandler = () => {
     trackingEvent("et_push_event", {
       et_product: "Mercury_ETLearn",
@@ -16,16 +16,8 @@ const TopHero = ({ head, desc, link }: any) => {
   };
   return (
     <>
-      <h1 className={styles.title}>
-        {link !== "" && (
-          <Link
-            href={`${link}`}
-            className={styles.backbtn}
-            onClick={gaTrackingClickHandler}
-          ></Link>
-        )}
-        {head}
-      </h1>
+      {headTag === "h1" && <h1 className={styles.title}> {head} </h1>}
+      {headTag === "h2" && <h2 className={styles.title}> {head} </h2>}
       <p className={styles.desc}>{desc}</p>
     </>
   );

@@ -43,7 +43,6 @@ const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
 
   // Create a ref to store references for each ieBox section
   const sectionRefs = useRef<any>({});
-
   const loadVideoIframe = () => {
     setLoadVideo(true);
     setShowLoader(true);
@@ -84,13 +83,16 @@ const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
     });
   };
 
-  const pageDesc =
-    "Curated videos on stocks, mutual funds, investment strategies & more to help you manage your wealth seamlessly.";
-
+  const pageDesc = () => {
+    const activeObj = invementIdeaNavResult?.tabs.filter(
+      (item: any) => item.apiSlug == `/etlearn`,
+    );
+    return activeObj[0]?.desc;
+  };
   //console.log("invementIdeaNavResult?.tabs", invementIdeaNavResult?.tabs);
   return (
     <>
-      <TopHero head="ET Learn" desc={pageDesc} link="" />
+      <TopHero head="ET Learn" headTag="h1" desc={pageDesc()} link="" />
       <ETLearnTabs tabData={invementIdeaNavResult?.tabs} />
 
       <div className={styles.ieContainer}>

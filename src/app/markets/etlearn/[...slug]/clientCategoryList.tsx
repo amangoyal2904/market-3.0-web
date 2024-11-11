@@ -10,22 +10,26 @@ const ClientCategoryList = ({
   sectionData,
   slug,
 }: any) => {
-  const pageDesc =
-    "Curated videos on stocks, mutual funds, investment strategies & more to help you manage your wealth seamlessly.";
-
   const getSectionName = () => {
     const activeObj = invementIdeaNavResult?.tabs.filter(
       (item: any) => item.apiSlug == `/${slug?.[0]}`,
     );
     return activeObj[0]?.label;
   };
+  const pageDesc = () => {
+    const activeObj = invementIdeaNavResult?.tabs.filter(
+      (item: any) => item.apiSlug == `/${slug?.[0]}`,
+    );
+    return activeObj[0]?.desc;
+  };
   //console.log("sectionData",invementIdeaNavResult?.tabs, slug)
   return (
     <>
-      <TopHero head="ET Learn" desc={pageDesc} link="" />
+      <TopHero head="ET Learn" headTag="h2" desc={pageDesc()} link="" />
       <ETLearnTabs tabData={invementIdeaNavResult?.tabs} />
       <InvestEdgeVideoList
         title={getSectionName()}
+        headTag="h1"
         invementIdeaNavResult={invementIdeaNavResult}
         sectionData={sectionData}
         slug={slug}

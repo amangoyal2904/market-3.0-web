@@ -3,12 +3,23 @@ import styles from "./InvestEdgeVideoList.module.scss";
 import InvestEdgeBox from "./InvestEdgeBox";
 import { getSeoNameFromUrl } from "@/utils";
 const InvestEdgeVideoList = (props: any) => {
-  const { title, invementIdeaNavResult, sectionData, slug } = props;
+  const {
+    title,
+    invementIdeaNavResult,
+    sectionData,
+    slug,
+    headTag = "",
+  } = props;
 
   return (
     <>
       <div className={styles.ieVidContainer}>
-        <h2>{title}</h2>
+        {headTag === "h1" ? (
+          <h1 className={styles.titelHead}>{title}</h1>
+        ) : (
+          <div className={styles.titelHead}>{title}</div>
+        )}
+
         <div className={styles.ieVidList}>
           {sectionData.length > 0 &&
             sectionData.map((slide: any, index: any) => (

@@ -20,7 +20,12 @@ interface VideoDetails {
   videoDuration: string;
   synopsis?: any;
 }
-const InvestEdgeVideoBox = ({ data, slug, selectedcategory = "" }: any) => {
+const InvestEdgeVideoBox = ({
+  data,
+  slug,
+  selectedcategory = "",
+  headTag = "",
+}: any) => {
   const { title, sectionData, pageSlug, videoMsid } = data;
   const videoSecSeoPath: string = pageSlug || "";
   const [showLoader, setShowLoader] = useState(true);
@@ -56,7 +61,12 @@ const InvestEdgeVideoBox = ({ data, slug, selectedcategory = "" }: any) => {
   }, []);
   return (
     <div className={styles.ieVidContainer}>
-      <h2>{videoData?.title}</h2>
+      {headTag === "h1" ? (
+        <h1 className={styles.titelHead}>{videoData?.title}</h1>
+      ) : (
+        <div className={styles.titelHead}>{videoData?.title}</div>
+      )}
+
       {videoMsid ? (
         <VideoEmbed
           videoMsid={videoMsid}
