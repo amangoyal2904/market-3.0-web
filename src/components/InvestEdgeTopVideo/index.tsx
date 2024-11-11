@@ -52,8 +52,8 @@ const InvestEdgeTopVideo = ({
       selected_category: selectedcategory,
     });
   };
-
-  const imgUrlGenrate = `https://img.etimg.com/thumb/width-488,height-370,imgsize-527126,resizemode-100,msid-${slide?.msid}/markets/etlearn/${seoPath}/${videoTitelSlug}.jpg`;
+  const imgMsid = slide?.msid || "75267040";
+  const imgUrlGenrate = `https://img.etimg.com/thumb/width-488,height-370,imgsize-527126,resizemode-100,msid-${imgMsid}/markets/etlearn/${seoPath}/${videoTitelSlug}.jpg`;
 
   useEffect(() => {
     viewsWrapper(slide?.slikeId);

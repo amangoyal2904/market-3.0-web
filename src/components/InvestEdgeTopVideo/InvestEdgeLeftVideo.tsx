@@ -139,7 +139,8 @@ const InvestEdgeLeftVideo = ({ videoPlayData, selectedcategory }: any) => {
       selected_category: selectedcategory,
     });
   };
-  const imgUrlGenrate = `https://img.etimg.com/thumb/width-750,height-350,imgsize-527126,resizemode-100,msid-${videoDetails?.msid}/markets/etlearn/${videoSecSeoPath}/${videoTitelSlug}.jpg`;
+  const imgMsid = videoDetails?.msid || "75267040";
+  const imgUrlGenrate = `https://img.etimg.com/thumb/width-750,height-350,imgsize-527126,resizemode-100,msid-${imgMsid}/markets/etlearn/${videoSecSeoPath}/${videoTitelSlug}.jpg`;
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
