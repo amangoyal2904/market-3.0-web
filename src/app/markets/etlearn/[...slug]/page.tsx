@@ -6,6 +6,7 @@ import { APP_ENV, getSeoNameFromUrl } from "@/utils";
 import ClientCategoryList from "./clientCategoryList";
 import ClientVideos from "./clientVideos";
 import { notFound } from "next/navigation";
+import { VideoObjectSchema } from "@/utils/schema";
 
 export async function generateMetadata(
   { params }: any,
@@ -130,8 +131,52 @@ const AllETlearnPage = async ({ params }: any) => {
         </>
       );
     }
+    const heroVideoData =
+      getSectionData.length > 0 &&
+      getSectionData.find((slide: any) => slide.msid == slug[2]);
+    const videoDataSchema = {
+      slikeId: heroVideoData?.slikeId,
+      contenturl: `https://t.sli.ke/v.${heroVideoData?.slikeId}.mp4`,
+      thumbnailUrl: heroVideoData?.img,
+      uploadDate: heroVideoData?.insertdate,
+      datePublished: heroVideoData?.insertdate,
+      dateModified: heroVideoData?.updatedate,
+      name: heroVideoData?.title,
+      description: heroVideoData?.synopsis,
+      inLanguage: "en",
+      keywords: "",
+      duration: heroVideoData?.videoDuration,
+      publisher: {
+        name: "Economic Times",
+        logo: {
+          url: "https://economictimes.indiatimes.com//thumb/msid-76939477,width-600,height-60,quality-100/economictimes.jpg",
+          width: "600",
+          height: "60",
+        },
+      },
+      image: {
+        url: `https://img.etimg.com/thumb/width-1600,height-900,imgsize-527126,resizemode-100,msid-${heroVideoData?.msid}/markets/etlearn.jpg`,
+        width: "1600",
+        height: "900",
+      },
+      potentialAction: {
+        urlTemplate: "",
+        valueRequired: "https://schema.org/True",
+        valueName: "seek_to_second_number",
+      },
+    };
+    const videoObjectSchema = VideoObjectSchema({ data: videoDataSchema });
+
     return (
       <>
+        {
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(videoObjectSchema),
+            }}
+          />
+        }
         <ClientVideos
           invementIdeaNavResult={invementIdeaNavResult}
           sectionData={getSectionData}

@@ -30,6 +30,7 @@ const ClientVideos = ({ invementIdeaNavResult, slug, sectionData }: any) => {
     );
     return activeObj[0]?.desc;
   };
+
   return (
     <>
       <TopHero head={getSectionName()} headTag="h2" desc={pageDesc()} link="" />

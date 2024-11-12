@@ -955,11 +955,12 @@ export const returnPPID = () => {
 };
 
 export const calculateExtendedViews = (actualViews: any) => {
-  if (!actualViews || actualViews <= 1) {
-    return Math.round(2 * (2 + Math.log(999999) / Math.log(2)));
-  }
+  const defaultView = Math.floor(Math.random() * 11) + 990;
+  const __actualViews =
+    !actualViews || actualViews <= 999 ? defaultView : actualViews;
+
   return Math.round(
-    actualViews * (1 + Math.log(999999) / Math.log(actualViews)),
+    __actualViews * (1 + Math.log(999999) / Math.log(__actualViews)),
   );
 };
 
@@ -977,4 +978,20 @@ export const getSeoNameFromUrl = (url: string, type: string) => {
   }
 
   return "";
+};
+
+export const getSlikeUrlFromAPI = async (slikeId: string) => {
+  try {
+    const url = `https://t.sli.ke/v.${slikeId}.mp4`;
+    const response = await fetch(url, { redirect: "manual" });
+    if (response.status === 301 || response.status === 302) {
+      const redirectedUrl = response.headers.get("Location");
+      return redirectedUrl;
+    } else {
+      return "not found";
+    }
+  } catch (error) {
+    console.error("Error fetching redirected URL:", error);
+    return null;
+  }
 };
