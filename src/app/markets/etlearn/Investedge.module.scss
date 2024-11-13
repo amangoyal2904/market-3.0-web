@@ -1,0 +1,110 @@
+@import "@/styles/variables.scss";
+
+.ieContainer {
+  margin-top: 30px;
+  .ieBox {
+    margin-bottom: 50px;
+    .viewall {
+      color: #2b74e3;
+      margin-top: 10px;
+      display: inline-block;
+      vertical-align: top;
+      font-weight: 600;
+      font-size: 16px;
+      .nextIcon {
+        font-size: 20px;
+        position: relative;
+        top: 4px;
+        left: 1px;
+      }
+    }
+    .ieBoxList {
+      display: flex;
+      justify-content: space-between;
+      .left_ieContent {
+        min-width: 400px;
+        max-width: 300px;
+        .videoShowWrapper {
+          cursor: pointer;
+        }
+        h3 {
+          margin: 8px 0;
+          font-size: 24px;
+        }
+        .videoDetails {
+          display: flex;
+          margin-bottom: 15px;
+          gap: 25px;
+          span {
+            font-size: 12px;
+          }
+        }
+        .socialDetails {
+          display: flex;
+          gap: 20px;
+          span {
+            padding: 5px 15px;
+            border: 1px solid;
+            border-radius: 20px;
+          }
+        }
+      }
+
+      .right_ieContent {
+        position: relative;
+        width: 49%;
+        &.noSlider {
+          display: flex;
+          flex-wrap: wrap;
+        }
+      }
+    }
+  }
+}
+.backbtn {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  &::after {
+    position: absolute;
+    content: "";
+    left: 7px;
+    top: 50%;
+    border-top: solid 2px #000000;
+    border-right: solid 2px #000000;
+    transform: rotate(-135deg);
+    display: inline-block;
+    vertical-align: top;
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+  }
+}
+.catHead {
+  font-size: 30px;
+  margin-bottom: 15px;
+  font-weight: 400;
+  .spanTxt {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    padding-right: 25px;
+    &::after {
+      position: absolute;
+      content: "";
+      right: 4px;
+      top: 50%;
+      border-top: solid 2px #000000;
+      border-right: solid 2px #000000;
+      transform: rotate(45deg);
+      display: inline-block;
+      vertical-align: top;
+      width: 12px;
+      height: 12px;
+      margin-top: -5px;
+    }
+  }
+}

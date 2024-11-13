@@ -340,6 +340,22 @@ export const initSSOWidget = () => {
   ssoWidget("init", centralSSOObj);
 };
 
+export const getViews = async (slikeId: string) => {
+  try {
+    const url = (APIS_CONFIG as any)["SLIKE_VIDEO_VIEWS"][APP_ENV] + slikeId;
+    const response = await Service.get({
+      url,
+      payload: {},
+      params: {},
+    });
+
+    return response?.json();
+    // Handle the successful response data
+  } catch (e) {
+    console.log("loadPrimeApiNew: " + e);
+  }
+};
+
 export const logout = async () => {
   const ticketId = getCookie("TicketId");
   window?.jsso?.signOutUser(async function (response: any) {
@@ -592,6 +608,16 @@ export const dateStringToMilliseconds = (
   const milliseconds = date.getTime();
   return milliseconds;
 };
+export const millisToMinutesAndSeconds = (millis: any) => {
+  const minutes = Math.floor(millis / 60000);
+  const seconds = Math.floor((millis % 60000) / 1000);
+
+  // Pad with leading zero if seconds are less than 10
+  const paddedSeconds = seconds < 10 ? "0" + seconds : seconds;
+
+  return `${minutes}:${paddedSeconds}`;
+};
+
 export const setCookies = (
   name: string,
   value: string,
@@ -925,5 +951,47 @@ export const returnPPID = () => {
   } catch (e) {
     console.log("returnPPID:", e);
     return "";
+  }
+};
+
+export const calculateExtendedViews = (actualViews: any) => {
+  const defaultView = Math.floor(Math.random() * 11) + 990;
+  const __actualViews =
+    !actualViews || actualViews <= 999 ? defaultView : actualViews;
+
+  return Math.round(
+    __actualViews * (1 + Math.log(999999) / Math.log(__actualViews)),
+  );
+};
+
+export const getSeoNameFromUrl = (url: string, type: string) => {
+  if (!url || !type) {
+    return ""; // Return empty if url or type is not provided
+  }
+
+  if (type === "videoshow") {
+    const regex = /\/([^\/]+)\/videoshow\/\d+\.cms$/; // Regex to match the desired pattern
+    const match = url.match(regex);
+    if (match && match[1]) {
+      return match[1]; // Return the SEO name if found
+    }
+  }
+
+  return "";
+};
+
+export const getSlikeUrlFromAPI = async (slikeId: string) => {
+  try {
+    const url = `https://t.sli.ke/v.${slikeId}.mp4`;
+    const response = await fetch(url, { redirect: "manual" });
+    if (response.status === 301 || response.status === 302) {
+      const redirectedUrl = response.headers.get("Location");
+      return redirectedUrl;
+    } else {
+      return "not found";
+    }
+  } catch (error) {
+    console.error("Error fetching redirected URL:", error);
+    return null;
   }
 };

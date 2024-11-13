@@ -1,0 +1,139 @@
+@import "../../styles/variables.scss";
+.subHead {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid $gray_80;
+  position: sticky;
+  top: 54px;
+  z-index: 8;
+  background: $color-white;
+  padding-top: 10px;
+
+  .headName {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29.26px;
+  }
+
+  .mainTabsList {
+    display: flex;
+    list-style: none;
+    .mainTab {
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 400;
+      padding: 8px 12px;
+      box-sizing: border-box;
+      text-align: center;
+      display: flex;
+      align-items: center;
+
+      &.active {
+        border-bottom: 2px solid $black;
+        font-weight: 700;
+      }
+    }
+  }
+}
+.ieVidContainer {
+  .vidDetailsContainer {
+    margin-bottom: 40px;
+    .title {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+    .videoDetails {
+      display: flex;
+      color: #656565;
+      margin-bottom: 15px;
+      gap: 15px;
+      span {
+        font-size: 11px;
+        padding-top: 3px;
+        span {
+          font-weight: bold;
+        }
+      }
+    }
+    .socialDetails {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin-top: -12px;
+      .socialSpan {
+        padding: 5px 15px;
+        cursor: pointer;
+        border: 1px solid;
+        border-radius: 20px;
+        .socialIcon {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+  .titelHead {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 30px 0 20px;
+  }
+  .ieVidList {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 25px 0;
+    .right_vidBox {
+      margin: 0 2% 2% 0;
+      width: 23%;
+      .redirectLink {
+        position: relative;
+        display: block;
+        .playButton {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+        .duration {
+          position: absolute;
+          left: 10px;
+          bottom: 10px;
+          background: #ed1c25;
+          font-size: 11px;
+          font-weight: bold;
+          color: #fff;
+          padding: 2px 5px;
+        }
+      }
+      img {
+        width: 100%;
+        max-width: 100%;
+      }
+      h4 {
+        font-size: 16px;
+        margin: 5px 0;
+        min-height: 27px;
+      }
+      .videoDetails {
+        display: flex;
+        margin-bottom: 15px;
+        gap: 15px;
+        span {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+.descSec {
+  font-size: 14px;
+  line-height: 22px;
+  margin: 10px 0;
+}
+.head3 {
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin: 0;
+}

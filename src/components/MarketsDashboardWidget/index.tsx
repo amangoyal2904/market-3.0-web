@@ -47,7 +47,7 @@ const MarketsDashboardWidget = async () => {
   const pageUrl = "/stocks/marketstats?type=gainers&duration=1D&filter=2371";
   const shortUrlMapping = await getAllShortUrls();
   const isExist: any = shortUrlMapping?.find(
-    (item: any) => item.longURL == pageUrl
+    (item: any) => item.longURL == pageUrl,
   );
   const updatedUrl = isExist ? isExist.shortUrl : pageUrl;
 

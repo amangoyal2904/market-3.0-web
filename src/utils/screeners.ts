@@ -20,7 +20,7 @@ export const commonPostAPIHandler = async (
   urlPathName: string,
   bodyParams: any,
   ssoid?: any,
-  ticketId?: any
+  ticketId?: any,
 ) => {
   try {
     const userSsoId = getCookie("ssoid");

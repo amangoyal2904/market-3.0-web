@@ -1,0 +1,17 @@
+.videoDetails {
+  display: flex;
+  margin-bottom: 15px;
+  column-gap: 10px;
+  color: #656565;
+  white-space: nowrap;
+  font-size: 11px;
+  span {
+    font-size: 12px;
+  }
+}
+.socialDetails {
+  display: flex;
+  align-items: center;
+  margin-top: -12px;
+  margin-left: -10px;
+}

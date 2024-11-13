@@ -37,7 +37,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata(
   { searchParams }: any,
-  parent: ResolvingMetadata
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const headersList = headers();
   const pageUrl = headersList.get("x-url") || "";
@@ -197,7 +197,7 @@ const Intraday = async ({ searchParams }: any) => {
     L3NavMenuItem,
     L3NavSubItem,
     false,
-    title
+    title,
   );
 
   breadCrumbObj.push({ label: selectedFilter?.name, redirectUrl: "" });
