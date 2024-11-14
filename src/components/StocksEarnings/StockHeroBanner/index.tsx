@@ -70,25 +70,35 @@ const StockHeroBanner = ({ summaryData, desc }: any) => {
                 <div className={styles.headRow}>Revenue</div>
                 <div className={styles.subNumber}>
                   <span
-                    className={`${allData?.sectorNetSalesQoqAvg > 0 ? styles.up : styles.down}`}
+                    className={`${allData?.sectorNetSalesQoqAvg > 0 ? styles.up : allData?.sectorNetSalesQoqAvg < 0 ? styles.down : ""}`}
                   >
-                    {allData?.sectorNetSalesQoqAvg}%
+                    {allData?.sectorNetSalesQoqAvg
+                      ? `${allData?.sectorNetSalesQoqAvg}%`
+                      : "-"}
+
                     {allData?.sectorNetSalesQoqAvg > 0 ? (
                       <i className="eticon_up_arrow" />
-                    ) : (
+                    ) : allData?.sectorNetSalesQoqAvg < 0 ? (
                       <i className="eticon_down_arrow" />
+                    ) : (
+                      ""
                     )}
                   </span>
                 </div>
                 <div className={styles.subNumber}>
                   <span
-                    className={`${allData?.sectorNetSalesYoyAvg > 0 ? styles.up : styles.down}`}
+                    className={`${allData?.sectorNetSalesYoyAvg > 0 ? styles.up : allData?.sectorNetSalesYoyAvg < 0 ? styles.down : ""}`}
                   >
-                    {allData?.sectorNetSalesYoyAvg}%
+                    {allData?.sectorNetSalesYoyAvg
+                      ? `${allData?.sectorNetSalesYoyAvg}%`
+                      : "-"}
+
                     {allData?.sectorNetSalesYoyAvg > 0 ? (
                       <i className="eticon_up_arrow" />
-                    ) : (
+                    ) : allData?.sectorNetSalesYoyAvg < 0 ? (
                       <i className="eticon_down_arrow" />
+                    ) : (
+                      ""
                     )}
                   </span>
                 </div>
@@ -97,25 +107,35 @@ const StockHeroBanner = ({ summaryData, desc }: any) => {
                 <div className={styles.headRow}>New Profit</div>
                 <div className={styles.subNumber}>
                   <span
-                    className={`${allData?.sectorPATQoqAvg > 0 ? styles.up : styles.down}`}
+                    className={`${allData?.sectorPATQoqAvg > 0 ? styles.up : allData?.sectorPATQoqAvg < 0 ? styles.down : ""}`}
                   >
-                    {allData?.sectorPATQoqAvg}%
+                    {allData?.sectorPATQoqAvg
+                      ? `${allData?.sectorPATQoqAvg}%`
+                      : "-"}
+
                     {allData?.sectorPATQoqAvg > 0 ? (
                       <i className="eticon_up_arrow" />
-                    ) : (
+                    ) : allData?.sectorPATQoqAvg < 0 ? (
                       <i className="eticon_down_arrow" />
+                    ) : (
+                      ""
                     )}
                   </span>
                 </div>
                 <div className={styles.subNumber}>
                   <span
-                    className={`${allData?.sectorPATYoyAvg > 0 ? styles.up : styles.down}`}
+                    className={`${allData?.sectorPATYoyAvg > 0 ? styles.up : allData?.sectorPATYoyAvg < 0 ? styles.down : ""}`}
                   >
-                    {allData?.sectorPATYoyAvg}%
+                    {allData?.sectorPATYoyAvg
+                      ? `${allData?.sectorPATYoyAvg}%`
+                      : "-"}
+
                     {allData?.sectorPATYoyAvg > 0 ? (
                       <i className="eticon_up_arrow" />
-                    ) : (
+                    ) : allData?.sectorPATYoyAvg < 0 ? (
                       <i className="eticon_down_arrow" />
+                    ) : (
+                      ""
                     )}
                   </span>
                 </div>
