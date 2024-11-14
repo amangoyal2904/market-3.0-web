@@ -97,7 +97,9 @@ const CardsList: React.FC<CardProps> = ({
                   {ele?.category.map((ele) => <span key={ele}>{ele}</span>)}
                 </div>
               )}
-              <p className={styles.cardContent}>{ele?.fullTextData}</p>
+              <p title={ele?.fullTextData} className={styles.cardContent}>
+                {ele?.fullTextData}
+              </p>
               <div className={styles.cardFooter}>
                 <div className={styles.footerTime}>
                   {dateFormat(ele?.updatedDateTime, "%MMM %d, %H:%m %p")}
