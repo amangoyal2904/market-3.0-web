@@ -19,7 +19,7 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
 }) => {
   const [filters, setFilters] = useState({
     filterValue: "",
-    duration: "all",
+    duration: "3month",
     category: [],
   });
   const [pagesummary, setPageSummary] = useState({

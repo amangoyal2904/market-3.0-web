@@ -1,6 +1,6 @@
 import React from "react";
 
-import ETPagination from "@/components/Pagination/Pagination";
+import ETPagination from "@/components/Common/Pagination/Pagination";
 import WatchlistAddition from "../WatchlistAddition";
 import { trackingEvent } from "@/utils/ga";
 import styles from "./styles.module.scss";

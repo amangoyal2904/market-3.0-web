@@ -1,7 +1,7 @@
 import Link from "next/link";
 
+import ETPagination from "../Common/Pagination/Pagination";
 import WatchlistAddition from "../WatchlistAddition";
-import ETPagination from "../Pagination/Pagination";
 import Blocker from "@/components/Blocker";
 import { trackingEvent } from "@/utils/ga";
 import styles from "./styles.module.scss";

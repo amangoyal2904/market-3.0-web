@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { Metadata } from "next";
 
 import { fnGenerateMetaData, fetchFilters } from "@/utils/utility";
-import PageHeaderSection from "@/components/PageHeader";
+import PageHeaderSection from "@/components/Common/PageHeader";
 import CorporateActionsClient from "./client";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -40,10 +40,10 @@ const CorporateActionsSubPage = async ({ params }: any) => {
   }
 
   const niftyFilterData = {
-    name: "Nifty 50",
-    indexId: 2371,
-    seoname: "nifty-50",
+    name: "All Stocks",
     exchange: "nse",
+    seoname: "",
+    indexId: 0,
   };
   const [niftyData] = await fetchData(niftyFilterData.indexId);
 

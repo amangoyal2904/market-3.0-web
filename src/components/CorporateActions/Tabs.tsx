@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import Link from "next/link";
 
 import StockFilterNifty from "../StockFilterNifty";
-import CustomDropdown from "../CustomDropdown";
+import CustomDropdown from "../Common/CustomDropdown";
 import { trackingEvent } from "@/utils/ga";
 import styles from "./styles.module.scss";
 

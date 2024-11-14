@@ -32,7 +32,6 @@ const CategoriesComponent: React.FC<CategoriesComponentProps> = ({
 
   const handleClickOutside = useCallback(
     (event: any) => {
-      console.log("_______event", event);
       if (popupRef.current && !popupRef.current.contains(event.target)) {
         onApply(false);
       }

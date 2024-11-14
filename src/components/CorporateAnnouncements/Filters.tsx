@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import CategoriesComponent from "./CategoriesDialog";
 import StockFilterNifty from "../StockFilterNifty";
 import { getRequest } from "@/utils/ajaxUtility";
-import CustomDropdown from "../CustomDropdown";
+import CustomDropdown from "../Common/CustomDropdown";
 import styles from "./styles.module.scss";
 
 interface FilterComponentProps {
@@ -14,10 +14,10 @@ interface FilterComponentProps {
 }
 
 const CorporateAnnouncementFilters: React.FC<FilterComponentProps> = ({
-  setFilters,
-  selectedFilter,
-  allFilters,
   setNiftyFilterData,
+  selectedFilter,
+  setFilters,
+  allFilters,
 }) => {
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [showCategories, setShowCategories] = useState(false);
@@ -112,10 +112,14 @@ const CorporateAnnouncementFilters: React.FC<FilterComponentProps> = ({
         onFilterChange={handleDurationFilterChange}
         filterKey="key"
         filterLabelKey="label"
+        selectedFilter={overviewOptions[7]}
       />
       <div className={styles.categoryBtn} onClick={toggleCategories}>
         Categories
         <i className="eticon_caret_down"></i>
+        {selectedCategories?.length > 0 && !showCategories && (
+          <span className={styles.count}>{selectedCategories?.length}</span>
+        )}
       </div>
       {showCategories && (
         <CategoriesComponent
