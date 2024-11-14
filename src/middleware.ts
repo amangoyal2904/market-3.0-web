@@ -137,6 +137,15 @@ export function middleware(request: NextRequest) {
       "Expires",
       new Date(Date.now() + 10800000).toUTCString(),
     );
+  } else if (pathname.startsWith("/markets/etlearn")) {
+    response.headers.set(
+      "Cache-Control",
+      "public, max-age=10800, s-maxage=10800, must-revalidate, stale-while-revalidate=21600",
+    );
+    response.headers.set(
+      "Expires",
+      new Date(Date.now() + 1200000).toUTCString(),
+    );
   }
 
   return response;

@@ -517,6 +517,18 @@
     "development": "https://qcbselivefeeds.indiatimes.com/screener/sectorFaq",
     "production": "https://screener.indiatimes.com/screener/sectorFaq"
   },
+  "INVESTMENTIDEA_NAV": {
+    "development": "https://etapipre.indiatimes.com/api/mercury/investmentidea",
+    "production": "https://etpwaapi.economictimes.com/api/mercury/investmentidea"
+  },
+  "INVESTMENTEDGE": {
+    "development": "https://etpwaapipre.economictimes.com/request?type=plist&top=30&msid=",
+    "production": "https://etpwaapi.economictimes.com/request?type=plist&top=30&msid="
+  },
+  "SLIKE_VIDEO_VIEWS": {
+    "development": "https://slike.indiatimes.com/videoviews?sids=",
+    "production": "https://slike.indiatimes.com/videoviews?sids="
+  },
   "CHARTPATTERNBYID": {
     "development": "https://etelectionk8s.indiatimes.com/chartpatterns/companyChartPatternById",
     "production": "https://etapi.indiatimes.com/chartpatterns/companyChartPatternById"

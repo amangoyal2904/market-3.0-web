@@ -34,6 +34,10 @@
     "newrecos": "/markets/stock-recos/newrecos/all",
     "overview": "/markets/stock-recos/overview"
   },
+  "INVESTEDGE_BASELINK": {
+    "list": "/markets/etlearn/list/",
+    "video": "/markets/etlearn/video/"
+  },
   "NAV_CONFIG": {
     "Auto_Collapsed": true,
     "Collapsed_Time": 180
