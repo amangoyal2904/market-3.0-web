@@ -556,5 +556,9 @@
   "SYMBOLINFO": {
     "development": "https://etapi.indiatimes.com/charts/mrkts/symbols?currencyCode=INR&symbol=",
     "production": "https://etapi.indiatimes.com/charts/mrkts/symbols?currencyCode=INR&symbol="
+  },
+  "TECHNICAL_FEED": {
+    "development": "https://etdev8243.indiatimes.com/feed_technical_chart.cms?feedtype=etjson",
+    "production": "https://economictimes.indiatimes.com/feed_technical_chart.cms?feedtype=etjson"
   }
 }
