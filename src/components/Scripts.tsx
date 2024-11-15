@@ -311,6 +311,11 @@ const Scripts = () => {
             <Script src={ET_TIL_PREBID_URL} />
           )}
 
+          <Script
+            strategy="lazyOnload"
+            src="https://sb.scorecardresearch.com/beacon.js"
+          />
+
           {/* <Script
             id="tag-manager"
             strategy="lazyOnload"
