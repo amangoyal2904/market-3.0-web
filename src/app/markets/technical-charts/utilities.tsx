@@ -43,3 +43,18 @@ export const getTechnicalChartNews = async () => {
   });
   return await response?.json();
 };
+
+export const fetchMarketTrend = async () => {
+  try {
+    const response = await service.get({
+      url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=60936773&top=30`,
+      params: {},
+    });
+    const data = response ? await response.json() : {};
+    const trendingData = data?.searchResult?.[0]?.data || [];
+    return trendingData;
+  } catch (e) {
+    console.log("Error in trending in markets", e);
+    return [];
+  }
+};

@@ -6,6 +6,7 @@ import { getCookie } from "@/utils";
 import { useStateContext } from "@/store/StateContext";
 import styles from "./TechnicalCharts.module.scss";
 import { getTechnicalChartPageMetaData } from "./utilities";
+import TrendingInMarketsList from "@/components/TrendingInMarkets/list";
 
 const TVChartContainer = dynamic(
   () =>
@@ -38,6 +39,7 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
     relatedNews,
     technicalAnalysis,
     definitions,
+    trendingList,
   } = defaultWidgetProps;
   const { state } = useStateContext();
   const { ssoReady, isLogin, ssoid } = state.login;
@@ -216,39 +218,43 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
         </div>
       )}
       <div className={styles.section}>
-        <h3 className={styles.heading}>Technical Analysis: Knowledge Center</h3>
         <div className={styles.lhs}>
           {Boolean(technicalAnalysis?.length) && (
-            <ul className={styles.technicalAnalysis}>
-              {technicalAnalysis.map(
-                (
-                  item: { id: string; hl: string; wu: string; syn: string },
-                  index: number,
-                ) => (
-                  <li key={item.id || `technicalAnalysis_${index}`}>
-                    <h3>
-                      <a
-                        title={item.hl}
-                        href={item.wu}
-                        aria-label={`Read more: ${item.hl}`}
-                      >
-                        {item.hl}
-                      </a>
-                    </h3>
-                    <p className={styles.syn}>
-                      {item.syn}
-                      <a
-                        title={item.hl}
-                        href={item.wu}
-                        aria-label={`Read more: ${item.hl}`}
-                      >
-                        more <i className="eticon_chevron_right"></i>
-                      </a>
-                    </p>
-                  </li>
-                ),
-              )}
-            </ul>
+            <>
+              <h3 className={styles.heading}>
+                Technical Analysis: Knowledge Center
+              </h3>
+              <ul className={styles.technicalAnalysis}>
+                {technicalAnalysis.map(
+                  (
+                    item: { id: string; hl: string; wu: string; syn: string },
+                    index: number,
+                  ) => (
+                    <li key={item.id || `technicalAnalysis_${index}`}>
+                      <h3>
+                        <a
+                          title={item.hl}
+                          href={item.wu}
+                          aria-label={`Read more: ${item.hl}`}
+                        >
+                          {item.hl}
+                        </a>
+                      </h3>
+                      <p className={styles.syn}>
+                        {item.syn}
+                        <a
+                          title={item.hl}
+                          href={item.wu}
+                          aria-label={`Read more: ${item.hl}`}
+                        >
+                          more <i className="eticon_chevron_right"></i>
+                        </a>
+                      </p>
+                    </li>
+                  ),
+                )}
+              </ul>
+            </>
           )}
           {Boolean(definitions?.length) && (
             <ul className={styles.technicalAnalysis}>
@@ -283,7 +289,25 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
             </ul>
           )}
         </div>
-        <div className={styles.rhs}></div>
+        <div className={styles.rhs}>
+          {trendingList.length && (
+            <div className={styles.widget}>
+              <h4 className={styles.heading}>Trending in Markets</h4>
+              <div className={styles.seoItemList}>
+                {trendingList.map((item: any, index: number) => (
+                  <TrendingInMarketsList
+                    item={item}
+                    key={`trending_${index}`}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+          <div className={styles.widget}>
+            <h4 className={styles.heading}>Markets Trending Terms</h4>
+            <div className={styles.seoItemList}></div>
+          </div>
+        </div>
       </div>
     </div>
   );

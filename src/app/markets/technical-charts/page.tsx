@@ -8,6 +8,7 @@ import {
 } from "../../../../public/static/v28/charting_library/charting_library";
 import TechnicalChartsClient from "./clients";
 import {
+  fetchMarketTrend,
   getTechnicalChartNews,
   getTechnicalChartPageMetaData,
 } from "./utilities";
@@ -218,6 +219,8 @@ const TechnicalCharts = async () => {
   const { relatedNews, technicalAnalysis, definitions } =
     await getTechnicalChartNews();
 
+  const trendingList = await fetchMarketTrend();
+
   return (
     <TechnicalChartsClient
       {...defaultWidgetProps}
@@ -228,6 +231,7 @@ const TechnicalCharts = async () => {
       relatedNews={relatedNews}
       technicalAnalysis={technicalAnalysis}
       definitions={definitions}
+      trendingList={trendingList}
     />
   );
 };

@@ -551,6 +551,18 @@ table {
   width: 18px;
 }
 
+.seoLinks {
+  font-size: 13px;
+  background: #fff;
+  color: #666;
+  border: 1px solid #ddd;
+  padding: 5px 14px;
+  border-radius: 21px;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 @media screen and (max-width: 1024px) and (max-height: 600px) {
   .customModule .moduleWrap {
     margin-top: 20px;
