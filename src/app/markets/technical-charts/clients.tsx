@@ -1,5 +1,11 @@
 "use client";
-import { useState, useMemo, useEffect, useCallback } from "react";
+import React, {
+  useState,
+  useMemo,
+  useEffect,
+  useCallback,
+  Fragment,
+} from "react";
 import dynamic from "next/dynamic";
 import Script from "next/script";
 import { getCookie } from "@/utils";
@@ -19,13 +25,23 @@ const Header = ({ symbolInfo }: any) => {
     <div className={styles.header}>
       <h2 className={`${styles.title} symbol-name`}>
         <a href="" target="_blank" title={symbolInfo.description}>
-          {symbolInfo.description}
+          {symbolInfo.type == "commodity"
+            ? symbolInfo.name
+            : symbolInfo.description}
         </a>
       </h2>
-      <h3 className={`${styles.otherData} symbol-exchange`}>
-        <p>Exchange:</p>
-        <span>{symbolInfo["exchange-traded"]}</span>
-      </h3>
+      {symbolInfo.type != "forex" && (
+        <h3 className={`${styles.otherData} symbol-exchange`}>
+          <p>Exchange:</p>
+          <span>{symbolInfo["exchange-traded"]}</span>
+        </h3>
+      )}
+      {symbolInfo.type == "commodity" && (
+        <h3 className={`${styles.otherData} symbol-exchange`}>
+          <p>Expiry:</p>
+          <span>{symbolInfo?.commodityinfo?.expirydate}</span>
+        </h3>
+      )}
     </div>
   );
 };
@@ -42,7 +58,7 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
     trendingList,
   } = defaultWidgetProps;
   const { state } = useStateContext();
-  const { ssoReady, isLogin, ssoid } = state.login;
+  const { ssoReady, isLogin, isPrime, ssoid } = state.login;
   const [isScriptReady, setIsScriptReady] = useState(false);
 
   const userid = useMemo(() => {
@@ -173,7 +189,7 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
         </h5>
       </div>
       {Boolean(relatedNews?.length) && (
-        <div className={styles.section}>
+        <div className={`${styles.section} ${styles.column}`}>
           <h3 className={styles.heading}>Related News</h3>
           <ul className={styles.relatedNews}>
             {relatedNews.map(
@@ -182,8 +198,8 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
                 index: number,
               ) => (
                 <li
-                  key={item.id || `relatedNews_${index}`}
                   className={styles.stryline}
+                  key={item.id || `relatedNews_${index}`}
                 >
                   {item.im && (
                     <div className={styles.imageHolder}>
@@ -230,27 +246,37 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
                     item: { id: string; hl: string; wu: string; syn: string },
                     index: number,
                   ) => (
-                    <li key={item.id || `technicalAnalysis_${index}`}>
-                      <h3>
-                        <a
-                          title={item.hl}
-                          href={item.wu}
-                          aria-label={`Read more: ${item.hl}`}
-                        >
-                          {item.hl}
-                        </a>
-                      </h3>
-                      <p className={styles.syn}>
-                        {item.syn}
-                        <a
-                          title={item.hl}
-                          href={item.wu}
-                          aria-label={`Read more: ${item.hl}`}
-                        >
-                          more <i className="eticon_chevron_right"></i>
-                        </a>
-                      </p>
-                    </li>
+                    <Fragment key={item.id || `technicalAnalysis_${index}`}>
+                      {!isPrime && index == 7 && (
+                        <li className={styles.nonprime}>
+                          <div
+                            id="div-gpt-mid2"
+                            className={styles.adSlot}
+                          ></div>
+                        </li>
+                      )}
+                      <li>
+                        <h3>
+                          <a
+                            title={item.hl}
+                            href={item.wu}
+                            aria-label={`Read more: ${item.hl}`}
+                          >
+                            {item.hl}
+                          </a>
+                        </h3>
+                        <p className={styles.syn}>
+                          {item.syn}
+                          <a
+                            title={item.hl}
+                            href={item.wu}
+                            aria-label={`Read more: ${item.hl}`}
+                          >
+                            more <i className="eticon_chevron_right"></i>
+                          </a>
+                        </p>
+                      </li>
+                    </Fragment>
                   ),
                 )}
               </ul>
@@ -290,6 +316,7 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
           )}
         </div>
         <div className={styles.rhs}>
+          <div id="div-gpt-mid1" className={styles.adSlot}></div>
           {trendingList.length && (
             <div className={styles.widget}>
               <h4 className={styles.heading}>Trending in Markets</h4>

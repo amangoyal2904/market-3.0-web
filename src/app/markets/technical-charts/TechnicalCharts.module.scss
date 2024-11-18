@@ -73,6 +73,9 @@
   margin: 25px auto;
   padding: 20px 0;
   border-top: 2px solid $black;
+  &.column {
+    flex-direction: column;
+  }
   .heading {
     font-size: 20px;
     font-weight: 700;
@@ -105,6 +108,11 @@
 .technicalAnalysis {
   list-style-type: none;
   margin: 15px auto;
+  .nonprime {
+    display: flex;
+    margin: 10px auto;
+    justify-content: space-between;
+  }
   li + li {
     padding-top: 15px;
     border-top: 1px solid #ccc;
@@ -136,6 +144,7 @@
 .relatedNews {
   list-style-type: none;
   margin: 15px auto;
+
   .stryline {
     position: relative;
     display: inline-block;
@@ -192,6 +201,13 @@
     top: calc(50% - 32px);
     width: 56px;
   }
+}
+
+.adSlot {
+  background: #f4f4f4;
+  padding: 10px;
+  min-height: 270px;
+  width: 320px;
 }
 
 @keyframes spinnerRotate {
