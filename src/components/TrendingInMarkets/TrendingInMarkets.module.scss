@@ -13,16 +13,5 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    .links {
-      font-size: 13px;
-      background: #fff;
-      color: #666;
-      border: 1px solid #ddd;
-      padding: 5px 14px;
-      border-radius: 21px;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
   }
 }
