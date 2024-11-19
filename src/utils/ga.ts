@@ -8,13 +8,6 @@ import grxMappingObj from "@/utils/grxMappingObj.json";
 import cdpObj from "@/utils/cdpObj.json";
 import { setPaywallCounts } from "@/utils/utility";
 import jStorageReact from "jstorage-react";
-declare global {
-  interface Window {
-    trackingEvent: (type: string, gaData: object) => void;
-    dataLayer: [];
-    customDimension: any;
-  }
-}
 
 export const redirectToPlanPage = (
   objTracking,

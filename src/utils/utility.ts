@@ -11,12 +11,6 @@ import jStorageReact from "jstorage-react";
 
 const API_SOURCE = 0;
 
-declare global {
-  interface Window {
-    _mfq?: any[];
-  }
-}
-
 type Stock = {
   companyId: string;
   companyType: string;
