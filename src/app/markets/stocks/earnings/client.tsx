@@ -230,7 +230,12 @@ const StocksEarningsClintPage = ({
         data={_upcomingCompanies}
         processingLoader={processingLoader}
       />
-      <LatestResultNewsSec topNewsData={data?.topNewsData} />
+      {data?.topNewsData && data?.topNewsData.length > 0 ? (
+        <LatestResultNewsSec topNewsData={data?.topNewsData} />
+      ) : (
+        ""
+      )}
+
       <UpcomingResults
         title="Declared Results"
         type="declared"
