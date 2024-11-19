@@ -52,7 +52,7 @@ const EarningsWatchlist = () => {
     tabActive ? setCardLoading(true) : setProcessingLoader(true);
     const wathListBodyPayLoad = {
       filterType: "watchlist",
-      pageSize: tabActive ? 20 : 150,
+      pageSize: tabActive ? 20 : 120,
       pageNo: 1,
       deviceType: "web",
       sort: [{ field: "R1MonthReturn", order: "DESC" }],
@@ -184,11 +184,11 @@ const EarningsWatchlist = () => {
                       setFallbackWebsocket={setFallbackWebsocket}
                       handleSortServerSide={onServerSideSort}
                     />
-                    <ViewAllCta
+                    {/* <ViewAllCta
                       text="View all Results"
                       urlInternal="yes"
                       url="/markets/stocks/earnings/upcoming-results"
-                    />
+                    /> */}
                   </>
                 )}
               </>

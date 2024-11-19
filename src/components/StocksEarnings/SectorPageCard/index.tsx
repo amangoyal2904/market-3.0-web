@@ -123,7 +123,12 @@ const SectorPageCard = ({ data, tpName = "", sortingValue = "" }: any) => {
       tpName === "top-performing"
     ) {
       const newPayLoad = { ..._payloadTopSector, pageNo: 1 };
-      newPayLoad.sort = [{ field: sortingValue, order: "DESC" }];
+      newPayLoad.sort = [
+        {
+          field: sortingValue,
+          order: tpName === "under-performing" ? "ASC" : "DESC",
+        },
+      ];
       setPayloadTopSector(newPayLoad);
     }
 
@@ -134,7 +139,12 @@ const SectorPageCard = ({ data, tpName = "", sortingValue = "" }: any) => {
       tpName === "under-performing"
     ) {
       const newPayLoad = { ..._payloadUnderSector, pageNo: 1 };
-      newPayLoad.sort = [{ field: sortingValue, order: "DESC" }];
+      newPayLoad.sort = [
+        {
+          field: sortingValue,
+          order: tpName === "under-performing" ? "ASC" : "DESC",
+        },
+      ];
       setPayloadUnderSector(newPayLoad);
     }
   }, [sortingValue]);
