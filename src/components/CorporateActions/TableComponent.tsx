@@ -43,7 +43,7 @@ const StockLink = (ele: any) => {
       }
       title={ele?.companyName}
       target="_blank"
-      href={`/${ele?.companyName?.replaceAll(" ", "-").toLowerCase()}/stocks/companyid-${ele?.companyId}.cms`}
+      href={`/${ele?.seoName}/stocks/companyid-${ele?.companyId}.cms`}
     >
       {ele?.companyName || ele?.companyShortName || ele?.companyName2}
     </Link>

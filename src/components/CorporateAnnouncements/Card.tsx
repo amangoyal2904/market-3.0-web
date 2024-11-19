@@ -74,7 +74,7 @@ const CardsList: React.FC<CardProps> = ({
                   }
                   title={ele?.companyName}
                   target="_blank"
-                  href={`/${ele?.companyName?.replaceAll(" ", "-").toLowerCase()}/stocks/companyid-${ele?.compid}.cms`}
+                  href={`/${ele?.seoName}/stocks/companyid-${ele?.compid}.cms`}
                 >
                   {ele?.companyName ||
                     ele?.companyShortName ||
