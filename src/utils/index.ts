@@ -6,23 +6,6 @@ import service from "../network/service";
 import { getPageName } from "./ga";
 import jStorageReact from "jstorage-react";
 
-declare global {
-  interface Window {
-    geolocation: any;
-    customDimension: any;
-    geoinfo: any;
-    opera?: string;
-    MSStream?: string;
-    _auds: any;
-    colaud: any;
-  }
-  interface objUser {
-    info: {
-      isLogged: boolean;
-    };
-  }
-}
-
 declare var ssoWidget: any;
 
 const isBrowser = typeof window !== "undefined";

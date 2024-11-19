@@ -19,41 +19,6 @@ import {
 import { sendMouseFlowEvent } from "../utils/utility";
 import adFreePages from "@/components/Ad/AdInfo/adFree.json";
 
-declare global {
-  interface Window {
-    googletag: any;
-    ispopup: any;
-    jsso?: {
-      getValidLoggedInUser?: any;
-      getUserDetails?: any;
-      signOutUser?: any;
-    };
-    isSurveyLoad: any;
-    dataLayer: [];
-    ssoWidget?: any;
-    verifyLoginSuccess?: any;
-    objUser: {
-      watchlistCount?: number;
-      ssoid?: any;
-      ticketId?: any;
-      loginType?: string;
-      afterCheckUserLoginStatus?: boolean;
-      prevPath?: string;
-      info?: {
-        thumbImageUrl: any;
-        primaryEmail: string;
-        firstName: string;
-      };
-      isPrime?: any;
-      permissions?: any;
-      accessibleFeatures?: any;
-      userAcquisitionType?: any;
-      primeInfo?: any;
-    };
-    _sva: any;
-  }
-}
-
 declare var JssoCrosswalk: any;
 
 const Scripts = () => {
@@ -310,11 +275,6 @@ const Scripts = () => {
           {!isPrime && !searchParams?.get("opt") && !adfreeTemplate && (
             <Script src={ET_TIL_PREBID_URL} />
           )}
-
-          <Script
-            strategy="lazyOnload"
-            src="https://sb.scorecardresearch.com/beacon.js"
-          />
 
           {/* <Script
             id="tag-manager"

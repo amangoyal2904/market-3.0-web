@@ -5,9 +5,6 @@ import { useStateContext } from "@/store/StateContext";
 import { usePathname } from "next/navigation";
 import adFreePages from "@/components/Ad/AdInfo/adFree.json";
 
-declare global {
-  interface Window {}
-}
 interface AdInfoProps {
   adInfo: {
     type?: string;

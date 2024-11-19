@@ -6,13 +6,7 @@ import Service from "../../network/service";
 import { APP_ENV, getCookie } from "@/utils";
 import LiveStreamPlayCards from "./LiveStreamPlayCards";
 import { useStateContext } from "@/store/StateContext";
-declare global {
-  interface objUser {
-    info: {
-      isLogged: boolean;
-    };
-  }
-}
+
 const LiveStreamPlay = (props: any) => {
   const [newsData, setNewsData] = useState([]);
   const [currentSIndex, setCurrentSIndex] = useState(0);

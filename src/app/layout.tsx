@@ -12,6 +12,7 @@ import FullLayout from "./fullLayout";
 import NoLayout from "@/components/NoLayout";
 import Scripts from "@/components/Scripts";
 import { URLSearchParams } from "url"; // Import for handling search params
+import ComScoreTrackingScript from "@/components/ComScoreTrackingScript";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -32,15 +33,6 @@ const eticons = localFont({
   display: "swap",
   variable: "--font-eticons",
 });
-
-declare global {
-  interface Window {
-    objVc: any;
-    __APP: {
-      env?: string;
-    };
-  }
-}
 
 export const metadata: Metadata = {
   title:
@@ -98,6 +90,7 @@ export default async function RootLayout({
           {!savePatternImage && (
             <>
               <Scripts />
+              <ComScoreTrackingScript />
               <Toaster position="bottom-right" reverseOrder={false} />
             </>
           )}
