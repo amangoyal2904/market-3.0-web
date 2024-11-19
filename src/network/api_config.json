@@ -522,7 +522,7 @@
     "production": "https://etpwaapi.economictimes.com/api/mercury/investmentidea"
   },
   "INVESTMENTEDGE": {
-    "development": "https://etpwaapipre.economictimes.com/request?type=plist&top=30&msid=",
+    "development": "https://etpwaapi.economictimes.com/request?type=plist&top=30&msid=",
     "production": "https://etpwaapi.economictimes.com/request?type=plist&top=30&msid="
   },
   "SLIKE_VIDEO_VIEWS": {
