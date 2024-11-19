@@ -104,7 +104,7 @@ const StockHeroBanner = ({ summaryData, desc }: any) => {
                 </div>
               </li>
               <li>
-                <div className={styles.headRow}>New Profit</div>
+                <div className={styles.headRow}>Net Profit</div>
                 <div className={styles.subNumber}>
                   <span
                     className={`${allData?.sectorPATQoqAvg > 0 ? styles.up : allData?.sectorPATQoqAvg < 0 ? styles.down : ""}`}

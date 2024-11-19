@@ -45,8 +45,8 @@ const SectorCard = ({ item, index, className = "" }: any) => {
         </div>
         <div className={styles.topNTxt}>
           <span></span>
-          <span>QoQ</span>
-          <span>YoY</span>
+          <span>{`QoQ (%)`}</span>
+          <span>{`YoY (%)`}</span>
         </div>
         <div className={styles.middleTxt}>
           <span>Revenue</span>
