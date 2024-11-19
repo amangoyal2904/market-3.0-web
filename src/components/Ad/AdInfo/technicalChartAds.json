@@ -8,12 +8,20 @@
     "mid1": {
       "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Technical_Charts_AS/ET_ROS_Mid_mkt_TechChart_300_250",
       "size": "[[300,250]]",
-      "id": "div-gpt-mid1"
+      "id": "div-gpt-mid1",
+      "type": "mrec"
     },
     "mid2": {
       "slot": "/7176/Economictimes/ET_ROS_NW/ET_ROS_AL_BTF_Cen_300",
       "size": "[[300, 250]]",
-      "id": "div-gpt-mid2"
+      "id": "div-gpt-mid2",
+      "type": "mrec"
+    },
+    "mid3": {
+      "slot": "/7176/Economictimes/ET_Markets/ET_Markets_Technical_Charts_AS/ET_ROS_Mid_mkt_TechChart_300_250",
+      "size": "[[300,250]]",
+      "id": "div-gpt-mid3",
+      "type": "mrec"
     }
   }
 }
