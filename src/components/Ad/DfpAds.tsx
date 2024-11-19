@@ -10,6 +10,7 @@ declare global {
 }
 interface AdInfoProps {
   adInfo: {
+    type?: string;
     key?: string;
     slot: string;
     size: string;
@@ -60,7 +61,9 @@ const DfpAds: FC<AdInfoProps> = function (props) {
     !isPrime &&
     !adfreeTemplate && (
       <>
-        <div className={`${styles.midAdContainer} hideAd`}>
+        <div
+          className={`${styles.midAdContainer} ${adInfo?.type === "mrec" ? styles.mrecAd : ""} hideAd`}
+        >
           <div id={adInfo.id} className="dfpAd"></div>
         </div>
       </>

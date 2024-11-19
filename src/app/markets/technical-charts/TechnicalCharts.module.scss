@@ -10,6 +10,9 @@
     .title {
       font-size: 20px;
       font-weight: bold;
+      a:hover {
+        text-decoration: underline;
+      }
     }
     .otherData {
       display: flex;
@@ -201,13 +204,6 @@
     top: calc(50% - 32px);
     width: 56px;
   }
-}
-
-.adSlot {
-  background: #f4f4f4;
-  padding: 10px;
-  min-height: 270px;
-  width: 320px;
 }
 
 @keyframes spinnerRotate {

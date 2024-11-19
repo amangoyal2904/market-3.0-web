@@ -13,6 +13,12 @@ import { useStateContext } from "@/store/StateContext";
 import styles from "./TechnicalCharts.module.scss";
 import { getTechnicalChartPageMetaData } from "./utilities";
 import TrendingInMarketsList from "@/components/TrendingInMarkets/list";
+import DfpAds from "@/components/Ad/DfpAds";
+import AdInfo from "@/components/Ad/AdInfo/technicalChartAds.json";
+import APIS_CONFIG from "@/network/api_config.json";
+import { APP_ENV } from "@/utils";
+import { getSymbolInfo } from "@/utils/utility";
+import { renderToString } from "react-dom/server";
 
 const TVChartContainer = dynamic(
   () =>
@@ -20,28 +26,69 @@ const TVChartContainer = dynamic(
   { ssr: false },
 );
 
-const Header = ({ symbolInfo }: any) => {
+const getHref = (symbolInfo: any, domain: string | undefined) => {
+  if (!symbolInfo?.seoname) return null;
+
+  const paths: Record<string, string> = {
+    stock: `${domain}/${symbolInfo.seoname}/stocks/companyid-${symbolInfo.tagId}.cms`,
+    index: `/markets/indices/${symbolInfo.seoname}`,
+    commodity: `${domain}/commoditysummary/symbol-${symbolInfo.seoname}.cms?expiry=${symbolInfo?.commodityinfo?.expirydate}`,
+    forex: `${domain}/markets/forex/currency-converter/${symbolInfo.seoname}`,
+  };
+
+  return paths[symbolInfo.type] || null;
+};
+
+const SymbolTitle = ({
+  symbolInfo,
+  href,
+}: {
+  symbolInfo: any;
+  href: string | null;
+}) => {
+  const displayText =
+    symbolInfo.type === "commodity"
+      ? symbolInfo.name
+      : symbolInfo.shortname || symbolInfo.description;
+
   return (
-    <div className={styles.header}>
-      <h2 className={`${styles.title} symbol-name`}>
-        <a href="" target="_blank" title={symbolInfo.description}>
-          {symbolInfo.type == "commodity"
-            ? symbolInfo.name
-            : symbolInfo.description}
+    <h2 className={`${styles.title} symbol-name`}>
+      {href ? (
+        <a href={href} target="_blank" title={symbolInfo.description}>
+          {displayText}
         </a>
-      </h2>
-      {symbolInfo.type != "forex" && (
-        <h3 className={`${styles.otherData} symbol-exchange`}>
-          <p>Exchange:</p>
-          <span>{symbolInfo["exchange-traded"]}</span>
-        </h3>
+      ) : (
+        displayText
       )}
-      {symbolInfo.type == "commodity" && (
-        <h3 className={`${styles.otherData} symbol-exchange`}>
-          <p>Expiry:</p>
-          <span>{symbolInfo?.commodityinfo?.expirydate}</span>
-        </h3>
-      )}
+    </h2>
+  );
+};
+
+const SymbolAdditionalInfo = ({ symbolInfo }: { symbolInfo: any }) => (
+  <>
+    {symbolInfo.type !== "forex" && (
+      <h3 className={`${styles.otherData} symbol-exchange`}>
+        <p>Exchange:</p>
+        <span>{symbolInfo["exchange-traded"]}</span>
+      </h3>
+    )}
+    {symbolInfo.type === "commodity" && (
+      <h3 className={`${styles.otherData} symbol-exchange`}>
+        <p>Expiry:</p>
+        <span>{symbolInfo?.commodityinfo?.expirydate}</span>
+      </h3>
+    )}
+  </>
+);
+
+const Header = ({ symbolInfo }: any) => {
+  const domain = (APIS_CONFIG as any)?.DOMAIN[APP_ENV];
+  const href = getHref(symbolInfo, domain);
+
+  return (
+    <div className={styles.header} id="tcHeader">
+      <SymbolTitle symbolInfo={symbolInfo} href={href} />
+      <SymbolAdditionalInfo symbolInfo={symbolInfo} />
     </div>
   );
 };
@@ -72,17 +119,16 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
     return { ...defaultWidgetProps, user_id: userid };
   }, [defaultWidgetProps, userid]);
 
-  const handleSymbolData = useCallback((event: MessageEvent) => {
+  const handleSymbolData = useCallback(async (event: MessageEvent) => {
     if (event.data && event.data.symbolData) {
-      const { symbol, fullName, exchange, entity, periodicity } =
-        event.data.symbolData;
+      const { symbol, entity, periodicity, exchange } = event.data.symbolData;
+      const symbolData = await getSymbolInfo(symbol);
 
-      // Direct DOM manipulation for symbol name and exchange
-      const nameElement = document.querySelector(".symbol-name a");
-      const exchangeElement = document.querySelector(".symbol-exchange span");
-
-      if (nameElement) nameElement.textContent = fullName;
-      if (exchangeElement) exchangeElement.textContent = exchange;
+      const tcHeaderDiv = document.getElementById("tcHeader");
+      if (tcHeaderDiv) {
+        const headerHTML = renderToString(<Header symbolInfo={symbolData} />);
+        tcHeaderDiv.innerHTML = headerHTML;
+      }
 
       const { title, desc, keywords } = getTechnicalChartPageMetaData(
         event.data.symbolData,
@@ -249,10 +295,8 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
                     <Fragment key={item.id || `technicalAnalysis_${index}`}>
                       {!isPrime && index == 7 && (
                         <li className={styles.nonprime}>
-                          <div
-                            id="div-gpt-mid2"
-                            className={styles.adSlot}
-                          ></div>
+                          <DfpAds adInfo={AdInfo.dfp.mid2} />
+                          <DfpAds adInfo={AdInfo.dfp.mid3} />
                         </li>
                       )}
                       <li>
@@ -316,7 +360,7 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
           )}
         </div>
         <div className={styles.rhs}>
-          <div id="div-gpt-mid1" className={styles.adSlot}></div>
+          <DfpAds adInfo={AdInfo.dfp.mid1} />
           {trendingList.length && (
             <div className={styles.widget}>
               <h4 className={styles.heading}>Trending in Markets</h4>
