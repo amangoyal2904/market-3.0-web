@@ -1,6 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import Script from "next/script";
 import { getCookie } from "@/utils";
 import { useStateContext } from "@/store/StateContext";
@@ -36,25 +36,43 @@ const ChartClient = (defaultWidgetProps: any) => {
     return { ...defaultWidgetProps, user_id: userid };
   }, [defaultWidgetProps, userid]);
 
-  useEffect(() => {
-    const handleSymbolData = (event: MessageEvent) => {
-      if (event.data && event.data.symbolData) {
-        const { symbol, fullName, exchange, entity, periodicity } =
-          event.data.symbolData;
+  const handleSymbolData = useCallback(async (event: MessageEvent) => {
+    if (event.data && event.data.symbolData) {
+      const { symbol, entity, periodicity, exchange } = event.data.symbolData;
 
-        // Update the page URL based on the received symbolData
-        const newUrl = `${window.location.pathname}?symbol=${symbol}&entity=${entity}&exchange=${exchange}&periodicity=${periodicity}`;
-        window.history.replaceState(null, "", newUrl);
+      const urlParams = new URLSearchParams();
+      urlParams.set("entity", entity);
+
+      if (entity === "forex") {
+        urlParams.set("periodicity", periodicity);
+        urlParams.set("createdby", "Mecklai");
+        urlParams.set("pairnameparent", symbol);
+        urlParams.set("currencypairname", symbol);
+      } else if (entity === "commodity") {
+        const match = symbol.match(/^([A-Z]+)_(\d{4}-\d{2}-\d{2})_([A-Z]+)$/);
+        const name = match ? match[1] : symbol;
+        const expiryDate = match ? match[2] : null;
+        urlParams.set("symbol", name);
+        if (match) {
+          urlParams.set("expirydate", expiryDate.trim());
+        }
+      } else {
+        urlParams.set("symbol", symbol);
+        urlParams.set("exchange", exchange);
+        urlParams.set("periodicity", periodicity);
       }
-    };
 
+      const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+      window.history.replaceState(null, "", newUrl);
+    }
+  }, []);
+
+  useEffect(() => {
     window.addEventListener("message", handleSymbolData);
-
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("message", handleSymbolData);
     };
-  }, []);
+  }, [handleSymbolData]);
 
   return (
     <>
