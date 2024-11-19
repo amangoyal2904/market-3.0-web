@@ -219,6 +219,7 @@ const Chart = async () => {
       chartType={chartType}
       savePatternImages={savePatternImages}
       showVolume={type === "stock" ? true : false}
+      assestType={type}
     />
   ) : (
     <ChartClient
@@ -228,6 +229,7 @@ const Chart = async () => {
       chartType={chartType}
       savePatternImages={savePatternImages}
       showVolume={type === "stock" ? true : false}
+      assestType={type}
     />
   );
 };

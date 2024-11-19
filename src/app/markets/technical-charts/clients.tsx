@@ -194,6 +194,9 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
             gaHit={gaHit}
             chartType={chartType}
             updatePageUrl="true"
+            isLogin={isLogin}
+            showVolume={symbolData?.type === "stock" ? true : false}
+            assestType={symbolData?.type}
           />
         ) : (
           <div className={styles.loadingIndicator}>

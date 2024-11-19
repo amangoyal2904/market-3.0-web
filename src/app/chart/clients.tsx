@@ -13,8 +13,14 @@ const TVChartContainer = dynamic(
 );
 
 const ChartClient = (defaultWidgetProps: any) => {
-  const { patternId, gaHit, chartType, savePatternImages, showVolume } =
-    defaultWidgetProps;
+  const {
+    patternId,
+    gaHit,
+    chartType,
+    savePatternImages,
+    showVolume,
+    assestType,
+  } = defaultWidgetProps;
   const { state } = useStateContext();
   const { ssoReady, isLogin, ssoid } = state.login;
   const [isScriptReady, setIsScriptReady] = useState(false);
@@ -66,8 +72,10 @@ const ChartClient = (defaultWidgetProps: any) => {
           gaHit={gaHit}
           chartType={chartType}
           savePatternImages={savePatternImages}
-          updatePageUrl="true"
+          updatePageUrl="false"
+          isLogin={isLogin}
           showVolume={showVolume}
+          assestType={assestType}
         />
       ) : (
         <div className={styles.loadingIndicator}>
