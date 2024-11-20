@@ -129,8 +129,13 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
   const [currPage, setCurrPage] = useState(1);
 
   useEffect(() => {
+    setCurrPage(1);
     fetchData();
-  }, [filters, flag, currPage]);
+  }, [filters, flag]);
+
+  useEffect(() => {
+    fetchData();
+  }, [currPage]);
 
   const fetchData = async () => {
     try {
