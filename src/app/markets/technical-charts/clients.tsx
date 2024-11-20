@@ -128,7 +128,12 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
       const tcHeaderDiv = document.getElementById("tcHeader");
       if (tcHeaderDiv) {
         const headerHTML = renderToString(<Header symbolInfo={symbolData} />);
-        tcHeaderDiv.innerHTML = headerHTML;
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = headerHTML;
+
+        // Convert childNodes to an array before using spread syntax
+        const childNodesArray = Array.from(tempDiv.childNodes);
+        tcHeaderDiv.replaceWith(...childNodesArray);
       }
 
       const { title, desc, keywords } = getTechnicalChartPageMetaData(
@@ -217,11 +222,17 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
           data points
         </li>
       </ul>
+      <p className={styles.note}>
+        To send your feedbacks
+        <a href="/contactus.cms" title="Feedback Link">
+          Click here.
+        </a>
+      </p>
       <div className={styles.quickLinks}>
         <p>Quick Links:</p>
         <h5 className={styles.ql}>
           <a
-            href="/marketstats/pid-237,exchange-50,pageno-1,sortby-volume,sortorder-desc,ctype-MACD.cms"
+            href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/marketstats/pid-237,exchange-50,pageno-1,sortby-volume,sortorder-desc,ctype-MACD.cms`}
             title="Real-time Technical Screener for Indicators"
             target="_blank"
           >
@@ -230,7 +241,7 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
         </h5>
         <h5 className={styles.ql}>
           <a
-            href="/markets/visualize.cms?cs=technical_link"
+            href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/markets/visualize.cms?cs=technical_link`}
             title="Multilple Chart view of Nifty, Sensex, Portfolio, Watchlist and all other NSE/BSE Indices"
             target="_blank"
           >
