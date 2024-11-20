@@ -164,6 +164,7 @@ const EarningsWatchlist = () => {
                         typeMode="watchlist"
                         data={declareCompanies}
                         loading={cardLoading}
+                        showViewAll="no"
                       />
                     </div>
                   </div>
