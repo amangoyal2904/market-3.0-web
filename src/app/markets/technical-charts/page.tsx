@@ -174,14 +174,6 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: keywords,
     pathname: pageUrl,
   };
-
-  let metaKeywords = "";
-  if (symbolData.type === "stock") {
-    metaKeywords = `${symbolData.description} Technical Chart, ${symbolData.description} Stock Analysis, ${symbolData["exchange-traded"]} Technical Chart Analysis,  ${symbolData.description} Technical Intraday Charts, ${symbolData.description} Technical Chart Real Time`;
-  } else {
-    metaKeywords = `${symbolData.description} technical charts, technical studies, NSE Charts, BSE stocks, currency charts, real time Charts`;
-  }
-
   return fnGenerateMetaData(meta);
 }
 
@@ -215,11 +207,13 @@ const TechnicalCharts = async () => {
     fullscreen: false,
   };
 
-  const symbolData = await getSymbolInfo(symbol);
-  const { relatedNews, technicalAnalysis, definitions } =
-    await getTechnicalChartNews();
+  const [symbolData, newsData, trendData] = await Promise.all([
+    getSymbolInfo(symbol),
+    getTechnicalChartNews(),
+    fetchMarketTrend(),
+  ]);
 
-  const trendingList = await fetchMarketTrend();
+  const { relatedNews, technicalAnalysis, definitions } = newsData;
 
   return (
     <TechnicalChartsClient
@@ -231,7 +225,7 @@ const TechnicalCharts = async () => {
       relatedNews={relatedNews}
       technicalAnalysis={technicalAnalysis}
       definitions={definitions}
-      trendingList={trendingList}
+      trendingList={trendData}
     />
   );
 };
