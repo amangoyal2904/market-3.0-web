@@ -78,7 +78,7 @@ const ENDPOINT_MAPPING = {
       { keyText: "New FV", keyId: "newFaceValue" },
       {
         keyText: "Ex-Split",
-        keyId: "dateOfAnnouncementLong",
+        keyId: "xsDateLong",
         sort: true,
         type: "date",
       },
@@ -105,7 +105,7 @@ const ENDPOINT_MAPPING = {
       { keyText: "Record", keyId: "recordDateLong", type: "date" },
       {
         keyText: "Ex-Rights",
-        keyId: "recordDateLong",
+        keyId: "xrDateLong",
         sort: true,
         type: "date",
       },

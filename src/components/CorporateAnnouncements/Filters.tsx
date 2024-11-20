@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
+import CustomDropdown from "../Common/CustomDropdown";
 import CategoriesComponent from "./CategoriesDialog";
 import StockFilterNifty from "../StockFilterNifty";
 import { getRequest } from "@/utils/ajaxUtility";
-import CustomDropdown from "../Common/CustomDropdown";
+import { trackingEvent } from "@/utils/ga";
 import styles from "./styles.module.scss";
 
 interface FilterComponentProps {
@@ -51,6 +52,11 @@ const CorporateAnnouncementFilters: React.FC<FilterComponentProps> = ({
       ...prevState,
       duration: key,
     }));
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: `click_${key}`,
+      event_label: `${key}`,
+    });
   };
 
   const toggleCategories = () => {
@@ -63,6 +69,11 @@ const CorporateAnnouncementFilters: React.FC<FilterComponentProps> = ({
       ...prevState,
       category: selectedCategories,
     }));
+    trackingEvent("et_push_event", {
+      event_label: "Corporate Announcements",
+      event_category: "mercury_engagement",
+      event_action: "category_selection",
+    });
   };
 
   const showFilterMenu = useCallback((value: boolean) => {
@@ -84,6 +95,11 @@ const CorporateAnnouncementFilters: React.FC<FilterComponentProps> = ({
       indexId: id,
       seoname: name,
       exchange: selectedTab,
+    });
+    trackingEvent("et_push_event", {
+      event_category: "mercury_engagement",
+      event_action: `click_${name}`,
+      event_label: `${name}_${id}`,
     });
   };
 

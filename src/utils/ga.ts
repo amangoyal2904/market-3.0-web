@@ -255,9 +255,9 @@ export const getPageName = (pageURL = "") => {
   } else if (pagePathName.includes("/stock-market-mood")) {
     pageName = "Mercury_MarketMood";
   } else if (pagePathName.includes("/corporate-actions")) {
-    pageName = "Mercury_CorporateActions";
+    pageName = "Mercury_Corporate Actions";
   } else if (pagePathName.includes("/corporate-announcements")) {
-    pageName = "Mercury_CorporateAnnouncements";
+    pageName = "Mercury_Corporate Announcements";
   } else {
     pageName = "Mercury";
   }

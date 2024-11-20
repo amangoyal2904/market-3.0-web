@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import CorporateAnnouncementFilters from "@/components/CorporateAnnouncements/Filters";
 import CardsList from "@/components/CorporateAnnouncements/Card";
 import { postRequest } from "@/utils/ajaxUtility";
-import { trackingEvent } from "@/utils/ga";
 import Blocker from "@/components/Blocker";
 import Loader from "@/components/Loader";
 
@@ -35,11 +34,6 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
 
   useEffect(() => {
     getAnnouncementsList();
-    trackingEvent("et_push_event", {
-      event_category: "mercury_engagement",
-      event_action: "click_filters",
-      event_label: `${filters?.duration}, ${filters?.category}`,
-    });
   }, [filters, currPage]);
 
   const getAnnouncementsList = async () => {

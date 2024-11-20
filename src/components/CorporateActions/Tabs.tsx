@@ -46,6 +46,11 @@ const CorporateActionseTabs = React.memo(
         ...prevState,
         duration,
       }));
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: `click_${duration}`,
+        event_label: `${duration}`,
+      });
     };
 
     const showFilterMenu = useCallback((value: boolean) => {
@@ -67,6 +72,11 @@ const CorporateActionseTabs = React.memo(
         indexId: id,
         seoname: name,
         exchange: selectedTab,
+      });
+      trackingEvent("et_push_event", {
+        event_category: "mercury_engagement",
+        event_action: `click_${name}`,
+        event_label: `${name}_${id}`,
       });
     };
 
