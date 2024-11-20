@@ -16,6 +16,7 @@ import {
   getTechnicalChartNews,
   getTechnicalChartPageMetaData,
 } from "./utilities";
+import BreadCrumb from "@/components/BreadCrumb";
 
 // Function to fetch common data
 const getCommonData = () => {
@@ -190,7 +191,7 @@ const TechnicalCharts = async () => {
     onlyChartFeatures,
     searchParams,
   } = getCommonData();
-
+  const pageUrl = headers().get("x-url") || "";
   const defaultWidgetProps: Partial<ChartingLibraryWidgetOptions> = {
     symbol,
     interval: interval as ResolutionString,
@@ -221,18 +222,24 @@ const TechnicalCharts = async () => {
   const { relatedNews, technicalAnalysis, definitions } = newsData;
 
   return (
-    <TechnicalChartsClient
-      {...defaultWidgetProps}
-      patternId={searchParams.get("patternid")}
-      gaHit={searchParams.get("ga_hit")}
-      chartType={searchParams.get("chart_type")}
-      symbolData={symbolData}
-      relatedNews={relatedNews}
-      technicalAnalysis={technicalAnalysis}
-      definitions={definitions}
-      trendingList={trendData}
-      trendingTerm={trendingTerm}
-    />
+    <>
+      <TechnicalChartsClient
+        {...defaultWidgetProps}
+        patternId={searchParams.get("patternid")}
+        gaHit={searchParams.get("ga_hit")}
+        chartType={searchParams.get("chart_type")}
+        symbolData={symbolData}
+        relatedNews={relatedNews}
+        technicalAnalysis={technicalAnalysis}
+        definitions={definitions}
+        trendingList={trendData}
+        trendingTerm={trendingTerm}
+      />
+      <BreadCrumb
+        pagePath="/markets/technical-charts"
+        pageName={[{ label: "Technical Chart", redirectUrl: "" }]}
+      />
+    </>
   );
 };
 

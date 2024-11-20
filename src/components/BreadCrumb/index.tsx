@@ -412,6 +412,18 @@ const getLiPath = (router: string, pagePath: string) => {
         },
       },
     };
+  } else if (router === "/markets/technical-charts") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>
+          Technical Chart
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
   } else {
     return {};
   }
