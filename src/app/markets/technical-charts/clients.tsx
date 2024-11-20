@@ -103,6 +103,7 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
     technicalAnalysis,
     definitions,
     trendingList,
+    trendingTerm,
   } = defaultWidgetProps;
   const { state } = useStateContext();
   const { ssoReady, isLogin, isPrime, ssoid } = state.login;
@@ -377,10 +378,21 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
               </div>
             </div>
           )}
-          <div className={styles.widget}>
-            <h4 className={styles.heading}>Markets Trending Terms</h4>
-            <div className={styles.seoItemList}></div>
-          </div>
+          {trendingTerm?.transformedDescription?.length && (
+            <div className={styles.widget}>
+              <h4 className={styles.heading}>{trendingTerm.title}</h4>
+              <div className={styles.seoItemList}>
+                {trendingTerm.transformedDescription.map(
+                  (item: any, index: number) => (
+                    <TrendingInMarketsList
+                      item={item}
+                      key={`trendingterm_${index}`}
+                    />
+                  ),
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

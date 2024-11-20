@@ -7,6 +7,10 @@
     "development": "https://etpwaapi.economictimes.com/api/mercury/trendinginmarkets",
     "production": "https://etpwaapi.economictimes.com/api/mercury/trendinginmarkets"
   },
+  "SEO_WIDGET": {
+    "development": "https://etpwaapi.economictimes.com/api/mercury/seoselectdata",
+    "production": "https://etpwaapi.economictimes.com/api/mercury/seoselectdata"
+  },
   "APIDOMAIN": {
     "development": "https://etpwaapipre.economictimes.com/request",
     "production": "https://etpwaapi.economictimes.com/request"

@@ -1,6 +1,10 @@
 import { Metadata } from "next";
 import { headers } from "next/headers";
-import { fnGenerateMetaData, getSymbolInfo } from "@/utils/utility";
+import {
+  fetchSeoWidgetData,
+  fnGenerateMetaData,
+  getSymbolInfo,
+} from "@/utils/utility";
 import {
   ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
@@ -207,10 +211,11 @@ const TechnicalCharts = async () => {
     fullscreen: false,
   };
 
-  const [symbolData, newsData, trendData] = await Promise.all([
+  const [symbolData, newsData, trendData, trendingTerm] = await Promise.all([
     getSymbolInfo(symbol),
     getTechnicalChartNews(),
     fetchMarketTrend(),
+    fetchSeoWidgetData(),
   ]);
 
   const { relatedNews, technicalAnalysis, definitions } = newsData;
@@ -226,6 +231,7 @@ const TechnicalCharts = async () => {
       technicalAnalysis={technicalAnalysis}
       definitions={definitions}
       trendingList={trendData}
+      trendingTerm={trendingTerm}
     />
   );
 };

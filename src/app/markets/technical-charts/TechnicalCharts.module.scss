@@ -114,7 +114,7 @@
   .nonprime {
     display: flex;
     margin: 10px auto;
-    justify-content: space-between;
+    justify-content: space-evenly;
   }
   li + li {
     padding-top: 15px;
