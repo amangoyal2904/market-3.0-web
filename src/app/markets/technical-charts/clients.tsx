@@ -224,7 +224,10 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
       </ul>
       <p className={styles.note}>
         To send your feedbacks
-        <a href="/contactus.cms" title="Feedback Link">
+        <a
+          href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/contactus.cms`}
+          title="Feedback Link"
+        >
           Click here.
         </a>
       </p>
