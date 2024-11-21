@@ -25,7 +25,7 @@ const InvestEdgeLeftVideo = ({ videoPlayData, selectedcategory }: any) => {
     videoSecSeoPath,
     videoTitelSlug,
   } = videoPlayData;
-  console.log(videoPlayData);
+  //console.log(videoPlayData);
   const [isVisible, setIsVisible] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [view, setView] = useState<View[]>([]);
