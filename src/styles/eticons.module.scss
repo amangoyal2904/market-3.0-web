@@ -15,6 +15,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.eticon_smartalerts:before {
+  content: "\e97d";
+}
 .eticon_analyzer_colored .path1:before {
   content: "\e977";
   color: rgb(237, 25, 59);
