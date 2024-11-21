@@ -112,7 +112,7 @@ const UpcomingTable = ({
   useEffect(() => {
     setProcessingLoader(true);
     updateTableData();
-    console.log("_payload", _payload);
+    //console.log("_payload", _payload);
   }, [_payload]);
   // useEffect(() => {
   //   setTableData(data?.dataList || []);

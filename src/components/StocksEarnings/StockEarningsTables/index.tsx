@@ -47,7 +47,7 @@ const StockEarningsTables = ({
   const stockCount = `(${pageSummary?.totalRecords} Stocks)`;
 
   const onTabViewUpdate = async (viewId: any) => {
-    console.log("___tab view update ", viewId);
+    //console.log("___tab view update ", viewId);
     setProcessingLoader(true);
     setActiveViewId(viewId);
     setResetSort(viewId);
