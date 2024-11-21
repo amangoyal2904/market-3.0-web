@@ -3,6 +3,7 @@ import styles from "./Eticons.module.scss";
 
 const Eticons = () => {
   const iconsClasses = [
+    "eticon_smartalerts",
     "eticon_learning_hub_icon",
     "eticon_chart_pattern",
     "eticon_accordion_down",
