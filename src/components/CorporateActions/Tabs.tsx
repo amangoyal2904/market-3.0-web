@@ -117,7 +117,7 @@ const CorporateActionseTabs = React.memo(
                   trackingEvent("et_push_event", {
                     event_category: "mercury_engagement",
                     event_action: "tab_selected",
-                    event_label: `FIIDII_${item.label}`,
+                    event_label: `${item.label}`,
                   });
                 }}
               >
