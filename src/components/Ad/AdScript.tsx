@@ -1,18 +1,6 @@
 "use client";
 import { returnPPID, loadAssets } from "../../utils";
 
-declare global {
-  interface Window {
-    googletag: any;
-    arrDfpAds: {}[];
-    _auds: any;
-    apstag: any;
-    _dfpObj: any;
-
-    displayAllAdsInArray: any;
-  }
-}
-
 export const loadAmazonTamScript = function (userType = true) {
   try {
     if (!userType) {
@@ -110,6 +98,8 @@ const callDfpAd = async function () {
       dfp = await import("./AdInfo/indicesAds.json");
     } else if (pathName.indexOf("/stock-recos") > -1) {
       dfp = await import("./AdInfo/stockRecosAds.json");
+    } else if (pathName.indexOf("/markets/technical-charts") > -1) {
+      dfp = await import("./AdInfo/technicalChartAds.json");
     } else {
       dfp = await import("./AdInfo/marketstatsAds.json");
     }

@@ -1,8 +1,196 @@
+@import "@/styles/variables.scss";
+
+.container {
+  position: relative;
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      a:hover {
+        text-decoration: underline;
+      }
+    }
+    .otherData {
+      display: flex;
+      align-items: center;
+      border-left: 1px dotted #888;
+      padding-left: 10px;
+      font-size: 13px;
+      margin-left: 10px;
+      p {
+        margin-right: 5px;
+        font-weight: bold;
+      }
+      span {
+        font-weight: normal;
+      }
+    }
+  }
+  .list {
+    font-size: 13px;
+    color: #727272;
+    line-height: 1.62;
+    margin-top: 18px;
+    margin-left: 7px;
+    list-style-type: none;
+    padding-left: 0;
+
+    li {
+      display: flex;
+      align-items: baseline;
+      margin-left: 0;
+
+      &::before {
+        content: "* ";
+        margin-right: 5px;
+      }
+    }
+  }
+  .note {
+    font-size: 13px;
+    color: #727272;
+    line-height: 1.62;
+    margin: 15px auto;
+    padding: 0 15px;
+    a {
+      font-weight: 600;
+      color: $black;
+      text-decoration: underline;
+      padding-left: 5px;
+    }
+  }
+  .quickLinks {
+    display: flex;
+    align-items: center;
+    margin: 15px auto;
+    gap: 12px;
+    p {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .ql {
+      border-radius: 21px;
+      border: solid 1px #ddd;
+      padding: 5px 18px 5px 13px;
+      font-family: Montserrat;
+      font-size: 13.2px;
+      font-weight: normal;
+    }
+  }
+}
+
+.section {
+  position: relative;
+  display: flex;
+  margin: 25px auto;
+  padding: 20px 0;
+  border-top: 2px solid $black;
+  &.column {
+    flex-direction: column;
+  }
+  .heading {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .rhs {
+    display: inline-block;
+    width: 320px;
+    > div:not(:first-child) {
+      border-top: 2px solid $black;
+      margin-top: 24px;
+      padding-top: 20px;
+    }
+
+    .widget {
+      .seoItemList {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+    }
+  }
+  .lhs {
+    display: inline-block;
+    width: calc(100% - 340px);
+    padding-right: 20px;
+  }
+}
+
+.technicalAnalysis {
+  list-style-type: none;
+  margin: 15px auto;
+  .nonprime {
+    display: flex;
+    margin: 10px auto;
+    justify-content: space-evenly;
+  }
+  li + li {
+    padding-top: 15px;
+    border-top: 1px solid #ccc;
+  }
+  h3 {
+    font-size: 16px;
+    line-height: 22px;
+    padding-bottom: 5px;
+    font-weight: 700;
+  }
+  .syn {
+    font-size: 14px;
+    margin-bottom: 15px;
+    line-height: 20px;
+    text-align: justify;
+    a {
+      display: inline-block;
+      padding-left: 4px;
+      i {
+        vertical-align: middle;
+      }
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.relatedNews {
+  list-style-type: none;
+  margin: 15px auto;
+
+  .stryline {
+    position: relative;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.38;
+    padding: 0 0 15px 0;
+    width: 30%;
+    vertical-align: top;
+    img {
+      margin-top: 6px;
+      margin-left: 5px;
+      float: right;
+    }
+    &:nth-child(2),
+    &:nth-child(5) {
+      margin: 0 4%;
+    }
+    &:nth-child(n + 4) {
+      border-top: 1px solid #eceaea;
+      padding-top: 15px;
+    }
+  }
+}
+
 .chartWrapper {
   position: relative;
   display: block;
   height: 550px;
 }
+
 .loadingIndicator {
   background: #fff;
   height: 100%;
@@ -28,57 +216,6 @@
     top: calc(50% - 32px);
     width: 56px;
   }
-}
-
-.bannerIconWrap {
-  position: relative;
-  height: 7vh;
-  &.ios {
-    margin-top: 8vh;
-    z-index: 999;
-  }
-  img {
-    width: 100%;
-    height: 100%;
-  }
-  .closeBanner {
-    display: inline-block;
-    vertical-align: top;
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    right: 4px;
-    top: 8px;
-    background: #000;
-    cursor: pointer;
-    border-radius: 50%;
-    &.dark {
-      background: #fff;
-    }
-  }
-}
-.closeBanner:after,
-.closeBanner:before {
-  position: absolute;
-  left: 9px;
-  top: 4px;
-  content: " ";
-  height: 12px;
-  width: 2px;
-  background-color: white;
-  backface-visibility: hidden;
-}
-.closeBanner {
-  &:after {
-    transform: rotate(-45deg);
-  }
-  &:before {
-    transform: rotate(45deg);
-  }
-}
-.bannerIconWrap .closeBanner.dark:after,
-.bannerIconWrap .closeBanner.dark:before {
-  background-color: #000;
 }
 
 @keyframes spinnerRotate {

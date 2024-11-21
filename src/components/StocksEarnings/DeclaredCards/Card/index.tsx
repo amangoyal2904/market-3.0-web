@@ -106,7 +106,11 @@ const Card = ({ cardData }: any) => {
           </div>
           <div className={styles.cinfo}>
             <span className={styles.secTxt}>Sector:</span>
-            <span className={styles.secValue}>{cardData?.sectorName}</span>
+            <span className={styles.secValue}>
+              {cardData?.sectorName?.length > 23
+                ? `${cardData.sectorName.slice(0, 20)}...`
+                : cardData?.sectorName}
+            </span>
             <span className={styles.secAlone}>{cardData?.resultType}</span>
           </div>
         </div>

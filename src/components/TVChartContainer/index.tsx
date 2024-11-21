@@ -368,6 +368,8 @@ export const TVChartContainer = (
     updatePageUrl?: string;
     isLogin?: string;
     showVolume?: boolean;
+    symbolData?: any;
+    assestType?: any;
   },
 ) => {
   const {
@@ -378,10 +380,25 @@ export const TVChartContainer = (
     updatePageUrl = "false",
     isLogin = false,
     showVolume = true,
+    assestType,
   } = props;
+
   const chartContainerRef =
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
-  const param_periodicity = props.interval as ResolutionString;
+  // Special handling for props.symbolData.type and props.interval
+  let param_periodicity = props.interval as ResolutionString;
+
+  if (
+    (assestType === "mcx" ||
+      assestType === "forex" ||
+      assestType === "commodity") &&
+    (param_periodicity == "1" ||
+      param_periodicity == "5" ||
+      param_periodicity == "10")
+  ) {
+    param_periodicity = "15" as ResolutionString; // Set interval to 15 if conditions are met
+  }
+
   const iframeRef = useRef<HTMLIFrameElement | null>(null); // Ref for iframe
   const chartTypes = {
     bar: 0,
@@ -513,7 +530,6 @@ export const TVChartContainer = (
     if (props.timeframe) {
       widgetOptions.timeframe = props.timeframe;
     }
-
     const tvWidget = new widget(widgetOptions);
 
     const handleAutoSave = () => {

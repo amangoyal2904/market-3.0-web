@@ -1,50 +1,38 @@
 import { Metadata } from "next";
 import { headers } from "next/headers";
-import { fnGenerateMetaData } from "@/utils/utility";
+import {
+  fetchSeoWidgetData,
+  fnGenerateMetaData,
+  getSymbolInfo,
+} from "@/utils/utility";
 import {
   ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
   ResolutionString,
 } from "../../../../public/static/v28/charting_library/charting_library";
 import TechnicalChartsClient from "./clients";
+import {
+  fetchMarketTrend,
+  getTechnicalChartNews,
+  getTechnicalChartPageMetaData,
+} from "./utilities";
+import BreadCrumb from "@/components/BreadCrumb";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const headersList = headers();
-  const pageUrl = headersList.get("x-url") || "";
-  const meta = {
-    title:
-      "Share Market, Nifty, Sensex, NSE/BSE Live Updates, Stock Market Today",
-    desc: "Share Market & Stock Market Live Updates - Latest share market live updates on NIFTY, Sensex Today live, NSE/BSE, big bull, stock reports, stock screeners, indices, market mood, forex, commodity, top investors at The Economic Times",
-    keywords:
-      "Share Market, Stock Market, share market live updates, NIFTY, Sensex Today live, NSE/BSE, big bull, stock reports, stock screeners, indices, market mood, forex, commodity, top investors",
-    pathname: pageUrl,
-    index: false,
-  };
-  return fnGenerateMetaData(meta);
-}
-
-const TechnicalCharts = () => {
+// Function to fetch common data
+const getCommonData = () => {
   const headersList = headers();
   const searchParams = new URLSearchParams(
     headersList.get("x-searchparam") || "",
   );
 
-  interface TimeFramePair {
-    [key: string]: string;
-  }
-
-  interface TimePair {
-    [key: string]: string;
-  }
-
-  const timePair: TimePair = {
+  const timePair: { [key: string]: string } = {
     day: "1D",
     week: "1W",
     month: "1M",
     year: "1Y",
   };
 
-  const timeFramePair: TimeFramePair = {
+  const timeFramePair = {
     "1D": "1D",
     "5D": "5D",
     "1W": "7D",
@@ -54,36 +42,19 @@ const TechnicalCharts = () => {
     "1Y": "12M",
     "3Y": "36M",
     "5Y": "60M",
-  };
-
-  const patternId = searchParams.get("patternid");
-  const gaHit = searchParams.get("ga_hit");
-  const chartType = searchParams.get("chart_type");
-
-  const hideMenu = searchParams.get("no_menu")
-    ? searchParams.get("no_menu")
-    : 0;
-
-  const dontSave = searchParams.get("dont_save")
-    ? searchParams.get("dont_save")
-    : false;
+  } as const;
 
   const getSymbol = () => {
-    const symbl = searchParams.get("symbol")?.replace("&", "%26");
+    const symbol = searchParams.get("symbol")?.replace("&", "%26");
     const pairnameparent =
       searchParams.get("pairnameparent") ||
       searchParams.get("currencypairname");
-
     const expirydate = searchParams.get("expirydate");
-    const isValidDate = (date: any) => {
-      return !isNaN(Date.parse(date));
-    };
 
+    const isValidDate = (date: string) => !isNaN(Date.parse(date));
     let formattedSymbol = pairnameparent
       ? pairnameparent.replace("&", "%26")
-      : symbl
-        ? symbl
-        : "NSE INDEX";
+      : symbol || "NSE INDEX";
 
     if (expirydate && isValidDate(expirydate)) {
       formattedSymbol = `${formattedSymbol}_${expirydate}_MCX`;
@@ -94,14 +65,14 @@ const TechnicalCharts = () => {
 
   const getInterval = () => {
     const itvl = searchParams.get("periodicity") || "day";
-    const defaultPeriod = searchParams.get("default_period") || null; // Updated to handle null if not present
+    const defaultPeriod = searchParams.get("default_period") || null;
 
     const timeframe =
-      defaultPeriod && timeFramePair[defaultPeriod]
-        ? timeFramePair[defaultPeriod]
-        : "1D"; // Set to "1D" by default if default_period is not available
+      defaultPeriod &&
+      timeFramePair[defaultPeriod as keyof typeof timeFramePair]
+        ? timeFramePair[defaultPeriod as keyof typeof timeFramePair]
+        : "1D";
 
-    // Mapping for defaultPeriod values to intervals
     const defaultPeriodIntervalMap: { [key: string]: string | number } = {
       "1D": 1,
       "5D": 15,
@@ -118,15 +89,17 @@ const TechnicalCharts = () => {
         ? defaultPeriodIntervalMap[defaultPeriod]
         : typeof itvl !== "undefined" && Number(itvl)
           ? Number(itvl)
-          : typeof itvl !== "undefined" && timePair[itvl]
-            ? timePair[itvl]
-            : "1D";
+          : timePair[itvl] ?? "1D";
 
     return { timeframe, interval, defaultPeriod };
   };
 
-  const getOnlyChartFeatures = () => {
-    const onlyChart = [];
+  const getOnlyChartFeatures = (
+    hideMenu: boolean,
+    dontSave: boolean,
+    patternId: string | null,
+  ) => {
+    const onlyChart: ChartingLibraryFeatureset[] = [];
 
     if (
       searchParams.get("symbol_label") === "false" ||
@@ -135,7 +108,7 @@ const TechnicalCharts = () => {
       onlyChart.push("header_symbol_search");
     }
 
-    if (hideMenu == "true" || hideMenu == "1") {
+    if (hideMenu) {
       onlyChart.push(
         "left_toolbar",
         "header_widget",
@@ -151,11 +124,11 @@ const TechnicalCharts = () => {
       );
     }
 
-    if (dontSave == "true") {
+    if (dontSave) {
       onlyChart.push("header_saveload", "use_localstorage_for_settings");
     }
 
-    if (patternId != "" && patternId != null) {
+    if (patternId) {
       onlyChart.push(
         "header_saveload",
         "use_localstorage_for_settings",
@@ -177,36 +150,96 @@ const TechnicalCharts = () => {
 
   const symbol = getSymbol();
   const { timeframe, interval, defaultPeriod } = getInterval();
-  const onlyChart = getOnlyChartFeatures();
-  const disabledFeatures: ChartingLibraryFeatureset[] = onlyChart.length
-    ? onlyChart.map((feature) => feature as ChartingLibraryFeatureset)
-    : [
-        "adaptive_logo",
-        "go_to_date",
-        "show_object_tree",
-        "symbol_info",
-        "show_right_widgets_panel_by_default",
-        "popup_hints",
-        "chart_property_page_trading",
-      ];
+  const onlyChartFeatures = getOnlyChartFeatures(
+    searchParams.get("no_menu") === "true" ||
+      searchParams.get("no_menu") === "1",
+    searchParams.get("dont_save") === "true",
+    searchParams.get("patternid"),
+  );
 
+  return {
+    symbol,
+    timeframe,
+    interval,
+    defaultPeriod,
+    onlyChartFeatures,
+    searchParams,
+  };
+};
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { symbol } = getCommonData();
+  const pageUrl = headers().get("x-url") || "";
+  const symbolData = await getSymbolInfo(symbol);
+
+  const { title, desc, keywords } = getTechnicalChartPageMetaData(symbolData);
+  const meta = {
+    title: title,
+    desc: desc,
+    keywords: keywords,
+    pathname: pageUrl,
+  };
+  return fnGenerateMetaData(meta);
+}
+
+const TechnicalCharts = async () => {
+  const {
+    symbol,
+    timeframe,
+    interval,
+    defaultPeriod,
+    onlyChartFeatures,
+    searchParams,
+  } = getCommonData();
+  const pageUrl = headers().get("x-url") || "";
   const defaultWidgetProps: Partial<ChartingLibraryWidgetOptions> = {
-    symbol: symbol,
+    symbol,
     interval: interval as ResolutionString,
-    ...(defaultPeriod && { timeframe: timeframe }), // Conditionally add timeframe
-    theme: searchParams.get("darktheme") == "true" ? "dark" : "light",
+    ...(defaultPeriod && { timeframe }),
+    theme: searchParams.get("darktheme") === "true" ? "dark" : "light",
     enabled_features: ["show_zoom_and_move_buttons_on_touch"],
-    disabled_features: disabledFeatures,
+    disabled_features: onlyChartFeatures.length
+      ? onlyChartFeatures
+      : [
+          "adaptive_logo",
+          "go_to_date",
+          "show_object_tree",
+          "symbol_info",
+          "show_right_widgets_panel_by_default",
+          "popup_hints",
+          "chart_property_page_trading",
+        ],
     fullscreen: false,
   };
 
+  const [symbolData, newsData, trendData, trendingTerm] = await Promise.all([
+    getSymbolInfo(symbol),
+    getTechnicalChartNews(),
+    fetchMarketTrend(),
+    fetchSeoWidgetData(),
+  ]);
+
+  const { relatedNews, technicalAnalysis, definitions } = newsData;
+
   return (
-    <TechnicalChartsClient
-      {...defaultWidgetProps}
-      patternId={patternId}
-      gaHit={gaHit}
-      chartType={chartType}
-    />
+    <>
+      <TechnicalChartsClient
+        {...defaultWidgetProps}
+        patternId={searchParams.get("patternid")}
+        gaHit={searchParams.get("ga_hit")}
+        chartType={searchParams.get("chart_type")}
+        symbolData={symbolData}
+        relatedNews={relatedNews}
+        technicalAnalysis={technicalAnalysis}
+        definitions={definitions}
+        trendingList={trendData}
+        trendingTerm={trendingTerm}
+      />
+      <BreadCrumb
+        pagePath="/markets/technical-charts"
+        pageName={[{ label: "Technical Chart", redirectUrl: "" }]}
+      />
+    </>
   );
 };
 

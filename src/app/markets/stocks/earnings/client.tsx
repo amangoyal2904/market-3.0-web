@@ -50,7 +50,7 @@ const StocksEarningsClintPage = ({
   );
   const [_cardLoading, setCardLoading] = useState(false);
   const [_declareTabTimeStore, setDeclareTabTimeStore] = useState(
-    data?.payload?.upcomingResultTablePayload?.date || "",
+    data?.payload?.declareResultTablePayload?.date || "",
   );
   const [_topTabTimeHide, setTopTabTimeHide] = useState(
     activeResultValue === "latest-results" ? "no" : "yes",
@@ -63,7 +63,7 @@ const StocksEarningsClintPage = ({
     const newPayload: any = { ..._declareResultTablePayload };
     newPayload.apiType = value;
 
-    console.log("value", value);
+    //console.log("value", value);
     if (value === "latest-results") {
       newPayload.date = _declareTabTimeStore;
       setTopTabTimeHide("no");
@@ -230,7 +230,12 @@ const StocksEarningsClintPage = ({
         data={_upcomingCompanies}
         processingLoader={processingLoader}
       />
-      <LatestResultNewsSec topNewsData={data?.topNewsData} />
+      {data?.topNewsData && data?.topNewsData.length > 0 ? (
+        <LatestResultNewsSec topNewsData={data?.topNewsData} />
+      ) : (
+        ""
+      )}
+
       <UpcomingResults
         title="Declared Results"
         type="declared"

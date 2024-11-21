@@ -11,12 +11,6 @@ import jStorageReact from "jstorage-react";
 
 const API_SOURCE = 0;
 
-declare global {
-  interface Window {
-    _mfq?: any[];
-  }
-}
-
 type Stock = {
   companyId: string;
   companyType: string;
@@ -1692,5 +1686,23 @@ export const getSymbolInfo = async (symbol: string): Promise<any> => {
   } catch (error) {
     console.error("Error fetching market status", error);
     return null; // or throw error if you want the caller to handle it
+  }
+};
+
+export const fetchSeoWidgetData = async () => {
+  try {
+    const res = await Service.get({
+      url: `${(APIS_CONFIG as any)?.SEO_WIDGET[APP_ENV]}?entitytype=marketstats&entityid=marketstats_quicklinks`,
+      params: {},
+    });
+    if (res?.status === 200) {
+      return await res.json();
+    } else {
+      console.error(`Failed to fetch seoselectdata: ${res?.status}`);
+      return null;
+    }
+  } catch (e) {
+    console.log("Error in trending in markets", e);
+    return [];
   }
 };

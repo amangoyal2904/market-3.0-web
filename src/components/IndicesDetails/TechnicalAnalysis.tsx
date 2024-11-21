@@ -48,15 +48,22 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
 
   const disabledFeatures: ChartingLibraryFeatureset[] = [
     "adaptive_logo",
+    "header_screenshot",
     "go_to_date",
     "header_saveload",
     "use_localstorage_for_settings",
     "header_symbol_search",
+    "show_right_widgets_panel_by_default",
+    "popup_hints",
+    "chart_property_page_trading",
+    "go_to_date",
+    "show_object_tree",
+    "symbol_info",
   ];
 
   const defaultWidgetProps: Partial<ChartingLibraryWidgetOptions> = {
     symbol: symbol,
-    interval: "1D" as ResolutionString,
+    interval: "1" as ResolutionString,
     user_id: "default",
     disabled_features: disabledFeatures,
     enabled_features: ["show_zoom_and_move_buttons_on_touch"],
@@ -161,7 +168,14 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
       <div className={styles.wrapper}>
         <h3 className={styles.heading3}>Technical Chart</h3>
         <div id={styles.tradingView}>
-          {isScriptReady && <TVChartContainer {...defaultWidgetProps} />}
+          {isScriptReady && (
+            <TVChartContainer
+              {...defaultWidgetProps}
+              updatePageUrl="false"
+              showVolume={true}
+              assestType="index"
+            />
+          )}
         </div>
       </div>
     </>

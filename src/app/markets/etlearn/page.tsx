@@ -50,7 +50,7 @@ const InvestEdge = async () => {
       });
 
       const getSectionResult = await getSectionPromise?.json();
-      const getSectionData = getSectionResult.searchResult[0]?.data || [];
+      const getSectionData = getSectionResult?.searchResult[0]?.data || [];
       // Return an object with label and data
       return {
         label: item.label, // Label node from item
