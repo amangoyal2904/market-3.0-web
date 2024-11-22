@@ -149,7 +149,7 @@ const StockComponent = ({
             )}
 
             <h2 title={data.companyName} className={styles.stocksTitle}>
-              <Link
+              <a
                 title={data.companyName}
                 target="_blank"
                 href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}${data?.companySeoName}/stocks/companyid-${data.companyId}.cms`}
@@ -163,7 +163,7 @@ const StockComponent = ({
                 }}
               >
                 {data.companyName}
-              </Link>
+              </a>
               {!data?.recoType &&
                 activeTab != "recoOnWL" &&
                 activeTab != "recoOnWatchlist" && (
