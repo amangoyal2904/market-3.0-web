@@ -1,10 +1,9 @@
 "use client";
-import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 
 const ViewMore = ({ text, link }: any) => {
   return (
-    <Link
+    <a
       href={link}
       title={text}
       target="_blank"
@@ -18,7 +17,7 @@ const ViewMore = ({ text, link }: any) => {
     >
       {text}
       <span className=" eticon_next" />
-    </Link>
+    </a>
   );
 };
 export default ViewMore;

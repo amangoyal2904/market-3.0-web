@@ -1,13 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./styles.module.scss";
-// import WatchlistAddition from "../WatchlistAddition";
-import Blocker from "../Blocker";
 import { APP_ENV, dateFormat, formatNumber } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
 import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import { renderIconPaths } from "@/utils/iconUtils";
 const WatchlistAddition = dynamic(() => import("../WatchlistAddition"), {
@@ -394,7 +391,7 @@ const TableHtml = (props: any) => {
                             }}
                           />
                         )}
-                        <Link
+                        <a
                           title={obj.companyName}
                           target="_blank"
                           href={`${(GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"]}/${obj?.companySeoName}/stocks/companyid-${obj.companyId}.cms`}
@@ -410,7 +407,7 @@ const TableHtml = (props: any) => {
                           <span className={`${styles.companyName} linkHover`}>
                             {obj.companyName}
                           </span>
-                        </Link>
+                        </a>
                       </div>
                     </td>
                   )}
