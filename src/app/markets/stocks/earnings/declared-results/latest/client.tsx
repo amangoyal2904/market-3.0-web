@@ -19,7 +19,7 @@ const DeclaredResultsClintPage = ({ data, selectedFilter }: any) => {
       : "";
   const queryTitle =
     queryResult !== "" ? queryResult?.declaredCompanies[0]?.assetName : "";
-  console.log("_data_", queryTitle);
+  //console.log("_data_", queryTitle);
 
   return (
     <>

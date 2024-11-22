@@ -89,7 +89,7 @@ const SectorPageCard = ({ data, tpName = "", sortingValue = "" }: any) => {
     );
 
     if (_topSector && _topSector?.sectorAggregateData) {
-      console.log("_topSector", _topSector);
+      // console.log("_topSector", _topSector);
       activeTab === 0
         ? setPageTopSector(_topSector?.pageSummary)
         : activeTab === 1
