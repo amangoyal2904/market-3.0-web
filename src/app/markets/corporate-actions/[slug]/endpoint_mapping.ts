@@ -37,7 +37,7 @@ export const ENDPOINT_MAPPING = {
       },
       { keyText: "Record", keyId: "recordDateLong", type: "date" },
       { keyText: "Ratio", keyId: "ratio" },
-      { keyText: "Ex-Dividend", keyId: "xbDateLong", sort: true, type: "date" },
+      { keyText: "Ex-Bonus", keyId: "xbDateLong", sort: true, type: "date" },
     ],
   },
   "board-meetings": {

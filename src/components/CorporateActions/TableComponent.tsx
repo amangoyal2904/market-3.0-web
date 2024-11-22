@@ -11,6 +11,7 @@ import { dateFormat } from "@/utils";
 
 interface TableProps {
   processingLoader: boolean;
+  showWLBlocker: boolean;
   header: TableHeader[];
   handlePageChange: any;
   pagesummary: any;
@@ -54,6 +55,7 @@ const StockLink = (ele: any) => {
 const TableComponent: React.FC<TableProps> = ({
   handlePageChange,
   processingLoader,
+  showWLBlocker,
   pagesummary,
   tableData,
   header,
@@ -125,8 +127,12 @@ const TableComponent: React.FC<TableProps> = ({
         </div>
       ) : (
         <Blocker
-          type={"noDataFound"}
-          customMessage={`No record found for the selected filters.<span class="desc">Try choosing a different filter to explore more.</span>`}
+          type={showWLBlocker ? "watchlitFilterBlocker" : "noDataFound"}
+          customMessage={
+            showWLBlocker
+              ? ""
+              : `No new corporate announcements found for the selected filters.<span class="desc">Try choosing a different filter to explore the latest announcements</span>`
+          }
         />
       )}
     </>

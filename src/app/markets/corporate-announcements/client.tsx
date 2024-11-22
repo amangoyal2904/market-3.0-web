@@ -6,6 +6,7 @@ import CardsList from "@/components/CorporateAnnouncements/Card";
 import { postRequest } from "@/utils/ajaxUtility";
 import Blocker from "@/components/Blocker";
 import Loader from "@/components/Loader";
+import { getCookie } from "@/utils";
 
 interface CorporateAnnouncementProps {
   selectedFilter: any;
@@ -32,7 +33,12 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
   const [currPage, setCurrPage] = useState(1);
 
   useEffect(() => {
-    getAnnouncementsList();
+    const ssoid = getCookie("ssoid");
+    if (filters?.filterValue === "watchlist" && !ssoid) {
+      setListData([]);
+    } else {
+      getAnnouncementsList();
+    }
   }, [filters, currPage]);
 
   const getAnnouncementsList = async () => {
@@ -47,9 +53,13 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
       pagesize: "12",
       pageno: currPage,
     };
+    const ssoid = getCookie("ssoid"),
+      ticketId = getCookie("TicketId");
+
     const announcementsList: any = await postRequest(
       "CORPORATE_ANNOUNCEMENTS",
       filtersData,
+      { ssoid: ssoid, ticketId: ticketId },
     );
 
     setListData(announcementsList?.searchresult);
@@ -88,8 +98,16 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
           />
         ) : (
           <Blocker
-            type={"noDataFound"}
-            customMessage={`No new corporate announcements found for the selected filters.<span class="desc">Try choosing a different filter to explore the latest announcements</span>`}
+            type={
+              filters?.filterValue === "watchlist"
+                ? "watchlitFilterBlocker"
+                : "noDataFound"
+            }
+            customMessage={
+              filters?.filterValue === "watchlist"
+                ? ""
+                : `No new corporate announcements found for the selected filters.<span class="desc">Try choosing a different filter to explore the latest announcements</span>`
+            }
           />
         )}
       </div>

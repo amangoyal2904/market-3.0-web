@@ -93,9 +93,9 @@ const CorporateActionsSubPage = async ({ params }: any) => {
       />
       <CorporateActionsClient
         selectedFilter={niftyFilterData}
-        niftyData={niftyData}
-        pageSummery={pageSummery}
         tableListing={tableListing}
+        pageSummery={pageSummery}
+        niftyData={niftyData}
         flag={type}
       />
       <BreadCrumb

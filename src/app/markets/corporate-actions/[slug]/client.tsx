@@ -29,12 +29,20 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [processingLoader, setProcessingLoader] = useState(false);
   const [pagesummary, setPageSummary] = useState(pageSummery);
+  const [showWLBlocker, setShowWLBlocker] = useState(false);
   const [tableData, setTableData] = useState(tableListing);
   const [currPage, setCurrPage] = useState(1);
 
   useEffect(() => {
     setCurrPage(1);
-    fetchData();
+    const ssoid = getCookie("ssoid");
+    if (filters?.filterValue === "watchlist" && !ssoid) {
+      setTableData([]);
+      setShowWLBlocker(true);
+    } else {
+      fetchData();
+      setShowWLBlocker(false);
+    }
   }, [filters, flag]);
 
   useEffect(() => {
@@ -113,6 +121,7 @@ const CorporateActionsClient: React.FC<CorporateActionProps> = ({
           header={(ENDPOINT_MAPPING as any)[flag]?.headers}
           handlePageChange={handlePageChangeHandler}
           processingLoader={processingLoader}
+          showWLBlocker={showWLBlocker}
           pagesummary={pagesummary}
           tableData={tableData}
         />
