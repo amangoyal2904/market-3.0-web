@@ -238,6 +238,28 @@ const getLiPath = (router: string, pagePath: string) => {
       showCurrLi: true,
       listItemSchema: "",
     };
+  } else if (router == "/markets/corporate-announcements") {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Corporate Announcement
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
+  } else if (router.includes("/markets/corporate-actions/")) {
+    return {
+      showNextLi: false,
+      currentLiNode: (
+        <li>
+          <span className="eticon_caret_right"></span>Corporate Actions
+        </li>
+      ),
+      showCurrLi: true,
+      listItemSchema: "",
+    };
   } else if (router == "/stocks/chart-patterns") {
     return {
       showNextLi: false,

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { getPatternFilterData } from "@/app/stocks/chart-patterns/utilities";
 import { fetchFilters } from "@/utils/utility";
-import CustomDropDown from "../CustomDropdown";
+import CustomDropDown from "../Common/CustomDropdown";
 import Loader from "../Loader";
 import dynamic from "next/dynamic";
 

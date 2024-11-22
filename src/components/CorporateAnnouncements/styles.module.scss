@@ -1,0 +1,257 @@
+@import "@/styles/variables.scss";
+
+// Common mixins and shared styles
+%flex-center {
+  display: flex;
+  align-items: center;
+}
+
+%base-button {
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 18px;
+  font-style: normal;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+// Base layout styles
+.contentBox {
+  display: inline-block;
+  width: 1260px;
+  text-align: left;
+}
+
+// Cards Container
+.cardsOuterContainer {
+  text-align: center;
+  width: 100%;
+
+  .paginationBox {
+    @extend .contentBox;
+    padding: 0 10px;
+  }
+
+  .cardsContainer {
+    @extend .contentBox;
+  }
+}
+
+// Card Component
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 16px;
+  width: 400px;
+  height: 200px;
+  margin: 10px;
+  float: left;
+
+  &:nth-child(3n) {
+    margin-right: 0;
+  }
+
+  // Card Header
+  .cardHeader {
+    @extend %flex-center;
+    justify-content: space-between;
+
+    .cardTitle {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .cardAdd {
+      @extend %flex-center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      color: #2b74e3;
+    }
+  }
+
+  // Card Tag
+  .cardTag span {
+    font-size: 11px;
+    border-radius: 5px;
+    font-weight: 600;
+    display: inline-block;
+    margin: 6px 6px 0 0;
+
+    &::before {
+      content: "";
+      display: inline-block;
+      height: 4px;
+      width: 4px;
+      background-color: #a49e9e;
+      border-radius: 3px;
+      margin: 3px 6px 2px 0;
+    }
+  }
+
+  // Card Content
+  .cardContent {
+    margin: 12px 0;
+    font-size: 14px;
+    color: #333;
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 51px;
+  }
+
+  // Card Footer
+  .cardFooter {
+    @extend %flex-center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #888;
+
+    .footerTime {
+      font-size: 12px;
+    }
+
+    .pdfIcon {
+      margin-right: 4px;
+    }
+  }
+}
+
+// Filters
+.filtersBox {
+  @extend %flex-center;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+
+  .categoryBtn {
+    @extend %base-button;
+    @extend %flex-center;
+    margin: 0 10px;
+    border-radius: 100px;
+    border: 1px solid $color-black;
+    padding: 3px 10px;
+    position: relative;
+
+    i {
+      font-size: 18px;
+    }
+
+    .count {
+      position: absolute;
+      top: -7px;
+      right: -5px;
+      background: $redText;
+      border-radius: 10px;
+      color: $color-white;
+      font-size: 10px;
+      font-weight: 700;
+      height: 17px;
+      padding: 4px 6px;
+      margin: 0;
+      line-height: 10px;
+    }
+  }
+}
+
+// Categories Component
+.itemLabel {
+  @extend %flex-center;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 100%;
+}
+
+.categoriesComponent {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: $color-black;
+
+  .searchInput {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 388px;
+    margin: 15px;
+    width: -webkit-fill-available;
+    box-sizing: border-box;
+    background: #f4f4f4;
+  }
+
+  .categoryHeading {
+    @extend .itemLabel;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 10px 15px;
+    border: 1px solid #cccccc;
+    border-right: none;
+    border-left: none;
+  }
+
+  .categoriesList {
+    max-height: 400px;
+    min-height: 150px;
+    overflow-y: auto;
+
+    .categoryItem {
+      padding: 10px 15px;
+      border-bottom: 1px dotted #b3b3b3;
+
+      &:last-child {
+        border: none;
+      }
+
+      label {
+        @extend .itemLabel;
+        font-size: 12px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .stickyFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-top: 1px solid #ccc;
+
+    button {
+      background: $color-black;
+      color: #fff;
+      padding: 6px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+  }
+}
+
+.roundBtn {
+  margin: 0 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  cursor: pointer;
+  border-radius: 15px;
+  border: 1px solid $black;
+  font-size: 12px;
+  line-height: 18px;
+  font-style: normal;
+  font-weight: 600;
+  padding: 3px 10px;
+  white-space: nowrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  i {
+    font-size: 18px;
+    margin-right: 4px;
+  }
+}

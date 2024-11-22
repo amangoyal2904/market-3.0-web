@@ -14,7 +14,7 @@ interface StockSRFilterProps {
   onclick: (value: boolean) => void;
   valuechange: (id: string, name: string, selectedTab: string) => void;
   selectTab: string;
-  childMenuTabActive?: string;
+  childMenuTabActive?: string | Number;
   showFilter: boolean;
 }
 
