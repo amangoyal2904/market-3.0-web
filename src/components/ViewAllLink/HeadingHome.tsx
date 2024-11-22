@@ -1,7 +1,6 @@
 "use client";
 import styles from "./ViewAll.module.scss";
 import { trackingEvent } from "@/utils/ga";
-import Link from "next/link";
 
 const HeadingHome = ({ title, url }: any) => {
   return title == "Stock Reports Plus" ? (
@@ -37,7 +36,7 @@ const HeadingHome = ({ title, url }: any) => {
     </h2>
   ) : title == "Live Stream" ? (
     <h2 className={`heading ${styles.liveStreamhead}`}>
-      <Link
+      <a
         target="_blank"
         title={title}
         href={url}
@@ -58,11 +57,11 @@ const HeadingHome = ({ title, url }: any) => {
           height={26}
         />
         <span className={`eticon_caret_right ${styles.headingIcon}`} />
-      </Link>
+      </a>
     </h2>
   ) : (
     <h2 className={styles.title}>
-      <Link
+      <a
         title={title}
         target="_blank"
         href={url}
@@ -76,7 +75,7 @@ const HeadingHome = ({ title, url }: any) => {
       >
         {title}
         <span className={`eticon_caret_right ${styles.headingIcon}`} />
-      </Link>
+      </a>
     </h2>
   );
 };
