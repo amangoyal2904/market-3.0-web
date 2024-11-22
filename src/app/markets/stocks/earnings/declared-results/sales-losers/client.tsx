@@ -18,7 +18,7 @@ const DeclaredResultsSalesLosersClient = ({ data, selectedFilter }: any) => {
       ? data?._declaredCompaniesQuery
       : "";
 
-  console.log("_data_", data);
+  //console.log("_data_", data);
 
   return (
     <>
