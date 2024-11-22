@@ -118,7 +118,6 @@
     }
 
     .pdfIcon {
-      width: 138px;
       margin-right: 4px;
     }
   }
@@ -135,7 +134,7 @@
     @extend %flex-center;
     margin: 0 10px;
     border-radius: 100px;
-    border: 1px solid #000;
+    border: 1px solid $color-black;
     padding: 3px 10px;
     position: relative;
 
@@ -147,9 +146,9 @@
       position: absolute;
       top: -7px;
       right: -5px;
-      background: #ed193b;
+      background: $redText;
       border-radius: 10px;
-      color: #fff;
+      color: $color-white;
       font-size: 10px;
       font-weight: 700;
       height: 17px;
@@ -171,7 +170,7 @@
 .categoriesComponent {
   border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: $color-black;
 
   .searchInput {
     padding: 8px;
@@ -224,7 +223,7 @@
     border-top: 1px solid #ccc;
 
     button {
-      background: #000;
+      background: $color-black;
       color: #fff;
       padding: 6px 8px;
       border-radius: 4px;

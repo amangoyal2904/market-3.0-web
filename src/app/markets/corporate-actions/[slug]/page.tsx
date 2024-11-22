@@ -1,10 +1,13 @@
+import { cookies, headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { headers } from "next/headers";
 import { Metadata } from "next";
 
 import { fnGenerateMetaData, fetchFilters } from "@/utils/utility";
 import PageHeaderSection from "@/components/Common/PageHeader";
+import BreadCrumb from "@/components/BreadCrumb";
 import CorporateActionsClient from "./client";
+import { postRequest } from "@/utils/ajaxUtility";
+import { ENDPOINT_MAPPING } from "./endpoint_mapping";
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = headers();
@@ -29,11 +32,9 @@ const validPages = [
   "rights",
 ];
 
-async function fetchData(indexId: number) {
-  return Promise.all([fetchFilters({ watchlist: true, all: true })]);
-}
-
 const CorporateActionsSubPage = async ({ params }: any) => {
+  const headersList = headers();
+  const pageUrl = headersList.get("x-url") || "";
   const type = params.slug;
   if (!validPages.includes(type)) {
     notFound();
@@ -45,7 +46,44 @@ const CorporateActionsSubPage = async ({ params }: any) => {
     seoname: "",
     indexId: 0,
   };
-  const [niftyData] = await fetchData(niftyFilterData.indexId);
+  const niftyData = await fetchFilters({ watchlist: true, all: true });
+
+  /* To Fetch and pass listing data from SSR side */
+  const reqFilters = {
+    duration: "default",
+    filterType: "",
+    marketcap: "All",
+    filterValue: [],
+    pageSize: 15,
+    pageNo: 1,
+  };
+
+  const cookieStore = cookies();
+  const ssoid = cookieStore.get("ssoid")?.value;
+  const ticketId = cookieStore.get("TicketId")?.value;
+
+  const responseGetter = await postRequest(
+    (ENDPOINT_MAPPING as any)[type]?.ep,
+    reqFilters,
+    { ssoid: ssoid, ticketId: ticketId },
+  );
+
+  let tableListing = [];
+  if (["rights", "bonus"].includes(type)) {
+    let data = responseGetter?.searchresult;
+    data.forEach((ele: any) => {
+      ele.ratio = `${ele?.ratioOffering || ele?.ratioOfferred}:${ele?.ratioExisting}`;
+    });
+    tableListing = data;
+  } else {
+    tableListing = responseGetter?.searchresult;
+  }
+  const pageSummery = {
+    pageNo: 1,
+    pageSize: 15,
+    totalPages: responseGetter?.pagesummary?.totalpages,
+    totalRecords: responseGetter?.pagesummary?.totalRecords,
+  };
 
   return (
     <>
@@ -56,7 +94,13 @@ const CorporateActionsSubPage = async ({ params }: any) => {
       <CorporateActionsClient
         selectedFilter={niftyFilterData}
         niftyData={niftyData}
+        pageSummery={pageSummery}
+        tableListing={tableListing}
         flag={type}
+      />
+      <BreadCrumb
+        pagePath={pageUrl}
+        pageName={[{ label: "Corporate Actions", redirectUrl: "" }]}
       />
     </>
   );

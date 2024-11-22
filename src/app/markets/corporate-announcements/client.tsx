@@ -10,10 +10,14 @@ import Loader from "@/components/Loader";
 interface CorporateAnnouncementProps {
   selectedFilter: any;
   allFilters: any;
+  pageSummary: any;
+  listingData: any;
 }
 
 const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
   selectedFilter,
+  pageSummary,
+  listingData,
   allFilters,
 }) => {
   const [filters, setFilters] = useState({
@@ -21,15 +25,10 @@ const CorporateAnnouncementsClient: React.FC<CorporateAnnouncementProps> = ({
     duration: "3month",
     category: [],
   });
-  const [pagesummary, setPageSummary] = useState({
-    totalRecords: 12,
-    totalPages: 1,
-    pageSize: 12,
-    pageNo: 1,
-  });
   const [niftyFilterData, setNiftyFilterData] = useState(selectedFilter);
   const [processingLoader, setProcessingLoader] = useState(false);
-  const [listData, setListData] = useState([]);
+  const [pagesummary, setPageSummary] = useState(pageSummary);
+  const [listData, setListData] = useState(listingData);
   const [currPage, setCurrPage] = useState(1);
 
   useEffect(() => {

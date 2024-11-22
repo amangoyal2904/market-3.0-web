@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import ETPagination from "../Common/Pagination/Pagination";
 import WatchlistAddition from "../WatchlistAddition";
+import { getStockUrl } from "@/utils/utility";
 import Blocker from "@/components/Blocker";
 import { trackingEvent } from "@/utils/ga";
 import styles from "./styles.module.scss";
@@ -43,7 +44,7 @@ const StockLink = (ele: any) => {
       }
       title={ele?.companyName}
       target="_blank"
-      href={`/${ele?.seoName}/stocks/companyid-${ele?.companyId}.cms`}
+      href={getStockUrl(ele?.companyId, ele?.seoName)}
     >
       {ele?.companyName || ele?.companyShortName || ele?.companyName2}
     </Link>

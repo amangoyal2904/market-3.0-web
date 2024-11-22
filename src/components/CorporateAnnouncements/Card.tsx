@@ -1,7 +1,9 @@
+import Image from "next/image";
 import React from "react";
 
 import ETPagination from "@/components/Common/Pagination/Pagination";
 import WatchlistAddition from "../WatchlistAddition";
+import { getStockUrl } from "@/utils/utility";
 import { trackingEvent } from "@/utils/ga";
 import styles from "./styles.module.scss";
 import { dateFormat } from "@/utils";
@@ -25,7 +27,7 @@ interface CardItem {
   companyId: number;
   newsid: number;
   datetime: string;
-  compid: number;
+  compid: any;
   scripCode: any;
 }
 
@@ -74,7 +76,7 @@ const CardsList: React.FC<CardProps> = ({
                   }
                   title={ele?.companyName}
                   target="_blank"
-                  href={`/${ele?.seoName}/stocks/companyid-${ele?.compid}.cms`}
+                  href={getStockUrl(ele?.compid, ele?.seoName)}
                 >
                   {ele?.companyName ||
                     ele?.companyShortName ||
@@ -89,11 +91,9 @@ const CardsList: React.FC<CardProps> = ({
                     height: "18px",
                   }}
                 />
-                {/* <div className={styles.cardAdd}>+</div> */}
               </div>
               {(ele?.symbol || ele?.companyType) && (
                 <div className={styles.cardTag}>
-                  {/* {ele?.symbol || ele?.companyType} */}
                   {ele?.category.map((ele) => <span key={ele}>{ele}</span>)}
                 </div>
               )}
@@ -110,9 +110,13 @@ const CardsList: React.FC<CardProps> = ({
                   href={ele?.attachmentURL}
                   className={styles.pdfButton}
                 >
-                  <img
+                  <Image
                     src="https://img.etimg.com/photo/msid-114415005/view-announcements.jpg"
                     alt="PDF"
+                    title="PDF"
+                    unoptimized
+                    width={138}
+                    height={30}
                     className={styles.pdfIcon}
                   />
                 </a>
