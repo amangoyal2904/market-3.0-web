@@ -94,7 +94,7 @@ const Chart = async () => {
     return formattedSymbol;
   };
 
-  const getInterval = () => {
+  const getInterval = (type: any) => {
     const itvl = searchParams.get("periodicity") || "day";
     const defaultPeriod = searchParams.get("default_period") || null; // Updated to handle null if not present
 
@@ -105,7 +105,7 @@ const Chart = async () => {
 
     // Mapping for defaultPeriod values to intervals
     const defaultPeriodIntervalMap: { [key: string]: string | number } = {
-      "1D": 1,
+      "1D": type === "mcx" || type === "forex" || type === "commodity" ? 15 : 1,
       "5D": 15,
       "1M": "1D",
       "3M": "1D",
@@ -183,7 +183,7 @@ const Chart = async () => {
 
   const symbol = getSymbol();
   const { type } = await getSymbolInfo(symbol);
-  const { timeframe, interval, defaultPeriod } = getInterval();
+  const { timeframe, interval, defaultPeriod } = getInterval(type);
   const onlyChart = getOnlyChartFeatures();
   const disabledFeatures: ChartingLibraryFeatureset[] = onlyChart.length
     ? onlyChart.map((feature) => feature as ChartingLibraryFeatureset)
