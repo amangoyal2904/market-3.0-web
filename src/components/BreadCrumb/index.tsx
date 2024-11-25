@@ -243,7 +243,7 @@ const getLiPath = (router: string, pagePath: string) => {
       showNextLi: false,
       currentLiNode: (
         <li>
-          <span className="eticon_caret_right"></span>Corporate Announcement
+          <span className="eticon_caret_right"></span>Corporate Announcements
         </li>
       ),
       showCurrLi: true,

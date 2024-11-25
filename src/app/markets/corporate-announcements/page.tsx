@@ -69,7 +69,7 @@ const CorporateAnnouncementsPage = async () => {
       />
       <BreadCrumb
         pagePath={pageUrl}
-        pageName={[{ label: "Corporate Announcement", redirectUrl: "" }]}
+        pageName={[{ label: "Corporate Announcements", redirectUrl: "" }]}
       />
     </>
   );
