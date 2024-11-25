@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import styles from "./InvestmentIdea.module.scss";
 import { trackingEvent } from "@/utils/ga";
 import { replaceWidthHeight } from "@/utils";
@@ -7,7 +6,7 @@ import { removeHostname } from "@/utils";
 
 const Card = ({ data, index }: any) => {
   return (
-    <Link
+    <a
       href={removeHostname(data?.url)}
       className={`${styles.card}`}
       title={data?.title}
@@ -34,7 +33,7 @@ const Card = ({ data, index }: any) => {
           __html: data?.title,
         }}
       />
-    </Link>
+    </a>
   );
 };
 

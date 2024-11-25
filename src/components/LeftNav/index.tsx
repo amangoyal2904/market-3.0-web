@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from "react";
 import styles from "./styles.module.scss";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { renderIconPaths } from "@/utils/iconUtils";
@@ -140,7 +139,7 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                   role="presentation"
                 >
                   {value.link ? (
-                    <Link
+                    <a
                       title={value.label}
                       href={value.link}
                       target={value?.newTab ? "_blank" : "_self"}
@@ -163,7 +162,7 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                           className={`eticon_caret_right ${styles.caret_right}`}
                         ></span>
                       )}
-                    </Link>
+                    </a>
                   ) : (
                     <>
                       <div
@@ -192,7 +191,7 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                               key={`l2_label_${secIndex}`}
                               role="presentation"
                             >
-                              <Link
+                              <a
                                 title={sec.label}
                                 href={sec.link}
                                 target={sec?.newTab ? "_blank" : "_self"}
@@ -207,7 +206,7 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                               >
                                 <meta itemProp="name" content={sec.label} />
                                 {sec.label}
-                              </Link>
+                              </a>
                             </li>
                           ))}
                         </ul>
@@ -239,7 +238,7 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                   key={`market_pro_nav_${index}`}
                   role="presentation"
                 >
-                  <Link
+                  <a
                     href={value.link}
                     title={value.label}
                     target={value?.newTab ? "_blank" : "_self"}
@@ -259,7 +258,7 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                     >
                       {value.label}
                     </span>
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>
