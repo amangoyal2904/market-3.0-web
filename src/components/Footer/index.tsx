@@ -101,7 +101,7 @@ const Footer = ({ footerData }: any) => {
                 width="255"
                 title="The Economic Times"
                 alt="The Economic Times"
-                src="https://img.etimg.com/photo/msid-74451948,quality-100/et-logo.jpg"
+                src="https://img.etimg.com/photo/msid-74451948/et-logo.jpg"
               />
             </a>
           </div>

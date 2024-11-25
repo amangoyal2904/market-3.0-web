@@ -24,7 +24,7 @@ const HeadingHome = ({ title, url }: any) => {
         <p className={styles.powered}>
           Powered By
           <img
-            src="https://img.etimg.com/photo/msid-114256957,quality-100/refinitiv.jpg"
+            src="https://img.etimg.com/photo/msid-114256957/refinitiv.jpg"
             width={88}
             height={22}
             alt="Refinitiv"
@@ -49,7 +49,7 @@ const HeadingHome = ({ title, url }: any) => {
         }
       >
         <img
-          src="https://img.etimg.com/photo/msid-115049821,quality-100/live-stream.jpg"
+          src="https://img.etimg.com/photo/msid-115049821/live-stream.jpg"
           alt={title}
           title="LiveStream"
           loading="lazy"

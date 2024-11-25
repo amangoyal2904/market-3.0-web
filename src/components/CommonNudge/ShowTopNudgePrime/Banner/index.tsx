@@ -68,7 +68,7 @@ const TopBannerPrimeUser = ({
         <div className={styles.info_content}>
           <span className={styles.info_icon}>
             <img
-              src={`https://img.etimg.com/photo/msid-${imageMsid},quality-100,imgsize-100.cms`}
+              src={`https://img.etimg.com/photo/msid-${imageMsid},imgsize-100.cms`}
               height="100%"
             />
           </span>

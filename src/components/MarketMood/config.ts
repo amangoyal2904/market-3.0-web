@@ -2,7 +2,7 @@ export const payWallMarketMood = [
   {
     key: "overview",
     heading: "",
-    img: "https://img.etimg.com/photo/msid-114256966,quality-100/marketmood1.jpg",
+    img: "https://img.etimg.com/photo/msid-114256966/marketmood1.jpg",
     title:
       "Market Mood is a comprehensive tool to help you identify trend reversal & understand market sentiments better.",
     desc: "Join ETPrime & unlock complete access to Market Mood.",
@@ -11,7 +11,7 @@ export const payWallMarketMood = [
   {
     key: "periodic",
     heading: "Periodic High/Low",
-    img: "https://img.etimg.com/photo/msid-114256964,quality-100/marketmood2.jpg",
+    img: "https://img.etimg.com/photo/msid-114256964/marketmood2.jpg",
     title:
       "Check the stocks reaching their all time highs & lows across indices & time frame",
     desc: "",
@@ -20,7 +20,7 @@ export const payWallMarketMood = [
   {
     key: "advanceDecline",
     heading: "Advance/Decline",
-    img: "https://img.etimg.com/photo/msid-114256961,quality-100/marketmood3.jpg",
+    img: "https://img.etimg.com/photo/msid-114256961/marketmood3.jpg",
     title:
       "Track the no. of stocks closing above their previous day's close & no. of stocks closing below their previous low.",
     desc: "",

@@ -63,7 +63,7 @@ const RightSideStrip = ({
           </div>
           <div className={styles.right}>
             <img
-              src="https://img.etimg.com/thumb/msid-114256969,width-96,height-17,quality-100/et-markets-logo.jpg"
+              src="https://img.etimg.com/thumb/msid-114256969,width-96,height-17/et-markets-logo.jpg"
               width={96}
               height={17}
               alt="ET Markets"

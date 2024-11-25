@@ -111,7 +111,7 @@ const Header = () => {
               }
             >
               <img
-                src="https://img.etimg.com/photo/msid-114256969,quality-100/et-markets-logo.jpg"
+                src="https://img.etimg.com/photo/msid-114256969/et-markets-logo.jpg"
                 width={138}
                 height={24}
                 alt="ET Markets"
