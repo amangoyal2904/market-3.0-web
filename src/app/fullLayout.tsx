@@ -14,7 +14,7 @@ const webSchema = {
   url: (GLOBAL_CONFIG as any)[APP_ENV]["ET_WEB_URL"],
   logo: {
     "@type": "ImageObject",
-    url: "https://img.etimg.com/thumb/msid-76939477,width-600,height-60,quality-100/economictimes.jpg",
+    url: "https://img.etimg.com/thumb/msid-76939477,width-600,height-60/economictimes.jpg",
     width: 600,
     height: 60,
   },

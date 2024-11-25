@@ -128,7 +128,7 @@ const ChartPatternPaywall = ({
               <span>with 5+ trading ideas every day.</span>
             </h4>
             <img
-              src="https://img.etimg.com/photo/msid-114377332,quality-100/chart_pattern_banner.jpg"
+              src="https://img.etimg.com/photo/msid-114377332/chart_pattern_banner.jpg"
               className={styles.patternBanner}
               alt="Chart Pattern Features"
             />

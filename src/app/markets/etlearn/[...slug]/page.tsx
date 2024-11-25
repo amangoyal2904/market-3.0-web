@@ -149,7 +149,7 @@ const AllETlearnPage = async ({ params }: any) => {
       publisher: {
         name: "Economic Times",
         logo: {
-          url: "https://economictimes.indiatimes.com//thumb/msid-76939477,width-600,height-60,quality-100/economictimes.jpg",
+          url: "https://economictimes.indiatimes.com//thumb/msid-76939477,width-600,height-60/economictimes.jpg",
           width: "600",
           height: "60",
         },

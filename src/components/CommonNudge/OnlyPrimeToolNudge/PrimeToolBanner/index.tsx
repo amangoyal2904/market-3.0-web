@@ -60,14 +60,14 @@ const PrimeToolBanner = ({
           <span className={styles.info_icon}>
             {bannerType === "b" ? (
               <img
-                src={`https://img.etimg.com/photo/msid-114258677,quality-100/unlockPower.jpg`}
+                src={`https://img.etimg.com/photo/msid-114258677/unlockPower.jpg`}
                 height={50}
                 width={128}
                 alt="prime image logo"
               />
             ) : (
               <img
-                src={`https://img.etimg.com/photo/msid-114258681,quality-100/primeimg2.jpg`}
+                src={`https://img.etimg.com/photo/msid-114258681/primeimg2.jpg`}
                 height={50}
                 width={91}
                 alt="prime image"

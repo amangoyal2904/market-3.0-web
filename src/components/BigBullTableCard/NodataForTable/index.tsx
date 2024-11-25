@@ -6,7 +6,7 @@ const NodataForTable = React.memo(({ title = "" }: any) => {
     <>
       <div className={styles.nodata}>
         <img
-          src={`https://img.etimg.com/photo/msid-114377317,quality-100/notfoundicon.jpg`}
+          src={`https://img.etimg.com/photo/msid-114377317/notfoundicon.jpg`}
           alt={`not found icon`}
           width={164}
           height={137}
