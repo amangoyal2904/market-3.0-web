@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import ETPagination from "../Common/Pagination/Pagination";
 import WatchlistAddition from "../WatchlistAddition";
 import { getStockUrl } from "@/utils/utility";
@@ -36,7 +34,7 @@ const companyPage = (companyName: string) => {
 
 const StockLink = (ele: any) => {
   return (
-    <Link
+    <a
       className={styles.cardTitle}
       onClick={() =>
         companyPage(
@@ -48,7 +46,7 @@ const StockLink = (ele: any) => {
       href={getStockUrl(ele?.companyId, ele?.seoName)}
     >
       {ele?.companyName || ele?.companyShortName || ele?.companyName2}
-    </Link>
+    </a>
   );
 };
 

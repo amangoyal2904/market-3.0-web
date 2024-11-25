@@ -7,7 +7,6 @@ import { getStockUrl } from "@/utils/utility";
 import { trackingEvent } from "@/utils/ga";
 import styles from "./styles.module.scss";
 import { dateFormat } from "@/utils";
-import Link from "next/link";
 
 interface CardItem {
   symbol: string;
@@ -65,7 +64,7 @@ const CardsList: React.FC<CardProps> = ({
           {listData?.map((ele) => (
             <div className={styles.card} key={ele?.compid}>
               <div className={styles.cardHeader}>
-                <Link
+                <a
                   className={styles.cardTitle}
                   onClick={() =>
                     companyPage(
@@ -81,7 +80,7 @@ const CardsList: React.FC<CardProps> = ({
                   {ele?.companyName ||
                     ele?.companyShortName ||
                     ele?.companyName2}
-                </Link>
+                </a>
                 <WatchlistAddition
                   companyName={ele?.companyName}
                   companyId={ele?.compid}
