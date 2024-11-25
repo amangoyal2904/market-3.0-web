@@ -387,7 +387,6 @@ export const TVChartContainer = (
     useRef<HTMLDivElement>() as React.MutableRefObject<HTMLInputElement>;
   // Special handling for props.symbolData.type and props.interval
   let param_periodicity = props.interval as ResolutionString;
-
   if (
     (assestType === "mcx" ||
       assestType === "forex" ||
@@ -441,7 +440,15 @@ export const TVChartContainer = (
       user_id: props.user_id,
       theme: props.theme,
       time_frames: [
-        { text: "1D", resolution: "1" as ResolutionString },
+        {
+          text: "1D",
+          resolution:
+            assestType === "mcx" ||
+            assestType === "forex" ||
+            assestType === "commodity"
+              ? ("15" as ResolutionString)
+              : ("1" as ResolutionString),
+        },
         { text: "5D", resolution: "15" as ResolutionString },
         { text: "1M", resolution: "1D" as ResolutionString },
         { text: "3M", resolution: "1D" as ResolutionString },
