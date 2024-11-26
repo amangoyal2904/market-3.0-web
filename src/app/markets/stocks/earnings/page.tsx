@@ -34,7 +34,7 @@ const StocksEarningsPage = async () => {
     try {
       //console.log("______",`${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=5766568`)
       const response = await service.get({
-        url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=5766568`,
+        url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=5766568&mode=hierarchy`,
         params: {},
       });
       const data = response ? await response?.json() : {};
