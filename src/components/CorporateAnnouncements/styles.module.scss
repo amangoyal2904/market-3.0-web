@@ -18,7 +18,7 @@
 // Base layout styles
 .contentBox {
   display: inline-block;
-  width: 1260px;
+  max-width: 1260px;
   text-align: left;
 }
 
@@ -30,6 +30,7 @@
   .paginationBox {
     @extend .contentBox;
     padding: 0 10px;
+    width: 100%;
   }
 
   .cardsContainer {
@@ -43,10 +44,11 @@
   border: 1px solid #e0e0e0;
   border-radius: 10px;
   padding: 16px;
-  width: 400px;
+  max-width: 400px;
   height: 200px;
   margin: 10px;
   float: left;
+  width: calc(33% - 15px);
 
   &:nth-child(3n) {
     margin-right: 0;
