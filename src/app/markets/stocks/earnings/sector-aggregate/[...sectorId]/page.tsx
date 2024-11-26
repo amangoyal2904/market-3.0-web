@@ -42,7 +42,7 @@ const SectorPage = async (props: any) => {
   const fetchTopNews = async () => {
     try {
       const response = await service.get({
-        url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=5766568`,
+        url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=5766568&mode=hierarchy`,
         params: {},
       });
       const data = response ? await response?.json() : {};
