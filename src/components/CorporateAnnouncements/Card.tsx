@@ -106,6 +106,7 @@ const CardsList: React.FC<CardProps> = ({
                 <a
                   onClick={() => viewAnnounncement(ele?.compid)}
                   target="_blank"
+                  rel="nofollow noreferrer"
                   href={ele?.attachmentURL}
                   className={styles.pdfButton}
                 >
