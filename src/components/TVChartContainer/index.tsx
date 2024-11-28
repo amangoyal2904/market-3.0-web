@@ -15,7 +15,7 @@ import {
   LineToolsAndGroupsState,
   StudyTemplateData,
   StudyTemplateMetaInfo,
-} from "../../../public/static/v28/charting_library";
+} from "../../../public/static/v283/charting_library";
 import { trackingEvent } from "@/utils/ga";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
@@ -432,7 +432,7 @@ export const TVChartContainer = (
           expectedOrder: "latestFirst",
         },
       ),
-      library_path: "/marketsweb/static/v28/charting_library/",
+      library_path: "/marketsweb/static/v283/charting_library/",
       locale: "en",
       disabled_features: props.disabled_features,
       enabled_features: props.enabled_features,

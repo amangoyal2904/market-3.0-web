@@ -6,7 +6,7 @@ import {
   ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
   ResolutionString,
-} from "../../../public/static/v28/charting_library";
+} from "../../../public/static/v283/charting_library";
 import Script from "next/script";
 import GuageChart from "./GuageChart";
 import { useStateContext } from "@/store/StateContext";
@@ -72,7 +72,7 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
   return (
     <>
       <Script
-        src="/marketsweb/static/v28/datafeeds/udf/dist/bundle.js"
+        src="/marketsweb/static/v283/datafeeds/udf/dist/bundle.js"
         strategy="lazyOnload"
         onReady={() => {
           setIsScriptReady(true);

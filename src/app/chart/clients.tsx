@@ -77,7 +77,7 @@ const ChartClient = (defaultWidgetProps: any) => {
   return (
     <>
       <Script
-        src="/marketsweb/static/v28/datafeeds/udf/dist/bundle.js"
+        src="/marketsweb/static/v283/datafeeds/udf/dist/bundle.js"
         strategy="afterInteractive"
         onReady={() => {
           setIsScriptReady(true);

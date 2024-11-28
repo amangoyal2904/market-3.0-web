@@ -187,7 +187,7 @@ const TechnicalChartsClient = (defaultWidgetProps: any) => {
       <Header symbolInfo={symbolData} />
       <div className={styles.chartWrapper}>
         <Script
-          src="/marketsweb/static/v28/datafeeds/udf/dist/bundle.js"
+          src="/marketsweb/static/v283/datafeeds/udf/dist/bundle.js"
           strategy="lazyOnload"
           onReady={() => {
             setIsScriptReady(true);
