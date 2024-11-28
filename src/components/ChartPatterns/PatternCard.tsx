@@ -42,6 +42,7 @@ export const PatternCard = ({
     theme: "light",
     enabled_features: ["show_zoom_and_move_buttons_on_touch"],
     disabled_features: [
+      "use_localstorage_for_settings",
       "header_saveload",
       "left_toolbar",
       "header_widget",
@@ -276,7 +277,6 @@ export const PatternCard = ({
               gaHit={false}
               chartType={null}
               savePatternImages={false}
-              dontSave={true}
             />
           </div>
         </div>
