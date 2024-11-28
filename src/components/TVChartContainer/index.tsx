@@ -412,9 +412,7 @@ export const TVChartContainer = (
   };
 
   const initializeChart = () => {
-    const loadLastChart = !props.disabled_features?.includes(
-      "use_localstorage_for_settings",
-    );
+    const loadLastChart = !props.disabled_features?.includes("header_saveload");
 
     const widgetOptions: ChartingLibraryWidgetOptions = {
       debug: false,
