@@ -1,7 +1,7 @@
-import { formatNumber, getCookie } from "@/utils";
+import { formatNumber } from "@/utils";
 import styles from "./IndicesDetails.module.scss";
 import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
@@ -9,14 +9,14 @@ import {
 } from "../../../public/static/v283/charting_library";
 import Script from "next/script";
 import GuageChart from "./GuageChart";
-import { useStateContext } from "@/store/StateContext";
 
-const TVChartContainer = dynamic(() =>
-  import("@/components/TVChartContainer").then((mod) => mod.TVChartContainer),
+const TVChartContainer = dynamic(
+  () =>
+    import("@/components/TVChartContainer").then((mod) => mod.TVChartContainer),
+  { ssr: false },
 );
 
 const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
-  const { state } = useStateContext();
   const [isScriptReady, setIsScriptReady] = useState(false);
   const { maScore, bullishMA, bearishMA, movingAverage, pivotLevel } = data;
 
@@ -50,23 +50,22 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
     "adaptive_logo",
     "header_screenshot",
     "go_to_date",
-    "header_saveload",
-    "use_localstorage_for_settings",
-    "header_symbol_search",
+    "show_object_tree",
+    "symbol_info",
     "show_right_widgets_panel_by_default",
     "popup_hints",
     "chart_property_page_trading",
-    "go_to_date",
-    "show_object_tree",
-    "symbol_info",
+    "header_saveload",
+    "header_symbol_search",
   ];
 
   const defaultWidgetProps: Partial<ChartingLibraryWidgetOptions> = {
     symbol: symbol,
-    interval: "1" as ResolutionString,
+    interval: "1D" as ResolutionString,
     user_id: "default",
-    disabled_features: disabledFeatures,
     enabled_features: ["show_zoom_and_move_buttons_on_touch"],
+    disabled_features: disabledFeatures,
+    fullscreen: false,
   };
 
   return (
@@ -171,7 +170,12 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
           {isScriptReady && (
             <TVChartContainer
               {...defaultWidgetProps}
+              patternId=""
+              gaHit="true"
+              chartType=""
+              savePatternImages="false"
               updatePageUrl="false"
+              isLogin="false"
               showVolume={true}
               assestType="index"
             />

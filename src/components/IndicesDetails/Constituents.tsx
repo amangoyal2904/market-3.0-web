@@ -12,9 +12,6 @@ import refeshConfig from "@/utils/refreshConfig.json";
 import SlickSlider from "../SlickSlider";
 import { getCookie } from "@/utils";
 import OtherIndicesCard from "./OtherIndicesCard";
-import Link from "next/link";
-import APIS_CONFIG from "@/network/api_config.json";
-import { APP_ENV } from "@/utils";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
 import LiveBlogIndexNews from "./LiveBlogIndexNews";
 

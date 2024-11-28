@@ -194,7 +194,6 @@ const Chart = async () => {
         "go_to_date",
         "show_object_tree",
         "symbol_info",
-        "header_fullscreen_button",
         "show_right_widgets_panel_by_default",
         "popup_hints",
         "chart_property_page_trading",
