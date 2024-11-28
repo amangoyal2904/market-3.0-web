@@ -20,6 +20,7 @@ const ChartClient = (defaultWidgetProps: any) => {
     savePatternImages,
     showVolume,
     assestType,
+    dontSave,
   } = defaultWidgetProps;
   const { state } = useStateContext();
   const { ssoReady, isLogin, ssoid } = state.login;
@@ -94,6 +95,7 @@ const ChartClient = (defaultWidgetProps: any) => {
           isLogin={isLogin}
           showVolume={showVolume}
           assestType={assestType}
+          dontSave={dontSave}
         />
       ) : (
         <div className={styles.loadingIndicator}>

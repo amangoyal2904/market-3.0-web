@@ -45,6 +45,7 @@ const ChartClientSave = (defaultWidgetProps: any) => {
           isLogin={false}
           showVolume={showVolume}
           assestType={assestType}
+          dontSave={true}
         />
       ) : (
         <div className={styles.loadingIndicator}>

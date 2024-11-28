@@ -276,6 +276,7 @@ export const PatternCard = ({
               gaHit={false}
               chartType={null}
               savePatternImages={false}
+              dontSave={true}
             />
           </div>
         </div>

@@ -228,6 +228,7 @@ const Chart = async () => {
       savePatternImages={savePatternImages}
       showVolume={type === "stock" ? true : false}
       assestType={type}
+      dontSave={dontSave == "true" ? true : false}
     />
   );
 };

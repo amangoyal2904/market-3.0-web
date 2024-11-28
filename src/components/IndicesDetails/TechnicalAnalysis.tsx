@@ -174,6 +174,7 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
               isLogin="false"
               showVolume={true}
               assestType="index"
+              dontSave={true}
             />
           )}
         </div>
