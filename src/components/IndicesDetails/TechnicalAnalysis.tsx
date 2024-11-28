@@ -170,11 +170,7 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
           {isScriptReady && (
             <TVChartContainer
               {...defaultWidgetProps}
-              patternId=""
-              gaHit="true"
-              chartType=""
-              savePatternImages="false"
-              updatePageUrl="false"
+              chartType="candle"
               isLogin="false"
               showVolume={true}
               assestType="index"

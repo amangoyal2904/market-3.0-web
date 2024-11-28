@@ -156,13 +156,12 @@ const Chart = async () => {
     }
 
     if (dontSave == "true") {
-      onlyChart.push("header_saveload", "use_localstorage_for_settings");
+      onlyChart.push("header_saveload");
     }
 
     if (patternId != "" && patternId != null) {
       onlyChart.push(
         "header_saveload",
-        "use_localstorage_for_settings",
         "left_toolbar",
         "header_widget",
         "timeframes_toolbar",
