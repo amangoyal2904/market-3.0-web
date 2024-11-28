@@ -156,13 +156,12 @@ const Chart = async () => {
     }
 
     if (dontSave == "true") {
-      onlyChart.push("header_saveload", "use_localstorage_for_settings");
+      onlyChart.push("header_saveload");
     }
 
     if (patternId != "" && patternId != null) {
       onlyChart.push(
         "header_saveload",
-        "use_localstorage_for_settings",
         "left_toolbar",
         "header_widget",
         "timeframes_toolbar",
@@ -229,6 +228,7 @@ const Chart = async () => {
       savePatternImages={savePatternImages}
       showVolume={type === "stock" ? true : false}
       assestType={type}
+      dontSave={dontSave == "true" ? true : false}
     />
   );
 };

@@ -370,6 +370,7 @@ export const TVChartContainer = (
     showVolume?: boolean;
     symbolData?: any;
     assestType?: any;
+    dontSave?: boolean;
   },
 ) => {
   const {
@@ -381,6 +382,7 @@ export const TVChartContainer = (
     isLogin = false,
     showVolume = true,
     assestType,
+    dontSave = false,
   } = props;
 
   const chartContainerRef =
@@ -412,7 +414,7 @@ export const TVChartContainer = (
   };
 
   const initializeChart = () => {
-    const loadLastChart = !props.disabled_features?.includes("header_saveload");
+    const loadLastChart = !dontSave;
 
     const widgetOptions: ChartingLibraryWidgetOptions = {
       debug: false,
