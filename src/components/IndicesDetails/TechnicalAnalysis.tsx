@@ -55,6 +55,7 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
     "show_right_widgets_panel_by_default",
     "popup_hints",
     "chart_property_page_trading",
+    "use_localstorage_for_settings",
     "header_saveload",
     "header_symbol_search",
   ];
@@ -174,7 +175,6 @@ const IndicesTechnicalAnalysis = React.memo(({ data, symbol }: any) => {
               isLogin="false"
               showVolume={true}
               assestType="index"
-              dontSave={true}
             />
           )}
         </div>

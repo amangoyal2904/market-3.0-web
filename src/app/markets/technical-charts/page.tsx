@@ -6,7 +6,6 @@ import {
   getSymbolInfo,
 } from "@/utils/utility";
 import {
-  ChartingLibraryFeatureset,
   ChartingLibraryWidgetOptions,
   ResolutionString,
 } from "../../../../public/static/v283/charting_library/charting_library";
@@ -94,74 +93,14 @@ const getCommonData = () => {
     return { timeframe, interval, defaultPeriod };
   };
 
-  const getOnlyChartFeatures = (
-    hideMenu: boolean,
-    dontSave: boolean,
-    patternId: string | null,
-  ) => {
-    const onlyChart: ChartingLibraryFeatureset[] = [];
-
-    if (
-      searchParams.get("symbol_label") === "false" ||
-      searchParams.get("symbol_textbox") === "false"
-    ) {
-      onlyChart.push("header_symbol_search");
-    }
-
-    if (hideMenu) {
-      onlyChart.push(
-        "left_toolbar",
-        "header_widget",
-        "legend_widget",
-        "timeframes_toolbar",
-        "main_series_scale_menu",
-        "context_menus",
-        "go_to_date",
-        "edit_buttons_in_legend",
-        "create_volume_indicator_by_default",
-        "border_around_the_chart",
-        "adaptive_logo",
-      );
-    }
-
-    if (dontSave) {
-      onlyChart.push("header_saveload");
-    }
-
-    if (patternId) {
-      onlyChart.push(
-        "header_saveload",
-        "left_toolbar",
-        "header_widget",
-        "timeframes_toolbar",
-        "main_series_scale_menu",
-        "context_menus",
-        "go_to_date",
-        "edit_buttons_in_legend",
-        "create_volume_indicator_by_default",
-        "border_around_the_chart",
-        "adaptive_logo",
-      );
-    }
-
-    return onlyChart;
-  };
-
   const symbol = getSymbol();
   const { timeframe, interval, defaultPeriod } = getInterval();
-  const onlyChartFeatures = getOnlyChartFeatures(
-    searchParams.get("no_menu") === "true" ||
-      searchParams.get("no_menu") === "1",
-    searchParams.get("dont_save") === "true",
-    searchParams.get("patternid"),
-  );
 
   return {
     symbol,
     timeframe,
     interval,
     defaultPeriod,
-    onlyChartFeatures,
     searchParams,
   };
 };
@@ -182,32 +121,23 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const TechnicalCharts = async () => {
-  const {
-    symbol,
-    timeframe,
-    interval,
-    defaultPeriod,
-    onlyChartFeatures,
-    searchParams,
-  } = getCommonData();
-  const pageUrl = headers().get("x-url") || "";
+  const { symbol, timeframe, interval, defaultPeriod, searchParams } =
+    getCommonData();
   const defaultWidgetProps: Partial<ChartingLibraryWidgetOptions> = {
     symbol,
     interval: interval as ResolutionString,
     ...(defaultPeriod && { timeframe }),
     theme: searchParams.get("darktheme") === "true" ? "dark" : "light",
     enabled_features: ["show_zoom_and_move_buttons_on_touch"],
-    disabled_features: onlyChartFeatures.length
-      ? onlyChartFeatures
-      : [
-          "adaptive_logo",
-          "go_to_date",
-          "show_object_tree",
-          "symbol_info",
-          "show_right_widgets_panel_by_default",
-          "popup_hints",
-          "chart_property_page_trading",
-        ],
+    disabled_features: [
+      "adaptive_logo",
+      "go_to_date",
+      "show_object_tree",
+      "symbol_info",
+      "show_right_widgets_panel_by_default",
+      "popup_hints",
+      "chart_property_page_trading",
+    ],
     fullscreen: false,
   };
 
