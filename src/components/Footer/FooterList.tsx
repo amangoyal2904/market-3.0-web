@@ -42,24 +42,22 @@ const FooterList: React.FC<Props> = ({ title, data }) => {
           {text} <span className={`${styles.caret} eticon_caret_down`}></span>
         </div>
         <div className={styles.footerLinks}>
-          <div className={`${styles.currLinks}`}>
-            {data &&
-              data.length > 0 &&
-              data.map((item: any, index: number) => {
-                return (
-                  <Fragment key={`footer_${index}`}>
-                    <a
-                      target="_blank"
-                      title={item.title}
-                      href={item.url}
-                      key={index}
-                    >
-                      {item.title}
-                    </a>
-                  </Fragment>
-                );
-              })}
-          </div>
+          {data &&
+            data.length > 0 &&
+            data.map((item: any, index: number) => {
+              return (
+                <Fragment key={`footer_${index}`}>
+                  <a
+                    target="_blank"
+                    title={item.title}
+                    href={item.url}
+                    key={index}
+                  >
+                    {item.title}
+                  </a>
+                </Fragment>
+              );
+            })}
         </div>
       </div>
     </>

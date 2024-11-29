@@ -181,11 +181,7 @@ const Search: React.FC<Props> = ({ pos }) => {
       {searchEnable && pos == "header" && (
         <div className={styles.background_overlay}></div>
       )}
-      <div
-        className={`dflex ${styles[pos + "_search"]}`}
-        id={styles.searchBar}
-        ref={popupRef}
-      >
+      <div className="dflex" id={styles.searchBar} ref={popupRef}>
         <span className={`eticon_search ${styles.searchIcon}`}></span>
         <input
           autoComplete="off"
