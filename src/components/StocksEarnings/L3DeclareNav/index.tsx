@@ -1,5 +1,4 @@
 import styels from "./styles.module.scss";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import leftL3Nav from "../../../DataJson/earningL3Nav.json";
 import { trackingEvent } from "@/utils/ga";
@@ -29,7 +28,7 @@ const L3DeclareNav = () => {
                   key={`${index}-${item.link}`}
                   onClick={() => clickHandler(item.title)}
                 >
-                  <Link href={`${item.link}`}>{item.title}</Link>
+                  <a href={`${item.link}`}>{item.title}</a>
                 </li>
               );
             })

@@ -5,7 +5,6 @@ import { dateFormat, formatNumber } from "@/utils";
 import { renderIconPaths } from "@/utils/iconUtils";
 import StockDescription from "./StockDescription";
 import ChartClient from "@/app/chart/clients";
-import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 import ChartPatternLogo from "./ChartPatternLogo";
 
@@ -33,7 +32,7 @@ export const PatternCard = ({
 }: PatternCardProps) => {
   const [showTechnicalChart, setShowTechnicalChart] = useState(false);
   const [imageSrc, setImageSrc] = useState(
-    "https://img.etimg.com/photo/msid-114377331/chart_pattern_placeholder.jpg",
+    "https://img.etimg.com/photo/msid-114377331/chart_pattern_placeholder.jpg"
   );
 
   const defaultWidgetProps: any = {
@@ -206,7 +205,7 @@ export const PatternCard = ({
         onClick={handleImageClick}
         onError={() =>
           setImageSrc(
-            "https://img.etimg.com/photo/msid-114377331/chart_pattern_placeholder.jpg",
+            "https://img.etimg.com/photo/msid-114377331/chart_pattern_placeholder.jpg"
           )
         }
       />
@@ -221,7 +220,7 @@ export const PatternCard = ({
       {!isLocked ? (
         <>
           {latestCard && (
-            <Link
+            <a
               className={styles.link}
               href={`/stocks/chart-patterns/past-performance/${patternSeoName}`}
               title={`View ${patternName} Past Performance`}
@@ -234,7 +233,7 @@ export const PatternCard = ({
               }
             >
               View Past Performance <i className="eticon_next"></i>
-            </Link>
+            </a>
           )}
           <div className={styles.bottomBar}>
             <StockDescription patternData={patternData} />

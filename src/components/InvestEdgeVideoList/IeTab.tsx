@@ -1,6 +1,5 @@
 "use client";
 import styles from "./InvestEdgeVideoList.module.scss";
-import Link from "next/link";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 
@@ -24,23 +23,23 @@ export const IeTab = (props: any) => {
             className={`${styles.mainTab} ${item.seoPath == activeTab ? styles.active : ""}`}
           >
             {item.label == "Live Stream" ? (
-              <Link
+              <a
                 href={item.redirectLink}
                 target="_blank"
                 onClick={() => handleTabTracking(item.label)}
                 title={item.label}
               >
                 {item.label}
-              </Link>
+              </a>
             ) : (
-              <Link
+              <a
                 data-tt={item.seoPath}
                 href={`${(GLOBAL_CONFIG as any)["INVESTEDGE_BASELINK"].list}${item.seoPath}`}
                 onClick={() => handleTabTracking(item.label)}
                 title={item.label}
               >
                 {item.label}
-              </Link>
+              </a>
             )}
           </li>
         ))}

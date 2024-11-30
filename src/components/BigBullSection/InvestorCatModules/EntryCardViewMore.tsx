@@ -1,5 +1,4 @@
 import styles from "./styles.module.scss";
-import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 
 const EntryCardViewMore = ({ linkTitle, linkHref, cartType }: any) => {
@@ -14,14 +13,14 @@ const EntryCardViewMore = ({ linkTitle, linkHref, cartType }: any) => {
     <div
       className={`${styles.card} ${styles.viewMoreSec} ${cartType !== "" ? styles[cartType] : ""}`}
     >
-      <Link
+      <a
         href={`${linkHref}`}
         onClick={() => gaTrackingTabNameClick(linkTitle)}
         title={linkTitle}
       >
         <span className={styles.linkTxt}>{linkTitle}</span>
         <span className={styles.arrow}></span>
-      </Link>
+      </a>
     </div>
   );
 };

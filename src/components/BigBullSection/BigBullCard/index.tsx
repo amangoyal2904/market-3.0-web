@@ -1,12 +1,10 @@
 "use client";
 import styles from "./styles.module.scss";
 import { useEffect, useState, useRef, Suspense } from "react";
-import Link from "next/link";
 import { getStockUrl } from "@/utils/utility";
 import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// import WatchlistAddition from "../../WatchlistAddition";
 import { useStateContext } from "@/store/StateContext";
 import dynamic from "next/dynamic";
 import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
@@ -130,7 +128,7 @@ const BigBullCard = ({ data, type, sectionName }: any) => {
                 {data.investorsList.length &&
                   data?.investorsList.map((slide: any, index: number) => (
                     <div key={index}>
-                      <Link
+                      <a
                         onClick={() => gaTrackingInvestorNameClick(slide.name)}
                         href={`/markets/top-india-investors-portfolio/${slide?.sharkSeoName},expertid-${slide?.sharkID}`}
                         className={styles.cardName}
@@ -146,14 +144,14 @@ const BigBullCard = ({ data, type, sectionName }: any) => {
                           loading="lazy"
                         />
                         <span className={styles.smallTxt}>{slide.name}</span>
-                      </Link>
+                      </a>
                     </div>
                   ))}
               </Slider>
             </div>
           </div>
         ) : (
-          <Link
+          <a
             onClick={() =>
               gaTrackingInvestorNameClick(data?.investorIntro?.name)
             }
@@ -180,7 +178,7 @@ const BigBullCard = ({ data, type, sectionName }: any) => {
               )}
               {data?.investorIntro?.name}
             </span>
-          </Link>
+          </a>
         )}
         {(type === "card2" || type === "card3") && (
           <div className={styles.middleTop}>
@@ -192,7 +190,7 @@ const BigBullCard = ({ data, type, sectionName }: any) => {
                     onClick={() =>
                       gaTrackingCompanyNameClick(
                         data?.companyData?.text ||
-                          data?.bestPickStockData?.companyData?.text,
+                          data?.bestPickStockData?.companyData?.text
                       )
                     }
                     href={getStockUrl(
@@ -201,7 +199,7 @@ const BigBullCard = ({ data, type, sectionName }: any) => {
                       data?.companyData?.companySeoName ||
                         data?.bestPickStockData?.companyData?.companySeoName,
                       data?.companyData?.companyType ||
-                        data?.bestPickStockData?.companyData?.companyType,
+                        data?.bestPickStockData?.companyData?.companyType
                     )}
                     target="_blank"
                   >
@@ -333,7 +331,7 @@ const BigBullCard = ({ data, type, sectionName }: any) => {
                       </li>
                     )
                   );
-                },
+                }
               )}
             </ul>
           </div>
@@ -369,7 +367,7 @@ const BigBullCard = ({ data, type, sectionName }: any) => {
                                 href={getStockUrl(
                                   card.uiLabel.companyId,
                                   card.uiLabel.companySeoName,
-                                  card.uiLabel.companyType,
+                                  card.uiLabel.companyType
                                 )}
                                 target="_blank"
                               >

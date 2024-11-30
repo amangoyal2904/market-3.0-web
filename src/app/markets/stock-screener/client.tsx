@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import styles from "./style.module.scss";
-import Link from "next/link";
 
 const StockScreenerPage = ({ data }: any) => {
   const defaultStocksData: any =
@@ -17,7 +16,7 @@ const StockScreenerPage = ({ data }: any) => {
       : [];
   const [stockData, setStockData] = useState(defaultStocksData);
   const [showMoreMap, setShowMoreMap] = useState<{ [key: number]: boolean }>(
-    {},
+    {}
   );
 
   const toggleShowMore = (index: number) => {
@@ -52,7 +51,7 @@ const StockScreenerPage = ({ data }: any) => {
                         key={screen.screenerId}
                         className={`${index > 3 && !showMore ? styles.hidden : ""}`}
                       >
-                        <Link
+                        <a
                           title={screen.name}
                           href={`/markets/stock-screener/${screen.seoName ? screen.seoName : "test-seo-page"}/screens/scrid-${screen.screenerId}`}
                           className={styles.liItemList}
@@ -69,7 +68,7 @@ const StockScreenerPage = ({ data }: any) => {
                             </span>
                             <span>stocks</span>
                           </div>
-                        </Link>
+                        </a>
                       </li>
                     );
                   })

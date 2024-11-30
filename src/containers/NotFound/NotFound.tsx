@@ -1,5 +1,4 @@
 import Blocker from "@/components/Blocker";
-import Link from "next/link";
 import React from "react";
 
 const NotFound = () => {
@@ -11,18 +10,18 @@ const NotFound = () => {
         Explore below pages meanwhile
       </h1>
       <div className="dflex align-item-center center p20">
-        <Link href="/watchlist" className="default-btn">
+        <a href="/watchlist" className="default-btn">
           Watchlist
-        </Link>
-        <Link className="default-btn" href="/stocks/marketstats/top-gainers">
+        </a>
+        <a className="default-btn" href="/stocks/marketstats/top-gainers">
           Marketstats Intraday
-        </Link>
-        <Link className="default-btn" href="/markets">
+        </a>
+        <a className="default-btn" href="/markets">
           Markets
-        </Link>
-        <Link className="default-btn" href="/markets/stock-screener">
+        </a>
+        <a className="default-btn" href="/markets/stock-screener">
           Stock Screener
-        </Link>
+        </a>
       </div>
     </>
   );

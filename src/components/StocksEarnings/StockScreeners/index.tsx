@@ -1,6 +1,5 @@
 import styels from "./style.module.scss";
 import SlickSlider from "../../SlickSlider";
-import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 
 const StockScreeners = ({ data }: any) => {
@@ -85,7 +84,7 @@ const StockScreeners = ({ data }: any) => {
               (item: any, index: any) => ({
                 content: (
                   <div key={`${index}-scCard`} className={styels.mainScrCard}>
-                    <Link
+                    <a
                       href={`/markets/stock-screener/${item.seoName}/screens/scrid-${item.screenerId}`}
                       className={styels.linkrap}
                       onClick={() => gaTrackingSearchClickHandler(item.name)}
@@ -100,10 +99,10 @@ const StockScreeners = ({ data }: any) => {
                           <span>Stocks</span>
                         </div>
                       </div>
-                    </Link>
+                    </a>
                   </div>
                 ),
-              }),
+              })
             )}
             key={`slider-ssc`}
             sliderId={`slider-earningsScreener`}

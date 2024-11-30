@@ -13,7 +13,6 @@ import SlickSlider from "../SlickSlider";
 import { getCookie } from "@/utils";
 import OtherSectorsCard from "./OtherSectorsCard";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
-import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 
 const SectorsConstituents = React.memo(
@@ -91,7 +90,7 @@ const SectorsConstituents = React.memo(
 
     const onPersonalizeHandlerfun = async (
       newActiveId: any = "",
-      mode = "",
+      mode = ""
     ) => {
       if (mode === "update") {
         setModalBodyText({
@@ -136,7 +135,7 @@ const SectorsConstituents = React.memo(
         setPayload((prevPayload: any) => {
           const sortConfig = prevPayload.sort;
           const isFieldSorted = sortConfig.find(
-            (config: any) => config.field === field,
+            (config: any) => config.field === field
           );
           let newSortConfig;
 
@@ -144,7 +143,7 @@ const SectorsConstituents = React.memo(
             newSortConfig = sortConfig.map((config: any) =>
               config.field === field
                 ? { ...config, order: config.order === "ASC" ? "DESC" : "ASC" }
-                : config,
+                : config
             );
           } else {
             newSortConfig = [...sortConfig, { field, order: "DESC" }];
@@ -153,7 +152,7 @@ const SectorsConstituents = React.memo(
           return { ...prevPayload, sort: newSortConfig };
         });
       },
-      [_payload],
+      [_payload]
     );
 
     const onPaginationChange = async (pageNumber: number) => {
@@ -163,7 +162,7 @@ const SectorsConstituents = React.memo(
 
     const sectorFitlerHandlerChange = async (
       sectorid: any,
-      sectorname: any,
+      sectorname: any
     ) => {
       setProcessingLoader(true);
       setResetSort(sectorid);
@@ -176,7 +175,7 @@ const SectorsConstituents = React.memo(
 
     const toasterRemovePersonaliseViewCloseHandlerFun = async (
       value: boolean,
-      data: any,
+      data: any
     ) => {
       setToasterPersonaliseViewRemove(false);
       if (value && data && data.id && data.id !== "") {
@@ -231,7 +230,7 @@ const SectorsConstituents = React.memo(
       },
       refeshConfig.marketstats,
       [_payload, isPrime, currentMarketStatus, fallbackWebsocket],
-      constituentsRef,
+      constituentsRef
     );
 
     useEffect(() => {
@@ -296,7 +295,7 @@ const SectorsConstituents = React.memo(
               />
             </div>
             <div className={styles.viewOtherBox}>
-              <Link
+              <a
                 href={"/stocks/sectors"}
                 title="View All Sectors"
                 className={styles.viewAll}
@@ -310,7 +309,7 @@ const SectorsConstituents = React.memo(
               >
                 View All Sectors{" "}
                 <span className={`eticon_next ${styles.rightIcon}`}></span>
-              </Link>
+              </a>
             </div>
           </div>
         )}
@@ -330,7 +329,7 @@ const SectorsConstituents = React.memo(
         )}
       </>
     );
-  },
+  }
 );
 SectorsConstituents.displayName = "SectorsConstituents";
 export default SectorsConstituents;

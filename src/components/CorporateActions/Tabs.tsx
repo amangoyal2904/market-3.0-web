@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useState } from "react";
-import Link from "next/link";
 
 import StockFilterNifty from "../StockFilterNifty";
 import CustomDropdown from "../Common/CustomDropdown";
@@ -71,7 +70,7 @@ const CorporateActionseTabs = React.memo(
           event_label: duration,
         });
       },
-      [setFilters],
+      [setFilters]
     );
 
     const showFilterMenu = useCallback((value: boolean) => {
@@ -97,7 +96,7 @@ const CorporateActionseTabs = React.memo(
           event_label: `${name}_${id}`,
         });
       },
-      [setFilters, setNiftyFilterData],
+      [setFilters, setNiftyFilterData]
     );
 
     return (
@@ -110,7 +109,7 @@ const CorporateActionseTabs = React.memo(
                 activeTab === item.key ? styles.active : ""
               }`}
             >
-              <Link
+              <a
                 title={item.label}
                 href={`/markets/corporate-actions${item.key === "overview" ? "" : `/${item.key}`}`}
                 onClick={() => {
@@ -122,7 +121,7 @@ const CorporateActionseTabs = React.memo(
                 }}
               >
                 {item.label}
-              </Link>
+              </a>
             </li>
           ))}
         </ul>
@@ -158,7 +157,7 @@ const CorporateActionseTabs = React.memo(
         </div>
       </div>
     );
-  },
+  }
 );
 
 CorporateActionseTabs.displayName = "CorporateActionseTabs";

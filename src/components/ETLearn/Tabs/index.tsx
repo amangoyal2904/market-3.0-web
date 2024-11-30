@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "./styels.module.scss";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { trackingEvent } from "@/utils/ga";
 
@@ -45,13 +44,13 @@ const ETLearnTabs = ({ tabData }: any) => {
                     {item?.label}
                   </a>
                 ) : (
-                  <Link
+                  <a
                     href={`${item?.seoPath}`}
                     title={item?.label}
                     onClick={() => gaTrackingClickHandler(item?.label)}
                   >
                     {item?.label}
-                  </Link>
+                  </a>
                 )}
               </li>
             );

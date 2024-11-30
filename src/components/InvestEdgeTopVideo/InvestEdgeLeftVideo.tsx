@@ -3,7 +3,6 @@ import styles from "./InvestEdgeTopVideo.module.scss";
 import VideoEmbed from "../VideoEmbed";
 import { getViews } from "@/utils";
 import { getCookie } from "@/utils";
-import Link from "next/link";
 import ViewShareSec from "@/components/ETLearn/ViewShareSec";
 import { trackingEvent } from "@/utils/ga";
 
@@ -164,7 +163,7 @@ const InvestEdgeLeftVideo = ({ videoPlayData, selectedcategory }: any) => {
         root: null,
         rootMargin: "0px",
         threshold: 1, // Ensure the video is fully in view
-      },
+      }
     );
 
     if (liveStreamRef.current) {
@@ -209,14 +208,14 @@ const InvestEdgeLeftVideo = ({ videoPlayData, selectedcategory }: any) => {
         </div>
       )}
       <h3>
-        <Link
+        <a
           data-tt={videoSecSeoPath}
           href={`${videoSecSeoPath}/${videoTitelSlug}/${videoMsid}`}
           onClick={() => gaTrackingClickHandler(videoDetails?.title)}
           title={videoSecSeoPath.title}
         >
           {videoDetails?.title}
-        </Link>
+        </a>
       </h3>
       <ViewShareSec data={viewData} selectedcategory={selectedcategory} />
     </div>

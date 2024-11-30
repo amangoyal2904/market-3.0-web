@@ -5,13 +5,7 @@ import { APP_ENV } from "../../../utils";
 import APIS_CONFIG from "../../../network/api_config.json";
 import StockFilterNifty from "@/components/StockFilterNifty";
 import { fetchFilters, fetchSelectedFilter } from "@/utils/utility";
-import {
-  commonGetAPIHandler,
-  commonPostAPIHandler,
-} from "../../../utils/screeners";
-import Link from "next/link";
 
-import { getStockUrl } from "@/utils/utility";
 import useDebounce from "@/hooks/useDebounce";
 import { trackingEvent } from "@/utils/ga";
 
@@ -48,7 +42,7 @@ const UpcomingResults = ({
   const [activeTab, setActiveTab] = useState(0);
   const { debounce } = useDebounce();
   const _activeResult = latestResult.find(
-    (result) => result.value === activeResultValue,
+    (result) => result.value === activeResultValue
   );
   const _activeRetustText = _activeResult
     ? _activeResult.title
@@ -62,7 +56,7 @@ const UpcomingResults = ({
   const latestFilterRef = useRef<HTMLDivElement>(null); // Explicitly define the type
   const [queryResultData, setQueryResultData]: any[] = useState([]);
   const [query, setQuery] = useState(
-    bigSearchShow !== "no" ? queryComanyName : queryTitle,
+    bigSearchShow !== "no" ? queryComanyName : queryTitle
   );
   const searchRef = useRef<HTMLDivElement>(null);
   const [_payload, setPayload]: any = useState("");
@@ -84,16 +78,6 @@ const UpcomingResults = ({
     console.log("Fetching data for:", _q);
     const API_URL = (APIS_CONFIG as any)?.EARNINGS_SEARCH[APP_ENV];
     const _searchQuery = `?matchCompanyName=true&realstate=false&dvr=false&idr=false&trust=false&mcx=false&mf=false&nps=false&insideet=false&detail=false&forex=false&index=false&mecklai=false&etf=false&nonList=false&forETGraph=false&pagesize=5&outputtype=json&pp=false&earningsFlag=true&ticker=${_q}`;
-    // const response: any[] = await commonGetAPIHandler(
-    //   `EARNINGS_SEARCH`,
-    //   _searchQuery,
-    // );
-    // response && response.length > 0
-    //   ? setQueryResultData([...response])
-    //   : setQueryResultData([]);
-    // const resData = await fetch(`${API_URL}${_searchQuery}`)
-    // const data = await resData.json();
-    // console.log("___serch data ", data)
     try {
       const resData = await fetch(`${API_URL}${_searchQuery}`);
       if (!resData.ok) {
@@ -139,7 +123,7 @@ const UpcomingResults = ({
         month: "short",
       };
       const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
-        date,
+        date
       );
       return formattedDate;
     }
@@ -174,7 +158,7 @@ const UpcomingResults = ({
   const handleChangeData = async (
     id: any,
     name: string,
-    selectedTab: string,
+    selectedTab: string
   ) => {
     setShowFilter(false);
     //filterDataChange(id, name, selectedTab);
@@ -391,7 +375,7 @@ const UpcomingResults = ({
                                     : "";
                             return (
                               <li key={`${index}-${item?.tagId}`}>
-                                <Link
+                                <a
                                   href={linkGenrate}
                                   className={styles.resWrap}
                                   onClick={() => setQueryResultData([])}
@@ -413,7 +397,7 @@ const UpcomingResults = ({
                                       {item?.resultStatus}
                                     </span>
                                   </div>
-                                </Link>
+                                </a>
                               </li>
                             );
                           })}

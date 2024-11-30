@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import styles from "./styles.module.scss";
 import { APP_ENV, dateFormat, formatNumber } from "../../utils";
 import { useStateContext } from "../../store/StateContext";
-import Link from "next/link";
 import GLOBAL_CONFIG from "@/network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
 import dynamic from "next/dynamic";
@@ -238,18 +237,18 @@ const TableHtml = (props: any) => {
         {activeApi == "newRecos" && (
           <td className={styles.newRecosfundName}>
             <div className={styles.organisationName}>
-              <Link
+              <a
                 href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.seoName}-${obj.omId}/all${urlFilterHandle()}`}
                 className="linkHover"
                 title={obj.organisation}
               >
                 {obj.organisation}
-              </Link>
+              </a>
             </div>
           </td>
         )}
         <td className={styles.pdfIcon}>
-          <Link
+          <a
             onClick={() => {
               trackingEvent("et_push_event", {
                 event_category: "mercury_engagement",
@@ -267,7 +266,7 @@ const TableHtml = (props: any) => {
             >
               {renderIconPaths("eticon_pdf")}
             </span>
-          </Link>
+          </a>
         </td>
       </>
     );
@@ -357,7 +356,7 @@ const TableHtml = (props: any) => {
                   {activeApi == "recoByFH" ? (
                     <td>
                       <div className={styles.tdColWrap}>
-                        <Link
+                        <a
                           title={obj.organisation}
                           href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${obj.seoName}-${obj.omId}/all${urlFilterHandle()}`}
                           className="linkHover"
@@ -372,7 +371,7 @@ const TableHtml = (props: any) => {
                           <span className={`${styles.companyName} linkHover`}>
                             {obj.organisation}
                           </span>
-                        </Link>
+                        </a>
                       </div>
                     </td>
                   ) : (

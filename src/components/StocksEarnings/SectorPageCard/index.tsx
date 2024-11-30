@@ -4,7 +4,6 @@ import SectorCard from "../SectorCard";
 import { commonPostAPIHandler } from "../../../utils/screeners";
 import PaginationEarning from "../../BigBullTableCard/PaginationEarning";
 import Loader from "@/components/Loader";
-import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 import NoDataCard from "../DeclaredCards/NoDataCard";
 
@@ -27,16 +26,16 @@ const SectorPageCard = ({ data, tpName = "", sortingValue = "" }: any) => {
   const [_loading, setLoading] = useState(false);
   // State initialization
   const [activeTab, setActiveTab] = useState(
-    tpName === "under-performing" ? 1 : 0,
+    tpName === "under-performing" ? 1 : 0
   );
   const [tabContentData, setTabContentData] = useState<any[]>(
-    _tabData?.topSector?.sectorAggregateData || [],
+    _tabData?.topSector?.sectorAggregateData || []
   );
   const [_pageTopSector, setPageTopSector] = useState(
-    _tabData?.topSector?.pageSummary || {},
+    _tabData?.topSector?.pageSummary || {}
   );
   const [_pageUnderSector, setPageUnderSector] = useState(
-    _tabData?.underSector?.pageSummary || {},
+    _tabData?.underSector?.pageSummary || {}
   );
   const [_payloadTopSector, setPayloadTopSector] = useState({
     ..._allPayload?.topSector,
@@ -85,7 +84,7 @@ const SectorPageCard = ({ data, tpName = "", sortingValue = "" }: any) => {
           : null;
     const _topSector = await commonPostAPIHandler(
       `SECTOR_AGGREGATE`,
-      bodyPayload,
+      bodyPayload
     );
 
     if (_topSector && _topSector?.sectorAggregateData) {
@@ -158,7 +157,7 @@ const SectorPageCard = ({ data, tpName = "", sortingValue = "" }: any) => {
               key={item.id}
               onClick={() => clickHandler(item.title)}
             >
-              <Link href={`${item.link}`}>{item.title}</Link>
+              <a href={`${item.link}`}>{item.title}</a>
             </li>
           ))}
         </ul>

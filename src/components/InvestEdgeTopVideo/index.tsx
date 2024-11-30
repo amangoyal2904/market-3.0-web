@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./InvestEdgeTopVideo.module.scss";
-import Link from "next/link";
-import GLOBAL_CONFIG from "../../network/global_config.json";
 import { getViews, millisToMinutesAndSeconds } from "@/utils";
-import { calculateExtendedViews } from "../../utils";
 import ViewShareSec from "@/components/ETLearn/ViewShareSec";
 import { trackingEvent } from "@/utils/ga";
 
@@ -64,7 +61,7 @@ const InvestEdgeTopVideo = ({
       key={index}
       id={`section-${index}`}
     >
-      <Link
+      <a
         data-tt={seoPath}
         href={`${seoPath}/${videoTitelSlug}/${slide.msid}`}
         onClick={() => gaTrackingClickHandler(slide.title)}
@@ -78,9 +75,9 @@ const InvestEdgeTopVideo = ({
           </span>
         )}
         {/* <span className={styles.playButton}>&#9658;</span> */}
-      </Link>
+      </a>
       <h4>
-        <Link
+        <a
           data-tt={seoPath}
           href={`${seoPath}/${videoTitelSlug}/${slide.msid}`}
           onClick={() => gaTrackingClickHandler(slide.title)}
@@ -93,7 +90,7 @@ const InvestEdgeTopVideo = ({
                   : slide.title,
             }}
           />
-        </Link>
+        </a>
       </h4>
       <ViewShareSec
         data={viewData}

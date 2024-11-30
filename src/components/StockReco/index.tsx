@@ -1,6 +1,4 @@
 import styles from "./StockReco.module.scss"; // Import your CSS styles
-// import WatchlistAddition from "../WatchlistAddition";
-import Link from "next/link";
 import { formatNumber, APP_ENV } from "@/utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { trackingEvent } from "@/utils/ga";
@@ -66,7 +64,7 @@ const StockComponent = ({
         >
           <div className={styles.stocksBox}>
             <h2 title={data.organisation} className={styles.stocksTitle}>
-              <Link
+              <a
                 href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.seoName}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
                 className="linkHover"
                 title={data.organisation}
@@ -79,7 +77,7 @@ const StockComponent = ({
                 }}
               >
                 {data.organisation}
-              </Link>
+              </a>
             </h2>
             <div className={styles.updownTargetBox}>
               <div className={styles.potensialBox}>
@@ -242,13 +240,13 @@ const StockComponent = ({
               <div className={styles.brokerageBox}>
                 <span>Brokerage:</span>
                 <span>
-                  <Link
+                  <a
                     title={data.organisation}
                     href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${data.seoName}-${data.omId}/all${typeof urlFilterHandle != "undefined" ? urlFilterHandle(filterIndex ? filterIndex : "") : ""}`}
                     className="linkHover"
                   >
                     {data.organisation}
-                  </Link>
+                  </a>
                 </span>
               </div>
             ) : (

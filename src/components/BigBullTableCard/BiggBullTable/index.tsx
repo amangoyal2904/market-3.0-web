@@ -1,9 +1,7 @@
 import styles from "./styles.module.scss";
 import { getStockUrl } from "@/utils/utility";
-import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
-// import WatchlistAddition from "../../WatchlistAddition";
 import { redirectToPlanPage, trackingEvent } from "@/utils/ga";
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
@@ -133,19 +131,18 @@ const BiggBullTable = ({
               tableData.length > 0 &&
               tableData.map((tdata: any, index: any) => {
                 const networthIncome = tdata?.stockGroupdata?.filter(
-                  (item: any) =>
-                    item?.uiValue?.statusCheck === "lNetworthValue",
+                  (item: any) => item?.uiValue?.statusCheck === "lNetworthValue"
                 );
                 const networthQoQ = tdata?.stockGroupdata?.filter(
-                  (item: any) => item?.uiValue?.statusCheck === "lReturnValue",
+                  (item: any) => item?.uiValue?.statusCheck === "lReturnValue"
                 );
                 const bestPicks = tdata?.cards?.filter(
-                  (item: any) => item?.type === "bestpick",
+                  (item: any) => item?.type === "bestpick"
                 );
                 const bestPicksToNext = tdata?.cards?.filter(
                   (item: any) =>
                     item?.type === "freshentryexit" ||
-                    item?.type === "mostincrease",
+                    item?.type === "mostincrease"
                 );
                 const updownClass =
                   networthQoQ.length > 0 &&
@@ -158,11 +155,11 @@ const BiggBullTable = ({
                 return (
                   <tr key={`${index}`}>
                     <td>
-                      <Link
+                      <a
                         title={tdata?.investorIntro?.name}
                         onClick={() =>
                           gaTrackingInvestorNameClick(
-                            tdata?.investorIntro?.name,
+                            tdata?.investorIntro?.name
                           )
                         }
                         href={`/markets/top-india-investors-portfolio/${tdata?.investorIntro?.sharkSeoName},expertid-${tdata?.investorIntro?.sharkID}`}
@@ -180,7 +177,7 @@ const BiggBullTable = ({
                         <span className={styles.nameTxt}>
                           {tdata?.investorIntro?.name}
                         </span>
-                      </Link>
+                      </a>
                     </td>
                     <td>{tdata?.companyCount}</td>
                     <td>
@@ -225,7 +222,7 @@ const BiggBullTable = ({
                               <a
                                 onClick={() =>
                                   gaTrackingCompanyNameClick(
-                                    bestPicks[0].uiLabel?.text,
+                                    bestPicks[0].uiLabel?.text
                                   )
                                 }
                                 href={`${
@@ -233,7 +230,7 @@ const BiggBullTable = ({
                                     ? getStockUrl(
                                         bestPicks[0].uiLabel?.companyId,
                                         bestPicks[0].uiLabel?.companySeoName,
-                                        bestPicks[0].uiLabel?.companyType,
+                                        bestPicks[0].uiLabel?.companyType
                                       )
                                     : null
                                 }`}
@@ -298,7 +295,7 @@ const BiggBullTable = ({
                               <a
                                 onClick={() =>
                                   gaTrackingCompanyNameClick(
-                                    bestPicksToNext[0].uiLabel?.text,
+                                    bestPicksToNext[0].uiLabel?.text
                                   )
                                 }
                                 href={`${
@@ -307,7 +304,7 @@ const BiggBullTable = ({
                                         bestPicksToNext[0].uiLabel?.companyId,
                                         bestPicksToNext[0].uiLabel
                                           ?.companySeoName,
-                                        bestPicksToNext[0].uiLabel?.companyType,
+                                        bestPicksToNext[0].uiLabel?.companyType
                                       )
                                     : null
                                 }`}
@@ -322,7 +319,7 @@ const BiggBullTable = ({
                                 className={styles.nameBlur}
                                 onClick={() =>
                                   blurNameHandler(
-                                    bestPicksToNext[0].uiLabel?.text,
+                                    bestPicksToNext[0].uiLabel?.text
                                   )
                                 }
                               ></span>

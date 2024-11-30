@@ -1,11 +1,10 @@
 "use client";
-import Link from "next/link";
 import styles from "./IndicesDetails.module.scss";
 import { trackingEvent } from "@/utils/ga";
 
 const IndicesQuickLinksClients = ({ item }: any) => {
   return (
-    <Link
+    <a
       className={styles.links}
       href={item.url}
       target="_blank"
@@ -19,7 +18,7 @@ const IndicesQuickLinksClients = ({ item }: any) => {
       }
     >
       {item.title}
-    </Link>
+    </a>
   );
 };
 

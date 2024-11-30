@@ -1,6 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useState } from "react";
 import styles from "./style.module.scss";
 import HeroBanner from "@/components/InvestorModule/HeroBanner";
 import InvestorsTopTabs from "@/components/BigBullTabs/InvestorsTopTabs";
@@ -21,29 +20,29 @@ const InvestorClientHomePage = ({
   const sharkID = data?.datainfo?.investorOverviewInfo?.investorIntro?.sharkID;
 
   const [freshEntry, setFreshEntry]: any = useState(
-    otherViewData?.entryExitDataInfo?.entryExitData?.stockEntryExitData || [],
+    otherViewData?.entryExitDataInfo?.entryExitData?.stockEntryExitData || []
   );
   const [freshEntryTitle, setFreshEntryTitle] = useState(
-    otherViewData?.entryExitDataInfo?.entryExitData?.title || "",
+    otherViewData?.entryExitDataInfo?.entryExitData?.title || ""
   );
 
   const [changeHoldingData, setChangeHoldingData] = useState(
     otherViewData?.stockIncreaseDecreaseDataInfo
-      ?.stockIncreaseDecreaseListData || [],
+      ?.stockIncreaseDecreaseListData || []
   );
   const [changeHoldingDataTitle, setChangeHoldingDataTitle] = useState(
-    otherViewData?.stockIncreaseDecreaseDataInfo?.title || "",
+    otherViewData?.stockIncreaseDecreaseDataInfo?.title || ""
   );
 
   const [bestStockPicks, setBestStockPicks] = useState(
-    otherViewData?.investorBestPicksDataInfo?.stockBestPickData || [],
+    otherViewData?.investorBestPicksDataInfo?.stockBestPickData || []
   );
   const [bestStockPicksTitle, setBestStockPicksTitle] = useState(
-    otherViewData?.investorBestPicksDataInfo?.title || "",
+    otherViewData?.investorBestPicksDataInfo?.title || ""
   );
 
   const [bulkBlockData, setBulkBlockData] = useState(
-    otherViewData?.bulkblockDealsInfo?.stockHoldingList || [],
+    otherViewData?.bulkblockDealsInfo?.stockHoldingList || []
   );
 
   const tabsData = [
@@ -118,12 +117,12 @@ const InvestorClientHomePage = ({
                 shouldShowLoader={false}
               />
               <div className={styles.viewHoldingLinkSec}>
-                <Link
+                <a
                   title="View all Top Holdings"
                   href={`/markets/top-india-investors-portfolio/${sharkSeoName},expertid-${sharkID}/holdings`}
                 >
                   <span>View all Top Holdings</span>
-                </Link>
+                </a>
               </div>
             </div>
           )}

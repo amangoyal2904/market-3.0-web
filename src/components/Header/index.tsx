@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState, useCallback, Suspense } from "react";
 import styles from "./Header.module.scss";
-import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useStateContext } from "../../store/StateContext";
 import { goToPlansPage1, trackingEvent } from "@/utils/ga";
@@ -81,7 +80,7 @@ const Header = () => {
     if (acqSource || acqSubSource) {
       window.localStorage.setItem(
         "acqDetails",
-        JSON.stringify({ acqSource: acqSource, acqSubSource: acqSubSource }),
+        JSON.stringify({ acqSource: acqSource, acqSubSource: acqSubSource })
       );
     }
 
@@ -99,7 +98,7 @@ const Header = () => {
         </Suspense>
         <div className={styles.navbarHeader} id="header">
           <div className={`dflex align-item-center ${styles.logoHeader}`}>
-            <Link
+            <a
               href="/markets/live-coverage"
               title="ET Markets"
               onClick={() =>
@@ -118,7 +117,7 @@ const Header = () => {
                 title="ET Markets"
                 fetchPriority="high"
               />
-            </Link>
+            </a>
           </div>
           <div className={styles.switchToEt}>
             <a

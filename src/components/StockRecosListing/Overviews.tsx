@@ -2,7 +2,6 @@ import React from "react";
 import SlickSlider from "../SlickSlider";
 import StockReco from "../StockReco";
 import styles from "./styles.module.scss";
-import Link from "next/link";
 import Blocker from "../Blocker";
 import { useStateContext } from "../../store/StateContext";
 import GLOBAL_CONFIG from "../../network/global_config.json";
@@ -69,7 +68,7 @@ const Overview: React.FC<Props> = ({
             className={styles.overviewMain}
           >
             <h2 className={styles.title} key={index}>
-              <Link
+              <a
                 title={obj.name}
                 className="linkHover"
                 href={`${redirectLink(obj.apiType)}${urlFilterHandle(obj.indexid ? obj.indexid : "")}`}
@@ -82,7 +81,7 @@ const Overview: React.FC<Props> = ({
                 }
               >
                 {obj.name}
-              </Link>
+              </a>
             </h2>
             {typeof obj?.data != "undefined" && obj?.data.length > 0 ? (
               obj?.data.length > 3 ? (
@@ -139,7 +138,7 @@ const Overview: React.FC<Props> = ({
             )}
             {obj?.data.length > 3 && (
               <div className={styles.overviewViewAll}>
-                <Link
+                <a
                   title={`View all ${obj.name}`}
                   href={`${redirectLink(obj.apiType)}${urlFilterHandle(obj.indexid ? obj.indexid : "")}`}
                   onClick={() =>
@@ -152,7 +151,7 @@ const Overview: React.FC<Props> = ({
                 >
                   <span className="linkHover">View all {obj.name} </span>
                   <span className={`eticon_next ${styles.arrowIcon}`}></span>
-                </Link>
+                </a>
               </div>
             )}
           </div>
