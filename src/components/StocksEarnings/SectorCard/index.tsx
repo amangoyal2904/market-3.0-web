@@ -1,5 +1,4 @@
 import styles from "./styles.module.scss";
-import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 
 const SectorCard = ({ item, index, className = "" }: any) => {
@@ -7,15 +6,15 @@ const SectorCard = ({ item, index, className = "" }: any) => {
     ((part / total) * 100).toFixed(2);
   const positivePercentage = getPercentage(
     item?.declarationData?.positiveCompanies,
-    item?.declarationData?.totalCompanies,
+    item?.declarationData?.totalCompanies
   );
   const negativePercentage = getPercentage(
     item?.declarationData?.negativeCompanies,
-    item?.declarationData?.totalCompanies,
+    item?.declarationData?.totalCompanies
   );
   const pendingPercentage = getPercentage(
     item?.declarationData?.pendingCompanies,
-    item?.declarationData?.totalCompanies,
+    item?.declarationData?.totalCompanies
   );
   const gaTrackingCardClick = (sectorName: any) => {
     trackingEvent("et_push_event", {
@@ -35,13 +34,13 @@ const SectorCard = ({ item, index, className = "" }: any) => {
         className={`${styles.sectorCard} ${styles[className]}`}
       >
         <div className={styles.secName}>
-          <Link
+          <a
             href={`/markets/stocks/earnings/sector-aggregate/${item?.sectorSeoName}/id-${item?.sectorId}`}
             title={item?.sectorName}
             onClick={() => gaTrackingCardClick(item?.sectorName)}
           >
             {item?.sectorName}
-          </Link>
+          </a>
         </div>
         <div className={styles.topNTxt}>
           <span></span>

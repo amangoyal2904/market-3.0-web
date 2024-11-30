@@ -8,7 +8,6 @@ import refeshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "@/components/MarketStatus";
 import { trackingEvent } from "@/utils/ga";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
-import Link from "next/link";
 
 const IndicesClient = ({
   tableHeaderData = [],
@@ -42,13 +41,13 @@ const IndicesClient = ({
         return newSortConfig;
       });
     },
-    [sortData],
+    [sortData]
   );
   const updateTableData = async () => {
     const { tableData, unixDateTime } = await getAllIndices(
       exchange,
       sortData.field,
-      sortData.order,
+      sortData.order
     );
     if (!!tableData && tableData.length) {
       setUpdateDateTime(unixDateTime);
@@ -63,7 +62,7 @@ const IndicesClient = ({
         updateTableData();
     },
     refeshConfig.indicesListing,
-    [sortData, isPrime, currentMarketStatus, fallbackWebsocket],
+    [sortData, isPrime, currentMarketStatus, fallbackWebsocket]
   );
 
   useEffect(() => {
@@ -90,7 +89,7 @@ const IndicesClient = ({
         index for detailed technical charts and more information.
       </p>
       <div className={styles.menuNseBse}>
-        <Link
+        <a
           className={exchange === "nse" ? styles.active : ""}
           href="/markets/indices"
           onClick={() => {
@@ -103,8 +102,8 @@ const IndicesClient = ({
           title="NSE"
         >
           NSE
-        </Link>
-        <Link
+        </a>
+        <a
           className={exchange === "bse" ? styles.active : ""}
           href="/markets/indices/bse"
           onClick={() => {
@@ -117,7 +116,7 @@ const IndicesClient = ({
           title="BSE"
         >
           BSE
-        </Link>
+        </a>
       </div>
       <MarketTable
         data={_tableData}

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import styles from "./styles.module.scss";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -94,12 +93,12 @@ const LinkTabs = ({
                 key={`${index}-${item.title}`}
                 className={`${isActive(item.url) ? styles.active : ""}`}
               >
-                <Link
+                <a
                   onClick={() => gaTrackingClickTabHandler(item?.title)}
                   href={`${item.url}`}
                 >
                   {item.title}
-                </Link>
+                </a>
               </li>
             );
           })}

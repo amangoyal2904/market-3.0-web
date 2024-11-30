@@ -1,5 +1,4 @@
 import styles from "./styles.module.scss";
-import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 
 const TopHero = ({ head, desc, link, headTag = "" }: any) => {

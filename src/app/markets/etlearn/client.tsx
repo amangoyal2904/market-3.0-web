@@ -8,7 +8,6 @@ import ETLearnTabs from "@/components/ETLearn/Tabs";
 import TopHero from "@/components/ETLearn/TopHero";
 import { trackingEvent } from "@/utils/ga";
 import { getSeoNameFromUrl } from "@/utils";
-import Link from "next/link";
 const responsive = [
   {
     breakpoint: 2560,
@@ -85,7 +84,7 @@ const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
 
   const pageDesc = () => {
     const activeObj = invementIdeaNavResult?.tabs.filter(
-      (item: any) => item.apiSlug == `/etlearn`,
+      (item: any) => item.apiSlug == `/etlearn`
     );
     return activeObj[0]?.desc;
   };
@@ -118,13 +117,13 @@ const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
                 key={index}
               >
                 <h2 className={styles.catHead}>
-                  <Link
+                  <a
                     href={`${item?.seoPath}`}
                     className={styles.spanTxt}
                     onClick={() => gaTrackingClickHandler(item?.label)}
                   >
                     {item?.label}
-                  </Link>
+                  </a>
                 </h2>
                 <div className={styles.ieBoxList}>
                   <InvestEdgeLeftVideo
@@ -148,7 +147,7 @@ const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
                                 key={`${index}-slider`}
                                 videoTitelSlug={getSeoNameFromUrl(
                                   slide?.url,
-                                  "videoshow",
+                                  "videoshow"
                                 )}
                                 selectedcategory={item?.label}
                               />
@@ -173,7 +172,7 @@ const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
                             key={index}
                             videoTitelSlug={getSeoNameFromUrl(
                               elem?.url,
-                              "videoshow",
+                              "videoshow"
                             )}
                             selectedcategory={item?.label}
                           />
@@ -181,7 +180,7 @@ const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
                     )}
                   </div>
                 </div>
-                <Link
+                <a
                   data-tt={item.seoPath}
                   href={`${item.seoPath}`}
                   title={item.label}
@@ -190,7 +189,7 @@ const ETLearnClient = ({ resultData, invementIdeaNavResult }: any) => {
                 >
                   {`View All ${item.label} videos`}
                   <span className={`eticon_next ${styles.nextIcon}`}></span>
-                </Link>
+                </a>
               </div>
             )
           );

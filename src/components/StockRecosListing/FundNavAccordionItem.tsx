@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import styles from "./styles.module.scss";
 import React, { useEffect, useState } from "react";
 import GLOBAL_CONFIG from "../../network/global_config.json";
@@ -44,12 +43,12 @@ const FundNavAccordionItem = ({
                   key={`fundnav_filterList_${index}`}
                   className={`${fundHouseSeoName(getFundHouseInfo.fundHounseName) == fundHouseSeoName(item?.organisation) && slug?.[2] == fundHouseSeoName(filter) ? styles.active : ""} ${styles.fundFilter}`}
                 >
-                  <Link
+                  <a
                     title={filter}
                     href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}/${fundHouseSeoName(item?.organisation)}-${item.omId}/${fundHouseSeoName(filter)}${urlFilterHandle()}`}
                   >
                     {filter}
-                  </Link>
+                  </a>
                 </li>
               );
             })}

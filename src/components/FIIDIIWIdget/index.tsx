@@ -1,6 +1,5 @@
 import { dateFormat } from "@/utils";
 import styles from "./FIIDIIWidget.module.scss";
-import Link from "next/link";
 
 const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
   const maxValues: any = {
@@ -13,24 +12,24 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
     ?.slice(0, 7)
     ?.sort(
       (a: { dateLong: number }, b: { dateLong: number }) =>
-        a.dateLong - b.dateLong,
+        a.dateLong - b.dateLong
     );
   first7Values?.forEach((item: { fiiEquity: number; diiEquity: number }) => {
     maxValues.maxPositive_fiiEquity = Math.max(
       maxValues.maxPositive_fiiEquity,
-      item.fiiEquity,
+      item.fiiEquity
     );
     maxValues.maxNegative_fiiEquity = Math.min(
       maxValues.maxNegative_fiiEquity,
-      item.fiiEquity,
+      item.fiiEquity
     );
     maxValues.maxPositive_diiEquity = Math.max(
       maxValues.maxPositive_diiEquity,
-      item.diiEquity,
+      item.diiEquity
     );
     maxValues.maxNegative_diiEquity = Math.min(
       maxValues.maxNegative_diiEquity,
-      item.diiEquity,
+      item.diiEquity
     );
   });
 
@@ -86,7 +85,7 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
                 }}
               ></div>
             </div>
-          ),
+          )
         )}
         <div className={styles.liner}></div>
       </div>
@@ -100,7 +99,7 @@ const FIIDIIWIdget = ({ fiiDiiCash, type, fiiCash, diiCash }: any) => {
         <span>
           {dateFormat(
             type == "fiiEquity" ? fiiCash?.date : diiCash?.date,
-            " on %d %MMM",
+            " on %d %MMM"
           )}
         </span>
       </p>

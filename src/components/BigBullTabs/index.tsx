@@ -1,6 +1,5 @@
 "use client";
 import styles from "./styles.module.scss";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { trackingEvent } from "@/utils/ga";
 const BigBullTabs = ({
@@ -38,9 +37,9 @@ const BigBullTabs = ({
                 key={`${index}-`}
                 onClick={() => gaTrackingEvent(tab.title)}
               >
-                <Link href={`${tab.url}`} title={tab.title}>
+                <a href={`${tab.url}`} title={tab.title}>
                   <span>{tab.title}</span>
-                </Link>
+                </a>
               </li>
             );
           })}

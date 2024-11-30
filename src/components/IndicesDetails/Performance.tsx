@@ -2,7 +2,6 @@ import styles from "./IndicesDetails.module.scss";
 import StockFilterNifty from "../StockFilterNifty";
 import React, { useEffect, useState } from "react";
 import { fetchFilters, getPeerIndices } from "@/utils/utility";
-import Link from "next/link";
 import toast, { Toaster } from "react-hot-toast";
 
 const labels = ["", "1D", "1W", "1M", "3M", "1Y", "3Y", "5Y"];
@@ -46,7 +45,7 @@ const IndicesPerformance = React.memo(({ data, indexName, exchange }: any) => {
     indexIds = updatedIndexIds;
 
     const updatedPeerData = peersData.filter(
-      (item: any) => item.indexId !== id,
+      (item: any) => item.indexId !== id
     );
     setPeersData(updatedPeerData);
   };
@@ -100,13 +99,13 @@ const IndicesPerformance = React.memo(({ data, indexName, exchange }: any) => {
             <tr key={index} className={index == 0 ? styles.primeCell : ""}>
               <td className={`${styles.left} ${styles.mw150}`}>
                 <div className="dflex align-item-ceter space-between">
-                  <Link
+                  <a
                     className={styles.ellipsis}
                     href={`/markets/indices/${item.indexSeoName}`}
                     title={item.indexName}
                   >
                     {item.indexName}
-                  </Link>
+                  </a>
                   {index > 0 && (
                     <i
                       className="eticon_cross"

@@ -1,9 +1,7 @@
 import styles from "./styles.module.scss";
 import { getStockUrl } from "@/utils/utility";
-import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
-// import WatchlistAddition from "../../WatchlistAddition";
 import NodataForTable from "../NodataForTable";
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
@@ -162,13 +160,13 @@ const BiggBullMostHeldTable = ({
                                 title={tdata?.companyData?.text}
                                 onClick={() =>
                                   gaTrackingCompanyNameClick(
-                                    tdata?.companyData?.text,
+                                    tdata?.companyData?.text
                                   )
                                 }
                                 href={getStockUrl(
                                   tdata?.companyData?.companyId,
                                   tdata?.companyData?.companySeoName,
-                                  tdata?.companyData?.companyType,
+                                  tdata?.companyData?.companyType
                                 )}
                                 target="_blank"
                                 className={styles.linkTxt}
@@ -200,7 +198,7 @@ const BiggBullMostHeldTable = ({
                                     key={`-${index}--`}
                                     className={`${tdata?.investorsList.length === 1 || (tdata?.investorsList.length === 2 && index === 1) ? styles.noBorder : ""}`}
                                   >
-                                    <Link
+                                    <a
                                       title={list.name}
                                       onClick={() =>
                                         gaTrackingInvestorNameClick(list.name)
@@ -217,7 +215,7 @@ const BiggBullMostHeldTable = ({
                                         loading="lazy"
                                       />
                                       <h4>{list.name}</h4>
-                                    </Link>
+                                    </a>
                                   </li>
                                 );
                               })}
@@ -244,11 +242,11 @@ const BiggBullMostHeldTable = ({
                                               className={styles.userSec}
                                               key={`-${index}--`}
                                             >
-                                              <Link
+                                              <a
                                                 title={list.name}
                                                 onClick={() =>
                                                   gaTrackingInvestorNameClick(
-                                                    list.name,
+                                                    list.name
                                                   )
                                                 }
                                                 href={`/markets/top-india-investors-portfolio/${list?.sharkSeoName},expertid-${list?.sharkID}`}
@@ -263,7 +261,7 @@ const BiggBullMostHeldTable = ({
                                                   loading="lazy"
                                                 />
                                                 <h4>{list.name}</h4>
-                                              </Link>
+                                              </a>
                                             </div>
                                           );
                                         })}

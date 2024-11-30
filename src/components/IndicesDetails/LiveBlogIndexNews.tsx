@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./IndicesDetails.module.scss";
-import Link from "next/link";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import SlickSlider from "../SlickSlider";
@@ -47,7 +46,7 @@ const LiveBlogIndexNews = React.memo(
               <span className={styles.liveBlinker}></span>
               <span className={styles.heading}>Live Blog</span>
             </div>
-            <Link
+            <a
               className={styles.linkBlog}
               href={`${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/${liveBlog.seolocation}/liveblog/${liveBlog.msid}.cms`}
               target="_blank"
@@ -55,7 +54,7 @@ const LiveBlogIndexNews = React.memo(
               dangerouslySetInnerHTML={{
                 __html: liveBlog?.title,
               }}
-            ></Link>
+            ></a>
           </div>
         )}
         {!!indexNews.length && (
@@ -77,7 +76,7 @@ const LiveBlogIndexNews = React.memo(
         )}
       </>
     );
-  },
+  }
 );
 
 LiveBlogIndexNews.displayName = "LiveBlogIndexNews";

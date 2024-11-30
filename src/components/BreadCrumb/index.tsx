@@ -2,7 +2,6 @@ import React from "react";
 import styles from "./BreadCrumb.module.scss";
 import { APP_ENV } from "@/utils";
 import GLOBAL_CONFIG from "../../network/global_config.json";
-import Link from "next/link";
 
 interface Props {
   pageName: any;
@@ -27,12 +26,12 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <Link
+          <a
             href={(GLOBAL_CONFIG as any)["STOCK_RECOS"]["overview"]}
             title="Stock Recommendations"
           >
             Stock Recommendations
-          </Link>
+          </a>
         </li>
       ),
       showCurrLi: true,
@@ -62,9 +61,9 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <Link href={"/markets/stock-screener"} title="Stock Screeners">
+          <a href={"/markets/stock-screener"} title="Stock Screeners">
             Stock Screeners
-          </Link>
+          </a>
         </li>
       ),
       showCurrLi: true,
@@ -84,9 +83,9 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <Link href={"/stocks/marketstats/top-gainers"} title="Stocks">
+          <a href={"/stocks/marketstats/top-gainers"} title="Stocks">
             Stocks
-          </Link>
+          </a>
         </li>
       ),
       showCurrLi: false,
@@ -105,12 +104,12 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <Link
+          <a
             href={"/stocks/marketstats-technicals/golden-cross"}
             title="Stocks"
           >
             Stocks
-          </Link>
+          </a>
         </li>
       ),
       showCurrLi: false,
@@ -140,9 +139,9 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <Link href={"/markets/indices"} title="Indices">
+          <a href={"/markets/indices"} title="Indices">
             Indices
-          </Link>
+          </a>
         </li>
       ),
       showCurrLi: true,
@@ -230,9 +229,9 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <Link href={"/markets/fii-dii-activity"} title="FII DII Activity">
+          <a href={"/markets/fii-dii-activity"} title="FII DII Activity">
             FII DII Activity
-          </Link>
+          </a>
         </li>
       ),
       showCurrLi: true,
@@ -277,9 +276,9 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <Link href="/stocks/chart-patterns" title="Chart Patterns">
+          <a href="/stocks/chart-patterns" title="Chart Patterns">
             Chart Patterns
-          </Link>
+          </a>
         </li>
       ),
       showCurrLi: true,
@@ -337,12 +336,12 @@ const getLiPath = (router: string, pagePath: string) => {
       currentLiNode: (
         <li>
           <span className="eticon_caret_right"></span>
-          <Link
+          <a
             href={"/markets/top-india-investors-portfolio/individual"}
             title="Investors Portfolio"
           >
             Investors Portfolio
-          </Link>
+          </a>
         </li>
       ),
       showCurrLi: true,
@@ -453,7 +452,7 @@ const getLiPath = (router: string, pagePath: string) => {
 
 const jsonLd = (getLiTab: any, pageName: any) => {
   const objWithUrl = pageName.filter(
-    (item: any, index: any) => item.redirectUrl !== "",
+    (item: any, index: any) => item.redirectUrl !== ""
   );
 
   const itemListElement = [
@@ -478,7 +477,7 @@ const jsonLd = (getLiTab: any, pageName: any) => {
     const createBreadcrumbItem = (
       label: any,
       redirectUrl: any,
-      position: any,
+      position: any
     ) => {
       const listItem = {
         "@type": "ListItem",
@@ -494,7 +493,7 @@ const jsonLd = (getLiTab: any, pageName: any) => {
       const breadcrumbItem = createBreadcrumbItem(
         item.label,
         item.redirectUrl,
-        position,
+        position
       );
       itemListElement.push(breadcrumbItem);
     });
@@ -535,9 +534,9 @@ export const BreadCrumb: React.FC<Props> = ({ pageName, pagePath }) => {
           ) : (
             <>
               <span className="eticon_caret_right"></span>
-              <Link href={"/markets/live-coverage"} title="Markets Live">
+              <a href={"/markets/live-coverage"} title="Markets Live">
                 Markets Live
-              </Link>
+              </a>
             </>
           )}
         </li>

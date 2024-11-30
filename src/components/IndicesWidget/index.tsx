@@ -18,7 +18,6 @@ import refreshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "../MarketStatus";
 import ViewAllLink from "../ViewAllLink";
 import FIIDIIWIdget from "../FIIDIIWIdget";
-import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
 
@@ -93,7 +92,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
   const [diiCash, setDiiCash] = useState<any>(data?.diiData);
   const [screenWidth, setScreenWidth] = useState<any>("");
   const [iframeSrc, setIframeSrc] = useState(
-    `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=NSE Index&exchange=NSE&period=${period}&height=220&transparentBg=1`,
+    `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=NSE Index&exchange=NSE&period=${period}&height=220&transparentBg=1`
   );
 
   const handleIntervalClick = (item: any) => {
@@ -106,7 +105,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       event_label: `duration_change_${item?.value}`,
     });
     setIframeSrc(
-      `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&period=${item?.value}&height=220&transparentBg=1`,
+      `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedIndex?.symbol}&exchange=${selectedIndex?.exchange}&period=${item?.value}&height=220&transparentBg=1`
     );
   };
   const getIndicesWidgetData = async () => {
@@ -126,9 +125,9 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
         setSelectedIndex((prevState: any) =>
           Object.keys(prevState)?.length
             ? data?.indicesList?.filter(
-                (stock: { indexId: any }) => stock.indexId == prevState.indexId,
+                (stock: { indexId: any }) => stock.indexId == prevState.indexId
               )?.[0]
-            : data?.indicesList[0],
+            : data?.indicesList[0]
         );
         setFiiCash(data?.fiiData);
         setDiiCash(data?.diiData);
@@ -150,7 +149,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       event_label: `indices_${selectedItem?.exchange}_${selectedItem?.symbol} ${index}`,
     });
     setIframeSrc(
-      `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedItem?.symbol}&exchange=${selectedItem?.exchange}&period=${period}&height=220&transparentBg=1`,
+      `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/renderchart.cms?type=index&symbol=${selectedItem?.symbol}&exchange=${selectedItem?.exchange}&period=${period}&height=220&transparentBg=1`
     );
   };
 
@@ -162,7 +161,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
     },
     refreshConfig?.indicesDetail,
     [currentMarketStatus],
-    indicesWidgetRef,
+    indicesWidgetRef
   );
 
   if (!indicesData.length) {
@@ -296,7 +295,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
             ""
           )}
           <div className={styles.bottomWidgets}>
-            <Link
+            <a
               href="/markets/stock-market-mood"
               title="Advance/Decline"
               className={styles.widget}
@@ -350,11 +349,11 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
               <p className={styles.date}>
                 {dateFormat(
                   dateStringToMilliseconds(selectedIndex?.dateTime),
-                  "%d %MMM, %Y",
+                  "%d %MMM, %Y"
                 )}
               </p>
-            </Link>
-            <Link
+            </a>
+            <a
               className={styles.widget}
               href="/markets/fii-dii-activity"
               title="FII Cash"
@@ -364,8 +363,8 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                 fiiCash={fiiCash}
                 type="fiiEquity"
               />
-            </Link>
-            <Link
+            </a>
+            <a
               className={styles.widget}
               href="/markets/fii-dii-activity"
               title="DII Cash"
@@ -375,7 +374,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                 diiCash={diiCash}
                 type="diiEquity"
               />
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -471,7 +470,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
                     )}
                   </a>
                 </li>
-              ),
+              )
             )}
           </ul>
 

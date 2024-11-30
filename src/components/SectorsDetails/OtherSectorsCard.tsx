@@ -1,6 +1,5 @@
 import { formatNumber } from "@/utils";
 import styles from "./SectorsDetails.module.scss";
-import Link from "next/link";
 import React from "react";
 import { trackingEvent } from "@/utils/ga";
 
@@ -9,7 +8,7 @@ const OtherSectorsCard = React.memo(({ data }: any) => {
     data.percentChange > 0 ? "up" : data.percentChange < 0 ? "down" : "neutral";
   return (
     <div className={styles.otherSectorsCardMain}>
-      <Link
+      <a
         className={styles.title}
         href={`/stocks/sectors/${data.assetSeoName}`}
         title={data.assetName}
@@ -23,7 +22,7 @@ const OtherSectorsCard = React.memo(({ data }: any) => {
       >
         <span>{data.assetName}</span>
         <i className="eticon_caret_right"></i>
-      </Link>
+      </a>
       <p className={styles.ltp}>{formatNumber(data.marketCap)}</p>
       <div
         className={`${styles.otherStats} ${data.r1Day > 0 ? styles.up : data.r1Day < 0 ? styles.down : ""}`}
