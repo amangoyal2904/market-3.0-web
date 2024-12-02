@@ -3,6 +3,13 @@ import { NextResponse, NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const url = new URL(request.url);
 
+  // Normalize double slashes in the pathname
+  const normalizedPath = url.pathname.replace(/\/+/g, "/");
+  if (url.pathname !== normalizedPath) {
+    url.pathname = normalizedPath; // Update the pathname
+    return NextResponse.redirect(url); // Redirect to the corrected URL
+  }
+
   const searchparam = url.search;
   const pathAndQuery = url.pathname + searchparam;
   const origin = url.origin;
