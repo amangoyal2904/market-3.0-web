@@ -1,4 +1,5 @@
 import styles from "./InvestEdgeVideoList.module.scss";
+import Link from "next/link";
 import { getViews, millisToMinutesAndSeconds } from "@/utils";
 import { useEffect, useState } from "react";
 import ViewShareSec from "@/components/ETLearn/ViewShareSec";
@@ -53,7 +54,7 @@ const InvestEdgeBox = ({
   }, [slide?.slikeId]);
   return (
     <div className={styles.right_vidBox} id={`section-${slide.msid}`}>
-      <a
+      <Link
         data-tt={slide.seoPath}
         href={`${videoUrl}`}
         onClick={() => gaTrackingClickHandler(slide.title)}
@@ -66,9 +67,9 @@ const InvestEdgeBox = ({
             {millisToMinutesAndSeconds(slide.videoDuration)}
           </span>
         )}
-      </a>
+      </Link>
       <h4>
-        <a
+        <Link
           data-tt={slide.seoPath}
           href={`${videoUrl}`}
           onClick={() => gaTrackingClickHandler(slide.title)}
@@ -82,7 +83,7 @@ const InvestEdgeBox = ({
                   : slide.title,
             }}
           />
-        </a>
+        </Link>
       </h4>
       <ViewShareSec
         data={viewData}

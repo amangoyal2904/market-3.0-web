@@ -1,10 +1,11 @@
 "use client";
+import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 
 const TrendingInMarketsList = ({ item }: any) => {
   return (
     <>
-      <a
+      <Link
         className="seoLinks"
         href={item.url}
         target="_blank"
@@ -18,7 +19,7 @@ const TrendingInMarketsList = ({ item }: any) => {
         }
       >
         {item.title}
-      </a>
+      </Link>
     </>
   );
 };

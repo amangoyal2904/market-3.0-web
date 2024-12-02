@@ -6,7 +6,7 @@ import styles from "./MarketTabs.module.scss";
 
 const PersonaliseModel = dynamic(
   () => import("@/components/PersonaliseModel"),
-  { ssr: false }
+  { ssr: false },
 );
 import CreateNewViewComponent from "@/components/CreateNewView";
 import APIS_CONFIG from "@/network/api_config.json";
@@ -18,6 +18,7 @@ import DayFitler from "@/components/DayFilter";
 import { fetchFilters } from "@/utils/utility";
 import SectorFilter from "../DayFilter/SectorFilter";
 import { trackingEvent } from "@/utils/ga";
+import Link from "next/link";
 
 const IndustryFilter = dynamic(() => import("@/components/IndustryFilter"), {
   loading: () => (
@@ -115,7 +116,7 @@ const MarketFiltersTab = React.memo(
         getIndustryFilterValue(getValue);
       } else {
         const getValue = checkedIndustryFilterItems.filter(
-          (item: any) => item !== parseFloat(id)
+          (item: any) => item !== parseFloat(id),
         );
         setCheckedIndustryFilterItems(getValue);
         getIndustryFilterValue(getValue);
@@ -189,7 +190,7 @@ const MarketFiltersTab = React.memo(
 
     const sectorFilterChangeHandler = (
       sectorid: number,
-      sectorname: string
+      sectorname: string,
     ) => {
       const filterDataSet = { sectorid, sectorname };
       setSectorFilterData(filterDataSet);
@@ -258,12 +259,12 @@ const MarketFiltersTab = React.memo(
               indexId
             : "/stocks/marketstats?type=" + subType + "&filter=" + indexId;
       const isExist: any = shortUrlMapping?.find(
-        (item: any) => item.longURL == longUrl
+        (item: any) => item.longURL == longUrl,
       );
       const linkHref = isExist ? isExist.shortUrl : longUrl;
 
       return (
-        <a
+        <Link
           href={linkHref}
           title={label?.toUpperCase()}
           className={
@@ -283,7 +284,7 @@ const MarketFiltersTab = React.memo(
           }
         >
           {label}
-        </a>
+        </Link>
       );
     };
 
@@ -479,7 +480,7 @@ const MarketFiltersTab = React.memo(
         )}
       </>
     );
-  }
+  },
 );
 MarketFiltersTab.displayName = "MarketFiltersTab";
 export default MarketFiltersTab;

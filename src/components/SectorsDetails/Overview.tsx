@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./SectorsDetails.module.scss";
+import Link from "next/link";
 import { dateFormat } from "@/utils/index";
 import { trackingEvent } from "@/utils/ga";
 import Returns from "./Returns";
@@ -9,7 +10,7 @@ const SectorsDetailsOverview = React.memo(({ overviewData, descText }: any) => {
     <section id="overview" className={styles.overview}>
       <div className="dflex align-item-center">
         <h1 className={styles.headline}>{`${overviewData?.assetName}`}</h1>
-        <a
+        <Link
           href={"/stocks/sectors"}
           title="View all Sectors"
           className={styles.viewAll}
@@ -22,7 +23,7 @@ const SectorsDetailsOverview = React.memo(({ overviewData, descText }: any) => {
           }
         >
           View all Sectors
-        </a>
+        </Link>
       </div>
 
       {!!descText && <p className={styles.desc}>{descText}</p>}

@@ -1,5 +1,6 @@
 "use client";
 import styles from "./styles.module.scss";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { trackingEvent } from "@/utils/ga";
 
@@ -24,9 +25,9 @@ const InvestorsTopTabs = ({ data, rightTabTxt = "" }: any) => {
                 key={`${index}-`}
                 onClick={() => gaTrackingTabsNameClick(tab.title)}
               >
-                <a href={`${tab.url}`} title={tab.title}>
+                <Link href={`${tab.url}`} title={tab.title}>
                   <span>{tab.title}</span>
-                </a>
+                </Link>
               </li>
             );
           })}

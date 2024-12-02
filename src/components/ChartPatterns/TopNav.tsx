@@ -1,5 +1,6 @@
 import { trackingEvent } from "@/utils/ga";
 import styles from "./TopNav.module.scss";
+import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { getPatternFilterData } from "@/app/stocks/chart-patterns/utilities";
 import { fetchFilters } from "@/utils/utility";
@@ -11,7 +12,7 @@ const StockFilterNifty = dynamic(
   () => import("@/components/StockFilterNifty"),
   {
     ssr: false,
-  }
+  },
 );
 
 const tabData = [
@@ -89,7 +90,7 @@ const TopNav = ({
 
   const [isIndexDataLoaded, setIsIndexDataLoaded] = useState(false);
   const [screenWidth, setScreenWidth] = useState<number>(
-    typeof window !== "undefined" ? window.innerWidth : 1100
+    typeof window !== "undefined" ? window.innerWidth : 1100,
   );
 
   const fetchPatternOptions = async () => {
@@ -172,7 +173,7 @@ const TopNav = ({
   const handleIndexFilterChange = (
     id: any,
     name: string,
-    selectedTab: string
+    selectedTab: string,
   ) => {
     const filter =
       id !== undefined && !isNaN(Number(id))
@@ -267,7 +268,7 @@ const TopNav = ({
       <div id={styles.l3Nav}>
         <div className={styles.l3ListWrapper}>
           {visibleTabs.map((item) => (
-            <a
+            <Link
               key={item.key}
               href={item.key}
               className={`${styles.l3List} ${isActive(item.key) ? styles.active : ""}`}
@@ -281,7 +282,7 @@ const TopNav = ({
               title={item.label}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
           {hiddenTabs.length > 0 && (
             <div className={styles.moreTabWrap}>
@@ -293,7 +294,7 @@ const TopNav = ({
               </div>
               <div className={styles.moreListItem}>
                 {hiddenTabs.map((item: any, index: number) => (
-                  <a
+                  <Link
                     key={item.key}
                     href={item.key}
                     className={`${styles.l3List} ${isActive(item.key) ? styles.active : ""}`}
@@ -307,7 +308,7 @@ const TopNav = ({
                     title={item.label}
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>

@@ -4,6 +4,7 @@ import { useStateContext } from "@/store/StateContext";
 import styles from "./Explore.module.scss";
 import { Fragment, useEffect, useState } from "react";
 import jStorageReact from "jstorage-react";
+import Link from "next/link";
 import Blocker from "@/components/Blocker";
 
 import dynamic from "next/dynamic";
@@ -12,7 +13,7 @@ const ChartPatternPaywall = dynamic(
   () => import("@/components/ChartPatterns/ChartPatternPaywall"),
   {
     ssr: false,
-  }
+  },
 );
 
 const ExploreChartPatternsClient = ({ response, pageUrl }: any) => {
@@ -54,7 +55,7 @@ const ExploreChartPatternsClient = ({ response, pageUrl }: any) => {
                         }}
                       ></p>
                       <div className={styles.ctaContainer}>
-                        <a
+                        <Link
                           className={`${styles.cta} ${styles.outline}`}
                           href={
                             subPattern?.seoPatternName !== "bullish"
@@ -71,8 +72,8 @@ const ExploreChartPatternsClient = ({ response, pageUrl }: any) => {
                           }}
                         >
                           View Past Performance
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           className={styles.cta}
                           href={`/stocks/chart-patterns/${subPattern?.seoPatternName}`}
                           title={`${subPattern?.patternName} New Trading Ideas`}
@@ -85,12 +86,12 @@ const ExploreChartPatternsClient = ({ response, pageUrl }: any) => {
                           }}
                         >
                           New Trading Ideas
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </Fragment>
                 ))
-              : null
+              : null,
           )}
         </div>
       ) : (

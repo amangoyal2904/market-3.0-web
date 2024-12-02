@@ -1,4 +1,5 @@
 import styles from "./styles.module.scss";
+import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 
 const ViewAllCardModule = ({ cartTitle = "", cartLink = "" }: any) => {
@@ -12,14 +13,14 @@ const ViewAllCardModule = ({ cartTitle = "", cartLink = "" }: any) => {
   return (
     <>
       <div className={styles.viewAllSec}>
-        <a
+        <Link
           href={`${cartLink}`}
           onClick={() => gaTrackingEventFilter(cartTitle)}
           title={cartTitle}
         >
           {cartTitle}
           <span className={styles.rightArrow}></span>
-        </a>
+        </Link>
       </div>
     </>
   );

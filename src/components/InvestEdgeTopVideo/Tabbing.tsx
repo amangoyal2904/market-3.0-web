@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import styles from "./InvestEdgeTopVideo.module.scss";
 import { trackingEvent } from "@/utils/ga";
 
@@ -21,14 +22,14 @@ export const Tabbing = ({ invementIdeaNavResult }: any) => {
               className={`${styles.mainTab}`}
             >
               {item.label == "Live Stream" ? (
-                <a
+                <Link
                   href={item.redirectLink}
                   target="_blank"
                   onClick={() => handleTabTracking(item.label)}
                   title={item.label}
                 >
                   {item.label}
-                </a>
+                </Link>
               ) : (
                 item.label
               )}

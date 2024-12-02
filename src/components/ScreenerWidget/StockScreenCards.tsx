@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./styles.module.scss";
+import Link from "next/link";
 
 interface itemType {
   collectionId: string;
@@ -30,7 +31,7 @@ const StockScreenCards: React.FC<Props> = ({ item, index }) => {
                   key={screen.screenerId}
                   className={`${index > 3 ? styles.hidden : ""}`}
                 >
-                  <a
+                  <Link
                     href={`/markets/stock-screener/${screen.seoName}/screens/scrid-${screen.screenerId}`}
                     className={styles.liItemList}
                     title={screen.name}
@@ -47,7 +48,7 @@ const StockScreenCards: React.FC<Props> = ({ item, index }) => {
                       </span>
                       <span>stocks</span>
                     </div>
-                  </a>
+                  </Link>
                 </li>
               );
             })

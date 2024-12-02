@@ -1,4 +1,5 @@
 import styles from "./styles.module.scss";
+import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 
 const ViewAllCta = ({
@@ -25,7 +26,7 @@ const ViewAllCta = ({
         onClick={() => gaTrackingViewAllClick(text)}
       >
         {urlInternal === "yes" ? (
-          <a href={`${url}`}>{text}</a>
+          <Link href={`${url}`}>{text}</Link>
         ) : (
           <a href={`${url}`} target={`${self}`}>
             {text}

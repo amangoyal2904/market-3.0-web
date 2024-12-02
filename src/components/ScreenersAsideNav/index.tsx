@@ -1,6 +1,7 @@
 "use client";
 import React, { Fragment } from "react";
 import styles from "./Screeners.module.scss";
+import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 interface PageProps {
   leftNavResult: any;
@@ -16,7 +17,7 @@ const StocksScreenerNav: React.FC<PageProps> = (props) => {
       const elm = e.currentTarget;
       if (elm.classList.contains(styles["collapsed"])) {
         const navExpandedAll = document.querySelectorAll(
-          `.${styles["expanded"]}`
+          `.${styles["expanded"]}`,
         );
         navExpandedAll.forEach((item: any) => {
           item.classList.remove(styles["expanded"]);
@@ -51,13 +52,13 @@ const StocksScreenerNav: React.FC<PageProps> = (props) => {
   const renderLink = (subItem: any, l3lableName: string) => {
     const linkHref = `/markets/stock-screener/${subItem.seoName ? subItem.seoName : "test-seo-page"}/screens/scrid-${subItem.screenerId}`;
     return (
-      <a
+      <Link
         title={subItem.name}
         href={linkHref}
         onClick={() => gaLinkforL3Menu(`${l3lableName} - ${subItem.name}`)}
       >
         {subItem.name}
-      </a>
+      </Link>
     );
   };
   return (

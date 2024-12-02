@@ -1,7 +1,10 @@
 import styles from "./styles.module.scss";
+import Image from "next/image";
 import { getStockUrl } from "@/utils/utility";
+import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
+// import WatchlistAddition from "../../WatchlistAddition";
 import NodataForTable from "../NodataForTable";
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
@@ -146,13 +149,13 @@ const BiggBullBulkBlockDealsTable = ({
                               <a
                                 onClick={() =>
                                   gaTrackingCompanyNameClick(
-                                    tdata?.companyData?.text
+                                    tdata?.companyData?.text,
                                   )
                                 }
                                 href={getStockUrl(
                                   tdata?.companyData?.companyId,
                                   tdata?.companyData?.companySeoName,
-                                  tdata?.companyData?.companyType
+                                  tdata?.companyData?.companyType,
                                 )}
                                 target="_blank"
                                 className={styles.linkTxt}

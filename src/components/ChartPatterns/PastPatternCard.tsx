@@ -1,5 +1,6 @@
 import styles from "./PastPatternCard.module.scss";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 import ChartPatternTableContainer from "./ChartPatternTableContainer";
 
@@ -80,7 +81,7 @@ const PastPatternCard = ({
             *Returns based on all positive & negative closed ideas
           </div>
           <div className={styles.cta}>
-            <a
+            <Link
               className={styles.link}
               title={`${headingText} New Ideas`}
               href={`/stocks/chart-patterns/${patternType}`}
@@ -93,9 +94,9 @@ const PastPatternCard = ({
               }}
             >
               New Ideas
-            </a>
+            </Link>
             {!!showCta && (
-              <a
+              <Link
                 className={styles.link}
                 title={`View All ${headingText}`}
                 onClick={() => {
@@ -113,7 +114,7 @@ const PastPatternCard = ({
               >
                 View all Past Ideas
                 <i className="eticon_next"></i>
-              </a>
+              </Link>
             )}
           </div>
         </div>
