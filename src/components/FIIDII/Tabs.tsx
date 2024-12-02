@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./FIIDII.module.scss";
+import Link from "next/link";
 import ApiTypeDropdown from "./ApiTypeDropdown";
 import { trackingEvent } from "@/utils/ga";
 
@@ -49,7 +50,7 @@ const FiiDiiTabs = React.memo(
                 activeTab === item.key ? styles.active : ""
               }`}
             >
-              <a
+              <Link
                 title={item.label}
                 href={
                   item.key === "overview"
@@ -65,7 +66,7 @@ const FiiDiiTabs = React.memo(
                 }}
               >
                 {item.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -93,7 +94,7 @@ const FiiDiiTabs = React.memo(
         )}
       </div>
     );
-  }
+  },
 );
 
 FiiDiiTabs.displayName = "FiiDiiTabs";

@@ -3,7 +3,12 @@
 import styles from "./styles.module.scss";
 import StockFilterNifty from "@/components/StockFilterNifty";
 import { useEffect, useState } from "react";
-import { fetchFilters } from "@/utils/utility";
+import {
+  fetchFilters,
+  fetchSelectedFilter,
+  updateOrAddParamToPath,
+} from "@/utils/utility";
+import Link from "next/link";
 import { useStateContext } from "../../store/StateContext";
 import { usePathname, useSearchParams, useRouter } from "next/navigation";
 import GLOBAL_CONFIG from "../../network/global_config.json";
@@ -89,23 +94,23 @@ const Subhead = (props: any) => {
               className={`${styles.mainTab} ${item.seoPath == activeTab || (item.seoPath == "fundhousedetails" && (activeApi == "recoByFH" || activeApi == "FHDetail")) ? styles.active : ""}`}
             >
               {item.label == "News" ? (
-                <a
+                <Link
                   href={item.redirectLink}
                   target="_blank"
                   onClick={() => handleTabTracking(item.label)}
                   title={item.label}
                 >
                   {item.label}
-                </a>
+                </Link>
               ) : (
-                <a
+                <Link
                   data-tt={item.seoPath}
                   href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"][item.seoPath]}${urlFilterHandle()}`}
                   onClick={() => handleTabTracking(item.label)}
                   title={item.label}
                 >
                   {item.label}
-                </a>
+                </Link>
               )}
             </li>
           ))}

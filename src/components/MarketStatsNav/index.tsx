@@ -1,6 +1,7 @@
 "use client";
 import React, { Fragment } from "react";
 import styles from "./MarketStatsNav.module.scss";
+import Link from "next/link";
 import { trackingEvent } from "@/utils/ga";
 
 interface PageProps {
@@ -29,7 +30,7 @@ const MarketStatsNav: React.FC<PageProps> = React.memo((props) => {
       const elm = e.currentTarget;
       if (elm.classList.contains(styles["collapsed"])) {
         const navExpandedAll = document.querySelectorAll(
-          `.${styles["expanded"]}`
+          `.${styles["expanded"]}`,
         );
         navExpandedAll.forEach((item: any) => {
           item.classList.remove(styles["expanded"]);
@@ -57,11 +58,11 @@ const MarketStatsNav: React.FC<PageProps> = React.memo((props) => {
 
   const renderLink = (subItem: any, l3Label: string) => {
     const isExist: any = shortUrlMapping?.find(
-      (item: any) => item.longURL == subItem.link
+      (item: any) => item.longURL == subItem.link,
     );
     const linkHref = isExist ? isExist.shortUrl : subItem.link;
     return (
-      <a
+      <Link
         href={linkHref}
         title={subItem.label}
         onClick={() =>
@@ -73,7 +74,7 @@ const MarketStatsNav: React.FC<PageProps> = React.memo((props) => {
         }
       >
         {subItem.label}
-      </a>
+      </Link>
     );
   };
 

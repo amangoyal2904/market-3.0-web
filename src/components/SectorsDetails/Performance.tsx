@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchFilters, getPeerSectors } from "@/utils/utility";
 import styles from "./SectorsDetails.module.scss";
+import Link from "next/link";
 import toast from "react-hot-toast";
 import PerformanceAddPopUp from "./AddPopup/PerformanceAddPopUp";
 
@@ -48,7 +49,7 @@ const SectorsPerformance = React.memo(
       const updatedAssetIds = assetIds.filter((item: any) => item !== id);
       assetIds = updatedAssetIds;
       const updatedPeerData = peersData.filter(
-        (item: any) => item.assetId !== id
+        (item: any) => item.assetId !== id,
       );
       setPeersData(updatedPeerData);
     };
@@ -99,13 +100,13 @@ const SectorsPerformance = React.memo(
               <tr key={index} className={index == 0 ? styles.primeCell : ""}>
                 <td className={`${styles.left} ${styles.mw150}`}>
                   <div className="dflex align-item-ceter space-between">
-                    <a
+                    <Link
                       className={styles.ellipsis}
                       href={`/stocks/sectors/${item.assetSeoName}`}
                       title={item.assetName}
                     >
                       {item.assetName}
-                    </a>
+                    </Link>
                     {index > 0 && (
                       <i
                         className="eticon_cross"
@@ -147,7 +148,7 @@ const SectorsPerformance = React.memo(
         )}
       </>
     );
-  }
+  },
 );
 SectorsPerformance.displayName = "SectorsPerformance";
 export default SectorsPerformance;

@@ -1,4 +1,5 @@
 import styles from "./styles.module.scss";
+import Link from "next/link";
 import PieChartSector from "../../HighCharts/PieChartSector";
 
 const StockHeroBanner = ({ summaryData, desc }: any) => {
@@ -8,7 +9,7 @@ const StockHeroBanner = ({ summaryData, desc }: any) => {
   const maxCompanies = Math.max(
     allDataGraph?.negativeCompanies,
     allDataGraph?.pendingCompanies,
-    allDataGraph?.positiveCompanies
+    allDataGraph?.positiveCompanies,
   );
   const negativePercentage =
     (allDataGraph?.negativeCompanies / maxCompanies) * 100;
@@ -48,12 +49,12 @@ const StockHeroBanner = ({ summaryData, desc }: any) => {
         <div className={styles.left}>
           <div className={styles.top}>
             <div className={styles.mainHead}>{title}</div>
-            <a
+            <Link
               className={styles.link}
               href="/markets/stocks/earnings/sector-aggregate/top-performing"
             >
               View all Sectors
-            </a>
+            </Link>
           </div>
           <div className={styles.middle}>
             <p className={styles.ptxt}>{`${desc}`}</p>

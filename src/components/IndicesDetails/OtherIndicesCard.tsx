@@ -1,5 +1,6 @@
 import { formatNumber } from "@/utils";
 import styles from "./IndicesDetails.module.scss";
+import Link from "next/link";
 import React from "react";
 import { trackingEvent } from "@/utils/ga";
 const OtherIndicesCard = React.memo(({ data }: any) => {
@@ -7,7 +8,7 @@ const OtherIndicesCard = React.memo(({ data }: any) => {
     data.percentChange > 0 ? "up" : data.percentChange < 0 ? "down" : "neutral";
   return (
     <div className={styles.otherIndicesCard}>
-      <a
+      <Link
         className={styles.title}
         href={`/markets/indices/${data.indexSeoName}`}
         title={data.indexName}
@@ -21,7 +22,7 @@ const OtherIndicesCard = React.memo(({ data }: any) => {
       >
         <span>{data.indexName}</span>
         <i className="eticon_caret_right"></i>
-      </a>
+      </Link>
       <p className={styles.ltp}>{formatNumber(data.lastTradedPrice)}</p>
       <div
         className={`${styles.otherStats} ${trend == "up" ? styles.up : trend == "down" ? styles.down : ""}`}

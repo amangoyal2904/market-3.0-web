@@ -1,7 +1,10 @@
 import styles from "./styles.module.scss";
+import Image from "next/image";
 import { getStockUrl } from "@/utils/utility";
+import Link from "next/link";
 import Loader from "../../Loader";
 import { useStateContext } from "@/store/StateContext";
+// import WatchlistAddition from "../../WatchlistAddition";
 import NodataForTable from "../NodataForTable";
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
@@ -128,28 +131,28 @@ const BiggBullRecentTransactionsTable = ({
               tableData.map((tdata: any, index: any) => {
                 const currHolding = tdata?.stockdata?.filter(
                   (item: any) =>
-                    item?.uiValue?.statusCheck === "KCompanyQtr-Pre-Value"
+                    item?.uiValue?.statusCheck === "KCompanyQtr-Pre-Value",
                 );
                 const prevHolding = tdata?.stockdata?.filter(
                   (item: any) =>
-                    item?.uiValue?.statusCheck === "KCompanyQtr-Latest-Value"
+                    item?.uiValue?.statusCheck === "KCompanyQtr-Latest-Value",
                 );
                 const indecrease = tdata?.stockdata?.filter(
                   (item: any) =>
-                    item?.uiValue?.statusCheck === "KCompanyInc-Dec-Flag-Value"
+                    item?.uiValue?.statusCheck === "KCompanyInc-Dec-Flag-Value",
                 );
                 const amountInvSold = tdata?.stockdata?.filter(
                   (item: any) =>
-                    item?.uiValue?.statusCheck === "KCompanyQtr-Latest-Value"
+                    item?.uiValue?.statusCheck === "KCompanyQtr-Latest-Value",
                 );
 
                 return (
                   <tr key={`${index}`}>
                     <td>
-                      <a
+                      <Link
                         onClick={() =>
                           gaTrackingInvestorNameClick(
-                            tdata?.investorIntro?.name
+                            tdata?.investorIntro?.name,
                           )
                         }
                         href={`/markets/top-india-investors-portfolio/${tdata?.investorIntro?.sharkSeoName},expertid-${tdata?.investorIntro?.sharkID}`}
@@ -171,7 +174,7 @@ const BiggBullRecentTransactionsTable = ({
                           </span>
                           {tdata?.investorIntro?.name}
                         </span>
-                      </a>
+                      </Link>
                     </td>
                     <td>
                       <div
@@ -197,13 +200,13 @@ const BiggBullRecentTransactionsTable = ({
                               <a
                                 onClick={() =>
                                   gaTrackingCompanyNameClick(
-                                    tdata.companyData?.text
+                                    tdata.companyData?.text,
                                   )
                                 }
                                 href={getStockUrl(
                                   tdata?.companyData?.companyId,
                                   tdata?.companyData?.companySeoName,
-                                  tdata?.companyData?.companyType
+                                  tdata?.companyData?.companyType,
                                 )}
                                 target="_blank"
                                 className={styles.linkTxt}

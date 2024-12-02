@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./styles.module.scss";
 import FundNavAccordionItem from "./FundNavAccordionItem";
 import { getFundHouseInfo } from "../../utils";
@@ -31,13 +32,13 @@ const InnerLeftNav = (props: any) => {
                           key={`newrecos_ss_${ssindex}`}
                           className={`${styles.newRecosSSList} ${slug?.[1] == ssItem.recoType ? styles.active : ""}`}
                         >
-                          <a
+                          <Link
                             title={ssItem.label}
                             className={styles.ssLabel}
                             href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["home"]}/${item.seoPath}/${ssItem.recoType}${urlFilterHandle()}`}
                           >
                             {ssItem.label}
-                          </a>
+                          </Link>
                         </li>
                       </>
                     );
@@ -53,12 +54,12 @@ const InnerLeftNav = (props: any) => {
             <li
               className={`${styles.fundHousesLeftNav} ${styles.allBrokeragesTab} ${activeApi == "recoByFH" ? styles.active : ""}`}
             >
-              <a
+              <Link
                 title="All Brokerages"
                 href={`${(GLOBAL_CONFIG as any)["STOCK_RECOS"]["fundhousedetails"]}${urlFilterHandle()}`}
               >
                 All Brokerages
-              </a>
+              </Link>
             </li>
             {recosDetailResult?.recoData?.[0].data.map(
               (item: any, index: any) => (
@@ -69,7 +70,7 @@ const InnerLeftNav = (props: any) => {
                   slug={slug}
                   urlFilterHandle={urlFilterHandle}
                 />
-              )
+              ),
             )}
           </ul>
         </div>

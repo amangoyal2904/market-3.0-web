@@ -1,4 +1,5 @@
 import styles from "./styles.module.scss";
+import Link from "next/link";
 import LeftSecModule from "./LeftSec";
 import RightSecModule from "./RightSec";
 import { useState } from "react";
@@ -42,10 +43,10 @@ const HeroBanner = ({ data }: any) => {
   return (
     <>
       <div className={styles.topSec}>
-        <a href={`/markets/top-india-investors-portfolio/individual`}>
+        <Link href={`/markets/top-india-investors-portfolio/individual`}>
           <span className={`${styles.icon} eticon_caret_left`}></span>
           <span>back</span>
-        </a>
+        </Link>
       </div>
       <div className={styles.heroWraper}>
         <div className={styles.left}>

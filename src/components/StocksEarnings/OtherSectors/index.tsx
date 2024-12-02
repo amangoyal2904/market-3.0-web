@@ -2,6 +2,7 @@ import styles from "./styles.module.scss";
 import ViewAllCta from "../ViewAllCta";
 import { trackingEvent } from "@/utils/ga";
 import SlickSlider from "../../SlickSlider";
+import Link from "next/link";
 import { useEffect } from "react";
 
 const OtherSectors = ({ title, viewTxt, viewUrl, data }: any) => {
@@ -73,7 +74,7 @@ const OtherSectors = ({ title, viewTxt, viewUrl, data }: any) => {
   };
   const __onSlideChange = (value: any) => {
     const allSlides = document.querySelectorAll(
-      "#slider-otherSectorEarning .slick-slide.slick-active"
+      "#slider-otherSectorEarning .slick-slide.slick-active",
     );
     allSlides.forEach((slide: any) => {
       slide.style.borderRight = "solid 1px rgb(204, 204, 204)"; // Remove any existing border
@@ -101,7 +102,7 @@ const OtherSectors = ({ title, viewTxt, viewUrl, data }: any) => {
           <SlickSlider
             slides={data?.map((list: any, index: any) => ({
               content: (
-                <a
+                <Link
                   href={`/markets/stocks/earnings/sector-aggregate/${list?.assetSeoName}/id-${list?.assetId}`}
                   key={`topNews${index}`}
                   className={styles.newsCard}
@@ -132,7 +133,7 @@ const OtherSectors = ({ title, viewTxt, viewUrl, data }: any) => {
                       <span>{list?.declinesPercentage}%</span>
                     </div>
                   </div>
-                </a>
+                </Link>
               ),
             }))}
             key={`earningSector}`}
