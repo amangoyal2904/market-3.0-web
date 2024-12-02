@@ -24,12 +24,12 @@ export function middleware(request: NextRequest) {
   // Cache control configurations (unchanged)
   const cacheControlConfig = [
     {
-      paths: ["/marketsmweb/_next/static/chunks"],
+      paths: ["/marketsweb/_next/static/chunks"],
       cacheControl: "public, max-age=31536000, s-maxage=31536000, immutable",
       expires: 31536000000,
     },
     {
-      paths: ["/marketsmweb/static/"],
+      paths: ["/marketsweb/static/"],
       cacheControl:
         "public, max-age=31536000, s-maxage=31536000, must-revalidate, stale-while-revalidate=604800",
       expires: 31536000000,

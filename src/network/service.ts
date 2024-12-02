@@ -8,84 +8,74 @@ const getApiUrl = (config: any, index: any) => {
   const env = APP_ENV || "production";
   const domain = api.dns ? api.dns[env][index] || api.dns[env][0] : "";
   const urlPath =
-    (type && path == "reactfeed" && `reactfeed_${type}.cms`) || api.path;
-  const completeURL = url || domain + urlPath;
-  return completeURL;
+    (type && path === "reactfeed" && `reactfeed_${type}.cms`) || api.path;
+  return url || `${domain}${urlPath}`;
 };
 
-export const get = async (config: any) => {
+// Unified log function for MercuryClientRequest and MercuryServerRequest
+const logError = (
+  context: "MercuryClientRequest" | "MercuryServerRequest",
+  config: any,
+  error: any,
+) => {
+  saveLogs({
+    type: context,
+    res: "error",
+    msg:
+      error instanceof Error ? error.message : `HTTP error! Status: ${error}`,
+    resData: config,
+  });
+};
+
+const fetchData = async (
+  method: "GET" | "POST",
+  config: any,
+  context: "MercuryClientRequest" | "MercuryServerRequest",
+) => {
+  const url = getApiUrl(config, 0);
+  const cache = config.cache || false;
+  if (cache) {
+    config["cache"] = "no-store";
+  }
+
+  if (!config.headers) {
+    config["headers"] = {};
+  }
+
+  const fetchOptions = {
+    method,
+    ...(method === "POST" && { body: JSON.stringify(config.payload) }),
+    ...config,
+  };
+
   try {
-    const url = getApiUrl(config, 0);
-    const cache = !!config.cache ? config.cache : false;
-    if (cache) {
-      config["cache"] = "no-store";
-    }
-    if (!config.headers) {
-      config["headers"] = {};
-    }
-    const response = await fetch(url, { ...config });
+    const response = await fetch(url, fetchOptions);
     if (!response.ok) {
-      if (typeof window !== "undefined") {
-        saveLogs({
-          type: "Mercury",
-          res: "error",
-          msg: response.status,
-          resData: config,
-        });
-      }
+      logError(context, config, response.status);
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     return response;
-  } catch (e) {
-    if (typeof window !== "undefined") {
-      saveLogs({
-        type: "Mercury",
-        res: "error",
-        msg: e instanceof Error ? e.message : "Unknown error",
-        resData: config,
-      });
-    }
+  } catch (error) {
+    logError(context, config, error);
+    throw error; // Optionally re-throw the error for higher-level handling
   }
 };
 
-export const post = async (config: any) => {
-  try {
-    const { payload } = config;
-    const url = getApiUrl(config, 0);
-    const cache = !!config.cache ? config.cache : false;
-    if (cache) {
-      config["cache"] = "no-store";
-    }
-    const response = await fetch(url, {
-      method: "POST",
-      data: payload,
-      ...config,
-    });
+export const get = (config: any) => {
+  const context =
+    typeof window !== "undefined"
+      ? "MercuryClientRequest"
+      : "MercuryServerRequest";
+  return fetchData("GET", config, context);
+};
 
-    if (!response.ok) {
-      if (typeof window !== "undefined") {
-        saveLogs({
-          type: "Mercury",
-          res: "error",
-          msg: response.status,
-          resData: config,
-        });
-      }
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    return response;
-  } catch (e) {
-    if (typeof window !== "undefined") {
-      saveLogs({
-        type: "Mercury",
-        res: "error",
-        msg: e instanceof Error ? e.message : "Unknown error",
-        resData: config,
-      });
-    }
-  }
+export const post = (config: any) => {
+  const context =
+    typeof window !== "undefined"
+      ? "MercuryClientRequest"
+      : "MercuryServerRequest";
+  return fetchData("POST", config, context);
 };
 
 export default {

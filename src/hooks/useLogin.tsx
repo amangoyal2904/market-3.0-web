@@ -66,7 +66,7 @@ const useLogin = () => {
         }
 
         saveLogs({
-          type: "Mercury",
+          type: "MercuryClientRequest",
           res: "SUCCESS",
           msg: "verifyLoginSuccessCallback",
           resData: primeRes.data,
@@ -83,7 +83,7 @@ const useLogin = () => {
           delete_cookie("OTR");
         }
         saveLogs({
-          type: "Mercury",
+          type: "MercuryClientRequest",
           res: "Fail",
           msg: "verifyLoginSuccessCallback",
           resData: primeRes,

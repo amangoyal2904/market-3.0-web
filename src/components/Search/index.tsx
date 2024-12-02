@@ -58,7 +58,7 @@ const Search: React.FC<Props> = ({ pos }) => {
         .catch((err) => {
           console.log(err);
           saveLogs({
-            type: "Mercury",
+            type: "MercuryClientRequest",
             res: "error",
             msg: "Search Most popular API Error" + err,
           });
@@ -126,7 +126,7 @@ const Search: React.FC<Props> = ({ pos }) => {
               .catch((error) => {
                 console.error(`Data Fetch Error Inner: ${error}`);
                 saveLogs({
-                  type: "Mercury",
+                  type: "MercuryClientRequest",
                   res: "error",
                   msg:
                     "Search Data API Promise Error" + error + "query= " + query,
@@ -146,7 +146,7 @@ const Search: React.FC<Props> = ({ pos }) => {
     } catch (e) {
       console.error(e);
       saveLogs({
-        type: "Mercury",
+        type: "MercuryClientRequest",
         res: "error",
         msg: "Search Data API Catch Error" + e + "query= " + query,
       });

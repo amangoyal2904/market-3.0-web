@@ -8,6 +8,7 @@ import { useStateContext } from "@/store/StateContext";
 import refeshConfig from "@/utils/refreshConfig.json";
 import { saveLogs } from "@/utils/utility";
 import useIntervalApiCall from "@/utils/useIntervalApiCall";
+import Link from "next/link";
 
 const LiveMarketData = () => {
   const { state } = useStateContext();
@@ -22,7 +23,7 @@ const LiveMarketData = () => {
     } catch (err) {
       console.log("Error in Live Market Live ", err);
       saveLogs({
-        type: "Mercury",
+        type: "MercuryClientRequest",
         res: "error",
         msg: "Live Market Data API Error" + err,
       });
@@ -46,53 +47,12 @@ const LiveMarketData = () => {
   return (
     <>
       <div className={styles.liveMarkets}>
-        {/* {marketData && marketData[0] && (
-          <>
-            <div className={styles.marketIndex}>
-              <div className={styles.indexName}>SENSEX: </div>
-              <div className={`${styles.indexValue} numberFonts`}>
-                {marketData[0]?.sensex.CurrentIndexValue}
-              </div>
-              <div
-                className={`numberFonts ${styles.indexChange} ${Number(marketData[0]?.netChange) > 0 ? styles.green : styles.red}`}
-              >
-                {marketData[0]?.percentChange}%
-                <i
-                  className={
-                    Number(marketData[0]?.netChange) > 0
-                      ? "eticon_up_arrow"
-                      : "eticon_down_arrow"
-                  }
-                ></i>
-              </div>
-            </div>
-            <div className={styles.marketIndex}>
-              <div className={styles.indexName}>NIFTY:</div>
-              <div className={styles.indexValue}>
-                {marketData[0]?.nifty.CurrentIndexValue}
-              </div>
-              <div
-                className={`numberFonts ${styles.indexChange} ${Number(marketData[0]?.nifty.NetChange) > 0 ? styles.green : styles.red}`}
-              >
-                {marketData[0]?.nifty.PercentChange}%
-                <i
-                  className={
-                    Number(marketData[0]?.nifty.NetChange) > 0
-                      ? "eticon_up_arrow"
-                      : "eticon_down_arrow"
-                  }
-                ></i>
-              </div>
-            </div>
-          </>
-        )} */}
-
         {marketData &&
           marketData.map((item: any, index: number) => {
             return (
               <div className={styles.marketIndex} key={`md_${index}`}>
                 <div className={styles.indexName}>
-                  <a
+                  <Link
                     href={
                       item.indexName == "Nifty 50"
                         ? "/markets/indices/nifty-50"
@@ -101,7 +61,7 @@ const LiveMarketData = () => {
                     title={item.indexName == "Nifty 50" ? "NIFTY" : "SENSEX"}
                   >
                     {item.indexName == "Nifty 50" ? "NIFTY" : "SENSEX"}
-                  </a>
+                  </Link>
                 </div>
                 {/* <div className={styles.indexContainer}> */}
                 <div className={`${styles.indexValue} numberFonts`}>
