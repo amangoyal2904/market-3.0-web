@@ -252,7 +252,7 @@ export const getPageName = (pageURL = "") => {
   } else if (pagePathName.includes("/corporate-announcements")) {
     pageName = "Mercury_Corporate Announcements";
   } else {
-    pageName = "Mercury";
+    pageName = "MercuryClientRequest";
   }
   return pageName;
 };

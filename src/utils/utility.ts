@@ -69,7 +69,7 @@ export const getCurrentMarketStatus = async () => {
     }
     console.error("Error in fetching market status", errorMessage);
     saveLogs({
-      type: "Mercury",
+      type: "MercuryClientRequest",
       res: "error",
       msg: "Error in fetching market status",
       error: errorMessage,
@@ -249,7 +249,7 @@ export const fetchIndices = async () => {
   } catch (e) {
     console.log("error in fetching indices data", e);
     saveLogs({
-      type: "Mercury",
+      type: "MercuryClientRequest",
       res: "error",
       msg: "Error in fetching indices data",
     });
@@ -282,7 +282,7 @@ export const fetchFilters = async ({
   } catch (e) {
     console.log("error in fetching filters data", e);
     saveLogs({
-      type: "Mercury",
+      type: "MercuryClientRequest",
       res: "error",
       msg: "Error in fetching filters data",
     });
@@ -371,7 +371,7 @@ export const fetchTableData = async (viewId: any, params?: any) => {
   } catch (e) {
     console.log("error in fetching table data", e);
     saveLogs({
-      type: "Mercury",
+      type: "MercuryClientRequest",
       res: "error",
       msg: "Error in fetching table data",
     });
@@ -559,7 +559,7 @@ export const createPeuuid = async () => {
   } catch (e) {
     console.log("error in creating peuuid ", e);
     saveLogs({
-      type: "Mercury",
+      type: "MercuryClientRequest",
       res: "error",
       msg: "Error in creating peuuid",
     });
@@ -1391,64 +1391,68 @@ export const encodeHTML = (html: any) => {
     .replace(/'/g, "&#039;");
 };
 
-export const saveLogs = (data: any) => {
-  if (typeof window !== "undefined") {
-    // Check if running in a browser environment
-    if (data && window.location.hostname != "localhost") {
-      try {
-        const isLive = APP_ENV == "development" ? 0 : 1;
-        data.TicketId = getCookie("TicketId");
-        data.ssoid = getCookie("ssoid");
-        data.gid = getCookie("_grx") || "-";
-        if (window.objUser) {
-          if (
-            !data.emailid &&
-            window.objUser.info &&
-            window.objUser.info.primaryEmail
-          ) {
-            data.emailid = window.objUser.info.primaryEmail;
-          }
-          if (!data.ssoid && window.objUser.ssoid) {
-            data.ssoid = window.objUser.ssoid;
-          }
-          if (!data.TicketId && window.objUser.ticketId) {
-            data.TicketId = window.objUser.ticketId;
-          }
-        }
-        data.geoinfo = window?.geoinfo;
-        data.ua = (navigator && navigator.userAgent) || "";
-        var logdata =
-          "logdata=" +
-          JSON.stringify({
-            ref: (isLive ? "live" : "dev") + "_react",
-            data: data,
-            url: window.location.href,
-          });
+export const saveLogs = (data: any, pageUrl?: string) => {
+  try {
+    // Base data preparation
+    const isLive = APP_ENV === "development" ? 0 : 1;
+    const logData: any = {
+      ref: `${isLive ? "live" : "dev"}_react`,
+      data: { ...data }, // Ensure we don't mutate the original data object
+    };
 
-        var xhr = new XMLHttpRequest();
-        xhr.withCredentials = true;
+    if (typeof window !== "undefined") {
+      // Enhance with client-specific data
+      logData.data.TicketId = getCookie("TicketId");
+      logData.data.ssoid = getCookie("ssoid");
+      logData.data.gid = getCookie("_grx") || "-";
+      logData.data.geoinfo = window.geoinfo;
+      logData.data.ua = navigator?.userAgent || "";
+      logData.url = window.location.href;
 
-        xhr.addEventListener("readystatechange", function () {
-          if (this.readyState === 4) {
-            console.log(this.responseText);
-          }
-        });
-        //console.log("Log Data>>>>",logdata);
-
-        xhr.open("POST", "https://etx.indiatimes.com/log?et=desktop");
-        xhr.setRequestHeader(
-          "Content-Type",
-          "application/x-www-form-urlencoded",
-        );
-        xhr.send(logdata);
-      } catch (e) {
-        console.log("Error in save logs api");
+      if (window.objUser) {
+        const { info, ssoid, ticketId } = window.objUser;
+        logData.data.emailid = logData.data.emailid || info?.primaryEmail;
+        logData.data.ssoid = logData.data.ssoid || ssoid;
+        logData.data.TicketId = logData.data.TicketId || ticketId;
       }
+    } else {
+      // Server-side fallback
+      logData.url = pageUrl || "Server-Side Request (URL not available)";
     }
-  } else {
-    console.log("saveLogs: window is not defined, skipping log save.");
+
+    // Send logs to the endpoint
+    const payload = `logdata=${JSON.stringify(logData)}`;
+
+    if (typeof window !== "undefined") {
+      // Client-side POST using XMLHttpRequest
+      const xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
+      xhr.open("POST", "https://etx.indiatimes.com/log?et=desktop");
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.send(payload);
+    } else {
+      // Server-side POST using fetch
+      fetch("https://etx.indiatimes.com/log?et=desktop", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: payload,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            console.error("Failed to send logs from server:", response.status);
+          }
+        })
+        .catch((error) => {
+          console.error("Error sending logs from server:", error);
+        });
+    }
+  } catch (error) {
+    console.error("Error in saveLogs function:", error);
   }
 };
+
 export const loadScript = (
   src: string,
   async: boolean = true,
@@ -1497,7 +1501,7 @@ export const fetchSectors = async () => {
   } catch (e) {
     console.log("error in fetching indices data", e);
     saveLogs({
-      type: "Mercury",
+      type: "MercuryClientRequest",
       res: "error",
       msg: "Error in fetching indices data",
     });

@@ -38,14 +38,14 @@ const HandleLink: React.FC<HandleLinkProps> = ({
 
   if (isExternalPage) {
     return (
-      <a href={link} {...commonProps}>
+      <a data-tag="anchortag" href={link} {...commonProps}>
         {children}
       </a>
     );
   }
 
   return (
-    <Link href={link} {...commonProps}>
+    <Link data-tag="linktag" href={link} {...commonProps}>
       {children}
     </Link>
   );

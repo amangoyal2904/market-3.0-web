@@ -51,7 +51,7 @@ const StocksEarningsPage = async () => {
     } catch (e) {
       console.log("error in fetching top news", e);
       saveLogs({
-        type: "Mercury",
+        type: "MercuryClientRequest",
         res: "error",
         msg: "Error in fetching top news data stocks earnings",
       });

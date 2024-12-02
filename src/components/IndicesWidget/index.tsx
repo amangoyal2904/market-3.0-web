@@ -117,7 +117,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
       });
       const data = response ? await response?.json() : {};
       saveLogs({
-        type: "Mercury",
+        type: "MercuryClientRequest",
         res: "success",
         msg: "Successfully fetched indices widget data",
       });
@@ -136,7 +136,7 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
     } catch (e) {
       console.log("error in fetching indices data", e);
       saveLogs({
-        type: "Mercury",
+        type: "MercuryClientRequest",
         res: "error",
         msg: "Error in fetching indices widget data",
       });

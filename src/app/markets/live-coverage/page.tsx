@@ -57,12 +57,16 @@ const LiveCoverage = async () => {
       });
       const data = response ? await response?.json() : {};
       return data;
-    } catch (e) {
-      saveLogs({
-        type: "Mercury",
-        res: "error",
-        msg: "Error in fetching indices widget data data",
-      });
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : String(e);
+      saveLogs(
+        {
+          type: "MercuryServerRequest",
+          res: "error",
+          msg: `Error in fetching indices widget data: ${errorMessage}`,
+        },
+        pageUrl,
+      );
     }
   };
 
@@ -79,13 +83,16 @@ const LiveCoverage = async () => {
         // Handle cases where response is undefined or not successful
         return [];
       }
-    } catch (e) {
-      console.log("error in fetching top news", e);
-      saveLogs({
-        type: "Mercury",
-        res: "error",
-        msg: "Error in fetching top news data",
-      });
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : String(e);
+      saveLogs(
+        {
+          type: "MercuryServerRequest",
+          res: "error",
+          msg: `Error in fetching top news data: ${errorMessage}`,
+        },
+        pageUrl,
+      );
       return [];
     }
   };
@@ -100,13 +107,16 @@ const LiveCoverage = async () => {
       const fiidiiData =
         (data && data.datainfo && data.datainfo.fiiDiiChart) || {};
       return fiidiiData;
-    } catch (e) {
-      console.log("error in fetching FiiDIIData data", e);
-      saveLogs({
-        type: "Mercury",
-        res: "error",
-        msg: "Error in fetching FiiDIIData data",
-      });
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : String(e);
+      saveLogs(
+        {
+          type: "MercuryServerRequest",
+          res: "error",
+          msg: `Error in fetching FiiDIIData data: ${errorMessage}`,
+        },
+        pageUrl,
+      );
     }
   };
 
@@ -119,13 +129,16 @@ const LiveCoverage = async () => {
       });
       const getRecosNavData = await recosNavPromise?.json();
       return getRecosNavData;
-    } catch (e) {
-      console.log("error in fetching recosNav data", e);
-      saveLogs({
-        type: "Mercury",
-        res: "error",
-        msg: "Error in fetching recosNav data",
-      });
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : String(e);
+      saveLogs(
+        {
+          type: "MercuryServerRequest",
+          res: "error",
+          msg: `Error in fetching recosNav data: ${errorMessage}`,
+        },
+        pageUrl,
+      );
     }
   };
 
@@ -152,13 +165,16 @@ const LiveCoverage = async () => {
       });
       const getRecosDetailData = await getRecosDetailPromise?.json();
       return getRecosDetailData;
-    } catch (e) {
-      console.log("error in fetching recos data", e);
-      saveLogs({
-        type: "Mercury",
-        res: "error",
-        msg: "Error in fetching recos data",
-      });
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : String(e);
+      saveLogs(
+        {
+          type: "MercuryServerRequest",
+          res: "error",
+          msg: `Error in fetching recos data: ${errorMessage}`,
+        },
+        pageUrl,
+      );
     }
   };
   const getSrPlusData = async (screenerId: any) => {
@@ -185,13 +201,16 @@ const LiveCoverage = async () => {
       });
       const data = await getSrPlusDataPromise?.json();
       return data;
-    } catch (e) {
-      console.log("error in fetching srPlus data", e);
-      saveLogs({
-        type: "Mercury",
-        res: "error",
-        msg: "Error in fetching srPlus data",
-      });
+    } catch (e: unknown) {
+      const errorMessage = e instanceof Error ? e.message : String(e);
+      saveLogs(
+        {
+          type: "MercuryServerRequest",
+          res: "error",
+          msg: `Error in fetching srPlus data: ${errorMessage}`,
+        },
+        pageUrl,
+      );
     }
   };
   const stockRecoResult = await getRecosData("newRecos");

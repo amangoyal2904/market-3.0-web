@@ -198,7 +198,7 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                               <HandleLink
                                 link={sec.link}
                                 label={sec.label}
-                                isExternalPage={true}
+                                isExternalPage={sec.isExternalPage}
                                 newTab={sec.newTab}
                                 role="menuitem"
                                 itemProp="url"
