@@ -92,18 +92,25 @@ const IntradayTabOptions = [
 
 const fetchTabsData = async ({ type, ssoid }: any) => {
   let apiUrl = `${(APIS_CONFIG as any)?.["MARKETS_CUSTOM_TAB"][APP_ENV]}`;
-  if (type != "watchlist") {
+  if (type !== "watchlist") {
     apiUrl += `?statstype=${type}`;
   }
+
+  // Conditionally set headers based on ssoid availability
+  const headers: Record<string, string> = ssoid
+    ? {
+        "Content-Type": "application/json",
+        ssoid: ssoid,
+      }
+    : {};
+
   const response = await Service.get({
     url: apiUrl,
     params: {},
     cache: "no-store",
-    headers: {
-      "Content-Type": "application/json",
-      ssoid: ssoid,
-    },
+    headers: headers,
   });
+
   return response?.json();
 };
 

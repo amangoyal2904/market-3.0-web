@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { trackingEvent } from "@/utils/ga";
 import GLOBAL_CONFIG from "../../network/global_config.json";
 import { renderIconPaths } from "@/utils/iconUtils";
+import HandleLink from "../Common/HandleLink";
 
 const LeftNav = ({ leftNavResult = {} }: any) => {
   const { markets = {}, markets_pro = {} } = leftNavResult;
@@ -139,14 +140,17 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                   role="presentation"
                 >
                   {value.link ? (
-                    <a
-                      title={value.label}
-                      href={value.link}
-                      target={value?.newTab ? "_blank" : "_self"}
+                    <HandleLink
+                      link={value.link}
+                      label={value.label}
+                      isExternalPage={value.isExternalPage}
+                      newTab={value.newTab}
+                      className={`${styles.mainTabWrap} ${
+                        hasUrlSelect(value.matchPattern) ? styles.active : ""
+                      }`}
                       onClick={() =>
                         navClickTrackingHandle({ l1: value.label, l2: "" })
                       }
-                      className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
                       role="menuitem"
                     >
                       <span className={`${value.icon} ${styles.navIcon}`}>
@@ -162,7 +166,7 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                           className={`eticon_caret_right ${styles.caret_right}`}
                         ></span>
                       )}
-                    </a>
+                    </HandleLink>
                   ) : (
                     <>
                       <div
@@ -191,22 +195,23 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                               key={`l2_label_${secIndex}`}
                               role="presentation"
                             >
-                              <a
-                                title={sec.label}
-                                href={sec.link}
-                                target={sec?.newTab ? "_blank" : "_self"}
+                              <HandleLink
+                                link={sec.link}
+                                label={sec.label}
+                                isExternalPage={true}
+                                newTab={sec.newTab}
+                                role="menuitem"
+                                itemProp="url"
                                 onClick={() =>
                                   navClickTrackingHandle({
                                     l1: value.label,
                                     l2: sec.label,
                                   })
                                 }
-                                role="menuitem"
-                                itemProp="url"
                               >
                                 <meta itemProp="name" content={sec.label} />
                                 {sec.label}
-                              </a>
+                              </HandleLink>
                             </li>
                           ))}
                         </ul>
@@ -238,16 +243,19 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                   key={`market_pro_nav_${index}`}
                   role="presentation"
                 >
-                  <a
-                    href={value.link}
-                    title={value.label}
-                    target={value?.newTab ? "_blank" : "_self"}
+                  <HandleLink
+                    link={value.link}
+                    label={value.label}
+                    isExternalPage={value.isExternalPage}
+                    newTab={value.newTab}
+                    role="menuitem"
+                    itemProp="url"
+                    className={`${styles.mainTabWrap} ${
+                      hasUrlSelect(value.matchPattern) ? styles.active : ""
+                    }`}
                     onClick={() =>
                       navClickTrackingHandle({ l1: value.label, l2: "" })
                     }
-                    itemProp="url"
-                    className={`${styles.mainTabWrap} ${hasUrlSelect(value.matchPattern) ? styles.active : ""}`}
-                    role="menuitem"
                   >
                     <meta itemProp="name" content={value.label} />
                     <span className={`${value.icon} ${styles.navIcon}`}>
@@ -258,7 +266,7 @@ const LeftNav = ({ leftNavResult = {} }: any) => {
                     >
                       {value.label}
                     </span>
-                  </a>
+                  </HandleLink>
                 </li>
               ))}
             </ul>

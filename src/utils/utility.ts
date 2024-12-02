@@ -292,12 +292,15 @@ export const fetchFilters = async ({
 export const fetchTabsData = async () => {
   const ssoid = window.objUser?.ssoid;
   const apiUrl = `${(APIS_CONFIG as any)?.MARKETS_CUSTOM_TAB[APP_ENV]}?ssoid=${ssoid}`;
+
+  // Conditionally set headers if ssoid exists
+  const headers: Record<string, string> = ssoid ? { ssoid } : {};
+
   const data = await fetch(apiUrl, {
     cache: "no-store",
-    headers: {
-      ssoid: ssoid,
-    },
+    headers: headers,
   });
+
   const res = await data.json();
   return res;
 };
