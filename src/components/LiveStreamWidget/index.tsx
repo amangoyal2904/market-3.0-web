@@ -5,6 +5,7 @@ import ViewAllLink from "../ViewAllLink";
 import LiveStreamPlay from "../LiveStreamPlay";
 import HeadingHome from "../ViewAllLink/HeadingHome";
 import GLOBAL_CONFIG from "@/network/global_config.json";
+import service from "@/network/service";
 
 const fetchLiveStreamData = async () => {
   try {
@@ -34,14 +35,16 @@ const fetchLiveStreamData = async () => {
       pageSize: 10,
     };
 
-    const data = await fetch(apiUrl, {
-      method: "POST",
+    const data = await service.post({
+      url: apiUrl,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(bodyParams),
       cache: "no-store",
+      params: {},
     });
+
     const res = await data.json();
     return res.result ? res.result : [];
   } catch (e) {

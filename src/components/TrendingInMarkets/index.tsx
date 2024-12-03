@@ -1,11 +1,11 @@
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
-import Service from "@/network/service";
+import service from "@/network/service";
 import styles from "./TrendingInMarkets.module.scss";
 import TrendingInMarketsList from "./list";
 
 const getTrendingInMarkets = async () => {
-  const response = await Service.get({
+  const response = await service.get({
     url: (APIS_CONFIG as any)["TRENDING_IN_MARKETS"][APP_ENV],
     params: {},
   });

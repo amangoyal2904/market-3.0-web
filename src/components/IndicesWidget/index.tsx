@@ -12,7 +12,7 @@ import {
   removeHostname,
   replaceWidthHeight,
 } from "@/utils/index";
-import Service from "@/network/service";
+import service from "@/network/service";
 import { useStateContext } from "@/store/StateContext";
 import refreshConfig from "@/utils/refreshConfig.json";
 import MarketStatus from "../MarketStatus";
@@ -110,36 +110,22 @@ const IndicesWidget = ({ data, topNewsData, fiiDiiCash }: any) => {
     );
   };
   const getIndicesWidgetData = async () => {
-    try {
-      const response = await Service.get({
-        url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
-        params: {},
-      });
-      const data = response ? await response?.json() : {};
-      saveLogs({
-        type: "MercuryClientRequest",
-        res: "success",
-        msg: "Successfully fetched indices widget data",
-      });
-      if (data && data.indicesList) {
-        setIndicesData(data?.indicesList);
-        setSelectedIndex((prevState: any) =>
-          Object.keys(prevState)?.length
-            ? data?.indicesList?.filter(
-                (stock: { indexId: any }) => stock.indexId == prevState.indexId,
-              )?.[0]
-            : data?.indicesList[0],
-        );
-        setFiiCash(data?.fiiData);
-        setDiiCash(data?.diiData);
-      }
-    } catch (e) {
-      console.log("error in fetching indices data", e);
-      saveLogs({
-        type: "MercuryClientRequest",
-        res: "error",
-        msg: "Error in fetching indices widget data",
-      });
+    const response = await service.get({
+      url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
+      params: {},
+    });
+    const data = response ? await response?.json() : {};
+    if (data && data.indicesList) {
+      setIndicesData(data?.indicesList);
+      setSelectedIndex((prevState: any) =>
+        Object.keys(prevState)?.length
+          ? data?.indicesList?.filter(
+              (stock: { indexId: any }) => stock.indexId == prevState.indexId,
+            )?.[0]
+          : data?.indicesList[0],
+      );
+      setFiiCash(data?.fiiData);
+      setDiiCash(data?.diiData);
     }
   };
   const onSelectIndex = (selectedItem: any, index: any) => {

@@ -5,6 +5,7 @@ import APIS_CONFIG from "../../network/api_config.json";
 import { APP_ENV } from "../../utils/index";
 import NameViewComponent from "./Createmodule";
 import { trackingEvent } from "@/utils/ga";
+import service from "@/network/service";
 
 const CreateScreenerModule = ({
   closeModuleScreenerNew,
@@ -34,7 +35,7 @@ const CreateScreenerModule = ({
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.AllScreenerCategory[
       APP_ENV
     ];
-    const data = await fetch(API_URL);
+    const data = await service.get({ url: API_URL, params: {} });
     const resData = await data.json();
     const viewDataSet =
       resData &&
@@ -101,7 +102,10 @@ const CreateScreenerModule = ({
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.getScreenerMapping[
       APP_ENV
     ];
-    const data = await fetch(`${API_URL}${searchNode}`);
+    const data = await service.get({
+      url: `${API_URL}${searchNode}`,
+      params: {},
+    });
     const res = await data.json();
     const searchlistItemData =
       res &&
@@ -168,12 +172,16 @@ const CreateScreenerModule = ({
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.screenerViewById[
       APP_ENV
     ];
-    const data = await fetch(`${API_URL}${viewId}`, {
+
+    const data = await service.get({
+      url: `${API_URL}${viewId}`,
+      params: {},
       cache: "no-store",
       headers: {
         ssoid: ssoid,
       },
     });
+
     const resData = await data.json();
     //console.log('resdata', resData)
     if (
@@ -198,12 +206,16 @@ const CreateScreenerModule = ({
     const ssoid = window.objUser?.ssoid;
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW
       .screenerRemoveviewbyid[APP_ENV];
-    const data = await fetch(`${API_URL}${viewId}`, {
+
+    const data = await service.get({
+      url: `${API_URL}${viewId}`,
+      params: {},
       cache: "no-store",
       headers: {
         ssoid: ssoid,
       },
     });
+
     const resData = await data.json();
     //console.log('resdata', resData)
     if (resData && resData.responseCode === 200) {

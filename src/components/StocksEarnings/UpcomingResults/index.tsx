@@ -5,15 +5,11 @@ import { APP_ENV } from "../../../utils";
 import APIS_CONFIG from "../../../network/api_config.json";
 import StockFilterNifty from "@/components/StockFilterNifty";
 import { fetchFilters, fetchSelectedFilter } from "@/utils/utility";
-import {
-  commonGetAPIHandler,
-  commonPostAPIHandler,
-} from "../../../utils/screeners";
 import Link from "next/link";
 
-import { getStockUrl } from "@/utils/utility";
 import useDebounce from "@/hooks/useDebounce";
 import { trackingEvent } from "@/utils/ga";
+import service from "@/network/service";
 
 const latestResult = [
   { title: "Latest Results", value: "latest-results" },
@@ -84,22 +80,13 @@ const UpcomingResults = ({
     console.log("Fetching data for:", _q);
     const API_URL = (APIS_CONFIG as any)?.EARNINGS_SEARCH[APP_ENV];
     const _searchQuery = `?matchCompanyName=true&realstate=false&dvr=false&idr=false&trust=false&mcx=false&mf=false&nps=false&insideet=false&detail=false&forex=false&index=false&mecklai=false&etf=false&nonList=false&forETGraph=false&pagesize=5&outputtype=json&pp=false&earningsFlag=true&ticker=${_q}`;
-    // const response: any[] = await commonGetAPIHandler(
-    //   `EARNINGS_SEARCH`,
-    //   _searchQuery,
-    // );
-    // response && response.length > 0
-    //   ? setQueryResultData([...response])
-    //   : setQueryResultData([]);
-    // const resData = await fetch(`${API_URL}${_searchQuery}`)
-    // const data = await resData.json();
-    // console.log("___serch data ", data)
+
     try {
-      const resData = await fetch(`${API_URL}${_searchQuery}`);
-      if (!resData.ok) {
-        throw new Error(`Error: ${resData.status}`);
-      }
-      const data = await resData.json();
+      const resData = await service.get({
+        url: `${API_URL}${_searchQuery}`,
+        params: {},
+      });
+      const data = await resData?.json();
       if (data && data.length > 0) {
         setQueryResultData([...data]);
       } else {

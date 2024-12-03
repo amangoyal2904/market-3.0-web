@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import APIS_CONFIG from "../../network/api_config.json";
-import Service from "@/network/service";
+import service from "@/network/service";
 import { APP_ENV } from "../../utils/index";
 import SlickSlider from "../SlickSlider";
 import StockScreenCards from "./StockScreenCards";
@@ -10,7 +10,7 @@ import HeadingHome from "../ViewAllLink/HeadingHome";
 const fetchData = async () => {
   const bodyParams = `?collectiontypeid=5&screenercount=10`;
   const API_URL = `${(APIS_CONFIG as any)?.SCREENER?.getAllScreenerlist[APP_ENV]}${bodyParams}`;
-  const response = await Service.get({
+  const response = await service.get({
     url: API_URL,
     params: {},
     cache: "no-store",

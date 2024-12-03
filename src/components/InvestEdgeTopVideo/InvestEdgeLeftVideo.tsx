@@ -6,6 +6,7 @@ import { getCookie } from "@/utils";
 import Link from "next/link";
 import ViewShareSec from "@/components/ETLearn/ViewShareSec";
 import { trackingEvent } from "@/utils/ga";
+import service from "@/network/service";
 
 // Define the interface for the view object
 interface View {
@@ -44,15 +45,15 @@ const InvestEdgeLeftVideo = ({ videoPlayData, selectedcategory }: any) => {
     const APIURL = `https://etusersqc2.economictimes.indiatimes.com/et/getpref?stype=2&usersettingsubType=23`;
     const _authorization: any = getCookie("peuuid");
 
-    const resData = await fetch(APIURL, {
-      method: "GET",
+    const resData = await service.get({
+      url: APIURL,
+      params: {},
       headers: {
         "Content-Type": "application/json",
         Authorization: _authorization,
       },
     });
     const response = await resData.json();
-    //console.log("__checkUserAllreadyLikeOrNot", response);
   };
   const checkLikeCount = async () => {
     const APIURL =
@@ -65,16 +66,16 @@ const InvestEdgeLeftVideo = ({ videoPlayData, selectedcategory }: any) => {
       },
     ];
 
-    const resData = await fetch(APIURL, {
-      method: "POST",
+    const resData = await service.post({
+      url: APIURL,
       headers: {
         "Content-Type": "application/json",
         Authorization: _authorization,
       },
       body: JSON.stringify(bodyPayload),
+      params: {},
     });
     const response = await resData.json();
-    //console.log("__responseCount", response);
   };
   const likeAPICall = async (dataBody: any) => {
     const followData = {
@@ -89,16 +90,18 @@ const InvestEdgeLeftVideo = ({ videoPlayData, selectedcategory }: any) => {
     const _authorization: any = getCookie("peuuid");
     const APIURL =
       "https://etusersqc2.economictimes.indiatimes.com/et/savesettings/json";
-    const resData = await fetch(APIURL, {
-      method: "POST",
+
+    const resData = await service.post({
+      url: APIURL,
       headers: {
         "Content-Type": "application/json",
         Authorization: _authorization,
       },
       body: JSON.stringify(followData),
+      params: {},
     });
+
     const response = await resData.json();
-    //console.log("__response", response);
     checkLikeCount();
   };
   const likeHandler = () => {

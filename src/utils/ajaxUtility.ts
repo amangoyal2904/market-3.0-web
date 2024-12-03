@@ -1,6 +1,6 @@
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
-import Service from "@/network/service";
+import service from "@/network/service";
 
 /**
  * Sends a GET request to the specified endpoint with optional query parameters.
@@ -21,7 +21,7 @@ export const getRequest = async (endpoint: string, filters: any) => {
     baseUrl += (queryFilters.includes("?") ? "&" : "?") + queryFilters;
   }
 
-  const response = await Service.get({
+  const response = await service.get({
     url: baseUrl,
     params: {},
   });
@@ -48,7 +48,7 @@ export const postRequest = async (
   headers?: any,
 ) => {
   let baseUrl = `${(APIS_CONFIG as any)?.[endpoint][APP_ENV]}`;
-  const response = await Service.post({
+  const response = await service.post({
     url: baseUrl,
     body: bodyObj ? JSON.stringify(bodyObj) : {},
     params: {},

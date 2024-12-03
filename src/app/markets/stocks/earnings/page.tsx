@@ -31,32 +31,21 @@ const StocksEarningsPage = async () => {
   const pageUrl = headersList.get("x-url") || "";
 
   const fetchTopNews = async () => {
-    try {
-      //console.log("______",`${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=5766568`)
-      const response = await service.get({
-        url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=5766568&mode=hierarchy`,
-        params: {},
-      });
-      const data = response ? await response?.json() : {};
-      const topNewsData =
-        (data &&
-          data.searchResult &&
-          data.searchResult[0] &&
-          data.searchResult[0].data) ||
-        [];
-      const topNewsFilteredData = topNewsData?.filter(
-        (data: { type: string }) => data.type === "articleshow",
-      );
-      return topNewsFilteredData;
-    } catch (e) {
-      console.log("error in fetching top news", e);
-      saveLogs({
-        type: "MercuryClientRequest",
-        res: "error",
-        msg: "Error in fetching top news data stocks earnings",
-      });
-      return [];
-    }
+    const response = await service.get({
+      url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=5766568&mode=hierarchy`,
+      params: {},
+    });
+    const data = response ? await response?.json() : {};
+    const topNewsData =
+      (data &&
+        data.searchResult &&
+        data.searchResult[0] &&
+        data.searchResult[0].data) ||
+      [];
+    const topNewsFilteredData = topNewsData?.filter(
+      (data: { type: string }) => data.type === "articleshow",
+    );
+    return topNewsFilteredData || [];
   };
 
   const earningsSummary = await commonGetAPIHandler(`EARNINGS_SUMMARY`);

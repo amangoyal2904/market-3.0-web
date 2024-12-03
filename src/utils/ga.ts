@@ -2,7 +2,7 @@
 import { getCookie } from "@/utils";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
-import Service from "../network/service";
+import service from "../network/service";
 import GLOBAL_CONFIG from "../network/global_config.json";
 import grxMappingObj from "@/utils/grxMappingObj.json";
 import cdpObj from "@/utils/cdpObj.json";
@@ -141,12 +141,13 @@ export const trackPushData = (
     "Content-Type": "application/json",
   };
 
-  Service.post({
-    url,
-    headers: headers,
-    body: JSON.stringify(pushData),
-    params: {},
-  })
+  service
+    .post({
+      url,
+      headers: headers,
+      body: JSON.stringify(pushData),
+      params: {},
+    })
     .then((res) => {
       if (redirect) {
         window.location.href = newPlanUrl;

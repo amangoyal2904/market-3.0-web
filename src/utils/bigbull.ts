@@ -1,6 +1,6 @@
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
-import Service from "@/network/service";
+import service from "@/network/service";
 
 export const fetchPostCommonAPI = async (
   bodyParams: any,
@@ -9,7 +9,7 @@ export const fetchPostCommonAPI = async (
   apiType: any,
 ) => {
   const apiUrl = (APIS_CONFIG as any)?.[apiType][APP_ENV];
-  const response = await Service.post({
+  const response = await service.post({
     url: apiUrl,
     headers: {
       "Content-Type": "application/json",
@@ -30,7 +30,7 @@ export const fetchGetCommonAPI = async ({
   ssoid = "",
 }: any) => {
   const apiUrl = (APIS_CONFIG as any)?.[type][APP_ENV];
-  const response = await Service.get({
+  const response = await service.get({
     url: `${apiUrl}${searchParam}`,
     params: {},
     cache: "no-store",

@@ -19,7 +19,7 @@ const LiveStreamSlider = ({ liveStreamData }: any) => {
     {
       breakpoint: 1601,
       settings: {
-        slidesToShow: 5,
+        slidesToShow: 4,
       },
     },
     {
@@ -31,18 +31,26 @@ const LiveStreamSlider = ({ liveStreamData }: any) => {
   ];
   return liveStreamData?.length ? (
     <div className={styles.liveStreamWrapper}>
-      <SlickSlider
-        slides={liveStreamData?.map((slides: any, index: any) => ({
-          content: <LiveStreamCards data={slides} index={index} />,
-        }))}
-        key={`liveStreamSlider}`}
-        sliderId={`slider-liveStream`}
-        slidesToShow={5}
-        slidesToScroll={1}
-        rows={1}
-        topSpaceClass="liveStream"
-        responsive={responsive}
-      />
+      {!!liveStreamData && liveStreamData.length > 4 ? (
+        <SlickSlider
+          slides={liveStreamData?.map((slides: any, index: any) => ({
+            content: <LiveStreamCards data={slides} index={index} />,
+          }))}
+          key={`liveStreamSlider}`}
+          sliderId={`slider-liveStream`}
+          slidesToShow={5}
+          slidesToScroll={1}
+          rows={1}
+          topSpaceClass="liveStream"
+          responsive={responsive}
+        />
+      ) : (
+        <div className={styles.grid}>
+          {liveStreamData?.map((slides: any, index: any) => (
+            <LiveStreamCards data={slides} index={index} key={index} />
+          ))}
+        </div>
+      )}
     </div>
   ) : (
     ""

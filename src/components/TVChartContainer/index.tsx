@@ -19,7 +19,8 @@ import {
 import { trackingEvent } from "@/utils/ga";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
-import Service from "@/network/service";
+import service from "@/network/service";
+import { saveLogs } from "@/utils/utility";
 
 interface TimePair {
   [key: string]: string;
@@ -637,6 +638,15 @@ export const TVChartContainer = (
             console.info("Image uploaded successfully:", data);
           }
         } catch (error) {
+          saveLogs({
+            type: "MercuryClientRequest",
+            res: "error",
+            msg:
+              error instanceof Error
+                ? error.message
+                : `Error uploading chart pattern image: ${error}`,
+            resData: formData,
+          });
           console.warn("Error uploading image:", error);
         }
       }, "image/png");
@@ -652,7 +662,7 @@ export const TVChartContainer = (
 
     const getPatternData = async (patternId: string) => {
       let apiUrl = `${(APIS_CONFIG as any)?.["CHARTPATTERNBYID"][APP_ENV]}?id=${patternId}`;
-      const response = await Service.get({
+      const response = await service.get({
         url: apiUrl,
         params: {},
         cache: "no-store",

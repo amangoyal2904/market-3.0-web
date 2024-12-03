@@ -12,6 +12,7 @@ import { usePathname } from "next/navigation";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import jStorageReact from "jstorage-react";
+import service from "@/network/service";
 
 const CommonNudge = ({ modalType }: any) => {
   const pathName = usePathname();
@@ -105,20 +106,29 @@ const CommonNudge = ({ modalType }: any) => {
   const isPrimeTools = checkUrl();
   const fetchMetaInfoDataTopNudge = async () => {
     const apiUrl = (APIS_CONFIG as any)?.["META_INFO"][APP_ENV];
-    const data = await fetch(`${apiUrl}?msid=98201998`);
+    const data = await service.get({
+      url: `${apiUrl}?msid=98201998`,
+      params: {},
+    });
     const resonse = await data.json();
     setMetaInfoTopNudege(resonse?.metainfo);
   };
   const fetchMetaInfoDataBottomNudge = async () => {
     const apiUrl = (APIS_CONFIG as any)?.["META_INFO"][APP_ENV];
-    const data = await fetch(`${apiUrl}?msid=111625583`);
+    const data = await service.get({
+      url: `${apiUrl}?msid=111625583`,
+      params: {},
+    });
     const response = await data.json();
     setMetaInfoBottomNudege(response?.metainfo);
   };
 
   const fetchMetaInfoDataPrimeNudge = async () => {
     const apiUrl = (APIS_CONFIG as any)?.["META_INFO"][APP_ENV];
-    const data = await fetch(`${apiUrl}?msid=111625583`);
+    const data = await service.get({
+      url: `${apiUrl}?msid=111625583`,
+      params: {},
+    });
     const response = await data.json();
     setMetaInfoPrimeNudege(response?.metainfo);
   };

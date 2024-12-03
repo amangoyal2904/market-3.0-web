@@ -64,7 +64,6 @@ const useLogin = () => {
             activateFreeTrial();
           }, 500);
         }
-
         saveLogs({
           type: "MercuryClientRequest",
           res: "SUCCESS",

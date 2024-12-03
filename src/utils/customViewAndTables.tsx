@@ -1,6 +1,6 @@
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
-import Service from "@/network/service";
+import service from "@/network/service";
 import { getAllShortUrls } from "./marketstats";
 import { fetchViewTable } from "./utility";
 
@@ -104,7 +104,7 @@ const fetchTabsData = async ({ type, ssoid }: any) => {
       }
     : {};
 
-  const response = await Service.get({
+  const response = await service.get({
     url: apiUrl,
     params: {},
     cache: "no-store",
@@ -130,7 +130,7 @@ const concatenateAndLowerCase = (
 
 export const getIntradayViewsTab = async () => {
   const apiUrl = `${(APIS_CONFIG as any)?.MARKETSINTRADAY_CUSTOM_TAB[APP_ENV]}`;
-  const data = await fetch(apiUrl);
+  const data = await service.get({ url: apiUrl, params: {} });
   const apiresponse = await data.json();
   const tabData = apiresponse.map((item: any) => {
     const localItem = IntradayTabOptions.find(

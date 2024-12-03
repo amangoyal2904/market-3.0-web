@@ -19,6 +19,7 @@ import { fetchFilters } from "@/utils/utility";
 import SectorFilter from "../DayFilter/SectorFilter";
 import { trackingEvent } from "@/utils/ga";
 import Link from "next/link";
+import service from "@/network/service";
 
 const IndustryFilter = dynamic(() => import("@/components/IndustryFilter"), {
   loading: () => (
@@ -139,14 +140,17 @@ const MarketFiltersTab = React.memo(
         views: updatedOrder,
       };
       setLoading(true);
-      const res = await fetch(`${API_URL}`, {
-        method: "POST",
+
+      const res = await service.post({
+        url: `${API_URL}`,
         headers: {
           "Content-Type": "application/json",
           ssoid: ssoid,
         },
         body: JSON.stringify(bodyPost),
+        params: {},
       });
+
       setLoading(false);
       const resData = await res.json();
       console.log("resdata", resData);

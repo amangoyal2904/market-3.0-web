@@ -7,6 +7,7 @@ import NameViewComponent from "./createmodule";
 import ToasterPopup from "../ToasterPopup/OnlyInfo";
 import ToasterPopupConfirm from "../ToasterPopup/ConfirmBox";
 import { trackingEvent } from "@/utils/ga";
+import service from "@/network/service";
 
 const CreateNewViewComponent = ({
   closePopCreateView,
@@ -68,13 +69,15 @@ const CreateNewViewComponent = ({
       closePersonaliseCreateViewModal();
     }
   };
-  //console.log('editmode', editmode)
   const ViewDataAPICall = async () => {
     setLoading(true);
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.AllScreenerCategory[
       APP_ENV
     ];
-    const data = await fetch(API_URL);
+    const data = await service.get({
+      url: API_URL,
+      params: {},
+    });
     const resData = await data.json();
     const viewDataSet =
       resData &&
@@ -156,14 +159,17 @@ const CreateNewViewComponent = ({
       bodyPost.viewId = editmode.viewId;
     }
     setLoading(true);
-    const res = await fetch(API_URL, {
-      method: "POST",
+
+    const res = await service.post({
+      url: API_URL,
       headers: {
         "Content-Type": "application/json",
         ssoid: ssoid,
       },
       body: JSON.stringify(bodyPost),
+      params: {},
     });
+
     const resData = await res.json();
     setLoading(false);
     if (
@@ -199,7 +205,10 @@ const CreateNewViewComponent = ({
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.getScreenerMapping[
       APP_ENV
     ];
-    const data = await fetch(`${API_URL}${searchNode}`);
+    const data = await service.get({
+      url: `${API_URL}${searchNode}`,
+      params: {},
+    });
     const res = await data.json();
     const searchlistItemData =
       res &&
@@ -280,14 +289,15 @@ const CreateNewViewComponent = ({
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.screenerViewById[
       APP_ENV
     ];
-    const data = await fetch(`${API_URL}${viewId}`, {
+    const data = await service.get({
+      url: `${API_URL}${viewId}`,
+      params: {},
       cache: "no-store",
       headers: {
         ssoid: ssoid,
       },
     });
     const resData = await data.json();
-    //console.log('resdata', resData)
     if (
       resData &&
       resData[0] &&
@@ -312,18 +322,18 @@ const CreateNewViewComponent = ({
     const ssoid = window.objUser?.ssoid;
     const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW
       .screenerRemoveviewbyid[APP_ENV];
-    const data = await fetch(`${API_URL}${viewId}`, {
+    const data = await service.get({
+      url: `${API_URL}${viewId}`,
+      params: {},
       cache: "no-store",
       headers: {
         ssoid: ssoid,
       },
     });
     const resData = await data.json();
-    //console.log('resdata', resData)
     setLoading(false);
     if (resData && resData.responseCode === 200) {
       closePersonaliseCreateViewModal();
-      //alert(resData.response)
       onPersonalizeHandler();
     } else {
       alert("some error please check api or code");

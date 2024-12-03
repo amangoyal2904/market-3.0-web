@@ -1,6 +1,5 @@
 import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
-import Service from "../network/service";
 import { createPeuuid } from "./utility";
 import service from "../network/service";
 import { getPageName } from "./ga";
@@ -326,7 +325,7 @@ export const initSSOWidget = () => {
 export const getViews = async (slikeId: string) => {
   try {
     const url = (APIS_CONFIG as any)["SLIKE_VIDEO_VIEWS"][APP_ENV] + slikeId;
-    const response = await Service.get({
+    const response = await service.get({
       url,
       payload: {},
       params: {},
@@ -366,7 +365,7 @@ export const logout = async () => {
 
       //const body = JSON.stringify({ ticketId: ticketId });
 
-      const response = await Service.get({
+      const response = await service.get({
         url,
         headers,
         payload: {},
@@ -402,7 +401,7 @@ export const loadPrimeApi = async () => {
       "x-site-app-code": (GLOBAL_CONFIG as any)[APP_ENV]["X_SITE_CODE"],
     };
 
-    const response = await Service.post({
+    const response = await service.post({
       url,
       headers,
       payload: {},
@@ -439,7 +438,7 @@ export const loadPrimeApiNew = async () => {
       "X-TICKET-ID": ticketId,
     };
 
-    const response = await Service.get({
+    const response = await service.get({
       url,
       headers,
       payload: {},
@@ -693,7 +692,7 @@ export const getStockRecosDetail = async ({
     }),
   };
 
-  const recosDetailPromise = await Service.post({
+  const recosDetailPromise = await service.post({
     url: STOCK_RECOS_DETAIL_Link,
     headers: headers,
     body: JSON.stringify(payload),

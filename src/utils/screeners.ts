@@ -1,10 +1,10 @@
-import Service from "../network/service";
+import service from "../network/service";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV, getCookie } from "@/utils";
 
 export const createNewScreener = async (bodyParams: any) => {
   const apiUrl = (APIS_CONFIG as any)?.["SaveScreenerAPI"][APP_ENV];
-  const response = await Service.post({
+  const response = await service.post({
     url: apiUrl,
     headers: {
       "Content-Type": "application/json",
@@ -32,7 +32,7 @@ export const commonPostAPIHandler = async (
     const finalTicketId =
       ticketId || (isBrowser ? getCookie("TicketId") || "" : "");
 
-    const response: any = await Service.post({
+    const response: any = await service.post({
       url: apiUrl,
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +58,7 @@ export const commonPostAPIHandler = async (
 export const commonGetAPIHandler = async (urlPathName: string, query = "") => {
   try {
     const apiUrl = `${(APIS_CONFIG as any)?.[urlPathName][APP_ENV]}${query && query !== "" ? query : ""}`;
-    const response: any = await Service.get({
+    const response: any = await service.get({
       url: apiUrl,
       headers: {
         "Content-Type": "application/json",

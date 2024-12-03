@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./LiveMarketData.module.scss";
-import Service from "@/network/service";
+import service from "@/network/service";
 import { APP_ENV, formatNumber } from "@/utils";
 import APIS_CONFIG from "@/network/api_config.json";
 import { useStateContext } from "@/store/StateContext";
@@ -15,19 +15,10 @@ const LiveMarketData = () => {
   const { currentMarketStatus } = state.marketStatus;
   const [marketData, setMarketData] = useState<any>([]);
   const getLiveMarketData = async () => {
-    try {
-      const url = (APIS_CONFIG as any)?.LIVE_MARKET_DATA_NEW[APP_ENV];
-      const res = await Service.get({ url, params: {} });
-      const result = await res?.json();
-      setMarketData(result.indicesList);
-    } catch (err) {
-      console.log("Error in Live Market Live ", err);
-      saveLogs({
-        type: "MercuryClientRequest",
-        res: "error",
-        msg: "Live Market Data API Error" + err,
-      });
-    }
+    const url = (APIS_CONFIG as any)?.LIVE_MARKET_DATA_NEW[APP_ENV];
+    const res = await service.get({ url, params: {} });
+    const result = await res?.json();
+    setMarketData(result.indicesList);
   };
   const marketlivedata = (data: any) => {
     const jsonStartIndex = data.indexOf("[");

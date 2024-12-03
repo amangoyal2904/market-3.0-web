@@ -9,6 +9,7 @@ import { APP_ENV } from "@/utils";
 import { useEffect, useState } from "react";
 import { redirectToPlanPage } from "@/utils/ga";
 import SubscribeBtn from "./SubscribeBtn";
+import service from "@/network/service";
 
 const NonPrimeBlockerModule = ({
   oncloseModule,
@@ -30,7 +31,12 @@ const NonPrimeBlockerModule = ({
     const apiUrl = (APIS_CONFIG as any)?.["DOMAIN"][APP_ENV];
     const _feedparameters =
       "/reactfeed_metainfo.cms?msid=104293917&feedtype=json&type=nonprimedata";
-    const res = await fetch(`${apiUrl}${_feedparameters}`);
+
+    const res = await service.get({
+      url: `${apiUrl}${_feedparameters}`,
+      params: {},
+    });
+
     const resData = await res.json();
     if (resData && resData.data && resData.data.ctaText) {
       setCtaTxt(resData.data.ctaText);

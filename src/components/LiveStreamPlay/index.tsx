@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./LiveStreamPlay.module.scss";
 import APIS_CONFIG from "../../network/api_config.json";
-import Service from "../../network/service";
+import service from "../../network/service";
 import { APP_ENV, getCookie } from "@/utils";
 import LiveStreamPlayCards from "./LiveStreamPlayCards";
 import { useStateContext } from "@/store/StateContext";
@@ -62,7 +62,7 @@ const LiveStreamPlay = (props: any) => {
       pageSize: 5,
     };
     const apiUrl = (APIS_CONFIG as any)?.liveStream[APP_ENV] + "/getEventData";
-    const response = await Service.post({
+    const response = await service.post({
       url: apiUrl,
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +99,7 @@ const LiveStreamPlay = (props: any) => {
       role: 0,
       userID,
     };
-    const tokenRes = await Service.post({
+    const tokenRes = await service.post({
       url: requestUrl,
       headers: {
         "Content-Type": "application/json",
@@ -173,7 +173,7 @@ const LiveStreamPlay = (props: any) => {
         const requestUrl = (APIS_CONFIG as any)?.["getFollowedExperts"][
           APP_ENV
         ];
-        const followings = await Service.get({
+        const followings = await service.get({
           url: requestUrl,
           headers: {
             Authorization: authorization,
@@ -207,7 +207,7 @@ const LiveStreamPlay = (props: any) => {
         { prefDataVal: item.expertId, userSettingSubType: "Expert" },
       ];
       const apiUrl = (APIS_CONFIG as any)?.["expertFollower"][APP_ENV];
-      const response = await Service.post({
+      const response = await service.post({
         url: apiUrl,
         headers: {
           "Content-Type": "application/json",

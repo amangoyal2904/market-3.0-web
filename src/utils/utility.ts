@@ -6,7 +6,7 @@ import {
   setCookieToSpecificTime,
 } from "@/utils/index";
 import { getCookie } from "@/utils/index";
-import Service from "@/network/service";
+import service from "@/network/service";
 import jStorageReact from "jstorage-react";
 
 const API_SOURCE = 0;
@@ -48,34 +48,9 @@ const convertJSONToParams = (jsonObject: any) => {
 };
 
 export const getCurrentMarketStatus = async () => {
-  try {
-    const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
-    const res = await Service.get({ url, params: {}, cache: "no-store" });
-
-    if (res?.status === 200) {
-      return await res.json();
-    } else {
-      saveLogs({
-        res: "error",
-        msg: "Unexpected response status",
-        status: res?.status,
-      });
-      return null;
-    }
-  } catch (e) {
-    let errorMessage = "Unknown error";
-    if (e instanceof Error) {
-      errorMessage = e.message;
-    }
-    console.error("Error in fetching market status", errorMessage);
-    saveLogs({
-      type: "MercuryClientRequest",
-      res: "error",
-      msg: "Error in fetching market status",
-      error: errorMessage,
-    });
-    return null;
-  }
+  const url = (APIS_CONFIG as any)?.MARKET_STATUS[APP_ENV];
+  const res = await service.get({ url, params: {}, cache: "no-store" });
+  return (await res?.json()) || null;
 };
 
 export const generateIntradayDurations = async (type: string) => {
@@ -239,21 +214,12 @@ export const fnGenerateMetaData = (meta?: any) => {
 };
 
 export const fetchIndices = async () => {
-  try {
-    const apiUrl = (APIS_CONFIG as any)?.["INDICES_LIST"][APP_ENV];
-    const response = await Service.get({
-      url: apiUrl,
-      params: {},
-    });
-    return response?.json();
-  } catch (e) {
-    console.log("error in fetching indices data", e);
-    saveLogs({
-      type: "MercuryClientRequest",
-      res: "error",
-      msg: "Error in fetching indices data",
-    });
-  }
+  const apiUrl = (APIS_CONFIG as any)?.["INDICES_LIST"][APP_ENV];
+  const response = await service.get({
+    url: apiUrl,
+    params: {},
+  });
+  return response?.json();
 };
 
 export const fetchFilters = async ({
@@ -262,31 +228,21 @@ export const fetchFilters = async ({
   mostrecent = false,
   marketcap = false,
 }) => {
-  try {
-    let apiUrl = (APIS_CONFIG as any)?.["INDEX_FILTERS"][APP_ENV];
-    let queryParams = [];
-    if (all) queryParams.push("all=true");
-    if (watchlist) queryParams.push("watchlist=true");
-    if (mostrecent) queryParams.push("mostrecent=true");
-    if (marketcap) queryParams.push("marketcap=true");
-    const queryString = queryParams.join("&");
-    if (!!queryString) {
-      apiUrl = apiUrl + "?" + queryString;
-    }
-
-    const response = await Service.get({
-      url: apiUrl,
-      params: {},
-    });
-    return response?.json();
-  } catch (e) {
-    console.log("error in fetching filters data", e);
-    saveLogs({
-      type: "MercuryClientRequest",
-      res: "error",
-      msg: "Error in fetching filters data",
-    });
+  let apiUrl = (APIS_CONFIG as any)?.["INDEX_FILTERS"][APP_ENV];
+  let queryParams = [];
+  if (all) queryParams.push("all=true");
+  if (watchlist) queryParams.push("watchlist=true");
+  if (mostrecent) queryParams.push("mostrecent=true");
+  if (marketcap) queryParams.push("marketcap=true");
+  const queryString = queryParams.join("&");
+  if (!!queryString) {
+    apiUrl = apiUrl + "?" + queryString;
   }
+  const response = await service.get({
+    url: apiUrl,
+    params: {},
+  });
+  return response?.json();
 };
 
 export const fetchTabsData = async () => {
@@ -295,12 +251,12 @@ export const fetchTabsData = async () => {
 
   // Conditionally set headers if ssoid exists
   const headers: Record<string, string> = ssoid ? { ssoid } : {};
-
-  const data = await fetch(apiUrl, {
+  const data = await service.get({
+    url: apiUrl,
+    params: {},
     cache: "no-store",
     headers: headers,
   });
-
   const res = await data.json();
   return res;
 };
@@ -326,7 +282,7 @@ export const fetchViewTable = async ({
   const finalTicketId =
     ticketId || (isBrowser ? getCookie("TicketId") || "" : "");
 
-  const response = await Service.post({
+  const response = await service.post({
     url: apiUrl,
     headers: {
       "Content-Type": "application/json",
@@ -343,39 +299,29 @@ export const fetchViewTable = async ({
 };
 
 export const fetchTableData = async (viewId: any, params?: any) => {
-  try {
-    const ssoid = window.objUser?.ssoid;
-    const ticketId = window.objUser?.ticketId;
-    const isprimeuser = getCookie("isprimeuser") == "true" ? true : false;
-    const apiUrl = `${(APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE[APP_ENV]}`;
-    const response = await Service.post({
-      url: apiUrl,
-      headers: {
-        "Content-Type": "application/json",
-        ssoid: ssoid,
-        ticketId: ticketId,
-        isprime: isprimeuser ? isprimeuser : false,
-      },
-      cache: "no-store",
-      body: JSON.stringify({
-        sort: [],
-        type: "STOCK",
-        viewId: viewId,
-        deviceId: "web",
-        ...params,
-      }),
-      params: {},
-    });
-
-    return response?.json();
-  } catch (e) {
-    console.log("error in fetching table data", e);
-    saveLogs({
-      type: "MercuryClientRequest",
-      res: "error",
-      msg: "Error in fetching table data",
-    });
-  }
+  const ssoid = window.objUser?.ssoid;
+  const ticketId = window.objUser?.ticketId;
+  const isprimeuser = getCookie("isprimeuser") == "true" ? true : false;
+  const apiUrl = `${(APIS_CONFIG as any)?.MARKETS_CUSTOM_TABLE[APP_ENV]}`;
+  const response = await service.post({
+    url: apiUrl,
+    headers: {
+      "Content-Type": "application/json",
+      ssoid: ssoid,
+      ticketId: ticketId,
+      isprime: isprimeuser ? isprimeuser : false,
+    },
+    cache: "no-store",
+    body: JSON.stringify({
+      sort: [],
+      type: "STOCK",
+      viewId: viewId,
+      deviceId: "web",
+      ...params,
+    }),
+    params: {},
+  });
+  return response?.json();
 };
 
 export const getStockUrl = (
@@ -464,51 +410,45 @@ export const fetchAllWatchListData = async (
   const TicketId: string = ticketid || getCookie("TicketId") || "";
   const apiUrl = `${(APIS_CONFIG as any)?.WATCHLISTAPI.fetchStocks[APP_ENV]}`;
   const headers = new Headers({ ticketid: TicketId, ssoid: Ssoid });
-  const options: any = {
+
+  const response = await service.get({
+    url: apiUrl,
+    params: {},
     cache: "no-store",
     headers: headers,
-  };
-  try {
-    const response = await fetch(apiUrl, options);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const responseData = await response.json();
+  });
+  const responseData = await response?.json();
 
-    // Check if the response is successful and has a stocks array
-    if (responseData?.length && Array.isArray(responseData)) {
-      // Extract and process the stocks array
-      const allStocks = responseData.reduce((acc: any[], item: any) => {
-        if (Array.isArray(item.stocks)) {
-          return acc.concat(
-            item.stocks.map((stock: any) => ({
-              companyId: stock.id,
-              companyType: stock.companyType,
-            })),
-          );
-        }
-        return acc;
-      }, []);
+  // Check if the response is successful and has a stocks array
+  if (responseData?.length && Array.isArray(responseData)) {
+    // Extract and process the stocks array
+    const allStocks = responseData.reduce((acc: any[], item: any) => {
+      if (Array.isArray(item.stocks)) {
+        return acc.concat(
+          item.stocks.map((stock: any) => ({
+            companyId: stock.id,
+            companyType: stock.companyType,
+          })),
+        );
+      }
+      return acc;
+    }, []);
 
-      // Remove duplicates based on both companyId and companyType
-      const uniqueStocks = Array.from(
-        new Map(
-          allStocks.map((stock) => [
-            `${stock.companyId}-${stock.companyType}`,
-            stock,
-          ]),
-        ).values(),
-      );
+    // Remove duplicates based on both companyId and companyType
+    const uniqueStocks = Array.from(
+      new Map(
+        allStocks.map((stock) => [
+          `${stock.companyId}-${stock.companyType}`,
+          stock,
+        ]),
+      ).values(),
+    );
 
-      return uniqueStocks;
-    }
-
-    // Return an empty array if the response doesn't meet the conditions
-    return [];
-  } catch (error) {
-    console.error("Error fetching watchlist data:", error);
-    return [];
+    return uniqueStocks;
   }
+
+  // Return an empty array if the response doesn't meet the conditions
+  return [];
 };
 
 export const saveStockInWatchList = async (followData: any) => {
@@ -520,48 +460,47 @@ export const saveStockInWatchList = async (followData: any) => {
     ssoid: Ssoid,
     "Content-Type": "application/json",
   });
-  const options: any = {
-    method: "POST",
-    cache: "no-store",
+
+  const response = await service.post({
+    url: apiUrl,
     headers: headers,
+    cache: "no-store",
     body: JSON.stringify(followData),
-  };
-  try {
-    const response = await fetch(apiUrl, options);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    console.error("Error saving stock in watchlist:", error);
-    throw error;
-  }
+    params: {},
+  });
+
+  const responseData = await response?.json();
+  return responseData;
 };
 
 export const createPeuuid = async () => {
+  const url = `${(APIS_CONFIG as any)?.PERSONALISATION[APP_ENV]}?type=0&source=${API_SOURCE}`;
+
   try {
-    let url = (APIS_CONFIG as any)?.PERSONALISATION[APP_ENV];
-    url = url + `?type=0&source=${API_SOURCE}`;
-    const res: any = await fetch(url, {
+    const response = await fetch(url, {
       method: "GET",
       credentials: "include",
       headers: {
-        "Content-type": "application/json",
+        "Content-Type": "application/json",
       },
     });
-    const data = await res.json();
-    console.log("res", res, data);
-    if (data && data.id != 0) {
-      const peuuid: any = data.id;
-      setCookieToSpecificTime("peuuid", peuuid, 365, 0, 0);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
     }
-  } catch (e) {
-    console.log("error in creating peuuid ", e);
+
+    const data = await response.json();
+    console.log("Response:", response, data);
+
+    if (data?.id && data.id !== 0) {
+      setCookieToSpecificTime("peuuid", data.id, 365, 0, 0);
+    }
+  } catch (error) {
+    console.error("Error in creating peuuid:", error);
     saveLogs({
       type: "MercuryClientRequest",
       res: "error",
-      msg: "Error in creating peuuid",
+      msg: `Error in creating peuuid: ${error instanceof Error ? error.message : String(error)}`,
     });
   }
 };
@@ -575,18 +514,15 @@ export const removeMultipleStockInWatchList = async (stockData: any) => {
     ssoid: Ssoid,
     "Content-Type": "application/json",
   });
-  const options: any = {
-    method: "POST",
-    cache: "no-store",
-    headers: headers,
-    body: JSON.stringify(stockData),
-  };
   try {
-    const response = await fetch(apiUrl, options);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const responseData = await response.json();
+    const response = await service.post({
+      url: apiUrl,
+      headers: headers,
+      cache: "no-store",
+      body: JSON.stringify(stockData),
+      params: {},
+    });
+    const responseData = await response?.json();
     return responseData;
   } catch (error) {
     console.error("Error saving stock in watchlist:", error);
@@ -599,13 +535,15 @@ export const removePersonalizeViewById = async (viewId: any) => {
   const API_URL = (APIS_CONFIG as any)?.PERSONALISE_VIEW.screenerRemoveviewbyid[
     APP_ENV
   ];
-  const data = await fetch(`${API_URL}${viewId}`, {
+  const data = await service.get({
+    url: `${API_URL}${viewId}`,
+    params: {},
     cache: "no-store",
     headers: {
       ssoid: ssoid,
     },
   });
-  const resData = await data.json();
+  const resData = await data?.json();
   return resData;
 };
 
@@ -738,20 +676,20 @@ export const getSearchParams = (url: string) => {
 
 export const fetchIndustryFilters = async (query: string) => {
   const API_URL = (APIS_CONFIG as any)?.["industryFilter"][APP_ENV];
-  const data = await fetch(`${API_URL}${query}`);
+  const data = await service.get({ url: `${API_URL}${query}`, params: {} });
   const resData = await data.json();
   return resData;
 };
 
 export const fetchSectorFilters = async () => {
   const API_URL = (APIS_CONFIG as any)?.["industryFilter"][APP_ENV];
-  const data = await fetch(`${API_URL}`);
+  const data = await service.get({ url: `${API_URL}`, params: {} });
   const resData = await data.json();
   return resData;
 };
 
 export const getOverviewData = async (indexid: number, pageno: number) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: `${(APIS_CONFIG as any)?.MARKETMOODS_OVERVIEW[APP_ENV]}?indexid=${indexid}&pageno=${pageno}&pagesize=100`,
     params: {},
   });
@@ -783,7 +721,7 @@ export const getAdvanceDeclineData = async (
   duration: string,
   pageno: number,
 ) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: `${(APIS_CONFIG as any)?.MARKETMOODS_ADVANCEDECLINE[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=100`,
     params: {},
   });
@@ -823,7 +761,7 @@ export const getPeriodicData = async (
   duration: string,
   pageno: number,
 ) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: `${(APIS_CONFIG as any)?.MARKETMOODS_PERIODIC[APP_ENV]}?indexid=${indexid}&duration=${duration}&pageno=${pageno}&pagesize=100`,
     params: {},
   });
@@ -866,7 +804,7 @@ export const getAllIndices = async (
       apiUrl = `${apiUrl}&sortedField=${sortField}&sortedOrder=${sortOrder}`;
     }
 
-    const response = await Service.get({
+    const response = await service.get({
       url: apiUrl,
       params: {},
     });
@@ -910,7 +848,7 @@ export const getAllIndices = async (
 };
 
 export const getIndicesOverview = async (indexid: number) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: `${(APIS_CONFIG as any)?.INDICES_OVERVIEW[APP_ENV]}?indexId=${indexid}`,
     params: {},
   });
@@ -919,7 +857,7 @@ export const getIndicesOverview = async (indexid: number) => {
 };
 
 export const getIndicesTechnicals = async (indexid: number) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: `${(APIS_CONFIG as any)?.INDICES_TECHNICALS[APP_ENV]}?indexId=${indexid}`,
     params: {},
   });
@@ -932,7 +870,7 @@ export const getPeerIndices = async (indexid: number, exchangeid?: number) => {
   if (exchangeid !== undefined) {
     serviceUrl += `&exchangeId=${exchangeid}`;
   }
-  const response = await Service.get({
+  const response = await service.get({
     url: serviceUrl,
     params: {},
   });
@@ -941,7 +879,7 @@ export const getPeerIndices = async (indexid: number, exchangeid?: number) => {
 };
 
 export const getMarketsLiveBlog = async () => {
-  const response = await Service.get({
+  const response = await service.get({
     url: (APIS_CONFIG as any)?.MARKETS_LIVEBLOG[APP_ENV],
     params: {},
   });
@@ -950,7 +888,7 @@ export const getMarketsLiveBlog = async () => {
 };
 
 export const getIndicesNews = async (indexid: number, exchangeid: number) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: `${(APIS_CONFIG as any)?.INDICES_NEWS[APP_ENV]}?feedtype=etjson&indexid=${indexid}&exchange=${exchangeid}`,
     params: {},
   });
@@ -959,7 +897,7 @@ export const getIndicesNews = async (indexid: number, exchangeid: number) => {
 };
 
 export const getOtherIndices = async (indexid: number) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: `${(APIS_CONFIG as any)?.INDICES_OTHER[APP_ENV]}?indexId=${indexid}`,
     params: {},
   });
@@ -968,7 +906,7 @@ export const getOtherIndices = async (indexid: number) => {
 };
 
 export const getIndicesFaqs = async (indexid: number) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: `${(APIS_CONFIG as any)?.INDICES_FAQ[APP_ENV]}?indexid=${indexid}`,
     params: {},
   });
@@ -977,7 +915,7 @@ export const getIndicesFaqs = async (indexid: number) => {
 };
 
 export const getFiiDiiSummaryData = async (apitype: string) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: `${(APIS_CONFIG as any)?.FIIDII_SUMMARY[APP_ENV]}?apitype=${apitype}`,
     params: {},
   });
@@ -986,7 +924,7 @@ export const getFiiDiiSummaryData = async (apitype: string) => {
 };
 
 export const getDaywiseActivityData = async () => {
-  const response = await Service.get({
+  const response = await service.get({
     url: (APIS_CONFIG as any)?.FIIDII_OVERVIEW[APP_ENV],
     params: {},
   });
@@ -1005,14 +943,14 @@ export const getFiiDiiData = async (
     url += `&apiType=${extraApiType}`;
   }
 
-  const response = await Service.get({ url, params: {} });
+  const response = await service.get({ url, params: {} });
   const originalJson = await response?.json();
   return originalJson;
 };
 
 export const fetchInvestMentData = async () => {
   try {
-    const response = await Service.get({
+    const response = await service.get({
       url: `${(APIS_CONFIG as any)?.APIDOMAIN[APP_ENV]}?type=plist&msid=81409979`,
       params: {},
     });
@@ -1026,7 +964,7 @@ export const fetchInvestMentData = async () => {
 };
 
 export const getBuySellTechnicals = async (payload: any) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: `${(APIS_CONFIG as any)?.BuySellTechnical[APP_ENV]}?${convertJSONToParams(payload)}`,
     params: {},
   });
@@ -1417,7 +1355,7 @@ export const saveLogs = (data: any, pageUrl?: string) => {
       }
     } else {
       // Server-side fallback
-      logData.url = pageUrl || "Server-Side Request (URL not available)";
+      logData.url = "Server-Side Request (URL not available)";
     }
 
     // Send logs to the endpoint
@@ -1491,21 +1429,12 @@ export const sendMouseFlowEvent = async (): Promise<void> => {
   }
 };
 export const fetchSectors = async () => {
-  try {
-    const apiUrl = (APIS_CONFIG as any)?.["SECTORS_LIST"][APP_ENV];
-    const response = await Service.get({
-      url: apiUrl,
-      params: {},
-    });
-    return response?.json();
-  } catch (e) {
-    console.log("error in fetching indices data", e);
-    saveLogs({
-      type: "MercuryClientRequest",
-      res: "error",
-      msg: "Error in fetching indices data",
-    });
-  }
+  const apiUrl = (APIS_CONFIG as any)?.["SECTORS_LIST"][APP_ENV];
+  const response = await service.get({
+    url: apiUrl,
+    params: {},
+  });
+  return response?.json();
 };
 export const fetchSelectedSectors = async (
   seoNameOrIndexId?: string | number,
@@ -1545,7 +1474,7 @@ export const getAllSectors = async (sortField: any, sortOrder: string) => {
   try {
     let apiUrl = `${(APIS_CONFIG as any)?.ALLSECTORS[APP_ENV]}?sortedField=${sortField}&sortedOrder=${sortOrder}`;
 
-    const response = await Service.get({
+    const response = await service.get({
       url: apiUrl,
       params: {},
     });
@@ -1586,7 +1515,7 @@ export const getAllSectors = async (sortField: any, sortOrder: string) => {
   }
 };
 export const getSectorsOverview = async (indexid: number) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: `${(APIS_CONFIG as any)?.SECTORS_OVERVIEW[APP_ENV]}?sectorId=${indexid}`,
     params: {},
   });
@@ -1596,7 +1525,7 @@ export const getSectorsOverview = async (indexid: number) => {
 
 export const getPeerSectors = async (indexid: number) => {
   let serviceUrl = `${(APIS_CONFIG as any)?.SECTORS_PEER[APP_ENV]}?sectorIds=${indexid}`;
-  const response = await Service.get({
+  const response = await service.get({
     url: serviceUrl,
     params: {},
   });
@@ -1604,7 +1533,7 @@ export const getPeerSectors = async (indexid: number) => {
   return originalJson;
 };
 export const getOtherSectors = async (indexid: number) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: `${(APIS_CONFIG as any)?.SECTORS_OTHER[APP_ENV]}?sectorIds=${indexid}`,
     params: {},
   });
@@ -1612,7 +1541,7 @@ export const getOtherSectors = async (indexid: number) => {
   return originalJson;
 };
 export const getSectorFaqs = async (indexid: number) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: `${(APIS_CONFIG as any)?.SECTORS_FAQ[APP_ENV]}?sectorid=${indexid}`,
     params: {},
   });
@@ -1668,7 +1597,7 @@ export const fetchPaywallcounts = function () {
 export const getSymbolInfo = async (symbol: string): Promise<any> => {
   try {
     const url = (APIS_CONFIG as any)?.SYMBOLINFO[APP_ENV] + symbol;
-    const res = await Service.get({ url, cache: "no-store", params: {} });
+    const res = await service.get({ url, cache: "no-store", params: {} });
 
     if (res?.status === 200) {
       return await res.json(); // Make sure to await the .json() call
@@ -1684,7 +1613,7 @@ export const getSymbolInfo = async (symbol: string): Promise<any> => {
 
 export const fetchSeoWidgetData = async () => {
   try {
-    const res = await Service.get({
+    const res = await service.get({
       url: `${(APIS_CONFIG as any)?.SEO_WIDGET[APP_ENV]}?entitytype=marketstats&entityid=marketstats_quicklinks`,
       params: {},
     });

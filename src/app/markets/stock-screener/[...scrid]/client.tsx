@@ -18,7 +18,7 @@ import { createNewScreener } from "@/utils/screeners";
 import { getScreenerTabViewData } from "@/utils/customViewAndTables";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils/index";
-import Service from "@/network/service";
+import service from "@/network/service";
 import { useStateContext } from "@/store/StateContext";
 import MarketStatus from "@/components/MarketStatus";
 import { trackingEvent } from "@/utils/ga";
@@ -245,13 +245,16 @@ const StockScreeners = ({
       screenerId: scrid,
     };
     setQuery(query.trim());
-    const data = await fetch(API_URL, {
-      method: "POST",
+
+    const data = await service.post({
+      url: API_URL,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(bodyparams),
+      params: {},
     });
+
     const responseData = await data.json();
     if (responseData && responseData.statusCode === 200) {
       setScreenerLoading(false);
@@ -298,13 +301,16 @@ const StockScreeners = ({
       screenerId: scrid,
     };
     setQuery(query.trim());
-    const data = await fetch(API_URL, {
-      method: "POST",
+
+    const data = await service.post({
+      url: API_URL,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(bodyparams),
+      params: {},
     });
+
     const responseData = await data.json();
     if (responseData && responseData.statusCode === 200) {
       setScreenerLoading(false);
@@ -529,23 +535,23 @@ const StockScreeners = ({
     if (value && data && data.id && data.id !== "") {
       const removeViewById = await removeScreener();
       console.log("removeViewById", removeViewById);
-      //onPersonalizeHandlerfun();
     }
   };
   const removeScreener = async () => {
-    //const data = await
     setProcessingLoader(true);
     const userSsoId = window?.objUser?.ssoid || getCookie("ssoid");
     setScreenerLoading(true);
     const API_URL = `${(APIS_CONFIG as any)?.["RemoveScreenerBySSOID"][APP_ENV]}?screenerid=${scrid}&ssoId=${userSsoId}`;
 
-    const data = await fetch(API_URL, {
-      method: "POST",
+    const data = await service.get({
+      url: API_URL,
       headers: {
         "Content-Type": "application/json",
         ssoid: userSsoId,
       },
+      params: {},
     });
+
     const responseData = await data.json();
     if (responseData && responseData.responseCode) {
       const firstScreenerData: any = l3Nav[0]?.listScreenerMaster[0];
@@ -631,7 +637,7 @@ const StockScreeners = ({
     const userSSOID = getCookie("ssoid") || "";
     const apiParams = `?ssoId=${userSSOID}&screenercount=100`;
     const apiUrl = `${(APIS_CONFIG as any)?.["GetScreenerBySSOID"][APP_ENV]}${apiParams}`;
-    const response = await Service.get({
+    const response = await service.get({
       url: apiUrl,
       params: {},
       cache: "no-store",

@@ -8,7 +8,7 @@ import {
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import { fnGenerateMetaData } from "@/utils/utility";
-import Service from "@/network/service";
+import service from "@/network/service";
 import StockScreeners from "./client";
 import { Metadata, ResolvingMetadata } from "next";
 import BreadCrumb from "@/components/BreadCrumb";
@@ -68,7 +68,7 @@ export async function generateMetadata(
 }
 
 const fetchData = async (apiUrl: string) => {
-  const response = await Service.get({
+  const response = await service.get({
     url: apiUrl,
     params: {},
     cache: "no-store",

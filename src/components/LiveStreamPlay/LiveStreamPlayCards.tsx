@@ -2,7 +2,7 @@ import styles from "./LiveStreamPlay.module.scss";
 import SlickSlider from "../SlickSlider";
 import Share from "../Share";
 import APIS_CONFIG from "../../network/api_config.json";
-import Service from "../../network/service";
+import service from "../../network/service";
 import { APP_ENV, getCookie, initSSOWidget } from "@/utils";
 import { useStateContext } from "@/store/StateContext";
 import { useEffect, useRef, useState } from "react";
@@ -54,7 +54,7 @@ const LiveStreamCards = ({
           : "";
         if (!!authorization) {
           const apiUrl = (APIS_CONFIG as any)?.["followExpert"][APP_ENV];
-          const response: any = await Service.post({
+          const response: any = await service.post({
             url: apiUrl,
             headers: {
               Authorization: authorization,

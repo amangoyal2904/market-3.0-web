@@ -2,7 +2,7 @@ import GLOBAL_CONFIG from "../network/global_config.json";
 import APIS_CONFIG from "../network/api_config.json";
 import { APP_ENV, getCookie } from "@/utils";
 import { saveLogs } from "@/utils/utility";
-import Service from "../network/service";
+import service from "../network/service";
 import { initSSOWidget } from "@/utils";
 import jStorageReact from "jstorage-react";
 
@@ -30,7 +30,7 @@ export const activateFreeTrial = async () => {
   try {
     if (typeof window.objUser.info != "undefined") {
       const apiUrl = (APIS_CONFIG as any)?.["ACCESS_PASS"][APP_ENV];
-      const response: any = await Service.post({
+      const response: any = await service.post({
         url: apiUrl,
         body: JSON.stringify({}),
         datatype: "json",

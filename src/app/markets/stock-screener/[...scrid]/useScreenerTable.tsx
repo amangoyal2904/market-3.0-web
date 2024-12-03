@@ -1,4 +1,5 @@
 import APIS_CONFIG from "@/network/api_config.json";
+import service from "@/network/service";
 import { APP_ENV } from "@/utils/index";
 
 const fetchTableData = async (scrid: any, viewId: any) => {
@@ -10,14 +11,16 @@ const fetchTableData = async (scrid: any, viewId: any) => {
     deviceId: "web",
     viewId: parseInt(viewId),
   };
-  console.log("bodyparams", bodyparams);
-  const data = await fetch(API_URL, {
-    method: "POST",
+
+  const data = await service.post({
+    url: API_URL,
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(bodyparams),
+    params: {},
   });
+
   return data.json();
 };
 

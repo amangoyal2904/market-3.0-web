@@ -6,6 +6,7 @@ import { redirectToPlanPage } from "@/utils/ga";
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
 import ChartPatternLogo from "./ChartPatternLogo";
+import service from "@/network/service";
 
 // Constants
 const API_URL = `${(APIS_CONFIG as any)?.["DOMAIN"][APP_ENV]}/reactfeed_metainfo.cms?msid=104293917&feedtype=json&type=nonprimedata`;
@@ -14,7 +15,7 @@ const CACHE_DURATION = 600000; // 10 minutes in milliseconds
 
 const fetchNonPrimeData = async () => {
   try {
-    const response = await fetch(API_URL);
+    const response = await service.get({ url: API_URL, params: {} });
     const data = await response.json();
     return data?.data || {};
   } catch (error) {

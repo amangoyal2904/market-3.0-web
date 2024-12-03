@@ -50,168 +50,95 @@ const LiveCoverage = async () => {
   const pageUrl = headersList.get("x-url") || "";
 
   const getIndicesWidgetData = async () => {
-    try {
-      const response = await service.get({
-        url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
-        params: {},
-      });
-      const data = response ? await response?.json() : {};
-      return data;
-    } catch (e: unknown) {
-      const errorMessage = e instanceof Error ? e.message : String(e);
-      saveLogs(
-        {
-          type: "MercuryServerRequest",
-          res: "error",
-          msg: `Error in fetching indices widget data: ${errorMessage}`,
-        },
-        pageUrl,
-      );
-    }
+    const response = await service.get({
+      url: `${(APIS_CONFIG as any)?.INDICES_WIDGET[APP_ENV]}`,
+      params: {},
+    });
+    const data = response ? await response?.json() : {};
+    return data;
   };
 
   const fetchTopNews = async () => {
-    try {
-      const response = await service.get({
-        url: `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/feed_livecoverage_topnews.cms?feedtype=etjson&platform=web`,
-        params: {},
-      });
-      if (response && response.ok) {
-        const data = await response.json();
-        return data;
-      } else {
-        // Handle cases where response is undefined or not successful
-        return [];
-      }
-    } catch (e: unknown) {
-      const errorMessage = e instanceof Error ? e.message : String(e);
-      saveLogs(
-        {
-          type: "MercuryServerRequest",
-          res: "error",
-          msg: `Error in fetching top news data: ${errorMessage}`,
-        },
-        pageUrl,
-      );
+    const response = await service.get({
+      url: `${(APIS_CONFIG as any)?.DOMAIN[APP_ENV]}/feed_livecoverage_topnews.cms?feedtype=etjson&platform=web`,
+      params: {},
+    });
+    if (response && response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      // Handle cases where response is undefined or not successful
       return [];
     }
   };
 
   const fetchFiiDIIData = async () => {
-    try {
-      const response = await service.get({
-        url: (APIS_CONFIG as any)?.FIIDIICash[APP_ENV],
-        params: {},
-      });
-      const data = response ? await response?.json() : {};
-      const fiidiiData =
-        (data && data.datainfo && data.datainfo.fiiDiiChart) || {};
-      return fiidiiData;
-    } catch (e: unknown) {
-      const errorMessage = e instanceof Error ? e.message : String(e);
-      saveLogs(
-        {
-          type: "MercuryServerRequest",
-          res: "error",
-          msg: `Error in fetching FiiDIIData data: ${errorMessage}`,
-        },
-        pageUrl,
-      );
-    }
+    const response = await service.get({
+      url: (APIS_CONFIG as any)?.FIIDIICash[APP_ENV],
+      params: {},
+    });
+    const data = response ? await response?.json() : {};
+    const fiidiiData =
+      (data && data.datainfo && data.datainfo.fiiDiiChart) || {};
+    return fiidiiData;
   };
 
   const getRecosNav = async () => {
-    try {
-      const RECOS_NAV_Link = `${(APIS_CONFIG as any)?.["STOCK_RECOS_NAV"][APP_ENV]}?pagename=home`;
-      const recosNavPromise = await service.get({
-        url: RECOS_NAV_Link,
-        params: {},
-      });
-      const getRecosNavData = await recosNavPromise?.json();
-      return getRecosNavData;
-    } catch (e: unknown) {
-      const errorMessage = e instanceof Error ? e.message : String(e);
-      saveLogs(
-        {
-          type: "MercuryServerRequest",
-          res: "error",
-          msg: `Error in fetching recosNav data: ${errorMessage}`,
-        },
-        pageUrl,
-      );
-    }
+    const RECOS_NAV_Link = `${(APIS_CONFIG as any)?.["STOCK_RECOS_NAV"][APP_ENV]}?pagename=home`;
+    const recosNavPromise = await service.get({
+      url: RECOS_NAV_Link,
+      params: {},
+    });
+    const getRecosNavData = await recosNavPromise?.json();
+    return getRecosNavData;
   };
 
   const getRecosData = async (type: any) => {
-    try {
-      const getRecosDetailApi = `${(APIS_CONFIG as any)?.["GET_RECOS_DETAILS"][APP_ENV]}`;
-      const payload = {
-        apiType: type,
-        filterType: "",
-        filterValue: [],
-        recoType: "all",
-        pageSize: 20,
-        pageNumber: 1,
-      };
+    const getRecosDetailApi = `${(APIS_CONFIG as any)?.["GET_RECOS_DETAILS"][APP_ENV]}`;
+    const payload = {
+      apiType: type,
+      filterType: "",
+      filterValue: [],
+      recoType: "all",
+      pageSize: 20,
+      pageNumber: 1,
+    };
 
-      const headers = {
-        "Content-Type": "application/json",
-      };
-      const getRecosDetailPromise = await service.post({
-        url: getRecosDetailApi,
-        headers: headers,
-        body: JSON.stringify(payload),
-        params: {},
-      });
-      const getRecosDetailData = await getRecosDetailPromise?.json();
-      return getRecosDetailData;
-    } catch (e: unknown) {
-      const errorMessage = e instanceof Error ? e.message : String(e);
-      saveLogs(
-        {
-          type: "MercuryServerRequest",
-          res: "error",
-          msg: `Error in fetching recos data: ${errorMessage}`,
-        },
-        pageUrl,
-      );
-    }
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const getRecosDetailPromise = await service.post({
+      url: getRecosDetailApi,
+      headers: headers,
+      body: JSON.stringify(payload),
+      params: {},
+    });
+    const getRecosDetailData = await getRecosDetailPromise?.json();
+    return getRecosDetailData;
   };
   const getSrPlusData = async (screenerId: any) => {
-    try {
-      const getSrPlusDataApi = `${(APIS_CONFIG as any)?.["SCREENER_BY_SCREENERID"][APP_ENV]}`;
-      const payload = {
-        deviceId: "web",
-        pageno: 1,
-        pagesize: 20,
-        screenerId: screenerId,
-        viewId: 5246,
-        filterType: "index",
-        filterValue: [],
-      };
+    const getSrPlusDataApi = `${(APIS_CONFIG as any)?.["SCREENER_BY_SCREENERID"][APP_ENV]}`;
+    const payload = {
+      deviceId: "web",
+      pageno: 1,
+      pagesize: 20,
+      screenerId: screenerId,
+      viewId: 5246,
+      filterType: "index",
+      filterValue: [],
+    };
 
-      const headers = {
-        "Content-Type": "application/json",
-      };
-      const getSrPlusDataPromise = await service.post({
-        url: getSrPlusDataApi,
-        headers: headers,
-        body: JSON.stringify(payload),
-        params: {},
-      });
-      const data = await getSrPlusDataPromise?.json();
-      return data;
-    } catch (e: unknown) {
-      const errorMessage = e instanceof Error ? e.message : String(e);
-      saveLogs(
-        {
-          type: "MercuryServerRequest",
-          res: "error",
-          msg: `Error in fetching srPlus data: ${errorMessage}`,
-        },
-        pageUrl,
-      );
-    }
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const getSrPlusDataPromise = await service.post({
+      url: getSrPlusDataApi,
+      headers: headers,
+      body: JSON.stringify(payload),
+      params: {},
+    });
+    const data = await getSrPlusDataPromise?.json();
+    return data;
   };
   const stockRecoResult = await getRecosData("newRecos");
   const srPlusResult = await getSrPlusData("2554");

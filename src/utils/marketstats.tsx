@@ -1,6 +1,6 @@
 import APIS_CONFIG from "@/network/api_config.json";
 import { APP_ENV } from "@/utils";
-import Service from "@/network/service";
+import service from "@/network/service";
 
 const fetchTitleAndDesc = async (
   navData: any,
@@ -34,7 +34,7 @@ const fetchL3Nav = async ({ duration, intFilter }: any) => {
   intFilter = !!intFilter ? intFilter : 0;
   duration = !!duration ? duration.toUpperCase() : "";
   const apiUrl = `${(APIS_CONFIG as any)?.["MARKET_STATS_NAV"][APP_ENV]}?filter=${intFilter}&duration=${duration}`;
-  const response = await Service.get({
+  const response = await service.get({
     url: apiUrl,
     params: {},
     cache: "no-store",
@@ -44,7 +44,7 @@ const fetchL3Nav = async ({ duration, intFilter }: any) => {
 
 const fetchTechnicalCategory = async (L3NavMenuItem: any) => {
   const apiUrl = `${(APIS_CONFIG as any)?.["MARKET_STATS_TECHNICAL_OPERANDS"][APP_ENV]}?category=${L3NavMenuItem}`;
-  const response = await Service.get({
+  const response = await service.get({
     url: apiUrl,
     params: {},
   });
@@ -113,7 +113,7 @@ export const getTechincalOperands = async (
 };
 
 export const getAllShortUrls = async () => {
-  const response = await Service.get({
+  const response = await service.get({
     url: (APIS_CONFIG as any)["MARKET_STATS_SHORTURLS_MAPPING"][APP_ENV],
     params: {},
   });

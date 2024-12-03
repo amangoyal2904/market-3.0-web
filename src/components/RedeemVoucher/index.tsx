@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { dateFormat } from "../../utils";
-import Service from "../../network/service";
+import service from "../../network/service";
 import APIS_CONFIG from "../../network/api_config.json";
 import {
   APP_ENV,
@@ -184,7 +184,7 @@ const RedeemVoucher = () => {
               );
             })
             .join("&");
-          const res = await Service.post({
+          const res = await service.post({
             url,
             headers,
             data: params,
