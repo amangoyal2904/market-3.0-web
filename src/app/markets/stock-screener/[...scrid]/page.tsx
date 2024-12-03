@@ -38,10 +38,17 @@ export async function generateMetadata(
     console.error("scrid value not found");
   }
 
+  const screenerTabData = await getScreenerTabViewData({
+    type: "screenerGetViewById",
+    ssoid,
+  });
+
+  const { activeViewId } = screenerTabData;
+
   const bodyParams = {
-    viewId: 239,
+    viewId: activeViewId,
     sort: [],
-    pagesize: 1,
+    pagesize: 20,
     pageno: 1,
     deviceId: "web",
     filterType: "index",

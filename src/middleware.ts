@@ -81,13 +81,13 @@ export function middleware(request: NextRequest) {
   ];
 
   // Redirect for invalid URLs if the pathname contains /markets/stock-screener/ or /screens/scrid-
-  const invalidUrlRegex = /page-\d+|\.cms$/;
+  const invalidUrlRegex = /,?page-[^,]*|,?\.cms$/; // Match ',page-' followed by anything (including .cms) or '.cms' at the end
   if (
     invalidPaths.some((path) => pathname.includes(path)) &&
     invalidUrlRegex.test(pathname)
   ) {
-    // Remove 'page-<number>' or '.cms' from the URL
-    const validUrl = pathname.replace(/,?page-\d+|,?\.cms$/, "");
+    // Remove ',page-<anything>' or ',page-.cms' or '.cms' from the URL
+    const validUrl = pathname.replace(/,?page-[^,]*|,?\.cms$/, "");
     const redirectUrl = `${origin}${validUrl}${searchParam}`;
     return NextResponse.redirect(redirectUrl, 301); // Permanent redirect
   }

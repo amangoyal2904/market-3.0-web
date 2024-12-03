@@ -77,11 +77,6 @@ const SectorPage = async (props: any) => {
     type: "screenerGetViewById",
     ssoid,
   });
-  const pagesize = 1;
-  const pageno = 1;
-  const sort: any = [];
-  const deviceId = "web";
-  const filterType = "index";
   const bodyParams = {
     viewId: 6916,
     apiType: "index-constituents",
