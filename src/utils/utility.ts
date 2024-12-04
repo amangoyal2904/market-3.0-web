@@ -257,6 +257,11 @@ export const fetchTabsData = async () => {
     cache: "no-store",
     headers: headers,
   });
+
+  if (!data || !data.ok) {
+    return [];
+  }
+
   const res = await data.json();
   return res;
 };

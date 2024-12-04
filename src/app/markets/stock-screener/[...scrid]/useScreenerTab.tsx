@@ -10,11 +10,17 @@ const fetchTabsData = async () => {
     params: {},
     cache: "no-store",
   });
+  if (!response || !response.ok) {
+    return [];
+  }
   return response?.json();
 };
 const useScreenerTab = async () => {
   const tabData = await fetchTabsData();
-  const activeViewId = tabData[0]?.viewId;
+  let activeViewId = null;
+  if (typeof tabData != "undefined" && tabData.length > 0) {
+    activeViewId = tabData[0].viewId;
+  }
   return {
     tabData,
     activeViewId,
