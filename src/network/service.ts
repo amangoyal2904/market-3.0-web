@@ -16,13 +16,23 @@ const getApiUrl = (config: any, index: any) => {
 const logError = (
   context: "MercuryClientRequest" | "MercuryServerRequest",
   config: any,
-  error: any,
+  error: any, // Keep as 'any' if the source of errors varies
 ) => {
+  const isAxiosError = (err: any): err is { response: { status: number } } => {
+    return err && err.response && typeof err.response.status === "number";
+  };
+
+  const errorMessage =
+    error instanceof Error ? error.message : `HTTP error! Status: ${error}`;
+
+  const statusCode = isAxiosError(error)
+    ? `Status Code: ${error.response.status}`
+    : "";
+
   saveLogs({
     type: context,
     res: "error",
-    msg:
-      error instanceof Error ? error.message : `HTTP error! Status: ${error}`,
+    msg: `${errorMessage} ${statusCode}`.trim(),
     resData: config,
   });
 };
