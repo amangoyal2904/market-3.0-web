@@ -34,7 +34,7 @@ const Scripts = () => {
     APP_ENV === "development"
       ? "https://toidev.indiatimes.com/etads_v2/minify-1.cms"
       : "https://timesofindia.indiatimes.com/etads_v2/minify-1.cms";
-  const ET_TIL_PREBID_URL = "https://assets.toiimg.com/js/til_prebid.js";
+  const ET_TIL_PREBID_URL = "https://assets.toiimg.com/js/til_prebid.js?v=15";
   const adfreeTemplate =
     adFreePages &&
     adFreePages.some(function (v) {

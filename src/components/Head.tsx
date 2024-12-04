@@ -67,7 +67,7 @@ const Headers: FC<Props> = ({ isprimeuser, reqData }) => {
       <link rel="dns-prefetch" href="https://stags.bluekai.com" />
       <link rel="dns-prefetch" href="https://c.amazon-adsystem.com" />
       <link
-        href="https://assets.toiimg.com/js/til_prebid.js?v=14"
+        href="https://assets.toiimg.com/js/til_prebid.js?v=15"
         rel="preload"
         as="script"
       />
