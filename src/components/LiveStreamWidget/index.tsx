@@ -45,6 +45,10 @@ const fetchLiveStreamData = async () => {
       params: {},
     });
 
+    if (!data || !data.ok) {
+      return null;
+    }
+
     const res = await data.json();
     return res.result ? res.result : [];
   } catch (e) {
@@ -54,6 +58,10 @@ const fetchLiveStreamData = async () => {
 
 const LiveStreamWidget = async () => {
   const liveStreamData = await fetchLiveStreamData();
+  if (liveStreamData === null) {
+    // Return null to avoid rendering the component
+    return null;
+  }
   const previousLiveEvents = liveStreamData?.filter(
     (event: { eventStatus: number }) => event.eventStatus !== 3,
   );

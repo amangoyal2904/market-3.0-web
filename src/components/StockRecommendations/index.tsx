@@ -135,6 +135,11 @@ const StockRecommendations: React.FC<Props> = ({
   const slidesToShowexcat = getWindowSlidesToShow(windowWidth, responsive);
   // ------------- End Getting slideToShow Value when window resize from responsive array -------------
 
+  if (stockRecoResult === null || recosNav === null) {
+    // Return null to avoid rendering the component
+    return null;
+  }
+
   return (
     <div className="sectionWrapper">
       <HeadingHome

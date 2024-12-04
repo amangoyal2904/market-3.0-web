@@ -173,6 +173,11 @@ const StockReportsPlus: React.FC<Props> = ({ srResult }) => {
     }
   };
 
+  if (srResult === null) {
+    // Return null to avoid rendering the component
+    return null;
+  }
+
   return (
     <>
       <div className="sectionWrapper">
