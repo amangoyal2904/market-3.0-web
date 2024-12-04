@@ -295,6 +295,9 @@ export const fetchViewTable = async ({
     params: {},
   });
 
+  if (!response || !response.ok) {
+    return null;
+  }
   return response?.json();
 };
 

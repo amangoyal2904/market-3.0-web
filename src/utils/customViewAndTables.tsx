@@ -197,8 +197,20 @@ export const getCustomViewTable = async ({
   });
   let unixDateTime = "";
   let pageSummary = null;
-  let tableData = [];
-  let tableHeaderData = [];
+  let tableData: any[] = [];
+  let tableHeaderData: any[] = [];
+  let screenerDetail: any = {};
+
+  if (responseData === null) {
+    return {
+      tableHeaderData,
+      tableData,
+      pageSummary,
+      unixDateTime,
+      payload: { ...bodyParams },
+      screenerDetail,
+    };
+  }
 
   if (responseData?.unixDateTime) {
     unixDateTime = responseData.unixDateTime;
@@ -219,7 +231,7 @@ export const getCustomViewTable = async ({
       tableHeaderData = tableData[0].data;
     }
   }
-  let screenerDetail: any = {};
+
   if (responseData && responseData.screenerDetail) {
     screenerDetail = { ...responseData.screenerDetail };
   }

@@ -113,6 +113,11 @@ const LiveCoverage = async () => {
       body: JSON.stringify(payload),
       params: {},
     });
+
+    if (!getRecosDetailPromise || !getRecosDetailPromise.ok) {
+      return null;
+    }
+
     const getRecosDetailData = await getRecosDetailPromise?.json();
     return getRecosDetailData;
   };
@@ -131,12 +136,18 @@ const LiveCoverage = async () => {
     const headers = {
       "Content-Type": "application/json",
     };
+
     const getSrPlusDataPromise = await service.post({
       url: getSrPlusDataApi,
       headers: headers,
       body: JSON.stringify(payload),
       params: {},
     });
+
+    if (!getSrPlusDataPromise || !getSrPlusDataPromise.ok) {
+      return null;
+    }
+
     const data = await getSrPlusDataPromise?.json();
     return data;
   };

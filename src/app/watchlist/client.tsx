@@ -32,8 +32,8 @@ const MessagePopupShow = dynamic(
 
 const WatchListClient = () => {
   const [tabData, setTabData] = useState([]);
-  const [tableData, setTableData] = useState([]);
-  const [tableHeaderData, setTableHeaderData] = useState([]);
+  const [tableData, setTableData] = useState<any[]>([]);
+  const [tableHeaderData, setTableHeaderData] = useState<any[]>([]);
   const [activeViewId, setActiveViewId] = useState(null);
   const [resetSort, setResetSort] = useState("");
   const [updateDateTime, setUpdateDateTime] = useState({});
