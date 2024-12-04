@@ -22,8 +22,11 @@ const WatchListWidget = () => {
   const [fallbackWebsocket, setFallbackWebsocket] = useState(false);
 
   const fetchWatchListData = async (activeViewId: any = "") => {
-    const res = await fetchTabsData();
-    const viewId = activeViewId || res[0].viewId;
+    const tabData = await fetchTabsData();
+    let viewId = null;
+    if (typeof tabData != "undefined" && tabData.length > 0) {
+      viewId = tabData[0].viewId;
+    }
     fetchWatchListTableAPI(viewId);
   };
 

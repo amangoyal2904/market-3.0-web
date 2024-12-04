@@ -80,6 +80,9 @@ const fetchData = async (apiUrl: string) => {
     params: {},
     cache: "no-store",
   });
+  if (!response || !response.ok) {
+    return null;
+  }
   return response?.json();
 };
 
@@ -87,7 +90,11 @@ const getScreenerNav = async () => {
   const apiParams = `?collectiontypeid=5&screenercount=100&list=true`;
   const apiUrl = `${(APIS_CONFIG as any)?.["screenerL3Nav"][APP_ENV]}${apiParams}`;
   const resJson = await fetchData(apiUrl);
-
+  if (resJson === null) {
+    return {
+      l3Nav: [],
+    };
+  }
   return {
     l3Nav:
       resJson?.datainfo?.screenerCollectionMasterInfo
@@ -99,7 +106,11 @@ const getScreenerUserNav = async (ssoid: string) => {
   const apiParams = `?ssoId=${ssoid}&screenercount=20`;
   const apiUrl = `${(APIS_CONFIG as any)?.["GetScreenerBySSOID"][APP_ENV]}${apiParams}`;
   const resJson = await fetchData(apiUrl);
-
+  if (resJson === null) {
+    return {
+      l3UserNav: null,
+    };
+  }
   const listDataInfo =
     resJson?.datainfo?.screenerCollectionMasterInfo
       ?.listScreenerCollectionMasterDataInfo || [];

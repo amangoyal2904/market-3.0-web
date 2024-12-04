@@ -111,6 +111,10 @@ const fetchTabsData = async ({ type, ssoid }: any) => {
     headers: headers,
   });
 
+  if (!response || !response.ok) {
+    return [];
+  }
+
   return response?.json();
 };
 
@@ -172,8 +176,6 @@ export const getCustomViewsTab = async ({
   let activeViewId = null;
   if (typeof tabData != "undefined" && tabData.length > 0) {
     activeViewId = tabData[0].viewId;
-  } else {
-    console.error("tabData is empty");
   }
   return {
     tabData,
@@ -248,7 +250,10 @@ export const getCustomViewTable = async ({
 
 export const getScreenerTabViewData = async ({ type = "", ssoid = "" }) => {
   const tabData = await fetchTabsData({ type, ssoid });
-  const activeViewId = tabData[0].viewId;
+  let activeViewId = null;
+  if (typeof tabData != "undefined" && tabData.length > 0) {
+    activeViewId = tabData[0].viewId;
+  }
   return {
     tabData,
     activeViewId,
